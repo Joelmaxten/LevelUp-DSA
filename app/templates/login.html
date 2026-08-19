@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block title %}Login — LevelUp DSA{% endblock %}
+
+{% block content %}
+<h2 style="margin-bottom: 1.5rem;">Log in</h2>
+
+<form id="login-form">
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" required>
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" required>
+    </div>
+    <button type="submit" class="btn">Log In</button>
+    <p id="login-message" style="margin-top: 1rem;"></p>
+</form>
+
+<script>
+document.getElementById("login-form").addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    const response = await fetch("/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
+    });
+
+    const data = await response.json();
+    const messageEl = document.getElementById("login-message");
+
+    if (response.ok) {
+        messageEl.textContent = "Logged in successfully!";
+        messageEl.style.color = "#4ade80";
+    } else {
+        messageEl.textContent = data.error;
+        messageEl.style.color = "#f87171";
+    }
+});
+</script>
+{% endblock %}

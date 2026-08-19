@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block title %}Sign Up — LevelUp DSA{% endblock %}
+
+{% block content %}
+<h2 style="margin-bottom: 1.5rem;">Create your account</h2>
+
+<form id="signup-form">
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" required>
+    </div>
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" required>
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" required>
+    </div>
+    <button type="submit" class="btn">Sign Up</button>
+    <p id="signup-message" style="margin-top: 1rem;"></p>
+</form>
+
+<script>
+document.getElementById("signup-form").addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    const response = await fetch("/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password })
+    });
+
+    const data = await response.json();
+    const messageEl = document.getElementById("signup-message");
+
+    if (response.ok) {
+        messageEl.textContent = "Account created! You can now log in.";
+        messageEl.style.color = "#4ade80";
+    } else {
+        messageEl.textContent = data.error;
+        messageEl.style.color = "#f87171";
+    }
+});
+</script>
+{% endblock %}
