@@ -29,6 +29,9 @@ def create_app(config_name=None):
     from app.routes.auth import auth_bp
     app.register_blueprint(auth_bp)
 
+    from app.routes.quiz import quiz_bp
+    app.register_blueprint(quiz_bp)
+
 
     from flask import render_template
 

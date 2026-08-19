@@ -45,7 +45,10 @@ def _estimate_information_gain(session, question_id):
     and measure how much the score *spread* among current top candidates
     would change. Higher spread = more separating power = higher priority.
     """
-    current_leaders = sorted(session["scores"], key=session["scores"].get, reverse=True)[:4]
+    current_leaders = sorted(
+        session["scores"],
+        key=lambda path: (-session["scores"][path], path),
+    )[:4]
 
     resulting_top_scores = []
     for option in QUESTIONS[question_id]["options"]:
