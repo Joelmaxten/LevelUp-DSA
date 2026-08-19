@@ -63,3 +63,67 @@ class UserProgress(db.Model):
 
     def __repr__(self):
         return f"<UserProgress user={self.user_id} step={self.step_id}>"
+
+from sqlalchemy.dialects.postgresql import ARRAY
+
+
+class DSANode(db.Model):
+    __tablename__ = "dsa_nodes"
+
+    id = db.Column(db.Integer, primary_key=True)
+    topic = db.Column(db.String(120), nullable=False)
+    difficulty = db.Column(db.String(20), nullable=False)  # e.g. "Easy", "Medium", "Hard"
+    career_paths = db.Column(ARRAY(db.Integer), default=[])  # list of career_path IDs
+    prerequisites = db.Column(ARRAY(db.Integer), default=[])  # list of prerequisite node IDs
+
+    def __repr__(self):
+        return f"<DSANode {self.topic}>"
+
+
+class DSAProblem(db.Model):
+    __tablename__ = "dsa_problems"
+
+    id = db.Column(db.Integer, primary_key=True)
+    node_id = db.Column(db.Integer, db.ForeignKey("dsa_nodes.id"), nullable=False)
+    title = db.Column(db.String(200), nullable=False)
+    description = db.Column(db.Text)
+    test_cases = db.Column(db.JSON)  # list of {"input": ..., "expected_output": ...}
+    points = db.Column(db.Integer, default=10)
+
+    node = db.relationship("DSANode", backref="problems")
+
+    def __repr__(self):
+        return f"<DSAProblem {self.title}>"
+
+
+class UserDSAActivity(db.Model):
+    __tablename__ = "user_dsa_activity"
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    problem_id = db.Column(db.Integer, db.ForeignKey("dsa_problems.id"), nullable=False)
+    solved_at = db.Column(db.DateTime, default=datetime.utcnow)
+    points_earned = db.Column(db.Integer, default=0)
+
+    user = db.relationship("User", backref="dsa_activity")
+    problem = db.relationship("DSAProblem", backref="activity_log")
+
+    def __repr__(self):
+        return f"<UserDSAActivity user={self.user_id} problem={self.problem_id}>"
+
+
+class NodeMastery(db.Model):
+    __tablename__ = "node_mastery"
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    node_id = db.Column(db.Integer, db.ForeignKey("dsa_nodes.id"), nullable=False)
+    xp_earned = db.Column(db.Integer, default=0)
+    problems_solved = db.Column(db.Integer, default=0)
+    mastery_level = db.Column(db.Float, default=0.0)  # e.g. 0.0-1.0, drives D3.js node brightness
+
+    user = db.relationship("User", backref="node_mastery")
+    node = db.relationship("DSANode", backref="mastery_records")
+
+    def __repr__(self):
+        return f"<NodeMastery user={self.user_id} node={self.node_id}>"
