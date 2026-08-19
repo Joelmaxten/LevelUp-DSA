@@ -21,11 +21,10 @@ def create_app(config_name=None):
     login_manager.init_app(app)
     login_manager.login_view = "auth.login"
 
-    # Blueprints are registered here as each route module comes online.
-    # Left commented until each route file has a working Blueprint (Day 13+).
-    # from app.routes.auth import auth_bp
-    # app.register_blueprint(auth_bp)
+    from app.routes.auth import auth_bp
+    app.register_blueprint(auth_bp)
 
+    
     @app.route("/")
     def index():
         return "<h1>LevelUp DSA</h1><p>App factory is running.</p>"
