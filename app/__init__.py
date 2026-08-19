@@ -30,4 +30,13 @@ def create_app(config_name=None):
     def index():
         return "<h1>LevelUp DSA</h1><p>App factory is running.</p>"
 
+    @app.route("/db-check")
+    def db_check():
+        from sqlalchemy import text
+        try:
+            db.session.execute(text("SELECT 1"))
+            return "<h1>Database connection: OK</h1>"
+        except Exception as e:
+            return f"<h1>Database connection FAILED</h1><p>{e}</p>"
+
     return app
