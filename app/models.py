@@ -127,3 +127,71 @@ class NodeMastery(db.Model):
 
     def __repr__(self):
         return f"<NodeMastery user={self.user_id} node={self.node_id}>"
+
+class Resume(db.Model):
+    __tablename__ = "resumes"
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    file_path = db.Column(db.String(500), nullable=False)
+    extracted_skills = db.Column(ARRAY(db.String))
+    ai_feedback = db.Column(db.Text)
+    uploaded_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    user = db.relationship("User", backref="resumes")
+
+    def __repr__(self):
+        return f"<Resume user={self.user_id}>"
+
+
+class SkillGap(db.Model):
+    __tablename__ = "skill_gaps"
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    missing_skills = db.Column(ARRAY(db.String))
+    target_role = db.Column(db.String(120))
+    salary_range = db.Column(db.String(80))
+
+    user = db.relationship("User", backref="skill_gaps")
+
+    def __repr__(self):
+        return f"<SkillGap user={self.user_id} target={self.target_role}>"
+
+
+class WeaknessProfile(db.Model):
+    __tablename__ = "weakness_profiles"
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    node_id = db.Column(db.Integer, db.ForeignKey("dsa_nodes.id"), nullable=False)
+    weakness_score = db.Column(db.Float, default=0.0)
+    is_bandit_node = db.Column(db.Boolean, default=False)
+    generated_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    user = db.relationship("User", backref="weakness_profiles")
+    node = db.relationship("DSANode", backref="weakness_profiles")
+
+    def __repr__(self):
+        return f"<WeaknessProfile user={self.user_id} node={self.node_id}>"
+
+
+class UserAttempt(db.Model):
+    __tablename__ = "user_attempts"
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    node_id = db.Column(db.Integer, db.ForeignKey("dsa_nodes.id"), nullable=False)
+    problem_id = db.Column(db.Integer, db.ForeignKey("dsa_problems.id"), nullable=False)
+    time_taken = db.Column(db.Integer)  # seconds
+    attempts_count = db.Column(db.Integer, default=1)
+    hints_used = db.Column(db.Integer, default=0)
+    is_correct = db.Column(db.Boolean, default=False)
+    attempted_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    user = db.relationship("User", backref="attempts")
+    node = db.relationship("DSANode", backref="attempts")
+    problem = db.relationship("DSAProblem", backref="attempts")
+
+    def __repr__(self):
+        return f"<UserAttempt user={self.user_id} problem={self.problem_id}>"
