@@ -1,0 +1,60 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+dist/
+*.egg-info/
+*.egg
+
+# Virtual environments
+venv/
+env/
+.venv/
+ENV/
+
+# Environment variables / secrets
+.env
+.env.*
+config_local.py
+instance/
+
+# Flask
+*.log
+flask_session/
+
+# Database
+*.db
+*.sqlite3
+
+# FAISS index files (generated, not committed)
+*.index
+faiss_index/
+
+# Downloaded datasets (large, not committed)
+data/raw/
+*.csv
+*.parquet
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Piston / Docker local runtime data
+piston_data/
