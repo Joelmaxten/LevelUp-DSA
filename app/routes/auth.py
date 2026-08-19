@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify
+from flask_login import login_user, logout_user, login_required
 
 from app import db
 from app.models import User
@@ -28,3 +29,31 @@ def signup():
     db.session.commit()
 
     return jsonify({"message": "Account created successfully", "user_id": user.id}), 201
+
+from flask_login import login_user, logout_user, login_required
+
+
+@auth_bp.route("/login", methods=["POST"])
+def login():
+    data = request.get_json()
+
+    email = data.get("email")
+    password = data.get("password")
+
+    if not email or not password:
+        return jsonify({"error": "email and password are required"}), 400
+
+    user = User.query.filter_by(email=email).first()
+
+    if not user or not user.check_password(password):
+        return jsonify({"error": "Invalid email or password"}), 401
+
+    login_user(user)
+    return jsonify({"message": "Logged in successfully", "user_id": user.id}), 200
+
+
+@auth_bp.route("/logout", methods=["POST"])
+@login_required
+def logout():
+    logout_user()
+    return jsonify({"message": "Logged out successfully"}), 200

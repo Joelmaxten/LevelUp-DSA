@@ -19,12 +19,17 @@ def create_app(config_name=None):
 
     db.init_app(app)
     login_manager.init_app(app)
-    login_manager.login_view = "auth.login"
+    login_manager.login_view = None
+
+    @login_manager.unauthorized_handler
+    def unauthorized():
+        from flask import jsonify
+        return jsonify({"error": "Authentication required"}), 401
 
     from app.routes.auth import auth_bp
     app.register_blueprint(auth_bp)
 
-    
+
     @app.route("/")
     def index():
         return "<h1>LevelUp DSA</h1><p>App factory is running.</p>"
