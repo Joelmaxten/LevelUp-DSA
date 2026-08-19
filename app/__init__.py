@@ -30,10 +30,13 @@ def create_app(config_name=None):
     app.register_blueprint(auth_bp)
 
 
+    from flask import render_template
+
     @app.route("/")
     def index():
-        return "<h1>LevelUp DSA</h1><p>App factory is running.</p>"
+        return render_template("index.html")
 
+    
     @app.route("/db-check")
     def db_check():
         from sqlalchemy import text
