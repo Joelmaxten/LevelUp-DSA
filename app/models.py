@@ -14,6 +14,18 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(255), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
+    def set_password(self, plain_password):
+        import bcrypt
+        self.password_hash = bcrypt.hashpw(
+            plain_password.encode("utf-8"), bcrypt.gensalt()
+        ).decode("utf-8")
+
+    def check_password(self, plain_password):
+        import bcrypt
+        return bcrypt.checkpw(
+            plain_password.encode("utf-8"), self.password_hash.encode("utf-8")
+        )
+
     def __repr__(self):
         return f"<User {self.email}>"
 
