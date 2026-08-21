@@ -47,6 +47,9 @@ def create_app(config_name=None):
     def login_page():
         return render_template("login.html")
 
+    @app.route("/quiz", methods=["GET"])
+    def quiz_page():
+        return render_template("quiz.html")
     
     @app.route("/db-check")
     def db_check():

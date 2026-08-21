@@ -1,0 +1,84 @@
+{% extends "layout.html" %}
+
+{% block title %}Career Discovery Quiz — LevelUp DSA{% endblock %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 0 auto;">
+    <h2 id="quiz-heading">Career Discovery Quiz</h2>
+
+    <div id="quiz-question-box" style="margin-top: 1.5rem;">
+        <p style="color: #94a3b8;">Loading your first question...</p>
+    </div>
+
+    <div id="quiz-results-box" style="display: none;"></div>
+</div>
+
+<script>
+const questionBox = document.getElementById("quiz-question-box");
+const resultsBox = document.getElementById("quiz-results-box");
+const heading = document.getElementById("quiz-heading");
+
+function renderQuestion(questionId, question) {
+    questionBox.innerHTML = `
+        <p style="font-size: 1.2rem; margin-bottom: 1.5rem;">${question.text}</p>
+        <div id="options-container"></div>
+    `;
+    const container = document.getElementById("options-container");
+
+    for (const [key, text] of Object.entries(question.options)) {
+        const btn = document.createElement("button");
+        btn.className = "btn";
+        btn.style.display = "block";
+        btn.style.width = "100%";
+        btn.style.textAlign = "left";
+        btn.style.marginBottom = "0.75rem";
+        btn.style.backgroundColor = "#1e293b";
+        btn.style.color = "#e2e8f0";
+        btn.textContent = `${key}. ${text}`;
+        btn.addEventListener("click", () => submitAnswer(questionId, key));
+        container.appendChild(btn);
+    }
+}
+
+function renderResults(results) {
+    heading.textContent = "Your Career Discovery Results";
+    questionBox.style.display = "none";
+    resultsBox.style.display = "block";
+
+    let html = "<ol style='padding-left: 1.5rem;'>";
+    for (const r of results) {
+        html += `<li style="margin-bottom: 0.75rem;">
+            <strong>${r.career_path}</strong> — ${r.confidence_pct}% confidence
+        </li>`;
+    }
+    html += "</ol>";
+    resultsBox.innerHTML = html;
+}
+
+async function submitAnswer(questionId, option) {
+    questionBox.innerHTML = "<p style='color: #94a3b8;'>Loading next question...</p>";
+
+    const response = await fetch("/quiz/answer", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question_id: questionId, option: option })
+    });
+
+    const data = await response.json();
+
+    if (data.finished) {
+        renderResults(data.results);
+    } else {
+        renderQuestion(data.question_id, data.question);
+    }
+}
+
+async function startQuiz() {
+    const response = await fetch("/quiz/start", { method: "POST" });
+    const data = await response.json();
+    renderQuestion(data.question_id, data.question);
+}
+
+startQuiz();
+</script>
+{% endblock %}

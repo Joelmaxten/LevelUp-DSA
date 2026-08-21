@@ -38,12 +38,13 @@ def answer_quiz():
     apply_answer(quiz_state, question_id, option)
 
 
-    if should_stop(quiz_state):
+    q_id = next_question(quiz_state)
+
+    if should_stop(quiz_state) or q_id is None:
         results = get_results(quiz_state)
         session.pop("quiz")
         return jsonify({"finished": True, "results": results}), 200
 
-    q_id = next_question(quiz_state)
     session["quiz"] = quiz_state
     session.modified = True
 
