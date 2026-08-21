@@ -113,6 +113,52 @@ Mid-quiz, hit a server error: `KeyError: None` on `QUESTIONS[q_id]`.
 
 
 ---
+## RAG Pipeline — Knowledge Base, Embeddings, FAISS Retrieval
+
+**Scope decision:** Rather than pulling all ~90 roles from roadmap.sh, the knowledge base was
+deliberately scoped ("Tier 1") to just the quiz's 10 fixed career paths, each enriched with a
+few relevant sub-skill topics (e.g. React/Node.js/Git under Software Engineering). Expanding
+the quiz itself to support non-traditional career paths (Product Management, DevRel, etc.) was
+considered and explicitly deferred — it would require redesigning and re-validating the entire
+quiz engine, which is out of the documented spec and not worth the risk/time right now.
+
+**What was built:**
+- `app/pipeline/roadmap_kb_processor.py` — maps each of the 10 career paths to specific
+  roadmap.sh folders, walks a local clone of the roadmap.sh repo, strips markdown formatting
+  and resource-link lists down to clean descriptive text, tags each chunk with its career
+  path(s) (a chunk can belong to more than one path, same array pattern as `DSANode.career_paths`).
+- `app/pipeline/embedder.py` — loads `all-MiniLM-L6-v2` once (module-level cache) and converts
+  text chunks into 384-dimensional vectors via batched encoding.
+- `app/pipeline/rag.py` — builds a FAISS `IndexFlatIP` index over L2-normalized embeddings
+  (inner product on normalized vectors = cosine similarity), persists the index and chunk
+  metadata to disk, and provides `search()` — semantic search with an optional `career_path`
+  filter.
+
+**Verification, at each stage:**
+- Extraction produced 3,586 real, cleaned chunks across 27 roadmap.sh folders.
+- Embedding quality was sanity-checked with cosine similarity *before* running the full batch:
+  "React" vs "Vue" (genuinely related) scored 0.59; "React" vs "Cybersecurity" (unrelated)
+  scored 0.06 — confirming the model captures real semantic meaning, not noise.
+- The full 3,586-chunk batch embedded in ~43 seconds on CPU.
+- Retrieval was tested both unfiltered (an ML/AI query returned genuinely relevant results
+  spanning multiple folders) and filtered by career path — a Cybersecurity-filtered search on
+  an unrelated ML query correctly returned nothing, while the same filter on a genuinely
+  cybersecurity-related query returned five strong, correctly-tagged results. Both outcomes
+  needed to be checked, since an empty result could have meant either "working correctly, no
+  match" or "broken" — only testing both proved which one it was.
+
+**Issue faced — a `.gitignore` rule that silently didn't match:**
+The FAISS index files (`data/processed/faiss_index.faiss`, `..._meta.pkl`) showed up as
+untracked in `git status`, even though `.gitignore` was supposed to exclude generated index
+files.
+**Root cause:** the original `.gitignore` rules from Day 1 (`*.index`, `faiss_index/`) were
+written before the actual file-naming pattern was known, and didn't match the real filenames
+FAISS/pickle actually produced.
+**Fix:** replaced the guesswork rules with ones matching the real paths —
+`data/processed/*.faiss` and `data/processed/*_meta.pkl`. Caught by checking `git status`
+before committing, rather than assuming `.gitignore` was already correct.
+
+---
 
 ## Still To Build
 
