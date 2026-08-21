@@ -35,8 +35,8 @@ flask_session/
 *.sqlite3
 
 # FAISS index files (generated, not committed)
-*.index
-faiss_index/
+data/processed/*.faiss
+data/processed/*_meta.pkl
 
 # Downloaded datasets (large, not committed)
 data/raw/
