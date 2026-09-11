@@ -159,7 +159,26 @@ FAISS/pickle actually produced.
 before committing, rather than assuming `.gitignore` was already correct.
 
 ---
+---
 
+## Data Sources — Kaggle Downloads (SO Survey + India Jobs)
+
+**What was built:** Kaggle API fully configured — account created, API token generated,
+`KAGGLE_USERNAME` / `KAGGLE_KEY` stored in `.env` (gitignored, confirmed not committed), `kaggle`
+pip package installed, authentication verified working. Two of the three planned data sources
+downloaded:
+
+- **Stack Overflow Developer Survey 2025** (`yuvrajwork/stack-overflow-developer-survey-2025-csv`)
+  → `../so_survey_2025/` — `survey_results_public.csv` (~140MB) + `survey_results_schema.csv`
+- **India Job Market & Salary Dataset** (`kapoorprakhar/india-job-market-and-salary-dataset`)
+  → `../india_jobs/job_market_india.csv` — columns: `Job Title`, `Location`, `Salary`,
+  `Monthly Salary`, `Locality`, `State`
+
+**Status: downloaded, not yet processed.** Neither dataset has been cleaned, embedded into
+FAISS, or loaded into PostgreSQL yet. `roadmap_kb_processor.py` currently only handles
+roadmap.sh content — it does not yet touch either of these two sources.
+
+---
 ## Still To Build
 
 - Conversation engine (short dialogue after the quiz)
