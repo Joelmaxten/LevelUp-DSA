@@ -59,3 +59,4 @@ htmlcov/
 
 # Piston / Docker local runtime data
 piston_data/
+cookies.txt

@@ -10,6 +10,7 @@ db = SQLAlchemy()
 login_manager = LoginManager()
 
 
+
 def create_app(config_name=None):
     """Flask application factory."""
     app = Flask(__name__)
@@ -33,6 +34,10 @@ def create_app(config_name=None):
     app.register_blueprint(quiz_bp)
 
 
+    from app.routes.conversation import conversation_bp
+    app.register_blueprint(conversation_bp)
+
+
     from flask import render_template
 
     @app.route("/")
@@ -50,6 +55,10 @@ def create_app(config_name=None):
     @app.route("/quiz", methods=["GET"])
     def quiz_page():
         return render_template("quiz.html")
+
+    @app.route("/conversation", methods=["GET"])
+    def conversation_page():
+        return render_template("conversation.html")
     
     @app.route("/db-check")
     def db_check():
