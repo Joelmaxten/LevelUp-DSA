@@ -160,11 +160,57 @@ before committing, rather than assuming `.gitignore` was already correct.
 
 ---
 
+---
+
+## Post-Quiz Conversation Engine
+
+**What was built:** `app/pipeline/conversation_data.py` — 4 fixed questions (C1-C4) capturing
+signals the adaptive career quiz structurally cannot: IT-track preference (traditional vs.
+non-traditional tech-adjacent paths — relevant since all 10 `CAREER_PATHS` in the quiz are
+traditional CS paths), things to avoid, target company type, and near-term goal. Each
+(question, option) maps to a single flat `(signal_key, signal_value)` pair — not a list of
+career paths like the quiz's `OPTION_SIGNALS`, since these signals aren't scored, just carried
+forward as profile context for the later LLM roadmap prompt.
+
+`app/pipeline/conversation_engine.py` — much simpler than `career_quiz_engine.py`: fixed
+question order, no adaptivity, no early-stop logic. Session state stores only an integer index
+(never anything derived from iterating the question dict), specifically to avoid a repeat of
+the dict-ordering round-trip bug hit in the quiz engine's session handling.
+
+`app/routes/conversation.py` — `/conversation/start` and `/conversation/answer`, mirroring
+`quiz.py`'s exact pattern: state lives under its own `session["conversation"]` key (fully
+separate from `session["quiz"]`), popped on completion. Added `ValueError` validation on bad
+question_id/option pairs, returning a 400 instead of letting a bad lookup crash into a 500 —
+the same class of bug as the quiz's earlier `KeyError: None` crash, caught proactively this time
+instead of after the fact.
+
+**Issue faced — duplicate blueprint registration:**
+`create_app()` crashed with `ValueError: The name 'quiz' is already registered for this
+blueprint` when the conversation blueprint was added.
+**Root cause:** the quiz blueprint's import + register lines had been accidentally pasted twice
+in `app/__init__.py` during editing — unrelated to the new conversation code itself.
+**Fix:** removed the duplicate `from app.routes.quiz import quiz_bp` / `app.register_blueprint(quiz_bp)`
+pair, confirmed via `app.url_map.iter_rules()` that exactly one set of conversation routes
+registered.
+
+**Verification:** Full 4-answer flow tested end-to-end via `curl` with cookie-based session
+persistence (`-c`/`-b`), same discipline as quiz testing. Confirmed: each answer advances to the
+correct next question; the final answer returns `finished: true` with the exact expected signals
+dict (`{"it_track": "non_traditional", "avoid": "repetitive_work", "target_company":
+"product_based", "goal": "build_fundamentals"}` for a known answer sequence); starting a new
+conversation after completion correctly resets to C1 (proving `session.pop` worked, not just that
+the happy path worked); an invalid option returns a 400 with a clear error message instead of a
+500 crash.
+
+**Branching note:** built on a dedicated `feature/conversation-engine` branch (off
+`feature/scaffold`) rather than directly on `feature/scaffold`, since dataset-processing work was
+happening in parallel on a second laptop also based on `feature/scaffold` — avoids two machines
+committing to the same branch.
+
+---
 ## Still To Build
 
-- Conversation engine (short dialogue after the quiz)
 - Career path scoring integration + non-traditional path support
-- FAISS/RAG pipeline (Ganesh's part) — data collection, embeddings, retrieval
 - Roadmap generation via Gemini LLM
 - Phase 2 — Resume analyzer
 - Phase 3 — Gamified DSA / Skill DNA Map
