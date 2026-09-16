@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify, session
+from flask_login import login_required
 
 from app.pipeline.career_quiz_engine import (
     new_session, apply_answer, next_question, should_stop, get_results,
@@ -9,6 +10,7 @@ quiz_bp = Blueprint("quiz", __name__)
 
 
 @quiz_bp.route("/quiz/start", methods=["POST"])
+@login_required
 def start_quiz():
     session["quiz"] = new_session()
     q_id = next_question(session["quiz"])
@@ -21,6 +23,7 @@ def start_quiz():
 
 
 @quiz_bp.route("/quiz/answer", methods=["POST"])
+@login_required
 def answer_quiz():
     from flask import request
 
@@ -37,12 +40,15 @@ def answer_quiz():
     quiz_state = session["quiz"]
     apply_answer(quiz_state, question_id, option)
 
-
     q_id = next_question(quiz_state)
 
     if should_stop(quiz_state) or q_id is None:
         results = get_results(quiz_state)
+        # Keep the raw scores dict alive for the conversation step to consume -
+        # only the rest of the quiz state (answered/asked_ids) is discarded.
+        session["quiz_scores"] = quiz_state["scores"]
         session.pop("quiz")
+        session.modified = True
         return jsonify({"finished": True, "results": results}), 200
 
     session["quiz"] = quiz_state

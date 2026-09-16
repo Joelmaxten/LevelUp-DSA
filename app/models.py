@@ -207,3 +207,17 @@ class UserAttempt(db.Model):
 
     def __repr__(self):
         return f"<UserAttempt user={self.user_id} problem={self.problem_id}>"
+
+class CareerProfile(db.Model):
+    __tablename__ = "career_profiles"
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    career_ranking = db.Column(db.JSON, nullable=False)       # build_profile()'s "career_ranking" list
+    conversation_signals = db.Column(db.JSON, nullable=False) # build_profile()'s "conversation_signals" dict
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    user = db.relationship("User", backref="career_profiles")
+
+    def __repr__(self):
+        return f"<CareerProfile user={self.user_id} created={self.created_at}>"
