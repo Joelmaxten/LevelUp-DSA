@@ -37,7 +37,9 @@ def create_app(config_name=None):
     from app.routes.conversation import conversation_bp
     app.register_blueprint(conversation_bp)
 
-
+    from app.routes.roadmap import roadmap_bp
+    app.register_blueprint(roadmap_bp)
+    
     from flask import render_template
 
     @app.route("/")

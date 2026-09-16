@@ -221,3 +221,18 @@ class CareerProfile(db.Model):
 
     def __repr__(self):
         return f"<CareerProfile user={self.user_id} created={self.created_at}>"
+
+class GeneratedRoadmap(db.Model):
+    __tablename__ = "generated_roadmaps"
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    career_path = db.Column(db.String(120), nullable=False)
+    steps = db.Column(db.JSON, nullable=False)            # list of {step_number, title, description}
+    retrieved_chunks = db.Column(db.JSON)                  # which KB chunks grounded this generation - audit trail
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    user = db.relationship("User", backref="generated_roadmaps")
+
+    def __repr__(self):
+        return f"<GeneratedRoadmap user={self.user_id} path={self.career_path}>"
