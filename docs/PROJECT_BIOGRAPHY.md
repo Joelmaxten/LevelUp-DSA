@@ -206,13 +206,119 @@ the happy path worked); an invalid option returns a 400 with a clear error messa
 `feature/scaffold`) rather than directly on `feature/scaffold`, since dataset-processing work was
 happening in parallel on a second laptop also based on `feature/scaffold` — avoids two machines
 committing to the same branch.
+---
 
+## Career Profile — Merging Quiz + Conversation into One Ranked Profile
+
+**What was built:** `app/pipeline/profile_builder.py` combines the quiz's raw career-path
+scores with the conversation's signals into one final student profile, with a real, tested
+mechanism to let signals adjust the ranking (`ADJUSTMENT_RULES`, keyed by `(signal_key,
+signal_value)` -> `{career_path: score_delta}`).
+
+**Design decision — why the adjustment mechanism is empty in production:**
+Initially considered a uniform score boost for `it_track: traditional` (reinforcing the
+quiz's own direction when a student confirms they want exactly that). Worked through the
+math before writing it and found it was wrong: adding a flat +K to every path's score can't
+change relative ranking order at all, and actively *flattens* `confidence_pct` (since
+`confidence_pct = score / total`, adding K to all 10 numerators while adding 10K to the
+shared denominator shrinks the spread, the opposite of the intended effect). Caught and
+corrected before any code was written, not after.
+
+Landed on: `it_track: non_traditional` is the only signal with a defensible causal link to
+ranking (boost non-traditional career paths) - but non-traditional paths don't exist in
+`CAREER_PATHS` yet (deliberately deferred per the RAG pipeline's "Tier 1" scope decision), so
+today it's a no-op too. `avoid`, `target_company`, and `goal` have no honest causal story for
+*which* of the 10 existing CS paths they should favor - inventing weights for them would be
+arbitrary, not derived. They're carried into the profile purely as LLM prompt context, never
+touch the ranking.
+
+**Verification, two parts:**
+1. Confirmed all three real `it_track` values (`traditional`, `non_traditional`, `open`)
+   produce a `career_ranking` byte-identical to the quiz's own `get_results()` - the
+   zero-adjustment guarantee that matters for production today.
+2. Proved the mechanism itself works correctly by temporarily injecting one fake rule
+   (never committed): confirmed score shifted by the exact delta, `confidence_pct` moved in
+   the same direction (not stale), and critically that `apply_adjustments()` does NOT mutate
+   the quiz's original `scores` dict (it's still live in the session).
+
+## CareerProfile Table + End-to-End Persistence
+
+**What was built:** New `CareerProfile` model (`app/models.py`) - `user_id` FK, `career_ranking`
+JSON, `conversation_signals` JSON, `created_at`. 13th table, added via `db.create_all()`,
+verified via `\dt` / `\d career_profiles`.
+
+**Design decision - separate table vs. columns on `Users`:**
+Considered adding `career_ranking`/`conversation_signals` directly to the `Users` table for
+simplicity. Went with a separate table instead, for reasons beyond preference: the master
+doc's Class Diagram (section 20) explicitly locks `Student` composition `CareerProfile` as
+its own class - a decision already reviewed with the guide, not something to quietly
+deviate from. A separate table also preserves history if a student retakes the quiz (same
+precedent as the existing `Resume` table - multiple rows per user, not overwritten), and
+keeps `Users` scoped to identity/auth only, consistent with every other user-specific table
+in the schema (resumes, skill_gaps, weakness_profiles, user_attempts all follow the same
+`user_id` FK pattern rather than bolting onto `Users`).
+
+`quiz.py` and `conversation.py` both got `@login_required` (a real gap before this - neither
+route enforced authentication), since `CareerProfile.user_id` needs a real logged-in user to
+attach to.
+
+**Issue faced - session lifetime gap between quiz and conversation:**
+Both routes previously popped their entire session state on completion
+(`session.pop("quiz")` / `session.pop("conversation")`). This meant the quiz's raw scores
+dict was already gone from the session by the time a student finished the conversation -
+`build_profile()` had no way to access both pieces of data at once, because the two flows
+never actually overlapped in session state.
+**Fix:** quiz now keeps `session["quiz_scores"]` (just the raw scores dict) alive across its
+own pop, popped only once the conversation step actually consumes it.
+`/conversation/start` now gates entry on `"quiz_scores" in session` (400 if the quiz hasn't
+been completed - closes a real gap where nothing previously stopped a student from hitting
+`/conversation` out of order). `/conversation/answer` also defensively re-checks the same
+condition rather than trusting that a prior request left things as expected.
+
+**Issue faced - duplicate file content from a bad paste:**
+After editing `quiz.py`, the app crashed on import with `SyntaxError: invalid decimal
+literal` at `}), 200from flask import Blueprint...`.
+**Root cause:** the entire file's content had been pasted twice in a row with no separating
+newline between the two copies - not a logic bug, a copy-paste mechanics issue.
+**Fix:** rewrote the file cleanly via a bash heredoc (`cat > file << 'EOF' ... EOF`) rather
+than trying to surgically remove the duplicate, to avoid any risk of a partial-match edit
+going wrong. Verified via `wc -l` (should be ~60 lines, not ~120) before re-testing.
+
+**Issue faced - inconsistent curl cookie flags silently losing session state:**
+`/quiz/answer` returned `"No quiz in progress"` immediately after `/quiz/start` had just
+returned a real question.
+**Root cause:** the `/quiz/start` call had used `-b cookies.txt` (read cookie) but not also
+`-c cookies.txt` (write updated cookie back). Flask's session lives entirely in the cookie,
+so the server's response *did* include an updated session cookie setting
+`session["quiz"]` - but without `-c` on that specific call, the updated cookie was never
+saved back to the file. The next call still only had the pre-quiz cookie.
+**Fix:** always pass `-b` and `-c` together on every call that might read or write session
+state, not just on calls expected to change something.
+
+**Verification:** Wrote `scripts/smoke_test_profile_flow.py` - a throwaway smoke test using
+Flask's test client instead of manual curl chaining, to drive the full signup -> login ->
+9-question adaptive quiz -> 4-question conversation -> DB read-back flow programmatically.
+Faster to re-run and more rigorous than one-by-one curl (exercises the real app routes and
+session handling, not just isolated function calls). Run twice with different random users,
+consistent results both times: quiz correctly self-stopped at 9 questions (confidence gap
+threshold hit before `MAX_QUESTIONS`), conversation signals correctly produced zero ranking
+change (matching the no-op guarantee above), and the `CareerProfile` row was confirmed via
+an independent DB query - not just trusting the API's JSON response.
+
+**Note for later:** the `/conversation/answer` DB-write error handler currently includes
+`"detail": str(e)` in its 500 response - useful for dev debugging, but leaks raw exception
+text to the client and should be stripped before any public deployment (Render, month 6).
+
+---
 ---
 ## Still To Build
 
-- Career path scoring integration + non-traditional path support
 - Roadmap generation via Gemini LLM
 - Phase 2 — Resume analyzer
 - Phase 3 — Gamified DSA / Skill DNA Map
 - Placement Readiness Score
 - Deployment to Render
+
+*Note: SO Survey 2025 + India Jobs dataset processing (FAISS + PostgreSQL) is in progress on a
+second machine, on `feature/scaffold` directly — not reflected in this laptop's copy of this doc
+until merged.*
