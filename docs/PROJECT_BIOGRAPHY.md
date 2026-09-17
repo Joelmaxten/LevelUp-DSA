@@ -311,14 +311,91 @@ text to the client and should be stripped before any public deployment (Render, 
 
 ---
 ---
+
+## Roadmap Generation — RAG Retrieval + Gemini, Personalized Per Student
+
+**What was built:** `app/pipeline/roadmap_generator.py` retrieves FAISS chunks filtered to a
+student's #1 ranked career path, builds a prompt combining that context with their
+`conversation_signals` (goal, avoid, target_company), and calls Gemini to generate 8-12
+structured roadmap steps as JSON. `app/routes/roadmap.py` exposes this as
+`POST /roadmap/generate` (login-required), loading the student's latest `CareerProfile` and
+persisting the result to a new `GeneratedRoadmap` table.
+
+**Design decision - per-student generation vs. a shared roadmap per career path:**
+The master doc's schema for `RoadmapSteps` (`career_path_id` FK, no `user_id`) more naturally
+fits a shared, admin-authored roadmap per career path - generated once, reused by every
+student on that path. But the master doc's prose (section 8's Online Pipeline) explicitly
+describes the LLM generating a "personalized" roadmap per student, and the whole reason
+`conversation_signals` were designed as pass-through prompt context rather than ranking
+inputs was specifically so they'd shape something downstream. A shared-per-path roadmap
+would make `goal`/`avoid`/`target_company` permanently unused, and would make the LLM call
+itself decorative - a fixed set of 10 roadmaps could be hand-authored once without any RAG
+or generation at all. Went with genuine per-student generation, which meant `RoadmapStep`
+was the wrong shape for this data - same reasoning as `CareerProfile` getting its own table
+instead of living on `Users`. Created `GeneratedRoadmap` instead (`user_id` FK, `career_path`,
+`steps` JSON, `retrieved_chunks` JSON) rather than retrofitting `RoadmapStep`, and left
+`RoadmapStep` as-is for a possible future admin-curated-fallback use case, not today's problem.
+
+`retrieved_chunks` stores which FAISS chunks (source + similarity score, not full text)
+grounded each generation - not in the original schema, added specifically to make the RAG
+anti-hallucination claim ("LLM cannot recommend anything not in retrieved data")
+demonstrable after the fact, not just assertable.
+
+**Issue faced - gemini-1.5-flash and the entire google-generativeai package are fully
+shut down, not just deprecated:**
+First attempt to verify the Gemini API key (`genai.GenerativeModel('gemini-1.5-flash')` via
+the `google-generativeai` package) failed with a 404: `models/gemini-1.5-flash is not found
+... or is not supported for generateContent`, alongside a `FutureWarning` that the entire
+`google-generativeai` package "will no longer be receiving updates or bug fixes."
+**Root cause:** confirmed via search - Google fully shut down all Gemini 1.0 and 1.5 models
+(not a soft deprecation, genuine 404 on every call), and replaced the whole legacy SDK with a
+new unified package, `google-genai`, as of Nov 30, 2025. Both of these postdate when the
+master doc's tech stack decision ("Gemini 1.5 Flash") was locked.
+**Fix:** `pip uninstall google-generativeai`, `pip install google-genai`. Switched to
+`gemini-flash-latest` rather than pinning a specific dated model name like
+`gemini-3.5-flash` - deliberately, since we'd just watched a pinned model name get shut out
+from under the project with real disruption; an alias tracking "current recommended flash
+model" is more resilient to this happening again mid-project.
+**Verification:** confirmed working with a real call through the new package before writing
+any pipeline code against it. Updated the master doc's Tech Stack table (section 4) to
+reflect the actual current model and SDK, with the deviation reason stated inline.
+
+**Issue faced - a newly-registered Flask route silently didn't exist:**
+After adding `roadmap_bp` to `app/__init__.py` (import + `register_blueprint`, verified
+correct by direct `grep` - no duplication, no indentation error this time), a check of
+`app.url_map.iter_rules()` for anything containing "roadmap" returned an empty list, with no
+error anywhere.
+**Root cause:** stale `__pycache__` - a gotcha this project's own `DEV_SETUP.md` already
+documents from earlier work ("if model or logic changes don't seem to take effect, clear
+cached bytecode"). Python was serving cached bytecode of `app/__init__.py` from before the
+route was added.
+**Fix:** `find . -name "__pycache__" -not -path "./venv/*" -exec rm -rf {} +`, then re-ran
+the same check - route appeared correctly. A reminder that a documented gotcha from one
+feature can silently resurface on a completely unrelated one.
+
+**Verification status - NOT end-to-end tested on this machine:** this laptop has never run
+the FAISS index-build step (`rag.py`'s `build_index()`) - the index and its metadata are
+gitignored, generated, machine-local data that only exists on the other laptop (per the RAG
+pipeline entry above). `faiss-cpu`, `sentence-transformers`, and `pandas` had to be installed
+here just to get a clean *import* of `roadmap_generator.py` - confirmed via
+`app.url_map.iter_rules()` (route registered) and a plain `import` check (no missing
+modules), but the actual retrieval + Gemini call + generated output has never been run for
+real anywhere yet. That verification - including a first real look at what Gemini actually
+produces for a real student profile - has to happen on the machine with the built index.
+
+---
+---
 ## Still To Build
 
-- Roadmap generation via Gemini LLM
 - Phase 2 — Resume analyzer
 - Phase 3 — Gamified DSA / Skill DNA Map
 - Placement Readiness Score
 - Deployment to Render
 
-*Note: SO Survey 2025 + India Jobs dataset processing (FAISS + PostgreSQL) is in progress on a
-second machine, on `feature/scaffold` directly — not reflected in this laptop's copy of this doc
-until merged.*
+*Note: Roadmap generation (RAG + Gemini) is built and committed on
+`feature/conversation-engine`, but not yet verified end-to-end - needs testing on the machine
+with the built FAISS index (see Roadmap Generation section above).*
+
+*Note: SO Survey 2025 + India Jobs dataset processing (FAISS + PostgreSQL) is in progress on
+a second machine, on `feature/scaffold` directly - not reflected in this laptop's copy of
+this doc until merged.*
