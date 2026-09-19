@@ -515,17 +515,53 @@ abstraction transparently benefits from additional indexed sources.
 
 ---
 ---
+
+## YouTube Resource Integration — Phase 1 Complete
+
+**What was built:** `app/pipeline/youtube_resources.py` fetches one relevant video per
+roadmap step via YouTube Data API v3, using `f"{step_title} tutorial"` as the search query.
+`POST /roadmap/<id>/resources` attaches results to an existing `GeneratedRoadmap` - kept
+deliberately separate from `/roadmap/generate` itself (same reasoning as why roadmap
+generation is separate from conversation completion: an external API's own latency/failure
+mode shouldn't be able to jeopardize an already-successful save).
+
+Per-video failures never raise - `fetch_video_for_step` catches `HttpError` and returns
+`None` rather than crashing the whole batch, since one bad search shouldn't prevent
+resourcing the other 9 steps. Scoped by `user_id` in the query (`filter_by(id=roadmap_id,
+user_id=current_user.id)`) so a student can't attach resources to, or discover, another
+student's roadmap by guessing IDs.
+
+**Issue faced - indentation bug placing a route decorator inside the previous function:**
+`@roadmap_bp.route("/roadmap/<int:roadmap_id>/resources"...)` landed with 4 leading spaces,
+inside `generate()`'s body rather than at module level. Same class of bug as the earlier
+`quiz.py` duplication and `roadmap_generator.py` misplaced try/except - fixed via full-file
+heredoc rewrite rather than a surgical edit, same reliable approach used before. Cleared
+`__pycache__` proactively this time before re-testing, rather than only after hitting the
+stale-cache symptom again.
+
+**Gap found and fixed - `/roadmap/generate`'s response was missing the roadmap's own DB id.**
+A real client needs this to call `/roadmap/<id>/resources` next, but the original response
+only included `career_path` and `steps`. Fixed with a small Python patch script using an
+explicit `assert content.count(old) == 1` guard before replacing - given two prior manual-
+edit mistakes this session, preferred a change that fails loudly if the target text doesn't
+match exactly once, over a blind `sed` or manual paste.
+
+**Verified end-to-end twice** via `scripts/smoke_test_youtube.py` (full signup -> quiz ->
+conversation -> roadmap generation -> resource attachment): all 10 steps received a
+genuine, topically relevant video both runs, results independently confirmed via direct DB
+query (not just the API response) - `resource` key present and correctly structured in the
+persisted `GeneratedRoadmap.steps` JSON.
+
+**This completes the master doc's entire Phase 1 pipeline for the first time** - quiz,
+conversation, career profile, FAISS retrieval (roadmap.sh + SO Survey chunks), Gemini
+generation with retry/fallback, and YouTube resourcing, all real, tested, and connected
+end to end.
+
+---
+---
 ## Still To Build
 
 - Phase 2 — Resume analyzer
 - Phase 3 — Gamified DSA / Skill DNA Map
 - Placement Readiness Score
 - Deployment to Render
-
-*Note: Roadmap generation (RAG + Gemini) is built, committed, AND verified end-to-end on the
-Aspire (real FAISS index, real Gemini output, real DB persistence) - fully done as of this
-session.*
-
-*Note: Both Kaggle datasets (SO Survey 2025, India Jobs) are now fully processed - parsed,
-tagged, loaded into PostgreSQL, and (SO Survey) contributing real chunks to the FAISS index
-used by roadmap generation. Fully done as of this session.*
