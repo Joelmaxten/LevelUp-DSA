@@ -60,3 +60,8 @@ htmlcov/
 # Piston / Docker local runtime data
 piston_data/
 cookies.txt
+
+# Demo-day exception: commit the built index so a fresh clone doesn't need
+# to reclone roadmap.sh + re-embed to get roadmap generation working.
+!data/processed/faiss_index.faiss
+!data/processed/faiss_index_meta.pkl
