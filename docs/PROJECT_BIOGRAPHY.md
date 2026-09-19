@@ -385,6 +385,72 @@ produces for a real student profile - has to happen on the machine with the buil
 
 ---
 ---
+
+## Single-Machine Migration + First Real Roadmap Generation
+
+**Decision: permanently migrate to one laptop (Aspire) instead of developing across two.**
+Working across two machines had been a deliberate setup since early in the project (see
+"Working Across Two Machines" above), but splitting RAG/dataset work onto a second laptop
+created a real dependency: `/roadmap/generate` couldn't be tested end-to-end on the Aspire
+because the FAISS index only existed on the Dell, which wasn't always physically available.
+Rather than keep working around that gap, decided to consolidate everything onto the Aspire
+going forward.
+
+**Before treating the Dell as retired, ran a full safety check** (not just assumed it was
+fine): `git status` (clean), `git log origin/<branch>..<branch> --oneline` on all three
+branches - `feature/scaffold`, `dev`, `main` (all empty except one). Found and pushed one
+real unpushed commit on `feature/scaffold` (a biography update documenting the Kaggle
+downloads from a prior session) that would have been silently lost otherwise - confirming
+this check was worth doing, not just a formality.
+
+**Rebuilt the FAISS index fresh on the Aspire** rather than copying files from the Dell:
+cloned roadmap.sh (`--depth` not needed in the end - full clone succeeded on retry after one
+transient connection failure), re-ran `build_index()`. Produced 3,597 chunks (close to the
+original 3,586 - the small difference reflects roadmap.sh's content having shifted slightly
+since the original build months ago) in the same ~90 seconds as before. Re-verified retrieval
+quality the same way as the original build (filtered search on Full-Stack and Cybersecurity
+both returned correctly-tagged, plausible results) before trusting it for real generation.
+
+**Re-downloaded the Kaggle datasets (SO Survey 2025 + India Jobs)** fresh on the Aspire too,
+rather than transferring files from the Dell - required re-adding `KAGGLE_USERNAME`/
+`KAGGLE_KEY` to this machine's `.env` (gitignored, never travels with git) and
+`pip install kaggle`. Both datasets confirmed landed correctly by file size match against the
+original download (survey CSV: 140,893,245 bytes, matching the original "~140MB").
+
+## First Real End-to-End Roadmap Generation
+
+**Issue faced - Gemini's free tier returned repeated 503 UNAVAILABLE ("high demand") errors**
+on the first two real attempts to call `/roadmap/generate`. Confirmed via search this is a
+known, widely-reported, ongoing issue across multiple Gemini model versions and both free and
+paid tiers (not specific to this project or this API key) - some reports describe sustained
+~37% failure rates over 30-day windows.
+**Fix:** added `tenacity`-based retry (3 attempts, exponential backoff, 2-10s) on the primary
+model (`gemini-flash-latest`), retrying only on `ServerError` (never on `ClientError`, which
+won't succeed on retry regardless). Falls back to a single attempt on `gemini-2.5-flash` if
+all primary retries are exhausted, only raising a clean error (surfaced as the route's
+existing 502) if both models fail. Decided against auto-retry earlier in the session for
+simplicity during dev, then reversed that decision once real testing showed 503s were common
+enough to threaten demo reliability - a deliberate, documented change of plan, not an
+oversight.
+
+**Verified working, for the first time ever:** full flow (signup -> login -> quiz ->
+conversation -> `/roadmap/generate`) via `scripts/smoke_test_roadmap.py`, using the real,
+freshly-built index. Quiz ranked "AI / Machine Learning Engineering" #1; conversation signals
+(`avoid: repetitive_work`, `target_company: startup`) visibly shaped the generated content -
+multiple step descriptions explicitly referenced avoiding repetitive work and startup-specific
+concerns, confirming these signals are doing real work in the final output, not sitting
+unused. 10 grounded roadmap steps generated; `GeneratedRoadmap` row persisted and
+independently verified via direct DB query (not just trusting the API response) - steps
+count, `retrieved_chunks` count, and source/score of the first retrieved chunk
+(`ai-engineer/introduction`, 0.699 similarity) all correct.
+
+**Deferred, deliberately:** committing the FAISS index files to git as a demo-day safety net
+(currently gitignored, regenerable, ~7.3MB total) - a conscious exception to the project's
+usual "generated data doesn't belong in version control" rule, justified by demo-reliability
+stakes. Not yet done - flagged for later.
+
+---
+---
 ## Still To Build
 
 - Phase 2 — Resume analyzer
@@ -392,9 +458,9 @@ produces for a real student profile - has to happen on the machine with the buil
 - Placement Readiness Score
 - Deployment to Render
 
-*Note: Roadmap generation (RAG + Gemini) is built and committed on
-`feature/conversation-engine`, but not yet verified end-to-end - needs testing on the machine
-with the built FAISS index (see Roadmap Generation section above).*
+*Note: Roadmap generation (RAG + Gemini) is built, committed, AND verified end-to-end on the
+Aspire (real FAISS index, real Gemini output, real DB persistence) - fully done as of this
+session.*
 
 *Note: SO Survey 2025 + India Jobs dataset processing (FAISS + PostgreSQL) is in progress on
 a second machine, on `feature/scaffold` directly - not reflected in this laptop's copy of
