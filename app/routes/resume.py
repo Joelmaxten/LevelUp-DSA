@@ -10,6 +10,7 @@ from app.models import CareerProfile, Resume, SkillGap
 from app.pipeline.resume_analyzer import analyze_resume
 from app.pipeline.resume_feedback import generate_resume_feedback
 from app.pipeline.salary_matching import get_salary_insights, format_salary_range_summary
+from app.pipeline.ats_score import compute_ats_score
 
 resume_bp = Blueprint("resume", __name__)
 
@@ -84,6 +85,7 @@ def upload_resume():
 
     salary_insights = get_salary_insights(target_career_path)
     salary_summary = format_salary_range_summary(salary_insights)
+    ats = compute_ats_score(result["extracted_text"], result["matched_skills"], result["required_skills"])
 
     skill_gap = SkillGap(
         user_id=current_user.id,
@@ -111,4 +113,5 @@ def upload_resume():
         "missing_skills": sorted(result["missing_skills"]),
         "ai_feedback": resume.ai_feedback,
         "salary_insights": salary_insights,
+        "ats_score": ats,
     }), 201

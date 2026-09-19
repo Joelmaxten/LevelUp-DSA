@@ -738,9 +738,45 @@ ATS-friendliness score, discussed as a natural extension once core extraction ex
 
 ---
 ---
+
+## Lightweight ATS Score — Phase 2 Fully Complete
+
+**What was built:** `app/pipeline/ats_score.py` computes a 0-100 ATS-friendliness score
+from signals already available in Phase 2's pipeline - extraction quality, standard section
+header presence, contact info detection, and real skill-keyword density against the target
+role's required skills. Deliberately NOT a deep PDF layout/structure analysis (detecting
+multi-column layouts or table linearization would need far more than `pdfplumber`'s basic
+text extraction) - scoped as the lightweight version discussed and deferred earlier, not
+the "deeper version" that was explicitly set aside for a separate conversation.
+
+**Issue faced - a single threshold conflated two genuinely different problems.** First
+version used one character-count threshold (500) to detect "this PDF might be image-based
+and unparseable." Tested against a real, short-but-readable minimal resume and got a
+misleading result: the resume scored as if it might be a broken/image-based PDF, when the
+actual issue was just thin content - a student reading that message would troubleshoot the
+wrong problem entirely (re-exporting the PDF wouldn't have helped; adding more content
+would have).
+**Fix:** split into two separate thresholds with honest, distinct messages -
+`NEAR_ZERO_CHARS` (50, true extraction failure) vs. `SPARSE_CHARS` (500, real but thin
+content), each with its own accurate explanation and appropriately different point
+deduction (-40 vs -15). Re-tested against the same minimal resume: correct message, smaller
+deduction, no longer implying the file itself was the problem.
+
+**Verified** against two deliberately different test resumes - a minimal one (name, one
+skills line, no real structure, no contact info: scored 40, every deduction individually
+correct and explainable) and a complete one (name, contact info, summary, experience,
+skills, education, projects: scored 100) - through the real `/resume/upload` route, not
+just the isolated function.
+
+**Phase 2 is now fully complete**: PDF upload, skill extraction (spaCy PhraseMatcher over
+real SO Survey vocabulary), gap analysis, LLM feedback with graceful degradation, dual-source
+salary/job matching with outlier correction, and ATS scoring - every piece built, tested
+against real and edge-case data, and wired into one working route.
+
+---
+---
 ## Still To Build
 
-- Phase 2 — lightweight ATS-friendliness score (everything else complete)
 - Phase 3 — Gamified DSA / Skill DNA Map
 - Placement Readiness Score
 - Deployment to Render
