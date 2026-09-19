@@ -559,6 +559,62 @@ end to end.
 
 ---
 ---
+
+## Phase 2 — Resume Skill Extraction & Gap Analysis (in progress)
+
+**Issue faced - spaCy's generic NER is unreliable for skill extraction.**
+The master doc's plan ("spaCy NER for skill extraction") was tested directly before writing
+any pipeline code: `en_core_web_sm`'s statistical NER model misclassified "Python, React" as
+`ORG` and "PostgreSQL" as `GPE` (a geopolitical entity) - it has no concept of "programming
+language" as an entity category, since that's not one of spaCy's standard NER labels.
+**Fix:** switched to spaCy's `PhraseMatcher` (a rule-based, not statistical, matching
+component) seeded with a real, already-validated vocabulary - the 141 unique skills already
+present across `SurveyRespondent.languages/databases/platforms/webframes`, rather than a
+hand-invented list. Verified directly against the exact sentence that broke generic NER: all
+four real skills correctly extracted, no false positives. Still genuinely "spaCy" per the
+master doc's tech stack (uses spaCy's tokenizer/vocab under the hood), just its rule-based
+matching rather than its unreliable statistical model.
+
+**Added a small alias layer** (`skill_aliases.py`) for common abbreviations resumes actually
+use (AWS, JS, K8s, Postgres...) that the SO Survey vocabulary only stores under the full
+name ("Amazon Web Services (AWS)"). Matched with explicit word-boundary regex
+(`\bAWS\b`) after confirming the risk was real - without word boundaries, "js" would
+false-positive inside "objects" or "projects". Deliberately left "ml" unaliased (too
+ambiguous) rather than silently omitting it.
+
+**Design decision - "required skills" needed real aggregate data, not a hand-curated list.**
+Reused the top-skills-per-career-path aggregation already built for FAISS chunk generation
+(`so_survey_chunks.py`) as the source of "required skills" for a career path - refactored
+the shared logic into `skill_aggregation.py` so both modules import one implementation
+rather than duplicating it. Re-verified `so_survey_chunks.py` produced byte-identical output
+after the refactor before trusting it.
+
+**Issue faced - naive top-N-per-category produced a noisy, unusable gap list.**
+Initial version took the top 10 skills independently from each of 4 categories
+(languages/databases/platforms/webframes), for up to 40 "required" skills. Tested against a
+real resume and found the gap list included 7 different databases (MySQL, PostgreSQL,
+MongoDB, MariaDB, SQLite, Microsoft SQL Server, Redis) and 5 different backend frameworks as
+all simultaneously "missing" - technically correct (each genuinely was in some category's
+top 10) but not actionable, since these are mostly alternatives to each other, not a real
+combined checklist.
+**Fix:** `get_required_skills` now ranks all skills across all 4 categories together by
+combined real frequency, keeping only the overall top 10 - a skill has to be genuinely
+common among real respondents in that path to count as "required", regardless of which
+category it happens to belong to. Retested against the same resume: required list dropped
+from 38 items to a coherent 10, gap list (`HTML/CSS, MySQL, SQL, TypeScript, npm`) reads as
+something a student could actually act on.
+
+**Verified end-to-end** on a generated test PDF (`fpdf2`, not committed - test artifact
+only) with known, deliberate content: all 8 real skills correctly extracted (including the
+AWS alias), matched/missing split correctly against Full-Stack's real required-skills list.
+
+**Still to build:** PDF upload route, `Resumes`/`SkillGap` table persistence, salary/job
+matching (reusing `JobListing`), one LLM call for resume feedback + 30-day action plan, and
+the lightweight ATS-friendliness score discussed as a natural Phase 2 extension (deferred
+until the core pipeline is fully wired up).
+
+---
+---
 ## Still To Build
 
 - Phase 2 — Resume analyzer

@@ -12,16 +12,13 @@ than simple frequency counts. TF-IDF needs many documents to behave well;
 frequency - see PROJECT_BIOGRAPHY.md.
 """
 
-from collections import Counter
+from app.pipeline.skill_aggregation import top_skills
 
 TOP_N = 5  # top skills per category to include in each chunk
 
 
 def _top_skills(respondents, attr):
-    counter = Counter()
-    for r in respondents:
-        counter.update(getattr(r, attr))
-    return [skill for skill, _ in counter.most_common(TOP_N)]
+    return top_skills(respondents, attr, top_n=TOP_N)
 
 
 def generate_survey_chunks(respondents):
