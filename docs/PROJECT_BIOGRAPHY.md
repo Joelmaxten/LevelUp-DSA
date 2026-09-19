@@ -687,9 +687,60 @@ feedback -> persistence, all real and verified. Remaining: salary/job matching (
 
 ---
 ---
+
+## Salary & Job Matching — Phase 2 Complete
+
+**Design decision - kept India Jobs and SO Survey salary figures deliberately separate,
+not merged into one number.** Initially considered converting SO Survey's USD
+(`ConvertedCompYearly`) to INR and averaging with India Jobs' native INR figures into one
+combined salary estimate. Reconsidered: the two sources represent genuinely different
+populations, not just different currencies - India Jobs is real job *postings* (skews
+entry-level/fresher, matching this project's actual audience), SO Survey is
+*self-reported compensation from working developers* (skews toward more experience).
+Averaging them would silently blend "what a fresher job pays" with "what an experienced
+developer earns" into one misleading figure. Landed on: report both, clearly labeled and
+separate, with SO Survey's USD also shown as an approximate INR conversion (hardcoded rate,
+explicitly flagged as approximate and subject to staleness - same risk class as any
+hardcoded external figure in this project, per the earlier Gemini model-name lesson).
+
+**Issue faced - serious outliers in SO Survey compensation data.** First test against a
+career path with rich data (Full-Stack) returned a survey salary range of \$1 to
+\$9,531,653/year - obviously corrupted self-reported values, not real salaries (no validation
+exists on a voluntary survey field). Checked the real distribution via percentiles before
+picking a fix: 1st percentile \$58, 5th percentile \$1,162, median \$17,203, 95th percentile
+\$92,992, 99th percentile \$319,659, then a 30x jump to the \$9.5M max - confirming genuine,
+severe outliers at both tails, not just a naturally wide but real distribution.
+**Fix:** trim to the 1st-99th percentile of the full dataset (computed once across all
+respondents, not per-career-path, which would have too few points to percentile meaningfully)
+before computing any per-path aggregate. Re-verified: min/max moved to a sane \$105-\$319,659
+range, count dropped only 9/352 (just the genuine outliers), median stayed identical -
+confirming the trim removed only corruption, not real data.
+
+**What was built:** `app/pipeline/salary_matching.py` returns job-posting stats (INR, from
+`JobListing`, excluding rows already flagged `salary_suspicious`), survey-respondent stats
+(USD + approximate INR, outlier-trimmed), and sample real job listings for a career path.
+`format_salary_range_summary()` compresses this into a short string
+(e.g. "Postings: Rs126K-380K/yr | Survey (approx): Rs9K-27970K/yr") for
+`SkillGap.salary_range`'s `db.String(80)` column; the full structured data is included
+separately in the `/resume/upload` API response for a richer frontend display. Used `Rs`
+rather than the rupee symbol for DB-column safety, and `K`-suffixed thousands to fit the
+80-char limit.
+
+**Verified end-to-end** through the real `/resume/upload` route: confirmed both the
+`None`-handling path (a career path with data in only one source, tested earlier with
+Cloud/DevOps) and the full dual-source path (both Full-Stack and, in the final route test,
+AI/ML Engineering - which turned out to have real India Jobs postings too, checked directly
+rather than assumed).
+
+**Phase 2 is now fully complete**: upload, skill extraction, gap analysis, LLM feedback, and
+salary/job matching, all real, tested, and wired into one route. Remaining: the lightweight
+ATS-friendliness score, discussed as a natural extension once core extraction existed.
+
+---
+---
 ## Still To Build
 
-- Phase 2 — salary/job matching, ATS score (upload, skill gap, and LLM feedback all done)
+- Phase 2 — lightweight ATS-friendliness score (everything else complete)
 - Phase 3 — Gamified DSA / Skill DNA Map
 - Placement Readiness Score
 - Deployment to Render

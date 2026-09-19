@@ -9,6 +9,7 @@ from app import db
 from app.models import CareerProfile, Resume, SkillGap
 from app.pipeline.resume_analyzer import analyze_resume
 from app.pipeline.resume_feedback import generate_resume_feedback
+from app.pipeline.salary_matching import get_salary_insights, format_salary_range_summary
 
 resume_bp = Blueprint("resume", __name__)
 
@@ -81,11 +82,14 @@ def upload_resume():
         ai_feedback=feedback,
     )
 
+    salary_insights = get_salary_insights(target_career_path)
+    salary_summary = format_salary_range_summary(salary_insights)
+
     skill_gap = SkillGap(
         user_id=current_user.id,
         missing_skills=sorted(result["missing_skills"]),
         target_role=target_career_path,
-        salary_range=None,  # populated by a later salary-matching step
+        salary_range=salary_summary,
     )
 
     try:
@@ -106,4 +110,5 @@ def upload_resume():
         "matched_skills": sorted(result["matched_skills"]),
         "missing_skills": sorted(result["missing_skills"]),
         "ai_feedback": resume.ai_feedback,
+        "salary_insights": salary_insights,
     }), 201
