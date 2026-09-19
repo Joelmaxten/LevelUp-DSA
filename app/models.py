@@ -236,3 +236,19 @@ class GeneratedRoadmap(db.Model):
 
     def __repr__(self):
         return f"<GeneratedRoadmap user={self.user_id} path={self.career_path}>"
+
+class JobListing(db.Model):
+    __tablename__ = "job_listings"
+
+    id = db.Column(db.Integer, primary_key=True)
+    job_title = db.Column(db.String(300), nullable=False)
+    location = db.Column(db.String(200))
+    state = db.Column(db.String(100))
+    locality = db.Column(db.String(200))
+    annual_salary = db.Column(db.Float)              # None if unparseable
+    salary_suspicious = db.Column(db.Boolean, default=False)
+    career_paths = db.Column(ARRAY(db.String), default=[])  # tagged, not filtered
+    source = db.Column(db.String(100), default="kaggle_india_jobs")
+
+    def __repr__(self):
+        return f"<JobListing {self.job_title!r}>"
