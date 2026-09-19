@@ -252,3 +252,23 @@ class JobListing(db.Model):
 
     def __repr__(self):
         return f"<JobListing {self.job_title!r}>"
+
+class SurveyRespondent(db.Model):
+    __tablename__ = "survey_respondents"
+
+    id = db.Column(db.Integer, primary_key=True)
+    dev_type = db.Column(db.String(200))
+    career_path = db.Column(db.String(120))  # None if DevType didn't map
+    years_code = db.Column(db.Float)
+    work_exp = db.Column(db.Float)
+    ed_level = db.Column(db.String(200))
+    remote_work = db.Column(db.String(100))
+    converted_comp_yearly = db.Column(db.Float)  # USD, None if not reported
+    languages = db.Column(ARRAY(db.String), default=[])
+    databases = db.Column(ARRAY(db.String), default=[])
+    platforms = db.Column(ARRAY(db.String), default=[])
+    webframes = db.Column(ARRAY(db.String), default=[])
+    source = db.Column(db.String(100), default="so_survey_2025_india")
+
+    def __repr__(self):
+        return f"<SurveyRespondent id={self.id} career_path={self.career_path!r}>"
