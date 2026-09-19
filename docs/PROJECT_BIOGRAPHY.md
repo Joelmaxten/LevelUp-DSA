@@ -451,6 +451,70 @@ stakes. Not yet done - flagged for later.
 
 ---
 ---
+
+## Kaggle Dataset Processing — India Jobs + SO Survey 2025
+
+**India Jobs dataset processed into PostgreSQL** (`job_listings`, 835 rows). Salary parser
+went through three real correction cycles: initial version handled ranges and "Not
+specified" but missed several real formats found only by running against the full dataset
+(flat single numbers, "Up to X", decimals) - fixed after inspecting actual unparsed rows
+rather than trusting the small hand-picked test sample. Added a plausibility ceiling
+(₹18L/year) after finding "Pharma Freshers" and "HR Trainee" listings with implausible
+36L/33L annual figures - almost certainly source data where "a month" was mislabeled on
+what should have been an annual figure. Flagged rather than discarded
+(`salary_suspicious` boolean), consistent with the project's tag-don't-filter principle.
+
+Career-path tagging via keyword matching against job titles (not spaCy/NER - titles are too
+short for NLP to add value over simple matching, and NER is deliberately reserved for
+Phase 2's full-resume parsing). First pass only tagged 35/835 rows; scanning the untagged
+rows specifically for tech-adjacent words surfaced a real gap - generic titles like
+"Software Engineer," "Programmer," "Trainee Software Engineer" had no matching keyword at
+all. Second pass reached 64/835. QA/Testing roles (a large, frequently-recurring category)
+deliberately left untagged - no matching career path exists in the quiz's current 10, and
+force-fitting them into an ill-fitting bucket (e.g. Backend) would be worse than leaving
+them unmapped.
+
+**SO Survey 2025 processed into PostgreSQL** (`survey_respondents`, 2,547 rows), filtered to
+India respondents only (5.2% of ~49K total) - a deliberate choice consistent with the
+project's explicit tier-2/tier-3 Indian college focus, not a data-availability compromise.
+`DevType` mapped to career paths via an exact dictionary (not keyword matching - DevType is
+a controlled-vocabulary survey field, so exact mapping is both possible and more accurate).
+`Student`, `Architect`, and management/business DevType values deliberately left unmapped,
+same reasoning as India Jobs' QA gap. `ConvertedCompYearly` used directly (SO's own
+USD-normalized figure) rather than re-parsing `CompTotal`/`Currency` - avoided repeating the
+India Jobs salary-parsing effort where it wasn't necessary.
+
+## FAISS Chunk Generation from Survey Skill Data
+
+**Decision reversed mid-session: TF-IDF tested and rejected in favor of plain frequency.**
+The master doc names TF-IDF as Phase 1's intended skill-ranking technique, so it was tried
+first: computed term-frequency × inverse-document-frequency per skill per career path.
+Result was worse than plain frequency, not better - "Dart" scored as the #1 skill for
+Full-Stack, Frontend, AND Research (career paths that barely use it), while Cybersecurity's
+genuinely common skills (Python, Java, JavaScript) scored 0.0. Root cause: TF-IDF's IDF term
+explodes for rare skills when there are very few "documents" (only 10 career paths here) -
+a skill used in just 1-2 paths gets its low real frequency massively amplified, drowning out
+skills that are genuinely common within a path but also appear elsewhere. TF-IDF needs many
+documents to behave well; 10 is too few. Reverted to plain frequency, which had already been
+validated as producing sane results (Python dominant in AI/ML and Data Science, Kotlin/Dart
+correctly for Mobile, C++/Assembly for Game Dev) before TF-IDF was even tried.
+
+Generated one FAISS chunk per career path (10 total) - natural-language summaries of the top
+5 languages, databases, platforms, and frameworks among Indian respondents in that path,
+matching the same descriptive-sentence shape as the roadmap.sh chunks (not one chunk per
+individual skill mention, which would produce tens of thousands of low-value, near-duplicate,
+barely-embeddable single-word chunks). Appended to the existing FAISS index (3,597 -> 3,607
+chunks) via direct `index.add()` on the loaded index, reusing `embedder.py`/`rag.py`'s
+existing, tested normalization logic rather than reimplementing anything.
+
+**Verified:** a targeted retrieval query correctly surfaced the new Mobile App Development
+survey chunk as the top result (0.634 similarity) when filtered to that career path. Reran
+`scripts/smoke_test_roadmap.py` against the enlarged index - full pipeline still produced a
+clean, grounded roadmap with no code changes needed, confirming `rag.py`'s `search()`
+abstraction transparently benefits from additional indexed sources.
+
+---
+---
 ## Still To Build
 
 - Phase 2 — Resume analyzer
@@ -462,6 +526,6 @@ stakes. Not yet done - flagged for later.
 Aspire (real FAISS index, real Gemini output, real DB persistence) - fully done as of this
 session.*
 
-*Note: SO Survey 2025 + India Jobs dataset processing (FAISS + PostgreSQL) is in progress on
-a second machine, on `feature/scaffold` directly - not reflected in this laptop's copy of
-this doc until merged.*
+*Note: Both Kaggle datasets (SO Survey 2025, India Jobs) are now fully processed - parsed,
+tagged, loaded into PostgreSQL, and (SO Survey) contributing real chunks to the FAISS index
+used by roadmap generation. Fully done as of this session.*
