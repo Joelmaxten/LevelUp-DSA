@@ -615,9 +615,48 @@ until the core pipeline is fully wired up).
 
 ---
 ---
+
+## Resume Upload Route — Phase 2 Core Flow Complete
+
+**What was built:** `POST /resume/upload` (login-required) - accepts a multipart PDF upload,
+validates it (extension check, 5MB `MAX_CONTENT_LENGTH` ceiling set in `config.py`), saves it
+under a gitignored `uploads/resumes/` folder with a `secure_filename`-sanitized, UUID-prefixed
+name (avoids both path-traversal risk and filename collisions between students/repeated
+uploads), runs it through `analyze_resume()` against the student's current `CareerProfile`'s
+#1 ranked career path, and persists both a `Resume` row (extracted skills) and a `SkillGap`
+row (missing skills, target role).
+
+**Deliberately left for later, not faked:** `Resume.ai_feedback` and `SkillGap.salary_range`
+both saved as `None` - the LLM feedback call and salary-matching logic (reusing `JobListing`/
+`SurveyRespondent` data) are real, separate pieces of work not yet built, and populating them
+with placeholder or approximated data now would misrepresent what's actually done.
+
+**Known, deliberate simplification:** file validation checks the extension only (`.pdf`), not
+the actual file signature/magic bytes. A more rigorous version would verify the file's real
+content matches its claimed type rather than trusting the extension - flagged as a
+reasonable v1 gap, not a silent oversight.
+
+**Issue faced - blueprint registration step was skipped on the first attempt.** Created
+`resume.py` but the corresponding import/registration in `app/__init__.py` was never
+actually added, despite being reported as done. Caught by asking to see the file's real
+contents before testing anything - by now a standard practice in this project, after
+multiple prior sessions where a described edit didn't match what was actually on disk.
+
+**Verified end-to-end** via `scripts/smoke_test_resume.py`: full signup -> quiz -> conversation
+-> a real multipart file upload through Flask's test client (not just calling
+`analyze_resume()` directly, as earlier isolated testing had done) -> correct skill
+extraction, correct gap against the real ranked career path, both DB rows independently
+confirmed via direct query.
+
+**Still to build for Phase 2:** LLM resume feedback + 30-day action plan (one Gemini call,
+reusing the retry/fallback pattern from roadmap generation), salary/job matching against
+`JobListing` and `SurveyRespondent`, and the lightweight ATS-friendliness score.
+
+---
+---
 ## Still To Build
 
-- Phase 2 — Resume analyzer
+- Phase 2 — LLM resume feedback, salary/job matching, ATS score (core upload + skill gap done)
 - Phase 3 — Gamified DSA / Skill DNA Map
 - Placement Readiness Score
 - Deployment to Render

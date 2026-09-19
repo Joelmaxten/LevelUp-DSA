@@ -39,6 +39,9 @@ def create_app(config_name=None):
 
     from app.routes.roadmap import roadmap_bp
     app.register_blueprint(roadmap_bp)
+
+    from app.routes.resume import resume_bp
+    app.register_blueprint(resume_bp)
     
     from flask import render_template
 

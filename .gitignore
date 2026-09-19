@@ -65,3 +65,4 @@ cookies.txt
 # to reclone roadmap.sh + re-embed to get roadmap generation working.
 !data/processed/faiss_index.faiss
 !data/processed/faiss_index_meta.pkl
+uploads/

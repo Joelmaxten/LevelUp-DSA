@@ -28,6 +28,10 @@ class Config:
     # FAISS
     FAISS_INDEX_PATH = os.environ.get("FAISS_INDEX_PATH", "data/processed/faiss_index")
 
+    # Resume uploads
+    UPLOAD_FOLDER = os.environ.get("UPLOAD_FOLDER", "uploads/resumes")
+    MAX_CONTENT_LENGTH = 5 * 1024 * 1024  # 5MB - resumes are small; rejects oversized uploads at the Flask level before our code even runs
+
 
 class DevelopmentConfig(Config):
     DEBUG = True
