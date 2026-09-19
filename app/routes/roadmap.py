@@ -5,6 +5,7 @@ from app import db
 from app.models import CareerProfile, GeneratedRoadmap
 from app.pipeline.rag import load_index
 from app.pipeline.roadmap_generator import generate_roadmap
+from app.pipeline.youtube_resources import fetch_resources_for_roadmap
 
 roadmap_bp = Blueprint("roadmap", __name__)
 
@@ -73,6 +74,43 @@ def generate():
         }), 500
 
     return jsonify({
+        "roadmap_id": roadmap.id,
         "career_path": top_career_path,
         "steps": steps,
     }), 201
+
+
+@roadmap_bp.route("/roadmap/<int:roadmap_id>/resources", methods=["POST"])
+@login_required
+def attach_resources(roadmap_id):
+    roadmap = GeneratedRoadmap.query.filter_by(
+        id=roadmap_id, user_id=current_user.id
+    ).first()
+
+    if roadmap is None:
+        return jsonify({"error": "Roadmap not found."}), 404
+
+    try:
+        enriched_steps = fetch_resources_for_roadmap(roadmap.steps)
+    except Exception as e:
+        return jsonify({
+            "error": "Failed to fetch YouTube resources.",
+            "detail": str(e),
+        }), 502
+
+    roadmap.steps = enriched_steps
+
+    try:
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({
+            "error": "Failed to save resources to the roadmap.",
+            "detail": str(e),
+        }), 500
+
+    return jsonify({
+        "roadmap_id": roadmap.id,
+        "career_path": roadmap.career_path,
+        "steps": roadmap.steps,
+    }), 200
