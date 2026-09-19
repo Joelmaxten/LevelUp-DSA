@@ -13,24 +13,15 @@ load_index()) which is machine-local, gitignored generated data - not every
 dev machine will have it. See PROJECT_BIOGRAPHY.md for which machine actually
 has the index built.
 
-Gemini's free tier returns intermittent 503 UNAVAILABLE ("high demand")
-errors - a widely-reported, ongoing issue across multiple Gemini model
-versions, not specific to this project. To keep demos reliable, calls retry
-with backoff on the primary model, then fall back once to an older model
-before giving up entirely.
+Gemini call resilience (retry + fallback for free-tier 503s) lives in
+gemini_client.py, shared with resume_feedback.py - see that module's
+docstring for why.
 """
 
 import json
-import os
 
-from google import genai
-from google.genai.errors import ServerError, ClientError
-from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
-
+from app.pipeline.gemini_client import generate_with_retry
 from app.pipeline.rag import search
-
-PRIMARY_MODEL = "gemini-flash-latest"
-FALLBACK_MODEL = "gemini-2.5-flash"
 
 
 def _build_prompt(career_path, retrieved_chunks, conversation_signals):
@@ -59,16 +50,6 @@ exactly these keys: "step_number" (int), "title" (string, short),
 for this student specifically, referencing their goal/context where relevant)."""
 
 
-@retry(
-    stop=stop_after_attempt(3),
-    wait=wait_exponential(multiplier=2, min=2, max=10),
-    retry=retry_if_exception_type(ServerError),
-    reraise=True,
-)
-def _call_gemini(client, model, prompt):
-    return client.models.generate_content(model=model, contents=prompt)
-
-
 def generate_roadmap(career_path, conversation_signals, index, chunks, top_k=8):
     """
     career_path: the student's #1 ranked career path (string).
@@ -88,22 +69,8 @@ def generate_roadmap(career_path, conversation_signals, index, chunks, top_k=8):
         )
 
     prompt = _build_prompt(career_path, retrieved, conversation_signals)
-    client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
+    raw_text = generate_with_retry(prompt)
 
-    try:
-        response = _call_gemini(client, PRIMARY_MODEL, prompt)
-    except ServerError:
-        # Primary model exhausted its retries - try the fallback model once,
-        # unguarded (if this also fails, let it raise up as-is).
-        try:
-            response = client.models.generate_content(model=FALLBACK_MODEL, contents=prompt)
-        except (ServerError, ClientError) as e:
-            raise ValueError(f"Gemini API call failed on both primary and fallback models: {e}")
-    except ClientError as e:
-        # Client errors (bad request, auth, etc.) are never worth retrying.
-        raise ValueError(f"Gemini API call failed: {e}")
-
-    raw_text = response.text.strip()
     if raw_text.startswith("```"):
         raw_text = raw_text.split("```")[1]
         if raw_text.startswith("json"):

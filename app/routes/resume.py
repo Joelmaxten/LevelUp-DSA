@@ -8,6 +8,7 @@ from werkzeug.utils import secure_filename
 from app import db
 from app.models import CareerProfile, Resume, SkillGap
 from app.pipeline.resume_analyzer import analyze_resume
+from app.pipeline.resume_feedback import generate_resume_feedback
 
 resume_bp = Blueprint("resume", __name__)
 
@@ -61,11 +62,23 @@ def upload_resume():
             "detail": str(e),
         }), 422
 
+    try:
+        feedback = generate_resume_feedback(
+            result["extracted_text"], target_career_path,
+            result["matched_skills"], result["missing_skills"],
+        )
+    except ValueError:
+        # Same graceful-degradation principle as roadmap generation: if
+        # Gemini is unavailable, still save the (already-computed) skill
+        # analysis rather than losing the whole upload - feedback can be
+        # regenerated later, the skill gap itself doesn't depend on it.
+        feedback = None
+
     resume = Resume(
         user_id=current_user.id,
         file_path=file_path,
         extracted_skills=sorted(result["student_skills"]),
-        ai_feedback=None,  # populated by a later LLM-feedback step
+        ai_feedback=feedback,
     )
 
     skill_gap = SkillGap(
@@ -92,4 +105,5 @@ def upload_resume():
         "student_skills": sorted(result["student_skills"]),
         "matched_skills": sorted(result["matched_skills"]),
         "missing_skills": sorted(result["missing_skills"]),
+        "ai_feedback": resume.ai_feedback,
     }), 201

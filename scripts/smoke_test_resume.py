@@ -73,6 +73,9 @@ with app.test_client() as client:
     print("Student skills:", result.get("student_skills"))
     print("Matched skills:", result.get("matched_skills"))
     print("Missing skills:", result.get("missing_skills"))
+    print()
+    print("AI Feedback:")
+    print(result.get("ai_feedback"))
 
     if resp.status_code == 201:
         from app.models import Resume, SkillGap

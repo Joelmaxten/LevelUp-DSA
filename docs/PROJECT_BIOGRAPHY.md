@@ -654,9 +654,42 @@ reusing the retry/fallback pattern from roadmap generation), salary/job matching
 
 ---
 ---
+
+## Resume LLM Feedback + Shared Gemini Client
+
+**Refactor: extracted retry/fallback logic into `gemini_client.py`**, shared between
+`roadmap_generator.py` and the new `resume_feedback.py`, rather than duplicating the same
+tenacity retry decorator and fallback-model logic a second time. Re-ran
+`scripts/smoke_test_roadmap.py` immediately after the refactor - full roadmap generation
+still worked identically, confirming the extraction didn't silently break already-committed,
+working code.
+
+**What was built:** `app/pipeline/resume_feedback.py` generates plain-text resume feedback
+(3-5 line-level suggestions, a 30-day action plan, keyword suggestions) via one Gemini call,
+grounded explicitly in the student's real resume text and real computed skill gap - the
+prompt is told not to invent experience, projects, or skills the student didn't mention, same
+anti-hallucination principle as roadmap generation. Wired into `/resume/upload`: if Gemini
+fails (even after retry+fallback), the upload still succeeds and saves the skill
+analysis - only `ai_feedback` is left null - since the skill extraction and gap analysis
+don't depend on Gemini at all, and a transient LLM outage shouldn't cost a student their
+entire analysis over the one optional piece.
+
+**Verified end-to-end** through the real `/resume/upload` HTTP route (not an isolated
+function call): genuinely grounded, well-structured feedback referencing the actual missing
+skills (SQL, MySQL, Pip, HTML/CSS), a coherent week-by-week action plan matching them,
+correctly persisted and returned in the response. One minor, non-blocking cosmetic issue
+noted: keyword suggestions sometimes split "HTML/CSS" into three near-duplicate entries
+(HTML/CSS, HTML, CSS) - acceptable, not worth engineering around right now.
+
+**Phase 2 core flow is now fully complete:** upload -> extract -> gap analysis -> LLM
+feedback -> persistence, all real and verified. Remaining: salary/job matching (reusing
+`JobListing`/`SurveyRespondent`) and the lightweight ATS-friendliness score.
+
+---
+---
 ## Still To Build
 
-- Phase 2 — LLM resume feedback, salary/job matching, ATS score (core upload + skill gap done)
+- Phase 2 — salary/job matching, ATS score (upload, skill gap, and LLM feedback all done)
 - Phase 3 — Gamified DSA / Skill DNA Map
 - Placement Readiness Score
 - Deployment to Render
