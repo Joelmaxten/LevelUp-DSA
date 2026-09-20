@@ -775,6 +775,29 @@ against real and edge-case data, and wired into one working route.
 
 ---
 ---
+
+## Standalone Phases — Design Decision (not yet implemented)
+
+**Issue found:** Resume Analyzer and Roadmap Generation both hard-required an existing
+CareerProfile (quiz + conversation completed first), so the three phases couldn't actually
+be used independently/in parallel, contradicting the intended product design.
+
+**Decision:** when no CareerProfile exists, ask the user to manually pick a target career
+path before analyzing/generating, rather than blocking entirely. The manual pick is
+deliberately a one-off, per-request choice — it does NOT create or overwrite a
+CareerProfile row, since that table's meaning is specifically "the ranked output of the
+quiz," not a single guess. The quiz remains the only path to a real ranked profile.
+Schema-wise this required no migration: GeneratedRoadmap.career_path and
+SkillGap.target_role were already plain strings, not foreign keys to CareerProfile.
+
+Also identified: new users were being redirected into the quiz after login/signup, which
+conflicts with the three-phases-run-independently design — should land on the home page
+instead.
+
+Not yet implemented as of this entry — queued as the next task.
+
+---
+---
 ## Still To Build
 
 - Phase 3 — Gamified DSA / Skill DNA Map
