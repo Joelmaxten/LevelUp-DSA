@@ -1,0 +1,213 @@
+{% extends "layout.html" %}
+
+{% block title %}Your Goals — LevelUp DSA{% endblock %}
+
+{% block content %}
+<div class="page-narrow">
+    <h2 id="convo-heading">A few quick questions</h2>
+    <p id="convo-intro" class="muted" style="margin-top: 0.5rem;">
+        Your quiz found your strongest career matches. These answers help tailor your roadmap to you.
+    </p>
+
+    <div id="convo-question-box" style="margin-top: 1.5rem;">
+        <p class="muted" role="status">Loading your first question...</p>
+    </div>
+
+    <div id="convo-results-box" style="margin-top: 1.5rem;" hidden></div>
+</div>
+
+<script src="{{ url_for('static', filename='js/results.js') }}"></script>
+<script>
+const heading = document.getElementById("convo-heading");
+const intro = document.getElementById("convo-intro");
+const questionBox = document.getElementById("convo-question-box");
+const resultsBox = document.getElementById("convo-results-box");
+
+// Answers the server has accepted so far, for the recap on the results view.
+// Only appended after a successful response, so a retried request can't duplicate one.
+const recap = [];
+
+// The optional free-text step after the last fixed question. The real values come
+// from /conversation/start; these defaults only matter if that response omits them.
+let notesConfig = { prompt: "Anything else you'd like us to know?", max_length: 500 };
+let notesDraft = "";   // kept so going Back to the last question and forward again doesn't lose what was typed
+
+const NOTES_PLACEHOLDER = "e.g. I'm most interested in healthcare apps, I can only study about an hour a day on weekdays, and I'd like to build a portfolio project before placements.";
+
+function showLoading(message) {
+    questionBox.replaceChildren(el("p", { className: "muted", text: message, role: "status" }));
+}
+
+// isStart: the failed request was /conversation/start (vs /conversation/answer).
+// retry: re-runs the failed request.
+function renderError(result, isStart, retry) {
+    let message;
+    const actions = el("div", { className: "actions" });
+
+    if (result.status === 401) {
+        message = "You need to be logged in to continue.";
+        actions.append(el("a", { className: "btn", href: "/login?next=/conversation", text: "Log in" }));
+    } else if (result.status === 400 && isStart) {
+        // Server says the quiz hasn't been completed in this session.
+        message = (result.data && result.data.error) || "Complete the career quiz first.";
+        actions.append(el("a", { className: "btn", href: "/quiz", text: "Take the quiz" }));
+    } else if (result.status === 400) {
+        // Conversation state was lost server-side; restarting either works or
+        // hands the student to the "take the quiz" branch above.
+        message = (result.data && result.data.error) || "Your conversation session was lost.";
+        const restart = el("button", { className: "btn", type: "button", text: "Start the questions again" });
+        restart.addEventListener("click", startConversation);
+        actions.append(restart);
+    } else {
+        message = result.status === 0
+            ? "Couldn't reach the server. Check your connection and try again."
+            : (result.data && result.data.error) || "Something went wrong. Please try again.";
+        const again = el("button", { className: "btn", type: "button", text: "Try again" });
+        again.addEventListener("click", retry);
+        actions.append(again);
+    }
+
+    questionBox.replaceChildren(
+        el("div", { className: "card card-error", role: "alert" }, el("p", { text: message }), actions)
+    );
+}
+
+// isLast: this is the final fixed question. Picking an option there does NOT send
+// the answer yet - it leads to the optional notes step first, and the answer (plus
+// any notes) is sent together from there as the conversation's completion request.
+function renderQuestion(questionId, question, isLast) {
+    const options = Object.entries(question.options).map(([key, text]) => {
+        const btn = el("button", { className: "option-btn", type: "button", text: `${key}. ${text}` });
+        btn.addEventListener("click", () => {
+            if (isLast) {
+                showNotesStep(questionId, question, key, "");
+            } else {
+                submitAnswer(questionId, question, key);
+            }
+        });
+        return btn;
+    });
+
+    questionBox.replaceChildren(
+        el("p", { className: "muted", text: `Question ${recap.length + 1}` }),
+        el("p", { text: question.text, style: "font-size: 1.2rem; margin: 0.25rem 0 1.5rem;" }),
+        ...options
+    );
+}
+
+// The optional last step. Nothing here is required: "Finish" with an empty box and
+// "Skip this step" both send no notes at all.
+function showNotesStep(questionId, question, optionKey, errorMessage) {
+    const maxLength = notesConfig.max_length;
+
+    const input = el("textarea", {
+        id: "notes-input",
+        className: "text-area",
+        rows: "5",
+        maxlength: String(maxLength),
+        placeholder: NOTES_PLACEHOLDER,
+        "aria-describedby": "notes-hint notes-count",
+    });
+    input.value = notesDraft;
+
+    const count = el("span", { id: "notes-count", className: "char-count" });
+    const updateCount = () => {
+        notesDraft = input.value;
+        count.textContent = `${input.value.length} / ${maxLength}`;
+        count.classList.toggle("char-count-warn", input.value.length >= maxLength * 0.9);
+    };
+    input.addEventListener("input", updateCount);
+    updateCount();
+
+    const finishBtn = el("button", { className: "btn", type: "button", text: "Finish" });
+    finishBtn.addEventListener("click", () => submitAnswer(questionId, question, optionKey, input.value));
+
+    const skipBtn = el("button", { className: "btn btn-secondary", type: "button", text: "Skip this step" });
+    skipBtn.addEventListener("click", () => submitAnswer(questionId, question, optionKey, ""));
+
+    const backBtn = el("button", { className: "text-btn", type: "button", text: "← Back" });
+    backBtn.addEventListener("click", () => renderQuestion(questionId, question, true));
+
+    questionBox.replaceChildren(
+        el("p", { className: "muted", text: "Last step · optional" }),
+        el("label", { for: "notes-input", style: "display: block; font-size: 1.2rem; margin: 0.25rem 0 0.4rem;" },
+            `${notesConfig.prompt} `,
+            el("span", { className: "muted", text: "(optional)" })
+        ),
+        el("p", { id: "notes-hint", className: "muted", style: "font-size: 0.9rem; margin-bottom: 0.75rem;",
+            text: "Interests, constraints, or goals we didn't ask about. Leave it blank if nothing comes to mind." }),
+        input,
+        el("div", { className: "char-count-row" }, count),
+        errorMessage ? el("p", { className: "field-error", role: "alert", text: errorMessage }) : "",
+        el("p", { className: "muted", style: "font-size: 0.85rem; margin-top: 0.75rem;",
+            text: `You chose: ${question.options[optionKey]}` }),
+        el("div", { className: "actions" }, finishBtn, skipBtn, backBtn)
+    );
+}
+
+function renderResults(profile) {
+    heading.textContent = "Your Career Profile";
+    intro.textContent = "Here's how your quiz and your answers add up. Your roadmap is built around your top match.";
+    questionBox.hidden = true;
+
+    resultsBox.replaceChildren(
+        ...rankingCards(profile.career_ranking),
+        answersCard("What we'll factor into your roadmap", recap),
+        el("div", { className: "actions" },
+            el("a", { className: "btn", href: "/roadmap", text: "Continue to your roadmap" }),
+            el("a", { className: "btn btn-secondary", href: "/quiz", text: "Retake the quiz" })
+        )
+    );
+    resultsBox.hidden = false;
+}
+
+// notes: only ever passed for the final answer; blank means "none" and is not sent at all.
+async function submitAnswer(questionId, question, optionKey, notes = "") {
+    // Replacing the buttons immediately also prevents a double-click from
+    // submitting the same answer twice.
+    showLoading("Saving your answer...");
+
+    const body = { question_id: questionId, option: optionKey };
+    if (notes.trim()) body.additional_notes = notes;
+
+    const result = await postJson("/conversation/answer", body);
+    if (!result.ok) {
+        if (result.status === 400 && result.data && result.data.field === "additional_notes") {
+            // Fixable by the student (e.g. too long) - put them back in the notes box with
+            // their text intact, rather than treating it as a lost session.
+            showNotesStep(questionId, question, optionKey, result.data.error);
+            return;
+        }
+        renderError(result, false, () => submitAnswer(questionId, question, optionKey, notes));
+        return;
+    }
+
+    recap.push({ question: question.text, answer: question.options[optionKey] });
+
+    if (result.data.finished) {
+        // Show the note exactly as the server stored it (trimmed/cleaned), and only if there is one.
+        const savedNotes = result.data.profile.conversation_signals.additional_notes;
+        if (savedNotes) recap.push({ question: notesConfig.prompt, answer: savedNotes });
+        renderResults(result.data.profile);
+    } else {
+        renderQuestion(result.data.question_id, result.data.question, result.data.is_last);
+    }
+}
+
+async function startConversation() {
+    recap.length = 0;
+    notesDraft = "";
+    showLoading("Loading your first question...");
+
+    const result = await postJson("/conversation/start");
+    if (!result.ok) {
+        renderError(result, true, startConversation);
+        return;
+    }
+    notesConfig = { ...notesConfig, ...(result.data.additional_notes || {}) };
+    renderQuestion(result.data.question_id, result.data.question, result.data.is_last);
+}
+
+startConversation();
+</script>
+{% endblock %}

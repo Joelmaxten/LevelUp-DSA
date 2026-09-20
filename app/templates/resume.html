@@ -1,0 +1,164 @@
+{% extends "layout.html" %}
+
+{% block title %}Resume Analysis — LevelUp DSA{% endblock %}
+
+{% block content %}
+<div class="page-medium">
+    <h2>Resume Analysis</h2>
+    <p class="muted" style="margin-top: 0.5rem;">
+        Upload your resume to see how it matches your top career path: the skills you have, the ones you're missing,
+        expected salaries, and personalized feedback.
+    </p>
+
+    <form id="resume-form" class="card" style="margin-top: 1.5rem;" novalidate>
+        <label for="resume-file">Resume (PDF, up to 5 MB)</label>
+        <input type="file" id="resume-file" class="file-input" accept=".pdf,application/pdf">
+        <p id="form-error" role="alert" style="color: #f87171; margin-top: 0.75rem;" hidden></p>
+        <div class="actions">
+            <button type="submit" id="submit-btn" class="btn">Analyze my resume</button>
+        </div>
+    </form>
+
+    <div id="resume-status"></div>
+    <div id="resume-results" hidden></div>
+</div>
+
+<script src="{{ url_for('static', filename='js/results.js') }}"></script>
+<script>
+const form = document.getElementById("resume-form");
+const fileInput = document.getElementById("resume-file");
+const formError = document.getElementById("form-error");
+const submitBtn = document.getElementById("submit-btn");
+const statusBox = document.getElementById("resume-status");
+const resultsBox = document.getElementById("resume-results");
+
+const MAX_BYTES = 5 * 1024 * 1024;   // mirrors MAX_CONTENT_LENGTH in app/config.py
+
+// ---------- results ----------
+
+// saved: these results came from the database (GET /resume/latest) rather than a just-finished upload.
+function renderResults(data, saved) {
+    const when = formatDate(data.uploaded_at);
+    const heading = saved
+        ? ["Your most recent analysis", when && `uploaded ${when}`, data.file_name].filter(Boolean).join(" · ")
+        : "Analysis complete";
+
+    // Results are shown on this same page, so the way onward from here is the
+    // roadmap - or back up to the form to try a different resume.
+    const anotherBtn = el("button", { className: "btn btn-secondary", type: "button", text: "Analyze another resume" });
+    anotherBtn.addEventListener("click", () => {
+        window.scrollTo({ top: 0 });
+        fileInput.focus();
+    });
+
+    resultsBox.replaceChildren(
+        el("div", { className: "card card-highlight section-card" },
+            el("p", { className: "muted", text: heading }),
+            el("h3", { text: data.target_career_path, style: "font-size: 1.4rem; margin: 0.25rem 0 0;" }),
+            el("p", { className: "muted", text: "Everything below is measured against this career path, your top match from the quiz." })
+        ),
+        ...resumeAnalysisCards(data),
+        el("div", { className: "actions" },
+            el("a", { className: "btn", href: "/roadmap", text: "View my roadmap" }),
+            anotherBtn
+        )
+    );
+    resultsBox.hidden = false;
+}
+
+// ---------- upload ----------
+
+function showFormError(message) {
+    formError.textContent = message;
+    formError.hidden = false;
+}
+
+function renderUploadError(result) {
+    const actions = el("div", { className: "actions" });
+    let message;
+
+    if (result.status === 401) {
+        message = "You need to be logged in to continue.";
+        actions.append(el("a", { className: "btn", href: "/login?next=/resume", text: "Log in" }));
+    } else if (result.status === 400 && /career profile/i.test((result.data && result.data.error) || "")) {
+        message = result.data.error;
+        actions.append(el("a", { className: "btn", href: "/quiz", text: "Take the quiz" }));
+    } else if (result.status === 413) {
+        message = "That file is too large. The limit is 5 MB.";
+    } else if (result.status === 0) {
+        message = "Couldn't reach the server. Check your connection and try again.";
+    } else {
+        // 400 / 422 carry a student-safe "error"; the server's "detail" is deliberately never shown.
+        message = (result.data && result.data.error) || "Something went wrong. Please try again.";
+    }
+
+    statusBox.replaceChildren(
+        el("div", { className: "card card-error", role: "alert" }, el("p", { text: message }), actions)
+    );
+}
+
+let uploadStarted = false;   // lets a slow "load my saved analysis" response know it must not overwrite a newer upload
+
+async function upload(file) {
+    uploadStarted = true;
+    submitBtn.disabled = true;   // also prevents a double-click from running the analysis (and its LLM call) twice
+    const hadResults = !resultsBox.hidden;
+    resultsBox.hidden = true;
+    statusBox.replaceChildren(el("p", { className: "muted", role: "status", text: "Analyzing your resume. This can take up to a minute..." }));
+
+    const body = new FormData();
+    body.append("resume", file);
+    const result = await postForm("/resume/upload", body);
+
+    submitBtn.disabled = false;
+
+    if (!result.ok) {
+        renderUploadError(result);
+        resultsBox.hidden = !hadResults;   // a failed re-upload shouldn't hide the analysis already on screen
+        return;
+    }
+
+    statusBox.replaceChildren();
+    renderResults(result.data, false);
+    resultsBox.scrollIntoView();
+}
+
+form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    formError.hidden = true;
+
+    const file = fileInput.files[0];
+    if (!file) {
+        showFormError("Choose a PDF file first.");
+    } else if (!/\.pdf$/i.test(file.name)) {
+        showFormError("Only PDF files are accepted.");
+    } else if (file.size > MAX_BYTES) {
+        showFormError(`That file is ${(file.size / 1024 / 1024).toFixed(1)} MB. The limit is 5 MB.`);
+    } else {
+        upload(file);
+    }
+});
+
+// ---------- on arrival: show the saved analysis, unless the user came here to upload a new one ----------
+
+async function showSavedAnalysis() {
+    const result = await getJson("/resume/latest");
+    if (uploadStarted) return;
+
+    if (result.ok) {
+        renderResults(result.data, true);
+    } else if (result.status === 401) {
+        renderUploadError(result);
+    } else if (result.status !== 404) {
+        // 404 just means "nothing saved yet". Anything else: say so, but the form still works.
+        statusBox.replaceChildren(el("p", { className: "muted", text: "Couldn't load your previous analysis right now. You can still upload a resume." }));
+    }
+}
+
+if (new URLSearchParams(window.location.search).get("new") === "1") {
+    fileInput.focus();
+} else {
+    showSavedAnalysis();
+}
+</script>
+{% endblock %}

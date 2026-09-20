@@ -5,14 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}LevelUp DSA{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {# Loaded synchronously in <head> so each page's inline script (which runs
+       before the end of <body>) can already use el() / postJson() / postForm(). #}
+    <script src="{{ url_for('static', filename='js/ui.js') }}"></script>
 </head>
 <body>
+    {% macro nav_link(href, label) -%}
+        <a href="{{ href }}"{% if request.path == href %} class="active" aria-current="page"{% endif %}>{{ label }}</a>
+    {%- endmacro %}
+
     <nav class="navbar">
         <a href="/" class="navbar-brand">LevelUp DSA</a>
         <div class="navbar-links">
-            <a href="/">Home</a>
-            <a href="/login">Login</a>
-            <a href="/signup">Sign Up</a>
+            {{ nav_link("/", "Home") }}
+            {% if current_user.is_authenticated %}
+                {{ nav_link("/dashboard", "Dashboard") }}
+                {{ nav_link("/quiz", "Quiz") }}
+                {{ nav_link("/conversation", "Conversation") }}
+                {{ nav_link("/roadmap", "Roadmap") }}
+                {{ nav_link("/resume", "Resume") }}
+                <span class="nav-user">{{ current_user.name }}</span>
+                <button type="button" id="logout-btn" class="nav-link-btn">Log out</button>
+            {% else %}
+                {{ nav_link("/login", "Login") }}
+                {{ nav_link("/signup", "Sign Up") }}
+            {% endif %}
         </div>
     </nav>
 
@@ -23,5 +40,19 @@
     <footer class="footer">
         <p>&copy; 2026 LevelUp DSA — Ballari Institute of Technology &amp; Management</p>
     </footer>
+
+    {% if current_user.is_authenticated %}
+    <script>
+    document.getElementById("logout-btn").addEventListener("click", async () => {
+        const result = await postJson("/logout");
+        // 401 = the session had already expired, which is the outcome we wanted anyway.
+        if (result.ok || result.status === 401) {
+            window.location.href = "/";
+        } else {
+            alert("Couldn't log out. Please check your connection and try again.");
+        }
+    });
+    </script>
+    {% endif %}
 </body>
 </html>

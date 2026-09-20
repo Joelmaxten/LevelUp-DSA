@@ -18,8 +18,8 @@ with app.app_context():
 with app.test_client() as client:
     email = f"ytresourcetest{random.randint(1000, 9999)}@example.com"
 
-    client.post("/signup", json={"name": "YT Test", "email": email, "password": "testpass123"})
-    client.post("/login", json={"email": email, "password": "testpass123"})
+    client.post("/signup", json={"name": "YT Test", "email": email, "password": "Testpass#123"})
+    client.post("/login", json={"email": email, "password": "Testpass#123"})
 
     resp = client.post("/quiz/start")
     data = resp.get_json()

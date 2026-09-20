@@ -23,12 +23,12 @@ with app.test_client() as client:
     resp = client.post("/signup", json={
         "name": "Smoke Test",
         "email": email,
-        "password": "testpass123",
+        "password": "Testpass#123",
     })
     print("signup:", resp.status_code, resp.get_json())
     assert resp.status_code == 201
 
-    resp = client.post("/login", json={"email": email, "password": "testpass123"})
+    resp = client.post("/login", json={"email": email, "password": "Testpass#123"})
     print("login:", resp.status_code, resp.get_json())
     assert resp.status_code == 200
 

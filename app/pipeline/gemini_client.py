@@ -14,7 +14,10 @@ from google.genai.errors import ServerError, ClientError
 from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
 
 PRIMARY_MODEL = "gemini-flash-latest"
-FALLBACK_MODEL = "gemini-2.5-flash"
+# Alias rather than a pinned name, for the same reason as PRIMARY_MODEL: the
+# previous pinned fallback (gemini-2.5-flash) was retired and started
+# returning 404, which silently made this fallback useless.
+FALLBACK_MODEL = "gemini-flash-lite-latest"
 
 
 @retry(
@@ -31,21 +34,28 @@ def generate_with_retry(prompt):
     """
     Calls Gemini with the given prompt: up to 3 retries with exponential
     backoff on the primary model (only for ServerError - 503-class
-    failures - never for ClientError, which won't succeed on retry), then
-    one fallback attempt on an older model if all primary retries are
-    exhausted. Raises ValueError (not the raw Gemini exception) on total
-    failure, for callers to handle uniformly.
+    failures - never for ClientError, which won't succeed on retry against
+    the same model), then one fallback attempt on a different model if the
+    primary fails with a ServerError or a 429 quota error. Free-tier quota
+    is per model, so a 429 on the primary says nothing about the fallback.
+    Other ClientErrors (bad request, auth, ...) would fail identically on
+    any model, so they don't trigger the fallback. Raises ValueError (not
+    the raw Gemini exception) on total failure, for callers to handle
+    uniformly.
     """
     client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
 
     try:
         response = _call_gemini(client, PRIMARY_MODEL, prompt)
-    except ServerError:
+    except (ServerError, ClientError) as primary_error:
+        if isinstance(primary_error, ClientError) and primary_error.code != 429:
+            raise ValueError(f"Gemini API call failed: {primary_error}")
         try:
             response = client.models.generate_content(model=FALLBACK_MODEL, contents=prompt)
-        except (ServerError, ClientError) as e:
-            raise ValueError(f"Gemini API call failed on both primary and fallback models: {e}")
-    except ClientError as e:
-        raise ValueError(f"Gemini API call failed: {e}")
+        except (ServerError, ClientError) as fallback_error:
+            raise ValueError(
+                "Gemini API call failed on both primary and fallback models. "
+                f"Primary: {primary_error} | Fallback: {fallback_error}"
+            )
 
     return response.text.strip()

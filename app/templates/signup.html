@@ -3,7 +3,8 @@
 {% block title %}Sign Up — LevelUp DSA{% endblock %}
 
 {% block content %}
-<h2 style="margin-bottom: 1.5rem;">Create your account</h2>
+<div class="auth-card">
+<h2>Create your account</h2>
 
 <form id="signup-form">
     <div class="form-group">
@@ -16,36 +17,91 @@
     </div>
     <div class="form-group">
         <label for="password">Password</label>
-        <input type="password" id="password" required>
+        <input type="password" id="password" required autocomplete="new-password"
+               aria-describedby="password-hint password-error">
+        <p id="password-hint" class="field-hint">At least 8 characters, with an uppercase letter, a lowercase letter, a number, and a special character.</p>
+        <p id="password-error" class="field-error" role="alert" hidden></p>
     </div>
-    <button type="submit" class="btn">Sign Up</button>
+    <button type="submit" id="signup-btn" class="btn">Sign Up</button>
     <p id="signup-message" style="margin-top: 1rem;"></p>
+    <p class="muted" style="margin-top: 1rem;">Already have an account? <a href="/login" style="color: #38bdf8;">Log in</a></p>
 </form>
+</div>
 
 <script>
-document.getElementById("signup-form").addEventListener("submit", async function (e) {
+const form = document.getElementById("signup-form");
+const passwordInput = document.getElementById("password");
+const passwordError = document.getElementById("password-error");
+const signupBtn = document.getElementById("signup-btn");
+const messageEl = document.getElementById("signup-message");
+
+// Mirrors is_valid_password() / PASSWORD_RULE_MESSAGE in app/routes/auth.py.
+// The server is the real enforcement point; this is only for instant feedback,
+// so keep the rule and the wording identical to the backend's.
+const PASSWORD_RULE_MESSAGE = "Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character (such as ! @ # $ %).";
+const MIN_PASSWORD_LENGTH = 8;
+// Same set as Python's string.punctuation. Uppercase/lowercase are ASCII A-Z / a-z
+// here and in the backend (string.ascii_uppercase / ascii_lowercase), so both sides
+// agree even on accented or other non-ASCII letters (which count as neither).
+const SPECIAL_CHARS = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
+
+function isValidPassword(password) {
+    const chars = [...password];   // code points, like Python's len()
+    return chars.length >= MIN_PASSWORD_LENGTH
+        && /[A-Z]/.test(password)
+        && /[a-z]/.test(password)
+        && /[0-9]/.test(password)
+        && chars.some((c) => SPECIAL_CHARS.includes(c));
+}
+
+function showPasswordError(show) {
+    passwordError.textContent = show ? PASSWORD_RULE_MESSAGE : "";
+    passwordError.hidden = !show;
+    passwordInput.setAttribute("aria-invalid", show ? "true" : "false");
+}
+
+// Validate once the field has been left, then keep the message live while
+// they fix it - no error flashing while they're still on their first keystrokes.
+let passwordTouched = false;
+passwordInput.addEventListener("blur", () => {
+    if (passwordInput.value === "") return;   // an empty field is the browser's "required" check
+    passwordTouched = true;
+    showPasswordError(!isValidPassword(passwordInput.value));
+});
+passwordInput.addEventListener("input", () => {
+    if (passwordTouched) showPasswordError(!isValidPassword(passwordInput.value));
+});
+
+form.addEventListener("submit", async function (e) {
     e.preventDefault();
+    messageEl.textContent = "";
 
     const name = document.getElementById("name").value;
     const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+    const password = passwordInput.value;
 
-    const response = await fetch("/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password })
-    });
-
-    const data = await response.json();
-    const messageEl = document.getElementById("signup-message");
-
-    if (response.ok) {
-        messageEl.textContent = "Account created! You can now log in.";
-        messageEl.style.color = "#4ade80";
-    } else {
-        messageEl.textContent = data.error;
-        messageEl.style.color = "#f87171";
+    if (!isValidPassword(password)) {
+        passwordTouched = true;
+        showPasswordError(true);
+        passwordInput.focus();
+        return;
     }
+
+    signupBtn.disabled = true;
+    const result = await postJson("/signup", { name, email, password });
+
+    if (result.ok) {
+        messageEl.textContent = "Account created! Taking you to the login page...";
+        messageEl.style.color = "#4ade80";
+        window.location.href = "/login?registered=1";
+        return;
+    }
+
+    signupBtn.disabled = false;
+    messageEl.textContent = result.status === 0
+        ? "Couldn't reach the server. Check your connection and try again."
+        : (result.data && result.data.error) || "Something went wrong. Please try again.";
+    messageEl.style.color = "#f87171";
 });
 </script>
 {% endblock %}

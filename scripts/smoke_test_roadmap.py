@@ -20,11 +20,11 @@ with app.test_client() as client:
     email = f"roadmaptest{random.randint(1000, 9999)}@example.com"
 
     resp = client.post("/signup", json={
-        "name": "Roadmap Test", "email": email, "password": "testpass123",
+        "name": "Roadmap Test", "email": email, "password": "Testpass#123",
     })
     assert resp.status_code == 201
 
-    resp = client.post("/login", json={"email": email, "password": "testpass123"})
+    resp = client.post("/login", json={"email": email, "password": "Testpass#123"})
     assert resp.status_code == 200
 
     resp = client.post("/quiz/start")

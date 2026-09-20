@@ -3,7 +3,14 @@
 {% block title %}Login — LevelUp DSA{% endblock %}
 
 {% block content %}
-<h2 style="margin-bottom: 1.5rem;">Log in</h2>
+<div class="auth-card">
+<h2>Log in</h2>
+
+{% if registered %}
+<div class="card card-highlight" role="status">
+    Account created! Log in below to get started.
+</div>
+{% endif %}
 
 <form id="login-form">
     <div class="form-group">
@@ -14,33 +21,40 @@
         <label for="password">Password</label>
         <input type="password" id="password" required>
     </div>
-    <button type="submit" class="btn">Log In</button>
+    <button type="submit" id="login-btn" class="btn">Log In</button>
     <p id="login-message" style="margin-top: 1rem;"></p>
+    <p class="muted" style="margin-top: 1rem;">New here? <a href="/signup" style="color: #38bdf8;">Create an account</a></p>
 </form>
+</div>
 
 <script>
+// Where to go after logging in: the page the user was trying to reach (validated
+// against an allowlist by the server), otherwise the start of the journey.
+const NEXT_URL = {{ next_url|tojson }};
+
 document.getElementById("login-form").addEventListener("submit", async function (e) {
     e.preventDefault();
 
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
-
-    const response = await fetch("/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password })
-    });
-
-    const data = await response.json();
+    const loginBtn = document.getElementById("login-btn");
     const messageEl = document.getElementById("login-message");
 
-    if (response.ok) {
-        messageEl.textContent = "Logged in successfully!";
+    loginBtn.disabled = true;
+    const result = await postJson("/login", { email, password });
+
+    if (result.ok) {
+        messageEl.textContent = "Logged in! Taking you to your next step...";
         messageEl.style.color = "#4ade80";
-    } else {
-        messageEl.textContent = data.error;
-        messageEl.style.color = "#f87171";
+        window.location.href = NEXT_URL;
+        return;
     }
+
+    loginBtn.disabled = false;
+    messageEl.textContent = result.status === 0
+        ? "Couldn't reach the server. Check your connection and try again."
+        : (result.data && result.data.error) || "Something went wrong. Please try again.";
+    messageEl.style.color = "#f87171";
 });
 </script>
 {% endblock %}

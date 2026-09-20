@@ -1,4 +1,5 @@
 import os
+import re
 import uuid
 
 from flask import Blueprint, current_app, jsonify, request
@@ -7,18 +8,77 @@ from werkzeug.utils import secure_filename
 
 from app import db
 from app.models import CareerProfile, Resume, SkillGap
-from app.pipeline.resume_analyzer import analyze_resume
+from app.pipeline.resume_analyzer import analyze_resume, extract_text_from_pdf, get_required_skills
 from app.pipeline.resume_feedback import generate_resume_feedback
 from app.pipeline.salary_matching import get_salary_insights, format_salary_range_summary
 from app.pipeline.ats_score import compute_ats_score
+from app.routes._util import iso_utc
 
 resume_bp = Blueprint("resume", __name__)
 
 ALLOWED_EXTENSIONS = {"pdf"}
 
+# Saved files are named f"{user_id}_{uuid4().hex}_{secure_filename(original)}" (see upload_resume).
+_SAVED_NAME = re.compile(r"^\d+_[0-9a-f]{32}_(?P<original>.+)$")
+
 
 def _allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+def latest_resume_analysis(user_id):
+    """
+    The user's most recent resume analysis, in the same shape /resume/upload
+    returns (plus resume_id-adjacent extras), or None if they've never uploaded.
+
+    Only the extracted skills, missing skills, target role and AI feedback are
+    persisted - matched skills, salary insights and the ATS score are computed
+    at upload time and not stored. So they're rebuilt here from what IS stored:
+    matched = required skills for the saved target_role AND the saved skills;
+    salary from the DB; ATS by re-reading the saved PDF (skipped with None if
+    that file is no longer on disk or can't be read).
+    """
+    resume = Resume.query.filter_by(user_id=user_id).order_by(Resume.id.desc()).first()
+    skill_gap = SkillGap.query.filter_by(user_id=user_id).order_by(SkillGap.id.desc()).first()
+    if resume is None or skill_gap is None:
+        return None
+
+    target_career_path = skill_gap.target_role
+    student_skills = set(resume.extracted_skills or [])
+    required_skills = get_required_skills(target_career_path)
+    matched_skills = required_skills & student_skills
+
+    ats_score = None
+    if resume.file_path and os.path.isfile(resume.file_path):
+        try:
+            text = extract_text_from_pdf(resume.file_path)
+            ats_score = compute_ats_score(text, matched_skills, required_skills)
+        except Exception:
+            ats_score = None  # unreadable now - show everything else rather than fail the whole view
+
+    name_match = _SAVED_NAME.match(os.path.basename(resume.file_path or ""))
+
+    return {
+        "resume_id": resume.id,
+        "file_name": name_match.group("original") if name_match else None,
+        "uploaded_at": iso_utc(resume.uploaded_at),
+        "target_career_path": target_career_path,
+        "student_skills": sorted(student_skills),
+        "matched_skills": sorted(matched_skills),
+        "missing_skills": sorted(skill_gap.missing_skills or []),
+        "ai_feedback": resume.ai_feedback,
+        "salary_insights": get_salary_insights(target_career_path),
+        "ats_score": ats_score,
+    }
+
+
+@resume_bp.route("/resume/latest", methods=["GET"])
+@login_required
+def get_latest():
+    analysis = latest_resume_analysis(current_user.id)
+    if analysis is None:
+        return jsonify({"error": "No resume analyzed yet."}), 404
+    return jsonify(analysis), 200
 
 
 @resume_bp.route("/resume/upload", methods=["POST"])

@@ -6,6 +6,7 @@ from app.models import CareerProfile, GeneratedRoadmap
 from app.pipeline.rag import load_index
 from app.pipeline.roadmap_generator import generate_roadmap
 from app.pipeline.youtube_resources import fetch_resources_for_roadmap
+from app.routes._util import iso_utc
 
 roadmap_bp = Blueprint("roadmap", __name__)
 
@@ -22,6 +23,37 @@ def _get_index():
     if _index_cache is None:
         _index_cache, _chunks_cache = load_index(FAISS_INDEX_PATH)
     return _index_cache, _chunks_cache
+
+
+def latest_roadmap(user_id):
+    """
+    The user's most recently generated roadmap as a plain dict, or None. Older
+    rows are kept (regenerating never overwrites), this just picks the newest.
+    "steps" carries each step's "resource" (YouTube video) if it was attached.
+    """
+    roadmap = (
+        GeneratedRoadmap.query
+        .filter_by(user_id=user_id)
+        .order_by(GeneratedRoadmap.id.desc())
+        .first()
+    )
+    if roadmap is None:
+        return None
+    return {
+        "roadmap_id": roadmap.id,
+        "career_path": roadmap.career_path,
+        "steps": roadmap.steps,
+        "created_at": iso_utc(roadmap.created_at),
+    }
+
+
+@roadmap_bp.route("/roadmap/latest", methods=["GET"])
+@login_required
+def get_latest():
+    roadmap = latest_roadmap(current_user.id)
+    if roadmap is None:
+        return jsonify({"error": "No roadmap generated yet."}), 404
+    return jsonify(roadmap), 200
 
 
 @roadmap_bp.route("/roadmap/generate", methods=["POST"])

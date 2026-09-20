@@ -1,0 +1,175 @@
+{% extends "layout.html" %}
+
+{% block title %}Your Roadmap — LevelUp DSA{% endblock %}
+
+{% block content %}
+<div class="page-medium">
+    <h2 id="roadmap-heading">Your Personalized Roadmap</h2>
+    <p id="roadmap-intro" class="muted" style="margin-top: 0.5rem;">
+        A step-by-step learning path built from your top career match and your answers.
+    </p>
+
+    <div id="roadmap-box" style="margin-top: 1.5rem;"></div>
+</div>
+
+<script src="{{ url_for('static', filename='js/results.js') }}"></script>
+<script>
+const box = document.getElementById("roadmap-box");
+
+let roadmap = null;             // { roadmap_id, career_path, steps, created_at? }
+let videosState = "none";       // "none" | "pending" | "failed" | "done"
+let videosMessage = "";
+
+function showLoading(message) {
+    box.replaceChildren(el("p", { className: "muted", text: message, role: "status" }));
+}
+
+function errorMessage(result) {
+    if (result.status === 0) return "Couldn't reach the server. Check your connection and try again.";
+    return (result.data && result.data.error) || "Something went wrong. Please try again.";
+}
+
+function renderError(result, retry) {
+    const actions = el("div", { className: "actions" });
+    let message;
+
+    if (result.status === 401) {
+        message = "You need to be logged in to continue.";
+        actions.append(el("a", { className: "btn", href: "/login?next=/roadmap", text: "Log in" }));
+    } else if (result.status === 400) {
+        // Server says no career profile exists yet.
+        message = errorMessage(result);
+        actions.append(el("a", { className: "btn", href: "/quiz", text: "Take the quiz" }));
+    } else if (result.status === 502 || result.status === 503) {
+        // These bodies are developer-facing (raw LLM output / missing index), not for students.
+        const raw = (result.data && result.data.error) || "";
+        console.error("Roadmap generation failed:", result.status, raw);
+        // Quota errors won't clear on an immediate retry, so don't say they might.
+        message = /RESOURCE_EXHAUSTED|quota/i.test(raw)
+            ? "The AI service's usage limit has been reached for now. Please try again later."
+            : "We couldn't generate your roadmap right now - the AI service may be busy. Please try again in a moment.";
+        const again = el("button", { className: "btn", type: "button", text: "Try again" });
+        again.addEventListener("click", retry);
+        actions.append(again);
+    } else {
+        message = errorMessage(result);
+        const again = el("button", { className: "btn", type: "button", text: "Try again" });
+        again.addEventListener("click", retry);
+        actions.append(again);
+    }
+
+    box.replaceChildren(
+        el("div", { className: "card card-error", role: "alert" }, el("p", { text: message }), actions)
+    );
+}
+
+function renderIdle(startedFresh) {
+    const generateBtn = el("button", { className: "btn", type: "button", text: "Generate my roadmap" });
+    generateBtn.addEventListener("click", generate);
+
+    box.replaceChildren(
+        el("div", { className: "card" },
+            el("h3", { text: "Ready to build your roadmap?", style: "margin-bottom: 0.5rem;" }),
+            el("p", { className: "muted", text: "We'll create 8-12 steps for your top career match, tailored to your answers, then find a video for each one. This can take up to a minute." }),
+            startedFresh ? el("p", { className: "muted", text: "Any roadmap you already have stays saved.", style: "margin-top: 0.5rem; font-size: 0.9rem;" }) : "",
+            el("div", { className: "actions" }, generateBtn)
+        )
+    );
+}
+
+function renderRoadmap() {
+    const parts = [];
+
+    if (videosState === "failed") {
+        const retryBtn = el("button", { className: "btn", type: "button", text: "Try adding videos again" });
+        retryBtn.addEventListener("click", fetchVideos);
+        parts.push(el("div", { className: "card card-error", role: "alert" },
+            el("p", { text: videosMessage }),
+            el("p", { className: "muted", text: "Your roadmap is saved - only the videos are missing.", style: "font-size: 0.9rem;" }),
+            el("div", { className: "actions" }, retryBtn)
+        ));
+    }
+
+    const when = formatDate(roadmap.created_at);
+    parts.push(el("p", { className: "muted", text: `Career path: ${roadmap.career_path}${when ? ` · generated ${when}` : ""}`, style: "margin-bottom: 1rem;" }));
+    parts.push(roadmapStepList(roadmap.steps, videosState === "pending"));
+
+    if (videosState !== "pending") {
+        const regenBtn = el("button", { className: "btn btn-secondary", type: "button", text: "Generate a new roadmap" });
+        regenBtn.addEventListener("click", () => {
+            if (confirm("Generate a new roadmap? Your current one stays saved, and this takes up to a minute.")) {
+                generate();
+            }
+        });
+        parts.push(el("div", { className: "actions" },
+            el("a", { className: "btn", href: "/resume", text: "Analyze my resume" }),
+            regenBtn
+        ));
+    }
+
+    box.replaceChildren(...parts);
+}
+
+async function fetchVideos() {
+    videosState = "pending";
+    renderRoadmap();
+
+    const result = await postJson(`/roadmap/${roadmap.roadmap_id}/resources`);
+    if (!result.ok) {
+        videosState = "failed";
+        videosMessage = result.status === 401
+            ? "You need to be logged in to add videos."
+            : errorMessage(result);
+        renderRoadmap();
+        return;
+    }
+
+    roadmap = result.data;
+    videosState = "done";
+    renderRoadmap();
+}
+
+async function generate() {
+    showLoading("Generating your roadmap. This can take up to a minute...");
+
+    const result = await postJson("/roadmap/generate");
+    if (!result.ok) {
+        renderError(result, generate);
+        return;
+    }
+
+    roadmap = result.data;
+    // Videos are a separate request on purpose (see the backend): a YouTube
+    // failure must not cost the student the roadmap they just generated.
+    await fetchVideos();
+}
+
+// On arrival: show the roadmap already saved for this user (their newest one),
+// or the "generate" prompt if they have none - unless they came specifically to make a new one.
+async function loadSaved() {
+    showLoading("Loading your roadmap...");
+
+    const result = await getJson("/roadmap/latest");
+    if (result.ok) {
+        roadmap = result.data;
+        if (hasAllVideoResults(roadmap.steps)) {
+            videosState = "done";
+        } else {
+            videosState = "failed";
+            videosMessage = "Videos haven't been added to this roadmap yet.";
+        }
+        renderRoadmap();
+    } else if (result.status === 404) {
+        renderIdle(false);
+    } else {
+        renderError(result, loadSaved);
+    }
+}
+
+if (new URLSearchParams(window.location.search).get("new") === "1") {
+    renderIdle(true);
+} else {
+    loadSaved();
+}
+</script>
+{% endblock %}

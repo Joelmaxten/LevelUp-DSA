@@ -3,12 +3,75 @@
 {% block title %}LevelUp DSA — Career Intelligence & Gamified DSA{% endblock %}
 
 {% block content %}
-<section style="text-align: center; padding: 4rem 1rem;">
+<section style="text-align: center; padding: 4rem 1rem 2rem;">
     <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">Find Your Career Path. Close Your Skill Gap. Level Up.</h1>
     <p style="font-size: 1.1rem; color: #94a3b8; max-width: 600px; margin: 0 auto 2rem;">
         Personalized career guidance, resume analysis, and gamified DSA practice —
         built for students who don't have access to structured mentorship.
     </p>
+
+    {% if current_user.is_authenticated %}
+    <p class="muted" style="margin-bottom: 1.25rem;">Welcome back, {{ current_user.name }}.</p>
+    <a href="/dashboard" class="btn">Go to my dashboard</a>
+    {% else %}
     <a href="/signup" class="btn">Get Started</a>
+    <a href="/login" class="btn btn-secondary" style="margin-left: 0.75rem;">Log in</a>
+    {% endif %}
+</section>
+
+<section aria-labelledby="phases-heading" style="padding: 1rem 0 3rem;">
+    <h2 id="phases-heading" style="text-align: center; margin-bottom: 0.5rem;">How LevelUp DSA works</h2>
+    <p class="muted" style="text-align: center; margin-bottom: 0;">Three phases, from figuring out where you're headed to getting placement-ready.</p>
+
+    <div class="phase-grid">
+        {# Phase 1 - live. The whole card is the link; /quiz is login-gated and sends logged-out visitors through /login?next=/quiz. #}
+        <a class="phase-card phase-card-live" href="/quiz">
+            <span class="phase-label">Phase 1</span>
+            <h3>Career Guidance</h3>
+            <span class="phase-badge phase-badge-live">Available now</span>
+            <p>Not sure which tech path fits you? Answer an adaptive quiz and a short conversation, and get a personalized learning roadmap.</p>
+            <ul class="phase-features">
+                <li>Adaptive career quiz that narrows down your best-fit paths</li>
+                <li>A short conversation about your goals and what to avoid</li>
+                <li>Step-by-step roadmap with a video for each step</li>
+            </ul>
+            <span class="phase-cta">Start with the quiz &rarr;</span>
+        </a>
+
+        {# Phase 2 - live. /resume is login-gated the same way. #}
+        <a class="phase-card phase-card-live" href="/resume">
+            <span class="phase-label">Phase 2</span>
+            <h3>Resume Analyzer</h3>
+            <span class="phase-badge phase-badge-live">Available now</span>
+            <p>Upload your resume and see how it measures up against your target role, and what to work on next.</p>
+            <ul class="phase-features">
+                <li>Skill gap against what working developers actually use</li>
+                <li>Salary ranges from job postings and a developer survey</li>
+                <li>ATS score, resume feedback, and a 30-day action plan</li>
+            </ul>
+            <p class="phase-note">Uses your Phase 1 career match as the target role.</p>
+            <span class="phase-cta">Analyze my resume &rarr;</span>
+        </a>
+
+        {# Phase 3 - NOT built. Deliberately a plain <article>, not a link: not focusable, not clickable, no hover state. #}
+        <article class="phase-card phase-card-soon">
+            <span class="phase-label">Phase 3</span>
+            <h3>Gamified DSA</h3>
+            <span class="phase-badge phase-badge-soon">Coming soon</span>
+            <p>Learn data structures on an interactive Skill DNA Map, with practice problems framed around your career path.</p>
+            <ul class="phase-features">
+                <li>A map of DSA topics that unlock as you master prerequisites</li>
+                <li>XP, streaks, and mastery levels to keep you going</li>
+                <li>Adaptive challenges aimed at your weak spots</li>
+            </ul>
+            <span class="phase-cta-soon">Not available yet</span>
+        </article>
+    </div>
+
+    {% if not current_user.is_authenticated %}
+    <p class="muted" style="text-align: center; margin-top: 1.5rem; font-size: 0.9rem;">
+        You'll be asked to log in or sign up first, then taken straight to the phase you picked.
+    </p>
+    {% endif %}
 </section>
 {% endblock %}

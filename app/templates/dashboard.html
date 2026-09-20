@@ -1,0 +1,156 @@
+{% extends "layout.html" %}
+
+{% block title %}Your Dashboard — LevelUp DSA{% endblock %}
+
+{% block content %}
+<div class="page-medium">
+    <h2>Your dashboard</h2>
+    <p class="muted" style="margin-top: 0.5rem;">
+        Here's what you've done so far. You can redo any step whenever you like &mdash; your earlier results stay saved.
+    </p>
+
+    <div id="dashboard-box" style="margin-top: 1.5rem;">
+        <p class="muted" role="status">Loading your results...</p>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/results.js') }}"></script>
+<script>
+const box = document.getElementById("dashboard-box");
+
+function renderError(result) {
+    const actions = el("div", { className: "actions" });
+    let message;
+
+    if (result.status === 401) {
+        message = "You need to be logged in to continue.";
+        actions.append(el("a", { className: "btn", href: "/login?next=/dashboard", text: "Log in" }));
+    } else {
+        message = result.status === 0
+            ? "Couldn't reach the server. Check your connection and try again."
+            : (result.data && result.data.error) || "Something went wrong. Please try again.";
+        const again = el("button", { className: "btn", type: "button", text: "Try again" });
+        again.addEventListener("click", load);
+        actions.append(again);
+    }
+
+    box.replaceChildren(
+        el("div", { className: "card card-error", role: "alert" }, el("p", { text: message }), actions)
+    );
+}
+
+// One dashboard section: a heading with its meta line and "start fresh" actions, then the body.
+function section(id, title, meta, actions, bodyNodes) {
+    return el("section", { className: "dash-section", id },
+        el("div", { className: "dash-head" },
+            el("div", {},
+                el("h2", { text: title }),
+                meta ? el("p", { className: "muted", text: meta, style: "font-size: 0.9rem;" }) : ""
+            ),
+            el("div", { className: "actions" }, ...actions)
+        ),
+        ...bodyNodes
+    );
+}
+
+// Shown for a step the user hasn't done yet: a plain card pointing at the next action.
+function emptyCard(message, ctaText, ctaHref) {
+    return el("div", { className: "card" },
+        el("p", { className: "muted", text: message }),
+        el("div", { className: "actions" }, el("a", { className: "btn", href: ctaHref, text: ctaText }))
+    );
+}
+
+function careerSection(profile) {
+    if (!profile) {
+        return section("career", "Career profile", "", [], [
+            emptyCard("You haven't completed the career quiz and conversation yet.", "Take the quiz", "/quiz"),
+        ]);
+    }
+    const when = formatDate(profile.created_at);
+    const body = [...rankingCards(profile.career_ranking)];
+    if (profile.answers.length) body.push(answersCard("Your goals and preferences", profile.answers));
+
+    return section("career", "Career profile", when ? `Completed ${when}` : "", [
+        el("a", { className: "btn btn-secondary", href: "/quiz", text: "Retake the quiz" }),
+    ], body);
+}
+
+function roadmapSection(roadmap, hasProfile) {
+    if (!roadmap) {
+        return section("roadmap", "Your roadmap", "", [], [
+            hasProfile
+                ? emptyCard("You haven't generated a roadmap yet.", "Generate my roadmap", "/roadmap")
+                : emptyCard("Complete the career quiz and conversation first, then you can generate a roadmap.", "Take the quiz", "/quiz"),
+        ]);
+    }
+    const when = formatDate(roadmap.created_at);
+    const body = [roadmapStepList(roadmap.steps, false)];
+    if (!hasAllVideoResults(roadmap.steps)) {
+        body.push(el("p", { className: "muted", style: "font-size: 0.9rem;" },
+            "Some steps don't have videos yet. ",
+            el("a", { href: "/roadmap", text: "Open your roadmap to add them.", style: "color: #38bdf8;" })
+        ));
+    }
+
+    return section("roadmap", "Your roadmap", `${roadmap.career_path}${when ? ` · generated ${when}` : ""}`, [
+        el("a", { className: "btn btn-secondary", href: "/roadmap?new=1", text: "Generate a new roadmap" }),
+    ], body);
+}
+
+function resumeSection(resume, hasProfile) {
+    if (!resume) {
+        return section("resume", "Resume analysis", "", [], [
+            hasProfile
+                ? emptyCard("You haven't analyzed a resume yet.", "Upload my resume", "/resume")
+                : emptyCard("Complete the career quiz and conversation first. Your resume is compared against your top career match.", "Take the quiz", "/quiz"),
+        ]);
+    }
+    const when = formatDate(resume.uploaded_at);
+    const meta = [resume.target_career_path, when && `uploaded ${when}`, resume.file_name].filter(Boolean).join(" · ");
+
+    return section("resume", "Resume analysis", meta, [
+        el("a", { className: "btn btn-secondary", href: "/resume?new=1", text: "Upload a new resume" }),
+    ], resumeAnalysisCards(resume));
+}
+
+// "Here's what you've done": a status chip per step, which also jumps to that section.
+function progressNav(data) {
+    const item = (done, label, href) => el("li", {},
+        el("a", { className: `chip ${done ? "chip-match" : ""}`.trim(), href, text: `${done ? "✓" : "○"} ${label}${done ? "" : " (not started)"}` })
+    );
+    return el("ul", { className: "chip-list dash-progress" },
+        item(!!data.career_profile, "Career profile", "#career"),
+        item(!!data.roadmap, "Roadmap", "#roadmap"),
+        item(!!data.resume, "Resume analysis", "#resume")
+    );
+}
+
+function render(data) {
+    const hasProfile = !!data.career_profile;
+    box.replaceChildren(
+        progressNav(data),
+        careerSection(data.career_profile),
+        roadmapSection(data.roadmap, hasProfile),
+        resumeSection(data.resume, hasProfile)
+    );
+    // Honour a #career / #roadmap / #resume link now that the sections exist.
+    if (window.location.hash) {
+        const target = document.getElementById(window.location.hash.slice(1));
+        if (target) target.scrollIntoView();
+    }
+}
+
+async function load() {
+    box.replaceChildren(el("p", { className: "muted", role: "status", text: "Loading your results..." }));
+    const result = await getJson("/dashboard/data");
+    if (!result.ok) {
+        renderError(result);
+        return;
+    }
+    render(result.data);
+}
+
+load();
+</script>
+{% endblock %}

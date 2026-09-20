@@ -72,3 +72,11 @@ OPTION_SIGNALS = {
     ("C4", "C"): ("goal", "build_fundamentals"),
     ("C4", "D"): ("goal", "explore"),
 }
+
+# Optional free-text step after the fixed questions. Stored alongside the flat
+# signals above (conversation_signals["additional_notes"]) but, unlike them, it
+# has no OPTION_SIGNALS entry: it is user-written text, carried into the LLM
+# roadmap prompt as extra context only - never used for ranking.
+ADDITIONAL_NOTES_KEY = "additional_notes"
+ADDITIONAL_NOTES_PROMPT = "Anything else you'd like us to know?"
+MAX_ADDITIONAL_NOTES_CHARS = 500

@@ -52,6 +52,7 @@ function renderResults(results) {
         </li>`;
     }
     html += "</ol>";
+    html += `<a href="/conversation" class="btn" style="margin-top: 1rem;">Continue</a>`;
     resultsBox.innerHTML = html;
 }
 
@@ -64,6 +65,11 @@ async function submitAnswer(questionId, option) {
         body: JSON.stringify({ question_id: questionId, option: option })
     });
 
+    if (response.status === 401) {
+        window.location.href = "/login?next=/quiz";
+        return;
+    }
+
     const data = await response.json();
 
     if (data.finished) {
@@ -75,6 +81,10 @@ async function submitAnswer(questionId, option) {
 
 async function startQuiz() {
     const response = await fetch("/quiz/start", { method: "POST" });
+    if (response.status === 401) {
+        window.location.href = "/login?next=/quiz";
+        return;
+    }
     const data = await response.json();
     renderQuestion(data.question_id, data.question);
 }

@@ -35,8 +35,8 @@ pdf.output("test_resume.pdf")
 with app.test_client() as client:
     email = f"resumetest{random.randint(1000, 9999)}@example.com"
 
-    client.post("/signup", json={"name": "Resume Test", "email": email, "password": "testpass123"})
-    client.post("/login", json={"email": email, "password": "testpass123"})
+    client.post("/signup", json={"name": "Resume Test", "email": email, "password": "Testpass#123"})
+    client.post("/login", json={"email": email, "password": "Testpass#123"})
 
     resp = client.post("/quiz/start")
     data = resp.get_json()
