@@ -776,6 +776,63 @@ against real and edge-case data, and wired into one working route.
 ---
 ---
 
+## Frontend Build-Out — Navigation, Dashboard, All Core Pages
+
+**What was built, via a separate Claude Code session:** copied the whole project folder
+(including `.git`) so Claude Code could work with full write access while the original
+folder stayed untouched as a backup. Built: the missing pages (conversation, career
+results, roadmap display with YouTube resources, resume upload, resume results,
+dashboard), wired real navigation across the entire user journey (landing -> signup ->
+login -> quiz -> conversation -> career results -> roadmap -> resume upload -> resume
+results) where previously every page existed in isolation with no links or redirects
+between them, and updated `layout.html`'s navbar to link to everything that now exists.
+
+**Password validation added, enforced in both places:** minimum 8 characters, at least one
+uppercase letter, one lowercase letter, one number, one special character. Backend
+(`app/routes/auth.py`) is the real enforcement point - explicit ASCII character sets
+(`string.ascii_uppercase`/`ascii_lowercase`/`digits`/`punctuation`) rather than vague
+heuristics like `.isupper()`, specifically so the frontend mirror check can't silently
+disagree with the backend on an edge case. Also fixed a pre-existing gap while there:
+`request.get_json(silent=True)` with a dict fallback, so malformed/missing JSON on
+`/signup` returns a clean 400 instead of crashing with an unhandled 500.
+
+**"Resume where you left off" dashboard behavior:** a returning user with an existing
+`CareerProfile`/`GeneratedRoadmap`/`Resume` sees their existing results by default,
+with explicit "retake"/"start fresh" options preserved rather than forced.
+
+**Optional free-text preference field** added to the end of the conversation step -
+stored in `CareerProfile.conversation_signals` under `additional_notes`, wired into the
+roadmap generation prompt as explicitly labeled untrusted input (JSON-escaped, told to the
+model as background only, never instructions) - real prompt-injection defense for a
+free-text-into-LLM-prompt feature, unprompted.
+
+**Two real backend bugs found and fixed along the way, outside the stated frontend scope:**
+1. The Gemini fallback model (`gemini-2.5-flash`, picked earlier this project) had itself
+   been retired and was returning 404 - the exact same failure mode as the original
+   `gemini-1.5-flash` shutdown. Switched to `gemini-flash-lite-latest` (an alias, not a
+   pinned name, same lesson as before).
+2. Widened the fallback trigger to include 429 (quota) errors, not just 503s - reasoning:
+   free-tier quota is tracked per model, so a 429 on the primary model says nothing about
+   whether the fallback model would also fail.
+
+**Verification approach - different from backend work, and deliberately so:** rather than
+reading every diff line-by-line before trusting it, verification here was primarily
+Joel personally clicking through the real, running app in a browser - the right method for
+frontend behavior, which line-by-line code reading can't actually confirm. Diffs for files
+outside the stated frontend scope (`gemini_client.py`, `roadmap_generator.py`,
+`app/routes/auth.py`) were still read and understood before committing, since those touch
+security- and correctness-critical logic that a "does it look right in the browser" check
+wouldn't catch.
+
+**Commit process:** the copy folder still had the original repo's full git history and
+remote (`.git` was copied along with the files), so it wasn't a fork needing a merge - just
+a second working directory of the same repo. Committed and pushed directly from the copy,
+then fast-forward-pulled into the original folder to bring both back in sync, with the
+original kept as the one true working copy going forward.
+
+---
+---
+
 ## Standalone Phases — Design Decision (not yet implemented)
 
 **Issue found:** Resume Analyzer and Roadmap Generation both hard-required an existing
