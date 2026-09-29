@@ -77,3 +77,65 @@ def search(query_text, index, chunks, top_k=5, career_path=None):
             break
 
     return results
+
+
+def search_diverse(queries, index, chunks, career_path, total_k=30, per_folder_cap=6):
+    """
+    Multi-query retrieval for callers that want breadth across a career path
+    rather than one narrow query's nearest neighbors. Runs each query in
+    `queries` against the index (filtered to `career_path`), merges results
+    keeping each source's single best score across all queries, then walks
+    the merged ranking applying `per_folder_cap` (so one big roadmap.sh
+    folder like cyber-security can't crowd out the rest) until `total_k`
+    chunks are collected. Same dict shape as search() (chunk fields + "score").
+
+    Does not change search()'s behavior or signature - this is additive.
+    """
+    model = get_model()
+    query_embeddings = model.encode(list(queries), convert_to_numpy=True)
+    query_embeddings = _normalize(query_embeddings).astype("float32")
+
+    search_k = total_k * 10
+    best_by_source = {}
+
+    for query_embedding in query_embeddings:
+        scores, indices = index.search(query_embedding.reshape(1, -1), search_k)
+        for score, idx in zip(scores[0], indices[0]):
+            if idx == -1:
+                continue
+            chunk = chunks[idx]
+            if career_path not in chunk["career_paths"]:
+                continue
+            source = chunk["source"]
+            score = float(score)
+            if source not in best_by_source or score > best_by_source[source][0]:
+                best_by_source[source] = (score, chunk)
+
+    ranked = sorted(best_by_source.values(), key=lambda pair: pair[0], reverse=True)
+
+    results = []
+    folder_counts = {}
+    for score, chunk in ranked:
+        folder = chunk.get("folder") or chunk["source"].split("/", 1)[0]
+        if folder_counts.get(folder, 0) >= per_folder_cap:
+            continue
+        results.append({**chunk, "score": score})
+        folder_counts[folder] = folder_counts.get(folder, 0) + 1
+        if len(results) >= total_k:
+            break
+
+    return results
+
+
+def list_topics(career_path, chunks):
+    """
+    Every KB topic tagged with `career_path`, as [{title, source, folder}] -
+    for browsing what a career path's chunks actually cover, independent of
+    any query. Excludes the SO Survey chunks (they're per-path aggregate
+    stats, not individual topics, and predate the title/folder fields).
+    """
+    return [
+        {"title": chunk["title"], "source": chunk["source"], "folder": chunk["folder"]}
+        for chunk in chunks
+        if career_path in chunk["career_paths"] and not chunk["source"].startswith("so_survey")
+    ]

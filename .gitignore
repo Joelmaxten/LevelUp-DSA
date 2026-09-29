@@ -65,4 +65,8 @@ cookies.txt
 # to reclone roadmap.sh + re-embed to get roadmap generation working.
 !data/processed/faiss_index.faiss
 !data/processed/faiss_index_meta.pkl
+
+# scripts/rebuild_kb.py's pre-rebuild backups of the index/metadata above -
+# local rollback safety net, not meant to be committed.
+data/processed/backup/
 uploads/
