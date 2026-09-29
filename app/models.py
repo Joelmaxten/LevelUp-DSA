@@ -140,6 +140,28 @@ class NodeMastery(db.Model):
     def __repr__(self):
         return f"<NodeMastery user={self.user_id} node={self.node_id}>"
 
+
+class DSAProblemFraming(db.Model):
+    """
+    The LLM-written career story for one problem, cached per career path so a student
+    sees the same story every visit and Gemini is called once per (problem, path), not
+    once per click. Only the narrative is stored: the problem and its test cases always
+    come from DSAProblem.
+    """
+    __tablename__ = "dsa_problem_framings"
+    __table_args__ = (db.UniqueConstraint("problem_id", "career_path", name="uq_framing_problem_path"),)
+
+    id = db.Column(db.Integer, primary_key=True)
+    problem_id = db.Column(db.Integer, db.ForeignKey("dsa_problems.id"), nullable=False)
+    career_path = db.Column(db.String(120), nullable=False)
+    narrative = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    problem = db.relationship("DSAProblem", backref="framings")
+
+    def __repr__(self):
+        return f"<DSAProblemFraming problem={self.problem_id} path={self.career_path!r}>"
+
 class Resume(db.Model):
     __tablename__ = "resumes"
 
@@ -228,8 +250,11 @@ class GeneratedRoadmap(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     career_path = db.Column(db.String(120), nullable=False)
-    steps = db.Column(db.JSON, nullable=False)            # list of {step_number, title, description}
-    retrieved_chunks = db.Column(db.JSON)                  # which KB chunks grounded this generation - audit trail
+    steps = db.Column(db.JSON, nullable=False)             # list of {step_number, title, description, subtopics,
+                                                            # topic_refs, projects} - older rows predate subtopics/
+                                                            # topic_refs/projects and only have the first three keys
+    retrieved_chunks = db.Column(db.JSON)                  # {queries, retrieved, steps} audit trail of what grounded
+                                                            # this generation - older rows are a flat [{source, score}] list
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     user = db.relationship("User", backref="generated_roadmaps")
