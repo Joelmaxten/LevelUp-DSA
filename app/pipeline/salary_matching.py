@@ -10,6 +10,7 @@ see PROJECT_BIOGRAPHY.md for the reasoning.
 """
 
 from app.models import JobListing, SurveyRespondent
+from app.pipeline.survey_queries import respondents_for_path
 
 # Approximate USD -> INR rate. Hardcoded, not live-fetched (no currency API
 # dependency for a display detail) - will go stale over time, same
@@ -52,8 +53,7 @@ def get_salary_insights(career_path, max_listings=5):
     upper_bound = all_comps[int(n_all * 0.99)]
 
     survey_rows = (
-        SurveyRespondent.query
-        .filter_by(career_path=career_path)
+        respondents_for_path(career_path)
         .filter(SurveyRespondent.converted_comp_yearly.isnot(None))
         .filter(SurveyRespondent.converted_comp_yearly >= lower_bound)
         .filter(SurveyRespondent.converted_comp_yearly <= upper_bound)

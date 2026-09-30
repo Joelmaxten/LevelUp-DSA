@@ -21,18 +21,22 @@ def _top_skills(respondents, attr):
     return top_skills(respondents, attr, top_n=TOP_N)
 
 
-def generate_survey_chunks(respondents):
+def generate_survey_chunks(respondents_by_path):
     """
-    respondents: SurveyRespondent rows already filtered to career_path is not None.
+    respondents_by_path: {career_path: [SurveyRespondent, ...]} - one entry
+    per career path, built with survey_queries.respondents_for_path() (see
+    scripts/rebuild_kb.py). NOT grouped by the stored
+    survey_respondents.career_path column here: that column still holds the
+    old 10 path names (so_survey_processor.py, which writes it, is out of
+    scope for the career-path restructuring), so grouping on it directly
+    would produce chunks tagged with stale names instead of the current 15.
     Returns a list of {text, career_paths, source} chunks, matching the same
-    shape as roadmap_kb_processor.py's chunks, ready for embedding.
+    shape as roadmap_kb_processor.py's chunks, ready for embedding - exactly
+    one chunk per key in respondents_by_path, even if that path's respondent
+    list is empty.
     """
-    by_path = {}
-    for r in respondents:
-        by_path.setdefault(r.career_path, []).append(r)
-
     chunks = []
-    for path, rows in by_path.items():
+    for path, rows in respondents_by_path.items():
         languages = _top_skills(rows, "languages")
         databases = _top_skills(rows, "databases")
         platforms = _top_skills(rows, "platforms")

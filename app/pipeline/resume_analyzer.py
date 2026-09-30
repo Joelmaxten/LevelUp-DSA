@@ -14,6 +14,7 @@ import pdfplumber
 
 from app.models import SurveyRespondent
 from app.pipeline.resume_skill_extractor import extract_skills
+from app.pipeline.survey_queries import respondents_for_path
 
 REQUIRED_SKILLS_TOP_N = 10  # more than the 5 used for FAISS chunks - a real
                              # gap comparison needs a fuller picture than a
@@ -55,7 +56,7 @@ def get_required_skills(career_path, overall_top_n=REQUIRED_SKILLS_TOP_N):
     """
     from collections import Counter
 
-    respondents = SurveyRespondent.query.filter_by(career_path=career_path).all()
+    respondents = respondents_for_path(career_path).all()
     if not respondents:
         return set()
 

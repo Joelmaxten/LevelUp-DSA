@@ -1,9 +1,9 @@
 """
 Rebuilds the FAISS knowledge base index from a fresh extraction of the local
-roadmap.sh clone, then re-appends the 10 SO Survey chunks. This reproduces,
-as a committed and re-runnable script, the two steps that were previously
-done by hand in a REPL session (see docs/PROJECT_BIOGRAPHY.md) - there was
-no prior script for either step.
+roadmap.sh clone, then re-appends one SO Survey chunk per career path
+(len(CAREER_PATHS) of them). This reproduces, as a committed and re-runnable
+script, the two steps that were previously done by hand in a REPL session
+(see docs/PROJECT_BIOGRAPHY.md) - there was no prior script for either step.
 
 Backs up the current index + metadata to data/processed/backup/ (gitignored)
 before overwriting them, so a bad rebuild can be rolled back by hand.
@@ -28,10 +28,11 @@ load_dotenv()
 
 from app import create_app
 from app.config import Config
-from app.models import SurveyRespondent
 from app.pipeline import rag
+from app.pipeline.career_path_registry import CAREER_PATHS
 from app.pipeline.embedder import embed_chunks
 from app.pipeline.so_survey_chunks import generate_survey_chunks
+from app.pipeline.survey_queries import respondents_for_path
 
 DEFAULT_ROADMAP_SH_ROOT = "C:/developer-roadmap"
 
@@ -69,11 +70,9 @@ def main():
 
     app = create_app()
     with app.app_context():
-        respondents = SurveyRespondent.query.filter(
-            SurveyRespondent.career_path.isnot(None)
-        ).all()
+        respondents_by_path = {path: respondents_for_path(path).all() for path in CAREER_PATHS}
 
-    survey_chunks = generate_survey_chunks(respondents)
+    survey_chunks = generate_survey_chunks(respondents_by_path)
     print(f"Generated {len(survey_chunks)} SO Survey chunks.")
 
     survey_embeddings = embed_chunks(survey_chunks)
@@ -90,7 +89,14 @@ def main():
     total = len(chunks)
     expected = roadmap_chunk_count + len(survey_chunks)
     assert total == expected, f"chunk count mismatch: {total} != {expected}"
-    assert len(survey_chunks) == 10, f"expected 10 survey chunks, got {len(survey_chunks)}"
+    assert len(survey_chunks) == len(CAREER_PATHS), (
+        f"expected {len(CAREER_PATHS)} survey chunks, got {len(survey_chunks)}"
+    )
+    chunk_paths = {c["career_paths"][0] for c in survey_chunks}
+    assert chunk_paths == set(CAREER_PATHS), (
+        f"survey chunks don't cover exactly the 15 registry paths - "
+        f"missing: {set(CAREER_PATHS) - chunk_paths}, extra: {chunk_paths - set(CAREER_PATHS)}"
+    )
 
     print(
         f"Final index: {total} chunks "
