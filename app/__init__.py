@@ -45,7 +45,10 @@ def create_app(config_name=None):
 
     from app.routes.dashboard import dashboard_bp, user_has_saved_work
     app.register_blueprint(dashboard_bp)
-    
+
+    from app.routes.dsa import dsa_bp
+    app.register_blueprint(dsa_bp)
+
     from functools import wraps
 
     from flask import redirect, render_template, request, url_for
@@ -54,9 +57,10 @@ def create_app(config_name=None):
     # Pages a successful login may send the user on to (via ?next=). An
     # allowlist rather than "any local path", so /login?next=... can never be
     # turned into an open redirect.
-    POST_LOGIN_PAGES = {"/dashboard", "/quiz", "/conversation", "/roadmap", "/resume"}
+    POST_LOGIN_PAGES = {"/dashboard", "/quiz", "/conversation", "/roadmap", "/resume", "/dsa"}
     # Where a plain login (no ?next=) goes. /dashboard shows a returning user's
-    # saved results, and sends a brand-new user (nothing saved yet) on to /quiz.
+    # saved results, and sends a brand-new user (nothing saved yet) to the home
+    # page, where all the phases are offered side by side.
     DEFAULT_POST_LOGIN_PAGE = "/dashboard"
 
     def post_login_target():
@@ -78,7 +82,9 @@ def create_app(config_name=None):
 
     @app.route("/")
     def index():
-        return render_template("index.html")
+        # The dashboard link is only useful once there is something on it.
+        has_saved_work = current_user.is_authenticated and user_has_saved_work(current_user.id)
+        return render_template("index.html", has_saved_work=has_saved_work)
 
     @app.route("/signup", methods=["GET"])
     def signup_page():
@@ -99,10 +105,11 @@ def create_app(config_name=None):
     @app.route("/dashboard", methods=["GET"])
     @page_login_required
     def dashboard_page():
-        # Nothing saved yet = a first-time user: keep the normal first-time flow
-        # (start at the quiz) rather than showing an empty dashboard.
+        # Nothing saved yet = a first-time user: send them to the home page, where
+        # career guidance, the resume analyzer and DSA practice are all offered
+        # independently, rather than an empty dashboard or a forced start at the quiz.
         if not user_has_saved_work(current_user.id):
-            return redirect("/quiz")
+            return redirect("/")
         return render_template("dashboard.html")
 
     @app.route("/quiz", methods=["GET"])
@@ -124,6 +131,11 @@ def create_app(config_name=None):
     @page_login_required
     def resume_page():
         return render_template("resume.html")
+
+    @app.route("/dsa", methods=["GET"])
+    @page_login_required
+    def dsa_page():
+        return render_template("dsa.html")
 
     @app.route("/db-check")
     def db_check():

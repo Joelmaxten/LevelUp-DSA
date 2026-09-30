@@ -1,0 +1,301 @@
+{% extends "layout.html" %}
+
+{% block title %}Skill map | LevelUp DSA{% endblock %}
+
+{% block content %}
+<div class="sheet">
+    <header class="row row-head">
+        <div class="margin"></div>
+        <div class="main">
+            <h1 class="page-title" id="dsa-heading">Skill map</h1>
+            <p class="lead">
+                Every data structures and algorithms topic, and what you need first. A topic opens once you've mastered
+                the ones pointing into it. Select a topic to see its problems, retold for your career path.
+            </p>
+        </div>
+    </header>
+
+    <div id="dsa-box"></div>
+</div>
+
+{# Pinned version. D3 draws the graph; if it can't load, the page says so instead of staying blank. #}
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+<script src="{{ url_for('static', filename='js/dna_map.js') }}"></script>
+<script>
+const box = document.getElementById("dsa-box");
+
+let pickedPath = null;   // only set when the user has no quiz result and had to choose a path
+let mapData = null;      // the /dsa/map response
+let map = null;          // { select(id) } from drawSkillMap
+let selectedId = null;
+
+function errorMessage(result) {
+    if (result.status === 0) return "Couldn't reach the server. Check your connection and try again.";
+    return (result.data && result.data.error) || "Something went wrong. Please try again.";
+}
+
+function showLoading(message) {
+    box.replaceChildren(row([], working(message)));
+}
+
+function renderError(result, retry) {
+    const actions = el("div", { className: "actions" });
+    let message;
+    if (result.status === 401) {
+        message = "You need to be logged in to continue.";
+        actions.append(el("a", { className: "btn", href: "/login?next=/dsa", text: "Log in" }));
+    } else {
+        message = errorMessage(result);
+        const again = el("button", { className: "btn", type: "button", text: "Try again" });
+        again.addEventListener("click", retry);
+        actions.append(again);
+    }
+    box.replaceChildren(row([], el("div", { className: "msg msg-error", role: "alert" }, el("p", { text: message }), actions)));
+}
+
+// The user has no quiz result, so the server wants a career path. Ask, then load again with the choice.
+function renderPathPicker(result) {
+    box.replaceChildren(careerPathPicker({
+        options: result.data.options,
+        message: result.data.error === "invalid_career_path" ? result.data.message : undefined,
+        lead: "Your map highlights the topics that matter most for the path you pick, and your problems are retold around it.",
+        submitText: "Show my skill map",
+        preselected: pickedPath || "",
+        onSubmit: (path) => {
+            pickedPath = path;
+            loadMap();
+        },
+    }));
+}
+
+function legendItem(swatch, text) {
+    return el("li", {}, swatch, el("span", { text }));
+}
+
+function legend() {
+    const swatch = (className, ...shapes) => {
+        const svg = svgEl("svg", { width: "26", height: "26", viewBox: "-13 -13 26 26", "aria-hidden": "true", focusable: "false", class: `legend-node ${className}` }, ...shapes);
+        return svg;
+    };
+    const circle = (r, extra) => svgEl("circle", { r: String(r), class: "body", ...extra });
+    return el("ul", { className: "legend", "aria-label": "How to read the map" },
+        legendItem(swatch("state-locked", circle(9)), "Locked"),
+        legendItem(swatch("state-unlocked", circle(9)), "Open: the ring shows how far you are"),
+        legendItem(swatch("state-mastered", circle(9)), "Mastered"),
+        legendItem(el("span", { className: "legend-mark", text: "Label" }), "Matters for your path")
+    );
+}
+
+function selectNode(id, { focusPanel } = {}) {
+    const node = mapData.nodes.find((n) => n.id === id);
+    if (!node) return;
+    selectedId = id;
+    map.select(id);
+    renderPanel(node, focusPanel);
+}
+
+function panelShell(marginNodes, mainNodes) {
+    return row(marginNodes, mainNodes, "node-panel-row");
+}
+
+function mountPanel(rowNode, focusPanel) {
+    const panel = document.getElementById("node-panel");
+    panel.replaceChildren(rowNode);
+    if (focusPanel) {
+        const heading = panel.querySelector("h2");
+        if (heading) {
+            heading.setAttribute("tabindex", "-1");
+            heading.focus();   // also scrolls the panel into view, which matters when the map fills the screen
+        }
+    }
+}
+
+function renderPanelHint() {
+    mountPanel(panelShell(
+        rowTitle("Topic", 2),
+        el("p", { className: "ask-text", text: "Select a topic on the map to see its problems. Open topics show their problems; locked ones show what to master first." })
+    ), false);
+}
+
+function renderPanel(node, focusPanel) {
+    if (node.state === "locked") {
+        renderLockedPanel(node, focusPanel);
+    } else {
+        renderProblemsPanel(node, focusPanel);
+    }
+}
+
+function renderLockedPanel(node, focusPanel) {
+    const buttons = node.blocked_by.map((b) => {
+        const btn = el("button", { className: "btn btn-outline", type: "button", text: b.topic });
+        btn.addEventListener("click", () => selectNode(b.id, { focusPanel: true }));
+        return btn;
+    });
+    mountPanel(panelShell(
+        [rowTitle(node.topic, 2), el("p", { className: "note", text: "Locked" })],
+        [
+            el("p", { className: "ask-text", text: "You can't open this topic yet. Master " + node.blocked_by.map((b) => b.topic).join(" and ") + " first." }),
+            el("div", { className: "actions" }, ...buttons)
+        ]
+    ), focusPanel);
+}
+
+function masteryMeter(node) {
+    const pct = Math.round(node.mastery_level * 100);
+    const need = Math.round(mapData.mastery_threshold * 100);
+    const fill = el("span", { className: "scale-fill" });
+    fill.style.width = Math.min(pct, 100) + "%";
+    const track = el("span", { className: "scale", role: "img", "aria-label": `Mastery ${pct} percent. ${need} percent counts as mastered.` }, fill);
+    return el("div", { className: "meter" },
+        el("p", { className: "note", text: node.state === "mastered" ? `Mastered (${pct}%)` : `${pct}% mastered. ${need}% opens what's next.` }),
+        track
+    );
+}
+
+async function renderProblemsPanel(node, focusPanel) {
+    const stateText = node.state === "mastered" ? "Mastered" : "Open";
+    mountPanel(panelShell(
+        [rowTitle(node.topic, 2), el("p", { className: "note", text: `${stateText} · ${node.difficulty}` }), masteryMeter(node)],
+        working("Loading problems...")
+    ), focusPanel);
+
+    const result = await getJson(`/dsa/nodes/${node.id}/problems`);
+    if (selectedId !== node.id) return;   // the student moved on while this loaded
+
+    const margin = [rowTitle(node.topic, 2), el("p", { className: "note", text: `${stateText} · ${node.difficulty}` }), masteryMeter(node)];
+    if (!result.ok) {
+        mountPanel(panelShell(margin, el("div", { className: "msg msg-error", role: "alert" }, el("p", { text: errorMessage(result) }))), focusPanel);
+        return;
+    }
+
+    const problems = result.data.problems;
+    const main = problems.map(problemBlock);
+    main.push(el("p", { className: "note fine-print", text: "You can read the problems now. Writing, running and submitting code arrives in the next update." }));
+    mountPanel(panelShell(margin, main), focusPanel);   // re-mounting drops focus, so hand it back to the heading
+    // Scenarios come in one by one, after the problems themselves are already readable.
+    problems.forEach((p) => loadScenario(p.id));
+}
+
+// A value shown the way a student would write it: strings quoted, lists bracketed.
+function show(value) {
+    return JSON.stringify(value);
+}
+
+function problemBlock(problem) {
+    const examples = problem.examples.map((ex) => el("li", {},
+        el("code", { className: "code", text: Object.entries(ex.input).map(([k, v]) => `${k} = ${show(v)}`).join(", ") }),
+        el("span", { className: "arrow-out", text: " gives " }),
+        el("code", { className: "code", text: show(ex.expected_output) })
+    ));
+
+    return el("article", { className: "problem" },
+        el("h3", { className: "problem-title", text: problem.title }),
+        el("p", { className: "note", text: `${problem.difficulty} · ${problem.points} XP${problem.solved ? " · Solved" : ""}` }),
+        el("div", { className: "scenario", id: `scenario-${problem.id}` }, working("Writing your scenario...")),
+        el("h4", { className: "problem-label", text: "The problem" }),
+        el("p", { className: "prose", text: problem.description }),
+        problem.examples.length
+            ? el("div", {}, el("h4", { className: "problem-label", text: "Examples" }), el("ul", { className: "examples" }, ...examples))
+            : ""
+    );
+}
+
+async function loadScenario(problemId) {
+    const holder = document.getElementById(`scenario-${problemId}`);
+    if (!holder) return;
+    holder.replaceChildren(working("Writing your scenario..."));
+
+    const result = await postJson(`/dsa/problems/${problemId}/framing`, pickedPath ? { target_career_path: pickedPath } : undefined);
+    if (!holder.isConnected) return;   // the student moved on
+
+    if (result.ok) {
+        holder.replaceChildren(
+            el("h4", { className: "problem-label", text: `Your scenario: ${mapData.career_path}` }),
+            el("p", { className: "scenario-text", text: result.data.narrative }),
+            el("p", { className: "note", text: "Only this story is rewritten for you. The problem below and its tests are the standard ones." })
+        );
+        return;
+    }
+
+    // Gemini being busy or out of quota must not block the problem itself, which is already on screen.
+    const raw = (result.data && result.data.error) || "";
+    if (result.status === 502) console.error("Scenario generation failed:", raw);
+    let message = errorMessage(result);
+    if (result.status === 502) {
+        message = /RESOURCE_EXHAUSTED|quota/i.test(raw)
+            ? "The AI service's usage limit has been reached for now, so there's no career scenario. The problem below is complete."
+            : "We couldn't write your career scenario right now. The problem below is complete.";
+    }
+    const retry = el("button", { className: "btn-quiet", type: "button", text: "Try the scenario again" });
+    retry.addEventListener("click", () => loadScenario(problemId));
+    holder.replaceChildren(el("div", { className: "msg", role: "status" }, el("p", { text: message }), el("div", { className: "actions" }, retry)));
+}
+
+function renderMap() {
+    const summary = mapData.summary;
+    const marginNotes = [
+        el("p", { className: "note", text: "Built for" }),
+        el("p", { className: "note", text: `${summary.mastered} of ${summary.total} topics mastered` }),
+    ];
+    if (pickedPath) {
+        const change = el("button", { className: "btn-quiet", type: "button", text: "Choose a different path" });
+        change.addEventListener("click", () => { selectedId = null; loadMapPicker(); });
+        marginNotes.push(el("div", { className: "actions row-actions" }, change));
+    }
+
+    const mapHolder = el("div", { className: "skillmap", id: "skillmap" });
+    box.replaceChildren(
+        row(marginNotes, [
+            el("h2", { className: "path-name" }, el("span", { className: "mark", text: mapData.career_path })),
+            legend(),
+            mapHolder
+        ]),
+        el("div", { id: "node-panel", "aria-live": "polite" })
+    );
+
+    map = drawSkillMap(mapHolder, mapData, { onSelect: (node) => selectNode(node.id, { focusPanel: true }) });
+
+    // Keep the student's place if the map was redrawn, otherwise show the hint.
+    if (selectedId !== null && mapData.nodes.some((n) => n.id === selectedId)) {
+        selectNode(selectedId, { focusPanel: false });
+    } else {
+        selectedId = null;
+        renderPanelHint();
+    }
+}
+
+// Ask for a career path again (only offered to users who picked one rather than taking the quiz).
+async function loadMapPicker() {
+    const result = await getJson("/dsa/map");
+    if (isCareerPathSignal(result)) {
+        renderPathPicker(result);
+    } else {
+        loadMap();
+    }
+}
+
+async function loadMap() {
+    if (typeof d3 === "undefined") {
+        box.replaceChildren(row([], el("div", { className: "msg msg-error", role: "alert" },
+            el("p", { text: "The skill map's drawing library couldn't be loaded. Check your connection and reload the page." })
+        )));
+        return;
+    }
+
+    showLoading("Loading your skill map...");
+    const url = pickedPath ? `/dsa/map?target_career_path=${encodeURIComponent(pickedPath)}` : "/dsa/map";
+    const result = await getJson(url);
+
+    if (result.ok) {
+        mapData = result.data;
+        renderMap();
+    } else if (isCareerPathSignal(result)) {
+        renderPathPicker(result);
+    } else {
+        renderError(result, loadMap);
+    }
+}
+
+loadMap();
+</script>
+{% endblock %}

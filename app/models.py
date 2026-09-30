@@ -250,11 +250,15 @@ class GeneratedRoadmap(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     career_path = db.Column(db.String(120), nullable=False)
-    steps = db.Column(db.JSON, nullable=False)             # list of {step_number, title, description, subtopics,
-                                                            # topic_refs, projects} - older rows predate subtopics/
-                                                            # topic_refs/projects and only have the first three keys
-    retrieved_chunks = db.Column(db.JSON)                  # {queries, retrieved, steps} audit trail of what grounded
-                                                            # this generation - older rows are a flat [{source, score}] list
+    steps = db.Column(db.JSON, nullable=False)             # {phases: [{phase_number, title, steps: [{step_number,
+                                                            # global_step_index, title, description, subtopics,
+                                                            # topic_refs, projects}]}]} - older rows predate phases and
+                                                            # are a flat list of steps (some also predate subtopics/
+                                                            # topic_refs/projects/global_step_index)
+    retrieved_chunks = db.Column(db.JSON)                  # {phases: [{phase_number, title, queries, retrieved,
+                                                            # steps}]} audit trail of what grounded each phase - older
+                                                            # rows predate phases (a flat {queries, retrieved, steps}
+                                                            # dict, or, older still, a flat [{source, score}] list)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     user = db.relationship("User", backref="generated_roadmaps")
