@@ -69,6 +69,7 @@ roadmap.
 
 import json
 import logging
+import math
 
 import numpy as np
 
@@ -84,6 +85,15 @@ FULL_STACK_PATH = FULL_STACK
 TOTAL_K = 30
 PER_FOLDER_CAP = 6
 TOPIC_REFS_PER_STEP_RANGE = "6-12"
+
+# Both PRIMARY_MODEL and FALLBACK_MODEL (gemini_client.py) were confirmed to
+# have a 65536-token output ceiling (see that module's docstring). A single
+# phase's JSON step array has never been observed to need more than a few
+# thousand tokens even at the largest MAX per-folder target (14 steps x up
+# to 12 topic_refs + 2-3 projects each) - this is a generous cap well under
+# the model's real ceiling, not a request for the maximum, to leave Gemini
+# headroom without over-requesting.
+ROADMAP_PHASE_MAX_OUTPUT_TOKENS = 16384
 
 # Per-phase step-count target, computed per folder from its (deduped) topic
 # count n and summed across a merged phase's constituent folders - see
@@ -430,7 +440,7 @@ def _inventory_block(topics):
         f"Topic inventory for THIS PHASE ({len(topics)} real topics, one per line, "
         "format node_id|title|folder). \"topic_refs\" must ONLY use node_id values "
         "from this list - never invent one, and never use a node_id from a different "
-        "phase. Prefer subtopics/topic_refs that also appear (by title) in the "
+        "phase. Prefer topic_refs that also appear (by title) in the "
         "reference material above; you may also draw on other topics from this "
         "inventory when clearly relevant to a step.\n"
         f"{lines}"
@@ -475,7 +485,7 @@ def _project_instructions(checkpoint_chunks):
         )
     return (
         "No curated project material exists for this phase in the knowledge base. "
-        "Projects are your own suggestions based on the step's subtopics, not "
+        "Projects are your own suggestions based on the step's topic_refs, not "
         'grounded in retrieved material - set "grounded": false on every project.'
     )
 
@@ -491,9 +501,6 @@ backticks, no preamble - an array of objects, each with exactly these keys:
 - "title" (string, short)
 - "description" (string, 1-2 sentences explaining why this step matters for
   this student specifically, referencing their goal/context where relevant)
-- "subtopics" (array of 3-5 strings: real topic titles this step covers -
-  prefer titles that appear in the reference material above; may also use
-  other titles from this phase's topic inventory)
 - "topic_refs" (array of strings: {TOPIC_REFS_PER_STEP_RANGE} node_id values
   from this phase's topic inventory that ground this step - never invented
   ones, never a node_id from a different phase)
@@ -557,7 +564,7 @@ Student context:
 - Wants to avoid: {conversation_signals.get('avoid', 'not specified')}
 - Target company type: {conversation_signals.get('target_company', 'not specified')}
 {_notes_block(conversation_signals)}
-You must base this phase's descriptions, subtopics, and topic_refs ONLY on
+You must base this phase's descriptions and topic_refs ONLY on
 the reference material and topic inventory below. Do not invent skills,
 tools, or steps that are not grounded in this material. topic_refs
 specifically must only contain node_id values that appear in the topic
@@ -602,42 +609,47 @@ def _validate_topic_refs(steps, valid_node_ids):
     return steps
 
 
-def _fix_subtopic_node_ids(steps, topics):
+def _derive_subtopics(steps, phase_node_id_to_title):
     """
-    Gemini occasionally puts a topic_refs-style node_id in "subtopics" where
-    a real topic title belongs (observed in testing). Any subtopics entry
-    that exactly matches a node_id from this phase's topic list is replaced
-    with that node's real title; a warning is logged per correction.
-    Mutates and returns `steps`.
+    "subtopics" is no longer asked of Gemini (it was redundant with
+    topic_refs and the source of every raw-node-id-in-subtopics leak this
+    module used to have to detect and patch - see _fix_subtopic_node_ids,
+    removed). Instead, once topic_refs has been validated against this
+    phase's own topic inventory, subtopics is deterministically set to the
+    titles of that step's first 5 topic_refs, in order - real topic titles
+    by construction, so no post-hoc leak check is needed. The key is kept
+    in stored output so old renderers/roadmaps (which expect it) keep
+    working. Mutates and returns `steps`.
     """
-    node_id_to_title = {t["node_id"]: t["title"] for t in topics}
     for step in steps:
-        subtopics = step.get("subtopics") or []
-        fixed = []
-        for entry in subtopics:
-            if entry in node_id_to_title:
-                logger.warning(
-                    "Replaced raw node_id %r found in subtopics with its real title %r "
-                    "for roadmap step %r (%r).",
-                    entry, node_id_to_title[entry], step.get("step_number"), step.get("title"),
-                )
-                fixed.append(node_id_to_title[entry])
-            else:
-                fixed.append(entry)
-        step["subtopics"] = fixed
+        refs = (step.get("topic_refs") or [])[:5]
+        step["subtopics"] = [phase_node_id_to_title[ref] for ref in refs]
     return steps
 
 
 def _assign_more_topics(phase, steps, node_id_to_chunk):
     """
     Deterministically assigns every deduped topic in this phase's slice that
-    no step's topic_refs already covers to exactly one step: the step whose
-    "title. subtopics description" embedding has the highest cosine
-    similarity to the topic's own embedded "title. text" (the same
-    title+text embedding convention embed_chunks() already uses for KB
-    chunks - see its docstring). This lets a student see every topic this
-    phase actually covers, not just the handful of topic_refs each step was
-    scoped to during generation.
+    no step's topic_refs already covers to exactly one step, capacity-aware
+    so assignment doesn't pile onto whichever step happens to embed closest
+    to everything: the step whose "title. subtopics description" embedding
+    has the highest cosine similarity to the topic's own embedded
+    "title. text" (the same title+text embedding convention embed_chunks()
+    already uses for KB chunks - see its docstring) AND still has room under
+    its per-step cap. This lets a student see every topic this phase
+    actually covers, not just the handful of topic_refs each step was
+    scoped to during generation, without a handful of steps absorbing most
+    of the phase.
+
+    Per-step capacity cap = max(30, ceil(1.3 * phase_topic_count /
+    phase_step_count)), counting topic_refs + more_topics together - a step
+    starts "full" up to however many topic_refs it already has. Leftover
+    topics are processed in descending order of their own best similarity
+    score (the most confidently-placed topics claim their best step first);
+    each goes to its most similar step that still has room, or, if every
+    step is already at cap, to the currently least-full step. Still fully
+    deterministic and still exactly one embedding pass (no extra Gemini
+    calls) - only the assignment rule changed, not the embeddings.
 
     Mutates and returns `steps`: every step gets a "more_topics" key (list
     of {"node_id", "title"}, sorted by similarity descending, empty if
@@ -674,13 +686,25 @@ def _assign_more_topics(phase, steps, node_id_to_chunk):
     topic_unit = topic_embeddings / np.linalg.norm(topic_embeddings, axis=1, keepdims=True)
 
     similarity = topic_unit @ step_unit.T  # (n_leftover_topics, n_steps)
-    best_step_idx = similarity.argmax(axis=1)
+
+    phase_topic_count = len(phase["topics"])
+    phase_step_count = len(steps)
+    cap = max(30, math.ceil(1.3 * phase_topic_count / phase_step_count))
+
+    counts = [len(step.get("topic_refs") or []) for step in steps]
+    best_scores = similarity.max(axis=1)
+    processing_order = sorted(range(len(leftover)), key=lambda i: -best_scores[i])
 
     assigned = [[] for _ in steps]
-    for topic_i, topic in enumerate(leftover):
-        step_i = int(best_step_idx[topic_i])
-        score = float(similarity[topic_i, step_i])
-        assigned[step_i].append((score, {"node_id": topic["node_id"], "title": topic["title"]}))
+    for topic_i in processing_order:
+        topic = leftover[topic_i]
+        ranked_steps = sorted(range(len(steps)), key=lambda s: -similarity[topic_i, s])
+        target_step = next((s for s in ranked_steps if counts[s] < cap), None)
+        if target_step is None:
+            target_step = min(range(len(steps)), key=lambda s: counts[s])
+        counts[target_step] += 1
+        score = float(similarity[topic_i, target_step])
+        assigned[target_step].append((score, {"node_id": topic["node_id"], "title": topic["title"]}))
 
     for step, items in zip(steps, assigned):
         items.sort(key=lambda pair: -pair[0])
@@ -816,7 +840,7 @@ def generate_roadmap(career_path, conversation_signals, index, chunks):
         steps = None
         for attempt in (1, 2):
             prompt = _build_prompt(career_path, phase, retrieved_for_prompt, checkpoint_chunks, conversation_signals, used_node_ids, used_titles, target_steps)
-            raw_text = _strip_code_fences(generate_with_retry(prompt))
+            raw_text = _strip_code_fences(generate_with_retry(prompt, max_output_tokens=ROADMAP_PHASE_MAX_OUTPUT_TOKENS, json_mode=True))
             try:
                 steps = json.loads(raw_text)
                 break
@@ -836,7 +860,8 @@ def generate_roadmap(career_path, conversation_signals, index, chunks):
                 )
 
         steps = _validate_topic_refs(steps, phase_node_ids)
-        steps = _fix_subtopic_node_ids(steps, phase["topics"])
+        phase_node_id_to_title = {t["node_id"]: t["title"] for t in phase["topics"]}
+        steps = _derive_subtopics(steps, phase_node_id_to_title)
 
         node_id_to_chunk = {c["node_id"]: c for c in chunks if c.get("node_id") in phase_node_ids}
         steps = _assign_more_topics(phase, steps, node_id_to_chunk)

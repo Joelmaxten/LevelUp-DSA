@@ -112,7 +112,6 @@ def main():
     phases = roadmap["phases"]
 
     dropped_ref_warnings = [m for m in capture_handler.records if m.startswith("Dropped invalid topic_ref")]
-    subtopic_fix_warnings = [m for m in capture_handler.records if m.startswith("Replaced raw node_id")]
     folder_order_warnings = [m for m in capture_handler.records if "Folder-order response" in m]
     truncation_retry_warnings = [m for m in capture_handler.records if "retrying once with target reduced" in m]
 
@@ -206,23 +205,38 @@ def main():
     for pi, ti, pj, tj, sim in near_dupe_pairs:
         print(f"      phase {pi} {ti!r}  <->  phase {pj} {tj!r}  (similarity {sim:.2f})")
 
-    print("\n-- e. Raw node_id leaks in subtopics, per phase --")
-    total_leaked = 0
+    # subtopics is no longer requested from Gemini - roadmap_generator now
+    # derives it deterministically as the titles of each step's first 5
+    # topic_refs (_derive_subtopics), so _fix_subtopic_node_ids (the old
+    # raw-node-id-in-subtopics patch) was removed as dead code: nothing can
+    # leak a raw node_id into a field that's built from validated titles.
+    # This replaces the old "raw node_id leak" check with a direct
+    # assertion that the derivation actually happened as specified.
+    node_id_to_title = {t["node_id"]: t["title"] for t in deduped_inventory}
+    print("\n-- e. Assert subtopics == titles of first 5 topic_refs, per step --")
+    subtopic_mismatches = []
     for p in phases:
-        leaked = []
         for s in p["steps"]:
-            for sub in s.get("subtopics", []):
-                if looks_like_node_id(sub):
-                    leaked.append((s.get("step_number"), sub))
-        total_leaked += len(leaked)
-        extra = f" - {leaked}" if leaked else ""
-        print(f"    Phase {p['phase_number']} ({p['title']}): {len(leaked)}{extra}")
+            expected = [node_id_to_title.get(ref, f"<unknown:{ref}>") for ref in (s.get("topic_refs") or [])[:5]]
+            actual = s.get("subtopics") or []
+            if actual != expected:
+                subtopic_mismatches.append((p["phase_number"], s.get("step_number"), expected, actual))
+    if subtopic_mismatches:
+        print(f"    MISMATCHES: {len(subtopic_mismatches)}")
+        for phase_num, step_num, expected, actual in subtopic_mismatches:
+            print(f"      Phase {phase_num} / step {step_num}: expected {expected!r} but got {actual!r}")
+    else:
+        print(f"    All {sum(len(p['steps']) for p in phases)} steps match - subtopics == titles of first 5 topic_refs.")
+    leaked_any = [
+        (p["phase_number"], s.get("step_number"), sub)
+        for p in phases for s in p["steps"] for sub in (s.get("subtopics") or [])
+        if looks_like_node_id(sub)
+    ]
+    print(f"    (raw node_id leaks in subtopics: {len(leaked_any)} - structurally should be 0 now)")
 
     print(f"\n-- f. Invalid topic_refs dropped by validation: {len(dropped_ref_warnings)} --")
     for m in dropped_ref_warnings:
         print(f"    {m}")
-    if subtopic_fix_warnings:
-        print(f"    (also {len(subtopic_fix_warnings)} subtopic node_id->title auto-corrections - see item e)")
     if folder_order_warnings:
         print(f"    Folder-order Gemini response needed a retry/fallback: {folder_order_warnings}")
     print(f"    Phase responses that needed a truncation/invalid-JSON retry with a reduced target: {len(truncation_retry_warnings)}")
