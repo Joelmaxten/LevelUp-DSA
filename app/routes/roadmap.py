@@ -123,8 +123,10 @@ def attach_resources(roadmap_id):
     if roadmap is None:
         return jsonify({"error": "Roadmap not found."}), 404
 
+    _, chunks = _get_index()
+
     try:
-        enriched_steps = fetch_resources_for_roadmap(roadmap.steps)
+        enriched_steps, _resource_stats = fetch_resources_for_roadmap(roadmap.steps, chunks=chunks)
     except Exception as e:
         return jsonify({
             "error": "Failed to fetch YouTube resources.",

@@ -95,6 +95,11 @@ TOPIC_REFS_PER_STEP_RANGE = "6-12"
 # headroom without over-requesting.
 ROADMAP_PHASE_MAX_OUTPUT_TOKENS = 16384
 
+# The folder-ordering call's response is just a JSON array of folder name
+# strings (at most ~7 per career path) - a few hundred tokens at most, so
+# this cap is small on purpose, not "generous" like the phase calls above.
+FOLDER_ORDER_MAX_OUTPUT_TOKENS = 1024
+
 # Per-phase step-count target, computed per folder from its (deduped) topic
 # count n and summed across a merged phase's constituent folders - see
 # _folder_step_target(). A folder that's the actual subject of the career
@@ -311,7 +316,7 @@ def _order_folders(career_path, by_folder):
 
     prompt = _folder_order_prompt(career_path, by_folder, folder_names)
 
-    raw = _strip_code_fences(generate_with_retry(prompt))
+    raw = _strip_code_fences(generate_with_retry(prompt, max_output_tokens=FOLDER_ORDER_MAX_OUTPUT_TOKENS, json_mode=True))
     order = _parse_folder_order(raw, folder_names)
 
     if order is None:
@@ -319,7 +324,7 @@ def _order_folders(career_path, by_folder):
             "Folder-order response invalid for %r (expected exactly %r), retrying once.",
             career_path, folder_names,
         )
-        raw = _strip_code_fences(generate_with_retry(prompt))
+        raw = _strip_code_fences(generate_with_retry(prompt, max_output_tokens=FOLDER_ORDER_MAX_OUTPUT_TOKENS, json_mode=True))
         order = _parse_folder_order(raw, folder_names)
 
     if order is None:
@@ -616,14 +621,29 @@ def _derive_subtopics(steps, phase_node_id_to_title):
     module used to have to detect and patch - see _fix_subtopic_node_ids,
     removed). Instead, once topic_refs has been validated against this
     phase's own topic inventory, subtopics is deterministically set to the
-    titles of that step's first 5 topic_refs, in order - real topic titles
-    by construction, so no post-hoc leak check is needed. The key is kept
-    in stored output so old renderers/roadmaps (which expect it) keep
-    working. Mutates and returns `steps`.
+    first 5 DISTINCT topic_refs titles (case-insensitive - the KB has a
+    handful of genuinely duplicate-titled nodes, e.g. 3 separate "Playwright"
+    entries in the qa folder, and a step whose topic_refs happen to include
+    more than one would otherwise repeat the same title) in topic_refs
+    order; if a step has fewer than 5 distinct titles among its topic_refs,
+    subtopics is just shorter. Real topic titles by construction, so no
+    post-hoc leak check is needed. The key is kept in stored output so old
+    renderers/roadmaps (which expect it) keep working. Mutates and returns
+    `steps`.
     """
     for step in steps:
-        refs = (step.get("topic_refs") or [])[:5]
-        step["subtopics"] = [phase_node_id_to_title[ref] for ref in refs]
+        subtopics = []
+        seen_lower = set()
+        for ref in step.get("topic_refs") or []:
+            title = phase_node_id_to_title[ref]
+            key = title.lower()
+            if key in seen_lower:
+                continue
+            seen_lower.add(key)
+            subtopics.append(title)
+            if len(subtopics) == 5:
+                break
+        step["subtopics"] = subtopics
     return steps
 
 

@@ -257,7 +257,15 @@ class GeneratedRoadmap(db.Model):
                                                             # topic_refs, assigned to their nearest step by embedding
                                                             # similarity - older rows predate phases and are a flat
                                                             # list of steps (some also predate subtopics/topic_refs/
-                                                            # projects/global_step_index/more_topics)
+                                                            # projects/global_step_index/more_topics). Once
+                                                            # /roadmap/<id>/resources has run (youtube_resources.py),
+                                                            # each step also has "videos" ([{title, url, video_id,
+                                                            # source: "roadmap.sh"|"youtube_search", topic}], KB-first
+                                                            # then YouTube-search fallback) and "resources" ([{type:
+                                                            # "official"|"course", title, url, topic}], KB-only) -
+                                                            # "resource" ({title, url} of the first video, or None) is
+                                                            # also still set, kept only for compatibility with pages
+                                                            # that predate "videos"/"resources".
     retrieved_chunks = db.Column(db.JSON)                  # {phases: [{phase_number, title, queries, retrieved,
                                                             # steps}]} audit trail of what grounded each phase - older
                                                             # rows predate phases (a flat {queries, retrieved, steps}
