@@ -114,6 +114,7 @@ def main():
     dropped_ref_warnings = [m for m in capture_handler.records if m.startswith("Dropped invalid topic_ref")]
     subtopic_fix_warnings = [m for m in capture_handler.records if m.startswith("Replaced raw node_id")]
     folder_order_warnings = [m for m in capture_handler.records if "Folder-order response" in m]
+    truncation_retry_warnings = [m for m in capture_handler.records if "retrying once with target reduced" in m]
 
     # ---------- Save raw result ----------
     SCRATCH_DIR.mkdir(exist_ok=True)
@@ -129,26 +130,59 @@ def main():
     print(f"\n{'=' * 100}\n{career_path}\n{'=' * 100}")
     print(f"Saved full result to: {out_path}")
 
-    print("\n-- a. Phases (in order) --")
+    phase_target_map = {p["phase_number"]: p.get("target_steps") for p in phase_plan}
+
+    print("\n-- a. Phases (in order): target vs actual step count --")
     for p in phases:
         folders = phase_folder_map.get(p["phase_number"], Counter())
         folder_str = ", ".join(f"{f}({n})" for f, n in folders.most_common())
-        print(f"  Phase {p['phase_number']}: {p['title']!r} - folders: [{folder_str}] - {len(p['steps'])} steps")
+        target = phase_target_map.get(p["phase_number"])
+        actual = len(p["steps"])
+        refs_per_step = [len(s.get("topic_refs") or []) for s in p["steps"]]
+        avg_refs = (sum(refs_per_step) / len(refs_per_step)) if refs_per_step else 0.0
+        more_counts = [len(s.get("more_topics") or []) for s in p["steps"]]
+        max_more = max(more_counts) if more_counts else 0
+        print(f"  Phase {p['phase_number']}: {p['title']!r} - target {target}, actual {actual} steps "
+              f"- avg topic_refs/step: {avg_refs:.1f} - max more_topics on a step: {max_more} "
+              f"- folders: [{folder_str}]")
 
     total_steps = sum(len(p["steps"]) for p in phases)
     print(f"\n-- b. Total steps: {total_steps} | wall-clock: {elapsed:.1f}s --")
 
     all_refs = set()
+    all_refs_and_more = set()
+    oversized_steps = []
     for p in phases:
         for s in p["steps"]:
-            all_refs.update(s.get("topic_refs", []))
+            refs = s.get("topic_refs") or []
+            more = s.get("more_topics") or []
+            all_refs.update(refs)
+            all_refs_and_more.update(refs)
+            all_refs_and_more.update(m["node_id"] for m in more)
+            combined_n = len(refs) + len(more)
+            if combined_n > 40:
+                oversized_steps.append((p["phase_number"], s.get("step_number"), s.get("title"), combined_n))
+
     coverage_pct = (len(all_refs) / deduped_size * 100) if deduped_size else 0.0
-    print(f"\n-- c. Coverage: {len(all_refs)}/{deduped_size} = {coverage_pct:.1f}% --")
+    coverage_with_more_pct = (len(all_refs_and_more) / deduped_size * 100) if deduped_size else 0.0
+    print(f"\n-- c. Coverage (topic_refs only): {len(all_refs)}/{deduped_size} = {coverage_pct:.1f}% --")
     refs_by_folder = Counter(node_id_to_folder.get(r, "UNKNOWN") for r in all_refs)
     for folder, dedup_n in deduped_by_folder.most_common():
         used_n = refs_by_folder.get(folder, 0)
         pct = (used_n / dedup_n * 100) if dedup_n else 0.0
         print(f"    {folder}: {used_n}/{dedup_n} = {pct:.1f}%")
+
+    print(f"\n-- c2. Coverage (topic_refs + more_topics, expected 100%): "
+          f"{len(all_refs_and_more)}/{deduped_size} = {coverage_with_more_pct:.1f}% --")
+    refs_and_more_by_folder = Counter(node_id_to_folder.get(r, "UNKNOWN") for r in all_refs_and_more)
+    for folder, dedup_n in deduped_by_folder.most_common():
+        used_n = refs_and_more_by_folder.get(folder, 0)
+        pct = (used_n / dedup_n * 100) if dedup_n else 0.0
+        print(f"    {folder}: {used_n}/{dedup_n} = {pct:.1f}%")
+
+    print(f"\n-- c3. Steps with topic_refs + more_topics > 40: {len(oversized_steps)} --")
+    for phase_num, step_num, title, n in oversized_steps:
+        print(f"    Phase {phase_num} / step {step_num} {title!r}: {n} combined topics")
 
     print("\n-- d. Duplicates --")
     ref_phase_map = defaultdict(set)
@@ -191,18 +225,24 @@ def main():
         print(f"    (also {len(subtopic_fix_warnings)} subtopic node_id->title auto-corrections - see item e)")
     if folder_order_warnings:
         print(f"    Folder-order Gemini response needed a retry/fallback: {folder_order_warnings}")
+    print(f"    Phase responses that needed a truncation/invalid-JSON retry with a reduced target: {len(truncation_retry_warnings)}")
+    for m in truncation_retry_warnings:
+        print(f"      {m}")
 
     print("\n-- g. Phase order (for manual foundational->advanced judgment) --")
     for p in phases:
         folders = phase_folder_map.get(p["phase_number"], Counter())
         print(f"    Phase {p['phase_number']}: {p['title']} - folders: {list(folders.keys())}")
 
-    print("\n-- h. Every step (phase, step#, title, first 3 subtopics, #projects) --")
+    print("\n-- h. Every step (phase, step#, title, first 3 subtopics, #projects, topic_refs, more_topics) --")
     for p in phases:
         for s in p["steps"]:
             subtopics = (s.get("subtopics") or [])[:3]
+            n_refs = len(s.get("topic_refs") or [])
+            n_more = len(s.get("more_topics") or [])
             print(f"    Phase {p['phase_number']} / step {s.get('step_number')}: {s.get('title')!r} "
-                  f"| subtopics: {subtopics} | projects: {len(s.get('projects') or [])}")
+                  f"| subtopics: {subtopics} | projects: {len(s.get('projects') or [])} "
+                  f"| topic_refs: {n_refs} | more_topics: {n_more}")
 
     print()
 

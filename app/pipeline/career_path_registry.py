@@ -33,35 +33,35 @@ FULL_STACK = "Full-Stack Development"
 
 CAREER_PATH_REGISTRY = [
     {"name": "Full-Stack Development", "folders": ["full-stack", "javascript", "react", "nodejs", "git-github"],
-     "devtypes": ["Developer, full-stack"]},
+     "devtypes": ["Developer, full-stack"], "supporting_folders": ["git-github"]},
     {"name": "AI Engineering", "folders": ["ai-engineer", "ai-agents", "prompt-engineering", "ai-red-teaming", "python"],
-     "devtypes": ["AI/ML engineer", "Developer, AI apps or physical AI"]},
+     "devtypes": ["AI/ML engineer", "Developer, AI apps or physical AI"], "supporting_folders": ["python"]},
     {"name": "Machine Learning Engineering", "folders": ["machine-learning", "mlops", "python"],
-     "devtypes": ["AI/ML engineer", "Applied scientist"]},
+     "devtypes": ["AI/ML engineer", "Applied scientist"], "supporting_folders": ["python"]},
     {"name": "Data Science", "folders": ["python-data-analysis", "sql", "ai-data-scientist", "machine-learning"],
-     "devtypes": ["Data scientist"]},
+     "devtypes": ["Data scientist"], "supporting_folders": ["sql"]},
     {"name": "Data Analytics", "folders": ["data-analyst", "bi-analyst", "power-bi", "sql"],
-     "devtypes": ["Data or business analyst"]},
+     "devtypes": ["Data or business analyst"], "supporting_folders": ["sql"]},
     {"name": "Cybersecurity", "folders": ["cyber-security", "devsecops"],
-     "devtypes": ["Cybersecurity or InfoSec professional"]},
+     "devtypes": ["Cybersecurity or InfoSec professional"], "supporting_folders": []},
     {"name": "Mobile App Development", "folders": ["android", "ios", "react-native"],
-     "devtypes": ["Developer, mobile"]},
+     "devtypes": ["Developer, mobile"], "supporting_folders": []},
     {"name": "Game Development", "folders": ["game-developer", "cpp"],
-     "devtypes": ["Developer, game or graphics"]},
+     "devtypes": ["Developer, game or graphics"], "supporting_folders": ["cpp"]},
     {"name": "Backend Engineering", "folders": ["backend", "sql", "system-design"],
-     "devtypes": ["Developer, back-end"]},
+     "devtypes": ["Developer, back-end"], "supporting_folders": ["sql"]},
     {"name": "UI/UX Design", "folders": ["ux-design", "design-system", "product-design"],
-     "devtypes": ["UX, Research Ops or UI design professional"]},
+     "devtypes": ["UX, Research Ops or UI design professional"], "supporting_folders": []},
     {"name": "Frontend Development", "folders": ["frontend", "html", "css", "javascript", "typescript", "react", "nextjs"],
-     "devtypes": ["Developer, front-end"]},
+     "devtypes": ["Developer, front-end"], "supporting_folders": []},
     {"name": "Cloud Engineering", "folders": ["aws", "docker", "kubernetes", "terraform"],
-     "devtypes": ["Cloud infrastructure engineer"]},
+     "devtypes": ["Cloud infrastructure engineer"], "supporting_folders": []},
     {"name": "DevOps", "folders": ["devops", "docker", "kubernetes", "linux"],
-     "devtypes": ["DevOps engineer or professional", "System administrator"]},
+     "devtypes": ["DevOps engineer or professional", "System administrator"], "supporting_folders": ["linux"]},
     {"name": "QA & Test Automation", "folders": ["python", "sql", "git-github", "api-design", "qa"],
-     "devtypes": ["Developer, QA or test"]},
+     "devtypes": ["Developer, QA or test"], "supporting_folders": ["python", "sql", "git-github"]},
     {"name": "Data Engineering", "folders": ["data-engineer", "sql", "python"],
-     "devtypes": ["Data engineer"]},
+     "devtypes": ["Data engineer"], "supporting_folders": ["python", "sql"]},
 ]
 
 CAREER_PATHS = [entry["name"] for entry in CAREER_PATH_REGISTRY]
@@ -69,3 +69,61 @@ CAREER_PATHS = [entry["name"] for entry in CAREER_PATH_REGISTRY]
 CAREER_PATH_TO_FOLDERS = {entry["name"]: entry["folders"] for entry in CAREER_PATH_REGISTRY}
 
 SURVEY_DEVTYPES = {entry["name"]: entry["devtypes"] for entry in CAREER_PATH_REGISTRY}
+
+# Which of a path's own folders count as "supporting" rather than "primary"
+# for roadmap phase step-count targets (see roadmap_generator.py's
+# _folder_step_target) - a fundamentals folder like "python" inside an
+# AI/ML-specific path gets a smaller target than the folders that are
+# actually the subject of that career path, even though it's a full phase.
+SUPPORTING_FOLDERS = {entry["name"]: set(entry["supporting_folders"]) for entry in CAREER_PATH_REGISTRY}
+
+# Human-readable display name for every roadmap.sh folder used by any career
+# path above - roadmap_generator.py uses these for phase titles instead of a
+# mechanical dash-to-title-case conversion of the raw folder slug. Covers
+# every folder that appears in any CAREER_PATH_REGISTRY entry's "folders".
+FOLDER_DISPLAY_NAMES = {
+    "full-stack": "Full-Stack",
+    "javascript": "JavaScript",
+    "react": "React",
+    "nodejs": "Node.js",
+    "git-github": "Git & GitHub",
+    "ai-engineer": "AI Engineering",
+    "ai-agents": "AI Agents",
+    "prompt-engineering": "Prompt Engineering",
+    "ai-red-teaming": "AI Red Teaming",
+    "python": "Python",
+    "machine-learning": "Machine Learning",
+    "mlops": "MLOps",
+    "python-data-analysis": "Python for Data Analysis",
+    "sql": "SQL",
+    "ai-data-scientist": "AI & Data Science",
+    "data-analyst": "Data Analyst",
+    "bi-analyst": "BI Analyst",
+    "power-bi": "Power BI",
+    "cyber-security": "Cybersecurity",
+    "devsecops": "DevSecOps",
+    "android": "Android",
+    "ios": "iOS",
+    "react-native": "React Native",
+    "game-developer": "Game Development",
+    "cpp": "C++",
+    "backend": "Backend",
+    "system-design": "System Design",
+    "ux-design": "UX Design",
+    "design-system": "Design Systems",
+    "product-design": "Product Design",
+    "frontend": "Frontend",
+    "html": "HTML",
+    "css": "CSS",
+    "typescript": "TypeScript",
+    "nextjs": "Next.js",
+    "aws": "AWS",
+    "docker": "Docker",
+    "kubernetes": "Kubernetes",
+    "terraform": "Terraform",
+    "devops": "DevOps",
+    "linux": "Linux",
+    "api-design": "API Design",
+    "qa": "QA & Testing",
+    "data-engineer": "Data Engineering",
+}

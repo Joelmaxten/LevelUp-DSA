@@ -70,8 +70,11 @@ roadmap.
 import json
 import logging
 
-from app.pipeline.career_path_registry import FULL_STACK
+import numpy as np
+
+from app.pipeline.career_path_registry import FOLDER_DISPLAY_NAMES, FULL_STACK, SUPPORTING_FOLDERS
 from app.pipeline.conversation_data import ADDITIONAL_NOTES_KEY, CONVERSATION_QUESTIONS, OPTION_SIGNALS
+from app.pipeline.embedder import embed_chunks
 from app.pipeline.gemini_client import generate_with_retry
 from app.pipeline.rag import list_topics, search, search_diverse
 
@@ -80,13 +83,27 @@ logger = logging.getLogger(__name__)
 FULL_STACK_PATH = FULL_STACK
 TOTAL_K = 30
 PER_FOLDER_CAP = 6
-STEPS_PER_PHASE_RANGE = "4-8"
+TOPIC_REFS_PER_STEP_RANGE = "6-12"
+
+# Per-phase step-count target, computed per folder from its (deduped) topic
+# count n and summed across a merged phase's constituent folders - see
+# _folder_step_target(). A folder that's the actual subject of the career
+# path ("primary") gets a denser target than one that's just fundamentals
+# tooling for it ("supporting" - see career_path_registry.SUPPORTING_FOLDERS,
+# e.g. "python" inside AI Engineering), so the roadmap spends its step
+# budget where the career path's own name says it should.
+PRIMARY_STEP_TARGET_DIVISOR = 12
+PRIMARY_STEP_TARGET_MIN = 4
+PRIMARY_STEP_TARGET_MAX = 14
+SUPPORTING_STEP_TARGET_DIVISOR = 30
+SUPPORTING_STEP_TARGET_MIN = 2
+SUPPORTING_STEP_TARGET_MAX = 6
 
 # A folder with fewer topics than this gets merged into a neighboring phase
-# rather than becoming its own phase - chosen so a phase's folder has
-# enough real topics to plausibly fill STEPS_PER_PHASE_RANGE (4-8 steps x
-# ~4-6 topic_refs/step is up to ~48 topic_refs) without leaning entirely on
-# round-robin filler, the way the old keyword partition did.
+# rather than becoming its own phase - chosen so a phase's folder has enough
+# real topics to plausibly fill its own step target (see
+# _folder_step_target) without leaning entirely on round-robin filler, the
+# way the old keyword partition did.
 MIN_TOPICS_PER_PHASE = 15
 # Phases are merged further (smallest into its nearest neighbor) if there
 # are still more than this many after the MIN_TOPICS_PER_PHASE pass, so
@@ -306,22 +323,53 @@ def _order_folders(career_path, by_folder):
 
 
 def _humanize_folder(folder):
+    """
+    Fallback only - every folder actually used by a career path is expected
+    to have a curated entry in career_path_registry.FOLDER_DISPLAY_NAMES
+    (see _merge_small_folders), so this mechanical dash-to-title-case
+    conversion should not normally be hit.
+    """
     return folder.replace("-", " ").replace("_", " ").title()
 
 
-def _merge_small_folders(ordered_folders, by_folder):
+def _clamp(value, lo, hi):
+    return max(lo, min(hi, value))
+
+
+def _folder_step_target(n, is_supporting):
+    """
+    How many steps this folder's phase (or its share of a merged phase)
+    should target, from its own (deduped) topic count n - denser for a
+    "primary" folder (the actual subject of the career path) than for a
+    "supporting" one (fundamentals tooling for it - see
+    career_path_registry.SUPPORTING_FOLDERS). Summed across a merged
+    phase's constituent folders by _merge_small_folders.
+    """
+    if is_supporting:
+        return _clamp(round(n / SUPPORTING_STEP_TARGET_DIVISOR), SUPPORTING_STEP_TARGET_MIN, SUPPORTING_STEP_TARGET_MAX)
+    return _clamp(round(n / PRIMARY_STEP_TARGET_DIVISOR), PRIMARY_STEP_TARGET_MIN, PRIMARY_STEP_TARGET_MAX)
+
+
+def _merge_small_folders(ordered_folders, by_folder, supporting_folders):
     """
     Folds any folder with fewer than MIN_TOPICS_PER_PHASE topics into the
     preceding phase in Gemini's foundational -> advanced order (or the
     following one, if it's first) - a merged phase's title joins both
-    folders' humanized names. If more than MAX_PHASES phases remain after
-    that pass, repeatedly merges the smallest remaining phase into its
-    nearest neighbor until the count is back in range. Returns
-    [{"title": str, "topics": [...]}] in phase order (phase_number is
-    assigned by the caller).
+    folders' display names (career_path_registry.FOLDER_DISPLAY_NAMES,
+    falling back to _humanize_folder for an uncovered folder) and its
+    target_steps is the sum of both folders' own targets
+    (_folder_step_target). If more than MAX_PHASES phases remain after that
+    pass, repeatedly merges the smallest remaining phase into its nearest
+    neighbor until the count is back in range. Returns
+    [{"title": str, "topics": [...], "target_steps": int}] in phase order
+    (phase_number is assigned by the caller).
     """
     phases = [
-        {"title": _humanize_folder(folder), "topics": list(by_folder[folder])}
+        {
+            "title": FOLDER_DISPLAY_NAMES.get(folder, _humanize_folder(folder)),
+            "topics": list(by_folder[folder]),
+            "target_steps": _folder_step_target(len(by_folder[folder]), folder in supporting_folders),
+        }
         for folder in ordered_folders
     ]
 
@@ -330,6 +378,7 @@ def _merge_small_folders(ordered_folders, by_folder):
         if merged and len(phase["topics"]) < MIN_TOPICS_PER_PHASE:
             merged[-1]["topics"].extend(phase["topics"])
             merged[-1]["title"] = f"{merged[-1]['title']} & {phase['title']}"
+            merged[-1]["target_steps"] += phase["target_steps"]
         else:
             merged.append(phase)
     # A too-small FIRST phase has no preceding phase to merge into - fold it
@@ -337,6 +386,7 @@ def _merge_small_folders(ordered_folders, by_folder):
     if len(merged) > 1 and len(merged[0]["topics"]) < MIN_TOPICS_PER_PHASE:
         merged[1]["topics"] = merged[0]["topics"] + merged[1]["topics"]
         merged[1]["title"] = f"{merged[0]['title']} & {merged[1]['title']}"
+        merged[1]["target_steps"] += merged[0]["target_steps"]
         merged = merged[1:]
 
     while len(merged) > MAX_PHASES:
@@ -345,6 +395,7 @@ def _merge_small_folders(ordered_folders, by_folder):
         lo, hi = sorted((smallest_idx, neighbor_idx))
         merged[lo]["topics"].extend(merged[hi]["topics"])
         merged[lo]["title"] = f"{merged[lo]['title']} & {merged[hi]['title']}"
+        merged[lo]["target_steps"] += merged[hi]["target_steps"]
         del merged[hi]
 
     return merged
@@ -355,18 +406,20 @@ def _partition_inventory(career_path, inventory):
     Dedupes the inventory (_dedup_inventory), groups it by real roadmap.sh
     folder, orders those folders foundational -> advanced with one Gemini
     call (_order_folders), merges small/excess folders into neighboring
-    phases (_merge_small_folders), and returns
-    [{"phase_number": int, "title": str, "topics": [...]}] - the same shape
-    the rest of this module (prompt building, validation, checkpoint
-    detection) already expects.
+    phases and computes each phase's step-count target
+    (_merge_small_folders), and returns
+    [{"phase_number": int, "title": str, "topics": [...], "target_steps": int}]
+    - the same shape the rest of this module (prompt building, validation,
+    checkpoint detection) already expects, plus target_steps.
     """
     deduped = _dedup_inventory(inventory)
     by_folder = _group_by_folder(deduped)
     ordered_folders = _order_folders(career_path, by_folder)
-    merged = _merge_small_folders(ordered_folders, by_folder)
+    supporting_folders = SUPPORTING_FOLDERS.get(career_path, set())
+    merged = _merge_small_folders(ordered_folders, by_folder, supporting_folders)
 
     return [
-        {"phase_number": i + 1, "title": phase["title"], "topics": phase["topics"]}
+        {"phase_number": i + 1, "title": phase["title"], "topics": phase["topics"], "target_steps": phase["target_steps"]}
         for i, phase in enumerate(merged)
     ]
 
@@ -427,10 +480,13 @@ def _project_instructions(checkpoint_chunks):
     )
 
 
-def _step_schema_instructions():
-    return f"""Generate {STEPS_PER_PHASE_RANGE} steps for THIS PHASE ONLY. Respond ONLY with
-valid JSON, no markdown formatting, no backticks, no preamble - an array of
-objects, each with exactly these keys:
+def _step_schema_instructions(target_steps):
+    return f"""Generate about {target_steps} steps for THIS PHASE ONLY - cluster related
+topics from this phase's topic inventory together into coherent steps, and
+spread your steps across the WHOLE topic inventory below (in learning
+order), rather than covering only a handful of topics in depth and ignoring
+the rest. Respond ONLY with valid JSON, no markdown formatting, no
+backticks, no preamble - an array of objects, each with exactly these keys:
 - "step_number" (int, numbered within this phase only, starting at 1)
 - "title" (string, short)
 - "description" (string, 1-2 sentences explaining why this step matters for
@@ -438,9 +494,9 @@ objects, each with exactly these keys:
 - "subtopics" (array of 3-5 strings: real topic titles this step covers -
   prefer titles that appear in the reference material above; may also use
   other titles from this phase's topic inventory)
-- "topic_refs" (array of strings: node_id values from this phase's topic
-  inventory that ground this step - never invented ones, never a node_id
-  from a different phase)
+- "topic_refs" (array of strings: {TOPIC_REFS_PER_STEP_RANGE} node_id values
+  from this phase's topic inventory that ground this step - never invented
+  ones, never a node_id from a different phase)
 - "projects" (array of 2-3 objects, each with "title" (string), "description"
   (string, one line), "difficulty" ("beginner"|"intermediate"|"advanced"),
   and "grounded" (bool) - per the project instructions above)"""
@@ -480,7 +536,7 @@ def _exclusion_block(used_node_ids, used_titles):
     )
 
 
-def _build_prompt(career_path, phase, retrieved_chunks, checkpoint_chunks, conversation_signals, used_node_ids, used_titles):
+def _build_prompt(career_path, phase, retrieved_chunks, checkpoint_chunks, conversation_signals, used_node_ids, used_titles, target_steps):
     context_text = "\n\n".join(_context_line(c) for c in retrieved_chunks)
 
     sections = [context_text, _inventory_block(phase["topics"])]
@@ -512,7 +568,7 @@ Reference material:
 
 {_project_instructions(checkpoint_chunks)}
 
-{_step_schema_instructions()}"""
+{_step_schema_instructions(target_steps)}"""
 
 
 def _strip_code_fences(raw_text):
@@ -569,6 +625,67 @@ def _fix_subtopic_node_ids(steps, topics):
             else:
                 fixed.append(entry)
         step["subtopics"] = fixed
+    return steps
+
+
+def _assign_more_topics(phase, steps, node_id_to_chunk):
+    """
+    Deterministically assigns every deduped topic in this phase's slice that
+    no step's topic_refs already covers to exactly one step: the step whose
+    "title. subtopics description" embedding has the highest cosine
+    similarity to the topic's own embedded "title. text" (the same
+    title+text embedding convention embed_chunks() already uses for KB
+    chunks - see its docstring). This lets a student see every topic this
+    phase actually covers, not just the handful of topic_refs each step was
+    scoped to during generation.
+
+    Mutates and returns `steps`: every step gets a "more_topics" key (list
+    of {"node_id", "title"}, sorted by similarity descending, empty if
+    nothing was assigned to it) in addition to its existing keys - a topic
+    already in some step's topic_refs is never included here.
+    """
+    for step in steps:
+        step["more_topics"] = []
+
+    if not steps:
+        return steps
+
+    used_refs = {ref for step in steps for ref in step.get("topic_refs", [])}
+    leftover = [t for t in phase["topics"] if t["node_id"] not in used_refs]
+    if not leftover:
+        return steps
+
+    step_pseudo_chunks = [
+        {
+            "title": step.get("title", ""),
+            "text": " ".join(step.get("subtopics") or []) + " " + (step.get("description") or ""),
+        }
+        for step in steps
+    ]
+    topic_pseudo_chunks = [
+        {"title": t["title"], "text": node_id_to_chunk.get(t["node_id"], {}).get("text", "")}
+        for t in leftover
+    ]
+
+    step_embeddings = embed_chunks(step_pseudo_chunks, show_progress=False)
+    topic_embeddings = embed_chunks(topic_pseudo_chunks, show_progress=False)
+
+    step_unit = step_embeddings / np.linalg.norm(step_embeddings, axis=1, keepdims=True)
+    topic_unit = topic_embeddings / np.linalg.norm(topic_embeddings, axis=1, keepdims=True)
+
+    similarity = topic_unit @ step_unit.T  # (n_leftover_topics, n_steps)
+    best_step_idx = similarity.argmax(axis=1)
+
+    assigned = [[] for _ in steps]
+    for topic_i, topic in enumerate(leftover):
+        step_i = int(best_step_idx[topic_i])
+        score = float(similarity[topic_i, step_i])
+        assigned[step_i].append((score, {"node_id": topic["node_id"], "title": topic["title"]}))
+
+    for step, items in zip(steps, assigned):
+        items.sort(key=lambda pair: -pair[0])
+        step["more_topics"] = [entry for _, entry in items]
+
     return steps
 
 
@@ -694,19 +811,35 @@ def generate_roadmap(career_path, conversation_signals, index, chunks):
             )
 
         checkpoint_chunks = _checkpoint_chunks_for_phase(career_path, phase, chunks)
-        prompt = _build_prompt(career_path, phase, retrieved_for_prompt, checkpoint_chunks, conversation_signals, used_node_ids, used_titles)
-        raw_text = _strip_code_fences(generate_with_retry(prompt))
 
-        try:
-            steps = json.loads(raw_text)
-        except json.JSONDecodeError as e:
-            raise ValueError(
-                f"Gemini returned invalid JSON for phase {phase['title']!r}: {e}\n"
-                f"Raw response: {raw_text[:500]}"
-            )
+        target_steps = phase["target_steps"]
+        steps = None
+        for attempt in (1, 2):
+            prompt = _build_prompt(career_path, phase, retrieved_for_prompt, checkpoint_chunks, conversation_signals, used_node_ids, used_titles, target_steps)
+            raw_text = _strip_code_fences(generate_with_retry(prompt))
+            try:
+                steps = json.loads(raw_text)
+                break
+            except json.JSONDecodeError as e:
+                if attempt == 1:
+                    reduced_target = max(2, round(target_steps * 2 / 3))
+                    logger.warning(
+                        "Phase %r response was truncated or invalid JSON on attempt 1 "
+                        "(target %d steps): %s - retrying once with target reduced to %d.",
+                        phase["title"], target_steps, e, reduced_target,
+                    )
+                    target_steps = reduced_target
+                    continue
+                raise ValueError(
+                    f"Gemini returned invalid JSON for phase {phase['title']!r} after retry: {e}\n"
+                    f"Raw response: {raw_text[:500]}"
+                )
 
         steps = _validate_topic_refs(steps, phase_node_ids)
         steps = _fix_subtopic_node_ids(steps, phase["topics"])
+
+        node_id_to_chunk = {c["node_id"]: c for c in chunks if c.get("node_id") in phase_node_ids}
+        steps = _assign_more_topics(phase, steps, node_id_to_chunk)
 
         for step in steps:
             step["global_step_index"] = global_index
@@ -715,7 +848,6 @@ def generate_roadmap(career_path, conversation_signals, index, chunks):
             if step.get("title"):
                 used_titles.append(step["title"])
 
-        node_id_to_chunk = {c["node_id"]: c for c in chunks if c.get("node_id") in phase_node_ids}
         source_to_queries = _attribute_queries(phase_queries, index, chunks, career_path)
         audit_phases.append(_build_phase_audit(phase, steps, retrieved_for_prompt, node_id_to_chunk, source_to_queries, phase_queries))
 

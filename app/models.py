@@ -252,9 +252,12 @@ class GeneratedRoadmap(db.Model):
     career_path = db.Column(db.String(120), nullable=False)
     steps = db.Column(db.JSON, nullable=False)             # {phases: [{phase_number, title, steps: [{step_number,
                                                             # global_step_index, title, description, subtopics,
-                                                            # topic_refs, projects}]}]} - older rows predate phases and
-                                                            # are a flat list of steps (some also predate subtopics/
-                                                            # topic_refs/projects/global_step_index)
+                                                            # topic_refs, projects, more_topics}]}]} - more_topics is
+                                                            # [{node_id, title}], this phase's remaining topics not in
+                                                            # topic_refs, assigned to their nearest step by embedding
+                                                            # similarity - older rows predate phases and are a flat
+                                                            # list of steps (some also predate subtopics/topic_refs/
+                                                            # projects/global_step_index/more_topics)
     retrieved_chunks = db.Column(db.JSON)                  # {phases: [{phase_number, title, queries, retrieved,
                                                             # steps}]} audit trail of what grounded each phase - older
                                                             # rows predate phases (a flat {queries, retrieved, steps}
