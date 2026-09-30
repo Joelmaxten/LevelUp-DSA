@@ -47,6 +47,8 @@ GAME = "Game Development"
 UIUX_DESIGN = "UI/UX Design"
 FRONTEND = "Frontend Development"
 BACKEND = "Backend Engineering"
+QA_TEST = "QA & Test Automation"
+DATA_ENG = "Data Engineering"
 
 # XP per problem, from the master doc's gamification table.
 POINTS_BY_DIFFICULTY = {"Easy": 10, "Medium": 25, "Hard": 50}
@@ -57,21 +59,21 @@ POINTS_BY_DIFFICULTY = {"Easy": 10, "Medium": 25, "Hard": 50}
 # map, never locking. Unlisted paths still see the node, just not highlighted.
 NODES = [
     {"topic": "Arrays", "difficulty": "Easy", "prerequisites": [],
-     "career_paths": [AI_ENG, ML_ENG, DATA_SCI, DATA_ANALYTICS, GAME]},
+     "career_paths": [AI_ENG, ML_ENG, DATA_SCI, DATA_ANALYTICS, GAME, QA_TEST, DATA_ENG]},
     {"topic": "Strings", "difficulty": "Easy", "prerequisites": ["Arrays"],
-     "career_paths": [FULL_STACK, CYBER, BACKEND]},
+     "career_paths": [FULL_STACK, CYBER, BACKEND, QA_TEST, DATA_ENG]},
     {"topic": "Hash Maps & Sets", "difficulty": "Easy", "prerequisites": ["Arrays"],
-     "career_paths": [FULL_STACK, BACKEND, CYBER, DATA_SCI, DATA_ANALYTICS, CLOUD_ENG, DEVOPS]},
+     "career_paths": [FULL_STACK, BACKEND, CYBER, DATA_SCI, DATA_ANALYTICS, CLOUD_ENG, DEVOPS, QA_TEST, DATA_ENG]},
     {"topic": "Two Pointers", "difficulty": "Easy", "prerequisites": ["Arrays"],
-     "career_paths": [DATA_SCI, DATA_ANALYTICS, GAME]},
+     "career_paths": [DATA_SCI, DATA_ANALYTICS, GAME, QA_TEST, DATA_ENG]},
     {"topic": "Sorting", "difficulty": "Medium", "prerequisites": ["Arrays"],
-     "career_paths": [FULL_STACK, DATA_SCI, DATA_ANALYTICS, BACKEND]},
+     "career_paths": [FULL_STACK, DATA_SCI, DATA_ANALYTICS, BACKEND, QA_TEST, DATA_ENG]},
     {"topic": "Binary Search", "difficulty": "Easy", "prerequisites": ["Sorting"],
      "career_paths": [FULL_STACK, BACKEND, CLOUD_ENG, DEVOPS]},
     {"topic": "Sliding Window", "difficulty": "Medium", "prerequisites": ["Two Pointers", "Hash Maps & Sets"],
-     "career_paths": [BACKEND, CLOUD_ENG, DEVOPS, CYBER, DATA_SCI, DATA_ANALYTICS]},
+     "career_paths": [BACKEND, CLOUD_ENG, DEVOPS, CYBER, DATA_SCI, DATA_ANALYTICS, DATA_ENG]},
     {"topic": "Stacks & Queues", "difficulty": "Easy", "prerequisites": ["Arrays"],
-     "career_paths": [BACKEND, CLOUD_ENG, DEVOPS, MOBILE, UIUX_DESIGN, FRONTEND]},
+     "career_paths": [BACKEND, CLOUD_ENG, DEVOPS, MOBILE, UIUX_DESIGN, FRONTEND, QA_TEST]},
     {"topic": "Linked Lists", "difficulty": "Easy", "prerequisites": ["Arrays"],
      "career_paths": [BACKEND, GAME]},
     {"topic": "Recursion", "difficulty": "Easy", "prerequisites": ["Stacks & Queues"],
