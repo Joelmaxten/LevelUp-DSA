@@ -814,13 +814,105 @@ h4 { font-weight: 700; font-size: 1.0625rem; }
     .skill-cols > .block + .block { margin-top: 0; }
 }
 
-/* Roadmap: the step's words on the left, its video on the right. */
+/* Roadmap: the step's words on the left, its video(s) on the right. Both
+   columns can now hold more than a title+link (subtopics/projects on the
+   left, several videos + two collapsed <details> on the right), but the
+   grid itself is untouched - it already puts text left / aside right on
+   desktop (>=64rem) and stacks them on anything narrower, all the way
+   down to a 360px phone, so the new content just flows into the same two
+   slots. */
 .step-aside { margin-top: 0.85rem; }
 .step-aside .watch { margin-top: 0; }
 @media (min-width: 64rem) {
     .step-grid { display: grid; grid-template-columns: minmax(0, 1fr) 18rem; gap: 3rem; align-items: start; }
     .step-aside { margin-top: 0.3rem; padding-left: 1.5rem; border-left: 1px solid var(--rule); }
 }
+
+/* Subtopic chips - plain topic names, not a match/gap signal like .skill,
+   so a quieter outline rather than .skill's solid ink/marker fills. */
+.chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.6rem; }
+.chip {
+    display: inline-block;
+    padding: 0.15rem 0.6rem;
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    color: var(--pencil);
+    font-size: 0.875rem;
+}
+
+/* Up to 4 video links, stacked - .watch already has the play-icon link
+   styling (shared with the legacy single-video markup); .watch-item just
+   adds a little vertical rhythm and room for the search-result tag. */
+.watch-list { margin-top: 0.6rem; }
+.watch-item { display: flex; align-items: center; flex-wrap: wrap; gap: 0.6rem; }
+.watch-item + .watch-item { margin-top: 0.5rem; }
+
+/* Small inline labels: a video's source, a resource's type. Quieter than
+   .badge (project difficulty/grounded) since these are provenance notes,
+   not a status to weigh a decision on. */
+.tag {
+    display: inline-block;
+    padding: 0.1rem 0.5rem;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    color: var(--pencil);
+    font-size: 0.8125rem;
+    text-transform: capitalize;
+}
+
+.step-projects { margin-top: 1rem; }
+.projects { margin-top: 0.5rem; }
+.project { padding: 0.75rem 0; }
+.project + .project { border-top: 1px solid var(--rule); }
+.project-title { font-weight: 700; }
+.project-desc { margin-top: 0.25rem; color: var(--pencil); }
+.project-badges { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
+.badge {
+    display: inline-block;
+    padding: 0.15rem 0.6rem;
+    border-radius: 2px;
+    font-weight: 700;
+    font-size: 0.8125rem;
+}
+.badge-difficulty { border: 1px solid var(--line); color: var(--pencil); text-transform: capitalize; }
+.badge-grounded { background: var(--ink); color: var(--paper); }
+.badge-suggested { background: var(--marker); color: var(--ink); }
+
+/* Collapsed docs/courses and "also covered" lists - a step's own <details>,
+   distinct from a phase's (.phase below): plain disclosure triangles, no
+   border/background, since they're secondary content within the aside
+   column rather than a structural section of the page. */
+.step-resources, .step-more-topics { margin-top: 0.85rem; }
+.step-resources summary, .step-more-topics summary {
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 0.9375rem;
+}
+.resource-list, .topic-list { margin-top: 0.5rem; }
+.resource-item { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.5rem; }
+.resource-item + .resource-item, .topic-list li + li { margin-top: 0.4rem; }
+.topic-list li { color: var(--pencil); font-size: 0.9375rem; }
+.tag-type { flex: none; }
+
+/* A phase is a <details>: closed phases still show their title/step-count
+   summary, so collapsing one doesn't remove it from the route's visual
+   rhythm. .phase-summary reuses row-head's existing margin/main layout
+   (phaseHeaderRow renders it as a <summary> via row()'s tag override). */
+.phase + .phase { margin-top: 1.5rem; }
+.phase-summary { cursor: pointer; list-style: none; }
+.phase-summary::-webkit-details-marker { display: none; }
+.phase-summary::before {
+    content: "▸";
+    display: inline-block;
+    margin-right: 0.5rem;
+    transition: transform 0.15s ease;
+}
+.phase[open] > .phase-summary::before { transform: rotate(90deg); }
+.phase-controls { display: flex; gap: 1.5rem; margin-bottom: 1.5rem; }
+
+/* .step-check and .phase-progress are stable, empty hooks for a later
+   task (per-step checkbox, per-phase/overall progress bar) - no styling
+   or behavior here yet on purpose. */
 
 /* The ask-for-a-path row: the question on the left, the control on the right. */
 .ask-grid .field { margin: 1.75rem 0 0; }

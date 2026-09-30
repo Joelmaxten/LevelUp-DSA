@@ -87,11 +87,106 @@ function answersRow(title, items, level, note) {
 
 // ---------- roadmap ----------
 
+// https only (not http) - every URL this page links out to (a video, a KB
+// resource link) is either built by our own backend from a validated
+// YouTube video id (always https://youtube.com/...) or filtered to https
+// already by youtube_resources.py before it ever reaches the client, so
+// this is a defense-in-depth check, not expected to reject real data.
 function isSafeUrl(url) {
-    return typeof url === "string" && /^https?:\/\//i.test(url);
+    return typeof url === "string" && /^https:\/\//i.test(url);
 }
 
-// videosPending: a "Finding a video" placeholder is shown for steps that don't have a video result yet.
+// Small chip list for a step's subtopics - plain text only, no links.
+function subtopicChips(subtopics) {
+    if (!subtopics || !subtopics.length) return "";
+    return el("ul", { className: "chips step-subtopics" }, ...subtopics.map((s) => el("li", { className: "chip", text: s })));
+}
+
+// Up to 4 video links, shown directly (not collapsed) - a "search result" tag
+// marks a youtube_search-sourced video; a roadmap.sh-sourced one gets no tag,
+// since that's the common/expected case and doesn't need calling out.
+function videosBlock(videos) {
+    if (!videos || !videos.length) {
+        return el("p", { className: "note", text: "No videos found for this step." });
+    }
+    return el("ul", { className: "watch-list" }, ...videos.slice(0, 4).map((v) => {
+        const items = [];
+        if (isSafeUrl(v.url)) {
+            items.push(el("a", { className: "watch", href: v.url, target: "_blank", rel: "noopener noreferrer" },
+                icon("play"),
+                el("span", { text: v.title || v.url }),
+                el("span", { className: "visually-hidden", text: "(opens in a new tab)" })
+            ));
+        } else {
+            items.push(el("span", { className: "watch", text: v.title || "Video" }));
+        }
+        if (v.source === "youtube_search") items.push(el("span", { className: "tag tag-search", text: "search result" }));
+        return el("li", { className: "watch-item" }, ...items);
+    }));
+}
+
+// A project's grounded flag says whether it came from roadmap.sh's own
+// curated project material (true) or is the model's own suggestion (false) -
+// see roadmap_generator.py's _project_instructions.
+function projectsBlock(projects) {
+    if (!projects || !projects.length) return "";
+    return el("div", { className: "step-projects" },
+        el("p", { className: "note", text: "Projects" }),
+        el("ul", { className: "projects" }, ...projects.map((p) => el("li", { className: "project" },
+            el("p", { className: "project-title", text: p.title || "" }),
+            p.description ? el("p", { className: "project-desc", text: p.description }) : "",
+            el("div", { className: "project-badges" },
+                p.difficulty ? el("span", { className: "badge badge-difficulty", text: p.difficulty }) : "",
+                el("span", {
+                    className: `badge ${p.grounded ? "badge-grounded" : "badge-suggested"}`,
+                    text: p.grounded ? "from roadmap.sh" : "suggested",
+                })
+            )
+        )))
+    );
+}
+
+// Collapsed by default. A type label (official/course) sits on each link.
+function resourcesDetails(resources) {
+    if (!resources || !resources.length) return "";
+    const details = el("details", { className: "step-resources" });
+    details.append(
+        el("summary", { text: `Docs and courses (${resources.length})` }),
+        el("ul", { className: "resource-list" }, ...resources.map((r) => {
+            const linkContent = [el("span", { className: "tag tag-type", text: r.type || "" })];
+            linkContent.push(isSafeUrl(r.url)
+                ? el("a", { href: r.url, target: "_blank", rel: "noopener noreferrer", text: r.title || r.url })
+                : el("span", { text: r.title || "Resource" }));
+            return el("li", { className: "resource-item" }, ...linkContent);
+        }))
+    );
+    return details;
+}
+
+// Collapsed by default, and its list is built lazily on the FIRST toggle-open
+// (not at initial render) - a step can have dozens of more_topics entries, and
+// most students will never open this, so there's no reason to build that much
+// DOM for every step up front.
+function moreTopicsDetails(moreTopics) {
+    if (!moreTopics || !moreTopics.length) return "";
+    const details = el("details", { className: "step-more-topics" });
+    const body = el("div", { className: "more-topics-body" });
+    let built = false;
+    details.addEventListener("toggle", () => {
+        if (built || !details.open) return;
+        built = true;
+        body.append(el("ul", { className: "topic-list" }, ...moreTopics.map((t) => el("li", { text: t.title }))));
+    });
+    details.append(
+        el("summary", { text: `Also covered in this step (${moreTopics.length} topic${moreTopics.length === 1 ? "" : "s"})` }),
+        body
+    );
+    return details;
+}
+
+// videosPending: a "Finding videos" placeholder is shown for steps that don't have a
+// video result yet (only ever true for the CURRENT shape - see fetchVideos in
+// roadmap.html; an old flat roadmap loaded from /roadmap/latest is never "pending").
 // isFirstOverall: true only for the very first step of the whole roadmap (gets the
 // "Start here" marker) - not just the first step of whichever phase/list is being
 // built, so a phased roadmap only marks one true starting point.
@@ -99,19 +194,35 @@ function isSafeUrl(url) {
 // only used as the step-num fallback for an older roadmap that predates
 // global_step_index.
 // The step number sits on the margin rule, which is what turns the rule into a route.
+//
+// Renders only the fields a step actually has: an old flat-roadmap step (just
+// step_number/title/description, maybe "resource") shows exactly what it did
+// before this task; subtopics/projects/resources/more_topics simply don't
+// appear when absent, and "videos" (new, up to 4 links) is preferred over the
+// legacy single "resource" link when both would otherwise apply.
 function roadmapStep(step, displayIndex, videosPending, isFirstOverall) {
     const text = el("div", { className: "step-text" });
     if (isFirstOverall) text.append(el("p", { className: "start-here" }, el("span", { className: "mark", text: "Start here" })));
     text.append(
         el("h3", { className: "step-title", text: step.title || `Step ${displayIndex + 1}` }),
-        el("p", { className: "step-desc", text: step.description || "" })
+        el("p", { className: "step-desc", text: step.description || "" }),
+        subtopicChips(step.subtopics),
+        projectsBlock(step.projects)
     );
 
-    const grid = el("div", { className: "step-grid" }, text);
-
-    if ("resource" in step) {
+    const aside = el("div", { className: "step-aside" });
+    if ("videos" in step) {
+        aside.append(
+            el("p", { className: "note", text: "Videos for this step" }),
+            videosBlock(step.videos),
+            resourcesDetails(step.resources),
+            moreTopicsDetails(step.more_topics)
+        );
+    } else if ("resource" in step) {
+        // Legacy single-video shape (predates "videos") - same markup this
+        // page has always rendered for it.
         if (step.resource && isSafeUrl(step.resource.url)) {
-            grid.append(el("div", { className: "step-aside" },
+            aside.append(
                 el("p", { className: "note", text: "Video for this step" }),
                 el("a", {
                     className: "watch",
@@ -119,51 +230,72 @@ function roadmapStep(step, displayIndex, videosPending, isFirstOverall) {
                     target: "_blank",
                     rel: "noopener noreferrer",
                 }, icon("play"), el("span", { text: step.resource.title || step.resource.url }), el("span", { className: "visually-hidden", text: "(opens in a new tab)" }))
-            ));
+            );
         } else {
-            grid.append(el("div", { className: "step-aside" }, el("p", { className: "note", text: "No video found for this step." })));
+            aside.append(el("p", { className: "note", text: "No videos found for this step." }));
         }
     } else if (videosPending) {
-        grid.append(el("div", { className: "step-aside" }, el("p", { className: "note", text: "Finding a video for this step...", role: "status" })));
+        aside.append(el("p", { className: "note", text: "Finding videos...", role: "status" }));
     }
+
+    const grid = el("div", { className: "step-grid" }, text, aside);
 
     return el("li", { className: `row step${isFirstOverall ? " step-first" : ""}` },
         el("span", { className: "step-num num", text: String(step.global_step_index ?? step.step_number ?? displayIndex + 1), "aria-hidden": "true" }),
-        el("div", { className: "margin" }),
+        el("div", { className: "margin" }, el("div", { className: "step-check" })),
         el("div", { className: "main" }, grid)
     );
 }
 
 // A phase's own heading row, styled like the rest of the page's section breaks
 // (row() keeps it aligned with the steps' margin/main columns and the route spine).
+// Returned as a <summary> (via row()'s tag override) so roadmapStepList can use
+// it directly as a <details> phase's clickable header.
 function phaseHeaderRow(phase) {
+    const stepCount = phase.steps.length;
     return row(
-        el("p", { className: "note", text: `Phase ${phase.phase_number}` }),
-        el("h3", { className: "phase-title", text: phase.title }),
-        "row-head"
+        [el("p", { className: "note", text: `Phase ${phase.phase_number}` }), el("div", { className: "phase-progress" })],
+        [
+            el("h3", { className: "phase-title", text: phase.title }),
+            el("p", { className: "note", text: `${stepCount} step${stepCount === 1 ? "" : "s"}` }),
+        ],
+        "row-head phase-summary",
+        "summary"
     );
 }
 
 // steps: either an older roadmap's flat step array, or the current
 // {"phases": [{"phase_number", "title", "steps": [...]}]} shape. Always returns one
-// node (a plain <ol class="route"> for the flat case, a phase-headed sequence of them
-// for the phased case), since callers push this straight into a flat list of parts.
+// node (a plain <ol class="route"> for the flat case - unchanged from before this
+// task - or a sequence of collapsible <details class="phase"> for the phased case),
+// since callers push this straight into a flat list of parts.
 function roadmapStepList(steps, videosPending) {
     if (Array.isArray(steps)) {
         return el("ol", { className: "route" }, ...steps.map((step, i) => roadmapStep(step, i, videosPending, i === 0)));
     }
 
-    const blocks = [];
+    const phaseEls = [];
     let seenAny = false;
-    for (const phase of steps.phases) {
-        blocks.push(phaseHeaderRow(phase));
-        blocks.push(el("ol", { className: "route" }, ...phase.steps.map((step, i) => {
+    steps.phases.forEach((phase, phaseIndex) => {
+        const stepList = el("ol", { className: "route" }, ...phase.steps.map((step, i) => {
             const isFirstOverall = !seenAny;
             seenAny = true;
             return roadmapStep(step, i, videosPending, isFirstOverall);
-        })));
-    }
-    return el("div", { className: "phases-detail" }, ...blocks);
+        }));
+        const details = el("details", { className: "phase" }, phaseHeaderRow(phase), stepList);
+        details.open = phaseIndex === 0;   // first phase open, rest closed
+        phaseEls.push(details);
+    });
+
+    const expandBtn = el("button", { className: "btn-quiet", type: "button", text: "Expand all" });
+    const collapseBtn = el("button", { className: "btn-quiet", type: "button", text: "Collapse all" });
+    expandBtn.addEventListener("click", () => phaseEls.forEach((d) => { d.open = true; }));
+    collapseBtn.addEventListener("click", () => phaseEls.forEach((d) => { d.open = false; }));
+
+    return el("div", { className: "phases-detail" },
+        el("div", { className: "actions phase-controls" }, expandBtn, collapseBtn),
+        ...phaseEls
+    );
 }
 
 // A compact summary for space-constrained contexts (the dashboard, shown alongside
@@ -183,10 +315,12 @@ function roadmapDashboardSummary(steps) {
 }
 
 // A roadmap only counts as "fully resourced" once every step (across every phase, for
-// the current shape) has a "resource" key (its value may be null = searched but nothing found).
+// the current shape) has been through the resolver at least once - a "videos" key
+// (its array may be empty: resolved, just nothing found) or the legacy "resource"
+// key (its value may be null, same meaning) both count.
 function hasAllVideoResults(steps) {
     const allSteps = Array.isArray(steps) ? steps : steps.phases.flatMap((phase) => phase.steps);
-    return allSteps.every((step) => "resource" in step);
+    return allSteps.every((step) => "videos" in step || "resource" in step);
 }
 
 // ---------- resume analysis ----------
