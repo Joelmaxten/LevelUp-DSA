@@ -7,8 +7,11 @@ reasoning as why /roadmap/generate is its own endpoint rather than chained
 onto /conversation/answer.
 
 Quota note: YouTube Data API v3 free tier is 10,000 units/day; a
-search.list call costs 100 units. A 10-step roadmap costs 1,000 units to
-fully resource - roughly 10 full roadmaps/day on the free tier.
+search.list call costs 100 units. Roadmap generation now produces a phased
+roadmap (5 phases, ~4-8 steps each - typically ~20 steps total, up from the
+previous flat 8-12), so a full roadmap now costs roughly 2,000 units to
+fully resource - roughly 5 full roadmaps/day on the free tier, down from
+~10.
 """
 
 import os
@@ -47,19 +50,30 @@ def fetch_video_for_step(step_title, youtube_client=None):
     }
 
 
-def fetch_resources_for_roadmap(steps):
+def fetch_resources_for_roadmap(roadmap):
     """
-    steps: the list of {step_number, title, description} dicts from a
-    GeneratedRoadmap. Returns a NEW list of the same steps, each with a
+    roadmap: a GeneratedRoadmap.steps value - either the current
+    {"phases": [{"phase_number", "title", "steps": [...]}]} shape, or an
+    older flat list of step dicts (from before roadmap generation was split
+    into phases). Returns a NEW value of the SAME shape it was given, with
+    every step (across every phase, for the current shape) given a
     "resource" key added (a dict from fetch_video_for_step, or None).
     Reuses one YouTube client across all steps rather than rebuilding it
     per call.
     """
     youtube_client = build("youtube", "v3", developerKey=os.environ["YOUTUBE_API_KEY"])
 
-    enriched = []
-    for step in steps:
+    def enrich(step):
         resource = fetch_video_for_step(step["title"], youtube_client=youtube_client)
-        enriched.append({**step, "resource": resource})
+        return {**step, "resource": resource}
 
-    return enriched
+    if isinstance(roadmap, list):
+        return [enrich(step) for step in roadmap]
+
+    return {
+        **roadmap,
+        "phases": [
+            {**phase, "steps": [enrich(step) for step in phase["steps"]]}
+            for phase in roadmap["phases"]
+        ],
+    }

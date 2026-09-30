@@ -1,35 +1,59 @@
 """
-Generates a personalized learning roadmap for a student using RAG: retrieves
-relevant knowledge base content for their top-ranked career path via
-rag.search_diverse() (several queries, spread across folders - see below),
-augments a prompt with that content + a whitelist of every real topic node
-for the path + their conversation signals, and calls Gemini to generate a
-structured, personalized set of roadmap steps.
+Generates a personalized learning roadmap for a student, structured as
+PHASES of steps (folder-ordered, foundational -> advanced) rather than one
+flat list, so a roadmap can realistically span a career path's full topic
+inventory instead of being artificially capped at a single 8-12-step
+Gemini call.
 
-Retrieval design (per the Phase A/B KB audit - see docs/PROJECT_BIOGRAPHY.md
-and this module's own history):
-- A single query on just the career path name (the old approach) clustered
-  on the broadest/most generic topics. search_diverse() instead runs one
-  query per conversation signal actually present (goal/avoid/target_company,
-  phrased with the student's own chosen option text) plus the career path
-  name and a generic "fundamentals" query, merges by best score, and caps
-  how many chunks any one roadmap.sh folder can contribute - so retrieval
-  spans multiple folders instead of clustering on one.
-- list_topics() supplies the FULL set of real topic node_ids for the career
-  path (title + node_id + folder only, no chunk text) as a whitelist: the
-  model may only reference real topics in "topic_refs", never invented ones.
-  This is checked in code after generation, not just asked for in the
-  prompt (see _validate_topic_refs).
-- Per the Phase A audit, "Software Engineering / Full-Stack Development" is
-  the only career path with real hands-on project material in the KB (the
-  13 "checkpoint--*" files under roadmap.sh's full-stack folder). For that
-  path, project ideas are required to come from that material ("grounded":
-  true); every other path gets Gemini's own project suggestions, explicitly
-  marked "grounded": false, since nothing in the KB grounds them.
+Pipeline, per generation:
+1. list_topics() supplies the FULL set of real topic nodes for the career
+   path (title + node_id + folder, no chunk text).
+2. _dedup_inventory() removes duplicate node_ids first (see its docstring -
+   a handful of topics in the KB share a node_id across two folders, either
+   from a stale rename or a folder's topic having been cloned from
+   another's and since diverged). Folder-based clustering downstream
+   depends on every node_id belonging to exactly one folder; without this
+   step a shared node_id would land in two phases at once.
+3. The deduped inventory is grouped by its real roadmap.sh folder (e.g.
+   "python", "ai-engineer") - NOT by keyword-matching individual topic
+   titles (the previous approach, which had no notion of prerequisite
+   order and could split one coherent topic area across unrelated phases -
+   see docs/PROJECT_BIOGRAPHY.md for the real examples that motivated this
+   rewrite: ML evaluation topics landing before Python syntax, and
+   duplicate "AI Agents" steps in different phases).
+4. ONE Gemini call orders those folders foundational -> advanced (see
+   _order_folders) before any step generation happens, validated against
+   the real folder list and retried once if invalid. Folders below
+   MIN_TOPICS_PER_PHASE are merged into a neighboring phase, and phases
+   are merged further if there are still more than MAX_PHASES, so phase
+   count stays close to the previous 3-6 range without giving every folder
+   its own phase regardless of size.
+5. ONE Gemini call is made PER PHASE (plus the one folder-ordering call
+   above), not one for the whole roadmap. Each call only sees its own
+   phase's topic slice (not the full 271-514-topic inventory) plus
+   reference material retrieved with phase-scoped queries
+   (rag.search_diverse(), run once per phase with an extra phase-title
+   query added), plus an exclusion list of every topic_ref/step title
+   already used in earlier phases of this same generation - a safety net
+   against near-duplicate steps, not the primary fix (folder-based
+   partitioning is, since a node_id can now only ever appear in one
+   phase's own topic slice).
+6. Steps are numbered per-phase by Gemini (it has no visibility into other
+   phases' step counts, since each phase is an independent call); a global,
+   roadmap-wide "global_step_index" is then assigned in code once every
+   phase has returned, for a later flat progress bar to reference.
+7. Per the Phase A audit (see docs/PROJECT_BIOGRAPHY.md), "Software
+   Engineering / Full-Stack Development" is the only career path with real
+   hands-on project material in the KB (roadmap.sh's 13 "checkpoint--*"
+   files, all under its "full-stack" folder). Whichever phase that folder
+   lands in gets "grounded": true project instructions; every other phase
+   (for every career path) gets Gemini's own suggestions, explicitly
+   marked "grounded": false.
 
-Per the master doc's anti-hallucination design, the prompt explicitly
-constrains the LLM to only draw on retrieved content - it has no autonomy
-to invent career advice outside what was actually retrieved or listed.
+Per the master doc's anti-hallucination design, each phase's prompt
+explicitly constrains the LLM to only draw on retrieved content and its own
+topic slice - it has no autonomy to invent career advice, subtopics, or
+topic_refs outside what was actually given to that call.
 
 NOTE: This module depends on a built FAISS index (app/pipeline/rag.py's
 load_index()) which is machine-local, gitignored generated data - not every
@@ -38,7 +62,9 @@ has the index built.
 
 Gemini call resilience (retry + fallback for free-tier 503s) lives in
 gemini_client.py, shared with resume_feedback.py - see that module's
-docstring for why.
+docstring for why. It is unchanged here; generate_with_retry() is now
+called once for folder ordering plus once per phase, instead of once per
+roadmap.
 """
 
 import json
@@ -53,6 +79,36 @@ logger = logging.getLogger(__name__)
 FULL_STACK_PATH = "Software Engineering / Full-Stack Development"
 TOTAL_K = 30
 PER_FOLDER_CAP = 6
+STEPS_PER_PHASE_RANGE = "4-8"
+
+# A folder with fewer topics than this gets merged into a neighboring phase
+# rather than becoming its own phase - chosen so a phase's folder has
+# enough real topics to plausibly fill STEPS_PER_PHASE_RANGE (4-8 steps x
+# ~4-6 topic_refs/step is up to ~48 topic_refs) without leaning entirely on
+# round-robin filler, the way the old keyword partition did.
+MIN_TOPICS_PER_PHASE = 15
+# Phases are merged further (smallest into its nearest neighbor) if there
+# are still more than this many after the MIN_TOPICS_PER_PHASE pass, so
+# phase count stays close to the old design's 3-6 range instead of growing
+# unboundedly with a career path's folder count.
+MAX_PHASES = 6
+
+# 6 known node_ids where a "machine-learning" folder topic was cloned from
+# "python"'s equivalent topic early on and the two have since diverged in
+# title/content (see the Phase A audit in PROJECT_BIOGRAPHY.md - confirmed
+# against the actual files on disk, not inferred). python's copy is always
+# kept: this is fundamentals content that belongs in the fundamentals
+# folder, not a generalized "prefer folder X" rule - these are 7 specific
+# known node_ids (this set plus the 1 handled by first-occurrence order
+# below), not a pattern to generalize to other career paths.
+_PREFER_PYTHON_OVER_MACHINE_LEARNING = frozenset({
+    "NP1kjSk0ujU0Gx-ajNHlR",
+    "R9DQNc0AyAQ2HLpP4HOk6",
+    "fNTb9y3zs1HPYclAmu_Wv",
+    "-DJgS6l2qngfwurExlmmT",
+    "Dvy7BnNzK55qbh_SgOk8m",
+    "dEFLBGpiH6nbSMeR7ecaT",
+})
 
 # (signal_key, signal_value) -> the human-readable option text the student
 # actually picked, e.g. ("avoid", "repetitive_work") -> "Too much
@@ -96,13 +152,12 @@ def _notes_block(conversation_signals):
 
 def _build_diverse_queries(career_path, conversation_signals):
     """
-    The queries passed to search_diverse(): the career path itself, a
-    generic fundamentals query, and one query per non-empty
-    goal/avoid/target_company signal - phrased using the student's actual
-    chosen option text (not the internal signal code) so the embedding
-    query is a real sentence. Typically 4-6 total when all three signals
-    are present; fewer if the student skipped the conversation step (no
-    signals) or left some unanswered.
+    The base queries used for retrieval: the career path itself, a generic
+    fundamentals query, and one query per non-empty goal/avoid/target_company
+    signal - phrased using the student's actual chosen option text (not the
+    internal signal code) so the embedding query is a real sentence. A
+    phase-specific query is appended to these per phase (see
+    generate_roadmap) before each call to search_diverse().
     """
     queries = [career_path, f"{career_path} fundamentals"]
     for signal_key in _SIGNAL_QUERY_KEYS:
@@ -117,10 +172,10 @@ def _build_diverse_queries(career_path, conversation_signals):
 def _topic_inventory(career_path, chunks):
     """
     Every real topic node for this career path, as {node_id, title, folder}
-    dicts - the whitelist topic_refs (and, ideally, subtopics) must be drawn
-    from. list_topics() doesn't carry node_id directly, so it's recovered
-    here from each topic's source filename via the chunks list (roadmap.sh's
-    own "<slug>@<nodeId>.md" convention - see roadmap_kb_processor.py).
+    dicts (not yet deduped - see _dedup_inventory). list_topics() doesn't
+    carry node_id directly, so it's recovered here from each topic's source
+    filename via the chunks list (roadmap.sh's own "<slug>@<nodeId>.md"
+    convention - see roadmap_kb_processor.py).
     """
     source_to_node_id = {c["source"]: c["node_id"] for c in chunks if "node_id" in c}
     return [
@@ -134,68 +189,257 @@ def _topic_inventory(career_path, chunks):
     ]
 
 
-def _inventory_block(inventory):
-    lines = "\n".join(f"{t['node_id']}|{t['title']}|{t['folder']}" for t in inventory)
+def _dedup_inventory(inventory):
+    """
+    Removes duplicate node_ids before folder-based clustering can run - see
+    the Phase A audit in PROJECT_BIOGRAPHY.md. A handful of topics across
+    the KB share a node_id with another topic in a DIFFERENT folder (or,
+    for 4 known cases, a stale renamed file left a duplicate in the SAME
+    folder); without deduping first, that node_id would land in two
+    different phases' topic slices, reintroducing exactly the cross-phase
+    duplication this rewrite exists to fix.
+
+    _PREFER_PYTHON_OVER_MACHINE_LEARNING's 6 node_ids always keep their
+    python-folder copy, per an explicit decision (not a generalized rule -
+    these are known, specific node_ids). Every other duplicate (the 4
+    stale-rename cases and 1 genuine cross-roadmap ID collision) keeps
+    whichever copy appears first in list_topics()'s own order, since
+    neither copy is more "correct" in those cases.
+    """
+    by_id = {}
+    for topic in inventory:
+        node_id = topic["node_id"]
+        if node_id in _PREFER_PYTHON_OVER_MACHINE_LEARNING:
+            if node_id not in by_id or topic["folder"] == "python":
+                by_id[node_id] = topic
+        elif node_id not in by_id:
+            by_id[node_id] = topic
+    return list(by_id.values())
+
+
+def _group_by_folder(inventory):
+    by_folder = {}
+    for topic in inventory:
+        by_folder.setdefault(topic["folder"], []).append(topic)
+    return by_folder
+
+
+def _folder_order_prompt(career_path, by_folder, folder_names):
+    lines = []
+    for folder in folder_names:
+        topics = by_folder[folder]
+        examples = ", ".join(t["title"] for t in topics[:3])
+        lines.append(f'- "{folder}" ({len(topics)} topics) - e.g. {examples}')
+    folder_block = "\n".join(lines)
+
+    return f"""You are planning the PHASE ORDER for a learning roadmap for the career
+path: {career_path}
+
+Below are the real content folders that make up this career path's
+knowledge base, with how many topics each has and a few example topic
+titles (not the full topic list - just enough to judge what each folder
+covers).
+
+{folder_block}
+
+Order these folders from foundational to advanced, as phases of a learning
+roadmap a student would work through in sequence. Rules:
+- Programming-language/tooling folders come first.
+- Production/deployment/monitoring folders come last.
+- If one folder is a prerequisite for another folder in this list (e.g. a
+  core programming-language folder before an application-layer folder like
+  an AI/ML-specific or framework-specific one), it must come before it.
+
+Respond ONLY with a JSON array of the folder names above, in your chosen
+order - use the EXACT folder name strings given, nothing else, no markdown,
+no preamble. Every folder listed above must appear exactly once."""
+
+
+def _parse_folder_order(raw_text, folder_names):
+    try:
+        order = json.loads(raw_text)
+    except json.JSONDecodeError:
+        return None
+    if not isinstance(order, list) or not all(isinstance(f, str) for f in order):
+        return None
+    if len(order) != len(folder_names) or set(order) != set(folder_names):
+        return None
+    return order
+
+
+def _order_folders(career_path, by_folder):
+    """
+    ONE Gemini call, before any step generation, that orders this career
+    path's real folders foundational -> advanced (see _folder_order_prompt
+    for the rules given to the model). The response is validated against
+    the real folder list (exact set match, no invented/missing/duplicated
+    names) and retried once if invalid; if the retry also fails validation,
+    falls back to a deterministic largest-folder-first order rather than
+    failing the whole generation.
+    """
+    folder_names = list(by_folder.keys())
+    if len(folder_names) <= 1:
+        return folder_names
+
+    prompt = _folder_order_prompt(career_path, by_folder, folder_names)
+
+    raw = _strip_code_fences(generate_with_retry(prompt))
+    order = _parse_folder_order(raw, folder_names)
+
+    if order is None:
+        logger.warning(
+            "Folder-order response invalid for %r (expected exactly %r), retrying once.",
+            career_path, folder_names,
+        )
+        raw = _strip_code_fences(generate_with_retry(prompt))
+        order = _parse_folder_order(raw, folder_names)
+
+    if order is None:
+        logger.warning(
+            "Folder-order response still invalid for %r after retry - "
+            "falling back to largest-folder-first order.", career_path,
+        )
+        order = sorted(folder_names, key=lambda f: -len(by_folder[f]))
+
+    return order
+
+
+def _humanize_folder(folder):
+    return folder.replace("-", " ").replace("_", " ").title()
+
+
+def _merge_small_folders(ordered_folders, by_folder):
+    """
+    Folds any folder with fewer than MIN_TOPICS_PER_PHASE topics into the
+    preceding phase in Gemini's foundational -> advanced order (or the
+    following one, if it's first) - a merged phase's title joins both
+    folders' humanized names. If more than MAX_PHASES phases remain after
+    that pass, repeatedly merges the smallest remaining phase into its
+    nearest neighbor until the count is back in range. Returns
+    [{"title": str, "topics": [...]}] in phase order (phase_number is
+    assigned by the caller).
+    """
+    phases = [
+        {"title": _humanize_folder(folder), "topics": list(by_folder[folder])}
+        for folder in ordered_folders
+    ]
+
+    merged = []
+    for phase in phases:
+        if merged and len(phase["topics"]) < MIN_TOPICS_PER_PHASE:
+            merged[-1]["topics"].extend(phase["topics"])
+            merged[-1]["title"] = f"{merged[-1]['title']} & {phase['title']}"
+        else:
+            merged.append(phase)
+    # A too-small FIRST phase has no preceding phase to merge into - fold it
+    # into the one right after it instead.
+    if len(merged) > 1 and len(merged[0]["topics"]) < MIN_TOPICS_PER_PHASE:
+        merged[1]["topics"] = merged[0]["topics"] + merged[1]["topics"]
+        merged[1]["title"] = f"{merged[0]['title']} & {merged[1]['title']}"
+        merged = merged[1:]
+
+    while len(merged) > MAX_PHASES:
+        smallest_idx = min(range(len(merged)), key=lambda i: len(merged[i]["topics"]))
+        neighbor_idx = smallest_idx - 1 if smallest_idx > 0 else 1
+        lo, hi = sorted((smallest_idx, neighbor_idx))
+        merged[lo]["topics"].extend(merged[hi]["topics"])
+        merged[lo]["title"] = f"{merged[lo]['title']} & {merged[hi]['title']}"
+        del merged[hi]
+
+    return merged
+
+
+def _partition_inventory(career_path, inventory):
+    """
+    Dedupes the inventory (_dedup_inventory), groups it by real roadmap.sh
+    folder, orders those folders foundational -> advanced with one Gemini
+    call (_order_folders), merges small/excess folders into neighboring
+    phases (_merge_small_folders), and returns
+    [{"phase_number": int, "title": str, "topics": [...]}] - the same shape
+    the rest of this module (prompt building, validation, checkpoint
+    detection) already expects.
+    """
+    deduped = _dedup_inventory(inventory)
+    by_folder = _group_by_folder(deduped)
+    ordered_folders = _order_folders(career_path, by_folder)
+    merged = _merge_small_folders(ordered_folders, by_folder)
+
+    return [
+        {"phase_number": i + 1, "title": phase["title"], "topics": phase["topics"]}
+        for i, phase in enumerate(merged)
+    ]
+
+
+def _inventory_block(topics):
+    lines = "\n".join(f"{t['node_id']}|{t['title']}|{t['folder']}" for t in topics)
     return (
-        f"Topic inventory for this career path ({len(inventory)} real topics, one per "
-        "line, format node_id|title|folder). \"topic_refs\" must ONLY use node_id "
-        "values from this list - never invent one. Prefer subtopics/topic_refs that "
-        "also appear (by title) in the reference material above; you may also draw on "
-        "other topics from this inventory when clearly relevant to a step, but every "
-        "topic_ref must still come from this list.\n"
+        f"Topic inventory for THIS PHASE ({len(topics)} real topics, one per line, "
+        "format node_id|title|folder). \"topic_refs\" must ONLY use node_id values "
+        "from this list - never invent one, and never use a node_id from a different "
+        "phase. Prefer subtopics/topic_refs that also appear (by title) in the "
+        "reference material above; you may also draw on other topics from this "
+        "inventory when clearly relevant to a step.\n"
         f"{lines}"
     )
 
 
-def _checkpoint_chunks(career_path, chunks):
+def _checkpoint_chunks_for_phase(career_path, phase, chunks):
     """
-    The 13 full-stack "checkpoint--*" chunks - roadmap.sh's own hands-on
-    project prompts (see the Phase A KB audit in PROJECT_BIOGRAPHY.md) - the
-    only career path with genuine project source material in the KB. Every
-    other career path gets [] here, which _build_prompt uses to switch the
-    project instructions to "grounded": false.
+    The full-stack "checkpoint--*" chunks (roadmap.sh's own hands-on project
+    prompts - see the Phase A KB audit in PROJECT_BIOGRAPHY.md) that landed
+    in THIS phase's topic slice. They all live under the "full-stack"
+    folder, so whichever phase that folder was ordered/merged into is the
+    only one that gets them - every other phase (and every non-full-stack
+    career path) gets [] here, which _build_prompt uses to switch to
+    "grounded": false project instructions for that phase.
     """
     if career_path != FULL_STACK_PATH:
         return []
-    return [c for c in chunks if "checkpoint" in c["source"] and career_path in c["career_paths"]]
+    phase_node_ids = {t["node_id"] for t in phase["topics"]}
+    return [
+        c for c in chunks
+        if "checkpoint" in c["source"] and career_path in c["career_paths"] and c.get("node_id") in phase_node_ids
+    ]
 
 
 def _project_source_block(checkpoint_chunks):
     parts = [f"[node_id: {c['node_id']}] {c['title']}\n{c['text']}" for c in checkpoint_chunks]
     return (
         "PROJECT SOURCE MATERIAL (real roadmap.sh hands-on project prompts for this "
-        "career path):\n\n" + "\n\n".join(parts)
+        "phase):\n\n" + "\n\n".join(parts)
     )
 
 
 def _project_instructions(checkpoint_chunks):
     if checkpoint_chunks:
         return (
-            "For this career path's steps, every project must be adapted from the "
-            'PROJECT SOURCE MATERIAL above only - do not invent unrelated projects. '
-            'Set "grounded": true on every project, and where a project comes from a '
+            "For this phase's steps, every project must be adapted from the PROJECT "
+            'SOURCE MATERIAL above only - do not invent unrelated projects. Set '
+            '"grounded": true on every project, and where a project comes from a '
             "specific checkpoint, you may include that checkpoint's own node_id in "
             "that step's topic_refs."
         )
     return (
-        "No curated project material exists for this career path in the knowledge "
-        "base. Projects are your own suggestions based on the step's subtopics, not "
+        "No curated project material exists for this phase in the knowledge base. "
+        "Projects are your own suggestions based on the step's subtopics, not "
         'grounded in retrieved material - set "grounded": false on every project.'
     )
 
 
-_STEP_SCHEMA_INSTRUCTIONS = """Generate 8-12 roadmap steps. Respond ONLY with valid JSON, no markdown
-formatting, no backticks, no preamble - an array of objects, each with
-exactly these keys:
-- "step_number" (int)
+def _step_schema_instructions():
+    return f"""Generate {STEPS_PER_PHASE_RANGE} steps for THIS PHASE ONLY. Respond ONLY with
+valid JSON, no markdown formatting, no backticks, no preamble - an array of
+objects, each with exactly these keys:
+- "step_number" (int, numbered within this phase only, starting at 1)
 - "title" (string, short)
 - "description" (string, 1-2 sentences explaining why this step matters for
   this student specifically, referencing their goal/context where relevant)
 - "subtopics" (array of 3-5 strings: real topic titles this step covers -
   prefer titles that appear in the reference material above; may also use
-  other titles from the topic inventory)
-- "topic_refs" (array of strings: node_id values from the topic inventory
-  that ground this step - never invented ones)
+  other titles from this phase's topic inventory)
+- "topic_refs" (array of strings: node_id values from this phase's topic
+  inventory that ground this step - never invented ones, never a node_id
+  from a different phase)
 - "projects" (array of 2-3 objects, each with "title" (string), "description"
   (string, one line), "difficulty" ("beginner"|"intermediate"|"advanced"),
   and "grounded" (bool) - per the project instructions above)"""
@@ -213,41 +457,77 @@ def _context_line(chunk):
     return f"[Source: {chunk['source']}{node_bit}]\n{title_bit}{chunk['text']}"
 
 
-def _build_prompt(career_path, retrieved_chunks, inventory, checkpoint_chunks, conversation_signals):
+def _exclusion_block(used_node_ids, used_titles):
+    """
+    A safety net, not the primary fix (folder-based partitioning already
+    makes topic_ref overlap across phases structurally rare - a node_id can
+    only be in one phase's topic slice after dedup). This still guards
+    against a later phase independently writing a step that's conceptually
+    the same as an earlier one even though it's grounded in different
+    topic_refs. Empty for phase 1, since nothing has been generated yet.
+    """
+    if not used_titles:
+        return ""
+    node_id_list = ", ".join(sorted(used_node_ids)) if used_node_ids else "(none)"
+    title_list = "\n".join(f"- {t}" for t in used_titles)
+    return (
+        "\nSteps already generated in EARLIER phases of this same roadmap. Do not "
+        "repeat these topics or generate a step substantially similar to any of "
+        "these titles, even if phrased differently:\n"
+        f"Already-used topic_refs: {node_id_list}\n"
+        f"Already-used step titles:\n{title_list}\n"
+    )
+
+
+def _build_prompt(career_path, phase, retrieved_chunks, checkpoint_chunks, conversation_signals, used_node_ids, used_titles):
     context_text = "\n\n".join(_context_line(c) for c in retrieved_chunks)
 
-    sections = [context_text, _inventory_block(inventory)]
+    sections = [context_text, _inventory_block(phase["topics"])]
     if checkpoint_chunks:
         sections.append(_project_source_block(checkpoint_chunks))
     reference_and_inventory = "\n\n".join(sections)
 
-    return f"""You are generating a personalized learning roadmap for a student
-pursuing the career path: {career_path}
+    return f"""You are generating ONE PHASE of a personalized, multi-phase learning
+roadmap for a student pursuing the career path: {career_path}
+
+This call covers ONLY the "{phase['title']}" phase (phase {phase['phase_number']}
+of the roadmap). Generate steps for this phase alone - do not try to cover
+the whole career path, and do not reference topics outside this phase's own
+topic inventory below.
 
 Student context:
 - Main goal: {conversation_signals.get('goal', 'not specified')}
 - Wants to avoid: {conversation_signals.get('avoid', 'not specified')}
 - Target company type: {conversation_signals.get('target_company', 'not specified')}
 {_notes_block(conversation_signals)}
-You must base the roadmap's descriptions, subtopics, and topic_refs ONLY on
+You must base this phase's descriptions, subtopics, and topic_refs ONLY on
 the reference material and topic inventory below. Do not invent skills,
 tools, or steps that are not grounded in this material. topic_refs
 specifically must only contain node_id values that appear in the topic
 inventory below - never invented ones.
-
+{_exclusion_block(used_node_ids, used_titles)}
 Reference material:
 {reference_and_inventory}
 
 {_project_instructions(checkpoint_chunks)}
 
-{_STEP_SCHEMA_INSTRUCTIONS}"""
+{_step_schema_instructions()}"""
+
+
+def _strip_code_fences(raw_text):
+    if raw_text.startswith("```"):
+        raw_text = raw_text.split("```")[1]
+        if raw_text.startswith("json"):
+            raw_text = raw_text[4:]
+        raw_text = raw_text.strip()
+    return raw_text
 
 
 def _validate_topic_refs(steps, valid_node_ids):
     """
-    Drops any topic_ref not present in the career path's topic inventory,
-    logging a warning per dropped ref rather than failing the whole
-    generation over one bad reference. Mutates and returns `steps`.
+    Drops any topic_ref not present in this phase's own topic inventory,
+    logging a warning per dropped ref rather than failing the whole phase
+    over one bad reference. Mutates and returns `steps`.
     """
     for step in steps:
         refs = step.get("topic_refs") or []
@@ -258,23 +538,22 @@ def _validate_topic_refs(steps, valid_node_ids):
             else:
                 logger.warning(
                     "Dropped invalid topic_ref %r from roadmap step %r (%r) - "
-                    "not in the topic inventory for this career path.",
+                    "not in this phase's topic inventory.",
                     ref, step.get("step_number"), step.get("title"),
                 )
         step["topic_refs"] = valid_refs
     return steps
 
 
-def _fix_subtopic_node_ids(steps, inventory):
+def _fix_subtopic_node_ids(steps, topics):
     """
     Gemini occasionally puts a topic_refs-style node_id in "subtopics" where
-    a real topic title belongs (observed in testing - a Full-Stack step's
-    subtopics list contained a raw node_id string instead of that topic's
-    title). Any subtopics entry that exactly matches a node_id from the
-    inventory is replaced with that node's real title; a warning is logged
-    per correction. Mutates and returns `steps`.
+    a real topic title belongs (observed in testing). Any subtopics entry
+    that exactly matches a node_id from this phase's topic list is replaced
+    with that node's real title; a warning is logged per correction.
+    Mutates and returns `steps`.
     """
-    node_id_to_title = {t["node_id"]: t["title"] for t in inventory}
+    node_id_to_title = {t["node_id"]: t["title"] for t in topics}
     for step in steps:
         subtopics = step.get("subtopics") or []
         fixed = []
@@ -301,11 +580,6 @@ def _attribute_queries(queries, index, chunks, career_path):
     query, on its own, consider the chunk one of its best matches" rather
     than "does this chunk merely belong to the career path" (a much larger,
     barely-discriminating set of nearly every chunk tagged to the path).
-    search_diverse()'s own per_folder_cap can occasionally let a chunk into
-    the final merged result that wasn't in any single query's own top
-    TOTAL_K (crowded out there by same-folder chunks the cap doesn't apply
-    to per-query) - such a chunk is recorded with no contributing queries
-    rather than a guessed one.
     """
     source_to_queries = {}
     for query in queries:
@@ -314,13 +588,13 @@ def _attribute_queries(queries, index, chunks, career_path):
     return source_to_queries
 
 
-def _build_retrieval_audit(steps, retrieved, node_id_to_chunk, source_to_queries, queries):
+def _build_phase_audit(phase, steps, retrieved, node_id_to_chunk, source_to_queries, queries):
     """
-    Extends the old "source + score" audit trail with which query/queries
-    contributed to each retrieved chunk, and, per step, which topic_refs it
-    used and which query/queries grounded those refs - the same
-    anti-hallucination demonstrability the old flat list gave, for the new
-    multi-query retrieval shape.
+    Per-phase extension of the old "source + score" audit trail: which
+    query/queries contributed to each retrieved chunk, and, per step, which
+    topic_refs it used and which query/queries grounded those refs - the
+    same anti-hallucination demonstrability the old flat list gave, now
+    nested under this phase.
     """
     retrieved_audit = [
         {
@@ -340,11 +614,18 @@ def _build_retrieval_audit(steps, retrieved, node_id_to_chunk, source_to_queries
                 step_queries.update(source_to_queries.get(chunk["source"], []))
         steps_audit.append({
             "step_number": step.get("step_number"),
+            "global_step_index": step.get("global_step_index"),
             "topic_refs": step.get("topic_refs", []),
             "queries": sorted(step_queries),
         })
 
-    return {"queries": queries, "retrieved": retrieved_audit, "steps": steps_audit}
+    return {
+        "phase_number": phase["phase_number"],
+        "title": phase["title"],
+        "queries": queries,
+        "retrieved": retrieved_audit,
+        "steps": steps_audit,
+    }
 
 
 def generate_roadmap(career_path, conversation_signals, index, chunks):
@@ -353,44 +634,94 @@ def generate_roadmap(career_path, conversation_signals, index, chunks):
     conversation_signals: CareerProfile.conversation_signals dict.
     index, chunks: the loaded FAISS index + metadata (from rag.load_index()).
 
-    Returns (steps, retrieved_chunks_audit) - steps is the parsed list of
-    step dicts (see the module docstring / _STEP_SCHEMA_INSTRUCTIONS for the
-    shape), retrieved_chunks_audit is a record of what grounded this
-    generation - which queries were run, which chunks they surfaced, and
-    which queries/topic_refs grounded each step.
-    """
-    queries = _build_diverse_queries(career_path, conversation_signals)
-    retrieved = search_diverse(queries, index, chunks, career_path, total_k=TOTAL_K, per_folder_cap=PER_FOLDER_CAP)
+    Returns (roadmap, retrieved_chunks_audit):
+    - roadmap: {"phases": [{"phase_number", "title", "steps": [...]}]} - see
+      _step_schema_instructions() for a step's shape. Steps carry a
+      "global_step_index" assigned here in code (not by Gemini - a single
+      phase call has no visibility into how many steps preceded it in
+      earlier phases, so this can't reliably come from the model itself).
+    - retrieved_chunks_audit: {"phases": [{"phase_number", "title",
+      "queries", "retrieved", "steps"}]} - what grounded each phase.
 
-    if not retrieved:
+    Gemini call count: one folder-ordering call, plus one per phase - so 4
+    for a 3-folder path (AI/ML), 6 for a 5-folder path (Full-Stack), up
+    from the flat design's 1. Latency scales accordingly (each call still
+    carries its own up-to-3-retry 503 backoff from gemini_client.py, so a
+    worst-case generation is meaningfully slower - seconds becoming tens of
+    seconds to low minutes), and the free tier's daily-roadmap headroom
+    drops proportionally (youtube_resources.py's own quota note, on the
+    YouTube side, is unrelated and unaffected). Retrieval
+    (search_diverse/search calls) also runs once per phase, but that's
+    local FAISS + sentence-transformer work, not a network call -
+    negligible added latency, not a quota concern.
+    """
+    inventory = _topic_inventory(career_path, chunks)
+    if not inventory:
         raise ValueError(
             f"No knowledge base content found for career path: {career_path!r}. "
-            "Cannot generate a grounded roadmap without retrieved context."
+            "Cannot generate a grounded roadmap without a topic inventory."
         )
 
-    inventory = _topic_inventory(career_path, chunks)
-    inventory_node_ids = {t["node_id"] for t in inventory}
-    checkpoint_chunks = _checkpoint_chunks(career_path, chunks)
+    phase_plan = _partition_inventory(career_path, inventory)
+    base_queries = _build_diverse_queries(career_path, conversation_signals)
 
-    prompt = _build_prompt(career_path, retrieved, inventory, checkpoint_chunks, conversation_signals)
-    raw_text = generate_with_retry(prompt)
+    phases_out = []
+    audit_phases = []
+    global_index = 1
+    used_node_ids = set()
+    used_titles = []
 
-    if raw_text.startswith("```"):
-        raw_text = raw_text.split("```")[1]
-        if raw_text.startswith("json"):
-            raw_text = raw_text[4:]
-        raw_text = raw_text.strip()
+    for phase in phase_plan:
+        phase_node_ids = {t["node_id"] for t in phase["topics"]}
+        phase_queries = base_queries + [f"{career_path}: {phase['title']}"]
 
-    try:
-        steps = json.loads(raw_text)
-    except json.JSONDecodeError as e:
-        raise ValueError(f"Gemini returned invalid JSON: {e}\nRaw response: {raw_text[:500]}")
+        retrieved = search_diverse(phase_queries, index, chunks, career_path, total_k=TOTAL_K, per_folder_cap=PER_FOLDER_CAP)
+        # Prefer chunks whose node actually belongs to this phase's own topic
+        # slice, so the reference material text agrees with the topic
+        # whitelist given for this call; survey chunks (a career-path-level
+        # aggregate, not tied to one node) are kept regardless. Falls back to
+        # the unfiltered retrieval if that intersection is empty, rather than
+        # leaving the phase with no grounding text at all.
+        scoped = [c for c in retrieved if c.get("node_id") in phase_node_ids or "node_id" not in c]
+        retrieved_for_prompt = scoped or retrieved
 
-    steps = _validate_topic_refs(steps, inventory_node_ids)
-    steps = _fix_subtopic_node_ids(steps, inventory)
+        if not retrieved_for_prompt:
+            raise ValueError(
+                f"No knowledge base content found for the {phase['title']!r} phase of "
+                f"career path: {career_path!r}. Cannot generate a grounded phase without "
+                "retrieved context."
+            )
 
-    node_id_to_chunk = {c["node_id"]: c for c in chunks if "node_id" in c}
-    source_to_queries = _attribute_queries(queries, index, chunks, career_path)
-    retrieved_chunks_audit = _build_retrieval_audit(steps, retrieved, node_id_to_chunk, source_to_queries, queries)
+        checkpoint_chunks = _checkpoint_chunks_for_phase(career_path, phase, chunks)
+        prompt = _build_prompt(career_path, phase, retrieved_for_prompt, checkpoint_chunks, conversation_signals, used_node_ids, used_titles)
+        raw_text = _strip_code_fences(generate_with_retry(prompt))
 
-    return steps, retrieved_chunks_audit
+        try:
+            steps = json.loads(raw_text)
+        except json.JSONDecodeError as e:
+            raise ValueError(
+                f"Gemini returned invalid JSON for phase {phase['title']!r}: {e}\n"
+                f"Raw response: {raw_text[:500]}"
+            )
+
+        steps = _validate_topic_refs(steps, phase_node_ids)
+        steps = _fix_subtopic_node_ids(steps, phase["topics"])
+
+        for step in steps:
+            step["global_step_index"] = global_index
+            global_index += 1
+            used_node_ids.update(step.get("topic_refs", []))
+            if step.get("title"):
+                used_titles.append(step["title"])
+
+        node_id_to_chunk = {c["node_id"]: c for c in chunks if c.get("node_id") in phase_node_ids}
+        source_to_queries = _attribute_queries(phase_queries, index, chunks, career_path)
+        audit_phases.append(_build_phase_audit(phase, steps, retrieved_for_prompt, node_id_to_chunk, source_to_queries, phase_queries))
+
+        phases_out.append({
+            "phase_number": phase["phase_number"],
+            "title": phase["title"],
+            "steps": steps,
+        })
+
+    return {"phases": phases_out}, {"phases": audit_phases}

@@ -2,6 +2,12 @@
 One-off smoke test driving the full quiz -> conversation -> roadmap generation
 flow through Flask's test client, using the real FAISS index built on this
 machine. First real end-to-end test of /roadmap/generate.
+
+roadmap_generator.py now returns a phased roadmap ({"phases": [{"phase_number",
+"title", "steps": [...]}]}) instead of a flat step list, so this test's own
+job - exercising current behavior, not preserving the old flat shape - means
+reading result["steps"]["phases"][*]["steps"] rather than result["steps"]
+directly.
 """
 import random
 
@@ -55,11 +61,17 @@ with app.test_client() as client:
     result = resp.get_json()
 
     if resp.status_code == 201:
+        phases = result["steps"]["phases"]
+        total_steps = sum(len(phase["steps"]) for phase in phases)
         print("Career path:", result["career_path"])
-        print(f"Steps generated: {len(result['steps'])}")
+        print(f"Phases generated: {len(phases)}")
+        print(f"Total steps across all phases: {total_steps}")
         print()
-        for step in result["steps"]:
-            print(f"  {step.get('step_number')}. {step.get('title')}")
-            print(f"     {step.get('description')}")
+        for phase in phases:
+            print(f"Phase {phase['phase_number']}: {phase['title']} ({len(phase['steps'])} steps)")
+            for step in phase["steps"]:
+                print(f"  {step.get('global_step_index')} (phase step {step.get('step_number')}). {step.get('title')}")
+                print(f"     {step.get('description')}")
+            print()
     else:
         print("ERROR:", result)
