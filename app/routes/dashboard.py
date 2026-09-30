@@ -10,11 +10,12 @@ overwriting), so "existing result" always means the newest row for that user.
 from flask import Blueprint, jsonify
 from flask_login import login_required, current_user
 
-from app.models import CareerProfile, GeneratedRoadmap, Resume, SkillGap
+from app.models import CareerProfile, GeneratedRoadmap, NodeMastery, Resume, SkillGap, UserDSAActivity
 from app.pipeline.conversation_data import (
     ADDITIONAL_NOTES_KEY, ADDITIONAL_NOTES_PROMPT, CONVERSATION_QUESTIONS, OPTION_SIGNALS,
 )
 from app.routes._util import iso_utc
+from app.routes.dsa import dsa_progress
 from app.routes.resume import latest_resume_analysis
 from app.routes.roadmap import latest_roadmap
 
@@ -65,13 +66,14 @@ def latest_career_profile(user_id):
 
 def user_has_saved_work(user_id):
     """
-    True if the user has any saved career profile, roadmap, or resume analysis.
-    Cheap existence checks - the dashboard uses this to decide between showing
-    their results and sending a brand-new user into the normal first-time flow.
+    True if the user has any saved career profile, roadmap, resume analysis, or
+    skill-map progress. Cheap existence checks - the dashboard uses this to decide
+    between showing their results and sending a brand-new user into the normal
+    first-time flow.
     """
     return any(
         model.query.filter_by(user_id=user_id).first() is not None
-        for model in (CareerProfile, GeneratedRoadmap, Resume, SkillGap)
+        for model in (CareerProfile, GeneratedRoadmap, Resume, SkillGap, NodeMastery, UserDSAActivity)
     )
 
 
@@ -82,4 +84,5 @@ def dashboard_data():
         "career_profile": latest_career_profile(current_user.id),
         "roadmap": latest_roadmap(current_user.id),
         "resume": latest_resume_analysis(current_user.id),
+        "dsa": dsa_progress(current_user.id),
     }), 200

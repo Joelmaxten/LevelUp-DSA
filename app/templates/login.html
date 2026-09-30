@@ -1,30 +1,41 @@
 {% extends "layout.html" %}
 
-{% block title %}Login — LevelUp DSA{% endblock %}
+{% block title %}Log in | LevelUp DSA{% endblock %}
 
 {% block content %}
-<div class="auth-card">
-<h2>Log in</h2>
+<div class="sheet">
+    <div class="row row-head">
+        <div class="margin">
+            <p class="note">Your quiz results, roadmap and resume analysis are saved to your account, so you can pick up where you left off.</p>
+        </div>
+        <div class="main">
+          <div class="auth-grid">
+            <div>
+                <h1 class="page-title">Log in</h1>
 
-{% if registered %}
-<div class="card card-highlight" role="status">
-    Account created! Log in below to get started.
-</div>
-{% endif %}
+                {% if registered %}
+                <p class="msg msg-ok page-msg" role="status">Your account is ready. Log in to get started.</p>
+                {% endif %}
+            </div>
 
-<form id="login-form">
-    <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" required>
+            <form id="login-form" class="form">
+                <div class="field">
+                    <label for="email">Email</label>
+                    <input class="input" type="email" id="email" autocomplete="email" required>
+                </div>
+                <div class="field">
+                    <label for="password">Password</label>
+                    <input class="input" type="password" id="password" autocomplete="current-password" required>
+                </div>
+                <div class="actions">
+                    <button type="submit" id="login-btn" class="btn">Log in</button>
+                </div>
+                <p id="login-message" class="msg" role="status" hidden></p>
+                <p class="note form-foot">New here? <a href="/signup">Create an account</a></p>
+            </form>
+          </div>
+        </div>
     </div>
-    <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" required>
-    </div>
-    <button type="submit" id="login-btn" class="btn">Log In</button>
-    <p id="login-message" style="margin-top: 1rem;"></p>
-    <p class="muted" style="margin-top: 1rem;">New here? <a href="/signup" style="color: #38bdf8;">Create an account</a></p>
-</form>
 </div>
 
 <script>
@@ -32,29 +43,37 @@
 // against an allowlist by the server), otherwise the start of the journey.
 const NEXT_URL = {{ next_url|tojson }};
 
+const loginMessage = document.getElementById("login-message");
+
+function showLoginMessage(text, isError) {
+    loginMessage.textContent = text;
+    loginMessage.className = isError ? "msg msg-error" : "msg msg-ok";
+    loginMessage.hidden = false;
+}
+
 document.getElementById("login-form").addEventListener("submit", async function (e) {
     e.preventDefault();
 
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
     const loginBtn = document.getElementById("login-btn");
-    const messageEl = document.getElementById("login-message");
 
     loginBtn.disabled = true;
     const result = await postJson("/login", { email, password });
 
     if (result.ok) {
-        messageEl.textContent = "Logged in! Taking you to your next step...";
-        messageEl.style.color = "#4ade80";
+        showLoginMessage("You're in. Taking you to your next step...", false);
         window.location.href = NEXT_URL;
         return;
     }
 
     loginBtn.disabled = false;
-    messageEl.textContent = result.status === 0
-        ? "Couldn't reach the server. Check your connection and try again."
-        : (result.data && result.data.error) || "Something went wrong. Please try again.";
-    messageEl.style.color = "#f87171";
+    showLoginMessage(
+        result.status === 0
+            ? "Couldn't reach the server. Check your connection and try again."
+            : (result.data && result.data.error) || "Something went wrong. Please try again.",
+        true
+    );
 });
 </script>
 {% endblock %}

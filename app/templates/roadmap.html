@@ -1,15 +1,21 @@
 {% extends "layout.html" %}
 
-{% block title %}Your Roadmap — LevelUp DSA{% endblock %}
+{% block title %}Your roadmap | LevelUp DSA{% endblock %}
 
 {% block content %}
-<div class="page-medium">
-    <h2 id="roadmap-heading">Your Personalized Roadmap</h2>
-    <p id="roadmap-intro" class="muted" style="margin-top: 0.5rem;">
-        A step-by-step learning path built from your top career match and your answers.
-    </p>
+<div class="sheet">
+    <header class="row row-head">
+        <div class="margin"></div>
+        <div class="main">
+            <h1 class="page-title" id="roadmap-heading">Your roadmap</h1>
+            <p id="roadmap-intro" class="lead">
+                A step-by-step learning path for one career path. If you've taken the career quiz it's built from your top match
+                and your answers. Otherwise you'll choose a path when you generate it.
+            </p>
+        </div>
+    </header>
 
-    <div id="roadmap-box" style="margin-top: 1.5rem;"></div>
+    <div id="roadmap-box"></div>
 </div>
 
 <script src="{{ url_for('static', filename='js/results.js') }}"></script>
@@ -21,12 +27,29 @@ let videosState = "none";       // "none" | "pending" | "failed" | "done"
 let videosMessage = "";
 
 function showLoading(message) {
-    box.replaceChildren(el("p", { className: "muted", text: message, role: "status" }));
+    box.replaceChildren(row([], working(message)));
 }
 
 function errorMessage(result) {
     if (result.status === 0) return "Couldn't reach the server. Check your connection and try again.";
     return (result.data && result.data.error) || "Something went wrong. Please try again.";
+}
+
+let lastPickedPath = "";   // remembered so a second generate in this visit doesn't start from an empty dropdown
+
+// The user has no quiz result, so the server wants a career path. Ask, then send the
+// same request again with the choice attached. The path is per-roadmap only; nothing is saved as a profile.
+function renderPathPicker(result) {
+    box.replaceChildren(careerPathPicker({
+        options: result.data.options,
+        message: result.data.error === "invalid_career_path" ? result.data.message : undefined,
+        submitText: "Generate roadmap for this path",
+        preselected: lastPickedPath,
+        onSubmit: (path) => {
+            lastPickedPath = path;
+            generate(path);
+        },
+    }));
 }
 
 function renderError(result, retry) {
@@ -36,10 +59,6 @@ function renderError(result, retry) {
     if (result.status === 401) {
         message = "You need to be logged in to continue.";
         actions.append(el("a", { className: "btn", href: "/login?next=/roadmap", text: "Log in" }));
-    } else if (result.status === 400) {
-        // Server says no career profile exists yet.
-        message = errorMessage(result);
-        actions.append(el("a", { className: "btn", href: "/quiz", text: "Take the quiz" }));
     } else if (result.status === 502 || result.status === 503) {
         // These bodies are developer-facing (raw LLM output / missing index), not for students.
         const raw = (result.data && result.data.error) || "";
@@ -47,7 +66,7 @@ function renderError(result, retry) {
         // Quota errors won't clear on an immediate retry, so don't say they might.
         message = /RESOURCE_EXHAUSTED|quota/i.test(raw)
             ? "The AI service's usage limit has been reached for now. Please try again later."
-            : "We couldn't generate your roadmap right now - the AI service may be busy. Please try again in a moment.";
+            : "We couldn't generate your roadmap right now. The AI service may be busy. Please try again in a moment.";
         const again = el("button", { className: "btn", type: "button", text: "Try again" });
         again.addEventListener("click", retry);
         actions.append(again);
@@ -58,23 +77,21 @@ function renderError(result, retry) {
         actions.append(again);
     }
 
-    box.replaceChildren(
-        el("div", { className: "card card-error", role: "alert" }, el("p", { text: message }), actions)
-    );
+    box.replaceChildren(row([], el("div", { className: "msg msg-error", role: "alert" }, el("p", { text: message }), actions)));
 }
 
 function renderIdle(startedFresh) {
     const generateBtn = el("button", { className: "btn", type: "button", text: "Generate my roadmap" });
-    generateBtn.addEventListener("click", generate);
+    generateBtn.addEventListener("click", () => generate());   // not `generate`: the click event would arrive as its path argument
 
-    box.replaceChildren(
-        el("div", { className: "card" },
-            el("h3", { text: "Ready to build your roadmap?", style: "margin-bottom: 0.5rem;" }),
-            el("p", { className: "muted", text: "We'll create 8-12 steps for your top career match, tailored to your answers, then find a video for each one. This can take up to a minute." }),
-            startedFresh ? el("p", { className: "muted", text: "Any roadmap you already have stays saved.", style: "margin-top: 0.5rem; font-size: 0.9rem;" }) : "",
+    box.replaceChildren(row(
+        startedFresh ? el("p", { className: "note", text: "Any roadmap you already have stays saved." }) : [],
+        [
+            el("h2", { className: "phase-title", text: "Ready to build your roadmap?" }),
+            el("p", { className: "ask-text", text: "We'll write 8 to 12 steps for your top career match (or a career path you choose), tailored to your answers if you've taken the quiz. Then we find a video for each step. This can take up to a minute." }),
             el("div", { className: "actions" }, generateBtn)
-        )
-    );
+        ]
+    ));
 }
 
 function renderRoadmap() {
@@ -83,28 +100,32 @@ function renderRoadmap() {
     if (videosState === "failed") {
         const retryBtn = el("button", { className: "btn", type: "button", text: "Try adding videos again" });
         retryBtn.addEventListener("click", fetchVideos);
-        parts.push(el("div", { className: "card card-error", role: "alert" },
+        parts.push(row([], el("div", { className: "msg msg-error", role: "alert" },
             el("p", { text: videosMessage }),
-            el("p", { className: "muted", text: "Your roadmap is saved - only the videos are missing.", style: "font-size: 0.9rem;" }),
+            el("p", { className: "note", text: "Your roadmap is saved. Only the videos are missing." }),
             el("div", { className: "actions" }, retryBtn)
-        ));
+        )));
     }
 
     const when = formatDate(roadmap.created_at);
-    parts.push(el("p", { className: "muted", text: `Career path: ${roadmap.career_path}${when ? ` · generated ${when}` : ""}`, style: "margin-bottom: 1rem;" }));
+    parts.push(row(
+        [el("p", { className: "note", text: "Built for" }), when ? el("p", { className: "note", text: `Generated ${when}` }) : ""],
+        el("h2", { className: "path-name" }, el("span", { className: "mark", text: roadmap.career_path }))
+    ));
     parts.push(roadmapStepList(roadmap.steps, videosState === "pending"));
 
     if (videosState !== "pending") {
-        const regenBtn = el("button", { className: "btn btn-secondary", type: "button", text: "Generate a new roadmap" });
+        const regenBtn = el("button", { className: "btn-quiet", type: "button", text: "Generate a new roadmap" });
         regenBtn.addEventListener("click", () => {
             if (confirm("Generate a new roadmap? Your current one stays saved, and this takes up to a minute.")) {
                 generate();
             }
         });
-        parts.push(el("div", { className: "actions" },
+        parts.push(row([], el("div", { className: "actions row-actions" },
             el("a", { className: "btn", href: "/resume", text: "Analyze my resume" }),
+            el("a", { className: "btn-quiet", href: "/dsa", text: "Practice DSA on the skill map" }),
             regenBtn
-        ));
+        )));
     }
 
     box.replaceChildren(...parts);
@@ -129,12 +150,17 @@ async function fetchVideos() {
     renderRoadmap();
 }
 
-async function generate() {
+async function generate(targetCareerPath) {
     showLoading("Generating your roadmap. This can take up to a minute...");
 
-    const result = await postJson("/roadmap/generate");
+    const result = await postJson("/roadmap/generate", targetCareerPath ? { target_career_path: targetCareerPath } : undefined);
     if (!result.ok) {
-        renderError(result, generate);
+        if (isCareerPathSignal(result)) {
+            renderPathPicker(result);
+        } else {
+            // Retry with the same path if one was chosen, so a transient 502 doesn't send them back to the dropdown.
+            renderError(result, () => generate(targetCareerPath));
+        }
         return;
     }
 
@@ -145,7 +171,7 @@ async function generate() {
 }
 
 // On arrival: show the roadmap already saved for this user (their newest one),
-// or the "generate" prompt if they have none - unless they came specifically to make a new one.
+// or the "generate" prompt if they have none, unless they came specifically to make a new one.
 async function loadSaved() {
     showLoading("Loading your roadmap...");
 

@@ -6,7 +6,7 @@ from app.models import CareerProfile, GeneratedRoadmap
 from app.pipeline.rag import load_index
 from app.pipeline.roadmap_generator import generate_roadmap
 from app.pipeline.youtube_resources import fetch_resources_for_roadmap
-from app.routes._util import iso_utc
+from app.routes._util import iso_utc, resolve_target_career_path
 
 roadmap_bp = Blueprint("roadmap", __name__)
 
@@ -66,12 +66,13 @@ def generate():
         .first()
     )
 
-    if profile is None:
-        return jsonify({
-            "error": "No career profile found. Complete the quiz and conversation first."
-        }), 400
+    top_career_path, error = resolve_target_career_path(profile)
+    if error:
+        return error
 
-    top_career_path = profile.career_ranking[0]["career_path"]
+    # A user who skipped the quiz has no conversation answers; the prompt
+    # already falls back to "not specified" for each missing signal.
+    conversation_signals = profile.conversation_signals if profile is not None else {}
 
     try:
         index, chunks = _get_index()
@@ -83,7 +84,7 @@ def generate():
 
     try:
         steps, retrieved_chunks_audit = generate_roadmap(
-            top_career_path, profile.conversation_signals, index, chunks
+            top_career_path, conversation_signals, index, chunks
         )
     except ValueError as e:
         return jsonify({"error": str(e)}), 502

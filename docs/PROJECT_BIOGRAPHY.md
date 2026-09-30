@@ -775,6 +775,49 @@ against real and edge-case data, and wired into one working route.
 
 ---
 ---
+---
+
+## Phase 3 Stage 1 — Skill DNA Map (Static Structure, No Code Execution Yet)
+
+**What was built, via Claude Code:** the static Skill DNA Map — DSA topics as nodes in a
+prerequisite graph, without code submission/execution yet (deliberately deferred to Stage 2,
+gated on Piston being set up).
+
+- Seeded ~20-30 canonical, well-established DSA problems (Two Sum, Reverse Linked List,
+  Valid Parentheses, Binary Search, etc.) with known-correct test cases rather than having
+  the LLM invent problems or test cases from scratch - correctness-critical data isn't
+  something an LLM call should originate. Tagged to `DSANode` topics with prerequisite
+  relationships reflecting standard DSA learning order (e.g. Linked Lists requires Arrays).
+- Topological-sort-based prerequisite logic: a node stays locked until its prerequisites
+  reach a mastery threshold.
+- An endpoint returning per-node state (locked/unlocked/mastery level) for the current
+  user's graph, used to render the D3.js map.
+- Career-contextualized problem framing via one Gemini call (reusing `gemini_client.py`):
+  the LLM rewrites only the narrative framing of a seeded problem for the student's career
+  path (e.g. "your inventory API has a bug in hash map logic" for a Full-Stack student) -
+  the underlying problem and its verified test cases are never regenerated or altered by
+  the LLM, only the framing text around them.
+- Frontend: the Skill DNA Map as an interactive D3.js directed graph - node brightness
+  reflects mastery, locked nodes are visually dimmed, clicking an unlocked node shows its
+  problem(s) with the career-framed narrative. No submit/run control yet.
+
+**Deliberately excluded from this pass:** Piston integration, code submission/execution,
+and the adaptive bandit map - all depend on infrastructure (self-hosted Piston) that isn't
+set up yet, and the master doc's own design has the bandit map depend on complete static-map
+behavioral data anyway, so it couldn't come first regardless.
+
+**Verification note:** tested and confirmed working in-browser (node lock/unlock states,
+prerequisite blocking, and career-framed problem rewrites all checked per the task's
+request). Unlike prior entries in this document, this one was not independently reviewed
+diff-by-diff before being written up - flagged here for anyone reading back later.
+
+**Still to build for Phase 3:** Stage 2 (Piston setup, code submission/execution, XP and
+mastery updates from real solves, streak tracking, hint system) and Stage 3 (the adaptive
+bandit map - weakness scoring from behavioral signals, targeted problem spawning), per the
+master doc's two-stage design.
+
+---
+---
 ## Still To Build
 
 - Phase 3 — Gamified DSA / Skill DNA Map

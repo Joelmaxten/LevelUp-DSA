@@ -39,6 +39,30 @@ def apply_answer(session, question_id, option):
     return session
 
 
+def rewind_last_answer(session):
+    """
+    Undo the most recent answer, so the student can look at it again or change it.
+    Returns (question_id, option) of the undone answer, or None if nothing has been
+    answered yet.
+
+    Scores and asked_ids are rebuilt by replaying the answers that remain, rather than
+    subtracting the undone answer's signals, so they can never drift out of step with
+    the answered list. The quiz is adaptive, so changing an earlier answer can change
+    which questions come next; that is why only the LAST answer is ever rewound.
+    """
+    if not session["answered"]:
+        return None
+
+    *kept, last = session["answered"]
+    fresh = new_session()
+    for entry in kept:
+        apply_answer(fresh, entry["question_id"], entry["option"])
+
+    session.clear()
+    session.update(fresh)
+    return last["question_id"], last["option"]
+
+
 def _estimate_information_gain(session, question_id):
     """
     For an unanswered question, simulate each of its options being picked,

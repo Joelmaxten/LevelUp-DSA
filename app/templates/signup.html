@@ -1,31 +1,44 @@
 {% extends "layout.html" %}
 
-{% block title %}Sign Up — LevelUp DSA{% endblock %}
+{% block title %}Sign up | LevelUp DSA{% endblock %}
 
 {% block content %}
-<div class="auth-card">
-<h2>Create your account</h2>
+<div class="sheet">
+    <div class="row row-head">
+        <div class="margin">
+            <p class="note">You'll need a name, an email and a password. Everything you do here is saved to your account.</p>
+        </div>
+        <div class="main">
+          <div class="auth-grid">
+            <div>
+                <h1 class="page-title">Create your account</h1>
+            </div>
 
-<form id="signup-form">
-    <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" id="name" required>
+            <form id="signup-form" class="form">
+                <div class="field">
+                    <label for="name">Name</label>
+                    <input class="input" type="text" id="name" autocomplete="name" required>
+                </div>
+                <div class="field">
+                    <label for="email">Email</label>
+                    <input class="input" type="email" id="email" autocomplete="email" required>
+                </div>
+                <div class="field">
+                    <label for="password">Password</label>
+                    <input class="input" type="password" id="password" required autocomplete="new-password"
+                           aria-describedby="password-hint password-error">
+                    <p id="password-hint" class="hint">At least 8 characters, with an uppercase letter, a lowercase letter, a number, and a special character.</p>
+                    <p id="password-error" class="field-error" role="alert" hidden></p>
+                </div>
+                <div class="actions">
+                    <button type="submit" id="signup-btn" class="btn">Create account</button>
+                </div>
+                <p id="signup-message" class="msg" role="status" hidden></p>
+                <p class="note form-foot">Already have an account? <a href="/login">Log in</a></p>
+            </form>
+          </div>
+        </div>
     </div>
-    <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" required>
-    </div>
-    <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" required autocomplete="new-password"
-               aria-describedby="password-hint password-error">
-        <p id="password-hint" class="field-hint">At least 8 characters, with an uppercase letter, a lowercase letter, a number, and a special character.</p>
-        <p id="password-error" class="field-error" role="alert" hidden></p>
-    </div>
-    <button type="submit" id="signup-btn" class="btn">Sign Up</button>
-    <p id="signup-message" style="margin-top: 1rem;"></p>
-    <p class="muted" style="margin-top: 1rem;">Already have an account? <a href="/login" style="color: #38bdf8;">Log in</a></p>
-</form>
 </div>
 
 <script>
@@ -60,8 +73,14 @@ function showPasswordError(show) {
     passwordInput.setAttribute("aria-invalid", show ? "true" : "false");
 }
 
+function showMessage(text, isError) {
+    messageEl.textContent = text;
+    messageEl.className = isError ? "msg msg-error" : "msg msg-ok";
+    messageEl.hidden = false;
+}
+
 // Validate once the field has been left, then keep the message live while
-// they fix it - no error flashing while they're still on their first keystrokes.
+// they fix it, so there's no error flashing while they're still on their first keystrokes.
 let passwordTouched = false;
 passwordInput.addEventListener("blur", () => {
     if (passwordInput.value === "") return;   // an empty field is the browser's "required" check
@@ -74,7 +93,7 @@ passwordInput.addEventListener("input", () => {
 
 form.addEventListener("submit", async function (e) {
     e.preventDefault();
-    messageEl.textContent = "";
+    messageEl.hidden = true;
 
     const name = document.getElementById("name").value;
     const email = document.getElementById("email").value;
@@ -91,17 +110,18 @@ form.addEventListener("submit", async function (e) {
     const result = await postJson("/signup", { name, email, password });
 
     if (result.ok) {
-        messageEl.textContent = "Account created! Taking you to the login page...";
-        messageEl.style.color = "#4ade80";
+        showMessage("Account created. Taking you to the login page...", false);
         window.location.href = "/login?registered=1";
         return;
     }
 
     signupBtn.disabled = false;
-    messageEl.textContent = result.status === 0
-        ? "Couldn't reach the server. Check your connection and try again."
-        : (result.data && result.data.error) || "Something went wrong. Please try again.";
-    messageEl.style.color = "#f87171";
+    showMessage(
+        result.status === 0
+            ? "Couldn't reach the server. Check your connection and try again."
+            : (result.data && result.data.error) || "Something went wrong. Please try again.",
+        true
+    );
 });
 </script>
 {% endblock %}

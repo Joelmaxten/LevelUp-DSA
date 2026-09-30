@@ -1,92 +1,167 @@
 {% extends "layout.html" %}
 
-{% block title %}Career Discovery Quiz — LevelUp DSA{% endblock %}
+{% block title %}Career quiz | LevelUp DSA{% endblock %}
 
 {% block content %}
-<div style="max-width: 600px; margin: 0 auto;">
-    <h2 id="quiz-heading">Career Discovery Quiz</h2>
+<div class="sheet">
+    <header class="row row-head">
+        <div class="margin"></div>
+        <div class="main">
+            <h1 class="page-title" id="quiz-heading">Career quiz</h1>
+            <p class="lead" id="quiz-intro">
+                Pick the answer that sounds most like you. There are no right or wrong answers,
+                and you can't fail this. It takes between 8 and 12 questions, and every one needs an answer.
+                You can go back with Previous to change an earlier answer.
+            </p>
+        </div>
+    </header>
 
-    <div id="quiz-question-box" style="margin-top: 1.5rem;">
-        <p style="color: #94a3b8;">Loading your first question...</p>
+    <div id="quiz-question-box">
+        <div class="row"><div class="margin"></div><div class="main"><p class="note" role="status">Loading your first question...</p></div></div>
     </div>
 
-    <div id="quiz-results-box" style="display: none;"></div>
+    <div id="quiz-results-box" hidden></div>
 </div>
 
+<script src="{{ url_for('static', filename='js/results.js') }}"></script>
 <script>
 const questionBox = document.getElementById("quiz-question-box");
 const resultsBox = document.getElementById("quiz-results-box");
 const heading = document.getElementById("quiz-heading");
+const intro = document.getElementById("quiz-intro");
 
-function renderQuestion(questionId, question) {
-    questionBox.innerHTML = `
-        <p style="font-size: 1.2rem; margin-bottom: 1.5rem;">${question.text}</p>
-        <div id="options-container"></div>
-    `;
-    const container = document.getElementById("options-container");
+// The questions on the way to the current one, in order: { id, question }. The last is the one on screen.
+// The quiz is adaptive (which question comes next depends on the answers so far), so this only ever
+// grows by the question the server sends next, and shrinks by one on Previous.
+const path = [];
+// question_id -> the answer picked for it. Remembered so Previous / Next shows what you chose before.
+const chosen = {};
+let moved = false;   // has the student moved at all? Only then is focus moved to the new question.
 
-    for (const [key, text] of Object.entries(question.options)) {
-        const btn = document.createElement("button");
-        btn.className = "btn";
-        btn.style.display = "block";
-        btn.style.width = "100%";
-        btn.style.textAlign = "left";
-        btn.style.marginBottom = "0.75rem";
-        btn.style.backgroundColor = "#1e293b";
-        btn.style.color = "#e2e8f0";
-        btn.textContent = `${key}. ${text}`;
-        btn.addEventListener("click", () => submitAnswer(questionId, key));
-        container.appendChild(btn);
+function showLoading(message) {
+    questionBox.replaceChildren(row([], working(message)));
+}
+
+// retry: re-runs the failed request. A 400 means the server's copy of the quiz is gone or out of step
+// (for example the session expired), and the only way forward is to start again.
+function renderError(result, retry) {
+    const actions = el("div", { className: "actions" });
+    let message;
+
+    if (result.status === 401) {
+        message = "You need to be logged in to continue.";
+        actions.append(el("a", { className: "btn", href: "/login?next=/quiz", text: "Log in" }));
+    } else if (result.status === 400) {
+        message = (result.data && result.data.error) || "Your quiz session was lost.";
+        const restart = el("button", { className: "btn", type: "button", text: "Start the quiz again" });
+        restart.addEventListener("click", startQuiz);
+        actions.append(restart);
+    } else {
+        message = result.status === 0
+            ? "Couldn't reach the server. Check your connection and try again."
+            : (result.data && result.data.error) || "Something went wrong. Please try again.";
+        const again = el("button", { className: "btn", type: "button", text: "Try again" });
+        again.addEventListener("click", retry);
+        actions.append(again);
     }
+
+    questionBox.replaceChildren(row([], el("div", { className: "msg msg-error", role: "alert" }, el("p", { text: message }), actions)));
+}
+
+function showQuestion() {
+    const { id, question } = path[path.length - 1];
+    const number = path.length;
+    const title = el("h2", { className: "question", id: "quiz-question", text: question.text });
+
+    const form = questionForm({
+        name: `quiz-${id}`,
+        labelledBy: "quiz-question",
+        options: question.options,
+        selected: chosen[id] ?? null,
+        canGoBack: number > 1,
+        nextText: "Next",
+        onBack: (value) => goBack(id, value),
+        onNext: (value) => goNext(id, value),
+    });
+
+    questionBox.replaceChildren(row(
+        [
+            el("p", { className: "row-title", text: `Question ${number}` }),
+            el("p", { className: "note", text: "The quiz takes 8 to 12 questions." }),
+            el("p", { className: "note", text: "Every question needs an answer." }),
+        ],
+        el("div", { className: "qa" },
+            el("div", { className: "qa-q" }, title),
+            el("div", { className: "qa-a" }, form)
+        )
+    ));
+    if (moved) focusHeading(title);
+}
+
+async function goNext(id, value) {
+    chosen[id] = value;
+    const result = await postJson("/quiz/answer", { question_id: id, option: value });
+    if (!result.ok) {
+        renderError(result, () => goNext(id, value));
+        return;
+    }
+
+    moved = true;
+    if (result.data.finished) {
+        renderResults(result.data.results);
+        return;
+    }
+    path.push({ id: result.data.question_id, question: result.data.question });
+    showQuestion();
+}
+
+async function goBack(id, value) {
+    if (value !== null) chosen[id] = value;   // keep a choice that hasn't been sent yet, in case they come forward again
+
+    const result = await postJson("/quiz/back");
+    if (!result.ok) {
+        renderError(result, () => goBack(id, value));
+        return;
+    }
+
+    moved = true;
+    path.pop();   // leave the current question
+    // The server says which question we are back on and what was chosen; trust it over our own bookkeeping.
+    path[path.length - 1] = { id: result.data.question_id, question: result.data.question };
+    chosen[result.data.question_id] = result.data.option;
+    showQuestion();
 }
 
 function renderResults(results) {
-    heading.textContent = "Your Career Discovery Results";
-    questionBox.style.display = "none";
-    resultsBox.style.display = "block";
+    heading.textContent = "Your career results";
+    intro.textContent = "Here's how your answers rank the ten career paths. Next, a few questions about your goals help us tailor your roadmap.";
+    questionBox.hidden = true;
 
-    let html = "<ol style='padding-left: 1.5rem;'>";
-    for (const r of results) {
-        html += `<li style="margin-bottom: 0.75rem;">
-            <strong>${r.career_path}</strong> — ${r.confidence_pct}% confidence
-        </li>`;
-    }
-    html += "</ol>";
-    html += `<a href="/conversation" class="btn" style="margin-top: 1rem;">Continue</a>`;
-    resultsBox.innerHTML = html;
-}
-
-async function submitAnswer(questionId, option) {
-    questionBox.innerHTML = "<p style='color: #94a3b8;'>Loading next question...</p>";
-
-    const response = await fetch("/quiz/answer", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ question_id: questionId, option: option })
-    });
-
-    if (response.status === 401) {
-        window.location.href = "/login?next=/quiz";
-        return;
-    }
-
-    const data = await response.json();
-
-    if (data.finished) {
-        renderResults(data.results);
-    } else {
-        renderQuestion(data.question_id, data.question);
-    }
+    resultsBox.replaceChildren(
+        ...rankingRows(results, 2),
+        row([], el("div", { className: "actions row-actions" },
+            el("a", { className: "btn", href: "/conversation", text: "Continue to your goals" }),
+            el("a", { className: "btn-quiet", href: "/quiz", text: "Retake the quiz" })
+        ))
+    );
+    resultsBox.hidden = false;
+    focusHeading(heading);
 }
 
 async function startQuiz() {
-    const response = await fetch("/quiz/start", { method: "POST" });
-    if (response.status === 401) {
-        window.location.href = "/login?next=/quiz";
+    path.length = 0;
+    for (const key of Object.keys(chosen)) delete chosen[key];
+    moved = false;
+    questionBox.hidden = false;
+
+    showLoading("Loading your first question...");
+    const result = await postJson("/quiz/start");
+    if (!result.ok) {
+        renderError(result, startQuiz);
         return;
     }
-    const data = await response.json();
-    renderQuestion(data.question_id, data.question);
+    path.push({ id: result.data.question_id, question: result.data.question });
+    showQuestion();
 }
 
 startQuiz();

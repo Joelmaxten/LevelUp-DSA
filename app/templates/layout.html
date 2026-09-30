@@ -3,43 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#F4F6FB">
     <title>{% block title %}LevelUp DSA{% endblock %}</title>
+
+    {# Two families, each in its own request so one failing can't take the other down. Loaded
+       without blocking first paint (media="print" swap): on a slow connection the page shows
+       immediately in the fallback fonts and switches when they arrive. #}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" media="print" onload="this.media='all'"
+          href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,600..900&display=swap">
+    <link rel="stylesheet" media="print" onload="this.media='all'"
+          href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400..800&display=swap">
+    <noscript>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,600..900&display=swap">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400..800&display=swap">
+    </noscript>
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script>document.documentElement.classList.add("js");</script>
     {# Loaded synchronously in <head> so each page's inline script (which runs
        before the end of <body>) can already use el() / postJson() / postForm(). #}
     <script src="{{ url_for('static', filename='js/ui.js') }}"></script>
 </head>
 <body>
-    {% macro nav_link(href, label) -%}
-        <a href="{{ href }}"{% if request.path == href %} class="active" aria-current="page"{% endif %}>{{ label }}</a>
+    {% macro nav_link(href, label, extra_class="") -%}
+        <a href="{{ href }}"{% if extra_class %} class="{{ extra_class }}"{% endif %}{% if request.path == href %} aria-current="page"{% endif %}>{{ label }}</a>
     {%- endmacro %}
 
-    <nav class="navbar">
-        <a href="/" class="navbar-brand">LevelUp DSA</a>
-        <div class="navbar-links">
-            {{ nav_link("/", "Home") }}
-            {% if current_user.is_authenticated %}
-                {{ nav_link("/dashboard", "Dashboard") }}
-                {{ nav_link("/quiz", "Quiz") }}
-                {{ nav_link("/conversation", "Conversation") }}
-                {{ nav_link("/roadmap", "Roadmap") }}
-                {{ nav_link("/resume", "Resume") }}
-                <span class="nav-user">{{ current_user.name }}</span>
-                <button type="button" id="logout-btn" class="nav-link-btn">Log out</button>
-            {% else %}
-                {{ nav_link("/login", "Login") }}
-                {{ nav_link("/signup", "Sign Up") }}
-            {% endif %}
-        </div>
-    </nav>
+    <a class="skip-link" href="#main">Skip to content</a>
 
-    <main class="content">
+    <header class="site-header{% if current_user.is_authenticated %} nav-many{% endif %}" id="site-header">
+        <div class="bar">
+            <a href="/" class="brand">
+                {# Stairs: a level, then another. The top step is highlighted, like the next thing to do. #}
+                <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true" focusable="false">
+                    <rect x="15" y="3" width="8" height="8" fill="#F6E84B"/>
+                    <path d="M2 23h7v-6h7v-6h7V3" fill="none" stroke="#151C4F" stroke-width="3" stroke-linejoin="miter"/>
+                </svg>
+                <span>LevelUp DSA</span>
+            </a>
+
+            {% if current_user.is_authenticated %}
+            <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
+            {% endif %}
+
+            <nav class="site-nav" id="site-nav" aria-label="Main">
+                {{ nav_link("/", "Home", "nav-home") }}
+                {% if current_user.is_authenticated %}
+                    {{ nav_link("/dashboard", "Dashboard") }}
+                    {{ nav_link("/quiz", "Quiz") }}
+                    {{ nav_link("/conversation", "Your goals") }}
+                    {{ nav_link("/roadmap", "Roadmap") }}
+                    {{ nav_link("/resume", "Resume") }}
+                    {{ nav_link("/dsa", "Skill map") }}
+                    <span class="nav-user">{{ current_user.name }}</span>
+                    <button type="button" id="logout-btn" class="nav-btn">Log out</button>
+                {% else %}
+                    {{ nav_link("/login", "Log in") }}
+                    {{ nav_link("/signup", "Sign up") }}
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    <main class="page" id="main">
         {% block content %}{% endblock %}
     </main>
 
-    <footer class="footer">
-        <p>&copy; 2026 LevelUp DSA — Ballari Institute of Technology &amp; Management</p>
+    <footer class="site-footer">
+        <p>&copy; 2026 LevelUp DSA, Ballari Institute of Technology &amp; Management</p>
     </footer>
+
+    <script>
+    (function () {
+        var toggle = document.getElementById("nav-toggle");
+        var header = document.getElementById("site-header");
+        if (toggle) {
+            toggle.addEventListener("click", function () {
+                var open = header.classList.toggle("open");
+                toggle.setAttribute("aria-expanded", open ? "true" : "false");
+                toggle.textContent = open ? "Close" : "Menu";
+            });
+        }
+    })();
+    </script>
 
     {% if current_user.is_authenticated %}
     <script>

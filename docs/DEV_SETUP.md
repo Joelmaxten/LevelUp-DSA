@@ -101,6 +101,11 @@ You should see 12 tables: `users`, `career_paths`, `roadmap_steps`, `user_progre
 Note: there's no migration tool (like Alembic) in place yet — table creation is
 manual via `db.create_all()`. If the schema changes later, existing tables won't
 auto-update; they'd need to be dropped and recreated, or a migration tool added.
+8b. Seed the Skill DNA Map (DSA topics, problems, career paths)
+```bash
+python scripts/seed_dsa.py
+```
+Safe to re-run: it updates rows in place and never deletes. It refuses to write anything if `scripts/verify_dsa_seed.py` (which checks every seeded test case against a reference solution) fails. Until it has run, `/dsa` shows a "hasn't been set up" message.
 9. Run the app
 ```bash
 python run.py

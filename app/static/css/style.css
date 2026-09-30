@@ -1,649 +1,905 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/*
+   LevelUp DSA
+
+   The idea: a marked-up study page. A quiet left margin holds titles, dates and
+   notes. The work sits in the column on the right. One thin red-pen rule runs
+   between them, like the margin line in an exercise book. Rows are separated by
+   hairlines; nothing is boxed.
+
+   Rules that keep it coherent:
+   - Marker yellow means one thing: "this is what to do or learn next". It is
+     never decoration.
+   - Numbers appear only where the content is genuinely ordered (roadmap steps,
+     rankings, question count).
+   - Boldness is spent once per page. Everything else stays quiet.
+*/
+
+/* ---------- Tokens ---------- */
+
+:root {
+    --paper: #F4F6FB;    /* cool photocopy white */
+    --ink: #151C4F;      /* blue-black pen ink: text, primary buttons */
+    --pencil: #4F5779;   /* secondary text, margin notes */
+    --marker: #F6E84B;   /* lemon highlighter: "do this next", only */
+    --red: #B3122F;      /* red pen: errors, the margin rule */
+    --rule: #C9CFE2;     /* hairlines (decorative only) */
+    --line: #6E7699;     /* form-field underlines (3:1+ against paper) */
+
+    --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+    --font-body: "Atkinson Hyperlegible Next", "Atkinson Hyperlegible", "Segoe UI", system-ui, Roboto, Arial, sans-serif;
+
+    /* Laptop first. The sheet fills a 1366 to 1920px screen; narrower widths step these down. */
+    --margin-w: 15rem;
+    --gutter: 4rem;
+    --sheet-w: 92rem;
+
+    /* A hand-swiped highlighter stroke, stretched behind text by .mark. */
+    --swipe: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20' preserveAspectRatio='none'%3E%3Cpath d='M0.5 4.2C10 1.6 28 3.4 50 2.6S90 1.8 99.5 4.6L98.8 15.4C82 18.2 60 16.4 38 17.4S8 17 1.2 15.2Z' fill='%23F6E84B'/%3E%3C/svg%3E");
 }
+
+@media (max-width: 79.99rem) {
+    :root { --margin-w: 12rem; --gutter: 3rem; }
+}
+@media (max-width: 63.99rem) {
+    :root { --margin-w: 9.5rem; --gutter: 2.5rem; }
+}
+
+/* Big monitors: scale everything up rather than leaving the extra pixels as paper. */
+@media (min-width: 100rem) {
+    html { font-size: 112.5%; }
+}
+
+/* ---------- Base ---------- */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; color-scheme: light; }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background-color: #0f172a;
-    color: #e2e8f0;
-    line-height: 1.6;
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font: 400 1.0625rem/1.6 var(--font-body);
+    -webkit-font-smoothing: antialiased;
 }
 
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 0.5rem 1rem;
-    padding: 1rem 2rem;
-    background-color: #1e293b;
-    border-bottom: 1px solid #334155;
+h1, h2, h3, h4, p, ul, ol, dl, dd, figure { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+
+[hidden] { display: none !important; }
+
+a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+a:hover { text-decoration-thickness: 2px; }
+
+:focus-visible {
+    outline: 3px solid var(--ink);
+    outline-offset: 3px;
+    border-radius: 2px;
 }
 
-.navbar-brand {
+/* Headings that receive focus programmatically (after a question changes) don't need a ring. */
+h1[tabindex="-1"]:focus, h2[tabindex="-1"]:focus { outline: none; }
+
+.visually-hidden {
+    position: absolute;
+    width: 1px; height: 1px;
+    margin: -1px; padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.skip-link {
+    position: absolute;
+    left: 1rem; top: -4rem;
+    z-index: 10;
+    padding: 0.75rem 1rem;
+    background: var(--ink);
+    color: var(--paper);
+}
+.skip-link:focus { top: 1rem; }
+
+/* ---------- Type ---------- */
+
+h1, h2, h3 {
+    font-family: var(--font-display);
+    font-stretch: 112%;
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+}
+
+h4 { font-weight: 700; font-size: 1.0625rem; }
+
+.num {
+    font-family: var(--font-display);
+    font-stretch: 112%;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+}
+
+.page-title { font-size: clamp(2.125rem, 1.2rem + 3.6vw, 4.25rem); }
+.lead { margin-top: 1rem; font-size: 1.1875rem; max-width: 36rem; }
+.note { font-size: 0.9375rem; line-height: 1.5; color: var(--pencil); }
+.note + .note { margin-top: 0.5rem; }
+.note a { color: var(--ink); }
+
+/* The marker. Wraps across lines cleanly. */
+.mark {
+    background: var(--swipe) no-repeat 0 82% / 100% 0.72em;
+    padding: 0 0.14em;
+    margin: 0 -0.14em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+}
+
+/* ---------- The sheet: margin + work ---------- */
+
+.page { padding: 0 1rem 5rem; }
+
+.sheet {
+    position: relative;
+    max-width: var(--sheet-w);
+    margin: 0 auto;
+}
+
+/* The red-pen margin rule. Also the spine of the roadmap. */
+.sheet::before {
+    content: "";
+    position: absolute;
+    top: 0; bottom: 0;
+    left: calc(var(--margin-w) + var(--gutter) / 2);
+    width: 1.5px;
+    background: var(--red);
+    opacity: 0.4;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: var(--margin-w) minmax(0, 1fr);
+    column-gap: var(--gutter);
+    padding-block: 2.5rem;
+    border-top: 1px solid var(--rule);
+}
+
+.row-head { border-top: 0; padding-top: 3.5rem; }
+
+/* Columns are placed explicitly, so an empty margin still holds its space and the work stays in column 2. */
+.margin { grid-column: 1; min-width: 0; }
+.main { grid-column: 2; min-width: 0; }
+
+.row-title {
+    font-family: var(--font-display);
+    font-stretch: 100%;
     font-weight: 700;
-    font-size: 1.25rem;
-    color: #38bdf8;
-    text-decoration: none;
+    font-size: 1.1875rem;
+    line-height: 1.2;
+    letter-spacing: 0;
+}
+.row-title + .note { margin-top: 0.5rem; }
+
+.block + .block { margin-top: 2rem; }
+.block-title { font-size: 1.0625rem; font-weight: 700; margin-bottom: 0.75rem; }
+
+@media (max-width: 47.99rem) {
+    :root { --gutter: 0rem; }
+    .sheet::before { display: none; }
+    .row { grid-template-columns: minmax(0, 1fr); row-gap: 0.75rem; padding-block: 2rem; }
+    .row-head { padding-top: 2.25rem; }
+    .margin, .main { grid-column: 1; }
+    .margin:empty { display: none; }   /* stacked, an empty margin would only add a gap */
+    /* A section's title comes before its dates and actions when stacked. */
+    .section-head .main { grid-row: 1; }
+    .section-head .margin { grid-row: 2; }
 }
 
-.navbar-links {
+/* Related things sit next to each other on a laptop; below 1024px they stack and nothing changes. */
+.split > * + * { margin-top: 2.5rem; }
+
+@media (min-width: 64rem) {
+    .split { display: grid; gap: 2.5rem 4rem; align-items: start; }
+    .split > * + * { margin-top: 0; }
+    .split-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .split-wide { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+    .split-even-ish { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); }
+    .split-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (min-width: 75rem) {
+    .split-hero { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+}
+
+/* ---------- Header, nav, footer ---------- */
+
+.site-header { border-bottom: 1px solid var(--rule); }
+
+.bar {
+    max-width: calc(var(--sheet-w) + 2rem);
+    margin: 0 auto;
+    padding: 0.75rem 1rem;
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
 }
 
-.navbar-links a {
-    color: #e2e8f0;
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-right: auto;
+    font-family: var(--font-display);
+    font-stretch: 112%;
+    font-weight: 800;
+    font-size: 1.1875rem;
     text-decoration: none;
-    margin-left: 1.5rem;
-    transition: color 0.2s;
+}
+.brand:hover { text-decoration: none; }
+.brand svg { display: block; }
+
+.site-nav { display: flex; align-items: center; flex-wrap: wrap; gap: 0.25rem 1.5rem; }
+
+.site-nav a,
+.site-nav .nav-btn {
+    padding: 0.5rem 0;
+    font: inherit;
+    font-weight: 500;
+    text-decoration: none;
+    color: var(--ink);
+}
+.site-nav a:hover, .site-nav .nav-btn:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.3em; }
+.site-nav a[aria-current="page"] {
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.35em;
 }
 
-.navbar-links a:hover {
-    color: #38bdf8;
+.nav-user { color: var(--pencil); font-size: 0.9375rem; }
+.nav-btn { background: none; border: 0; cursor: pointer; }
+
+.nav-toggle { display: none; }
+
+@media (max-width: 59.99rem) {
+    .js .nav-many .nav-toggle {
+        display: inline-flex;
+        align-items: center;
+        min-height: 2.75rem;
+        padding: 0 1rem;
+        background: none;
+        color: var(--ink);
+        border: 2px solid var(--ink);
+        border-radius: 2px;
+        font: 700 1rem var(--font-body);
+        cursor: pointer;
+    }
+    .js .nav-many .site-nav { display: none; flex-basis: 100%; flex-direction: column; align-items: flex-start; gap: 0; padding-bottom: 0.5rem; }
+    .js .nav-many.open .site-nav { display: flex; }
+    .js .nav-many .site-nav a, .js .nav-many .site-nav .nav-btn, .js .nav-many .nav-user { padding: 0.65rem 0; }
 }
 
-.content {
-    min-height: calc(100vh - 130px);
-    padding: 2rem;
+@media (max-width: 29.99rem) {
+    .nav-home { display: none; }
 }
 
-.footer {
-    text-align: center;
-    padding: 1.5rem;
-    background-color: #1e293b;
-    border-top: 1px solid #334155;
-    color: #94a3b8;
-    font-size: 0.875rem;
+.site-footer {
+    max-width: calc(var(--sheet-w) + 2rem);
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+    border-top: 1px solid var(--rule);
+    color: var(--pencil);
+    font-size: 0.9375rem;
 }
+
+/* ---------- Buttons and links ---------- */
 
 .btn {
-    display: inline-block;
-    padding: 0.6rem 1.4rem;
-    background-color: #38bdf8;
-    color: #0f172a;
-    border: none;
-    border-radius: 6px;
-    font-weight: 600;
-    cursor: pointer;
-    text-decoration: none;
-}
-
-.btn:hover {
-    background-color: #0ea5e9;
-}
-
-.form-group {
-    margin-bottom: 1rem;
-    max-width: 400px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 0.3rem;
-    font-size: 0.9rem;
-}
-
-.form-group input {
-    width: 100%;
-    padding: 0.6rem;
-    border-radius: 6px;
-    border: 1px solid #334155;
-    background-color: #1e293b;
-    color: #e2e8f0;
-}
-/* ---- Shared page components (conversation, roadmap, resume pages) ---- */
-
-.page-narrow {
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-.muted {
-    color: #94a3b8;
-}
-
-.card {
-    background-color: #1e293b;
-    border: 1px solid #334155;
-    border-radius: 8px;
-    padding: 1.25rem;
-    margin-bottom: 1rem;
-}
-
-.card-error {
-    border-color: #f87171;
-}
-
-.card-highlight {
-    border-color: #38bdf8;
-}
-
-.option-btn {
-    display: block;
-    width: 100%;
-    text-align: left;
-    margin-bottom: 0.75rem;
-    padding: 0.75rem 1rem;
-    background-color: #1e293b;
-    color: #e2e8f0;
-    border: 1px solid #334155;
-    border-radius: 6px;
-    font: inherit;
-    cursor: pointer;
-    transition: border-color 0.2s, background-color 0.2s;
-}
-
-.option-btn:hover,
-.option-btn:focus-visible {
-    border-color: #38bdf8;
-    background-color: #243349;
-}
-
-.btn-secondary {
-    background-color: transparent;
-    color: #38bdf8;
-    border: 1px solid #38bdf8;
-}
-
-.btn-secondary:hover {
-    background-color: #1e293b;
-}
-
-.actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    margin-top: 1rem;
-}
-
-.rank-list {
-    list-style: none;
-}
-
-.rank-row {
-    margin-bottom: 0.9rem;
-}
-
-.rank-label {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-    margin-bottom: 0.25rem;
-    font-size: 0.95rem;
-}
-
-.rank-track {
-    height: 8px;
-    background-color: #0f172a;
-    border-radius: 4px;
-    overflow: hidden;
-}
-
-.rank-fill {
-    height: 100%;
-    background-color: #38bdf8;
-    border-radius: 4px;
-}
-
-.recap-item {
-    margin-bottom: 0.75rem;
-}
-
-.recap-item dt {
-    color: #94a3b8;
-    font-size: 0.85rem;
-}
-
-.recap-item dd {
-    margin: 0;
-    font-weight: 600;
-    white-space: pre-wrap;
-    overflow-wrap: anywhere;
-}
-
-/* ---- Roadmap page ---- */
-
-.page-medium {
-    max-width: 760px;
-    margin: 0 auto;
-}
-
-.step-list {
-    list-style: none;
-}
-
-.step-card {
-    display: flex;
-    gap: 1rem;
-    align-items: flex-start;
-}
-
-.step-number {
-    flex: 0 0 auto;
-    width: 2rem;
-    height: 2rem;
-    border-radius: 50%;
-    background-color: #38bdf8;
-    color: #0f172a;
-    font-weight: 700;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-}
-
-.step-body {
-    flex: 1;
-    min-width: 0;
-}
-
-.step-body h3 {
-    margin-bottom: 0.25rem;
-}
-
-.video-link {
-    display: inline-block;
-    margin-top: 0.75rem;
-    color: #38bdf8;
+    min-height: 3rem;
+    padding: 0.7rem 1.6rem;
+    background: var(--ink);
+    color: var(--paper);
+    border: 2px solid var(--ink);
+    border-radius: 2px;
+    font: 700 1rem/1.2 var(--font-body);
+    text-align: center;
     text-decoration: none;
-    overflow-wrap: anywhere;
+    cursor: pointer;
+}
+.btn:hover { background: #262F78; border-color: #262F78; text-decoration: none; }
+.btn:active { transform: translateY(1px); }
+.btn-outline { background: transparent; color: var(--ink); }
+.btn-outline:hover:not(:disabled) { background: rgba(21, 28, 79, 0.1); border-color: var(--ink); }
+.btn:disabled, .btn[aria-disabled="true"] {
+    background: transparent;
+    color: var(--pencil);
+    border: 2px dashed var(--line);
+    cursor: not-allowed;
+    transform: none;
 }
 
-.video-link:hover {
+/* A text-only action: underlined, no box. Used for secondary choices so a screen isn't a wall of buttons. */
+.btn-quiet {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding: 0.4rem 0;
+    background: none;
+    border: 0;
+    color: var(--ink);
+    font: 700 1rem/1.3 var(--font-body);
     text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.25em;
+    cursor: pointer;
+}
+.btn-quiet:hover { text-decoration-thickness: 3px; }
+
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 1.5rem; margin-top: 1.5rem; }
+.row-actions, .form .actions { margin-top: 0; }
+
+/* ---------- Forms ---------- */
+
+.form { max-width: 26rem; margin-top: 2rem; }
+.field { margin-bottom: 1.75rem; }
+.field label, .label { display: block; margin-bottom: 0.15rem; font-weight: 700; }
+
+.input, .select {
+    display: block;
+    width: 100%;
+    min-height: 3rem;
+    padding: 0.5rem 0;
+    background: transparent;
+    color: var(--ink);
+    border: 0;
+    border-bottom: 2px solid var(--line);
+    border-radius: 0;
+    font: inherit;
+    font-size: 1.125rem;
+}
+.input:focus-visible, .select:focus-visible { border-bottom-color: var(--ink); }
+
+.select {
+    appearance: none;
+    padding-right: 2rem;
+    cursor: pointer;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='10' viewBox='0 0 16 10'%3E%3Cpath d='M1.5 1.5 8 8l6.5-6.5' fill='none' stroke='%23151C4F' stroke-width='2.5'/%3E%3C/svg%3E") no-repeat right 0.15rem center;
 }
 
-/* ---- Resume page ---- */
+.form-foot { margin-top: 1.5rem; }
+.page-msg { margin-top: 1.5rem; }
 
+.hint { margin-top: 0.4rem; font-size: 0.9375rem; color: var(--pencil); }
+.field-error { margin-top: 0.4rem; font-size: 0.9375rem; font-weight: 700; color: var(--red); }
+
+/* The resume drop sheet: dropping a file onto the input works natively. */
 .file-input {
     display: block;
     width: 100%;
-    margin-top: 0.4rem;
-    padding: 0.6rem;
-    border: 1px dashed #334155;
-    border-radius: 6px;
-    background-color: #0f172a;
-    color: #e2e8f0;
+    padding: 3rem 1.25rem;
+    background: transparent;
+    color: var(--pencil);
+    border: 2px dashed var(--line);
+    border-radius: 2px;
     font: inherit;
+    cursor: pointer;
 }
-
+.file-input:hover { border-color: var(--ink); }
 .file-input::file-selector-button {
-    margin-right: 0.75rem;
-    padding: 0.4rem 0.9rem;
-    border: none;
-    border-radius: 6px;
-    background-color: #38bdf8;
-    color: #0f172a;
-    font-weight: 600;
+    margin-right: 1rem;
+    padding: 0.7rem 1.25rem;
+    background: var(--ink);
+    color: var(--paper);
+    border: 2px solid var(--ink);
+    border-radius: 2px;
+    font: 700 1rem var(--font-body);
     cursor: pointer;
 }
 
-.chip-list {
+/* A note box drawn on real ruled lines: the lines are the same height as the text. */
+.notes-input {
+    display: block;
+    width: 100%;
+    min-height: 10.5rem;
+    padding: 0;
+    background: repeating-linear-gradient(to bottom, transparent 0, transparent calc(1.75rem - 1px), var(--rule) calc(1.75rem - 1px), var(--rule) 1.75rem) local;
+    color: var(--ink);
+    border: 0;
+    border-bottom: 2px solid var(--line);
+    border-radius: 0;
+    font: inherit;
+    font-size: 1.0625rem;
+    line-height: 1.75rem;
+    resize: vertical;
+}
+.notes-input::placeholder { color: var(--pencil); opacity: 1; }
+.notes-input:focus-visible { border-bottom-color: var(--ink); }
+
+.count-row { margin-top: 0.4rem; text-align: right; }
+.count { font-size: 0.9375rem; color: var(--pencil); }
+.count-warn { color: var(--red); font-weight: 700; }
+
+/* The "which career path?" row shown to people who skipped the quiz. */
+.ask-text { margin-top: 0.75rem; max-width: 34rem; }
+.ask .field { max-width: 30rem; margin: 1.75rem 0 0; }
+.ask .actions { margin-top: 1.5rem; }
+
+/* ---------- Messages, loading ---------- */
+
+.msg { padding: 0.25rem 0 0.25rem 1rem; border-left: 4px solid var(--ink); }
+.msg + .msg, .msg + .actions { margin-top: 1rem; }
+.msg-error { border-left-color: var(--red); }
+.msg-ok { border-left-color: var(--ink); font-weight: 700; }
+.msg p + p { margin-top: 0.5rem; }
+
+/* A marker pen drawing a line while something takes a while. */
+.working { position: relative; height: 4px; margin-top: 1rem; background: var(--rule); overflow: hidden; }
+.working::after {
+    content: "";
+    position: absolute;
+    top: 0; bottom: 0; left: -35%;
+    width: 35%;
+    background: var(--ink);
+    animation: draw 1.6s ease-in-out infinite;
+}
+@keyframes draw { to { left: 100%; } }
+
+/* ---------- Landing ---------- */
+
+.hero { max-width: none; }
+.hero-q {
+    display: block;
+    font-stretch: 100%;
+    font-weight: 700;
+    font-size: clamp(1.3125rem, 0.95rem + 1.6vw, 2rem);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: var(--pencil);
+}
+.hero-q + .hero-q { margin-top: 0.4rem; }
+.hero-a {
+    display: block;
+    margin-top: 1.75rem;
+    font-size: clamp(2.25rem, 1rem + 3.4vw, 4.25rem);
+    line-height: 1.04;
+}
+
+.welcome { margin-top: 2rem; font-size: 1.1875rem; }
+
+.phase + .phase { margin-top: 2.5rem; padding-top: 2.5rem; border-top: 1px solid var(--rule); }
+.status + .phase-title { margin-top: 0.75rem; }
+.phase-title { font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.125rem); }
+.phase-title a { text-decoration: none; }
+.phase-title a:hover { text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 0.15em; }
+.phase-name { margin-top: 0.4rem; font-weight: 700; }
+.phase p { margin-top: 0.75rem; max-width: 34rem; }
+.phase .actions { margin-top: 1rem; }
+
+.phase-soon .phase-title, .phase-soon p { color: var(--pencil); }
+
+/* Availability: a dot and a word. Filled = you can use it now. Hollow = not built yet. */
+.status { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.9375rem; font-weight: 700; }
+.status::before {
+    content: "";
+    width: 0.7rem; height: 0.7rem;
+    border-radius: 50%;
+    border: 2px solid var(--ink);
+    background: var(--ink);
+}
+.status-soon { color: var(--pencil); }
+.status-soon::before { background: transparent; border-color: var(--pencil); }
+
+/* The labelled sample on the landing page: the only thing that's boxed, because it's a specimen. */
+.specimen { padding: 1.75rem; border: 2px solid var(--ink); }
+.specimen-target { font-weight: 700; }
+.specimen .stat-sentence { margin-top: 1.25rem; }
+.after-specimen { margin-top: 1.5rem; max-width: 34rem; }
+.fine-print { margin-top: 2.5rem; }
+
+/* ---------- Quiz + conversation options: OMR bubbles ---------- */
+
+.question {
+    font-size: clamp(1.5rem, 1.1rem + 1.8vw, 2.25rem);
+    line-height: 1.15;
+    margin-bottom: 2rem;
+}
+
+.question-tight { margin-bottom: 0.5rem; }
+.question-hint { margin-bottom: 1.25rem; }
+
+.options { border-bottom: 1px solid var(--rule); }
+
+/* Each answer is a real radio button (visually hidden but still focusable) inside a label, so arrow keys,
+   screen readers, and clicking anywhere on the row all work. Choosing one only marks it; Next moves on. */
+.option {
+    display: grid;
+    grid-template-columns: 2.5rem minmax(0, 1fr);
+    gap: 1rem;
+    align-items: start;
+    min-height: 3.5rem;
+    padding: 1rem 0;
+    border-top: 1px solid var(--rule);
+    cursor: pointer;
+}
+
+.bubble {
+    display: grid;
+    place-items: center;
+    width: 2.25rem; height: 2.25rem;
+    border: 2px solid var(--ink);
+    border-radius: 50%;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 0.9375rem;
+    transition: background-color 0.15s, color 0.15s;
+}
+.option-text { padding-top: 0.2rem; }
+
+.option:hover .bubble { background: rgba(21, 28, 79, 0.14); }
+.option input:checked + .bubble { background: var(--ink); color: var(--paper); }
+.option input:checked ~ .option-text { font-weight: 700; }
+.option input:focus-visible + .bubble { outline: 3px solid var(--ink); outline-offset: 3px; }
+
+/* Previous / Next under the answers. Next stays disabled until an answer is chosen. */
+.choose-hint { margin-top: 1rem; }
+.qnav {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
-    list-style: none;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem 1.5rem;
+    margin-top: 1.75rem;
 }
+.qnav-end { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 1.5rem; }
+.qnav .btn { min-width: 8.5rem; }
 
-.chip {
-    padding: 0.2rem 0.7rem;
-    border: 1px solid #334155;
-    border-radius: 999px;
-    background-color: #0f172a;
-    font-size: 0.85rem;
+/* ---------- Career results ---------- */
+
+.top-match-name {
+    font-family: var(--font-display);
+    font-stretch: 112%;
+    font-weight: 800;
+    font-size: clamp(2rem, 1.2rem + 2.4vw, 3.25rem);
+    line-height: 1.12;
+    letter-spacing: -0.02em;
 }
+.top-match .note { margin-top: 0.75rem; font-size: 1.0625rem; }
+.top-match-next { margin-top: 0.5rem; }
 
-.chip-match {
-    border-color: #4ade80;
-    color: #4ade80;
-}
-
-.chip-missing {
-    border-color: #fbbf24;
-    color: #fbbf24;
-}
-
-.section-card h3 {
-    margin-bottom: 0.75rem;
-}
-
-.section-card h4 {
-    margin: 1rem 0 0.5rem;
-    font-size: 0.95rem;
-    color: #94a3b8;
-    font-weight: 600;
-}
-
-.score-big {
-    font-size: 3rem;
-    font-weight: 700;
-    line-height: 1;
-}
-
-.score-good { color: #4ade80; }
-.score-ok { color: #fbbf24; }
-.score-low { color: #f87171; }
-
-.stat-grid {
+.merit-item {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 1rem;
-    margin: 0.75rem 0;
+    grid-template-columns: 2rem minmax(0, 1fr) auto;
+    column-gap: 0.75rem;
+    align-items: baseline;
+    padding: 0.85rem 0;
+}
+.merit-item + .merit-item { border-top: 1px solid var(--rule); }
+.merit-rank { color: var(--pencil); }
+.merit-top .merit-name { font-weight: 700; }
+.merit-track { grid-column: 2 / -1; display: block; height: 6px; margin-top: 0.5rem; background: var(--rule); }
+.merit-fill { display: block; height: 100%; background: var(--line); }
+.merit-top .merit-fill { background: var(--ink); }
+
+.recap-item + .recap-item { margin-top: 1.25rem; }
+.recap-item dt { font-size: 0.9375rem; color: var(--pencil); }
+.recap-item dd { margin: 0.15rem 0 0; font-weight: 700; white-space: pre-wrap; overflow-wrap: anywhere; }
+
+/* ---------- Resume results ---------- */
+
+.stat-sentence { font-size: 1.1875rem; }
+.big-num { font-size: clamp(2.5rem, 1.6rem + 3vw, 3.75rem); line-height: 1; margin-right: 0.35rem; white-space: nowrap; }
+
+/* One segment per skill: solid ink = on your resume, marker = learn next. */
+.gauge {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+    gap: 3px;
+    height: 1.5rem;
+    margin: 1.25rem 0 2rem;
+}
+.gauge i {
+    display: block;
+    border: 2px solid var(--ink);
+    animation: fill 0.35s ease-out both;
+    animation-delay: calc(min(var(--i), 14) * 45ms);   /* capped so a long skill list doesn't take seconds */
+    transform-origin: bottom;
+}
+.gauge .have { background: var(--ink); }
+.gauge .gap { background: var(--marker); }
+/* Skill map only: a locked topic is an empty, dashed segment, so yellow stays "open now". */
+.gauge .locked { background: transparent; border-style: dashed; border-color: var(--line); }
+@keyframes fill { from { transform: scaleY(0.15); opacity: 0; } }
+/* Long skill lists: thinner outlines and gaps so each segment's fill is still readable on a phone. */
+.gauge-dense { gap: 2px; }
+.gauge-dense i { border-width: 1px; }
+
+.skills { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.skill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.2rem 0.7rem;
+    border: 2px solid var(--ink);
+    border-radius: 2px;
+    font-weight: 700;
+    font-size: 0.9375rem;
+}
+.skill svg { flex: none; }
+.skill-have { background: var(--ink); color: var(--paper); }
+.skill-gap { background: var(--marker); }
+.skill-extra { border: 1px solid var(--line); color: var(--pencil); font-weight: 400; }
+
+.score { display: flex; align-items: baseline; gap: 0.5rem; }
+.score-num { font-size: clamp(4rem, 2.5rem + 6vw, 6rem); line-height: 0.95; }
+.score-of { color: var(--pencil); font-size: 1.25rem; }
+.score-band { margin-top: 0.5rem; font-weight: 700; font-size: 1.1875rem; }
+.score-band-low { color: var(--red); }
+
+.scale { position: relative; height: 6px; margin: 1.25rem 0 0.4rem; background: var(--rule); }
+.scale-fill { display: block; height: 100%; background: var(--ink); }
+.scale-ticks { position: relative; height: 1.4rem; font-size: 0.9375rem; color: var(--pencil); }
+.scale-ticks span { position: absolute; top: 0; transform: translateX(-50%); }
+.scale-ticks .at-start { left: 0; transform: none; }
+.scale-ticks .at-end { right: 0; transform: none; }
+
+.dots { margin-top: 0; }
+.dots li { position: relative; padding-left: 1.25rem; }
+.dots li + li { margin-top: 0.6rem; }
+.dots li::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0.65em;
+    width: 0.5rem; height: 2px;
+    background: var(--ink);
 }
 
-.stat-label {
-    color: #94a3b8;
-    font-size: 0.85rem;
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem 3rem; }
+.cols > div + div { border-left: 1px solid var(--rule); padding-left: 3rem; margin-left: -1.5rem; }
+.figure { font-size: clamp(1.75rem, 1.3rem + 1.6vw, 2.5rem); line-height: 1.05; margin: 0.35rem 0 0.5rem; }
+.figure-label { font-size: 0.9375rem; color: var(--pencil); }
+.facts { margin-top: 0.75rem; font-size: 0.9375rem; }
+.facts dt { color: var(--pencil); }
+.facts dd { margin: 0 0 0.5rem; font-weight: 700; }
+
+.listings { margin-top: 0.5rem; }
+.listing { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.25rem 1.5rem; padding: 0.75rem 0; }
+.listing + .listing { border-top: 1px solid var(--rule); }
+.listing-where { display: block; font-size: 0.9375rem; color: var(--pencil); }
+
+.prose { white-space: pre-wrap; overflow-wrap: anywhere; max-width: 38rem; }
+
+/* ---------- Roadmap: the margin rule becomes the route ---------- */
+
+.path-note { margin-top: 0.75rem; }
+.step-status { margin-top: 0.75rem; }
+.survey-usd { margin-top: 1rem; }
+.cols + .block, .survey-usd + .block { margin-top: 2rem; }
+
+.path-name {
+    font-size: clamp(1.75rem, 1.1rem + 2.8vw, 3rem);
+    line-height: 1.12;
 }
 
-.stat-value {
-    font-size: 1.2rem;
-    font-weight: 600;
-}
+.step { position: relative; border-top: 0; padding-block: 1.25rem; }
+.step:first-child { padding-top: 2rem; }
 
-.plain-list {
-    padding-left: 1.25rem;
+.step-num {
+    position: absolute;
+    top: 1.15rem;
+    left: calc(var(--margin-w) + var(--gutter) / 2);
+    transform: translateX(-50%);
+    display: grid;
+    place-items: center;
+    width: 2.75rem; height: 2.75rem;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 1.125rem;
 }
+.step:first-child .step-num { top: 3.6rem; }
+.step-first .step-num { background: var(--marker); color: var(--ink); border: 2px solid var(--ink); }
 
-.plain-list li {
-    margin-bottom: 0.5rem;
-}
+.start-here { margin-bottom: 0.5rem; font-weight: 700; font-size: 0.9375rem; }
+.step-title { font-size: clamp(1.25rem, 1.05rem + 0.8vw, 1.625rem); line-height: 1.2; }
+.step-desc { margin-top: 0.5rem; max-width: 36rem; }
 
-.feedback-text {
-    white-space: pre-wrap;
+.watch {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 0.85rem;
+    padding: 0.4rem 0;
+    font-weight: 700;
     overflow-wrap: anywhere;
 }
 
-/* ---- Navbar: logged-in state ---- */
-
-.navbar-links a.active {
-    color: #38bdf8;
-    font-weight: 600;
+@media (max-width: 47.99rem) {
+    .step { padding-left: 3.75rem; padding-block: 1rem; }
+    .step-num { left: 1.375rem; top: 0.9rem; width: 2.5rem; height: 2.5rem; }
+    .step:first-child .step-num { top: 3.4rem; }
+    .step::before {
+        content: "";
+        position: absolute;
+        left: 1.375rem;
+        top: 0; bottom: 0;
+        width: 1.5px;
+        background: var(--red);
+        opacity: 0.4;
+    }
 }
 
-.nav-user {
-    margin-left: 1.5rem;
-    color: #94a3b8;
-    font-size: 0.9rem;
+/* ---------- Dashboard ---------- */
+
+.standing { font-size: clamp(1.75rem, 1.1rem + 2.8vw, 3rem); line-height: 1.12; }
+.next-up { margin-top: 1.25rem; font-size: 1.1875rem; }
+
+.progress { display: flex; flex-wrap: wrap; gap: 0.25rem 2rem; margin-top: 2rem; }
+.progress a { display: inline-flex; align-items: center; gap: 0.6rem; min-height: 2.75rem; font-weight: 700; }
+.progress .state { font-weight: 400; color: var(--pencil); }
+
+.section-head { padding-block: 2.5rem 1rem; }
+.section-head + .row { border-top: 0; padding-top: 1rem; }
+.section-title { font-size: clamp(1.75rem, 1.2rem + 2.2vw, 2.5rem); }
+.section-head .actions { margin-top: 0.5rem; }
+
+/* ---------- Motion + contrast preferences ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        animation-delay: 0s !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+    }
+    .working::after { left: 0; width: 100%; opacity: 0.3; }
 }
 
-.nav-link-btn {
-    margin-left: 1.5rem;
-    padding: 0;
-    background: none;
-    border: none;
-    color: #e2e8f0;
-    font: inherit;
-    cursor: pointer;
-    transition: color 0.2s;
+/* Windows high-contrast: backgrounds are stripped, so keep meaning in outlines and underlines. */
+@media (forced-colors: active) {
+    .mark { text-decoration: underline; text-decoration-thickness: 3px; background: none; }
+    .skill-gap { border-style: dashed; }
+    .gauge .gap { border-style: dashed; background: transparent; }
+    .gauge .locked { border-style: dotted; }
+    .sheet::before { background: CanvasText; opacity: 0.5; }
 }
 
-.nav-link-btn:hover {
-    color: #38bdf8;
+@media (max-width: 47.99rem) {
+    .cols { grid-template-columns: 1fr; }
+    .cols > div + div { border-left: 0; padding-left: 0; margin-left: 0; border-top: 1px solid var(--rule); padding-top: 1.5rem; }
 }
 
-/* ---- Form field hints / errors ---- */
 
-.field-hint {
-    margin-top: 0.3rem;
-    color: #94a3b8;
-    font-size: 0.85rem;
+/* ---------- Laptop layouts (1024px and up) ---------- */
+
+/* Landing: the three phases side by side. They are independent, so they are columns, not a numbered list. */
+@media (min-width: 75rem) {
+    .phases { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .phase { padding: 0 2.5rem; }
+    .phase:first-child { padding-left: 0; }
+    .phase:last-child { padding-right: 0; }
+    .phase + .phase { margin-top: 0; padding-top: 0; border-top: 0; border-left: 1px solid var(--rule); }
 }
 
-.field-error {
-    margin-top: 0.3rem;
-    color: #f87171;
-    font-size: 0.85rem;
+.specimen-wrap .specimen { margin-top: 0.75rem; }
+
+/* Quiz + goals: the question stays put on the left while you read the answers on the right. */
+.qa-q .question { margin-bottom: 2rem; }
+.qa-q .question-hint { margin-bottom: 0; }
+.qa-a { margin-top: 0; }
+@media (min-width: 64rem) {
+    .qa { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 4rem; align-items: start; }
+    .qa-q { position: sticky; top: 2rem; }
+    .qa-q .question { font-size: clamp(1.75rem, 0.9rem + 1.9vw, 2.75rem); margin-bottom: 1rem; }
+    .qa-q .question-tight { margin-bottom: 0.75rem; }
 }
 
-/* ---- Login / signup: centered card ---- */
-
-.auth-card {
-    max-width: 420px;
-    margin: 2rem auto;
-    padding: 2rem;
-    background-color: #1e293b;
-    border: 1px solid #334155;
-    border-radius: 8px;
+/* Log in / sign up: the heading on the left, the form beside it. */
+@media (min-width: 64rem) {
+    .auth-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 26rem); gap: 4rem; align-items: start; max-width: 58rem; }
+    .auth-grid .form { margin-top: 0.75rem; }
 }
 
-.auth-card h2 {
-    margin-bottom: 1.5rem;
-    text-align: center;
+/* Career results, dashboard. */
+@media (min-width: 64rem) {
+    .recap-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem 4rem; }
+    .recap-list .recap-item + .recap-item { margin-top: 0; }
+    .progress-col { flex-direction: column; align-items: flex-start; gap: 0.25rem; margin-top: 0; }
+    .split-feedback { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr) minmax(0, 4fr); }
+    .skill-cols { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr) minmax(0, 4fr); gap: 3rem; }
+    .skill-cols > .block + .block { margin-top: 0; }
 }
 
-/* .form-group is capped at 400px globally; inside the card it should fill the card's width. */
-.auth-card .form-group {
-    max-width: none;
+/* Roadmap: the step's words on the left, its video on the right. */
+.step-aside { margin-top: 0.85rem; }
+.step-aside .watch { margin-top: 0; }
+@media (min-width: 64rem) {
+    .step-grid { display: grid; grid-template-columns: minmax(0, 1fr) 18rem; gap: 3rem; align-items: start; }
+    .step-aside { margin-top: 0.3rem; padding-left: 1.5rem; border-left: 1px solid var(--rule); }
 }
 
-/* The page background is the same slate as .card, so give inputs the darker fill to stand out. */
-.auth-card .form-group input {
-    background-color: #0f172a;
+/* The ask-for-a-path row: the question on the left, the control on the right. */
+.ask-grid .field { margin: 1.75rem 0 0; }
+@media (min-width: 64rem) {
+    .ask-grid .field { margin-top: 0; }
+    .ask-grid .actions { margin-top: 1.5rem; }
 }
 
-.auth-card .btn[type="submit"] {
-    width: 100%;
-}
 
-/* Status message + the "already have an account?" line sit directly under the button. */
-.auth-card form > p {
-    text-align: center;
-}
+/* ---------- Skill map ---------- */
 
-.auth-card > .card {
-    margin-bottom: 1.5rem;
-}
+.skillmap { margin-top: 1rem; overflow-x: auto; padding-bottom: 0.5rem; }
+.skillmap-svg { display: block; width: 100%; min-width: 46rem; height: auto; font-family: var(--font-body); }
 
-/* ---- Landing page: the three phases ---- */
+.legend { display: flex; flex-wrap: wrap; gap: 0.5rem 1.75rem; margin-top: 1.25rem; font-size: 0.9375rem; }
+.legend li { display: inline-flex; align-items: center; gap: 0.5rem; }
+.legend-mark { padding: 0 0.4rem; background: var(--marker); font-weight: 700; font-size: 0.875rem; }
 
-.phase-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-    gap: 1.25rem;
-    max-width: 1040px;
-    margin: 2rem auto 0;
-    text-align: left;
-}
+/* Edges: an arrow is solid ink once the topic it leaves is mastered, dashed until then. */
+.skillmap .edge { fill: none; stroke-width: 2; }
+.skillmap .edge-closed { stroke: var(--line); stroke-dasharray: 5 5; }
+.skillmap .edge-open { stroke: var(--ink); }
+.skillmap .arrow-closed { fill: var(--line); }
+.skillmap .arrow-open { fill: var(--ink); }
+.skillmap .edge-faded { opacity: 0.18; }
+.skillmap .edge-hot { stroke-width: 3; }
 
-.phase-card {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    padding: 1.5rem;
-    border-radius: 10px;
-    color: #e2e8f0;
-    text-decoration: none;
-}
+.skillmap .node { cursor: pointer; outline: none; }
+.skillmap .node .body { stroke: var(--ink); stroke-width: 2.5; }
+.skillmap .ring-track { fill: none; stroke: var(--rule); stroke-width: 4; }
+.skillmap .ring-fill { fill: var(--ink); }
+.skillmap .select-ring { fill: none; stroke: var(--ink); stroke-width: 2; stroke-dasharray: 2 4; opacity: 0; }
+.skillmap .node.selected .select-ring,
+.skillmap .node:focus-visible .select-ring { opacity: 1; }
+.skillmap .node:focus-visible .select-ring { stroke-dasharray: none; stroke-width: 3; }
 
-.phase-card h3 {
-    font-size: 1.3rem;
-    margin: 0;
-}
+.skillmap .state-unlocked .body { fill: #fff; }
+.skillmap .state-mastered .body { fill: var(--ink); filter: url(#skillmap-glow); }
+.skillmap .state-mastered .ring-track { stroke: var(--ink); }
 
-.phase-card p {
-    margin: 0;
-    color: #94a3b8;
-}
+/* Locked: dimmed and dashed, but the label stays readable. */
+.skillmap .state-locked .body { fill: var(--paper); stroke: var(--line); stroke-dasharray: 4 4; stroke-width: 2; opacity: 0.55; }
+.skillmap .state-locked .glyph { opacity: 0.55; }
+.skillmap .state-locked .label text { fill: var(--pencil); }
 
-.phase-label {
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: #94a3b8;
-}
+.skillmap .glyph-tick { fill: none; stroke: #fff; stroke-width: 3.5; stroke-linecap: square; }
+.skillmap .glyph-lock rect { fill: var(--pencil); }
+.skillmap .glyph-lock path { stroke: var(--pencil); stroke-width: 2.5; }
+.skillmap .glyph-pct { fill: var(--ink); font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; }
 
-.phase-features {
-    margin: 0;
-    padding-left: 1.1rem;
-    color: #cbd5e1;
-    font-size: 0.95rem;
-}
+/* The paper-coloured stroke keeps a long edge that runs behind a label from striking through it. */
+.skillmap .label text { fill: var(--ink); font-size: 13px; font-weight: 700; pointer-events: none; paint-order: stroke; stroke: var(--paper); stroke-width: 5px; stroke-linejoin: round; }
+.skillmap .label:has(.label-mark) text { stroke: none; }   /* the highlighter block already hides what's behind it */
+.skillmap .label-mark { fill: var(--marker); }
 
-.phase-features li {
-    margin-bottom: 0.4rem;
-}
+/* The same shapes, small, in the legend. */
+.legend-node .body { stroke: var(--ink); stroke-width: 2; }
+.legend-node.state-unlocked .body { fill: #fff; }
+.legend-node.state-mastered .body { fill: var(--ink); }
+.legend-node.state-locked .body { fill: var(--paper); stroke: var(--line); stroke-dasharray: 3 3; opacity: 0.7; }
 
-.phase-note {
-    font-size: 0.85rem;
-}
+/* The panel under the map. */
+.node-panel-row { margin-top: 1rem; }
+.meter { margin-top: 0.75rem; }
+.meter .scale { display: block; margin: 0.4rem 0 0; }
 
-.phase-badge {
-    align-self: flex-start;
-    padding: 0.15rem 0.7rem;
-    border-radius: 999px;
-    font-size: 0.75rem;
-    font-weight: 600;
-}
+.problem + .problem { margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--rule); }
+.problem-title { font-size: clamp(1.25rem, 1.05rem + 0.8vw, 1.625rem); line-height: 1.2; }
+.problem-label { margin: 1.25rem 0 0.4rem; font-size: 0.9375rem; font-weight: 700; color: var(--pencil); text-transform: none; }
+.scenario { margin-top: 1rem; max-width: 40rem; }
+.scenario .problem-label { margin-top: 0; }
+.scenario-text { padding-left: 1rem; border-left: 4px solid var(--marker); }
+.scenario .note { margin-top: 0.5rem; }
+.examples li + li { margin-top: 0.5rem; }
+.code { font-family: ui-monospace, "Cascadia Mono", Consolas, "Courier New", monospace; font-size: 0.9375rem; overflow-wrap: anywhere; }
+.arrow-out { color: var(--pencil); font-size: 0.9375rem; }
 
-/* Live phases: solid card, green "Available now" badge, whole card is a link. */
-.phase-card-live {
-    background-color: #1e293b;
-    border: 1px solid #334155;
-    cursor: pointer;
-    transition: border-color 0.2s, transform 0.2s;
-}
-
-.phase-card-live:hover,
-.phase-card-live:focus-visible {
-    border-color: #38bdf8;
-    transform: translateY(-2px);
-}
-
-.phase-badge-live {
-    color: #4ade80;
-    border: 1px solid #4ade80;
-}
-
-.phase-cta {
-    margin-top: auto;
-    padding-top: 0.5rem;
-    font-weight: 600;
-    color: #38bdf8;
-}
-
-/* Coming-soon phase: dashed outline, no fill, muted text, no pointer/hover/link styling,
-   so nothing about it reads as clickable. (Muted colours rather than opacity, to keep text legible.) */
-.phase-card-soon {
-    background-color: transparent;
-    border: 2px dashed #475569;
-    cursor: default;
-}
-
-.phase-card-soon h3 {
-    color: #94a3b8;
-}
-
-.phase-badge-soon {
-    color: #fbbf24;
-    border: 1px dashed #fbbf24;
-}
-
-.phase-cta-soon {
-    margin-top: auto;
-    padding-top: 0.5rem;
-    font-size: 0.9rem;
-    font-style: italic;
-    color: #94a3b8;
-}
-
-/* ---- Dashboard ---- */
-
-.dash-progress {
-    margin-bottom: 0.5rem;
-}
-
-.dash-progress a.chip {
-    display: inline-block;
-    text-decoration: none;
-    color: #e2e8f0;
-    transition: border-color 0.2s;
-}
-
-.dash-progress a.chip.chip-match {
-    color: #4ade80;
-}
-
-.dash-progress a.chip:hover,
-.dash-progress a.chip:focus-visible {
-    border-color: #38bdf8;
-}
-
-.dash-section {
-    margin-top: 2.5rem;
-}
-
-.dash-head {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: flex-end;
-    gap: 0.75rem;
-    margin-bottom: 1rem;
-}
-
-.dash-head h2 {
-    margin: 0;
-}
-
-.dash-head .actions {
-    margin-top: 0;
-}
-
-/* ---- Optional free-text notes (conversation) ---- */
-
-.text-area {
-    display: block;
-    width: 100%;
-    min-height: 7rem;
-    padding: 0.75rem;
-    border: 1px solid #334155;
-    border-radius: 6px;
-    background-color: #1e293b;
-    color: #e2e8f0;
-    font: inherit;
-    line-height: 1.5;
-    resize: vertical;
-}
-
-.text-area::placeholder {
-    color: #94a3b8;
-}
-
-.text-area:focus-visible {
-    outline: 2px solid #38bdf8;
-    outline-offset: 1px;
-}
-
-.char-count-row {
-    margin-top: 0.3rem;
-    text-align: right;
-}
-
-.char-count {
-    color: #94a3b8;
-    font-size: 0.85rem;
-}
-
-.char-count-warn {
-    color: #fbbf24;
-}
-
-.text-btn {
-    padding: 0.6rem 0.4rem;
-    background: none;
-    border: none;
-    color: #94a3b8;
-    font: inherit;
-    text-decoration: underline;
-    cursor: pointer;
-}
-
-.text-btn:hover,
-.text-btn:focus-visible {
-    color: #e2e8f0;
+@media (forced-colors: active) {
+    .skillmap .state-locked .body { stroke-dasharray: 4 4; opacity: 1; }
+    .skillmap .state-mastered .body { forced-color-adjust: none; }
+    .skillmap .label-mark { fill: Highlight; }
 }

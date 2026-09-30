@@ -45,6 +45,20 @@ def apply_answer(state, question_id, option):
     return state
 
 
+def go_back(state):
+    """
+    Step back to the previous question so it can be reviewed or changed. Returns
+    False if already at the first question. The earlier answer's signal is left in
+    place on purpose: the student must answer every question again on the way
+    forward (the server only accepts the current question), so it is always
+    overwritten before the conversation can finish.
+    """
+    if state["index"] <= 0:
+        return False
+    state["index"] -= 1
+    return True
+
+
 def is_finished(state):
     return state["index"] >= len(QUESTION_ORDER)
 

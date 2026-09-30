@@ -1,77 +1,143 @@
 {% extends "layout.html" %}
 
-{% block title %}LevelUp DSA — Career Intelligence & Gamified DSA{% endblock %}
+{% block title %}LevelUp DSA | Find your tech career path and close your skill gap{% endblock %}
 
 {% block content %}
-<section style="text-align: center; padding: 4rem 1rem 2rem;">
-    <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">Find Your Career Path. Close Your Skill Gap. Level Up.</h1>
-    <p style="font-size: 1.1rem; color: #94a3b8; max-width: 600px; margin: 0 auto 2rem;">
-        Personalized career guidance, resume analysis, and gamified DSA practice —
-        built for students who don't have access to structured mentorship.
-    </p>
+<div class="sheet">
 
-    {% if current_user.is_authenticated %}
-    <p class="muted" style="margin-bottom: 1.25rem;">Welcome back, {{ current_user.name }}.</p>
-    <a href="/dashboard" class="btn">Go to my dashboard</a>
-    {% else %}
-    <a href="/signup" class="btn">Get Started</a>
-    <a href="/login" class="btn btn-secondary" style="margin-left: 0.75rem;">Log in</a>
-    {% endif %}
-</section>
+    <header class="row row-head">
+        <div class="margin"></div>
+        <div class="main">
+            <div class="split split-hero">
 
-<section aria-labelledby="phases-heading" style="padding: 1rem 0 3rem;">
-    <h2 id="phases-heading" style="text-align: center; margin-bottom: 0.5rem;">How LevelUp DSA works</h2>
-    <p class="muted" style="text-align: center; margin-bottom: 0;">Three phases, from figuring out where you're headed to getting placement-ready.</p>
+                <div class="hero-copy">
+                    <h1 class="hero">
+                        <span class="hero-q">Which tech career is actually right for you?</span>
+                        <span class="hero-q">What is your resume missing?</span>
+                        <span class="hero-q">What should you learn first?</span>
+                        <span class="hero-a">Get a plan with <span class="mark">the exact skills and steps</span>, not vague advice.</span>
+                    </h1>
 
-    <div class="phase-grid">
-        {# Phase 1 - live. The whole card is the link; /quiz is login-gated and sends logged-out visitors through /login?next=/quiz. #}
-        <a class="phase-card phase-card-live" href="/quiz">
-            <span class="phase-label">Phase 1</span>
-            <h3>Career Guidance</h3>
-            <span class="phase-badge phase-badge-live">Available now</span>
-            <p>Not sure which tech path fits you? Answer an adaptive quiz and a short conversation, and get a personalized learning roadmap.</p>
-            <ul class="phase-features">
-                <li>Adaptive career quiz that narrows down your best-fit paths</li>
-                <li>A short conversation about your goals and what to avoid</li>
-                <li>Step-by-step roadmap with a video for each step</li>
-            </ul>
-            <span class="phase-cta">Start with the quiz &rarr;</span>
-        </a>
+                    <p class="lead">
+                        LevelUp DSA is for students who don't have a mentor to ask. Take a short quiz, upload your resume,
+                        work through a map of DSA topics, and see exactly where you stand for the career you're aiming at.
+                    </p>
 
-        {# Phase 2 - live. /resume is login-gated the same way. #}
-        <a class="phase-card phase-card-live" href="/resume">
-            <span class="phase-label">Phase 2</span>
-            <h3>Resume Analyzer</h3>
-            <span class="phase-badge phase-badge-live">Available now</span>
-            <p>Upload your resume and see how it measures up against your target role, and what to work on next.</p>
-            <ul class="phase-features">
-                <li>Skill gap against what working developers actually use</li>
-                <li>Salary ranges from job postings and a developer survey</li>
-                <li>ATS score, resume feedback, and a 30-day action plan</li>
-            </ul>
-            <p class="phase-note">Uses your Phase 1 career match as the target role.</p>
-            <span class="phase-cta">Analyze my resume &rarr;</span>
-        </a>
+                    {% if current_user.is_authenticated %}
+                        {% if has_saved_work %}
+                        <p class="welcome">Welcome back, {{ current_user.name }}.</p>
+                        <div class="actions"><a href="/dashboard" class="btn">Go to my dashboard</a></div>
+                        {% else %}
+                        <p class="welcome">Welcome, {{ current_user.name }}. Start anywhere below. Each one works on its own.</p>
+                        {% endif %}
+                    {% else %}
+                    <div class="actions">
+                        <a href="/signup" class="btn">Create your account</a>
+                        <a href="/login" class="btn-quiet">Log in</a>
+                    </div>
+                    {% endif %}
+                </div>
 
-        {# Phase 3 - NOT built. Deliberately a plain <article>, not a link: not focusable, not clickable, no hover state. #}
-        <article class="phase-card phase-card-soon">
-            <span class="phase-label">Phase 3</span>
-            <h3>Gamified DSA</h3>
-            <span class="phase-badge phase-badge-soon">Coming soon</span>
-            <p>Learn data structures on an interactive Skill DNA Map, with practice problems framed around your career path.</p>
-            <ul class="phase-features">
-                <li>A map of DSA topics that unlock as you master prerequisites</li>
-                <li>XP, streaks, and mastery levels to keep you going</li>
-                <li>Adaptive challenges aimed at your weak spots</li>
-            </ul>
-            <span class="phase-cta-soon">Not available yet</span>
-        </article>
-    </div>
+                {# A labelled sample, so a visitor can see what they'd get before signing up. The numbers are illustrative. #}
+                <aside class="specimen-wrap" aria-labelledby="sample-heading">
+                    <h2 class="block-title" id="sample-heading">What you get</h2>
+                    <p class="note">A sample analysis, with example numbers to show the format. It is not a real student's result.</p>
+                    <div class="specimen">
+                        <p class="note">Sample target</p>
+                        <p class="specimen-target">Data Science / Data Analytics</p>
 
-    {% if not current_user.is_authenticated %}
-    <p class="muted" style="text-align: center; margin-top: 1.5rem; font-size: 0.9rem;">
-        You'll be asked to log in or sign up first, then taken straight to the phase you picked.
-    </p>
-    {% endif %}
-</section>
+                        <p class="stat-sentence">
+                            <span class="big-num num">6 of 9</span>
+                            of the skills most used in this career path are already on the resume.
+                        </p>
+                        <div class="gauge" role="img" aria-label="6 of 9 skills found on the resume">
+                            <i class="have" style="--i:0"></i><i class="have" style="--i:1"></i><i class="have" style="--i:2"></i>
+                            <i class="have" style="--i:3"></i><i class="have" style="--i:4"></i><i class="have" style="--i:5"></i>
+                            <i class="gap" style="--i:6"></i><i class="gap" style="--i:7"></i><i class="gap" style="--i:8"></i>
+                        </div>
+
+                        <div class="block">
+                            <p class="block-title">Already on the resume</p>
+                            <ul class="skills">
+                                <li class="skill skill-have"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5 5.5 11 12 3.5" fill="none" stroke="currentColor" stroke-width="2.5"/></svg><span>Python</span></li>
+                                <li class="skill skill-have"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5 5.5 11 12 3.5" fill="none" stroke="currentColor" stroke-width="2.5"/></svg><span>SQL</span></li>
+                                <li class="skill skill-have"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5 5.5 11 12 3.5" fill="none" stroke="currentColor" stroke-width="2.5"/></svg><span>Pandas</span></li>
+                                <li class="skill skill-have"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5 5.5 11 12 3.5" fill="none" stroke="currentColor" stroke-width="2.5"/></svg><span>NumPy</span></li>
+                                <li class="skill skill-have"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5 5.5 11 12 3.5" fill="none" stroke="currentColor" stroke-width="2.5"/></svg><span>Git</span></li>
+                                <li class="skill skill-have"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5 5.5 11 12 3.5" fill="none" stroke="currentColor" stroke-width="2.5"/></svg><span>Jupyter Notebook</span></li>
+                            </ul>
+                        </div>
+                        <div class="block">
+                            <p class="block-title">Learn these next</p>
+                            <ul class="skills">
+                                <li class="skill skill-gap"><span>Tableau</span></li>
+                                <li class="skill skill-gap"><span>scikit-learn</span></li>
+                                <li class="skill skill-gap"><span>Docker</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p class="after-specimen">
+                        Each missing skill becomes a step in a roadmap, with a video to start from. You always see what to do
+                        first, not a list of everything you could learn.
+                    </p>
+                </aside>
+
+            </div>
+        </div>
+    </header>
+
+    <section class="row" aria-labelledby="phases-heading">
+        <div class="margin">
+            <h2 class="row-title" id="phases-heading">Where to start</h2>
+            <p class="note">You don't have to go in order. Each one works on its own.</p>
+        </div>
+        <div class="main">
+          <div class="phases">
+
+            <article class="phase">
+                <p class="status">Available now</p>
+                <h3 class="phase-title"><a href="/quiz">Which career suits me?</a></h3>
+                <p class="phase-name">Career guidance</p>
+                <p>
+                    Answer 8 to 12 quick questions about what you enjoy, then a few about your goals. You get your best-fit
+                    career paths ranked, and a step-by-step roadmap for your top match with a video for each step.
+                </p>
+                <div class="actions"><a class="btn-quiet" href="/quiz">Take the career quiz</a></div>
+            </article>
+
+            <article class="phase">
+                <p class="status">Available now</p>
+                <h3 class="phase-title"><a href="/resume">What is my resume missing?</a></h3>
+                <p class="phase-name">Resume analyzer</p>
+                <p>
+                    Upload your resume as a PDF. We list the skills we find, compare them with what working developers use
+                    for your target path, and show the gap, salary ranges, an ATS score and a 30-day action plan.
+                    Haven't taken the quiz? Pick a career path yourself.
+                </p>
+                <div class="actions"><a class="btn-quiet" href="/resume">Analyze my resume</a></div>
+            </article>
+
+            <article class="phase">
+                <p class="status">Available now</p>
+                <h3 class="phase-title"><a href="/dsa">Where do I start with DSA?</a></h3>
+                <p class="phase-name">Gamified DSA</p>
+                <p>
+                    A skill map of data structures and algorithms that unlock as you master the basics, with practice
+                    problems framed around your career path. You can explore the map and read the problems now.
+                    Writing and running code, XP and streaks arrive in the next update.
+                </p>
+                <div class="actions"><a class="btn-quiet" href="/dsa">Open the skill map</a></div>
+            </article>
+
+          </div>
+
+            {% if not current_user.is_authenticated %}
+            <p class="note fine-print">
+                You'll be asked to log in or sign up first, then taken straight to the page you picked.
+            </p>
+            {% endif %}
+        </div>
+    </section>
+
+</div>
 {% endblock %}

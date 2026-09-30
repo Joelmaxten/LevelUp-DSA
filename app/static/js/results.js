@@ -1,6 +1,11 @@
 // Renderers for saved results, shared by the dashboard and the individual pages
-// (conversation, roadmap, resume) so a result looks the same wherever it's shown.
-// Loaded via a plain <script> tag after ui.js (uses el()); everything is a global.
+// (quiz, conversation, roadmap, resume) so a result looks the same wherever it's shown.
+// Loaded via a plain <script> tag after ui.js (uses el() and row()); everything is a global.
+//
+// Functions ending in "Rows" return an array of .row elements to place directly in a sheet.
+// Functions ending in "Block" return content for the right-hand column of a row.
+// `level` is the heading level for row titles, so the page's heading outline stays correct
+// (a page's rows are h2 under its h1; the dashboard's are h3 under its section h2s).
 
 // ---------- formatting ----------
 
@@ -23,47 +28,61 @@ function formatUsd(n) {
 
 // ---------- career profile ----------
 
-// [ "top match" card, "all paths ranked" card ] for a career_ranking list.
-function rankingCards(ranking) {
-    const top = ranking[0];
-    const maxPct = Math.max(...ranking.map((r) => r.confidence_pct)) || 1;
+// The top match, set large. confidence_pct is the share of the student's answers that pointed here.
+function topMatchBlock(top) {
+    return el("div", { className: "top-match" },
+        el("p", { className: "top-match-name" }, el("span", { className: "mark", text: top.career_path })),
+        el("p", { className: "note", text: `${top.confidence_pct}% of your answers pointed here.` })
+    );
+}
 
-    const rows = ranking.map((r, i) => {
-        const fill = el("div", { className: "rank-fill" });
-        fill.style.width = `${(r.confidence_pct / maxPct) * 100}%`;
-        return el("li", { className: "rank-row" },
-            el("div", { className: "rank-label" },
-                el("span", { text: `${i + 1}. ${r.career_path}` }),
-                el("span", { className: "muted", text: `${r.confidence_pct}%` })
-            ),
-            el("div", { className: "rank-track" }, fill)
+// Every path in rank order. Rank is genuinely ordered content, so it is numbered.
+function meritList(ranking) {
+    const max = Math.max(...ranking.map((r) => r.confidence_pct)) || 1;
+    return el("ol", { className: "merit" }, ...ranking.map((r, i) => {
+        const fill = el("span", { className: "merit-fill" });
+        fill.style.width = `${(r.confidence_pct / max) * 100}%`;
+        return el("li", { className: `merit-item${i < 3 ? " merit-top" : ""}` },
+            el("span", { className: "merit-rank num", text: String(i + 1) }),
+            el("span", { className: "merit-name", text: r.career_path }),
+            el("span", { className: "merit-pct num", text: `${r.confidence_pct}%` }),
+            el("span", { className: "merit-track", "aria-hidden": "true" }, fill)
         );
-    });
+    }));
+}
 
+function rankingRows(ranking, level) {
+    const l = level || 2;
     return [
-        el("div", { className: "card card-highlight" },
-            el("p", { className: "muted", text: "Your top match" }),
-            el("h3", { text: top.career_path, style: "font-size: 1.5rem; margin: 0.25rem 0;" }),
-            el("p", { className: "muted", text: `${top.confidence_pct}% confidence` })
-        ),
-        el("div", { className: "card" },
-            el("h3", { text: "All career paths, ranked", style: "margin-bottom: 1rem;" }),
-            el("ol", { className: "rank-list" }, ...rows)
+        row(
+            [rowTitle("Your career results", l), el("p", { className: "note", text: "The share of your answers that pointed to each path." })],
+            el("div", { className: "split split-even-ish" },
+                el("div", {},
+                    el("p", { className: "note", text: "Your top match" }),
+                    topMatchBlock(ranking[0]),
+                    el("p", { className: "top-match-next", text: "Your roadmap is built around this path." })
+                ),
+                el("div", {},
+                    el(`h${Math.min(l + 1, 6)}`, { className: "block-title", text: "Every path, ranked" }),
+                    meritList(ranking)
+                )
+            )
         ),
     ];
 }
 
-// A card listing {question, answer} pairs - the conversation answers behind a profile.
-function answersCard(title, items) {
-    return el("div", { className: "card" },
-        el("h3", { text: title, style: "margin-bottom: 1rem;" }),
-        el("dl", {}, ...items.map((item) =>
-            el("div", { className: "recap-item" },
-                el("dt", { text: item.question }),
-                el("dd", { text: item.answer })
-            )
-        ))
-    );
+// {question, answer} pairs: the conversation answers behind a profile.
+function answersBlock(items) {
+    return el("dl", { className: "recap-list" }, ...items.map((item) =>
+        el("div", { className: "recap-item" },
+            el("dt", { text: item.question }),
+            el("dd", { text: item.answer })
+        )
+    ));
+}
+
+function answersRow(title, items, level, note) {
+    return row([rowTitle(title, level), note ? el("p", { className: "note", text: note }) : ""], answersBlock(items));
 }
 
 // ---------- roadmap ----------
@@ -72,177 +91,294 @@ function isSafeUrl(url) {
     return typeof url === "string" && /^https?:\/\//i.test(url);
 }
 
-// videosPending: a "Finding a video..." placeholder is shown for steps that don't have a video result yet.
-function roadmapStep(step, index, videosPending) {
-    const body = el("div", { className: "step-body" },
-        el("h3", { text: step.title || `Step ${index + 1}` }),
-        el("p", { className: "muted", text: step.description || "" })
+// videosPending: a "Finding a video" placeholder is shown for steps that don't have a video result yet.
+// isFirstOverall: true only for the very first step of the whole roadmap (gets the
+// "Start here" marker) - not just the first step of whichever phase/list is being
+// built, so a phased roadmap only marks one true starting point.
+// displayIndex: this step's position within whatever list is currently being built -
+// only used as the step-num fallback for an older roadmap that predates
+// global_step_index.
+// The step number sits on the margin rule, which is what turns the rule into a route.
+function roadmapStep(step, displayIndex, videosPending, isFirstOverall) {
+    const text = el("div", { className: "step-text" });
+    if (isFirstOverall) text.append(el("p", { className: "start-here" }, el("span", { className: "mark", text: "Start here" })));
+    text.append(
+        el("h3", { className: "step-title", text: step.title || `Step ${displayIndex + 1}` }),
+        el("p", { className: "step-desc", text: step.description || "" })
     );
+
+    const grid = el("div", { className: "step-grid" }, text);
 
     if ("resource" in step) {
         if (step.resource && isSafeUrl(step.resource.url)) {
-            body.append(el("a", {
-                className: "video-link",
-                href: step.resource.url,
-                target: "_blank",
-                rel: "noopener noreferrer",
-                text: `▶ ${step.resource.title || step.resource.url}`,
-            }));
+            grid.append(el("div", { className: "step-aside" },
+                el("p", { className: "note", text: "Video for this step" }),
+                el("a", {
+                    className: "watch",
+                    href: step.resource.url,
+                    target: "_blank",
+                    rel: "noopener noreferrer",
+                }, icon("play"), el("span", { text: step.resource.title || step.resource.url }), el("span", { className: "visually-hidden", text: "(opens in a new tab)" }))
+            ));
         } else {
-            body.append(el("p", { className: "muted", text: "No video found for this step.", style: "margin-top: 0.75rem; font-size: 0.9rem;" }));
+            grid.append(el("div", { className: "step-aside" }, el("p", { className: "note", text: "No video found for this step." })));
         }
     } else if (videosPending) {
-        body.append(el("p", { className: "muted", text: "Finding a video...", role: "status", style: "margin-top: 0.75rem; font-size: 0.9rem;" }));
+        grid.append(el("div", { className: "step-aside" }, el("p", { className: "note", text: "Finding a video for this step...", role: "status" })));
     }
 
-    return el("li", { className: "card step-card" },
-        el("div", { className: "step-number", text: String(step.step_number ?? index + 1) }),
-        body
+    return el("li", { className: `row step${isFirstOverall ? " step-first" : ""}` },
+        el("span", { className: "step-num num", text: String(step.global_step_index ?? step.step_number ?? displayIndex + 1), "aria-hidden": "true" }),
+        el("div", { className: "margin" }),
+        el("div", { className: "main" }, grid)
     );
 }
 
-function roadmapStepList(steps, videosPending) {
-    return el("ol", { className: "step-list" }, ...steps.map((step, i) => roadmapStep(step, i, videosPending)));
+// A phase's own heading row, styled like the rest of the page's section breaks
+// (row() keeps it aligned with the steps' margin/main columns and the route spine).
+function phaseHeaderRow(phase) {
+    return row(
+        el("p", { className: "note", text: `Phase ${phase.phase_number}` }),
+        el("h3", { className: "phase-title", text: phase.title }),
+        "row-head"
+    );
 }
 
-// A roadmap only counts as "fully resourced" once every step has a "resource" key
-// (its value may be null = searched but nothing found).
+// steps: either an older roadmap's flat step array, or the current
+// {"phases": [{"phase_number", "title", "steps": [...]}]} shape. Always returns one
+// node (a plain <ol class="route"> for the flat case, a phase-headed sequence of them
+// for the phased case), since callers push this straight into a flat list of parts.
+function roadmapStepList(steps, videosPending) {
+    if (Array.isArray(steps)) {
+        return el("ol", { className: "route" }, ...steps.map((step, i) => roadmapStep(step, i, videosPending, i === 0)));
+    }
+
+    const blocks = [];
+    let seenAny = false;
+    for (const phase of steps.phases) {
+        blocks.push(phaseHeaderRow(phase));
+        blocks.push(el("ol", { className: "route" }, ...phase.steps.map((step, i) => {
+            const isFirstOverall = !seenAny;
+            seenAny = true;
+            return roadmapStep(step, i, videosPending, isFirstOverall);
+        })));
+    }
+    return el("div", { className: "phases-detail" }, ...blocks);
+}
+
+// A compact summary for space-constrained contexts (the dashboard, shown alongside
+// several other sections) - phase titles and step counts only, no step-by-step detail,
+// since a phased roadmap can run to 20+ steps where the old flat one topped out at 12.
+// An older flat-shape roadmap is short enough to just show in full via roadmapStepList.
+function roadmapDashboardSummary(steps) {
+    if (Array.isArray(steps)) return roadmapStepList(steps, false);
+
+    const totalSteps = steps.phases.reduce((n, phase) => n + phase.steps.length, 0);
+    return el("div", { className: "block" },
+        el("p", { className: "note", text: `${steps.phases.length} phases, ${totalSteps} steps in total` }),
+        el("ul", { className: "dots" }, ...steps.phases.map((phase) =>
+            el("li", { text: `${phase.title} — ${phase.steps.length} step${phase.steps.length === 1 ? "" : "s"}` })
+        ))
+    );
+}
+
+// A roadmap only counts as "fully resourced" once every step (across every phase, for
+// the current shape) has a "resource" key (its value may be null = searched but nothing found).
 function hasAllVideoResults(steps) {
-    return steps.every((step) => "resource" in step);
+    const allSteps = Array.isArray(steps) ? steps : steps.phases.flatMap((phase) => phase.steps);
+    return allSteps.every((step) => "resource" in step);
 }
 
 // ---------- resume analysis ----------
 
-function chips(skills, extraClass) {
-    return el("ul", { className: "chip-list" },
-        ...skills.map((skill) => el("li", { className: `chip ${extraClass || ""}`.trim(), text: skill }))
-    );
+function skillChips(skills, kind) {
+    return el("ul", { className: "skills" }, ...skills.map((skill) =>
+        el("li", { className: `skill skill-${kind}` }, kind === "have" ? icon("tick") : "", el("span", { text: skill }))
+    ));
 }
 
-function skillsCard(data) {
+// One segment per skill: solid = on the resume, marker = still to learn. Makes the gap countable.
+function gaugeFor(matchedCount, missingCount) {
+    const total = matchedCount + missingCount;
+    const gauge = el("div", {
+        className: total > 16 ? "gauge gauge-dense" : "gauge",
+        role: "img",
+        "aria-label": `${matchedCount} of ${total} skills found on your resume`,
+    });
+    for (let i = 0; i < total; i++) {
+        const cell = el("i", { className: i < matchedCount ? "have" : "gap" });
+        cell.style.setProperty("--i", String(i));
+        gauge.append(cell);
+    }
+    return gauge;
+}
+
+function skillsRow(data, level) {
     const matched = data.matched_skills;
     const missing = data.missing_skills;
     const total = matched.length + missing.length;
     const matchedSet = new Set(matched);
     const others = data.student_skills.filter((s) => !matchedSet.has(s));
 
-    const card = el("div", { className: "card section-card" }, el("h3", { text: "Skills match" }));
+    const main = [];
 
     if (total === 0) {
-        card.append(el("p", { className: "muted", text: "There isn't enough data yet to benchmark required skills for this career path." }));
+        main.push(el("p", { text: "There isn't enough data yet to benchmark the skills this career path needs." }));
     } else {
-        const fill = el("div", { className: "rank-fill" });
-        fill.style.width = `${(matched.length / total) * 100}%`;
-        card.append(
-            el("p", { text: `You have ${matched.length} of the ${total} skills most commonly used in this career path.` }),
-            el("div", { className: "rank-track", style: "margin-top: 0.5rem;" }, fill)
+        main.push(
+            el("p", { className: "stat-sentence" },
+                el("span", { className: "big-num num", text: `${matched.length} of ${total}` }),
+                ` of the skills most used in this career path are already on your resume.`
+            ),
+            gaugeFor(matched.length, missing.length)
         );
     }
 
-    card.append(el("h4", { text: "Skills you already have" }));
-    card.append(matched.length ? chips(matched, "chip-match") : el("p", { className: "muted", text: "None of the commonly required skills were found in your resume." }));
+    const groups = [el("div", { className: "block" },
+        el("h3", { className: "block-title", text: "Already on your resume" }),
+        matched.length ? skillChips(matched, "have") : el("p", { className: "note", text: "None of the commonly needed skills were found in your resume." })
+    )];
 
     if (total > 0) {
-        card.append(el("h4", { text: "Skills to learn next" }));
-        card.append(missing.length ? chips(missing, "chip-missing") : el("p", { className: "muted", text: "You cover all of them. Nice work." }));
+        groups.push(el("div", { className: "block" },
+            el("h3", { className: "block-title", text: "Learn these next" }),
+            missing.length ? skillChips(missing, "gap") : el("p", { text: "You cover all of them. Nice work." })
+        ));
     }
 
     if (others.length) {
-        card.append(el("h4", { text: "Other skills we found" }), chips(others));
+        groups.push(el("div", { className: "block" },
+            el("h3", { className: "block-title", text: "Other skills we found" }),
+            skillChips(others, "extra")
+        ));
     }
-    return card;
+    main.push(el("div", { className: "skill-cols" }, ...groups));
+
+    return row(
+        [rowTitle("Skills match", level), el("p", { className: "note", text: "Compared with the skills most used for this career path." })],
+        main
+    );
 }
 
-function atsCard(ats) {
+function atsRow(ats, level) {
+    const margin = [
+        rowTitle("ATS friendliness", level),
+        el("p", { className: "note", text: "A lightweight check of how easily an applicant tracking system can read your resume. It is not a full layout analysis." }),
+    ];
+
     // ats is null when the score couldn't be recomputed for a saved analysis
     // (the original PDF is no longer on the server, or can't be read any more).
     if (!ats) {
-        return el("div", { className: "card section-card" },
-            el("h3", { text: "ATS friendliness" }),
-            el("p", { className: "muted", text: "This score can't be shown for a saved analysis because the original PDF is no longer available. Upload the resume again to get a fresh score." })
-        );
+        return row(margin, el("p", { text: "This score can't be shown for a saved analysis because the original PDF is no longer available. Upload the resume again to get a fresh score." }));
     }
 
-    const band = ats.score >= 80 ? "score-good" : ats.score >= 60 ? "score-ok" : "score-low";
-    return el("div", { className: "card section-card" },
-        el("h3", { text: "ATS friendliness" }),
-        el("p", {},
-            el("span", { className: `score-big ${band}`, text: String(ats.score) }),
-            el("span", { className: "muted", text: " / 100" })
+    const band = ats.score >= 80
+        ? { text: "Reads well to most systems.", low: false }
+        : ats.score >= 60
+            ? { text: "Readable, with room to improve.", low: false }
+            : { text: "Needs work before you send it out.", low: true };
+
+    const fill = el("span", { className: "scale-fill" });
+    fill.style.display = "block";
+    fill.style.width = `${Math.max(0, Math.min(100, ats.score))}%`;
+    const tick = (label, at, cls) => {
+        const t = el("span", { text: label, className: cls || "" });
+        if (!cls) t.style.left = `${at}%`;
+        return t;
+    };
+
+    return row(margin, el("div", { className: "split split-even-ish" },
+        el("div", {},
+            el("p", { className: "score" },
+                el("span", { className: "score-num num", text: String(ats.score) }),
+                el("span", { className: "score-of", text: "out of 100" })
+            ),
+            el("p", { className: `score-band${band.low ? " score-band-low" : ""}`, text: band.text }),
+            el("div", { className: "scale", "aria-hidden": "true" }, fill),
+            el("div", { className: "scale-ticks", "aria-hidden": "true" },
+                tick("0", 0, "at-start"), tick("60", 60), tick("80", 80), tick("100", 100, "at-end")
+            )
         ),
-        el("p", { className: "muted", style: "font-size: 0.9rem; margin-top: 0.5rem;", text: "A lightweight check of how easily an applicant-tracking system can read your resume. It is not a full layout analysis." }),
-        el("ul", { className: "plain-list", style: "margin-top: 1rem;" },
-            ...ats.reasons.map((reason) => el("li", { text: reason }))
+        el("div", {},
+            el(`h${Math.min((level || 2) + 1, 6)}`, { className: "block-title", text: "What we found" }),
+            el("ul", { className: "dots" }, ...ats.reasons.map((reason) => el("li", { text: reason })))
         )
-    );
+    ));
 }
 
-function salaryBlock(title, note, stats, formatter) {
-    const block = el("div", { style: "margin-top: 1rem;" },
-        el("h4", { text: title, style: "margin-top: 0;" })
-    );
+function salaryColumn(title, note, stats, formatter) {
+    const col = el("div", {}, el("h3", { className: "block-title", text: title }));
     if (!stats) {
-        block.append(el("p", { className: "muted", text: "No data available for this career path." }));
-        return block;
+        col.append(el("p", { className: "note", text: "No data available for this career path." }));
+        return col;
     }
     const s = formatter(stats);
-    block.append(
-        el("div", { className: "stat-grid" },
-            el("div", {}, el("div", { className: "stat-label", text: "Median" }), el("div", { className: "stat-value", text: s.median })),
-            el("div", {}, el("div", { className: "stat-label", text: "Range" }), el("div", { className: "stat-value", text: `${s.min} – ${s.max}` })),
-            el("div", {}, el("div", { className: "stat-label", text: "Based on" }), el("div", { className: "stat-value", text: `${stats.count} ${stats.count === 1 ? "entry" : "entries"}` }))
+    col.append(
+        el("p", { className: "figure-label", text: "Median per year" }),
+        el("p", { className: "figure num", text: s.median }),
+        el("dl", { className: "facts" },
+            el("dt", { text: "Range" }), el("dd", { text: `${s.min} to ${s.max}` }),
+            el("dt", { text: "Based on" }), el("dd", { text: `${stats.count} ${stats.count === 1 ? "entry" : "entries"}` })
         ),
-        el("p", { className: "muted", style: "font-size: 0.9rem;", text: note })
+        el("p", { className: "note", text: note })
     );
-    return block;
+    return col;
 }
 
-function salaryCard(insights) {
-    const card = el("div", { className: "card section-card" },
-        el("h3", { text: "Salary expectations (per year)" })
-    );
-
+function salaryRow(insights, level) {
     // The two sources are shown separately on purpose: job postings skew toward
-    // freshers, survey respondents are working developers - averaging them
+    // freshers, survey respondents are working developers. Averaging them
     // would blend two different populations.
-    card.append(
-        salaryBlock(
-            "Job postings in India",
-            "Real listings, skewing toward fresher and entry-level roles.",
-            insights.job_postings,
-            (st) => ({ median: formatInr(st.median), min: formatInr(st.min), max: formatInr(st.max) })
+    const main = [
+        el("div", { className: "cols" },
+            salaryColumn(
+                "Job postings in India",
+                "Real listings, skewing toward fresher and entry-level roles.",
+                insights.job_postings,
+                (st) => ({ median: formatInr(st.median), min: formatInr(st.min), max: formatInr(st.max) })
+            ),
+            salaryColumn(
+                "Developer survey, India",
+                "Self-reported by working developers, so usually higher. Converted from USD at an approximate rate; trust the median more than the extremes.",
+                insights.survey_respondents,
+                (st) => ({
+                    median: `~${formatInr(st.approx_inr.median)}`,
+                    min: `~${formatInr(st.approx_inr.min)}`,
+                    max: `~${formatInr(st.approx_inr.max)}`,
+                })
+            )
         ),
-        salaryBlock(
-            "Developer survey, India",
-            "Self-reported by working developers, so usually higher. Converted from USD at an approximate rate; the median is more reliable than the extremes.",
-            insights.survey_respondents,
-            (st) => ({
-                median: `~${formatInr(st.approx_inr.median)}`,
-                min: `~${formatInr(st.approx_inr.min)}`,
-                max: `~${formatInr(st.approx_inr.max)}`,
-            })
-        )
-    );
+    ];
 
     if (insights.survey_respondents) {
         const sr = insights.survey_respondents;
-        card.append(el("p", { className: "muted", style: "font-size: 0.85rem; margin-top: 0.5rem;", text: `Survey figures in USD: median ${formatUsd(sr.median)}, range ${formatUsd(sr.min)} – ${formatUsd(sr.max)}.` }));
+        main.push(el("p", { className: "note survey-usd", text: `Survey figures in USD: median ${formatUsd(sr.median)}, range ${formatUsd(sr.min)} to ${formatUsd(sr.max)}.` }));
     }
 
     if (insights.sample_listings.length) {
-        card.append(
-            el("h4", { text: "Sample job postings" }),
-            el("ul", { className: "plain-list" },
-                ...insights.sample_listings.map((job) =>
-                    el("li", { text: `${job.job_title} — ${job.location || "location not listed"} — ${formatInr(job.annual_salary)}` })
+        main.push(el("div", { className: "block" },
+            el("h3", { className: "block-title", text: "Sample job postings" }),
+            el("ul", { className: "listings" }, ...insights.sample_listings.map((job) =>
+                el("li", { className: "listing" },
+                    el("span", {}, job.job_title, el("span", { className: "listing-where", text: job.location || "Location not listed" })),
+                    el("span", { className: "num", text: formatInr(job.annual_salary) })
                 )
-            )
-        );
+            ))
+        ));
     }
-    return card;
+
+    return row(
+        [rowTitle("Salary expectations", level), el("p", { className: "note", text: "Per year, from two separate sources." })],
+        main
+    );
 }
 
 const FEEDBACK_HEADERS = ["Resume Suggestions", "30-Day Action Plan", "Keyword Suggestions"];
+const FEEDBACK_TITLES = {
+    "Resume Suggestions": "Resume suggestions",
+    "30-Day Action Plan": "30-day action plan",
+    "Keyword Suggestions": "Keyword suggestions",
+};
 
 // The LLM is asked for exactly these three plain-text headers. Split on them
 // when all three are present; otherwise the caller falls back to one block.
@@ -262,34 +398,39 @@ function parseFeedback(text) {
     return sections.length === FEEDBACK_HEADERS.length ? sections : null;
 }
 
-function feedbackCards(feedback) {
+function feedbackRows(feedback, level) {
     if (!feedback) {
-        return [el("div", { className: "card section-card" },
-            el("h3", { text: "AI feedback" }),
-            el("p", { className: "muted", text: "AI feedback isn't available for this analysis because the AI service didn't respond at the time. The skill analysis was still saved. Upload your resume again later to get feedback." })
+        return [row(
+            rowTitle("Feedback", level),
+            el("p", { text: "Written feedback isn't available for this analysis because the AI service didn't respond at the time. Your skill analysis was still saved. Upload your resume again later to get feedback." })
         )];
     }
 
     const clean = (t) => t.replace(/\*\*/g, "").trim();
     const sections = parseFeedback(feedback);
     if (!sections) {
-        return [el("div", { className: "card section-card" },
-            el("h3", { text: "AI feedback" }),
-            el("p", { className: "feedback-text", text: clean(feedback) })
-        )];
+        return [row(rowTitle("Feedback", level), el("p", { className: "prose", text: clean(feedback) }))];
     }
-    return sections.map((s) => el("div", { className: "card section-card" },
-        el("h3", { text: s.title }),
-        el("p", { className: "feedback-text", text: clean(s.lines.join("\n")) })
-    ));
+    const columns = sections.map((sec) => {
+        // The action plan is the thing to do next, so it gets the marker.
+        const heading = el(`h${Math.min((level || 2) + 1, 6)}`, { className: "block-title" });
+        heading.append(sec.title === "30-Day Action Plan"
+            ? el("span", { className: "mark", text: FEEDBACK_TITLES[sec.title] })
+            : FEEDBACK_TITLES[sec.title]);
+        return el("div", {}, heading, el("p", { className: "prose", text: clean(sec.lines.join("\n")) }));
+    });
+    return [row(
+        [rowTitle("Feedback", level), el("p", { className: "note", text: "Written by an AI from the text of your resume. Treat it as a starting point." })],
+        el("div", { className: "split split-feedback" }, ...columns)
+    )];
 }
 
 // Everything in a resume analysis except the page-specific header and buttons.
-function resumeAnalysisCards(data) {
+function resumeAnalysisRows(data, level) {
     return [
-        skillsCard(data),
-        atsCard(data.ats_score),
-        salaryCard(data.salary_insights),
-        ...feedbackCards(data.ai_feedback),
+        skillsRow(data, level),
+        atsRow(data.ats_score, level),
+        salaryRow(data.salary_insights, level),
+        ...feedbackRows(data.ai_feedback, level),
     ];
 }

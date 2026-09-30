@@ -12,7 +12,7 @@ from app.pipeline.resume_analyzer import analyze_resume, extract_text_from_pdf, 
 from app.pipeline.resume_feedback import generate_resume_feedback
 from app.pipeline.salary_matching import get_salary_insights, format_salary_range_summary
 from app.pipeline.ats_score import compute_ats_score
-from app.routes._util import iso_utc
+from app.routes._util import iso_utc, resolve_target_career_path
 
 resume_bp = Blueprint("resume", __name__)
 
@@ -101,12 +101,10 @@ def upload_resume():
         .order_by(CareerProfile.id.desc())
         .first()
     )
-    if profile is None:
-        return jsonify({
-            "error": "No career profile found. Complete the quiz and conversation first."
-        }), 400
-
-    target_career_path = profile.career_ranking[0]["career_path"]
+    # Resolved before the file is saved, so a rejected request leaves nothing on disk.
+    target_career_path, error = resolve_target_career_path(profile)
+    if error:
+        return error
 
     # Unique filename per upload - avoids collisions between students, and
     # between repeated uploads from the same student (Resume allows multiple

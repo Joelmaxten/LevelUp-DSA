@@ -5,7 +5,7 @@ from app import db
 from app.models import CareerProfile
 from app.pipeline.conversation_engine import (
     new_session, apply_answer, next_question, is_finished, is_last_question,
-    get_results, clean_additional_notes,
+    get_results, clean_additional_notes, go_back, QUESTION_ORDER,
 )
 from app.pipeline.conversation_data import (
     CONVERSATION_QUESTIONS, ADDITIONAL_NOTES_KEY, ADDITIONAL_NOTES_PROMPT,
@@ -30,6 +30,7 @@ def start_conversation():
         "question_id": q_id,
         "question": CONVERSATION_QUESTIONS[q_id],
         "is_last": is_last_question(session["conversation"]),
+        "total": len(QUESTION_ORDER),
         # The optional free-text step that follows the final fixed question: the
         # client shows it before sending the last answer (see answer_conversation).
         "additional_notes": {
@@ -60,6 +61,12 @@ def answer_conversation():
         return jsonify({"error": "question_id and option are required"}), 400
 
     convo_state = session["conversation"]
+
+    # Every question is mandatory and they are asked in a fixed order, so the only answer
+    # accepted is one for the question currently being asked. Without this a client could
+    # send answers for later questions and finish the conversation without seeing the rest.
+    if question_id != next_question(convo_state):
+        return jsonify({"error": "That isn't the question currently being asked. Please reload the page."}), 400
 
     # Optional free-text note. Only the FINAL answer's request may carry it - it
     # is the conversation's completion request, and the profile is written right
@@ -128,6 +135,30 @@ def answer_conversation():
 
     return jsonify({
         "finished": False,
+        "question_id": q_id,
+        "question": CONVERSATION_QUESTIONS[q_id],
+        "is_last": is_last_question(convo_state),
+    }), 200
+
+@conversation_bp.route("/conversation/back", methods=["POST"])
+@login_required
+def back_conversation():
+    """
+    Step back to the previous question. Returns it (and whether it is the last fixed
+    question) so the client can show it; the student then answers it again to move on.
+    """
+    if "conversation" not in session:
+        return jsonify({"error": "No conversation in progress. Start one first."}), 400
+
+    convo_state = session["conversation"]
+    if not go_back(convo_state):
+        return jsonify({"error": "There is no earlier question."}), 400
+
+    q_id = next_question(convo_state)
+    session["conversation"] = convo_state
+    session.modified = True
+
+    return jsonify({
         "question_id": q_id,
         "question": CONVERSATION_QUESTIONS[q_id],
         "is_last": is_last_question(convo_state),

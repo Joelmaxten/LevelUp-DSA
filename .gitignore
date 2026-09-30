@@ -70,3 +70,5 @@ cookies.txt
 # local rollback safety net, not meant to be committed.
 data/processed/backup/
 uploads/
+
+.claude/
