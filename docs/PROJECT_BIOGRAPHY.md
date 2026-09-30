@@ -833,7 +833,7 @@ original kept as the one true working copy going forward.
 ---
 ---
 
-## Standalone Phases — Design Decision (not yet implemented)
+## Standalone Phases — Design Decision (manual picker implemented)
 
 **Issue found:** Resume Analyzer and Roadmap Generation both hard-required an existing
 CareerProfile (quiz + conversation completed first), so the three phases couldn't actually
@@ -851,7 +851,7 @@ Also identified: new users were being redirected into the quiz after login/signu
 conflicts with the three-phases-run-independently design — should land on the home page
 instead.
 
-Not yet implemented as of this entry — queued as the next task.
+Update: the manual career-path picker is now implemented (resolve_target_career_path in app/routes/_util.py). Not yet verified: whether new users now land on the home page instead of the quiz after login/signup.
 
 ---
 
@@ -897,8 +897,190 @@ master doc's two-stage design.
 
 ---
 ---
+## Knowledge Base v2 — Structured Chunks, Diverse Retrieval, Re-runnable Rebuild
+
+**What was built:** roadmap_kb_processor.py chunks now also carry title,
+node_id, folder and resources ([{type, title, url}] parsed from roadmap.sh's
+"- [@type@Title](url)" lines); existing text/career_paths/source keys are
+unchanged. embedder.py embeds "title. text" when a title exists. rag.py
+gained search_diverse() (multi-query, dedupe by source, per-folder cap) and
+list_topics(); search()/load_index()/build_index() are unchanged.
+scripts/rebuild_kb.py is new and committed: backs up the index to
+data/processed/backup/ (gitignored), rebuilds, appends the SO Survey chunks
+and asserts the total (3,607 = 3,597 roadmap.sh + 10 survey).
+
+**Findings from inspecting the roadmap.sh clone:**
+- The clone is a content-only mirror: no graph/JSON ordering file exists,
+  so within-roadmap order cannot be recovered from it.
+- 0 of 3,599 files contain H2/H3 headers; every file is already one topic,
+  so no re-chunking was needed.
+- 92.6% of files have a curated resources block that _clean_markdown used
+  to discard. It holds 2,008 video links (99.3% YouTube), 1,800 official
+  links and 175 course links.
+- Project-idea content exists only in full-stack's 13 "checkpoint" files.
+- Course links are too sparse for a per-step course feature (coursera.org
+  32, freecodecamp.org 4, udemy.com 1, edx.org 1). Two suspicious domains
+  (ransomleak.com 22, inter-git.com 18) appear among "course" links, so the
+  video/resource resolver must use a domain allowlist and not trust tags.
+- Share of chunks with at least one YouTube video is lowest for Mobile App
+  Development (21.1%) and Game Development (27.7%); Full-Stack is 37.2%.
+- A general web scraper (Agent-Reach) was considered and rejected: it does
+  not cover course sites and conflicts with the locked no-scraping decision.
+
+**Issues faced:** no committed script existed for building the index or the
+survey chunks (both were done in a REPL), which is why rebuild_kb.py was
+written. The roadmap_generator docstring claiming the FAISS files are
+gitignored was stale: they are tracked via explicit un-ignore rules (the
+demo-day safety-net exception). Scripts run from Git Bash fail with
+ModuleNotFoundError unless PYTHONPATH=. is set.
+
+**Verified:** search() result shape, react/hooks and sql/acid resources in
+the loaded metadata, search_diverse() returning 30 distinct sources with no
+folder over the cap, list_topics() = 514 for Full-Stack, total chunk count,
+and scripts/smoke_test_roadmap.py end to end.
+
+---
+---
+## Roadmap Generation v2 — Grounded Subtopics, Projects, and Phases
+
+**Step schema:** each step now has title, description, subtopics (real topic
+titles), topic_refs (node_ids from the path's topic inventory) and projects
+(title, description, difficulty, grounded). Retrieval builds 4-6 queries
+from the career path and conversation signals, calls search_diverse(), and
+gives Gemini the full list_topics() inventory so it can only reference real
+topics. topic_refs are validated against the inventory (invalid ones are
+dropped with a warning). The additional_notes untrusted-input handling and
+the retrieved_chunks audit are kept.
+
+**Projects decision:** Full-Stack projects are adapted from the 13 checkpoint
+files ("grounded": true). Every other path gets LLM-suggested projects marked
+"grounded": false. This is a deliberate, documented exception to the
+anti-hallucination rule, to be revisited later.
+
+**Bugs found and fixed:** (1) SO Survey chunks have no node_id/title, which
+raised KeyError when building the prompt. (2) Query attribution in the audit
+used top_k=len(chunks), which made every query match nearly every chunk; it
+now uses the same budget as search_diverse. (3) A Full-Stack step's subtopics
+contained raw node_ids instead of titles; a post-generation validation now
+replaces them with real titles.
+
+**Phases:** the flat 8-12 step cap could not cover a path (271-514 topics),
+so generation was split into phases, one Gemini call per phase (about 5
+calls per roadmap). Each step gets a global_step_index for progress tracking
+later. The first version partitioned topics by keywords in titles. Real
+output showed impossible ordering (ML evaluation before Python syntax) and
+duplicates (two AI-agents steps). Fix: partition by roadmap.sh folder, one
+planning call orders the folders (validated against the real folder names),
+duplicate node_ids are removed before grouping (python's copy preferred over
+machine-learning's), and each phase receives an exclusion list of topics and
+titles already used. Read by eye afterwards: AI/ML now runs Python -> Machine
+Learning -> AI Engineer, and Full-Stack runs git-github -> javascript ->
+nodejs -> react -> full-stack.
+
+**youtube_resources.py** now handles both the phased shape and old flat
+roadmaps; it still fetches one video per step, and its quota note now says a
+full roadmap costs roughly 2,000 units (about 5 roadmaps/day).
+
+**Not yet verified:** phases 4-5 of the AI/ML output; topic_ref coverage
+percentage against each path's inventory; a grep confirming each duplicate
+node_id appears once per roadmap (the investigation reported 7 duplicates
+but its breakdown of 4 + 1 + 6 did not add up, so recount); a per-phase check
+for raw node_ids in subtopics; and whether the redesigned roadmap page
+renders phased and old flat roadmaps correctly in the browser. Known
+weaknesses: videos still come from a title search, so some are wrong (a C++
+video for a Python step, a Python video for a JavaScript step, an Angular
+video for React routing); and Full-Stack's Phase 1 is mostly GitHub feature
+topics (Education pack, Gists, Codespaces).
+
+---
+---
+## Career Path Restructuring — Decisions (not yet implemented)
+
+**Target list (15):** Full-Stack Development, AI Engineering, Machine
+Learning Engineering, Data Science, Data Analytics, Cybersecurity, Mobile App
+Development, Game Development, Backend Engineering, UI/UX Design, Frontend
+Development, Cloud Engineering, DevOps, QA & Test Automation, Data
+Engineering. Research / Advanced Computing is removed. AI/ML, Data
+Science/Analytics, UI/UX+Frontend and Cloud/DevOps are split; the two
+Full-Stack and Backend labels are shortened; QA and Data Engineering are new.
+SRE was rejected as a third slice of the Cloud/DevOps content.
+
+**Findings from the read-only investigation:** every target path has at least
+146 KB chunks (QA is smallest). By its own table, 7 paths have under 30 SO
+Survey respondents (UI/UX Design 8, Cybersecurity 12, Game Development 14,
+Cloud Engineering 14, AI Engineering 22, QA 22, Data Analytics 25), and no
+survey role separates AI engineers from ML engineers. The India Jobs data
+cannot ground any split (0-6 title matches per pair) and has no
+data-engineering titles. The quiz gave AI/ML 19 of 40 option signals and
+Cloud/DevOps only 5. Every existing database row looks like test data (88% of
+career profiles and 68% of roadmaps were AI/ML, and nothing says which new
+path they would become).
+
+**Decisions:**
+- Folder mapping: Full-Stack: full-stack, javascript, react, nodejs,
+  git-github. AI Engineering: ai-engineer, ai-agents, prompt-engineering,
+  ai-red-teaming, python. Machine Learning Engineering: machine-learning,
+  mlops, python. Data Science: python-data-analysis, sql, ai-data-scientist,
+  machine-learning. Data Analytics: data-analyst, bi-analyst, power-bi, sql.
+  Cybersecurity: cyber-security, devsecops. Mobile: android, ios,
+  react-native. Game: game-developer, cpp. Backend Engineering: backend, sql,
+  system-design. UI/UX Design: ux-design, design-system, product-design.
+  Frontend: frontend, html, css, javascript, typescript, react, nextjs (vue
+  and angular dropped as alternatives to React). Cloud Engineering: aws,
+  docker, kubernetes, terraform. DevOps: devops, docker, kubernetes, linux.
+  QA & Test Automation: python, sql, git-github, api-design, qa. Data
+  Engineering: data-engineer, sql, python. ai-product-builder is left out
+  until its titles have been reviewed.
+- Thin survey data: show whatever data exists. Showing the respondent count
+  next to salary and skill figures was proposed but not yet decided.
+- Existing derived rows (career profiles, roadmaps, skill gaps, DSA framings)
+  are disposable test data: back up with pg_dump, clear, and reseed. No
+  migration for the AI/ML rows.
+
+**Staged plan:** (1) central career_path_registry.py, renames, and an interim
+quiz mapping (old signals go to both halves of each split; QA and Data
+Engineering have no signals and stay reachable through the manual picker);
+(2) backup, clear test rows, reseed the career_paths table and DSA node tags;
+(3) rebuild the KB, write re-runnable survey/jobs reprocessing scripts,
+replace the hardcoded "== 10" survey-chunk assertion in rebuild_kb.py with
+the real path count; (4) generate and check roadmaps for the new paths;
+(5) redesign the quiz so each similar pair has a question that separates it.
+Until stage 5, paired paths tie exactly in the quiz.
+
+**Known limitation:** because each folder becomes one phase, Cybersecurity
+and Game Development have only two phases each (Cybersecurity's 302-topic
+folder is a single phase). Revisit with per-folder step caps or topic
+priority.
+
+---
+---
+## Git Housekeeping — Diverged Branch After Working in Two Folders
+
+**Issue faced:** pushing feature/conversation-engine was rejected. GitHub had
+two biography-only commits that were most likely pushed from the other
+project folder. **Fix:** git fetch, compare with git log HEAD..origin/... and
+the reverse, git show --stat to confirm the remote commits touched only docs,
+then merge (not rebase). The one conflict, in this file, was both sides
+inserting text at the same spot; a script that asserted its assumptions
+before writing kept both blocks. git merge --abort was the fallback. Lessons:
+work from one folder, fetch before pushing, use git --no-pager to stop the
+pager swallowing pasted input, and append to .gitignore with printf so the
+new line does not glue onto the last one. .claude/ is now gitignored.
+
+---
+---
 ## Still To Build
 
-- Phase 3 — Gamified DSA / Skill DNA Map
+- Career path restructuring, stages 1-5 (see the decisions entry above)
+- KB-first video resolver: 3-4 videos per step taken from the chunks'
+  curated resources, domain allowlist, one YouTube search only as a
+  fallback (Mobile and Game Development coverage is weakest)
+- Roadmap progress tracking: new table (user_id, roadmap_id, step index,
+  completed_at, unique together) plus a progress bar; also feeds the
+  Placement Readiness Score
+- Roadmap v2 verification backlog (see "Not yet verified" above)
+- Phase 3 Stage 2 (Piston, code execution, XP/mastery/streaks) and Stage 3
+  (adaptive bandit map)
 - Placement Readiness Score
-- Deployment to Render
+- Deployment to Render (first strip "detail": str(e) from the
+  /conversation/answer 500 response)

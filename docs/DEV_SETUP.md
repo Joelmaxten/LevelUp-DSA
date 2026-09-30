@@ -159,3 +159,28 @@ clear cached bytecode before re-testing:
 `from app import models` is required before `db.create_all()` — just importing
 `create_app`/`db` is not enough; SQLAlchemy only knows about models that have
 actually been imported somewhere.
+
+---
+Knowledge Base Rebuild and Script Conventions
+Rebuild the FAISS knowledge base index with:
+```bash
+PYTHONPATH=. python scripts/rebuild_kb.py
+```
+This needs the local roadmap.sh clone that roadmap_kb_processor.py reads. It
+backs up the current index and metadata to `data/processed/backup/` (gitignored)
+before overwriting them, rebuilds from the clone, appends the SO Survey
+chunks, and asserts the final total. Its survey-chunk count is currently
+hardcoded to 10 and will need to change once the career path restructuring
+lands (see PROJECT_BIOGRAPHY.md).
+Run any script from Git Bash with a `PYTHONPATH=.` prefix (as above), or with
+`python -m`, since the project root is not on `sys.path` otherwise — a plain
+`python scripts/whatever.py` fails with `ModuleNotFoundError: No module named
+'app'`.
+The FAISS index and metadata files (`data/processed/faiss_index.faiss`,
+`data/processed/faiss_index_meta.pkl`) are tracked in git on purpose — a
+demo-day safety net so a fresh clone doesn't need to reclone roadmap.sh and
+re-embed just to get roadmap generation working.
+Git tips: LF/CRLF warnings from Git on Windows are harmless; use
+`git --no-pager` for diffs so a pager doesn't swallow pasted input; `.claude/`
+is gitignored; and always `git fetch` before pushing when working across two
+folders of the same repo (see PROJECT_BIOGRAPHY.md's Git Housekeeping entry).
