@@ -1,20 +1,9 @@
 """
-Career Discovery quiz data: the 10 CS career paths, the 10-question bank,
+Career Discovery quiz data: the 15 CS career paths, the 10-question bank,
 and the option-to-career-signal mapping. Pure data — no logic here.
 """
 
-CAREER_PATHS = [
-    "Software Engineering / Full-Stack Development",
-    "AI / Machine Learning Engineering",
-    "Data Science / Data Analytics",
-    "Cybersecurity",
-    "Cloud / DevOps",
-    "Mobile App Development",
-    "Game Development",
-    "UI/UX + Frontend Development",
-    "Backend / Systems Engineering",
-    "Research / Advanced Computing",
-]
+from app.pipeline.career_path_registry import CAREER_PATHS
 
 QUESTIONS = {
     "Q1": {
@@ -109,55 +98,67 @@ QUESTIONS = {
     },
 }
 
+# INTERIM: this is a mechanical translation of the old 10-path signals onto
+# the new 15 paths (see docs/PROJECT_BIOGRAPHY.md's "Career Path
+# Restructuring" entry) - every split pair (AI Engineering / Machine
+# Learning Engineering, Data Science / Data Analytics, UI/UX Design /
+# Frontend Development, Cloud Engineering / DevOps) currently receives the
+# exact same signal wherever the old combined path did, so they tie exactly
+# on every question. QA & Test Automation and Data Engineering have no
+# signals at all yet - reachable only through the manual career-path
+# picker, never the quiz's own ranking. Written as plain literal lists (not
+# computed from a translation table at import time) because the upcoming
+# quiz redesign will hand-edit these to actually separate each pair -
+# quiz redesign pending.
 # Each (question, option) maps to a list of career paths it signals support for.
 OPTION_SIGNALS = {
-    ("Q1", "A"): ["Software Engineering / Full-Stack Development", "Backend / Systems Engineering", "AI / Machine Learning Engineering", "Cybersecurity", "Research / Advanced Computing"],
-    ("Q1", "B"): ["UI/UX + Frontend Development", "Game Development", "Mobile App Development"],
-    ("Q1", "C"): ["Data Science / Data Analytics", "AI / Machine Learning Engineering", "Research / Advanced Computing", "Cybersecurity"],
-    ("Q1", "D"): ["UI/UX + Frontend Development"],
+    ("Q1", "A"): ["Full-Stack Development", "Backend Engineering", "AI Engineering", "Machine Learning Engineering", "Cybersecurity"],
+    ("Q1", "B"): ["UI/UX Design", "Frontend Development", "Game Development", "Mobile App Development"],
+    ("Q1", "C"): ["Data Science", "Data Analytics", "AI Engineering", "Machine Learning Engineering", "Cybersecurity"],
+    ("Q1", "D"): ["UI/UX Design", "Frontend Development"],
 
-    ("Q2", "A"): ["Software Engineering / Full-Stack Development", "Backend / Systems Engineering", "AI / Machine Learning Engineering", "Cybersecurity"],
-    ("Q2", "B"): ["Software Engineering / Full-Stack Development", "Data Science / Data Analytics", "Cloud / DevOps"],
-    ("Q2", "C"): ["AI / Machine Learning Engineering", "Game Development", "Research / Advanced Computing", "Software Engineering / Full-Stack Development"],
-    ("Q2", "D"): ["UI/UX + Frontend Development", "Software Engineering / Full-Stack Development"],
+    ("Q2", "A"): ["Full-Stack Development", "Backend Engineering", "AI Engineering", "Machine Learning Engineering", "Cybersecurity"],
+    ("Q2", "B"): ["Full-Stack Development", "Data Science", "Data Analytics", "Cloud Engineering", "DevOps"],
+    ("Q2", "C"): ["AI Engineering", "Machine Learning Engineering", "Game Development", "Full-Stack Development"],
+    ("Q2", "D"): ["UI/UX Design", "Frontend Development", "Full-Stack Development"],
 
-    ("Q3", "A"): ["Data Science / Data Analytics", "AI / Machine Learning Engineering"],
-    ("Q3", "B"): ["Software Engineering / Full-Stack Development", "Mobile App Development", "Backend / Systems Engineering"],
+    ("Q3", "A"): ["Data Science", "Data Analytics", "AI Engineering", "Machine Learning Engineering"],
+    ("Q3", "B"): ["Full-Stack Development", "Mobile App Development", "Backend Engineering"],
     ("Q3", "C"): ["Cybersecurity"],
-    ("Q3", "D"): ["UI/UX + Frontend Development", "Game Development"],
+    ("Q3", "D"): ["UI/UX Design", "Frontend Development", "Game Development"],
 
-    ("Q4", "A"): ["Software Engineering / Full-Stack Development", "AI / Machine Learning Engineering", "Cybersecurity", "Game Development"],
-    ("Q4", "B"): ["UI/UX + Frontend Development", "Game Development", "Mobile App Development"],
-    ("Q4", "C"): ["AI / Machine Learning Engineering", "Data Science / Data Analytics", "Research / Advanced Computing", "Cybersecurity"],
-    ("Q4", "D"): ["Research / Advanced Computing"],
+    ("Q4", "A"): ["Full-Stack Development", "AI Engineering", "Machine Learning Engineering", "Cybersecurity", "Game Development"],
+    ("Q4", "B"): ["UI/UX Design", "Frontend Development", "Game Development", "Mobile App Development"],
+    ("Q4", "C"): ["AI Engineering", "Machine Learning Engineering", "Data Science", "Data Analytics", "Cybersecurity"],
+    ("Q4", "D"): [],
 
-    ("Q5", "A"): ["Backend / Systems Engineering", "AI / Machine Learning Engineering", "Cybersecurity", "Research / Advanced Computing"],
-    ("Q5", "B"): ["Software Engineering / Full-Stack Development", "Mobile App Development", "Game Development", "UI/UX + Frontend Development"],
-    ("Q5", "C"): ["AI / Machine Learning Engineering", "Software Engineering / Full-Stack Development", "Cybersecurity", "Research / Advanced Computing"],
-    ("Q5", "D"): ["UI/UX + Frontend Development"],
+    ("Q5", "A"): ["Backend Engineering", "AI Engineering", "Machine Learning Engineering", "Cybersecurity"],
+    ("Q5", "B"): ["Full-Stack Development", "Mobile App Development", "Game Development", "UI/UX Design", "Frontend Development"],
+    ("Q5", "C"): ["AI Engineering", "Machine Learning Engineering", "Full-Stack Development", "Cybersecurity"],
+    ("Q5", "D"): ["UI/UX Design", "Frontend Development"],
 
-    ("Q6", "A"): ["Software Engineering / Full-Stack Development", "AI / Machine Learning Engineering", "Cybersecurity"],
-    ("Q6", "B"): ["UI/UX + Frontend Development", "Game Development"],
-    ("Q6", "C"): ["Data Science / Data Analytics", "AI / Machine Learning Engineering", "Research / Advanced Computing"],
-    ("Q6", "D"): ["Research / Advanced Computing"],
+    ("Q6", "A"): ["Full-Stack Development", "AI Engineering", "Machine Learning Engineering", "Cybersecurity"],
+    ("Q6", "B"): ["UI/UX Design", "Frontend Development", "Game Development"],
+    ("Q6", "C"): ["Data Science", "Data Analytics", "AI Engineering", "Machine Learning Engineering"],
+    ("Q6", "D"): [],
 
-    ("Q7", "A"): ["AI / Machine Learning Engineering", "Software Engineering / Full-Stack Development", "Cybersecurity", "Backend / Systems Engineering"],
-    ("Q7", "B"): ["Software Engineering / Full-Stack Development", "Mobile App Development", "Game Development", "UI/UX + Frontend Development"],
-    ("Q7", "C"): ["Data Science / Data Analytics", "AI / Machine Learning Engineering", "Cybersecurity", "Research / Advanced Computing"],
-    ("Q7", "D"): ["UI/UX + Frontend Development"],
+    ("Q7", "A"): ["AI Engineering", "Machine Learning Engineering", "Full-Stack Development", "Cybersecurity", "Backend Engineering"],
+    ("Q7", "B"): ["Full-Stack Development", "Mobile App Development", "Game Development", "UI/UX Design", "Frontend Development"],
+    ("Q7", "C"): ["Data Science", "Data Analytics", "AI Engineering", "Machine Learning Engineering", "Cybersecurity"],
+    ("Q7", "D"): ["UI/UX Design", "Frontend Development"],
 
-    ("Q8", "A"): ["Backend / Systems Engineering", "AI / Machine Learning Engineering", "Data Science / Data Analytics", "Research / Advanced Computing"],
-    ("Q8", "B"): ["UI/UX + Frontend Development", "Game Development", "Mobile App Development"],
-    ("Q8", "C"): ["Software Engineering / Full-Stack Development", "Cloud / DevOps"],
-    ("Q8", "D"): ["Cybersecurity", "Cloud / DevOps"],
+    ("Q8", "A"): ["Backend Engineering", "AI Engineering", "Machine Learning Engineering", "Data Science", "Data Analytics"],
+    ("Q8", "B"): ["UI/UX Design", "Frontend Development", "Game Development", "Mobile App Development"],
+    ("Q8", "C"): ["Full-Stack Development", "Cloud Engineering", "DevOps"],
+    ("Q8", "D"): ["Cybersecurity", "Cloud Engineering", "DevOps"],
 
-    ("Q9", "A"): ["Software Engineering / Full-Stack Development", "Backend / Systems Engineering", "AI / Machine Learning Engineering", "Cloud / DevOps"],
-    ("Q9", "B"): ["UI/UX + Frontend Development"],
-    ("Q9", "C"): ["Data Science / Data Analytics", "AI / Machine Learning Engineering"],
-    ("Q9", "D"): ["AI / Machine Learning Engineering", "Game Development", "Software Engineering / Full-Stack Development", "Research / Advanced Computing"],
+    ("Q9", "A"): ["Full-Stack Development", "Backend Engineering", "AI Engineering", "Machine Learning Engineering", "Cloud Engineering", "DevOps"],
+    ("Q9", "B"): ["UI/UX Design", "Frontend Development"],
+    ("Q9", "C"): ["Data Science", "Data Analytics", "AI Engineering", "Machine Learning Engineering"],
+    ("Q9", "D"): ["AI Engineering", "Machine Learning Engineering", "Game Development", "Full-Stack Development"],
 
-    ("Q10", "A"): ["Software Engineering / Full-Stack Development", "Backend / Systems Engineering", "Cloud / DevOps", "AI / Machine Learning Engineering"],
-    ("Q10", "B"): ["AI / Machine Learning Engineering", "Data Science / Data Analytics", "Research / Advanced Computing", "Cybersecurity"],
-    ("Q10", "C"): ["Research / Advanced Computing"],
-    ("Q10", "D"): ["UI/UX + Frontend Development", "Game Development", "Mobile App Development"],
+    ("Q10", "A"): ["Full-Stack Development", "Backend Engineering", "Cloud Engineering", "DevOps", "AI Engineering", "Machine Learning Engineering"],
+    ("Q10", "B"): ["AI Engineering", "Machine Learning Engineering", "Data Science", "Data Analytics", "Cybersecurity"],
+    ("Q10", "C"): [],
+    ("Q10", "D"): ["UI/UX Design", "Frontend Development", "Game Development", "Mobile App Development"],
 }

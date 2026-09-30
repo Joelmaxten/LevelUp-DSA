@@ -19,9 +19,10 @@ load_dotenv()
 
 from app import create_app, db
 from app import models
+from app.pipeline.career_path_registry import FULL_STACK
 from app.pipeline.dsa_graph import MASTERY_THRESHOLD
 
-PATH = "Software Engineering / Full-Stack Development"
+PATH = FULL_STACK
 
 app = create_app()
 

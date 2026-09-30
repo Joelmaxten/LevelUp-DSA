@@ -26,17 +26,27 @@ The career-flavoured story is added separately (problem_framing.py) and is
 always shown next to, never instead of, this text.
 """
 
-# Career path names must match app/pipeline/career_quiz_data.CAREER_PATHS exactly.
-SWE = "Software Engineering / Full-Stack Development"
-AIML = "AI / Machine Learning Engineering"
-DATA = "Data Science / Data Analytics"
+# Career path names must match app/pipeline/career_path_registry.CAREER_PATHS
+# exactly. AIML, DATA, CLOUD and UIUX previously each covered a since-split
+# pair; every node that referenced one of those now references BOTH of that
+# pair's new constants (see docs/PROJECT_BIOGRAPHY.md's "Career Path
+# Restructuring" entry) - a judgement call, not a re-derivation, since which
+# half of a split each topic "really" belongs to isn't something this
+# mechanical translation can know. RESEARCH is gone: "Research / Advanced
+# Computing" was removed entirely, so it no longer appears on any node.
+FULL_STACK = "Full-Stack Development"
+AI_ENG = "AI Engineering"
+ML_ENG = "Machine Learning Engineering"
+DATA_SCI = "Data Science"
+DATA_ANALYTICS = "Data Analytics"
 CYBER = "Cybersecurity"
-CLOUD = "Cloud / DevOps"
+CLOUD_ENG = "Cloud Engineering"
+DEVOPS = "DevOps"
 MOBILE = "Mobile App Development"
 GAME = "Game Development"
-UIUX = "UI/UX + Frontend Development"
-BACKEND = "Backend / Systems Engineering"
-RESEARCH = "Research / Advanced Computing"
+UIUX_DESIGN = "UI/UX Design"
+FRONTEND = "Frontend Development"
+BACKEND = "Backend Engineering"
 
 # XP per problem, from the master doc's gamification table.
 POINTS_BY_DIFFICULTY = {"Easy": 10, "Medium": 25, "Hard": 50}
@@ -47,35 +57,35 @@ POINTS_BY_DIFFICULTY = {"Easy": 10, "Medium": 25, "Hard": 50}
 # map, never locking. Unlisted paths still see the node, just not highlighted.
 NODES = [
     {"topic": "Arrays", "difficulty": "Easy", "prerequisites": [],
-     "career_paths": [AIML, DATA, GAME, RESEARCH]},
+     "career_paths": [AI_ENG, ML_ENG, DATA_SCI, DATA_ANALYTICS, GAME]},
     {"topic": "Strings", "difficulty": "Easy", "prerequisites": ["Arrays"],
-     "career_paths": [SWE, CYBER, BACKEND]},
+     "career_paths": [FULL_STACK, CYBER, BACKEND]},
     {"topic": "Hash Maps & Sets", "difficulty": "Easy", "prerequisites": ["Arrays"],
-     "career_paths": [SWE, BACKEND, CYBER, DATA, CLOUD]},
+     "career_paths": [FULL_STACK, BACKEND, CYBER, DATA_SCI, DATA_ANALYTICS, CLOUD_ENG, DEVOPS]},
     {"topic": "Two Pointers", "difficulty": "Easy", "prerequisites": ["Arrays"],
-     "career_paths": [DATA, GAME, RESEARCH]},
+     "career_paths": [DATA_SCI, DATA_ANALYTICS, GAME]},
     {"topic": "Sorting", "difficulty": "Medium", "prerequisites": ["Arrays"],
-     "career_paths": [SWE, DATA, BACKEND]},
+     "career_paths": [FULL_STACK, DATA_SCI, DATA_ANALYTICS, BACKEND]},
     {"topic": "Binary Search", "difficulty": "Easy", "prerequisites": ["Sorting"],
-     "career_paths": [SWE, BACKEND, CLOUD, RESEARCH]},
+     "career_paths": [FULL_STACK, BACKEND, CLOUD_ENG, DEVOPS]},
     {"topic": "Sliding Window", "difficulty": "Medium", "prerequisites": ["Two Pointers", "Hash Maps & Sets"],
-     "career_paths": [BACKEND, CLOUD, CYBER, DATA]},
+     "career_paths": [BACKEND, CLOUD_ENG, DEVOPS, CYBER, DATA_SCI, DATA_ANALYTICS]},
     {"topic": "Stacks & Queues", "difficulty": "Easy", "prerequisites": ["Arrays"],
-     "career_paths": [BACKEND, CLOUD, MOBILE, UIUX]},
+     "career_paths": [BACKEND, CLOUD_ENG, DEVOPS, MOBILE, UIUX_DESIGN, FRONTEND]},
     {"topic": "Linked Lists", "difficulty": "Easy", "prerequisites": ["Arrays"],
      "career_paths": [BACKEND, GAME]},
     {"topic": "Recursion", "difficulty": "Easy", "prerequisites": ["Stacks & Queues"],
-     "career_paths": [AIML, RESEARCH, UIUX, GAME]},
+     "career_paths": [AI_ENG, ML_ENG, UIUX_DESIGN, FRONTEND, GAME]},
     {"topic": "Trees", "difficulty": "Medium", "prerequisites": ["Recursion", "Linked Lists"],
-     "career_paths": [UIUX, GAME, AIML, SWE, MOBILE]},
+     "career_paths": [UIUX_DESIGN, FRONTEND, GAME, AI_ENG, ML_ENG, FULL_STACK, MOBILE]},
     {"topic": "Binary Search Trees", "difficulty": "Medium", "prerequisites": ["Trees", "Binary Search"],
-     "career_paths": [BACKEND, SWE, RESEARCH]},
+     "career_paths": [BACKEND, FULL_STACK]},
     {"topic": "Heaps", "difficulty": "Medium", "prerequisites": ["Trees"],
-     "career_paths": [AIML, DATA, CLOUD, GAME]},
+     "career_paths": [AI_ENG, ML_ENG, DATA_SCI, DATA_ANALYTICS, CLOUD_ENG, DEVOPS, GAME]},
     {"topic": "Graphs", "difficulty": "Medium", "prerequisites": ["Trees"],
-     "career_paths": [CYBER, CLOUD, RESEARCH, GAME, AIML]},
+     "career_paths": [CYBER, CLOUD_ENG, DEVOPS, GAME, AI_ENG, ML_ENG]},
     {"topic": "Dynamic Programming", "difficulty": "Hard", "prerequisites": ["Recursion", "Hash Maps & Sets"],
-     "career_paths": [AIML, RESEARCH, DATA]},
+     "career_paths": [AI_ENG, ML_ENG, DATA_SCI, DATA_ANALYTICS]},
 ]
 
 

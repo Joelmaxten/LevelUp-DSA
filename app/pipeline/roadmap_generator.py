@@ -42,10 +42,10 @@ Pipeline, per generation:
    phases' step counts, since each phase is an independent call); a global,
    roadmap-wide "global_step_index" is then assigned in code once every
    phase has returned, for a later flat progress bar to reference.
-7. Per the Phase A audit (see docs/PROJECT_BIOGRAPHY.md), "Software
-   Engineering / Full-Stack Development" is the only career path with real
-   hands-on project material in the KB (roadmap.sh's 13 "checkpoint--*"
-   files, all under its "full-stack" folder). Whichever phase that folder
+7. Per the Phase A audit (see docs/PROJECT_BIOGRAPHY.md), "Full-Stack
+   Development" is the only career path with real hands-on project
+   material in the KB (roadmap.sh's 13 "checkpoint--*" files, all under
+   its "full-stack" folder). Whichever phase that folder
    lands in gets "grounded": true project instructions; every other phase
    (for every career path) gets Gemini's own suggestions, explicitly
    marked "grounded": false.
@@ -70,13 +70,14 @@ roadmap.
 import json
 import logging
 
+from app.pipeline.career_path_registry import FULL_STACK
 from app.pipeline.conversation_data import ADDITIONAL_NOTES_KEY, CONVERSATION_QUESTIONS, OPTION_SIGNALS
 from app.pipeline.gemini_client import generate_with_retry
 from app.pipeline.rag import list_topics, search, search_diverse
 
 logger = logging.getLogger(__name__)
 
-FULL_STACK_PATH = "Software Engineering / Full-Stack Development"
+FULL_STACK_PATH = FULL_STACK
 TOTAL_K = 30
 PER_FOLDER_CAP = 6
 STEPS_PER_PHASE_RANGE = "4-8"

@@ -17,28 +17,14 @@ no finer-grained sub-chunking to do within a file.
 import re
 from pathlib import Path
 
+from app.pipeline.career_path_registry import CAREER_PATH_TO_FOLDERS
+
 # Matches roadmap.sh's own resource-link format, e.g.
 # "- [@video@ACID Explained](https://www.youtube.com/watch?v=...)"
 # (format confirmed against developer-roadmap's own
 # formatOfficialRoadmapTopicResourceLink in scripts/lib/official-roadmap-topic.ts).
 _RESOURCE_LINE_RE = re.compile(r"^-\s*\[@(\w+)@(.*)\]\((\S+)\)\s*$", re.MULTILINE)
 _H1_RE = re.compile(r"^#\s+(.+)$", re.MULTILINE)
-
-# Maps each of the quiz's 10 career paths to the roadmap.sh folders that feed it.
-# A folder can appear under more than one career path (e.g. "sql" is relevant to
-# both Data Science and Backend).
-CAREER_PATH_TO_FOLDERS = {
-    "Software Engineering / Full-Stack Development": ["full-stack", "javascript", "react", "nodejs", "git-github"],
-    "AI / Machine Learning Engineering": ["machine-learning", "ai-engineer", "python"],
-    "Data Science / Data Analytics": ["data-analyst", "python-data-analysis", "sql"],
-    "Cybersecurity": ["cyber-security", "devsecops"],
-    "Cloud / DevOps": ["devops", "aws", "docker", "kubernetes"],
-    "Mobile App Development": ["android", "ios", "react-native"],
-    "Game Development": ["game-developer", "cpp"],
-    "UI/UX + Frontend Development": ["frontend", "ux-design", "css"],
-    "Backend / Systems Engineering": ["backend", "sql", "system-design"],
-    "Research / Advanced Computing": ["computer-science", "datastructures-and-algorithms"],
-}
 
 
 def _clean_markdown(raw_text):
