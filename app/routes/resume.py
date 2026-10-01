@@ -8,6 +8,8 @@ from werkzeug.utils import secure_filename
 
 from app import db
 from app.models import CareerProfile, Resume, SkillGap
+from app.pipeline.adzuna_listings import get_live_listings
+from app.pipeline.career_path_registry import CAREER_PATHS
 from app.pipeline.resume_analyzer import analyze_resume, extract_text_from_pdf, get_required_skills
 from app.pipeline.resume_feedback import generate_resume_feedback
 from app.pipeline.salary_matching import get_salary_insights, format_salary_range_summary
@@ -173,3 +175,29 @@ def upload_resume():
         "salary_insights": salary_insights,
         "ats_score": ats,
     }), 201
+
+
+@resume_bp.route("/resume/listings", methods=["GET"])
+@login_required
+def get_listings():
+    """
+    Live Adzuna job listings for one career path - deliberately NOT part of
+    /resume/upload or /resume/latest's response (see adzuna_listings.py):
+    the frontend calls this on its own, after the rest of the analysis is
+    already rendered, so a slow/unavailable Adzuna call never delays or
+    risks the resume analysis itself.
+    """
+    career_path = request.args.get("career_path")
+    if not isinstance(career_path, str) or career_path not in CAREER_PATHS:
+        return jsonify({
+            "error": "invalid_career_path",
+            "message": "That isn't one of the available career paths. Choose one from the list.",
+            "options": list(CAREER_PATHS),
+        }), 400
+
+    result = get_live_listings(career_path)
+    return jsonify({
+        "career_path": career_path,
+        "listings": result["listings"],
+        "unavailable": result["unavailable"],
+    }), 200

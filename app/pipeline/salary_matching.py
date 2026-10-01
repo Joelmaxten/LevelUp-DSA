@@ -20,15 +20,22 @@ from app.pipeline.survey_queries import respondents_for_path
 USD_TO_INR_APPROX = 87.5
 
 
-def get_salary_insights(career_path, max_listings=5):
+def get_salary_insights(career_path):
     """
     Returns {
         "job_postings": {"count", "min", "max", "median", "currency": "INR"} or None,
         "survey_respondents": {"count", "min", "max", "median", "currency": "USD"} or None,
-        "sample_listings": [{"job_title", "location", "annual_salary"}] - up to max_listings
-            real job postings matching this career path, for "companies hiring" context.
     }
     Any section is None if there's no usable data for that career path.
+
+    min/max are still computed and returned (format_salary_range_summary no
+    longer uses them, but nothing stops a future caller from wanting them) -
+    only the resume page's own display dropped its Range row; see
+    results.js's salaryColumn. "Sample job postings" (a per-career-path
+    slice of the stored JobListing table) was removed entirely along with
+    its only reader (results.js's old "Sample job postings" block) - live
+    listings are now a separate, on-demand call (see adzuna_listings.py /
+    GET /resume/listings), not a field of this function's result.
     """
     job_listings = (
         JobListing.query
@@ -82,34 +89,28 @@ def get_salary_insights(career_path, max_listings=5):
             if k in ("min", "max", "median")
         }
 
-    sample_listings = [
-        {"job_title": j.job_title, "location": j.location, "annual_salary": j.annual_salary}
-        for j in job_listings[:max_listings]
-    ]
-
     return {
         "job_postings": job_posting_stats,
         "survey_respondents": survey_stats,
-        "sample_listings": sample_listings,
     }
 
 
 def format_salary_range_summary(insights):
     """
     Compresses get_salary_insights()'s result into a short string that
-    fits SkillGap.salary_range (db.String(80)). Falls back gracefully if
-    either or both sources have no data for this career path.
+    fits SkillGap.salary_range (db.String(80)) - medians only (matches the
+    resume page's own display, which dropped its Range row). Falls back
+    gracefully if either or both sources have no data for this career path.
     """
     parts = []
 
     jp = insights["job_postings"]
     if jp:
-        parts.append(f"Postings: Rs{jp['min']//1000}K-{jp['max']//1000}K/yr")
+        parts.append(f"Postings: Rs{jp['median']//1000}K/yr")
 
     sr = insights["survey_respondents"]
     if sr:
-        inr = sr["approx_inr"]
-        parts.append(f"Survey (approx): Rs{inr['min']//1000}K-{inr['max']//1000}K/yr")
+        parts.append(f"Survey (approx): Rs{sr['approx_inr']['median']//1000}K/yr")
 
     if not parts:
         return "No salary data available for this career path."

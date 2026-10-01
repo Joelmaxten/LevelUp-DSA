@@ -602,6 +602,9 @@ function atsRow(ats, level) {
     ));
 }
 
+// median-only now (see the salary-simplification task) - the backend still
+// computes/returns min/max (format_salary_range_summary and any future
+// consumer may still need them), this column just no longer shows a Range.
 function salaryColumn(title, note, stats, formatter) {
     const col = el("div", {}, el("h3", { className: "block-title", text: title }));
     if (!stats) {
@@ -613,7 +616,6 @@ function salaryColumn(title, note, stats, formatter) {
         el("p", { className: "figure-label", text: "Median per year" }),
         el("p", { className: "figure num", text: s.median }),
         el("dl", { className: "facts" },
-            el("dt", { text: "Range" }), el("dd", { text: `${s.min} to ${s.max}` }),
             el("dt", { text: "Based on" }), el("dd", { text: `${stats.count} ${stats.count === 1 ? "entry" : "entries"}` })
         ),
         el("p", { className: "note", text: note })
@@ -631,41 +633,72 @@ function salaryRow(insights, level) {
                 "Job postings in India",
                 "Real listings, skewing toward fresher and entry-level roles.",
                 insights.job_postings,
-                (st) => ({ median: formatInr(st.median), min: formatInr(st.min), max: formatInr(st.max) })
+                (st) => ({ median: formatInr(st.median) })
             ),
             salaryColumn(
                 "Developer survey, India",
-                "Self-reported by working developers, so usually higher. Converted from USD at an approximate rate; trust the median more than the extremes.",
+                "Self-reported by working developers, so usually higher. Converted from USD at an approximate rate.",
                 insights.survey_respondents,
-                (st) => ({
-                    median: `~${formatInr(st.approx_inr.median)}`,
-                    min: `~${formatInr(st.approx_inr.min)}`,
-                    max: `~${formatInr(st.approx_inr.max)}`,
-                })
+                (st) => ({ median: `~${formatInr(st.approx_inr.median)}` })
             )
         ),
     ];
 
-    if (insights.survey_respondents) {
-        const sr = insights.survey_respondents;
-        main.push(el("p", { className: "note survey-usd", text: `Survey figures in USD: median ${formatUsd(sr.median)}, range ${formatUsd(sr.min)} to ${formatUsd(sr.max)}.` }));
-    }
-
-    if (insights.sample_listings.length) {
-        main.push(el("div", { className: "block" },
-            el("h3", { className: "block-title", text: "Sample job postings" }),
-            el("ul", { className: "listings" }, ...insights.sample_listings.map((job) =>
-                el("li", { className: "listing" },
-                    el("span", {}, job.job_title, el("span", { className: "listing-where", text: job.location || "Location not listed" })),
-                    el("span", { className: "num", text: formatInr(job.annual_salary) })
-                )
-            ))
-        ));
-    }
-
     return row(
         [rowTitle("Salary expectations", level), el("p", { className: "note", text: "Per year, from two separate sources." })],
         main
+    );
+}
+
+// Self-fetching: starts in a loading state, then GETs /resume/listings for
+// targetCareerPath and fills itself in - independent of whatever rendered
+// the rest of the page, same self-contained pattern as careerPathPicker's
+// self-fetching mode. Always shows the Adzuna credit line underneath,
+// regardless of load/empty/unavailable/success state.
+function liveListingsRow(targetCareerPath, level) {
+    const body = el("div", {});
+
+    function renderListings(listings) {
+        body.replaceChildren(el("ul", { className: "listings" }, ...listings.map((job) => {
+            const whereText = [job.company, job.location].filter(Boolean).join(" · ");
+            const text = [
+                el("span", { className: "listing-title", text: job.title || "" }),
+                whereText ? el("span", { className: "listing-where", text: whereText }) : "",
+            ];
+            const content = isSafeUrl(job.url)
+                ? el("a", { className: "listing-link", href: job.url, target: "_blank", rel: "noopener noreferrer" },
+                    ...text, el("span", { className: "visually-hidden", text: "(opens in a new tab)" }))
+                : el("span", {}, ...text);
+
+            if (job.salary_estimate == null) {
+                return el("li", { className: "listing" }, content);
+            }
+            const figure = el("span", { className: "listing-salary" }, el("span", { className: "num", text: formatInr(job.salary_estimate) }));
+            if (job.salary_is_predicted) figure.append(el("span", { className: "tag", text: "estimated" }));
+            return el("li", { className: "listing" }, content, figure);
+        })));
+    }
+
+    body.append(working("Finding live listings..."));
+    getJson(`/resume/listings?career_path=${encodeURIComponent(targetCareerPath)}`).then((result) => {
+        if (!result.ok || result.data.unavailable) {
+            body.replaceChildren(el("p", { className: "note", text: "Live listings unavailable right now." }));
+            return;
+        }
+        if (!result.data.listings.length) {
+            body.replaceChildren(el("p", { className: "note", text: "No live listings found for this role." }));
+            return;
+        }
+        renderListings(result.data.listings);
+    });
+
+    return row(
+        [rowTitle("Live job listings", level), el("p", { className: "note", text: "Current openings for this career path." })],
+        [
+            body,
+            el("p", { className: "note credit" }, "Jobs by ",
+                el("a", { href: "https://www.adzuna.com", target: "_blank", rel: "noopener noreferrer", text: "Adzuna" })),
+        ]
     );
 }
 
@@ -727,6 +760,7 @@ function resumeAnalysisRows(data, level) {
         skillsRow(data, level),
         atsRow(data.ats_score, level),
         salaryRow(data.salary_insights, level),
+        liveListingsRow(data.target_career_path, level),
         ...feedbackRows(data.ai_feedback, level),
     ];
 }
