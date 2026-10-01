@@ -120,21 +120,16 @@ function renderUploadError(result) {
 }
 
 let uploadStarted = false;   // lets a slow "load my saved analysis" response know it must not overwrite a newer upload
-let lastPickedPath = "";     // remembered so a second upload in this visit doesn't start from an empty dropdown
 
-// The user has no quiz result, so the server wants a career path. Ask, then send the
-// same file again with the choice attached. The path is per-upload only; nothing is saved as a profile.
-function renderPathPicker(file, result) {
+// Always shown before upload now (not only on a career_path_required
+// signal), so the student explicitly picks a path - their top quiz match,
+// one of a tied/near-tied set, or any of the 15 - before analysis runs.
+// The path is per-upload only; nothing is saved as a profile.
+function renderPicker(file) {
     statusBox.replaceChildren(careerPathPicker({
-        options: result.data.options,
-        message: result.data.error === "invalid_career_path" ? result.data.message : undefined,
         lead: `For: ${file.name}`,
         submitText: "Analyze with this path",
-        preselected: lastPickedPath,
-        onSubmit: (path) => {
-            lastPickedPath = path;
-            upload(file, path);
-        },
+        onSubmit: (path) => upload(file, path),
     }));
 }
 
@@ -147,14 +142,16 @@ async function upload(file, targetCareerPath) {
 
     const body = new FormData();
     body.append("resume", file);
-    if (targetCareerPath) body.append("target_career_path", targetCareerPath);
+    body.append("target_career_path", targetCareerPath);
     const result = await postForm("/resume/upload", body);
 
     submitBtn.disabled = false;
 
     if (!result.ok) {
         if (isCareerPathSignal(result)) {
-            renderPathPicker(file, result);
+            // Defensive only - the picker already validates against the
+            // real path list, so the server shouldn't disagree in practice.
+            renderPicker(file);
         } else {
             renderUploadError(result);
         }
@@ -179,7 +176,7 @@ form.addEventListener("submit", (event) => {
     } else if (file.size > MAX_BYTES) {
         showFormError(`That file is ${(file.size / 1024 / 1024).toFixed(1)} MB. The limit is 5 MB.`);
     } else {
-        upload(file);
+        renderPicker(file);
     }
 });
 

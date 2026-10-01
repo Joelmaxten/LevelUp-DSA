@@ -25,6 +25,7 @@ const box = document.getElementById("roadmap-box");
 let roadmap = null;             // { roadmap_id, career_path, steps, created_at?, completed_steps, completed_count, total_steps }
 let videosState = "none";       // "none" | "pending" | "failed" | "done"
 let videosMessage = "";
+let roadmapsList = [];          // GET /roadmap/list's result - [{roadmap_id, career_path, created_at, completed_count, total_steps}]
 
 // Kept across re-renders (a fresh roadmap load, a generate, or re-attaching
 // resources all rebuild `roadmap`, but progress ticks are independent of
@@ -58,21 +59,47 @@ function errorMessage(result) {
     return (result.data && result.data.error) || "Something went wrong. Please try again.";
 }
 
-let lastPickedPath = "";   // remembered so a second generate in this visit doesn't start from an empty dropdown
+// Refreshes the cached roadmaps list (for the switcher and the "you
+// already have one" check) - always re-fetched rather than trusted stale,
+// since a generate() in this same visit can add to it.
+async function refreshRoadmapsList() {
+    const result = await getJson("/roadmap/list");
+    roadmapsList = result.ok ? result.data : [];
+}
 
-// The user has no quiz result, so the server wants a career path. Ask, then send the
-// same request again with the choice attached. The path is per-roadmap only; nothing is saved as a profile.
-function renderPathPicker(result) {
+// Shown up front, always - not only on a career_path_required signal - so
+// the student explicitly picks a path (their top quiz match, one of a
+// tied/near-tied set, or any of the 15) before anything is generated.
+function renderPicker() {
     box.replaceChildren(careerPathPicker({
-        options: result.data.options,
-        message: result.data.error === "invalid_career_path" ? result.data.message : undefined,
-        submitText: "Generate roadmap for this path",
-        preselected: lastPickedPath,
-        onSubmit: (path) => {
-            lastPickedPath = path;
-            generate(path);
-        },
+        submitText: "Continue",
+        onSubmit: handlePathChosen,
     }));
+}
+
+// After a path is chosen: if the student already has a roadmap for it,
+// offer to open that one instead of silently generating a duplicate;
+// otherwise go straight to generating.
+async function handlePathChosen(path) {
+    showLoading("Checking your existing roadmaps...");
+    await refreshRoadmapsList();
+    const existing = roadmapsList.find((r) => r.career_path === path);
+    if (existing) {
+        renderExistingPrompt(path, existing);
+    } else {
+        generate(path);
+    }
+}
+
+function renderExistingPrompt(path, existing) {
+    const openBtn = el("a", { className: "btn", href: `/roadmap?id=${existing.roadmap_id}`, text: "Open it" });
+    const newBtn = el("button", { className: "btn-quiet", type: "button", text: "Generate a new one anyway" });
+    newBtn.addEventListener("click", () => generate(path));
+
+    box.replaceChildren(row([], el("div", { className: "msg" },
+        el("p", { text: `You already have a roadmap for ${path} (${existing.completed_count} of ${existing.total_steps} steps done).` }),
+        el("div", { className: "actions" }, openBtn, newBtn)
+    )));
 }
 
 function renderError(result, retry) {
@@ -105,7 +132,7 @@ function renderError(result, retry) {
 
 function renderIdle(startedFresh) {
     const generateBtn = el("button", { className: "btn", type: "button", text: "Generate my roadmap" });
-    generateBtn.addEventListener("click", () => generate());   // not `generate`: the click event would arrive as its path argument
+    generateBtn.addEventListener("click", renderPicker);
 
     box.replaceChildren(row(
         startedFresh ? el("p", { className: "note", text: "Any roadmap you already have stays saved." }) : [],
@@ -117,8 +144,28 @@ function renderIdle(startedFresh) {
     ));
 }
 
+// "Your roadmaps": a plain link per roadmap (path, date, progress), the
+// current one highlighted instead of linked - shown only when there's
+// more than one, so a student with a single roadmap sees no extra chrome.
+function roadmapSwitcher(currentId) {
+    if (roadmapsList.length < 2) return "";
+    return row(
+        [el("p", { className: "note", text: "Your roadmaps" })],
+        el("ul", { className: "roadmap-switcher" }, ...roadmapsList.map((r) => {
+            const isCurrent = r.roadmap_id === currentId;
+            const pct = r.total_steps > 0 ? Math.round((r.completed_count / r.total_steps) * 100) : 0;
+            return el("li", { className: `roadmap-switcher-item${isCurrent ? " roadmap-switcher-current" : ""}` },
+                isCurrent
+                    ? el("span", { className: "mark", text: r.career_path })
+                    : el("a", { href: `/roadmap?id=${r.roadmap_id}`, text: r.career_path }),
+                el("span", { className: "note", text: `${formatDate(r.created_at)} · ${r.completed_count} of ${r.total_steps} steps · ${pct}%` })
+            );
+        }))
+    );
+}
+
 function renderRoadmap() {
-    const parts = [];
+    const parts = [roadmapSwitcher(roadmap.roadmap_id)];
 
     if (videosState === "failed") {
         const retryBtn = el("button", { className: "btn", type: "button", text: "Try adding videos again" });
@@ -142,12 +189,8 @@ function renderRoadmap() {
     }));
 
     if (videosState !== "pending") {
-        const regenBtn = el("button", { className: "btn-quiet", type: "button", text: "Generate a new roadmap" });
-        regenBtn.addEventListener("click", () => {
-            if (confirm("Generate a new roadmap? Your current one stays saved, and this takes up to a minute.")) {
-                generate();
-            }
-        });
+        const regenBtn = el("button", { className: "btn-quiet", type: "button", text: "Generate another roadmap" });
+        regenBtn.addEventListener("click", renderPicker);
         parts.push(row([], el("div", { className: "actions row-actions" },
             el("a", { className: "btn", href: "/resume", text: "Analyze my resume" }),
             el("a", { className: "btn-quiet", href: "/dsa", text: "Practice DSA on the skill map" }),
@@ -177,15 +220,19 @@ async function fetchVideos() {
     renderRoadmap();
 }
 
+// targetCareerPath is always sent now - the picker always runs before this
+// is ever called (see renderPicker/handlePathChosen), so there's no longer
+// a "no path chosen yet" case the way there was before this task.
 async function generate(targetCareerPath) {
     showLoading("Generating your roadmap. This can take up to a minute...");
 
-    const result = await postJson("/roadmap/generate", targetCareerPath ? { target_career_path: targetCareerPath } : undefined);
+    const result = await postJson("/roadmap/generate", { target_career_path: targetCareerPath });
     if (!result.ok) {
         if (isCareerPathSignal(result)) {
-            renderPathPicker(result);
+            // Defensive only - the picker already validates against the
+            // real path list, so the server shouldn't disagree in practice.
+            renderPicker();
         } else {
-            // Retry with the same path if one was chosen, so a transient 502 doesn't send them back to the dropdown.
             renderError(result, () => generate(targetCareerPath));
         }
         return;
@@ -193,17 +240,19 @@ async function generate(targetCareerPath) {
 
     roadmap = result.data;
     completed = new Set(roadmap.completed_steps || []);   // always [] for a just-generated roadmap
+    await refreshRoadmapsList();   // the new roadmap now belongs in the switcher/"already have one" check
     // Videos are a separate request on purpose (see the backend): a YouTube
     // failure must not cost the student the roadmap they just generated.
     await fetchVideos();
 }
 
-// On arrival: show the roadmap already saved for this user (their newest one),
-// or the "generate" prompt if they have none, unless they came specifically to make a new one.
-async function loadSaved() {
+// On arrival: the roadmap named by ?id=N, or (no id) the newest one, or the
+// "generate" prompt if there's none yet - unless the student came
+// specifically to make a new one (?new=1).
+async function loadRoadmap(roadmapId) {
     showLoading("Loading your roadmap...");
 
-    const result = await getJson("/roadmap/latest");
+    const result = await getJson(roadmapId ? `/roadmap/${roadmapId}` : "/roadmap/latest");
     if (result.ok) {
         roadmap = result.data;
         completed = new Set(roadmap.completed_steps || []);
@@ -217,14 +266,22 @@ async function loadSaved() {
     } else if (result.status === 404) {
         renderIdle(false);
     } else {
-        renderError(result, loadSaved);
+        renderError(result, () => loadRoadmap(roadmapId));
     }
 }
 
-if (new URLSearchParams(window.location.search).get("new") === "1") {
-    renderIdle(true);
-} else {
-    loadSaved();
+async function init() {
+    const params = new URLSearchParams(window.location.search);
+    showLoading("Loading your roadmap...");
+    await refreshRoadmapsList();
+    if (params.get("new") === "1") {
+        renderIdle(true);
+    } else {
+        const requestedId = params.get("id");
+        await loadRoadmap(requestedId ? Number(requestedId) : null);
+    }
 }
+
+init();
 </script>
 {% endblock %}

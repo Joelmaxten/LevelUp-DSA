@@ -40,6 +40,9 @@ def create_app(config_name=None):
     from app.routes.roadmap import roadmap_bp
     app.register_blueprint(roadmap_bp)
 
+    from app.routes.career_paths import career_paths_bp
+    app.register_blueprint(career_paths_bp)
+
     from app.routes.resume import resume_bp
     app.register_blueprint(resume_bp)
 

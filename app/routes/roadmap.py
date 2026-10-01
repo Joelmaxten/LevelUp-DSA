@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
 from sqlalchemy.exc import IntegrityError
@@ -8,6 +10,8 @@ from app.pipeline.rag import load_index
 from app.pipeline.roadmap_generator import generate_roadmap
 from app.pipeline.youtube_resources import fetch_resources_for_roadmap
 from app.routes._util import iso_utc, resolve_target_career_path
+
+MAX_ROADMAP_LIST = 20
 
 roadmap_bp = Blueprint("roadmap", __name__)
 
@@ -47,12 +51,30 @@ def step_indexes(steps):
     ]
 
 
+def _progress_counts(valid_indexes, ticked_indexes):
+    """
+    (completed_steps sorted list, completed_count, total_steps) from a
+    pre-computed set of ticked step indexes (already scoped to one
+    roadmap) and that roadmap's current valid indexes - the pure part of
+    roadmap_progress(), factored out so a caller that already fetched
+    RoadmapProgress rows itself (e.g. roadmaps_for_user()'s single grouped
+    query across several roadmaps) can reuse the counting logic without
+    triggering roadmap_progress()'s own per-roadmap query.
+    """
+    valid_set = set(valid_indexes)
+    completed = sorted(ticked_indexes & valid_set)
+    return completed, len(completed), len(valid_indexes)
+
+
 def roadmap_progress(user_id, roadmap_id, steps):
     """
     (completed_steps sorted list, completed_count, total_steps) for one
-    roadmap - the single counting helper shared by /roadmap/latest,
-    /roadmap/generate, the progress POST endpoint below, and the
-    dashboard's compact progress summary (routes/dashboard.py).
+    roadmap - queries RoadmapProgress itself (one query). Shared by
+    /roadmap/latest, /roadmap/<id>, /roadmap/generate, the progress POST
+    endpoint below, and the dashboard's compact progress summary
+    (routes/dashboard.py). roadmaps_for_user() below computes the same
+    thing for several roadmaps from one grouped query instead of calling
+    this once per roadmap - see _progress_counts().
 
     completed_steps only ever includes indexes that are still valid for
     this roadmap's CURRENT steps value (see step_indexes) - a step_index a
@@ -60,11 +82,23 @@ def roadmap_progress(user_id, roadmap_id, steps):
     longer corresponds to a real step, rather than inflating completed_count
     past total_steps.
     """
-    valid_indexes = step_indexes(steps)
-    valid_set = set(valid_indexes)
     rows = RoadmapProgress.query.filter_by(user_id=user_id, roadmap_id=roadmap_id).all()
-    completed = sorted({r.step_index for r in rows} & valid_set)
-    return completed, len(completed), len(valid_indexes)
+    return _progress_counts(step_indexes(steps), {r.step_index for r in rows})
+
+
+def _roadmap_dict(roadmap):
+    """The full single-roadmap response shape - shared by /roadmap/latest
+    and /roadmap/<id>, so the two can never drift apart."""
+    completed_steps, completed_count, total_steps = roadmap_progress(roadmap.user_id, roadmap.id, roadmap.steps)
+    return {
+        "roadmap_id": roadmap.id,
+        "career_path": roadmap.career_path,
+        "steps": roadmap.steps,
+        "created_at": iso_utc(roadmap.created_at),
+        "completed_steps": completed_steps,
+        "completed_count": completed_count,
+        "total_steps": total_steps,
+    }
 
 
 def latest_roadmap(user_id):
@@ -81,16 +115,49 @@ def latest_roadmap(user_id):
     )
     if roadmap is None:
         return None
-    completed_steps, completed_count, total_steps = roadmap_progress(user_id, roadmap.id, roadmap.steps)
-    return {
-        "roadmap_id": roadmap.id,
-        "career_path": roadmap.career_path,
-        "steps": roadmap.steps,
-        "created_at": iso_utc(roadmap.created_at),
-        "completed_steps": completed_steps,
-        "completed_count": completed_count,
-        "total_steps": total_steps,
-    }
+    return _roadmap_dict(roadmap)
+
+
+def roadmaps_for_user(user_id, limit):
+    """
+    The user's roadmaps, newest first, capped at `limit`:
+    [{roadmap_id, career_path, created_at, completed_count, total_steps}].
+    Progress for every returned roadmap comes from ONE grouped
+    RoadmapProgress query (not one query per roadmap) - rows are split by
+    roadmap_id in Python, then _progress_counts() (roadmap_progress()'s
+    own pure counting core) does the rest. Shared by /roadmap/list (its
+    own cap) and the dashboard's "roadmaps" summary (a smaller cap).
+    """
+    roadmaps = (
+        GeneratedRoadmap.query
+        .filter_by(user_id=user_id)
+        .order_by(GeneratedRoadmap.id.desc())
+        .limit(limit)
+        .all()
+    )
+    roadmap_ids = [r.id for r in roadmaps]
+
+    ticked_by_roadmap = defaultdict(set)
+    if roadmap_ids:
+        rows = (
+            RoadmapProgress.query
+            .filter(RoadmapProgress.user_id == user_id, RoadmapProgress.roadmap_id.in_(roadmap_ids))
+            .all()
+        )
+        for row in rows:
+            ticked_by_roadmap[row.roadmap_id].add(row.step_index)
+
+    result = []
+    for r in roadmaps:
+        _, completed_count, total_steps = _progress_counts(step_indexes(r.steps), ticked_by_roadmap[r.id])
+        result.append({
+            "roadmap_id": r.id,
+            "career_path": r.career_path,
+            "created_at": iso_utc(r.created_at),
+            "completed_count": completed_count,
+            "total_steps": total_steps,
+        })
+    return result
 
 
 @roadmap_bp.route("/roadmap/latest", methods=["GET"])
@@ -100,6 +167,21 @@ def get_latest():
     if roadmap is None:
         return jsonify({"error": "No roadmap generated yet."}), 404
     return jsonify(roadmap), 200
+
+
+@roadmap_bp.route("/roadmap/list", methods=["GET"])
+@login_required
+def list_roadmaps():
+    return jsonify(roadmaps_for_user(current_user.id, limit=MAX_ROADMAP_LIST)), 200
+
+
+@roadmap_bp.route("/roadmap/<int:roadmap_id>", methods=["GET"])
+@login_required
+def get_roadmap(roadmap_id):
+    roadmap = GeneratedRoadmap.query.filter_by(id=roadmap_id, user_id=current_user.id).first()
+    if roadmap is None:
+        return jsonify({"error": "Roadmap not found."}), 404
+    return jsonify(_roadmap_dict(roadmap)), 200
 
 
 @roadmap_bp.route("/roadmap/generate", methods=["POST"])
@@ -112,7 +194,7 @@ def generate():
         .first()
     )
 
-    top_career_path, error = resolve_target_career_path(profile)
+    top_career_path, error = resolve_target_career_path(profile, allow_override=True)
     if error:
         return error
 

@@ -17,7 +17,9 @@ from app.pipeline.conversation_data import (
 from app.routes._util import iso_utc
 from app.routes.dsa import dsa_progress
 from app.routes.resume import latest_resume_analysis
-from app.routes.roadmap import latest_roadmap
+from app.routes.roadmap import latest_roadmap, roadmaps_for_user
+
+MAX_DASHBOARD_ROADMAPS = 5
 
 dashboard_bp = Blueprint("dashboard", __name__)
 
@@ -103,6 +105,7 @@ def dashboard_data():
     return jsonify({
         "career_profile": latest_career_profile(current_user.id),
         "roadmap": _roadmap_for_dashboard(current_user.id),
+        "roadmaps": roadmaps_for_user(current_user.id, limit=MAX_DASHBOARD_ROADMAPS),
         "resume": latest_resume_analysis(current_user.id),
         "dsa": dsa_progress(current_user.id),
     }), 200

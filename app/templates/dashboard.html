@@ -103,6 +103,24 @@ function roadmapSection(roadmap) {
     return rows;
 }
 
+// A small read-only bar + link per roadmap the student has, newest first -
+// distinct from roadmapSection above (which only ever shows the single
+// newest one in full). [] (no section at all) when there are none yet.
+function roadmapsListSection(roadmaps) {
+    if (!roadmaps || !roadmaps.length) return [];
+    return [
+        sectionHead("roadmaps", "Your roadmaps", [], []),
+        row([], el("ul", { className: "roadmap-list" }, ...roadmaps.map((r) => {
+            const [bar, update] = makeProgressBar((done, total, pct) => `${done} of ${total} steps, ${pct}%`);
+            update(r.completed_count, r.total_steps);
+            return el("li", { className: "roadmap-list-item" },
+                el("a", { className: "roadmap-list-link", href: `/roadmap?id=${r.roadmap_id}` }, el("span", { className: "mark", text: r.career_path })),
+                bar
+            );
+        }))),
+    ];
+}
+
 function resumeSection(resume) {
     if (!resume) {
         // Works without a quiz result: the resume page asks for a career path in that case.
@@ -206,6 +224,7 @@ function render(data) {
         standingRow(data),
         ...careerSection(data.career_profile),
         ...roadmapSection(data.roadmap),
+        ...roadmapsListSection(data.roadmaps),
         ...resumeSection(data.resume),
         ...dsaSection(data.dsa)
     );

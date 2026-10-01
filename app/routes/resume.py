@@ -102,7 +102,7 @@ def upload_resume():
         .first()
     )
     # Resolved before the file is saved, so a rejected request leaves nothing on disk.
-    target_career_path, error = resolve_target_career_path(profile)
+    target_career_path, error = resolve_target_career_path(profile, allow_override=True)
     if error:
         return error
 
