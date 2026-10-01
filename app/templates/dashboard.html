@@ -92,7 +92,7 @@ function roadmapSection(roadmap) {
         sectionHead("roadmap", "Your roadmap", [roadmap.career_path, when ? `Generated ${when}` : ""], [
             el("a", { className: "btn-quiet", href: "/roadmap?new=1", text: "Generate a new roadmap" }),
         ]),
-        roadmapDashboardSummary(roadmap.steps),
+        roadmapDashboardSummary(roadmap.steps, roadmap.progress),
     ];
     if (!hasAllVideoResults(roadmap.steps)) {
         rows.push(row([], el("p", {},

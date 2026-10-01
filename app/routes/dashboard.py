@@ -77,12 +77,32 @@ def user_has_saved_work(user_id):
     )
 
 
+def _roadmap_for_dashboard(user_id):
+    """
+    latest_roadmap()'s dict, reshaped for the dashboard: its flat
+    completed_steps/completed_count/total_steps (added for /roadmap/latest's
+    own consumers) become a single nested "progress": {completed_count,
+    total_steps} - a compact summary is all the dashboard needs, and
+    completed_steps (which step indexes) is roadmap.html's concern, not
+    the dashboard's. Uses the same underlying counting (roadmap_progress())
+    that produced those flat keys, not a separate query. None stays None.
+    """
+    roadmap = latest_roadmap(user_id)
+    if roadmap is None:
+        return None
+    completed_count = roadmap.pop("completed_count")
+    total_steps = roadmap.pop("total_steps")
+    roadmap.pop("completed_steps", None)
+    roadmap["progress"] = {"completed_count": completed_count, "total_steps": total_steps}
+    return roadmap
+
+
 @dashboard_bp.route("/dashboard/data", methods=["GET"])
 @login_required
 def dashboard_data():
     return jsonify({
         "career_profile": latest_career_profile(current_user.id),
-        "roadmap": latest_roadmap(current_user.id),
+        "roadmap": _roadmap_for_dashboard(current_user.id),
         "resume": latest_resume_analysis(current_user.id),
         "dsa": dsa_progress(current_user.id),
     }), 200

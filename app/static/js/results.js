@@ -184,6 +184,89 @@ function moreTopicsDetails(moreTopics) {
     return details;
 }
 
+// Mirrors routes/roadmap.py's step_indexes(): phased shape -> each step's
+// global_step_index; flat shape -> each step's step_number. A step missing
+// that key falls back to its 1-based position across the WHOLE roadmap
+// (not per-phase) - same fallback rule, in the same iteration order, so a
+// checkbox's stepIndex always matches what POST /roadmap/<id>/progress
+// will validate server-side.
+function computeStepIndexes(steps) {
+    if (Array.isArray(steps)) {
+        return steps.map((step, i) => step.global_step_index ?? step.step_number ?? i + 1);
+    }
+    const flatSteps = steps.phases.flatMap((phase) => phase.steps);
+    return flatSteps.map((step, i) => step.global_step_index ?? step.step_number ?? i + 1);
+}
+
+// A tiny stateful progress bar: label + thin fill, rewritten in place by
+// update(done, total) rather than rebuilt by the caller each time - used
+// for the overall bar, each phase's compact bar, and the dashboard's
+// read-only summary bar. formatText(done, total, pct) returns the label.
+function makeProgressBar(formatText) {
+    const container = el("div", { className: "progress-bar-block" });
+    function update(done, total) {
+        const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+        const fill = el("span", { className: "progress-bar-fill" });
+        fill.style.width = `${pct}%`;
+        container.replaceChildren(
+            el("p", { className: "note progress-bar-label", text: formatText(done, total, pct) }),
+            el("div", { className: "progress-bar", role: "img", "aria-label": formatText(done, total, pct) }, fill)
+        );
+    }
+    return [container, update];
+}
+
+// Fills an already-rendered step's empty .step-check placeholder with a
+// real checkbox + visually-hidden label + inline error slot, and wires its
+// optimistic-update / revert-on-failure behavior. stepProgress:
+// {roadmapId, completed: Set, onToggle, stepIndex, refreshBars} - the
+// first three come straight from roadmapStepList's optional third
+// argument; stepIndex and refreshBars are computed per-step by
+// roadmapStepList itself (see there). liEl: this step's own <li>, so its
+// "step-done" class (muted title + check mark, via CSS) can be toggled
+// live, not just at initial render.
+function wireStepCheckbox(checkSlot, stepProgress, liEl) {
+    const { completed, onToggle, stepIndex, roadmapId } = stepProgress;
+    const checkboxId = `step-check-${roadmapId}-${stepIndex}`;
+    const checkbox = el("input", { type: "checkbox", id: checkboxId });
+    checkbox.checked = completed.has(stepIndex);
+    const label = el("label", { className: "visually-hidden", for: checkboxId, text: `Mark step ${stepIndex} done` });
+    const error = el("p", { className: "step-check-error", role: "alert" });
+    error.hidden = true;
+
+    let inFlight = false;
+    checkbox.addEventListener("change", async () => {
+        if (inFlight) return;
+        inFlight = true;
+        checkbox.disabled = true;
+        error.hidden = true;
+
+        const newDone = checkbox.checked;
+        if (newDone) completed.add(stepIndex); else completed.delete(stepIndex);
+        liEl.classList.toggle("step-done", newDone);
+        stepProgress.refreshBars();
+
+        const ok = await onToggle(stepIndex, newDone);
+
+        checkbox.disabled = false;
+        inFlight = false;
+
+        if (!ok) {
+            checkbox.checked = !newDone;
+            if (!newDone) completed.add(stepIndex); else completed.delete(stepIndex);
+            error.textContent = "Couldn't save. Try again.";
+            error.hidden = false;
+        }
+        // completed may have been resynced from the server's authoritative
+        // response inside onToggle (on success) - reflect whatever it now
+        // says, not just the optimistic guess.
+        liEl.classList.toggle("step-done", completed.has(stepIndex));
+        stepProgress.refreshBars();
+    });
+
+    checkSlot.append(checkbox, label, error);
+}
+
 // videosPending: a "Finding videos" placeholder is shown for steps that don't have a
 // video result yet (only ever true for the CURRENT shape - see fetchVideos in
 // roadmap.html; an old flat roadmap loaded from /roadmap/latest is never "pending").
@@ -193,6 +276,12 @@ function moreTopicsDetails(moreTopics) {
 // displayIndex: this step's position within whatever list is currently being built -
 // only used as the step-num fallback for an older roadmap that predates
 // global_step_index.
+// stepProgress: optional {roadmapId, completed, onToggle, stepIndex, refreshBars} -
+// see roadmapStepList, which builds this per-step and is the only caller that
+// ever passes it. Absent (undefined) entirely when the caller (dashboard,
+// or roadmap.html before progress data is ready) didn't ask for progress
+// tracking - the step then renders exactly as it did before this task,
+// .step-check staying an empty placeholder.
 // The step number sits on the margin rule, which is what turns the rule into a route.
 //
 // Renders only the fields a step actually has: an old flat-roadmap step (just
@@ -200,11 +289,14 @@ function moreTopicsDetails(moreTopics) {
 // before this task; subtopics/projects/resources/more_topics simply don't
 // appear when absent, and "videos" (new, up to 4 links) is preferred over the
 // legacy single "resource" link when both would otherwise apply.
-function roadmapStep(step, displayIndex, videosPending, isFirstOverall) {
+function roadmapStep(step, displayIndex, videosPending, isFirstOverall, stepProgress) {
     const text = el("div", { className: "step-text" });
     if (isFirstOverall) text.append(el("p", { className: "start-here" }, el("span", { className: "mark", text: "Start here" })));
     text.append(
-        el("h3", { className: "step-title", text: step.title || `Step ${displayIndex + 1}` }),
+        el("h3", { className: "step-title" },
+            el("span", { className: "step-done-mark", "aria-hidden": "true" }, icon("tick")),
+            el("span", { text: step.title || `Step ${displayIndex + 1}` })
+        ),
         el("p", { className: "step-desc", text: step.description || "" }),
         subtopicChips(step.subtopics),
         projectsBlock(step.projects)
@@ -240,11 +332,17 @@ function roadmapStep(step, displayIndex, videosPending, isFirstOverall) {
 
     const grid = el("div", { className: "step-grid" }, text, aside);
 
-    return el("li", { className: `row step${isFirstOverall ? " step-first" : ""}` },
+    const initialDone = stepProgress ? stepProgress.completed.has(stepProgress.stepIndex) : false;
+    const checkSlot = el("div", { className: "step-check" });
+    const li = el("li", { className: `row step${isFirstOverall ? " step-first" : ""}${initialDone ? " step-done" : ""}` },
         el("span", { className: "step-num num", text: String(step.global_step_index ?? step.step_number ?? displayIndex + 1), "aria-hidden": "true" }),
-        el("div", { className: "margin" }, el("div", { className: "step-check" })),
+        el("div", { className: "margin" }, checkSlot),
         el("div", { className: "main" }, grid)
     );
+
+    if (stepProgress) wireStepCheckbox(checkSlot, stepProgress, li);
+
+    return li;
 }
 
 // A phase's own heading row, styled like the rest of the page's section breaks
@@ -269,23 +367,70 @@ function phaseHeaderRow(phase) {
 // node (a plain <ol class="route"> for the flat case - unchanged from before this
 // task - or a sequence of collapsible <details class="phase"> for the phased case),
 // since callers push this straight into a flat list of parts.
-function roadmapStepList(steps, videosPending) {
+//
+// progress: OPTIONAL {roadmapId, completed: Set, onToggle}. Omitted (as
+// every caller except roadmap.html does), behavior is byte-for-byte what
+// it was before this task - no checkboxes, no progress bars, .step-check
+// and .phase-progress stay the empty placeholders they've been since the
+// step-display task. Given, every step gets a live checkbox
+// (wireStepCheckbox), each phase's .phase-progress gets a live "N of M"
+// bar, and an overall bar is shown above the roadmap (flat roadmaps only
+// get the overall bar, per computeStepIndexes/step_indexes using
+// step_number for that shape - there are no phases to show a per-phase
+// bar for).
+function roadmapStepList(steps, videosPending, progress) {
+    const indexes = computeStepIndexes(steps);
+
+    let overallBar = "";
+    let refreshOverall = () => {};
+    if (progress) {
+        const [container, update] = makeProgressBar((done, total, pct) => `${done} of ${total} steps, ${pct}%`);
+        overallBar = container;
+        refreshOverall = () => update(indexes.filter((idx) => progress.completed.has(idx)).length, indexes.length);
+    }
+
     if (Array.isArray(steps)) {
-        return el("ol", { className: "route" }, ...steps.map((step, i) => roadmapStep(step, i, videosPending, i === 0)));
+        const list = el("ol", { className: "route" }, ...steps.map((step, i) => {
+            const stepProgress = progress ? { ...progress, stepIndex: indexes[i], refreshBars: refreshOverall } : null;
+            return roadmapStep(step, i, videosPending, i === 0, stepProgress);
+        }));
+        if (progress) {
+            refreshOverall();
+            return el("div", { className: "flat-progress-wrap" }, overallBar, list);
+        }
+        return list;
     }
 
     const phaseEls = [];
     let seenAny = false;
+    let cursor = 0;
     steps.phases.forEach((phase, phaseIndex) => {
+        const phaseIndexes = phase.steps.map(() => indexes[cursor++]);
+
+        const summary = phaseHeaderRow(phase);
+        let refreshPhase = () => {};
+        if (progress) {
+            const bar = summary.querySelector(".phase-progress");
+            const [barContainer, update] = makeProgressBar((done, total) => `${done} of ${total}`);
+            bar.append(barContainer);
+            refreshPhase = () => update(phaseIndexes.filter((idx) => progress.completed.has(idx)).length, phaseIndexes.length);
+            refreshPhase();
+        }
+        const refreshBars = () => { refreshPhase(); refreshOverall(); };
+
         const stepList = el("ol", { className: "route" }, ...phase.steps.map((step, i) => {
             const isFirstOverall = !seenAny;
             seenAny = true;
-            return roadmapStep(step, i, videosPending, isFirstOverall);
+            const stepProgress = progress ? { ...progress, stepIndex: phaseIndexes[i], refreshBars } : null;
+            return roadmapStep(step, i, videosPending, isFirstOverall, stepProgress);
         }));
-        const details = el("details", { className: "phase" }, phaseHeaderRow(phase), stepList);
+
+        const details = el("details", { className: "phase" }, summary, stepList);
         details.open = phaseIndex === 0;   // first phase open, rest closed
         phaseEls.push(details);
     });
+
+    if (progress) refreshOverall();
 
     const expandBtn = el("button", { className: "btn-quiet", type: "button", text: "Expand all" });
     const collapseBtn = el("button", { className: "btn-quiet", type: "button", text: "Collapse all" });
@@ -293,6 +438,7 @@ function roadmapStepList(steps, videosPending) {
     collapseBtn.addEventListener("click", () => phaseEls.forEach((d) => { d.open = false; }));
 
     return el("div", { className: "phases-detail" },
+        progress ? overallBar : "",
         el("div", { className: "actions phase-controls" }, expandBtn, collapseBtn),
         ...phaseEls
     );
@@ -302,11 +448,27 @@ function roadmapStepList(steps, videosPending) {
 // several other sections) - phase titles and step counts only, no step-by-step detail,
 // since a phased roadmap can run to 20+ steps where the old flat one topped out at 12.
 // An older flat-shape roadmap is short enough to just show in full via roadmapStepList.
-function roadmapDashboardSummary(steps) {
-    if (Array.isArray(steps)) return roadmapStepList(steps, false);
+//
+// dashboardProgress: OPTIONAL {completed_count, total_steps} (the
+// dashboard's own compact shape - NOT the same shape as roadmapStepList's
+// "progress", which needs a live completed Set + onToggle for its
+// checkboxes). Shows a small READ-ONLY bar when present; nothing when
+// absent (an old dashboard payload, or a roadmap somehow missing it).
+function roadmapDashboardSummary(steps, dashboardProgress) {
+    const bar = (() => {
+        if (!dashboardProgress) return "";
+        const [container, update] = makeProgressBar((done, total, pct) => `${done} of ${total} steps, ${pct}%`);
+        update(dashboardProgress.completed_count, dashboardProgress.total_steps);
+        return container;
+    })();
+
+    if (Array.isArray(steps)) {
+        return el("div", { className: "block" }, bar, roadmapStepList(steps, false));
+    }
 
     const totalSteps = steps.phases.reduce((n, phase) => n + phase.steps.length, 0);
     return el("div", { className: "block" },
+        bar,
         el("p", { className: "note", text: `${steps.phases.length} phases, ${totalSteps} steps in total` }),
         el("ul", { className: "dots" }, ...steps.phases.map((phase) =>
             el("li", { text: `${phase.title} — ${phase.steps.length} step${phase.steps.length === 1 ? "" : "s"}` })

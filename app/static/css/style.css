@@ -910,9 +910,38 @@ h4 { font-weight: 700; font-size: 1.0625rem; }
 .phase[open] > .phase-summary::before { transform: rotate(90deg); }
 .phase-controls { display: flex; gap: 1.5rem; margin-bottom: 1.5rem; }
 
-/* .step-check and .phase-progress are stable, empty hooks for a later
-   task (per-step checkbox, per-phase/overall progress bar) - no styling
-   or behavior here yet on purpose. */
+/* Per-step checkbox, in the margin column (left of/above the step-num
+   circle depending on breakpoint - the circle is absolutely positioned,
+   so normal-flow content here doesn't collide with it). */
+.step-check { margin-top: 1.3rem; }
+.step:first-child .step-check { margin-top: 3.75rem; }
+.step-check input[type="checkbox"] {
+    width: 1.4rem;
+    height: 1.4rem;
+    accent-color: var(--ink);
+    cursor: pointer;
+}
+.step-check input:disabled { cursor: wait; opacity: 0.6; }
+.step-check-error { margin-top: 0.4rem; color: var(--red); font-size: 0.8125rem; max-width: 12rem; }
+@media (max-width: 47.99rem) {
+    .step-check { margin-top: 0; margin-bottom: 0.5rem; }
+    .step:first-child .step-check { margin-top: 0; }
+}
+
+/* A done step: light but clear treatment - a check mark and a muted
+   title - nothing collapses or is removed from view. */
+.step-done-mark { display: none; margin-right: 0.4rem; color: var(--ink); vertical-align: -0.1em; }
+.step-done .step-done-mark { display: inline-flex; }
+.step-done .step-title { color: var(--pencil); }
+
+/* Progress bars: the overall one above the roadmap, a compact one in each
+   phase header's .phase-progress, and a read-only one on the dashboard -
+   same thin-bar idea as .scale (ATS score) but without ticks. */
+.progress-bar-block { margin-bottom: 1.25rem; }
+.phase-progress .progress-bar-block { margin: 0.4rem 0 0; }
+.progress-bar-label { margin-bottom: 0.3rem; }
+.progress-bar { position: relative; height: 6px; background: var(--rule); max-width: 20rem; }
+.progress-bar-fill { display: block; height: 100%; background: var(--ink); }
 
 /* The ask-for-a-path row: the question on the left, the control on the right. */
 .ask-grid .field { margin: 1.75rem 0 0; }

@@ -1,8 +1,9 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
+from sqlalchemy.exc import IntegrityError
 
 from app import db
-from app.models import CareerProfile, GeneratedRoadmap
+from app.models import CareerProfile, GeneratedRoadmap, RoadmapProgress
 from app.pipeline.rag import load_index
 from app.pipeline.roadmap_generator import generate_roadmap
 from app.pipeline.youtube_resources import fetch_resources_for_roadmap
@@ -25,6 +26,47 @@ def _get_index():
     return _index_cache, _chunks_cache
 
 
+def step_indexes(steps):
+    """
+    The ordered list of valid step indexes for a roadmap's "steps" value -
+    phased shape: each step's global_step_index; old flat shape: each
+    step's step_number. A step missing that key falls back to its 1-based
+    position across the WHOLE roadmap (not per-phase), so every step still
+    gets a usable index rather than None ending up in the list.
+    """
+    if isinstance(steps, list):
+        flat_steps = steps
+        key = "step_number"
+    else:
+        flat_steps = [step for phase in steps["phases"] for step in phase["steps"]]
+        key = "global_step_index"
+
+    return [
+        step[key] if step.get(key) is not None else i + 1
+        for i, step in enumerate(flat_steps)
+    ]
+
+
+def roadmap_progress(user_id, roadmap_id, steps):
+    """
+    (completed_steps sorted list, completed_count, total_steps) for one
+    roadmap - the single counting helper shared by /roadmap/latest,
+    /roadmap/generate, the progress POST endpoint below, and the
+    dashboard's compact progress summary (routes/dashboard.py).
+
+    completed_steps only ever includes indexes that are still valid for
+    this roadmap's CURRENT steps value (see step_indexes) - a step_index a
+    student ticked before is silently excluded from the count if it no
+    longer corresponds to a real step, rather than inflating completed_count
+    past total_steps.
+    """
+    valid_indexes = step_indexes(steps)
+    valid_set = set(valid_indexes)
+    rows = RoadmapProgress.query.filter_by(user_id=user_id, roadmap_id=roadmap_id).all()
+    completed = sorted({r.step_index for r in rows} & valid_set)
+    return completed, len(completed), len(valid_indexes)
+
+
 def latest_roadmap(user_id):
     """
     The user's most recently generated roadmap as a plain dict, or None. Older
@@ -39,11 +81,15 @@ def latest_roadmap(user_id):
     )
     if roadmap is None:
         return None
+    completed_steps, completed_count, total_steps = roadmap_progress(user_id, roadmap.id, roadmap.steps)
     return {
         "roadmap_id": roadmap.id,
         "career_path": roadmap.career_path,
         "steps": roadmap.steps,
         "created_at": iso_utc(roadmap.created_at),
+        "completed_steps": completed_steps,
+        "completed_count": completed_count,
+        "total_steps": total_steps,
     }
 
 
@@ -110,6 +156,9 @@ def generate():
         "roadmap_id": roadmap.id,
         "career_path": top_career_path,
         "steps": steps,
+        "completed_steps": [],
+        "completed_count": 0,
+        "total_steps": len(step_indexes(steps)),
     }), 201
 
 
@@ -148,4 +197,69 @@ def attach_resources(roadmap_id):
         "roadmap_id": roadmap.id,
         "career_path": roadmap.career_path,
         "steps": roadmap.steps,
+    }), 200
+
+
+@roadmap_bp.route("/roadmap/<int:roadmap_id>/progress", methods=["POST"])
+@login_required
+def update_progress(roadmap_id):
+    """
+    Body: {"step_index": int, "done": bool}. done=true marks that step
+    complete (inserts a RoadmapProgress row if one doesn't already exist);
+    done=false marks it incomplete (deletes the row if present). Both are
+    idempotent - repeating either call is a no-op the second time, not an
+    error.
+
+    The unique constraint on (user_id, roadmap_id, step_index) is the real
+    guard against a duplicate row, not the "insert only if missing" check
+    above - two concurrent done=true requests for the same step could both
+    pass that check before either commits. A resulting IntegrityError means
+    someone else's identical insert already won the race, which is exactly
+    the state this request wanted anyway, so it's treated as success, not
+    an error.
+    """
+    roadmap = GeneratedRoadmap.query.filter_by(id=roadmap_id, user_id=current_user.id).first()
+    if roadmap is None:
+        return jsonify({"error": "Roadmap not found."}), 404
+
+    data = request.get_json(silent=True)
+    if not isinstance(data, dict):
+        return jsonify({"error": "step_index and done are required."}), 400
+
+    step_index = data.get("step_index")
+    done = data.get("done")
+
+    # bool is a subclass of int in Python - excluded explicitly so
+    # {"step_index": true, ...} isn't silently accepted as step_index 1.
+    if not isinstance(step_index, int) or isinstance(step_index, bool):
+        return jsonify({"error": "step_index must be an integer."}), 400
+    if not isinstance(done, bool):
+        return jsonify({"error": "done must be true or false."}), 400
+
+    valid_indexes = step_indexes(roadmap.steps)
+    if step_index not in valid_indexes:
+        return jsonify({"error": "That step doesn't exist on this roadmap."}), 400
+
+    if done:
+        existing = RoadmapProgress.query.filter_by(
+            user_id=current_user.id, roadmap_id=roadmap_id, step_index=step_index
+        ).first()
+        if existing is None:
+            db.session.add(RoadmapProgress(user_id=current_user.id, roadmap_id=roadmap_id, step_index=step_index))
+            try:
+                db.session.commit()
+            except IntegrityError:
+                db.session.rollback()
+    else:
+        RoadmapProgress.query.filter_by(
+            user_id=current_user.id, roadmap_id=roadmap_id, step_index=step_index
+        ).delete()
+        db.session.commit()
+
+    completed_steps, completed_count, total_steps = roadmap_progress(current_user.id, roadmap_id, roadmap.steps)
+    return jsonify({
+        "roadmap_id": roadmap_id,
+        "completed_steps": completed_steps,
+        "completed_count": completed_count,
+        "total_steps": total_steps,
     }), 200

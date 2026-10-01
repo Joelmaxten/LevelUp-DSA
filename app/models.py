@@ -277,6 +277,34 @@ class GeneratedRoadmap(db.Model):
     def __repr__(self):
         return f"<GeneratedRoadmap user={self.user_id} path={self.career_path}>"
 
+class RoadmapProgress(db.Model):
+    """
+    Per-step completion state for a generated roadmap - one row per
+    COMPLETED step; a step the student hasn't ticked has no row at all
+    (not a row with completed=False), so "is this step done" is simply
+    "does a row exist". step_index means whatever
+    routes/roadmap.py's step_indexes() computed for that roadmap's shape
+    at tick time (a phased roadmap's global_step_index, or an old flat
+    roadmap's step_number) - this table doesn't care which shape produced
+    it, only that it's stable for that one roadmap_id.
+    """
+    __tablename__ = "roadmap_progress"
+    __table_args__ = (
+        db.UniqueConstraint("user_id", "roadmap_id", "step_index", name="uq_progress_user_roadmap_step"),
+    )
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    roadmap_id = db.Column(db.Integer, db.ForeignKey("generated_roadmaps.id"), nullable=False)
+    step_index = db.Column(db.Integer, nullable=False)
+    completed_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    user = db.relationship("User", backref="roadmap_progress")
+    roadmap = db.relationship("GeneratedRoadmap", backref="progress_rows")
+
+    def __repr__(self):
+        return f"<RoadmapProgress user={self.user_id} roadmap={self.roadmap_id} step={self.step_index}>"
+
 class JobListing(db.Model):
     __tablename__ = "job_listings"
 

@@ -22,9 +22,32 @@
 <script>
 const box = document.getElementById("roadmap-box");
 
-let roadmap = null;             // { roadmap_id, career_path, steps, created_at? }
+let roadmap = null;             // { roadmap_id, career_path, steps, created_at?, completed_steps, completed_count, total_steps }
 let videosState = "none";       // "none" | "pending" | "failed" | "done"
 let videosMessage = "";
+
+// Kept across re-renders (a fresh roadmap load, a generate, or re-attaching
+// resources all rebuild `roadmap`, but progress ticks are independent of
+// all three) - the SAME Set object is passed into roadmapStepList every
+// render, and toggleStep mutates it in place, so nothing needs to "carry
+// it forward" beyond just not reassigning it except when a genuinely new
+// or freshly-loaded roadmap tells us what its real completed_steps are.
+let completed = new Set();
+
+// POSTs one step's done state; returns true/false (never throws - a
+// failure here just means the checkbox's own change handler reverts the
+// optimistic UI). On success, resyncs `completed` (and roadmap's own
+// count fields) from the response's authoritative completed_steps, not
+// just the optimistic guess the checkbox already applied.
+async function toggleStep(stepIndex, done) {
+    const result = await postJson(`/roadmap/${roadmap.roadmap_id}/progress`, { step_index: stepIndex, done });
+    if (!result.ok) return false;
+    completed.clear();
+    result.data.completed_steps.forEach((i) => completed.add(i));
+    roadmap.completed_count = result.data.completed_count;
+    roadmap.total_steps = result.data.total_steps;
+    return true;
+}
 
 function showLoading(message) {
     box.replaceChildren(row([], working(message)));
@@ -88,7 +111,7 @@ function renderIdle(startedFresh) {
         startedFresh ? el("p", { className: "note", text: "Any roadmap you already have stays saved." }) : [],
         [
             el("h2", { className: "phase-title", text: "Ready to build your roadmap?" }),
-            el("p", { className: "ask-text", text: "We'll write 8 to 12 steps for your top career match (or a career path you choose), tailored to your answers if you've taken the quiz. Then we find videos for each step. This can take up to a minute." }),
+            el("p", { className: "ask-text", text: "We'll write a full route from the basics to job-ready for your top career match (or a career path you choose), tailored to your answers if you've taken the quiz. Then we find videos for each step. This can take up to a minute." }),
             el("div", { className: "actions" }, generateBtn)
         ]
     ));
@@ -112,7 +135,11 @@ function renderRoadmap() {
         [el("p", { className: "note", text: "Built for" }), when ? el("p", { className: "note", text: `Generated ${when}` }) : ""],
         el("h2", { className: "path-name" }, el("span", { className: "mark", text: roadmap.career_path }))
     ));
-    parts.push(roadmapStepList(roadmap.steps, videosState === "pending"));
+    parts.push(roadmapStepList(roadmap.steps, videosState === "pending", {
+        roadmapId: roadmap.roadmap_id,
+        completed,
+        onToggle: toggleStep,
+    }));
 
     if (videosState !== "pending") {
         const regenBtn = el("button", { className: "btn-quiet", type: "button", text: "Generate a new roadmap" });
@@ -165,6 +192,7 @@ async function generate(targetCareerPath) {
     }
 
     roadmap = result.data;
+    completed = new Set(roadmap.completed_steps || []);   // always [] for a just-generated roadmap
     // Videos are a separate request on purpose (see the backend): a YouTube
     // failure must not cost the student the roadmap they just generated.
     await fetchVideos();
@@ -178,6 +206,7 @@ async function loadSaved() {
     const result = await getJson("/roadmap/latest");
     if (result.ok) {
         roadmap = result.data;
+        completed = new Set(roadmap.completed_steps || []);
         if (hasAllVideoResults(roadmap.steps)) {
             videosState = "done";
         } else {
