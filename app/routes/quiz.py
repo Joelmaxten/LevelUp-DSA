@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request, session
 from flask_login import login_required
 
 from app.pipeline.career_quiz_engine import (
+    MAX_QUESTIONS, MIN_QUESTIONS,
     new_session, apply_answer, next_question, should_stop, get_results, rewind_last_answer, tied_top,
 )
 from app.pipeline.career_quiz_data import QUESTIONS
@@ -19,6 +20,8 @@ def start_quiz():
     return jsonify({
         "question_id": q_id,
         "question": QUESTIONS[q_id],
+        "min_questions": MIN_QUESTIONS,
+        "max_questions": MAX_QUESTIONS,
     }), 200
 
 

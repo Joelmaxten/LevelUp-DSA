@@ -51,13 +51,33 @@ function meritList(ranking) {
     }));
 }
 
-function rankingRows(ranking, level) {
+// Several paths that share the top score, shown together instead of one arbitrary winner.
+function tiedTopBlock(tiedPaths, ranking) {
+    const byPath = new Map(ranking.map((r) => [r.career_path, r]));
+    return el("div", { className: "top-match top-match-tied" },
+        el("ul", { className: "tied-list" }, ...tiedPaths.map((path) =>
+            el("li", { className: "top-match-name" }, el("span", { className: "mark", text: path }))
+        )),
+        el("p", { className: "note", text: `${byPath.get(tiedPaths[0]).confidence_pct}% of your answers pointed to each of them.` })
+    );
+}
+
+// tiedTop (optional): the quiz's list of paths that share the top score. With more than one, the
+// top is shown as "Your top matches"; without it (or with one path) the page is exactly as before.
+function rankingRows(ranking, level, tiedTop) {
     const l = level || 2;
+    const tied = Array.isArray(tiedTop) && tiedTop.length > 1;
     return [
         row(
             [rowTitle("Your career results", l), el("p", { className: "note", text: "The share of your answers that pointed to each path." })],
             el("div", { className: "split split-even-ish" },
-                el("div", {},
+                tied
+                ? el("div", {},
+                    el("p", { className: "note", text: "Your top matches" }),
+                    tiedTopBlock(tiedTop, ranking),
+                    el("p", { className: "top-match-next", text: "These paths scored the same on your answers. You will choose between them when you build your roadmap." })
+                )
+                : el("div", {},
                     el("p", { className: "note", text: "Your top match" }),
                     topMatchBlock(ranking[0]),
                     el("p", { className: "top-match-next", text: "Your roadmap is built around this path." })

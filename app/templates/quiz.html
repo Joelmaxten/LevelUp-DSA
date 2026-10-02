@@ -10,8 +10,8 @@
             <h1 class="page-title" id="quiz-heading">Career quiz</h1>
             <p class="lead" id="quiz-intro">
                 Pick the answer that sounds most like you. There are no right or wrong answers,
-                and you can't fail this. It takes between 8 and 12 questions, and every one needs an answer.
-                You can go back with Previous to change an earlier answer.
+                and you can't fail this. Every question needs an answer, and you can go back with Previous
+                to change an earlier answer.
             </p>
         </div>
     </header>
@@ -28,6 +28,7 @@
 const questionBox = document.getElementById("quiz-question-box");
 const resultsBox = document.getElementById("quiz-results-box");
 const heading = document.getElementById("quiz-heading");
+let quizLength = null;   // { min, max } as reported by /quiz/start, so the page never hard-codes how long the quiz is
 const intro = document.getElementById("quiz-intro");
 
 // The questions on the way to the current one, in order: { id, question }. The last is the one on screen.
@@ -87,7 +88,7 @@ function showQuestion() {
     questionBox.replaceChildren(row(
         [
             el("p", { className: "row-title", text: `Question ${number}` }),
-            el("p", { className: "note", text: "The quiz takes 8 to 12 questions." }),
+            el("p", { className: "note", text: quizLength ? `The quiz takes ${quizLength.min} to ${quizLength.max} questions.` : "" }),
             el("p", { className: "note", text: "Every question needs an answer." }),
         ],
         el("div", { className: "qa" },
@@ -108,7 +109,7 @@ async function goNext(id, value) {
 
     moved = true;
     if (result.data.finished) {
-        renderResults(result.data.results);
+        renderResults(result.data.results, result.data.tied_top);
         return;
     }
     path.push({ id: result.data.question_id, question: result.data.question });
@@ -132,13 +133,13 @@ async function goBack(id, value) {
     showQuestion();
 }
 
-function renderResults(results) {
+function renderResults(results, tiedTop) {
     heading.textContent = "Your career results";
-    intro.textContent = "Here's how your answers rank the ten career paths. Next, a few questions about your goals help us tailor your roadmap.";
+    intro.textContent = `Here's how your answers rank the ${results.length} career paths. Next, a few questions about your goals help us tailor your roadmap.`;
     questionBox.hidden = true;
 
     resultsBox.replaceChildren(
-        ...rankingRows(results, 2),
+        ...rankingRows(results, 2, tiedTop),
         row([], el("div", { className: "actions row-actions" },
             el("a", { className: "btn", href: "/conversation", text: "Continue to your goals" }),
             el("a", { className: "btn-quiet", href: "/quiz", text: "Retake the quiz" })
@@ -160,6 +161,7 @@ async function startQuiz() {
         renderError(result, startQuiz);
         return;
     }
+    quizLength = { min: result.data.min_questions, max: result.data.max_questions };
     path.push({ id: result.data.question_id, question: result.data.question });
     showQuestion();
 }

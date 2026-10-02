@@ -1086,6 +1086,8 @@ h4 { font-weight: 700; font-size: 1.0625rem; }
 .fit-row .fit-card { max-width: 40rem; }
 .fit-tie .tie-group { gap: 1.5rem; }
 .fit-limits { max-width: 46rem; }
+.tied-list { list-style: none; margin: 0; padding: 0; }
+.tied-list li + li { margin-top: 0.5rem; }
 .fit-other > summary { cursor: pointer; font-weight: 700; padding: 0.4rem 0; }
 .fit-other > summary:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 .fit-other .fit-card { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
