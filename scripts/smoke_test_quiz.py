@@ -174,6 +174,21 @@ def invariant_checks():
     check("results do not depend on the order of the scores dict (explicit alphabetical tie order)", engine.get_results(flipped) == results)
     check("session state is JSON-safe", json.loads(json.dumps(session)) == session)
 
+    # Consumers of the ranking keep working: profile_builder, path_matches and the picker read these fields.
+    from app.pipeline.path_matches import top_matches
+    from app.pipeline.profile_builder import build_profile
+    profile = build_profile(session["scores"], {})
+    check("profile_builder still produces career_ranking entries with exactly career_path, score, confidence_pct",
+          all(set(r) == {"career_path", "score", "confidence_pct"} for r in profile["career_ranking"]))
+    check("the quiz's results and the profile ranking agree on every path's score and confidence",
+          {r["career_path"]: (r["score"], r["confidence_pct"]) for r in results}
+          == {r["career_path"]: (r["score"], r["confidence_pct"]) for r in profile["career_ranking"]})
+    def within_margin(ranking):
+        matches = top_matches(ranking)
+        return bool(matches) and all(ranking[0]["score"] - m["score"] <= 1 for m in matches)
+    check("path_matches.top_matches (the picker's source) works on both the quiz results and the profile ranking",
+          within_margin(results) and within_margin(profile["career_ranking"]))
+
 
 def main():
     argv = sys.argv[1:]
