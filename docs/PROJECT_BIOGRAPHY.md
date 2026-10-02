@@ -1532,6 +1532,80 @@ real ranking for (a), (b), (c)); browser check at 1400px and 360px with stubs.
 
 ---
 ---
+## Quiz Redesign — Eighteen Questions, Pair-Aware Engine, Tied Results
+
+**What was built** (batch 6):
+- **Freeze first.** `scripts/smoke_test_quiz.py` replays 30 seeded random answer sequences through the real
+  engine (next question, answer, stop rule) and compares questions asked, answers, scores, ranking and
+  stopping point with a golden file; `scratch/golden/quiz_before.json` was captured from the original engine
+  and committed before any quiz change. It also checks two personas (all-A and all-B answers must reach
+  opposite results).
+- **Question bank** (`career_quiz_data.py`, full list in `docs/QUIZ_QUESTION_BANK.md`). Eight scenario
+  questions, Q11-Q18, were added ("Your college is making a new app. Which task would you pick first?"),
+  and the signals of Q1-Q10 were rewritten with their wording unchanged. Rules enforced by tests: each option
+  signals 1 to 3 paths (it was up to 6, and three options signalled nothing), every one of the 15 paths has at
+  least 6 options (QA & Test Automation and Data Engineering had none, Cloud and DevOps could score at most
+  4), each paired path has at least 2 options that signal only one of the pair, for each side, and no new
+  option names a career path. The option-to-path mapping is hand-authored judgment, not derived from data,
+  and says so in the file. The pairs are defined once, in `career_path_registry.PATH_PAIRS`.
+- **Engine.** `apply_answer` and the `confidence_pct` formula are unchanged. `MAX_QUESTIONS` is
+  `min(14, bank size)`. `should_stop`: never before 8 answers, always at the maximum, and early only when
+  the leader is 3 or more points ahead of the best path that is not its pair partner and, if the leader has
+  a partner, the two are 2 or more points apart or no unasked question can separate them. `next_question`
+  keeps the variance proxy, with one addition: when the leader and its pair partner are within 1 point and a
+  separating question is left, only separating questions are considered. `get_results` keeps its fields,
+  orders ties alphabetically on purpose, adds `"tied": true` to every entry with the top score, and
+  `tied_top()` lists those paths in registry order (also returned by `/quiz/answer`).
+- **Page.** When several paths share the top score the results show "Your top matches" with all of them and
+  one line saying they scored the same and the student will choose when building the roadmap; otherwise
+  the page is unchanged. The path count ("the 15 career paths") and the question range ("8 to 14
+  questions", from `/quiz/start`) now come from the data instead of being written into the page.
+
+**Why:** the first quiz could not tell the four split pairs apart (they received identical signals, so they
+tied exactly in 100% of runs), could never produce QA & Test Automation or Data Engineering, and 9 of 15
+paths were never #1 in a simulation. `MAX_QUESTIONS = 12` was unreachable with a 10-question bank.
+
+**Simulation** (`scripts/simulate_quiz.py`, 1,000 random sequences, seed 20261002, original engine loaded
+from git for comparison). Random answers are NOT a realistic student distribution (real students answer
+consistently), so this shows what the quiz can do, not what students will see.
+- Paths never #1: 7 of 15 before (9 of 15 in an earlier run with another seed), 0 of 15 now.
+- Pairs ending within 1 point / exactly equal, before: 1000/1000 and 1000/1000 for all four pairs. Now:
+  AI/ML 591 and 213, Data Science/Analytics 661 and 267, Cloud/DevOps 718 and 256, UI/UX/Frontend 535 and 199
+  (out of 1,000).
+- Questions asked: mean 9.99 before (bank 10, 989 of 1,000 asked all 10) and 13.16 now (bank 18, maximum
+  14; 786 asked 14, 214 stopped earlier).
+- Shared top score: 806 of 1,000 sequences before in an earlier run (20 of 30 in the replay), 8 of 30 in the
+  new replay.
+- Regression diff on the 30 seeded replays (`scripts/quiz_golden_diff.py`): none asked the same questions
+  (the bank changed), 25 of 30 changed the displayed #1 path, 26 of 30 changed the top-score group, 29 of
+  30 changed the number of questions (mean 10.0 to 13.8). The same seed picks the same random option
+  number, but the questions behind it differ, so these are not like-for-like answers.
+- Personas now: all-A gives Backend Engineering alone; all-B gives a three-way tie of Full-Stack,
+  Game Development and UI/UX Design (14 questions each).
+
+**Issues faced and root causes:**
+- The engine's results used a stable sort on score, so ties kept dict order, and Flask's session cookie
+  rewrites dicts in sorted-key order, so live results were alphabetical while tests and simulations were in
+  registry order. Ties are now ordered alphabetically on purpose (checked: results do not depend on dict
+  order). The `_estimate_information_gain` alphabetical tie-break for the leaders was already explicit and is
+  kept.
+- The variance proxy asked a question that could not tell a leader from its pair partner in 21% of the
+  situations where they were within 1 point (874 of 4,232 decision points in a 2,000-sequence run), so the
+  separating-question rule was added; afterwards 0 of 3,771.
+- Q6-A's original wording still contains "AI" and "cybersecurity" (existing wording was kept); only new
+  options were checked for path names.
+- After the conversation step, `profile_builder.rank_scores` still sorts by score only (unchanged by
+  request), so ties in the saved profile follow dict order. The shared picker already offers tied top
+  matches (`path_matches`, margin 1), which is where a tie gets resolved.
+- Signals are my judgment and were not tuned to hit any target; whether they match real student outcomes is
+  not measured.
+
+**How verified:** `smoke_test_quiz.py` (33 checks: data rules, invariants such as every path can be #1 and
+every pair is separable, golden replay, personas, consumers of the ranking), the simulation above, and a
+browser check of an all-A and an all-B run at 1400px and 360px on a stubbed server.
+
+---
+---
 ## Still To Build
 
 - Real-model check of parallel generation: run `scripts/inspect_roadmap.py` for a few

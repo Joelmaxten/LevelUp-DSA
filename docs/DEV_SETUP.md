@@ -203,6 +203,7 @@ For these tests run `pip install -r requirements-dev.txt` once (adds fpdf2).
 | `smoke_test_progress.py` | roadmap tick/untick, progress counts, dashboard bar; `--keep` leaves a demo user whose login it prints | no |
 | `smoke_test_adzuna.py` | live listings: cache, failure handling, median-only salary, `/resume/listings` | no (HTTP patched) |
 | `smoke_test_resume_modes.py` | resume modes: ranking unit checks (near-ties, thin-path labelling, insufficient data), `/resume/discover` and `/resume/<id>/analyze` happy paths, 404/400/401, CSRF, rate limits, stored skills reused, `/resume/upload` unchanged, required-skills lists identical to the pre-change snapshot (`scratch/golden/required_skills_before.json`) | no (feedback stubbed; local index and embeddings; needs `requirements-dev.txt` for fpdf2) |
+| `smoke_test_quiz.py` | career quiz: question-bank rules (1-3 paths per option, 6+ options per path, separating options for each pair), invariants (every path can be #1, every pair separable, stop rule within the bank), 30 seeded replays against `scratch/golden/quiz_after.json`, all-A/all-B personas; pure, no database | no |
 | `smoke_test_llm.py` | `llm_client`: retry on throttling/5xx/timeouts, no retry on access-denied/validation, fallback model, provider switch, schema correction, no secrets or prompt text in errors or logs | no (fake Bedrock client, patched Gemini; hides real credentials and blocks real clients) |
 | `smoke_test_generator.py` | roadmap generator with a fake LLM: golden comparison for 3 paths, coverage/duplicate/index/allowlist/shape invariants at concurrency 1 and 3, thread hygiene, failure handling, duplicate rewrite, warm-up | no (fake LLM, local embeddings only; ~1.5 min, mostly model load) |
 | `smoke_test_profile_flow.py` | quiz then conversation then `CareerProfile` row; prints rather than counts | no |
@@ -252,6 +253,22 @@ A fresh database gets all of these from `db.create_all()`. After a rebuild from 
 
 `scripts/validate_path_fit.py` prints the path-fit ranking for three synthetic resumes with the raw survey and
 roadmap numbers behind each row (local only).
+
+### The career quiz: tests, simulation and golden files
+
+- `PYTHONPATH=. venv/Scripts/python.exe scripts/smoke_test_quiz.py` replays 30 seeded random sequences through the real engine and
+  compares them with `scratch/golden/quiz_after.json`. **Changing a question, an option signal or the engine changes quiz results on
+  purpose-only:** re-run it, read what differs, then recapture with
+  `PYTHONPATH=. venv/Scripts/python.exe scripts/smoke_test_quiz.py --capture scratch/golden/quiz_after.json` and `git add -f` the file
+  (`scratch/` is gitignored). `quiz_before.json` is the original engine's replay and stays as the reference for
+  `scripts/quiz_golden_diff.py`, which prints how many sequences changed their top path, tie group and question count.
+- `PYTHONPATH=. venv/Scripts/python.exe scripts/simulate_quiz.py [N]` runs N random sequences (default 1,000) through the current engine and
+  the original one (from git) and prints how often each path is #1, how often each pair ends within 1 point, and how many questions are
+  asked. Random answers are not a realistic student distribution; use it to see what the quiz can and cannot do.
+- The option-to-path mapping in `career_quiz_data.py` is hand-authored judgment. `scripts/generate_quiz_bank_doc.py` rewrites
+  `docs/QUIZ_QUESTION_BANK.md` (every question, option and signal, with the old signals of Q1-Q10) after any change.
+- Pairs of paths that get special treatment (separating questions, the stop rule) are defined once, in
+  `career_path_registry.PATH_PAIRS`.
 
 ### CSRF: required for every new state-changing request
 
