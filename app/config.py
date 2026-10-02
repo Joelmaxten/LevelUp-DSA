@@ -69,6 +69,10 @@ class Config:
     # How many roadmap phases are written by the LLM at the same time. 1 = one after
     # another, exactly the original behavior. See roadmap_generator.generate_roadmap.
     PHASE_CONCURRENCY = max(1, int(os.environ.get("PHASE_CONCURRENCY", "1")))
+    # Two steps in different roadmap phases whose titles have at least this cosine similarity
+    # (or equal titles) count as duplicates; the later phase is rewritten once. 0.80 was
+    # measured on the saved real roadmaps (scripts/measure_duplicate_threshold.py).
+    DUPLICATE_SIMILARITY_THRESHOLD = float(os.environ.get("DUPLICATE_SIMILARITY_THRESHOLD", "0.80"))
     # Load the embedding model and the FAISS index in a background thread when the
     # server starts (run.py), so the first roadmap request doesn't pay ~20 s for it.
     WARMUP_ON_START = _env_flag("WARMUP_ON_START", True)

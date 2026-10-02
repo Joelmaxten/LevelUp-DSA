@@ -42,11 +42,29 @@ def check(description, condition):
 
 # What the stub saw: phase title -> {"target": int, "inventory": [node_ids]}, filled from the prompts.
 SEEN = {}
+results_for_dup = None
 # Test controls and a log of every call (for the concurrency checks).
-CONTROL = {"delay": 0.0, "fail_phase": None}
+CONTROL = {"delay": 0.0, "fail_phase": None, "dup": None}
 CALLS = []
 INFLIGHT = {"now": 0, "max": 0}
 _lock = threading.Lock()
+
+
+def _apply_dup(record, prompt, text):
+    """Optionally plant a duplicate: the seed phase's first step gets seed_title; the dup phase's
+    first step gets dup_title for its first `left` replies (so left=1 is fixed by one rewrite)."""
+    dup = CONTROL["dup"]
+    if not dup or record["kind"] != "phase":
+        return text
+    steps = json.loads(text)
+    if record["title"] == dup["seed_phase"]:
+        steps[0]["title"] = dup["seed_title"]
+    elif record["title"] == dup["dup_phase"]:
+        dup["prompts"].append(prompt)
+        if dup["left"] > 0:
+            dup["left"] -= 1
+            steps[0]["title"] = dup["dup_title"]
+    return json.dumps(steps)
 
 
 def _fake_generate(task, prompt, system=None, schema=None, max_output_tokens=None, json_mode=False):
@@ -70,7 +88,7 @@ def _fake_generate(task, prompt, system=None, schema=None, max_output_tokens=Non
     try:
         if CONTROL["delay"]:
             time.sleep(CONTROL["delay"])
-        text = reply if reply is not None else fake_reply(prompt)
+        text = reply if reply is not None else _apply_dup(record, prompt, fake_reply(prompt))
     finally:
         with _lock:
             INFLIGHT["now"] -= 1
@@ -224,6 +242,78 @@ def concurrency_checks(index, chunks):
         CONTROL["delay"], CONTROL["fail_phase"] = original
 
 
+def duplicate_checks(index, chunks):
+    """The cross-phase duplicate check: finder behavior and the rewrite-once policy, at concurrency 1 and 3."""
+    import logging
+    path = "Full-Stack Development"
+
+    raw = [[{"title": "Introduction to Git"}], [{"title": "Git Basics"}, {"title": "Docker volumes"}, {"title": "git basics!"}]]
+    found = rg._find_duplicates(raw, 1, 0.80)
+    check("finder: a paraphrase and a punctuation-only variant are flagged, an unrelated title is not",
+          sorted(d["step"] for d in found) == [0, 2])
+    check("finder: steps inside one phase are never compared with each other",
+          rg._find_duplicates([[{"title": "Same title"}, {"title": "Same title"}]], 0, 0.80) == [])
+    check("finder: nothing is flagged for the first phase or for empty input",
+          rg._find_duplicates([[{"title": "A"}]], 0, 0.80) == [] and rg._find_duplicates([[], [{"title": "B"}]], 1, 0.80) == [])
+
+    records = []
+
+    class Capture(logging.Handler):
+        def emit(self, record):
+            records.append(record.getMessage())
+    handler = Capture()
+    logger = logging.getLogger("app.pipeline.roadmap_generator")
+    logger.addHandler(handler)
+    try:
+        for conc in (1, 3):
+            base = {"seed_phase": "Git & GitHub", "seed_title": "Introduction to Git", "dup_phase": "JavaScript", "prompts": []}
+
+            # a paraphrased duplicate, fixed by ONE rewrite of the later phase only
+            CONTROL["dup"] = {**base, "dup_title": "Git Basics", "left": 1, "prompts": []}
+            CALLS.clear(); records.clear()
+            result = run_path(path, index, chunks, concurrency=conc)
+            per_phase = {}
+            for c in CALLS:
+                if c["kind"] == "phase":
+                    per_phase[c["title"]] = per_phase.get(c["title"], 0) + 1
+            prompts = CONTROL["dup"]["prompts"]
+            check(f"duplicates, concurrency {conc}: only the later phase is regenerated, once",
+                  per_phase.get("JavaScript") == 2 and all(n == 1 for t, n in per_phase.items() if t != "JavaScript"))
+            check(f"duplicates, concurrency {conc}: the rewrite prompt lists the earlier titles as an exclusion list",
+                  len(prompts) == 2 and "REWRITE NOTICE" not in prompts[0]
+                  and "REWRITE NOTICE" in prompts[1] and "Introduction to Git" in prompts[1])
+            titles = [s["title"].casefold() for ph in result["roadmap"]["phases"] for s in ph["steps"]]
+            check(f"duplicates, concurrency {conc}: the rewritten roadmap no longer repeats the step", "git basics" not in titles)
+            invariants(f"duplicates, concurrency {conc}", result["roadmap"], result["audit"], result["_expected"])
+
+            # still duplicated after the rewrite: kept, warned about, nothing dropped
+            CONTROL["dup"] = {**base, "dup_title": "Git Basics", "left": 2, "prompts": []}
+            CALLS.clear(); records.clear()
+            kept = run_path(path, index, chunks, concurrency=conc)
+            js = next(ph for ph in kept["roadmap"]["phases"] if ph["title"] == "JavaScript")
+            normal_len = len(next(ph for ph in results_for_dup["roadmap"]["phases"] if ph["title"] == "JavaScript")["steps"])
+            check(f"duplicates, concurrency {conc}: still duplicated after one rewrite -> the step is kept and a warning logged",
+                  js["steps"][0]["title"] == "Git Basics" and any("Kept a step" in m for m in records)
+                  and len(js["steps"]) == normal_len)
+            check(f"duplicates, concurrency {conc}: no further rewrite after the first",
+                  sum(1 for c in CALLS if c["kind"] == "phase" and c["title"] == "JavaScript") == 2)
+
+            # identical title up to case/punctuation
+            CONTROL["dup"] = {**base, "dup_title": "introduction to git!", "left": 1, "prompts": []}
+            CALLS.clear()
+            run_path(path, index, chunks, concurrency=conc)
+            check(f"duplicates, concurrency {conc}: a title equal after normalising is caught",
+                  sum(1 for c in CALLS if c["kind"] == "phase" and c["title"] == "JavaScript") == 2)
+        CONTROL["dup"] = None
+        CALLS.clear()
+        run_path(path, index, chunks, concurrency=1)
+        check("no duplicates in the normal output -> no phase is called twice",
+              all(n == 1 for n in [sum(1 for c in CALLS if c["kind"] == "phase" and c["title"] == t) for t in {c["title"] for c in CALLS if c["kind"] == "phase"}]))
+    finally:
+        logger.removeHandler(handler)
+        CONTROL["dup"] = None
+
+
 def main():
     update = "--update-golden" in sys.argv
     index, chunks = rag.load_index(INDEX_PATH)
@@ -244,6 +334,9 @@ def main():
                 SEEN.clear(); SEEN.update(parallel[path]["_seen"])
                 invariants(f"{path} [concurrency 3]", parallel[path]["roadmap"], parallel[path]["audit"], parallel[path]["_expected"])
             concurrency_checks(index, chunks)
+            global results_for_dup
+            results_for_dup = results["Full-Stack Development"]
+            duplicate_checks(index, chunks)
     finally:
         for p in patches:
             p.stop()

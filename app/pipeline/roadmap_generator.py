@@ -70,6 +70,7 @@ roadmap.
 import json
 import logging
 import math
+import re
 import time
 from concurrent.futures import ThreadPoolExecutor
 from contextlib import contextmanager
@@ -869,6 +870,79 @@ def _rewrite_block(earlier_titles):
     )
 
 
+def _normalise_title(title):
+    return re.sub(r"[^a-z0-9 ]", "", title.lower()).strip()
+
+
+def _find_duplicates(raw_steps, k, threshold):
+    """
+    Steps of phase k (index into raw_steps, one list of steps per phase, in plan order)
+    that repeat a step of an EARLIER phase: the same title after normalising case and
+    punctuation, or title embeddings whose cosine similarity is >= threshold.
+    Steps within one phase are never compared with each other. Returns
+    [{"step": index in phase k, "title", "earlier_title", "earlier_phase": index, "similarity"}].
+
+    The threshold (config.DUPLICATE_SIMILARITY_THRESHOLD, 0.80) was chosen by measuring
+    the saved real roadmaps in scratch/ - see scripts/measure_duplicate_threshold.py and
+    PROJECT_BIOGRAPHY.md.
+    """
+    mine = [(i, step.get("title") or "") for i, step in enumerate(raw_steps[k])]
+    mine = [(i, t) for i, t in mine if t]
+    earlier = [(pi, step.get("title") or "") for pi in range(k) for step in raw_steps[pi]]
+    earlier = [(pi, t) for pi, t in earlier if t]
+    if not mine or not earlier:
+        return []
+
+    embeddings = embed_chunks([{"text": t} for _, t in mine] + [{"text": t} for _, t in earlier], show_progress=False)
+    embeddings = embeddings / np.linalg.norm(embeddings, axis=1, keepdims=True)
+    similarity = embeddings[:len(mine)] @ embeddings[len(mine):].T
+
+    earlier_by_norm = {}
+    for pi, t in earlier:
+        earlier_by_norm.setdefault(_normalise_title(t), (pi, t))
+
+    found = []
+    for row, (step_index, title) in enumerate(mine):
+        exact = earlier_by_norm.get(_normalise_title(title))
+        best = int(np.argmax(similarity[row]))
+        if exact is not None:
+            found.append({"step": step_index, "title": title, "earlier_title": exact[1], "earlier_phase": exact[0], "similarity": 1.0})
+        elif similarity[row, best] >= threshold:
+            found.append({"step": step_index, "title": title, "earlier_title": earlier[best][1],
+                          "earlier_phase": earlier[best][0], "similarity": float(similarity[row, best])})
+    return found
+
+
+def _resolve_duplicates(career_path, phase_plan, preps, raw_steps, conversation_signals, threshold, timings):
+    """
+    Cross-phase duplicate check, in plan order. If phase k repeats a step of an earlier
+    phase, phase k ALONE is written once more, told the earlier phases' titles as an
+    exclusion list (earlier phases are never touched). If the rewrite still repeats, the
+    steps are kept and a warning is logged - nothing is ever dropped silently.
+    Mutates raw_steps; returns the number of phases rewritten.
+    """
+    rewritten = 0
+    for k in range(1, len(phase_plan)):
+        with _stage(timings, f"phase {phase_plan[k]['phase_number']}: duplicate check"):
+            duplicates = _find_duplicates(raw_steps, k, threshold)
+        if not duplicates:
+            continue
+        phase, prep = phase_plan[k], preps[k]
+        logger.warning("Phase %r repeats %d step(s) of earlier phases (similarity >= %.2f): rewriting this phase once.",
+                       phase["title"], len(duplicates), threshold)
+        earlier_titles = [step.get("title") for pi in range(k) for step in raw_steps[pi] if step.get("title")]
+        earlier_refs = {r for pi in range(k) for step in raw_steps[pi] for r in step.get("topic_refs", [])}
+        with _stage(timings, f"phase {phase['phase_number']}: rewrite (LLM call(s))"):
+            new_steps = _write_phase(career_path, phase, prep, conversation_signals, earlier_refs, earlier_titles,
+                                     extra_exclusion=earlier_titles)
+        raw_steps[k] = _validate_topic_refs(new_steps, prep["phase_node_ids"])
+        rewritten += 1
+        for dup in _find_duplicates(raw_steps, k, threshold):
+            logger.warning("Kept a step in phase %r after its rewrite: %r still resembles %r (similarity %.2f).",
+                           phase["title"], dup["title"], dup["earlier_title"], dup["similarity"])
+    return rewritten
+
+
 def _plan_block(phase_plan, phase):
     """
     Read-only context for a phase written in PARALLEL with the others: the whole plan,
@@ -989,7 +1063,7 @@ def _finish_phase(phase, prep, steps, global_index, chunks, index, vectors, care
     return {"phase_number": phase["phase_number"], "title": phase["title"], "steps": steps}, audit, global_index
 
 
-def generate_roadmap(career_path, conversation_signals, index, chunks, timings=None, concurrency=None):
+def generate_roadmap(career_path, conversation_signals, index, chunks, timings=None, concurrency=None, duplicate_threshold=None):
     """
     career_path: the student's #1 ranked career path (string).
     conversation_signals: CareerProfile.conversation_signals dict.
@@ -998,6 +1072,8 @@ def generate_roadmap(career_path, conversation_signals, index, chunks, timings=N
     (the same figures are always logged).
     concurrency: how many phases the LLM writes at once; default
     config.PHASE_CONCURRENCY.
+    duplicate_threshold: cosine similarity at which two steps in different phases count as
+    duplicates; default config.DUPLICATE_SIMILARITY_THRESHOLD.
 
     Returns (roadmap, retrieved_chunks_audit):
     - roadmap: {"phases": [{"phase_number", "title", "steps": [...]}]} - see
@@ -1009,7 +1085,9 @@ def generate_roadmap(career_path, conversation_signals, index, chunks, timings=N
 
     Stages: (1) planner: one LLM call orders the roadmap.sh folders into phases;
     (2) one LLM call per phase; (3) local post-processing per phase, in plan
-    order; (4) the cross-phase duplicate check (_resolve_duplicates).
+    order; (4) the cross-phase duplicate check (_resolve_duplicates): a later phase that repeats
+    an earlier phase's step is rewritten once; if it still repeats, the steps are kept
+    and a warning logged.
 
     concurrency == 1 (default): phases are written one after another, each told
     which step titles earlier phases already used - the original behavior, and
@@ -1028,6 +1106,8 @@ def generate_roadmap(career_path, conversation_signals, index, chunks, timings=N
     plan order), and phases that had not started yet are cancelled.
 
     Total LLM calls: 1 planner + 1 per phase (+1 per retried or rewritten phase).
+    All phases are written before any is post-processed, so global_step_index is assigned
+    once, at the end, after any rewrite has changed a phase's step count.
     """
     total_started = time.perf_counter()
     if concurrency is None:
@@ -1049,22 +1129,18 @@ def generate_roadmap(career_path, conversation_signals, index, chunks, timings=N
         with _stage(timings, f"phase {phase['phase_number']}: retrieval"):
             preps.append(_prepare_phase(career_path, phase, base_queries, index, chunks))
 
-    phases_out, audit_phases = [], []
-    global_index = 1
-
     if concurrency <= 1 or len(phase_plan) <= 1:
+        raw_steps = []
         used_node_ids, used_titles = set(), []
         for phase, prep in zip(phase_plan, preps):
             with _stage(timings, f"phase {phase['phase_number']}: LLM call(s)"):
                 steps = _write_phase(career_path, phase, prep, conversation_signals, used_node_ids, used_titles)
-            with _stage(timings, f"phase {phase['phase_number']}: post-processing"):
-                phase_out, audit, global_index = _finish_phase(phase, prep, steps, global_index, chunks, index, vectors, career_path)
-            for step in phase_out["steps"]:
+            steps = _validate_topic_refs(steps, prep["phase_node_ids"])
+            raw_steps.append(steps)
+            for step in steps:
                 used_node_ids.update(step.get("topic_refs", []))
                 if step.get("title"):
                     used_titles.append(step["title"])
-            phases_out.append(phase_out)
-            audit_phases.append(audit)
     else:
         def write(phase, prep):
             started = time.perf_counter()
@@ -1083,11 +1159,19 @@ def generate_roadmap(career_path, conversation_signals, index, chunks, timings=N
                 for future in futures:
                     future.cancel()
                 raise
-        for phase, prep, steps in zip(phase_plan, preps, raw_steps):
-            with _stage(timings, f"phase {phase['phase_number']}: post-processing"):
-                phase_out, audit, global_index = _finish_phase(phase, prep, steps, global_index, chunks, index, vectors, career_path)
-            phases_out.append(phase_out)
-            audit_phases.append(audit)
+        raw_steps = [_validate_topic_refs(steps, prep["phase_node_ids"]) for steps, prep in zip(raw_steps, preps)]
+
+    if duplicate_threshold is None:
+        duplicate_threshold = Config.DUPLICATE_SIMILARITY_THRESHOLD
+    _resolve_duplicates(career_path, phase_plan, preps, raw_steps, conversation_signals, duplicate_threshold, timings)
+
+    phases_out, audit_phases = [], []
+    global_index = 1
+    for phase, prep, steps in zip(phase_plan, preps, raw_steps):
+        with _stage(timings, f"phase {phase['phase_number']}: post-processing"):
+            phase_out, audit, global_index = _finish_phase(phase, prep, steps, global_index, chunks, index, vectors, career_path)
+        phases_out.append(phase_out)
+        audit_phases.append(audit)
 
     _log_stage(timings, "total", time.perf_counter() - total_started)
     return {"phases": phases_out}, {"phases": audit_phases}
