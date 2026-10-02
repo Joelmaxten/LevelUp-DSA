@@ -88,6 +88,19 @@ three are needed to boot; the rest unlock features:
 | `ROADMAP_DAILY_LIMIT` | roadmaps one user may generate per rolling 24h | `5` |
 | `RESUME_UPLOAD_LIMIT_PER_HOUR` | resume uploads per user per hour (in-process counter) | `10` |
 | `RESUME_LISTINGS_LIMIT_PER_HOUR` | `/resume/listings` calls per user per hour (in-process counter) | `30` |
+| `LLM_PROVIDER` | `gemini` or `bedrock` (see `app/pipeline/llm_client.py`) | `gemini` |
+| `ROADMAP_MODEL_ID`, `FAST_MODEL_ID`, `FALLBACK_MODEL_ID` | model per task (`roadmap` = each roadmap phase, `fast` = folder ordering and resume feedback, `fallback` = tried after a model fails). Empty with `gemini` = built-in Gemini models; required with `bedrock` | empty |
+| `ALT_PROVIDER_MODEL_ID` | model to use if the other provider has to take over after the first fails | empty |
+| `AWS_REGION` | Bedrock region. Credentials come from the environment (`AWS_BEARER_TOKEN_BEDROCK` or normal AWS credentials), never from code | empty |
+| `LLM_TIMEOUT_S` | seconds before one LLM request is abandoned, both providers | `90` |
+| `PHASE_CONCURRENCY` | roadmap phases the LLM writes at the same time; `1` = one after another (output unchanged), `3` is the tested alternative | `1` |
+| `DUPLICATE_SIMILARITY_THRESHOLD` | cosine similarity at which two steps in different phases count as duplicates and the later phase is rewritten once | `0.80` |
+| `WARMUP_ON_START` | load the embedding model and FAISS index in the background when `run.py` starts (also when imported by a WSGI server) | `true` |
+
+`PRICE_PER_MTOK` (in `config.py`, not an env var) is deliberately empty: with no price
+configured, call costs are logged and benchmarked as "unknown". Fill it in with real
+figures per model ID if you want costs. The `bedrock` provider needs `boto3`, which is
+not in `requirements.txt` yet (`pip install boto3`, then pin it).
 
 `KAGGLE_USERNAME`/`KAGGLE_KEY` (dataset downloads) and any `AWS_*` entries in a
 developer's own `.env` are not read by `config.py`.
@@ -189,6 +202,8 @@ For these tests run `pip install -r requirements-dev.txt` once (adds fpdf2).
 | `smoke_test_paths.py` | shared career-path picker, `/career/options`, path override, multiple roadmaps, dashboard roadmap list | no (Gemini patched) |
 | `smoke_test_progress.py` | roadmap tick/untick, progress counts, dashboard bar; `--keep` leaves a demo user whose login it prints | no |
 | `smoke_test_adzuna.py` | live listings: cache, failure handling, median-only salary, `/resume/listings` | no (HTTP patched) |
+| `smoke_test_llm.py` | `llm_client`: retry on throttling/5xx/timeouts, no retry on access-denied/validation, fallback model, provider switch, schema correction, no secrets or prompt text in errors or logs | no (fake Bedrock client, patched Gemini; hides real credentials and blocks real clients) |
+| `smoke_test_generator.py` | roadmap generator with a fake LLM: golden comparison for 3 paths, coverage/duplicate/index/allowlist/shape invariants at concurrency 1 and 3, thread hygiene, failure handling, duplicate rewrite, warm-up | no (fake LLM, local embeddings only; ~1.5 min, mostly model load) |
 | `smoke_test_profile_flow.py` | quiz then conversation then `CareerProfile` row; prints rather than counts | no |
 | `smoke_test_dsa.py` | skill map unlocking and mastery; needs `seed_dsa.py` first | yes: Gemini (problem framing) |
 | `smoke_test_resume.py` | upload, extraction, gap analysis, AI feedback | yes: Gemini |
@@ -201,6 +216,21 @@ PYTHONPATH=. venv/Scripts/python.exe scripts/smoke_test_security.py
 
 Each prints `[PASS]`/`[FAIL]` per check and exits non-zero on a failure. Run the
 last four only deliberately: they spend quota.
+
+If you change generator behavior ON PURPOSE, recapture the golden files with
+`PYTHONPATH=. venv/Scripts/python.exe scripts/smoke_test_generator.py --update-golden`
+and review the diff of `scratch/golden/` (the files are tracked although `scratch/` is
+gitignored; add changes with `git add -f`).
+
+### Benchmarks and measurement scripts (all local, none call a real model)
+
+| Script | What it does |
+|---|---|
+| `scripts/benchmark_generator.py [--delay 3]` | runs the generator for 3 paths at `PHASE_CONCURRENCY` 1 and 3 with a stub LLM that sleeps `--delay` seconds per call; prints wall-clock, speed-up and local stage timings (retrieval, post-processing, duplicate check); writes `scratch/benchmark_generator.csv` |
+| `scripts/benchmark_llm.py` | compares your configured models on 5 fixed student profiles. DRY RUN by default (prints the plan, no calls). `--run` makes REAL, billable calls and writes `scratch/benchmark_results.csv`; don't run it casually |
+| `scripts/measure_duplicate_threshold.py` | re-derives the duplicate-check threshold from the saved real roadmaps in `scratch/` |
+
+Per-stage timings of every real generation are also logged as `roadmap_stage` lines (never any prompt or reply text), and every LLM call as an `llm_call` line.
 
 ### CSRF: required for every new state-changing request
 
@@ -298,3 +328,11 @@ Known Issues / Deployment Backlog
   two-phase limitation are listed in PROJECT_BIOGRAPHY.md.
 - **Videos depend on KB links.** Mobile and Game Development have the weakest
   coverage and fall back to YouTube search most often.
+- **Bedrock path untested against real botocore.** `boto3` isn't installed; the path is
+  tested with a scripted fake. Install and pin `boto3`, then run `benchmark_llm.py`
+  once before relying on it.
+- **Parallel generation quality is unmeasured.** `PHASE_CONCURRENCY` stays at 1 until a
+  few real roadmaps at 3 have been compared (duplicates, pacing) with `inspect_roadmap.py`.
+  The duplicate check catches about 5 of 12 hand-written paraphrases at its 0.80 threshold.
+- **A real Gemini request was sent by accident** while writing `smoke_test_llm.py` (see the
+  Faster Roadmap Generation entry in PROJECT_BIOGRAPHY.md). Fixed; the test now blocks real clients.

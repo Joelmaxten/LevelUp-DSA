@@ -8,6 +8,12 @@ def _env_flag(name, default):
     return value.strip().lower() in ("1", "true", "yes", "on")
 
 
+def _env_number(name, default, cast):
+    """cast(os.environ[name]), or default when the variable is unset or empty (as in .env.example)."""
+    value = os.environ.get(name)
+    return default if value is None or value.strip() == "" else cast(value)
+
+
 # SECRET_KEY values that must never reach production (the dev default, and the
 # placeholder shipped in .env.example).
 INSECURE_SECRET_KEYS = {"", "dev-secret-key-change-me", "change-me-to-a-random-string", "changeme", "secret"}
@@ -65,14 +71,14 @@ class Config:
     PRICE_PER_MTOK = {}
 
     # Seconds before a single LLM request is abandoned (every provider, every task).
-    LLM_TIMEOUT_S = float(os.environ.get("LLM_TIMEOUT_S", "90"))
+    LLM_TIMEOUT_S = _env_number("LLM_TIMEOUT_S", 90.0, float)
     # How many roadmap phases are written by the LLM at the same time. 1 = one after
     # another, exactly the original behavior. See roadmap_generator.generate_roadmap.
-    PHASE_CONCURRENCY = max(1, int(os.environ.get("PHASE_CONCURRENCY", "1")))
+    PHASE_CONCURRENCY = max(1, _env_number("PHASE_CONCURRENCY", 1, int))
     # Two steps in different roadmap phases whose titles have at least this cosine similarity
     # (or equal titles) count as duplicates; the later phase is rewritten once. 0.80 was
     # measured on the saved real roadmaps (scripts/measure_duplicate_threshold.py).
-    DUPLICATE_SIMILARITY_THRESHOLD = float(os.environ.get("DUPLICATE_SIMILARITY_THRESHOLD", "0.80"))
+    DUPLICATE_SIMILARITY_THRESHOLD = _env_number("DUPLICATE_SIMILARITY_THRESHOLD", 0.80, float)
     # Load the embedding model and the FAISS index in a background thread when the
     # server starts (run.py), so the first roadmap request doesn't pay ~20 s for it.
     WARMUP_ON_START = _env_flag("WARMUP_ON_START", True)

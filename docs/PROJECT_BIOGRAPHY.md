@@ -1304,8 +1304,109 @@ count) ran and completed.
 
 ---
 ---
+## Faster Roadmap Generation — LLM Client, Local Speed-Ups, Parallel Phases
+
+**What was built** (batch 3, commits d6b1e3d to the benchmark commit):
+- **Safety net first.** `scripts/smoke_test_generator.py` runs `generate_roadmap()` for
+  Full-Stack, Machine Learning Engineering and Cybersecurity with a deterministic fake
+  LLM (`scripts/_fake_llm.py`, which builds valid replies from the topic list in each
+  prompt) and compares the whole output (roadmap and audit) with golden files in
+  `scratch/golden/`, captured before any generator change (the files are force-added
+  because `scratch/` is gitignored). Invariants checked: every topic covered at most
+  once and none lost, no duplicate step titles across phases, `global_step_index`
+  contiguous from 1, `topic_refs` inside the phase allowlist, step counts near targets,
+  response shape unchanged.
+- **`app/pipeline/llm_client.py`**: `generate(task, prompt, system, schema)` for the
+  `roadmap`, `fast` and `fallback` tasks. Providers: `gemini` (default; delegates to the
+  unchanged `gemini_client` retry/fallback) and `bedrock` (boto3 Converse). Model IDs
+  and provider come from config/env. Only transient errors (throttling, 5xx, timeouts)
+  are retried, with backoff; access-denied and validation errors are not. After a
+  model fails, the fallback model is tried, then the other provider if it is
+  configured. One error type, `LLMError` (a `ValueError`, so existing handlers work),
+  built from error codes only. With a schema, the reply is validated with
+  `jsonschema` and re-asked once with a correction prompt. Each call logs task, model,
+  token counts, latency and cost, never prompt or reply text. `PRICE_PER_MTOK` is empty
+  by default, so cost shows as unknown. `roadmap_generator.py` and
+  `resume_feedback.py` now go through it. `scripts/benchmark_llm.py` compares configured
+  models on 5 fixed profiles; it is a dry run unless `--run`, and was never run with it.
+- **Local speed-ups, identical results.** `_assign_more_topics` reuses the vectors
+  already in the FAISS index instead of re-embedding every topic; the embedding model
+  and index are warmed in a background thread by `run.py` (not by `create_app`, so
+  tests and the reloader's watcher process are unaffected); `LLM_TIMEOUT_S` (default 90)
+  reaches every provider call; per-stage timings are logged (`roadmap_stage`).
+- **Parallel phase writers.** `PHASE_CONCURRENCY` (default 1). At 1 the output equals
+  the golden files exactly. Above 1, after the planner (folder-order) call the phase
+  calls run in a bounded `ThreadPoolExecutor`; each prompt gets the whole plan (all
+  phase titles and topic titles) as read-only context instead of the "earlier phases"
+  block. Worker threads receive plain data and return parsed steps (no database, no
+  Flask context). Retrieval and post-processing stay in the calling thread, and
+  `global_step_index` / `step_number` are assigned after all phases return, in plan
+  order. A phase that fails after its own retry raises the same `ValueError` as
+  before, and only that phase was retried.
+- **Cross-phase duplicate check.** After writing, a later phase whose step title equals
+  an earlier one (after normalising) or has title-embedding cosine similarity of at
+  least 0.80 is rewritten once, alone, with the earlier titles as an exclusion list.
+  If it still repeats, the step is kept and a warning logged.
+
+**Why:** a roadmap took 4 to 8 sequential LLM calls, and the local work between them
+was a surprise. Measuring first showed that, with the LLM stubbed, a Full-Stack
+generation spent about 14 of its 15 seconds re-embedding topics.
+
+**Measured results** (LLM stubbed, warm model, this machine; it is noisy, so ranges):
+- Local time per generation, before: Full-Stack 10.2 s, Machine Learning Engineering
+  6.9 s, Cybersecurity 9.4 s. After: about 1.2 to 3.5 s, 0.8 to 2.8 s and 0.7 to 2.2 s
+  (the final runs were 1.8, 1.0 and 1.1 s; the spread is machine load, and the final
+  figures include the new duplicate check). The first request after a restart no longer
+  pays the ~20 s model load if the warm-up has finished.
+- Output identical: the three golden files match byte for byte, and a comparison of the
+  old and new `_assign_more_topics` over all 15 career paths (fake LLM) was identical
+  for every path (207 to 471 more_topics placed per path).
+- Benchmark (`scripts/benchmark_generator.py`, stub LLM delay 3 s per call):
+  Full-Stack 19.7 s at concurrency 1, 10.6 s at 3 (1.85x); Machine Learning
+  Engineering 13.2 s to 7.4 s (1.78x); Cybersecurity 9.9 s to 6.9 s (1.43x). The gain is
+  bounded by the planner call, which must come first, and by the phase count.
+- Duplicate threshold: measured on the 8 real roadmaps saved in `scratch/` (203 steps,
+  1,924 cross-phase pairs), 0.80 flags 1 pair, a genuine duplicate ("Local Storage and
+  Data Persistence" / "Data Persistence and Local Storage" in Mobile App Development):
+  false-positive rate 0.00%. The cost is recall: of 12 hand-written paraphrase pairs it
+  catches 5. At 0.75 it would catch 10 of 12 but flag 4 more real pairs (0.21%), which
+  are overlapping rather than duplicate steps. The value is
+  `DUPLICATE_SIMILARITY_THRESHOLD`.
+
+**Issues faced and root causes:**
+- The first run of `smoke_test_llm.py` had no guard against real credentials. A test
+  that expects a failure made `llm_client` fail over to the other provider, which was
+  "configured" because `GEMINI_API_KEY` is in the real `.env`, so it constructed a real
+  Gemini client (one small request) and, in a later check, sent a canary prompt with a
+  made-up key. The test now hides all credentials and replaces both the Gemini client
+  and `generate_with_retry` with functions that fail for the whole run.
+- The same test found that error text quoted reply content (jsonschema's message
+  includes the offending value) and Gemini's raw error text; messages now contain
+  only error codes and the schema path.
+- `boto3` is not installed in the venv, so the Bedrock path is verified only against a
+  scripted fake client that mimics botocore's error shape (`response["Error"]["Code"]`).
+  Real botocore error classes have not been exercised.
+- The fake LLM reuses KB topic names as step titles, and two KB topics share a name
+  across folders ("Access Control Lists (ACLs)"), which made the duplicate check
+  rewrite a Cybersecurity phase in the benchmark; the benchmark now sets the threshold
+  above 1 so it measures concurrency only.
+- Real-model quality of parallel output is not measured: it needs a real run of
+  `inspect_roadmap.py` at `PHASE_CONCURRENCY` above 1, which this batch did not do.
+
+**How verified:** `smoke_test_generator.py` (121 checks, at concurrency 1 and 3),
+`smoke_test_llm.py` (29 checks), `benchmark_generator.py` and
+`measure_duplicate_threshold.py`; see DEV_SETUP.md for how to run them.
+
+---
+---
+---
+---
 ## Still To Build
 
+- Real-model check of parallel generation: run `scripts/inspect_roadmap.py` for a few
+  paths at `PHASE_CONCURRENCY` 1 and 3 and compare quality (duplicates, pacing)
+- Run `scripts/benchmark_llm.py --run` once a Bedrock model is configured, install and
+  pin `boto3`, and set `PRICE_PER_MTOK` from the provider's real price list
 - Roadmap v2 verification backlog (see "Not yet verified" in the Roadmap Generation
   v2 entry; not re-checked since the career-path restructuring)
 - Phase 3 Stage 2 (Piston, code execution, XP/mastery/streaks) and Stage 3

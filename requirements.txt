@@ -108,3 +108,12 @@ weasel==1.0.0
 websockets==16.1.1
 werkzeug==3.1.8
 wrapt==2.4.1
+# LLM client: schema validation (jsonschema and its dependencies)
+attrs==26.1.0
+jsonschema==4.26.0
+jsonschema-specifications==2025.9.1
+referencing==0.37.0
+rpds-py==2026.6.3
+# Only for LLM_PROVIDER=bedrock; not installed in this venv, so not pinned yet.
+# After 'pip install boto3', replace this comment with the pinned line (pip freeze | grep -i boto3).
+# boto3
