@@ -14,6 +14,7 @@ import pdfplumber
 
 from app.models import SurveyRespondent
 from app.pipeline.resume_skill_extractor import extract_skills
+from app.pipeline.skill_vocabulary import AMBIGUOUS_SURVEY_NAMES, SUPPLEMENTAL_SKILLS, SURVEY_EXTRA_COLUMNS
 from app.pipeline.survey_queries import respondents_for_path
 
 REQUIRED_SKILLS_TOP_N = 10  # more than the 5 used for FAISS chunks - a real
@@ -40,6 +41,21 @@ def get_full_skill_vocabulary():
         vocab.update(r.databases)
         vocab.update(r.platforms)
         vocab.update(r.webframes)
+    return vocab
+
+
+def get_extended_skill_vocabulary():
+    """
+    get_full_skill_vocabulary() plus the survey's other skill-like columns and a few common
+    resume skills the survey has no column for (see skill_vocabulary.py). Used only by
+    "which path fits my resume"; mode 2 keeps the original vocabulary.
+    """
+    vocab = set(get_full_skill_vocabulary())
+    for r in SurveyRespondent.query.all():
+        for attr in SURVEY_EXTRA_COLUMNS:
+            vocab.update(getattr(r, attr) or [])
+    vocab -= AMBIGUOUS_SURVEY_NAMES
+    vocab |= SUPPLEMENTAL_SKILLS
     return vocab
 
 

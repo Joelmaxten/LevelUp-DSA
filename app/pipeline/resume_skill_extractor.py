@@ -17,27 +17,29 @@ import re
 import spacy
 from spacy.matcher import PhraseMatcher
 
-from app.pipeline.skill_aliases import SKILL_ALIASES
+from app.pipeline.skill_aliases import EXTENDED_SKILL_ALIASES, SKILL_ALIASES
 
 _nlp = None
-_matcher = None
+_matchers = {}   # frozenset(vocabulary) -> PhraseMatcher: the original and the extended vocabulary each get one
 
 
 def _get_matcher(skill_vocabulary):
-    global _nlp, _matcher
-    if _matcher is None:
+    global _nlp
+    if _nlp is None:
         _nlp = spacy.load("en_core_web_sm")
-        _matcher = PhraseMatcher(_nlp.vocab, attr="LOWER")
-        patterns = [_nlp.make_doc(skill) for skill in skill_vocabulary]
-        _matcher.add("SKILLS", patterns)
-    return _nlp, _matcher
+    key = frozenset(skill_vocabulary)
+    if key not in _matchers:
+        matcher = PhraseMatcher(_nlp.vocab, attr="LOWER")
+        matcher.add("SKILLS", [_nlp.make_doc(skill) for skill in sorted(key)])
+        _matchers[key] = matcher
+    return _nlp, _matchers[key]
 
 
-def _find_aliases(text):
+def _find_aliases(text, aliases=SKILL_ALIASES):
     """Checks text for known abbreviations, returning their canonical skill names."""
     text_lower = text.lower()
     found = set()
-    for alias, canonical in SKILL_ALIASES.items():
+    for alias, canonical in aliases.items():
         if canonical is None:
             continue
         if re.search(rf"\b{re.escape(alias)}\b", text_lower):
@@ -45,11 +47,12 @@ def _find_aliases(text):
     return found
 
 
-def extract_skills(text, skill_vocabulary):
+def extract_skills(text, skill_vocabulary, extended_aliases=False):
     """
     Returns the set of skills (canonical names from skill_vocabulary) found
     in text - both direct PhraseMatcher matches and alias-resolved
-    abbreviations.
+    abbreviations. extended_aliases=True also resolves skill_aliases.EXTENDED_SKILL_ALIASES
+    (only to names that are in skill_vocabulary); the default leaves behavior unchanged.
     """
     nlp, matcher = _get_matcher(skill_vocabulary)
     doc = nlp(text)
@@ -61,5 +64,7 @@ def extract_skills(text, skill_vocabulary):
         found.add(span.text)
 
     found |= _find_aliases(text)
+    if extended_aliases:
+        found |= {c for c in _find_aliases(text, EXTENDED_SKILL_ALIASES) if c in skill_vocabulary}
 
     return found
