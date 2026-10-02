@@ -994,7 +994,7 @@ topics (Education pack, Gists, Codespaces).
 
 ---
 ---
-## Career Path Restructuring — Decisions (not yet implemented)
+## Career Path Restructuring — Decisions (implemented; see Career Paths v2 below)
 
 **Target list (15):** Full-Stack Development, AI Engineering, Machine
 Learning Engineering, Data Science, Data Analytics, Cybersecurity, Mobile App
@@ -1069,18 +1069,246 @@ new line does not glue onto the last one. .claude/ is now gitignored.
 
 ---
 ---
+## Career Paths v2 — Registry, 15 Paths, Deeper Roadmaps
+
+**What was built:** the "decisions" entry above was implemented in stages (commits
+dd58336, 0ee3202, 415f09a, 3c4bcf8, 07f1479, b6577c3, b782d44).
+- **Stage 1** added `app/pipeline/career_path_registry.py`, the single source of
+  truth for the 15 paths: for each, its roadmap.sh knowledge-base folders, its
+  "supporting" folders (fundamentals tooling such as python/sql/git-github), and
+  the SO Survey DevType values that count as a respondent for it. Every module
+  that used its own copy of the path list (quiz data, seed data, roadmap
+  generator, KB processor) now imports from it. The old 10 were renamed or
+  split (Full-Stack and Backend renamed; AI/ML, Data Science/Analytics,
+  UI/UX+Frontend and Cloud/DevOps split) and QA & Test Automation and Data
+  Engineering were added. Research / Advanced Computing was removed entirely.
+- **Stage 2** tagged the DSA nodes for the two new paths and reseeded the 15
+  `career_paths` rows (test data was cleared first).
+- **Stage 3** moved survey queries to DevType via the registry
+  (`survey_queries.py`), added `scripts/relabel_job_listings.py` (maps stored
+  `job_listings.career_paths` from the old 10 names to the new 15 and tags
+  QA-flavoured titles; dry-run by default, `--apply` writes, idempotent) and made
+  `rebuild_kb.py` use the path count instead of a hardcoded 10. The KB was rebuilt
+  to 5,100 roadmap.sh chunks plus 15 survey chunks.
+- **Stage 4** (roadmap depth): step targets now scale with a folder's topic count
+  (denser for a path's primary folders than its supporting ones); topics a step
+  does not cite are assigned deterministically to their nearest step as
+  `more_topics` (capacity-capped), which gives 100% coverage of the phase's
+  inventory; phases get curated display names; subtopics are derived from
+  `topic_refs` rather than trusted from the model; and `gemini_client` gained an
+  explicit output-token limit and a JSON mode (the default call is unchanged).
+  `scripts/inspect_roadmap.py` was added as a read-only report (folder
+  composition, coverage, duplicates, node_id leaks) around one real generation.
+
+**Why:** the old 10-path list could not express roles the job data and the
+roadmap.sh content actually distinguish, and the same list was copied in several
+places, so a rename meant editing all of them.
+
+**Issues faced and root causes:** a phase's Gemini response could be cut off
+mid-JSON, so the generator now retries once with the step target reduced to
+two-thirds (visible in `roadmap_generator.py`). A DevType can legitimately map to
+two paths ("AI/ML engineer" counts for both AI Engineering and Machine Learning
+Engineering because the survey has no finer split), so that overlap is
+deliberate. Other issues: no issue recorded.
+
+**How verified:** `inspect_roadmap.py` runs against real generations (its report
+is the evidence for the coverage claim), `relabel_job_listings.py` prints
+before/after tag counts and every QA-matched title for review before anything is
+written, and `smoke_test_dsa.py` was updated for the renamed paths.
+
+---
+---
+## KB-First Video Resolver
+
+**What was built:** `app/pipeline/youtube_resources.py` was rewritten (commit
+358ec61). For a phased step, videos and resources are resolved first from the
+KB's own per-topic `resources` metadata, with no network call. Videos are picked
+round-robin across the step's topics (`topic_refs` first, then `more_topics`),
+deduped by video id, 3-4 per step (`MIN_VIDEOS`/`MAX_VIDEOS`). Official then
+course links become up to 4 "resources" per step. Only a step still short of 3
+videos triggers a YouTube search, capped at 12 searches per roadmap
+(`MAX_FALLBACK_SEARCHES`). The roadmap JSON gained `videos`
+(`source: "roadmap.sh" | "youtube_search"`) and `resources`; the old single
+`resource` key is kept for pages that predate it.
+
+**Why:** the first design spent one 100-unit YouTube search per step, so a
+roadmap cost about 2,000 of the 10,000 daily units, and title search returned
+wrong videos (a C++ video for a Python step, an Angular video for React routing,
+noted in the Roadmap v2 entry). The KB already carries curated links.
+
+**Issues faced and root causes:** (1) only exact watch / youtu.be / embed links
+with an 11-character id are accepted; playlists, channels, non-https and
+malformed URLs (one real case: a duplicated `?v=` query string) are dropped and
+counted by reason. (2) A KB audit found two domains used only for templated,
+repeated "course" titles across unrelated topics (`inter-git.com`,
+`ransomleak.com`), now in `BLOCKED_DOMAINS`. (3) Folder ordering and subtopic
+derivation were adjusted in the same commit (JSON mode for the folder-ordering
+call, distinct subtopics). Other issues: no issue recorded.
+
+**How verified:** `scripts/inspect_resources.py` reports link survival, drop
+reasons and fallback usage per roadmap. It was a real-API tool, so it is not part
+of the smoke-test suite.
+
+---
+---
+## Roadmap Page Redesign
+
+**What was built:** commit f251b7f reworked `roadmap.html` and `results.js` for the
+new step shape: several videos per step, subtopic chips, projects, collapsed
+"resources" and "more topics" sections, collapsible phases with expand/collapse
+all, and progress placeholders that the next commit filled in.
+
+**Why:** the page was built for one video and a flat list of subtopics; the
+generator now returns phases, several videos and more_topics per step, which the
+old layout could not show.
+
+**Issues faced and root causes:** no issue recorded.
+
+**How verified:** the commit records no test beyond viewing the page in a browser;
+no automated check exists for this page's layout.
+
+---
+---
+## Roadmap Progress Tracking
+
+**What was built:** commit 1109383 added the `roadmap_progress` table (the 18th
+table): one row per COMPLETED step, with a unique constraint on
+(user_id, roadmap_id, step_index). `POST /roadmap/<id>/progress` ticks or
+un-ticks a step idempotently; `/roadmap/latest`, `/roadmap/<id>` and
+`/dashboard/data` return completed counts, and the roadmap page shows per-step
+checkboxes, a bar per phase and an overall bar (also on the dashboard).
+
+**Why:** progress was a backlog item, and later feeds the Placement Readiness
+Score. A row-per-completed-step design means "done" is just "a row exists", so
+un-ticking deletes the row and no step needs a stored false.
+
+**Issues faced and root causes:** a step index means a phased roadmap's
+`global_step_index` or an old flat roadmap's `step_number`; the helper
+`step_indexes()` in `routes/roadmap.py` returns whichever applies, so one table
+serves both shapes. If a roadmap's steps ever shrink, a previously ticked index
+can become invalid; those rows are excluded from the recount rather than
+deleted. Other issues: no issue recorded.
+
+**How verified:** `scripts/smoke_test_progress.py` (31 checks as of this batch):
+phased and flat roadmaps, idempotent tick, un-tick, another user's roadmap
+refused, `/dashboard/data` counts, the stale-index shrink case, and the unique
+constraint rejecting a direct duplicate insert.
+
+---
+---
+## Shared Career-Path Picker and Multiple Roadmaps
+
+**What was built:** commit 6d35d83. `GET /career/options` returns a user's top
+quiz matches (ties and near-ties within a score margin of 1, capped at 4, from
+`app/pipeline/path_matches.py`) plus all 15 paths, and preselects only when there
+is exactly one top match. The picker in `ui.js` shows those matches as radio cards
+and the other paths in a select, and is used by the roadmap and resume pages.
+`resolve_target_career_path(..., allow_override=True)` lets an explicit
+`target_career_path` win over the quiz result for roadmap generation and resume
+upload only (still validated against the 15; the DSA map keeps the old
+behaviour). A student can now keep several roadmaps (a switcher on the roadmap
+page, `GET /roadmap/list`, `GET /roadmap/<id>`, and a list on the dashboard).
+
+**Why:** a student who took the quiz could not generate a roadmap for any other
+path, and a second generation hid the first.
+
+**Issues faced and root causes:** a native `<select>` displays its first option as
+if chosen when no value was set, so the picker sets the value explicitly to
+empty whenever there is no preselect (comment in `ui.js`). The old single-select
+picker is kept as a legacy mode because `dsa.html` still calls it with its own
+options. Other issues: no issue recorded.
+
+**How verified:** `scripts/smoke_test_paths.py` (49 checks as of this batch),
+with the Gemini calls patched out.
+
+---
+---
+## Adzuna Live Listings and Median-Only Salary
+
+**What was built:** commit 7c48144. `app/pipeline/adzuna_listings.py` fetches live
+Adzuna (India) listings for a path's search phrase at runtime and stores nothing.
+Successful results are cached in-process for 6 hours and a failure for 60 seconds,
+with a 5-second request timeout; any error, timeout, non-200 or malformed body
+becomes "unavailable" and never raises. It is served by its own endpoint,
+`GET /resume/listings`, separate from `/resume/upload` and `/resume/latest`, so a
+slow Adzuna call cannot delay the resume analysis. The resume page now shows only
+the median salary (the Range row and the stored "sample job postings" block were
+removed), though `get_salary_insights` still computes min and max.
+
+**Why:** live listings were the master document's original "Live Jobs" intent and
+no Adzuna code existed; showing min/max from mixed-quality data suggested a
+precision it did not have.
+
+**Issues faced and root causes:** no issue recorded.
+
+**How verified:** `scripts/smoke_test_adzuna.py` (34 checks as of this batch),
+with `requests.get` patched, so no real Adzuna call is made. It covers success,
+cache hit and expiry, timeout, HTTP 500, bad JSON, missing keys and the short
+failure cache.
+
+---
+---
+## Hardening Batch — CSRF, Cookies, Limits, Housekeeping
+
+**What was built:**
+- **CSRF** (`app/security.py`): a random token stored in the session, rendered into
+  `layout.html` as `<meta name="csrf-token">`, and sent by the shared helpers in
+  `ui.js` (`request`, `postJson`, `postForm`) as `X-CSRF-Token` on every
+  POST/PUT/PATCH/DELETE. A missing or wrong token returns 400 `{"error":"csrf"}`;
+  GET is untouched; multipart uploads carry it as a header. Before this, every
+  `fetch` for a state change already went through those helpers, so no template
+  needed changing.
+- **Session cookie** (`config.py`): SameSite=Lax, HttpOnly, Secure from
+  `SESSION_COOKIE_SECURE` (off in development, on in production). Production mode
+  refuses to start if `SECRET_KEY` is missing, a known placeholder, or under 16
+  characters.
+- **Error bodies:** every `"detail": str(e)` was removed from the JSON responses and
+  the exception is logged server-side. The two 502 handlers that returned raw
+  pipeline error text (`/roadmap/generate`, the DSA framing route) now return a
+  fixed student-safe message, and `/db-check` no longer prints the exception.
+- **Limits:** `POST /roadmap/generate` is capped per user at 5 (`ROADMAP_DAILY_LIMIT`)
+  in a rolling 24 hours, counted from `GeneratedRoadmap.created_at` (429
+  `daily_limit` with `limit` and `resets_in_minutes`, shown on the roadmap page);
+  `/resume/upload` (10/hour) and `/resume/listings` (30/hour) use an in-process
+  counter (429 `rate_limited`).
+- **Housekeeping:** `requirements.txt` regenerated from the venv; `requirements-dev.txt`;
+  `scripts/cleanup_demo_users.py` (dry run by default); `.env.example` gained
+  `UPLOAD_FOLDER`.
+
+**Why:** preparing for deployment (see Known Issues / Deployment Backlog in
+DEV_SETUP.md). Cookie-session auth with JSON POST routes is exactly what CSRF
+targets; the daily cap protects the Gemini and YouTube quotas.
+
+**Issues faced and root causes:** (1) `requirements.txt` was stale: it lacked
+packages the code imports (pdfplumber, spaCy, google-api-python-client, tenacity,
+fpdf2 for the smoke test) and carried ones it does not, because it was last
+generated before those features existed. (2) The `.env` line for `GEMINI_API_KEY`
+contains a space in its value, which breaks any shell that tries to `source` the
+file (python-dotenv itself parses it); it must be fixed by hand, and `.env` is
+never sourced in this project. (3) The rolling cap and the in-process limits are
+per-process, so a multi-worker deployment would multiply the in-process ones.
+
+**How verified:** `scripts/smoke_test_security.py` (30 checks): missing, wrong and
+valid token on signup, login and quiz start; multipart upload with and without
+token; cookie flags; GET routes without a token; the daily cap and its lift once
+rows age past 24 hours; both rate limits; production refusing five bad
+`SECRET_KEY` values and starting with a good one. All other smoke tests were
+updated to fetch the token the way a browser does (`scripts/_csrf.py`) and pass
+with CSRF on. In the browser pane, at 1400px and 360px: login, quiz start (POST
+200), a roadmap tick (POST 200), the resume page and a multipart upload through
+`postForm`; a raw `fetch` without the header was rejected with 400. Not re-run:
+`smoke_test_dsa.py`, `_resume.py`, `_roadmap.py` and `_youtube.py` (they call real
+Gemini or YouTube); they were updated to use the CSRF client and compile, but
+were not executed. `smoke_test_profile_flow.py` (no external calls, no pass
+count) ran and completed.
+
+---
+---
 ## Still To Build
 
-- Career path restructuring, stages 1-5 (see the decisions entry above)
-- KB-first video resolver: 3-4 videos per step taken from the chunks'
-  curated resources, domain allowlist, one YouTube search only as a
-  fallback (Mobile and Game Development coverage is weakest)
-- Roadmap progress tracking: new table (user_id, roadmap_id, step index,
-  completed_at, unique together) plus a progress bar; also feeds the
-  Placement Readiness Score
-- Roadmap v2 verification backlog (see "Not yet verified" above)
+- Roadmap v2 verification backlog (see "Not yet verified" in the Roadmap Generation
+  v2 entry; not re-checked since the career-path restructuring)
 - Phase 3 Stage 2 (Piston, code execution, XP/mastery/streaks) and Stage 3
   (adaptive bandit map)
-- Placement Readiness Score
-- Deployment to Render (first strip "detail": str(e) from the
-  /conversation/answer 500 response)
+- Placement Readiness Score (roadmap progress is now stored and can feed it)
+- Deployment (see "Known Issues / Deployment Backlog" in DEV_SETUP.md)

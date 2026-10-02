@@ -70,6 +70,38 @@ Open `.env` and fill in your real PostgreSQL password:
 ```
 DATABASE_URL=postgresql://postgres:YOUR_ACTUAL_PASSWORD@localhost:5432/levelup_dsa_dev
 ```
+Every variable `app/config.py` reads is listed in `.env.example`. Only the first
+three are needed to boot; the rest unlock features:
+
+| Variable | Needed for | Default |
+|---|---|---|
+| `FLASK_ENV` | `development` or `production` (production enforces the checks below) | `development` |
+| `SECRET_KEY` | signs the session cookie; in production it must be a real random value of 16+ characters or the app refuses to start | dev placeholder |
+| `DATABASE_URL` | PostgreSQL connection | local `levelup_dsa_dev` |
+| `GEMINI_API_KEY` | roadmap generation, resume feedback, problem framing | empty |
+| `YOUTUBE_API_KEY` | fallback video search for roadmap steps | empty |
+| `ADZUNA_APP_ID`, `ADZUNA_APP_KEY` | live job listings on the resume page; without them the listings box shows "unavailable" | empty |
+| `PISTON_API_URL` | code execution (not yet used) | `http://localhost:2000/api/v2/execute` |
+| `FAISS_INDEX_PATH` | knowledge-base index location | `data/processed/faiss_index` |
+| `UPLOAD_FOLDER` | where resume PDFs are saved | `uploads/resumes` |
+| `SESSION_COOKIE_SECURE` | `true`/`false`; Secure flag on the session cookie. Off in development, on in production unless overridden | by mode |
+| `ROADMAP_DAILY_LIMIT` | roadmaps one user may generate per rolling 24h | `5` |
+| `RESUME_UPLOAD_LIMIT_PER_HOUR` | resume uploads per user per hour (in-process counter) | `10` |
+| `RESUME_LISTINGS_LIMIT_PER_HOUR` | `/resume/listings` calls per user per hour (in-process counter) | `30` |
+
+`KAGGLE_USERNAME`/`KAGGLE_KEY` (dataset downloads) and any `AWS_*` entries in a
+developer's own `.env` are not read by `config.py`.
+
+Each line of `.env` must be exactly `NAME=value` with no spaces around or inside
+the value. python-dotenv is lenient, but a value with a space breaks any tool
+that parses the file strictly. To list only the names of bad lines without
+printing values, run a small script that tests each line against
+`^[A-Z_][A-Z0-9_]*=\S*$` and prints just the variable name.
+
+**Never `source .env`** (or `export $(cat .env)`): the file is for python-dotenv
+only, a space or special character in a value makes the shell run it as a command,
+and sourcing exports secrets into your shell's environment and history.
+
 Leave the `.env.example` file itself untouched — it's a template with placeholder
 values, meant to be committed. Only `.env` (with real values) is gitignored.
 8. Create the database tables
@@ -95,9 +127,11 @@ psql -U postgres -d levelup_dsa_dev
 ```sql
 \dt
 ```
-You should see 12 tables: `users`, `career_paths`, `roadmap_steps`, `user_progress`,
-`dsa_nodes`, `dsa_problems`, `user_dsa_activity`, `node_mastery`, `resumes`,
-`skill_gaps`, `weakness_profiles`, `user_attempts`.
+You should see 18 tables: `users`, `career_paths`, `career_profiles`,
+`roadmap_steps`, `user_progress`, `generated_roadmaps`, `roadmap_progress`,
+`dsa_nodes`, `dsa_problems`, `dsa_problem_framings`, `user_dsa_activity`,
+`node_mastery`, `weakness_profiles`, `user_attempts`, `resumes`, `skill_gaps`,
+`job_listings`, `survey_respondents`.
 Note: there's no migration tool (like Alembic) in place yet — table creation is
 manual via `db.create_all()`. If the schema changes later, existing tables won't
 auto-update; they'd need to be dropped and recreated, or a migration tool added.
@@ -141,6 +175,60 @@ Every database change is verified directly in `psql` (`\dt` to list tables, `\d
 <table>` to inspect columns) — never assumed just because Python ran without
   errors.
 Page routes (landing page, signup/login forms) are tested in an actual browser.
+
+### Smoke tests (`scripts/smoke_test_*.py`)
+
+Run each from Git Bash at the project root with `PYTHONPATH=.`, using the venv's
+Python. They use Flask's test client against the real development database, create
+their own `@example.com` users, and (except where noted) delete what they created.
+For these tests run `pip install -r requirements-dev.txt` once (adds fpdf2).
+
+| Script | What it covers | Calls an external service? |
+|---|---|---|
+| `smoke_test_security.py` | CSRF (missing/wrong/valid token, multipart), cookie flags, production `SECRET_KEY` check, daily roadmap cap, resume rate limits | no |
+| `smoke_test_paths.py` | shared career-path picker, `/career/options`, path override, multiple roadmaps, dashboard roadmap list | no (Gemini patched) |
+| `smoke_test_progress.py` | roadmap tick/untick, progress counts, dashboard bar; `--keep` leaves a demo user whose login it prints | no |
+| `smoke_test_adzuna.py` | live listings: cache, failure handling, median-only salary, `/resume/listings` | no (HTTP patched) |
+| `smoke_test_profile_flow.py` | quiz then conversation then `CareerProfile` row; prints rather than counts | no |
+| `smoke_test_dsa.py` | skill map unlocking and mastery; needs `seed_dsa.py` first | yes: Gemini (problem framing) |
+| `smoke_test_resume.py` | upload, extraction, gap analysis, AI feedback | yes: Gemini |
+| `smoke_test_roadmap.py` | `/roadmap/generate` end to end | yes: Gemini |
+| `smoke_test_youtube.py` | `/roadmap/<id>/resources` | yes: Gemini and YouTube |
+
+```bash
+PYTHONPATH=. venv/Scripts/python.exe scripts/smoke_test_security.py
+```
+
+Each prints `[PASS]`/`[FAIL]` per check and exits non-zero on a failure. Run the
+last four only deliberately: they spend quota.
+
+### CSRF: required for every new state-changing request
+
+The server rejects any POST/PUT/PATCH/DELETE without a valid `X-CSRF-Token` header
+(400 `{"error":"csrf"}`). In the browser, send requests only through the helpers in
+`app/static/js/ui.js` (`postJson`, `postForm`, or `request()` with a non-GET
+method), which read the token from the `<meta name="csrf-token">` that
+`layout.html` renders. Never call `fetch()` directly for a state change, and make
+any new page extend `layout.html`. Reads must stay GET and side-effect free. In a
+script or test, call `enable_csrf_client(app)` from `scripts/_csrf.py` right after
+`create_app()`; the test client then fetches and sends the token like a browser.
+With `curl`, GET `/` with `-c cookies.txt`, read the `csrf-token` meta tag, and
+send it with `-H "X-CSRF-Token: ..."` plus `-b cookies.txt`.
+
+### Cleaning up test users
+
+`scripts/cleanup_demo_users.py` finds every user whose email ends in
+`@example.com` (all smoke-test and demo users) and prints how many rows each owns
+per table. It is a dry run unless you add `--delete`, which removes their rows in
+foreign-key-safe order, then the users and their uploaded resume files.
+
+```bash
+PYTHONPATH=. venv/Scripts/python.exe scripts/cleanup_demo_users.py
+PYTHONPATH=. venv/Scripts/python.exe scripts/cleanup_demo_users.py --delete
+```
+
+If a new table gets a foreign key to `users`, the script stops and tells you to
+add it.
 ---
 Known Gotchas
 PowerShell vs Git Bash: commands in this guide (and this project's history)
@@ -184,3 +272,29 @@ Git tips: LF/CRLF warnings from Git on Windows are harmless; use
 `git --no-pager` for diffs so a pager doesn't swallow pasted input; `.claude/`
 is gitignored; and always `git fetch` before pushing when working across two
 folders of the same repo (see PROJECT_BIOGRAPHY.md's Git Housekeeping entry).
+
+---
+Known Issues / Deployment Backlog
+
+- **Single process only.** The Adzuna cache, the resume rate limits and the loaded
+  FAISS index live in process memory. With several workers each has its own copy
+  (limits multiply, caches duplicate); use one worker or move the counters and
+  cache to Redis.
+- **No migrations.** Tables come from `db.create_all()`; changing a column means
+  dropping the table or adding Alembic first.
+- **Production checklist:** `FLASK_ENV=production`, a random `SECRET_KEY` of 16+
+  characters, HTTPS (the session cookie is Secure by default in production), a
+  production WSGI server rather than `app.run`, and `SESSION_COOKIE_SECURE` left
+  unset. The Flask debugger must stay off.
+- **`.env` hygiene.** Every line must be `NAME=value` with no spaces (see section 7).
+- **Real-service smoke tests** (`dsa`, `resume`, `roadmap`, `youtube`) spend Gemini
+  and YouTube quota and were not re-run after the CSRF change; they were updated
+  to send the token and should be run once before a demo.
+- **Test data in the dev database.** Smoke tests run with `--keep`, and older runs,
+  leave `@example.com` users behind; use `cleanup_demo_users.py`.
+- **The CSRF token is not rotated** on login or logout (the session keeps one
+  token). Acceptable for now; rotate on login if the threat model changes.
+- **Roadmap v2 verification backlog** and the Cybersecurity / Game Development
+  two-phase limitation are listed in PROJECT_BIOGRAPHY.md.
+- **Videos depend on KB links.** Mobile and Game Development have the weakest
+  coverage and fall back to YouTube search most often.
