@@ -29,11 +29,10 @@ NEAR_ZERO_CHARS = 50   # true extraction failure - almost certainly an
 SPARSE_CHARS = 500     # a real, readable resume that's just thin on content
 
 
-def compute_ats_score(extracted_text, matched_skills, required_skills):
+def _structure_checks(extracted_text):
     """
-    Returns {"score": int (0-100), "reasons": [str, ...]} - reasons list
-    both positive confirmations and specific deductions, so the score is
-    never just an opaque number.
+    The role-independent checks (extraction quality, section headers, contact info).
+    Returns (score before clamping, reasons).
     """
     score = 100
     reasons = []
@@ -82,6 +81,26 @@ def compute_ats_score(extracted_text, matched_skills, required_skills):
     if not PHONE_PATTERN.search(extracted_text):
         score -= 10
         reasons.append("No phone number detected in a standard format.")
+
+    return score, reasons
+
+
+def compute_ats_structure_score(extracted_text):
+    """
+    The same score without the role keyword-density part - for a resume that has no target
+    career path yet. Returns {"score": int (0-100), "reasons": [str, ...]}.
+    """
+    score, reasons = _structure_checks(extracted_text)
+    return {"score": max(0, min(100, score)), "reasons": reasons}
+
+
+def compute_ats_score(extracted_text, matched_skills, required_skills):
+    """
+    Returns {"score": int (0-100), "reasons": [str, ...]} - reasons list
+    both positive confirmations and specific deductions, so the score is
+    never just an opaque number.
+    """
+    score, reasons = _structure_checks(extracted_text)
 
     # 4. Skill keyword density against the target role's real required skills
     if required_skills:

@@ -171,6 +171,11 @@ class Resume(db.Model):
     extracted_skills = db.Column(ARRAY(db.String))
     ai_feedback = db.Column(db.Text)
     uploaded_at = db.Column(db.DateTime, default=datetime.utcnow)
+    # True for a resume saved by POST /resume/discover that no target path has been analyzed
+    # against yet. latest_resume_analysis() skips these, so a "which path fits" upload never
+    # gets paired with an older, unrelated skill gap. NULL/False = a normal analyzed resume.
+    # Added after the table existed: ALTER TABLE resumes ADD COLUMN analysis_pending BOOLEAN DEFAULT FALSE.
+    analysis_pending = db.Column(db.Boolean, default=False)
 
     user = db.relationship("User", backref="resumes")
 
