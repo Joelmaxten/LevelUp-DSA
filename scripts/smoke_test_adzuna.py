@@ -25,6 +25,7 @@ load_dotenv()
 import requests as requests_module
 from fpdf import FPDF
 
+from scripts._csrf import enable_csrf_client
 from app import create_app, db
 from app.models import CareerProfile, Resume, SkillGap, User
 from app.pipeline import adzuna_listings as al
@@ -67,6 +68,7 @@ def make_test_pdf(path):
 def main():
     keep = "--keep" in sys.argv
     app = create_app()
+    enable_csrf_client(app)
     app.config["ADZUNA_APP_ID"] = FAKE_APP_ID
     app.config["ADZUNA_APP_KEY"] = FAKE_APP_KEY
 

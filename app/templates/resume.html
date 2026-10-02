@@ -109,6 +109,8 @@ function renderUploadError(result) {
         actions.append(el("a", { className: "btn", href: "/login?next=/resume", text: "Log in" }));
     } else if (result.status === 413) {
         message = "That file is too large. The limit is 5 MB.";
+    } else if (result.status === 429) {
+        message = (result.data && result.data.message) || "You're uploading too often. Please wait a bit and try again.";
     } else if (result.status === 0) {
         message = "Couldn't reach the server. Check your connection and try again.";
     } else {

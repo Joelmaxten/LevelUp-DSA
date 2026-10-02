@@ -109,6 +109,13 @@ function renderError(result, retry) {
     if (result.status === 401) {
         message = "You need to be logged in to continue.";
         actions.append(el("a", { className: "btn", href: "/login?next=/roadmap", text: "Log in" }));
+    } else if (result.status === 429 && result.data && result.data.error === "daily_limit") {
+        // No retry button: trying again can't succeed until the window moves on.
+        const mins = result.data.resets_in_minutes;
+        const wait = mins >= 60
+            ? `${Math.ceil(mins / 60)} hour${Math.ceil(mins / 60) === 1 ? "" : "s"}`
+            : `${mins} minute${mins === 1 ? "" : "s"}`;
+        message = `You've reached today's limit of ${result.data.limit} roadmaps. You can generate another in about ${wait}. Your existing roadmaps are still available.`;
     } else if (result.status === 502 || result.status === 503) {
         // These bodies are developer-facing (raw LLM output / missing index), not for students.
         const raw = (result.data && result.data.error) || "";

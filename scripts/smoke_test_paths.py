@@ -33,6 +33,7 @@ load_dotenv()
 import sqlalchemy as sa
 from fpdf import FPDF
 
+from scripts._csrf import enable_csrf_client
 from app import create_app, db
 from app.models import CareerProfile, GeneratedRoadmap, Resume, RoadmapProgress, SkillGap, User
 from app.pipeline.career_path_registry import CAREER_PATHS
@@ -97,6 +98,7 @@ def fake_generate_roadmap(career_path, conversation_signals, index, chunks):
 def main():
     keep = "--keep" in sys.argv
     app = create_app()
+    enable_csrf_client(app)
 
     query_log = []
 

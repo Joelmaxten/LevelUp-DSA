@@ -1,6 +1,8 @@
+import math
 from collections import defaultdict
+from datetime import datetime, timedelta
 
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, current_app, jsonify, request
 from flask_login import login_required, current_user
 from sqlalchemy.exc import IntegrityError
 
@@ -187,6 +189,22 @@ def get_roadmap(roadmap_id):
 @roadmap_bp.route("/roadmap/generate", methods=["POST"])
 @login_required
 def generate():
+    # Rolling-24h per-user cap, counted from the roadmaps already saved (no extra
+    # table). Checked first so a capped user never triggers a Gemini call.
+    limit = current_app.config["ROADMAP_DAILY_LIMIT"]
+    window_start = datetime.utcnow() - timedelta(hours=24)
+    recent = (
+        GeneratedRoadmap.query
+        .filter(GeneratedRoadmap.user_id == current_user.id, GeneratedRoadmap.created_at > window_start)
+        .order_by(GeneratedRoadmap.created_at.asc())
+        .all()
+    )
+    if len(recent) >= limit:
+        # The slot that frees up first is the one that falls out of the window next.
+        frees_at = recent[len(recent) - limit].created_at + timedelta(hours=24)
+        minutes = max(1, math.ceil((frees_at - datetime.utcnow()).total_seconds() / 60))
+        return jsonify({"error": "daily_limit", "limit": limit, "resets_in_minutes": minutes}), 429
+
     profile = (
         CareerProfile.query
         .filter_by(user_id=current_user.id)
@@ -214,8 +232,9 @@ def generate():
         steps, retrieved_chunks_audit = generate_roadmap(
             top_career_path, conversation_signals, index, chunks
         )
-    except ValueError as e:
-        return jsonify({"error": str(e)}), 502
+    except ValueError:
+        current_app.logger.exception("%s failed", request.path)
+        return jsonify({"error": "Couldn't generate your roadmap right now. Please try again."}), 502
 
     roadmap = GeneratedRoadmap(
         user_id=current_user.id,
@@ -228,10 +247,10 @@ def generate():
         db.session.add(roadmap)
         db.session.commit()
     except Exception as e:
+        current_app.logger.exception("%s failed", request.path)
         db.session.rollback()
         return jsonify({
             "error": "Failed to save your roadmap. Please try again.",
-            "detail": str(e),
         }), 500
 
     return jsonify({
@@ -259,9 +278,9 @@ def attach_resources(roadmap_id):
     try:
         enriched_steps, _resource_stats = fetch_resources_for_roadmap(roadmap.steps, chunks=chunks)
     except Exception as e:
+        current_app.logger.exception("%s failed", request.path)
         return jsonify({
             "error": "Failed to fetch YouTube resources.",
-            "detail": str(e),
         }), 502
 
     roadmap.steps = enriched_steps
@@ -269,10 +288,10 @@ def attach_resources(roadmap_id):
     try:
         db.session.commit()
     except Exception as e:
+        current_app.logger.exception("%s failed", request.path)
         db.session.rollback()
         return jsonify({
             "error": "Failed to save resources to the roadmap.",
-            "detail": str(e),
         }), 500
 
     return jsonify({

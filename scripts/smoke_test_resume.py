@@ -10,10 +10,13 @@ load_dotenv()
 
 from fpdf import FPDF
 
+from scripts._csrf import enable_csrf_client
 from app import create_app, db
 from app import models
 
 app = create_app()
+
+enable_csrf_client(app)
 
 with app.app_context():
     db.create_all()

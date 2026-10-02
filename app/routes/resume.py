@@ -15,6 +15,7 @@ from app.pipeline.resume_feedback import generate_resume_feedback
 from app.pipeline.salary_matching import get_salary_insights, format_salary_range_summary
 from app.pipeline.ats_score import compute_ats_score
 from app.routes._util import iso_utc, resolve_target_career_path
+from app.security import rate_limit_hit, rate_limited_response
 
 resume_bp = Blueprint("resume", __name__)
 
@@ -86,6 +87,11 @@ def get_latest():
 @resume_bp.route("/resume/upload", methods=["POST"])
 @login_required
 def upload_resume():
+    allowed, retry_after = rate_limit_hit(
+        "resume_upload", current_user.id, current_app.config["RESUME_UPLOAD_LIMIT_PER_HOUR"], 3600)
+    if not allowed:
+        return rate_limited_response(retry_after)
+
     if "resume" not in request.files:
         return jsonify({"error": "No file provided. Send it under the 'resume' field."}), 400
 
@@ -119,9 +125,9 @@ def upload_resume():
     try:
         result = analyze_resume(file_path, target_career_path)
     except Exception as e:
+        current_app.logger.exception("%s failed", request.path)
         return jsonify({
             "error": "Failed to analyze resume. The PDF may be unreadable or corrupted.",
-            "detail": str(e),
         }), 422
 
     try:
@@ -159,10 +165,10 @@ def upload_resume():
         db.session.add(skill_gap)
         db.session.commit()
     except Exception as e:
+        current_app.logger.exception("%s failed", request.path)
         db.session.rollback()
         return jsonify({
             "error": "Failed to save resume analysis. Please try again.",
-            "detail": str(e),
         }), 500
 
     return jsonify({
@@ -187,6 +193,11 @@ def get_listings():
     already rendered, so a slow/unavailable Adzuna call never delays or
     risks the resume analysis itself.
     """
+    allowed, retry_after = rate_limit_hit(
+        "resume_listings", current_user.id, current_app.config["RESUME_LISTINGS_LIMIT_PER_HOUR"], 3600)
+    if not allowed:
+        return rate_limited_response(retry_after)
+
     career_path = request.args.get("career_path")
     if not isinstance(career_path, str) or career_path not in CAREER_PATHS:
         return jsonify({

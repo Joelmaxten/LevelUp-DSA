@@ -29,6 +29,7 @@ load_dotenv()
 
 from sqlalchemy.exc import IntegrityError
 
+from scripts._csrf import enable_csrf_client
 from app import create_app, db
 from app.models import GeneratedRoadmap, RoadmapProgress, User
 from app.routes.roadmap import step_indexes
@@ -61,6 +62,7 @@ def flatten_to_old_shape(phased_steps):
 def main():
     keep = "--keep" in sys.argv
     app = create_app()
+    enable_csrf_client(app)
 
     with app.app_context():
         db.create_all()

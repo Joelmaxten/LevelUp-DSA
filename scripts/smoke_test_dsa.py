@@ -17,6 +17,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from dotenv import load_dotenv
 load_dotenv()
 
+from scripts._csrf import enable_csrf_client
 from app import create_app, db
 from app import models
 from app.pipeline.career_path_registry import FULL_STACK
@@ -25,6 +26,8 @@ from app.pipeline.dsa_graph import MASTERY_THRESHOLD
 PATH = FULL_STACK
 
 app = create_app()
+
+enable_csrf_client(app)
 
 
 def set_mastery(user_id, topic, level):

@@ -7,7 +7,7 @@ Locks are enforced here, not just drawn by the frontend: a locked node's problem
 framings are refused with 403, so hitting the API directly can't skip a prerequisite.
 """
 
-from flask import Blueprint, jsonify
+from flask import Blueprint, current_app, jsonify, request
 from flask_login import login_required, current_user
 from sqlalchemy.exc import IntegrityError
 
@@ -211,8 +211,9 @@ def get_problem_framing(problem_id):
 
     try:
         narrative = generate_framing(problem.title, problem.node.topic, problem.description, career_path)
-    except ValueError as e:
-        return jsonify({"error": str(e)}), 502
+    except ValueError:
+        current_app.logger.exception("%s failed", request.path)
+        return jsonify({"error": "Couldn't generate the framing right now. Please try again."}), 502
 
     framing = DSAProblemFraming(problem_id=problem.id, career_path=career_path, narrative=narrative)
     try:
@@ -224,8 +225,9 @@ def get_problem_framing(problem_id):
         winner = DSAProblemFraming.query.filter_by(problem_id=problem.id, career_path=career_path).first()
         narrative = winner.narrative if winner else narrative
     except Exception as e:
+        current_app.logger.exception("%s failed", request.path)
         db.session.rollback()
-        return jsonify({"error": "Failed to save the problem framing.", "detail": str(e)}), 500
+        return jsonify({"error": "Failed to save the problem framing."}), 500
 
     return jsonify({"problem_id": problem.id, "career_path": career_path,
                     "narrative": narrative, "cached": False}), 200

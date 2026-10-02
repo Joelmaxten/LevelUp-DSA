@@ -16,7 +16,13 @@ def create_app(config_name=None):
     app = Flask(__name__)
 
     config_name = config_name or os.environ.get("FLASK_ENV", "default")
-    app.config.from_object(config[config_name])
+    config_class = config[config_name]
+    if hasattr(config_class, "validate"):
+        config_class.validate()
+    app.config.from_object(config_class)
+
+    from app.security import init_security
+    init_security(app)
 
     db.init_app(app)
     login_manager.init_app(app)
@@ -146,7 +152,8 @@ def create_app(config_name=None):
         try:
             db.session.execute(text("SELECT 1"))
             return "<h1>Database connection: OK</h1>"
-        except Exception as e:
-            return f"<h1>Database connection FAILED</h1><p>{e}</p>"
+        except Exception:
+            app.logger.exception("db-check failed")
+            return "<h1>Database connection FAILED</h1>", 500
 
     return app

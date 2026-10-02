@@ -8,11 +8,14 @@ import random
 from dotenv import load_dotenv
 load_dotenv()
 
+from scripts._csrf import enable_csrf_client
 from app import create_app, db
 from app import models
 from app.models import CareerProfile, User
 
 app = create_app()
+
+enable_csrf_client(app)
 
 with app.app_context():
     db.create_all()  # no-op if tables already exist

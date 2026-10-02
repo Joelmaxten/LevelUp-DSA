@@ -1,6 +1,18 @@
 import os
 
 
+def _env_flag(name, default):
+    value = os.environ.get(name)
+    if value is None or value == "":
+        return default
+    return value.strip().lower() in ("1", "true", "yes", "on")
+
+
+# SECRET_KEY values that must never reach production (the dev default, and the
+# placeholder shipped in .env.example).
+INSECURE_SECRET_KEYS = {"", "dev-secret-key-change-me", "change-me-to-a-random-string", "changeme", "secret"}
+
+
 class Config:
     """Base configuration — values are pulled from environment variables.
     Never hardcode secrets here. Use a local .env file (gitignored) for dev.
@@ -15,6 +27,18 @@ class Config:
         "postgresql://localhost/levelup_dsa_dev",
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    # Session cookie. Secure is off in development (plain http://localhost) and
+    # on in production; SESSION_COOKIE_SECURE=true/false overrides either.
+    SESSION_COOKIE_SAMESITE = "Lax"
+    SESSION_COOKIE_HTTPONLY = True
+    SESSION_COOKIE_SECURE = _env_flag("SESSION_COOKIE_SECURE", False)
+
+    # Usage limits (per user). The roadmap cap is a rolling window over
+    # GeneratedRoadmap.created_at; the other two are in-process counters.
+    ROADMAP_DAILY_LIMIT = int(os.environ.get("ROADMAP_DAILY_LIMIT", "5"))
+    RESUME_UPLOAD_LIMIT_PER_HOUR = int(os.environ.get("RESUME_UPLOAD_LIMIT_PER_HOUR", "10"))
+    RESUME_LISTINGS_LIMIT_PER_HOUR = int(os.environ.get("RESUME_LISTINGS_LIMIT_PER_HOUR", "30"))
 
     # External API keys — placeholders, fill via environment variables
     GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
@@ -39,6 +63,17 @@ class DevelopmentConfig(Config):
 
 class ProductionConfig(Config):
     DEBUG = False
+    SESSION_COOKIE_SECURE = _env_flag("SESSION_COOKIE_SECURE", True)
+
+    @classmethod
+    def validate(cls):
+        """Called at startup; refuses to boot production with a missing/default SECRET_KEY."""
+        key = os.environ.get("SECRET_KEY", "")
+        if key.strip().lower() in INSECURE_SECRET_KEYS or len(key) < 16:
+            raise RuntimeError(
+                "Refusing to start in production: SECRET_KEY is missing, a default/placeholder, "
+                "or shorter than 16 characters. Set a long random SECRET_KEY in the environment."
+            )
 
 
 config = {

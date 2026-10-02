@@ -13,11 +13,30 @@ function el(tag, props = {}, ...children) {
     return node;
 }
 
+// The session's CSRF token, rendered into layout.html as <meta name="csrf-token">.
+// The server rejects every POST/PUT/PATCH/DELETE without it (400 {"error":"csrf"}).
+// ANY new state-changing fetch must go through request()/postJson()/postForm()
+// below - never call fetch() directly for those - so the header is always sent.
+function csrfToken() {
+    const meta = document.querySelector('meta[name="csrf-token"]');
+    return meta ? meta.getAttribute("content") : "";
+}
+
+const CSRF_SAFE_METHODS = ["GET", "HEAD", "OPTIONS"];
+
 // Always resolves to { ok, status, data } - never throws.
 // status 0 = network failure; data is null when the response body wasn't JSON
 // (e.g. Flask's HTML 413 page for an oversized upload).
 async function request(url, options) {
     try {
+        const method = (options && options.method ? options.method : "GET").toUpperCase();
+        if (!CSRF_SAFE_METHODS.includes(method)) {
+            // Headers object, so a caller's own headers (Content-Type) are kept and
+            // multipart bodies still get the browser's boundary.
+            const headers = new Headers(options.headers || {});
+            headers.set("X-CSRF-Token", csrfToken());
+            options = { ...options, headers };
+        }
         const response = await fetch(url, options);
         let data = null;
         try {

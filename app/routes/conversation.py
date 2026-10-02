@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request, session
+from flask import Blueprint, current_app, jsonify, request, session
 from flask_login import login_required, current_user
 
 from app import db
@@ -109,13 +109,13 @@ def answer_conversation():
             db.session.add(career_profile)
             db.session.commit()
         except Exception as e:
+            current_app.logger.exception("%s failed", request.path)
             db.session.rollback()
             # Session state (conversation + quiz_scores) is deliberately left
             # intact here - the student's answers aren't lost, and this same
             # request can safely be retried once the underlying DB issue is fixed.
             return jsonify({
                 "error": "Failed to save your career profile. Please try again.",
-                "detail": str(e),
             }), 500
 
         session.pop("conversation")
