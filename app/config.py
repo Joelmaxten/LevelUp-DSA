@@ -69,6 +69,12 @@ class Config:
     # The key is only ever sent as a bearer header by llm_client; it is never logged or put in an error.
     LLM_BASE_URL = (os.environ.get("LLM_BASE_URL", "").strip() or "https://integrate.api.nvidia.com/v1").rstrip("/")
     NVIDIA_API_KEY = os.environ.get("NVIDIA_API_KEY", "").strip()
+    # Request timeout for that provider. A phase of a roadmap (a ~24,000-character prompt, ~11,500 output
+    # tokens including the model's reasoning) took 178 s on openai/gpt-oss-20b, so the 90 s default for
+    # the other providers made every phase time out. Order of precedence: LLM_TIMEOUT_S_OPENAI_COMPAT,
+    # then an explicitly set LLM_TIMEOUT_S, then 300 s.
+    LLM_TIMEOUT_S_OPENAI_COMPAT = _env_number(
+        "LLM_TIMEOUT_S_OPENAI_COMPAT", _env_number("LLM_TIMEOUT_S", 300.0, float), float)
     # Client-side cap on requests per minute for that provider, shared by every thread in the process.
     LLM_MAX_RPM = max(1, _env_number("LLM_MAX_RPM", 30, int))
     # {model_id: {"input": usd_per_million_tokens, "output": usd_per_million_tokens}}.

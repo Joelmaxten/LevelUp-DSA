@@ -1635,6 +1635,54 @@ with the gemini provider.
 
 ---
 ---
+## OpenAI-Compatible Provider: Roadmap Generation Timed Out
+
+**The issue:** with `LLM_PROVIDER=openai_compat` and `openai/gpt-oss-20b` on NVIDIA's endpoint, roadmap
+generation failed (a 502 from `/roadmap/generate`).
+
+**How it was diagnosed:** `scratch/repro_generation.py` called the real `generate_roadmap` for Cybersecurity
+and logged every real request (status, latency, `max_tokens`, prompt size, `finish_reason`, usage, content
+and reasoning sizes), capped at 10 real requests in total. Evidence from the first run:
+- The folder-order call worked: 200 in 7.6 s, `finish_reason` "stop", 173 completion tokens.
+- The first phase (a 24,289-character prompt, `max_tokens` 16384) raised `ReadTimeout` at 90.7 s, and the retry
+  at 91.7 s: the 90 s `LLM_TIMEOUT_S` was shorter than the model's generation time. After three timeouts
+  the generator raises, which the route reports as a 502.
+- Ruled out: no 400 (no `max_tokens` problem), no empty or null content, no `finish_reason` "length", no
+  limiter wait (30 requests per minute was never the constraint). The rate limiter and retries were not the cause.
+- With the timeout raised to 400 s, the same phase request returned 200 after **178.2 s**: valid JSON, 14 steps,
+  `finish_reason` "stop", 8,903 prompt tokens and 11,551 completion tokens, of which about half were the
+  model's reasoning (`message.reasoning`, 16,953 characters, next to 16,280 characters of content). So the
+  reply was correct; it was only slower than the timeout (about 65 output tokens per second).
+
+**Root cause:** `LLM_TIMEOUT_S` (90 s) was sized for Gemini and Bedrock, but gpt-oss-20b is a reasoning model
+and produces its reasoning as part of the completion, so a large roadmap phase takes about 3 minutes.
+
+**The fix** (`config.py` and `llm_client.py`, `openai_compat` only): a separate timeout,
+`LLM_TIMEOUT_S_OPENAI_COMPAT` (precedence: that variable, then an explicit `LLM_TIMEOUT_S`, then 300 s). Gemini
+and Bedrock still use `LLM_TIMEOUT_S` (90 s), and their tests and the generator golden outputs are unchanged.
+Not added, because the evidence did not call for them: a `max_tokens` cap, handling for empty content, a JSON
+extractor (the content was clean JSON, no fences), and `LLM_REASONING_EFFORT` (no request was spent proving
+the endpoint accepts it; it could cut latency, since about half the output is reasoning).
+
+**After the fix** (real Cybersecurity run, 3 requests): succeeded in 269 s. Planner 6.3 s; phase 1 (11,304
+characters) 48.9 s, 4,577 completion tokens; phase 2 (25,929 characters) 196.8 s, 15,934 completion tokens
+and `finish_reason` "stop". Quality: 2 phases, 22 steps, no `topic_refs` outside the path's inventory or shared
+between phases, no duplicate titles, no description that looks cut off, 2 to 3 projects per step, step
+indexes contiguous. The model's folder order put DevSecOps before the main Cybersecurity phase.
+
+**Still open:** a roadmap now takes about 4.5 minutes in one request (the page says "up to a minute", and a
+proxy or server timeout could cut it off); the largest phase used 15,934 of its 16,384 output tokens, so a bigger
+phase could be truncated (the cap is shared with Gemini, so it was not changed); `PHASE_CONCURRENCY` above 1
+would overlap phases but has not been tried with this provider; the three timeouts of 300 s a request can
+take 15 minutes in the worst case.
+
+**How verified:** `smoke_test_llm.py` (57 checks): a stub reproduces the real response shape (saved as
+`scripts/fixtures/openai_compat_phase_response.json`, key and ids removed) and the 178 s latency, showing the
+90 s timeout fails on every attempt and the 300 s setting succeeds; the config precedence is checked in a
+subprocess. Generator golden outputs are unchanged.
+
+---
+---
 ## Still To Build
 
 - Real-model check of parallel generation: run `scripts/inspect_roadmap.py` for a few

@@ -135,7 +135,7 @@ class FakePost:
 OC_KEY = "nvapi-FAKE-test-key-0123456789abcdef"
 OPENAI = {"LLM_PROVIDER": "openai_compat", "LLM_BASE_URL": "https://llm.test/v1", "NVIDIA_API_KEY": OC_KEY,
           "ROADMAP_MODEL_ID": "oc-primary", "FAST_MODEL_ID": "oc-fast", "FALLBACK_MODEL_ID": "", "ALT_PROVIDER_MODEL_ID": "",
-          "LLM_MAX_RPM": 60000, "LLM_TIMEOUT_S": 7.0}
+          "LLM_MAX_RPM": 60000, "LLM_TIMEOUT_S": 7.0, "LLM_TIMEOUT_S_OPENAI_COMPAT": 7.0}
 
 
 def forbidden_client(*args, **kwargs):
@@ -211,6 +211,49 @@ def openai_compat_checks(sleeps):
     fake, r, err = go([FakeHttpResponse(200, {"unexpected": True})])
     check("openai_compat: a 200 without choices[0].message.content is an error, not a crash", err is not None and err.kind == "validation")
 
+    # Observed on the real endpoint (openai/gpt-oss-20b, a 24,289-character roadmap-phase prompt): the reply
+    # is valid and complete (finish_reason "stop", 11,551 completion tokens incl. reasoning) but takes 178 s,
+    # so a 90 s timeout failed every phase. The stub reproduces the response SHAPE from the saved real file
+    # (scripts/fixtures/openai_compat_phase_response.json, key and ids removed) and its latency.
+    import json as _json
+    fixture = _json.load(open("scripts/fixtures/openai_compat_phase_response.json", encoding="utf-8"))
+    REAL_LATENCY_S = 178.2
+
+    def slow_endpoint(url, headers=None, json=None, timeout=None, **kw):
+        slow_endpoint.timeouts.append(timeout)
+        if timeout < REAL_LATENCY_S:
+            raise requests.exceptions.ReadTimeout("read timed out")
+        return FakeHttpResponse(200, fixture)
+    slow_endpoint.timeouts = []
+
+    unset = {"LLM_TIMEOUT_S_OPENAI_COMPAT": Config.LLM_TIMEOUT_S_OPENAI_COMPAT, "LLM_TIMEOUT_S": 90.0}
+    sleeps.clear()
+    with Env({**OPENAI, **unset, "LLM_TIMEOUT_S_OPENAI_COMPAT": 90.0}), patch.object(requests, "post", slow_endpoint):
+        try:
+            generate("roadmap", "p", max_output_tokens=16384)
+            err = None
+        except LLMError as exc:
+            err = exc
+    check("real failure mode: with a 90 s timeout the 178 s phase response times out on every attempt -> LLMError(kind=transient)",
+          err is not None and err.kind == "transient" and slow_endpoint.timeouts == [90.0, 90.0, 90.0])
+    slow_endpoint.timeouts.clear()
+    with Env({**OPENAI, "LLM_TIMEOUT_S_OPENAI_COMPAT": 300.0, "LLM_TIMEOUT_S": 90.0}), patch.object(requests, "post", slow_endpoint):
+        r = generate("roadmap", "p", max_output_tokens=16384)
+    check("real failure mode fixed: the openai_compat timeout (300 s) is separate from LLM_TIMEOUT_S (90 s, still used by gemini and bedrock)",
+          slow_endpoint.timeouts == [300.0] and r["text"].startswith("[") and r["input_tokens"] == 8903 and r["output_tokens"] == 11551)
+    check("the response shape with reasoning/reasoning_content/tool_calls fields is read correctly (content used, reasoning ignored)",
+          "reasoning" not in r["text"] and r["model_id"] == "oc-primary")
+    import subprocess
+
+    def timeouts_with(**env_vars):
+        clean = {k: v for k, v in os.environ.items() if k not in ("LLM_TIMEOUT_S", "LLM_TIMEOUT_S_OPENAI_COMPAT")}
+        out = subprocess.run([sys.executable, "-c", "from app.config import Config as C; print(C.LLM_TIMEOUT_S, C.LLM_TIMEOUT_S_OPENAI_COMPAT)"],
+                             capture_output=True, text=True, env={**clean, **env_vars}).stdout.split()
+        return tuple(float(x) for x in out)
+    check("config: with nothing set the timeouts are 90 s (gemini/bedrock) and 300 s (openai_compat)", timeouts_with() == (90.0, 300.0))
+    check("config: an explicit LLM_TIMEOUT_S applies to openai_compat too, and the specific variable wins over it",
+          timeouts_with(LLM_TIMEOUT_S="45") == (45.0, 45.0) and timeouts_with(LLM_TIMEOUT_S="45", LLM_TIMEOUT_S_OPENAI_COMPAT="200") == (45.0, 200.0))
+
     # failover to the other provider when it is configured
     gemini_calls = []
 
@@ -255,8 +298,8 @@ def openai_compat_checks(sleeps):
             t.join()
     times = sorted(c["at"] for c in fake.calls)
     gaps = [b - a for a, b in zip(times, times[1:])]
-    check("limiter: 8 threads calling generate() at 1200/min really send requests >= ~0.05 s apart (real clock)",
-          len(times) == 8 and min(gaps) >= 0.04 and times[-1] - times[0] >= 0.3 and time.monotonic() - started >= 0.3)
+    check("limiter: 8 threads calling generate() at 1200/min really spread their requests over >= 0.35 s (real clock, jitter-tolerant)",
+          len(times) == 8 and times[-1] - times[0] >= 0.3 and time.monotonic() - started >= 0.3 and all(times[i + 2] - times[i] >= 0.07 for i in range(6)))
     llm_client._limiter_sleep = lambda seconds: None
     llm_client._limiter._next_slot = 0.0
     check("limiter: retries pass through the same limiter (a retried call takes a second slot)",

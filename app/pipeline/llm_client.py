@@ -89,6 +89,11 @@ def _timeout_s():
     return float(_setting("LLM_TIMEOUT_S", DEFAULT_TIMEOUT_S))
 
 
+def _openai_timeout_s():
+    """openai_compat only: long generations (a roadmap phase took 178 s) need more than the 90 s default."""
+    return float(_setting("LLM_TIMEOUT_S_OPENAI_COMPAT", 300.0))
+
+
 def estimate_cost_usd(model_id, input_tokens, output_tokens):
     """USD for one call, or None when the model has no price in config.PRICE_PER_MTOK or counts are unknown."""
     price = (_setting("PRICE_PER_MTOK", {}) or {}).get(model_id)
@@ -267,7 +272,7 @@ def _openai_once(model_id, prompt, system, max_output_tokens):
     headers = {"Authorization": f"Bearer {_setting('NVIDIA_API_KEY', '')}", "Content-Type": "application/json"}
     _limiter.acquire(int(_setting("LLM_MAX_RPM", 30)))
     try:
-        response = requests.post(url, headers=headers, json=body, timeout=_timeout_s())
+        response = requests.post(url, headers=headers, json=body, timeout=_openai_timeout_s())
     except (requests.exceptions.Timeout, requests.exceptions.ConnectionError) as exc:
         raise _HttpFailure("transient", type(exc).__name__, None)
     except requests.exceptions.RequestException as exc:

@@ -91,6 +91,7 @@ three are needed to boot; the rest unlock features:
 | `LLM_PROVIDER` | `gemini`, `bedrock` or `openai_compat` (see `app/pipeline/llm_client.py`) | `gemini` |
 | `LLM_BASE_URL` | `openai_compat` only: base URL of an OpenAI-compatible API; requests go to `{LLM_BASE_URL}/chat/completions` | `https://integrate.api.nvidia.com/v1` |
 | `NVIDIA_API_KEY` | `openai_compat` only: sent as a bearer header, never logged or put in an error. Model IDs come from the usual `ROADMAP_MODEL_ID` / `FAST_MODEL_ID` / `FALLBACK_MODEL_ID` | empty |
+| `LLM_TIMEOUT_S_OPENAI_COMPAT` | `openai_compat` only: request timeout in seconds. Precedence: this variable, then an explicitly set `LLM_TIMEOUT_S`, then 300. A roadmap phase on `openai/gpt-oss-20b` took 178 to 197 s, so the 90 s default of the other providers times out | `300` |
 | `LLM_MAX_RPM` | `openai_compat` only: client-side requests per minute, shared by every thread (calls wait for a slot, they are never refused) | `30` |
 | `ROADMAP_MODEL_ID`, `FAST_MODEL_ID`, `FALLBACK_MODEL_ID` | model per task (`roadmap` = each roadmap phase, `fast` = folder ordering and resume feedback, `fallback` = tried after a model fails). Empty with `gemini` = built-in Gemini models; required with `bedrock` | empty |
 | `ALT_PROVIDER_MODEL_ID` | model to use if the other provider has to take over after the first fails | empty |

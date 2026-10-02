@@ -1,0 +1,27 @@
+{
+ "object": "chat.completion",
+ "model": "openai/gpt-oss-20b",
+ "choices": [
+  {
+   "index": 0,
+   "finish_reason": "stop",
+   "message": {
+    "role": "assistant",
+    "content": "[{\"step_number\": 1, \"title\": \"Foundations\", \"description\": \"d\", \"topic_refs\": [], \"projects\": []}]",
+    "reasoning": "(reasoning text omitted; the real one was 16,953 characters)",
+    "reasoning_content": "(omitted)",
+    "refusal": null,
+    "annotations": null,
+    "audio": null,
+    "function_call": null,
+    "tool_calls": []
+   }
+  }
+ ],
+ "usage": {
+  "prompt_tokens": 8903,
+  "total_tokens": 20454,
+  "completion_tokens": 11551
+ },
+ "_note": "Shape of a real openai/gpt-oss-20b phase response (24,289-character prompt; 178 s; 11,551 completion tokens incl. reasoning). Content and reasoning shortened; ids and fingerprints removed."
+}
