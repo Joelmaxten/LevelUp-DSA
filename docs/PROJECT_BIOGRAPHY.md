@@ -1683,6 +1683,71 @@ subprocess. Generator golden outputs are unchanged.
 
 ---
 ---
+## Background Roadmap Generation and Latency Experiments
+
+**What was built:**
+- **`POST /roadmap/generate-async`** (same checks as `/roadmap/generate`: CSRF, path validation, daily cap, index
+  present) starts the generation in a background thread and returns 202 `{job_id}`; 409 `job_running` if the
+  user already has an active job; 503 `busy` if the registry is full of active jobs. **`GET /roadmap/jobs/<id>`**
+  (owner only, otherwise 404) returns `status` (queued, running, done, failed), `elapsed_s`, `phase_done` and
+  `phase_total` (reported through a new optional `on_progress` callback of `generate_roadmap` that cannot change
+  its output), `roadmap_id` when done and a fixed `error_code` when failed (`generation_failed`, `save_failed`,
+  `unexpected`; exception text only goes to the server log). `/roadmap/generate` is untouched.
+- **Registry** (`app/pipeline/generation_jobs.py`): in memory, one lock, one active job per user, finished jobs
+  kept 1 hour, at most 200 stored jobs (oldest finished evicted). The thread gets plain data and its own app
+  context, and a `finally` guarantees every job ends done or failed. A failed job saves nothing, so it does not
+  count against the daily cap (which counts saved roadmaps).
+- **Page:** Generate starts a job and polls every 3 seconds, showing elapsed time and "N of M parts written",
+  with the copy "This can take a few minutes. You can keep this page open." A failed job shows a plain message
+  and Try again. The job id is kept in `sessionStorage`, so a reload resumes the same job; polling pauses after
+  the tab has been hidden for 2 minutes and resumes when it is visible again.
+- **`LLM_REASONING_EFFORT`** (openai_compat only, default empty = nothing sent).
+
+**Why:** with `openai/gpt-oss-20b` a roadmap takes minutes, far too long to hold a web request open.
+
+**Latency experiments** (8 real requests to the NVIDIA endpoint, Cybersecurity, 2 phases):
+- Baseline from the previous fix (sequential, no effort set): 269 s; planner 6.3 s; phase 1 (11,304 characters)
+  48.9 s, 4,577 completion tokens, reasoning 5,319 characters; phase 2 (25,929 characters) 196.8 s, 15,934
+  completion tokens, reasoning 28,523 characters.
+- Probe, `reasoning_effort: "low"` on the planner prompt: accepted (200). 3.7 s, 139 completion tokens,
+  reasoning 571 characters, against 6.3 to 7.6 s, 173 to 211 tokens and 696 to 881 characters without it.
+- Run B (effort low, `PHASE_CONCURRENCY=2`): planner 1.7 s; the two phases ran together in 19.6 s (1,876
+  tokens, reasoning 139 characters) and 29.4 s (2,274 tokens, reasoning 69 characters). The duplicate check then
+  asked for a rewrite of phase 2 (2 steps repeated phase 1), which my 3-request cap for that run refused, so it
+  produced no roadmap.
+- Run C (same settings, 4 requests): planner 4.6 s; phases together in 48.4 s (2,199 tokens) and 80.9 s (3,008
+  tokens); duplicate check: 1 repeated step, so phase 2 was rewritten once, 74.8 s (3,062 tokens); total 173.6 s.
+  The same-size requests took 2.5 times longer than in run B, so endpoint latency itself varies a lot.
+- **Quality dropped.** Run C: 2 phases, 22 steps, no duplicate titles, no cut-off descriptions, step indexes
+  contiguous, and no `topic_refs` outside the inventory only because the generator drops invalid ones: it
+  dropped **159** of them (the model returned node ids one character short, for example 20 characters instead
+  of 21). Phase 2 steps 3 to 14 (12 of 22 steps) ended with **no** `topic_refs` at all (their `more_topics`
+  were still filled by embedding); the 269 s baseline had none. Two things changed at once (effort low and
+  concurrency 2), and each configuration ran once, so the cause is not proven; effort low is the likely one
+  (reasoning of 69 to 139 characters against 5,319 and 28,523), since copying 21-character ids needs care.
+
+**Recommendation (defaults unchanged):** leave `LLM_REASONING_EFFORT` empty and `PHASE_CONCURRENCY` at 1 for
+roadmap phases. Effort low cuts completion tokens about 5 times, so it may suit the planner call or resume
+feedback; for the phases it would need a repair step that matches a truncated id to the inventory first.
+Parallel phases did overlap, but in this run the duplicate rewrite put back a serial call (74.8 s of 173.6 s).
+With the async job, the roughly 4.5 minute default run is tolerable.
+
+**Issues faced and root causes:** the 3-request cap for run B did not allow for a duplicate rewrite, a fourth
+request, so that run failed on my own limit, not on the generator (it cost one more real run). The duplicate
+check fires more often in parallel mode because phases cannot see each other's titles. Other: no issue recorded.
+
+**Not covered:** the hidden-tab pause is untested (it needs a real hidden tab); jobs are lost on a server
+restart and are not shared between worker processes; a job and a synchronous `/roadmap/generate` from the same
+user can run together, so the daily cap can be exceeded by one in that case.
+
+**How verified:** `smoke_test_async_generation.py` (25 checks: 202 and polling, progress fields, 409, ownership
+404, fixed error codes and no exception text, the thread's own app context, cap enforced on start and not used
+up by failures, expiry and the stored-jobs cap, CSRF, the synchronous route unchanged); `smoke_test_llm.py`
+(60 checks, 3 new); browser check of start, progress, reload during a job, done and failed at 1400px and 360px
+on a stubbed server.
+
+---
+---
 ## Still To Build
 
 - Real-model check of parallel generation: run `scripts/inspect_roadmap.py` for a few

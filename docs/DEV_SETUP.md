@@ -92,6 +92,7 @@ three are needed to boot; the rest unlock features:
 | `LLM_BASE_URL` | `openai_compat` only: base URL of an OpenAI-compatible API; requests go to `{LLM_BASE_URL}/chat/completions` | `https://integrate.api.nvidia.com/v1` |
 | `NVIDIA_API_KEY` | `openai_compat` only: sent as a bearer header, never logged or put in an error. Model IDs come from the usual `ROADMAP_MODEL_ID` / `FAST_MODEL_ID` / `FALLBACK_MODEL_ID` | empty |
 | `LLM_TIMEOUT_S_OPENAI_COMPAT` | `openai_compat` only: request timeout in seconds. Precedence: this variable, then an explicitly set `LLM_TIMEOUT_S`, then 300. A roadmap phase on `openai/gpt-oss-20b` took 178 to 197 s, so the 90 s default of the other providers times out | `300` |
+| `LLM_REASONING_EFFORT` | `openai_compat` only: sent as `reasoning_effort` (`low`, `medium`, `high`) when set; empty sends nothing. `low` is accepted by the NVIDIA endpoint and cuts output about 5 times, but in one run it made the model mis-copy node ids; see the biography before enabling it for roadmap phases | empty |
 | `LLM_MAX_RPM` | `openai_compat` only: client-side requests per minute, shared by every thread (calls wait for a slot, they are never refused) | `30` |
 | `ROADMAP_MODEL_ID`, `FAST_MODEL_ID`, `FALLBACK_MODEL_ID` | model per task (`roadmap` = each roadmap phase, `fast` = folder ordering and resume feedback, `fallback` = tried after a model fails). Empty with `gemini` = built-in Gemini models; required with `bedrock` | empty |
 | `ALT_PROVIDER_MODEL_ID` | model to use if the other provider has to take over after the first fails | empty |
@@ -208,6 +209,7 @@ For these tests run `pip install -r requirements-dev.txt` once (adds fpdf2).
 | `smoke_test_adzuna.py` | live listings: cache, failure handling, median-only salary, `/resume/listings` | no (HTTP patched) |
 | `smoke_test_resume_modes.py` | resume modes: ranking unit checks (near-ties, thin-path labelling, insufficient data), `/resume/discover` and `/resume/<id>/analyze` happy paths, 404/400/401, CSRF, rate limits, stored skills reused, `/resume/upload` unchanged, required-skills lists identical to the pre-change snapshot (`scratch/golden/required_skills_before.json`) | no (feedback stubbed; local index and embeddings; needs `requirements-dev.txt` for fpdf2) |
 | `smoke_test_quiz.py` | career quiz: question-bank rules (1-3 paths per option, 6+ options per path, separating options for each pair), invariants (every path can be #1, every pair separable, stop rule within the bank), 30 seeded replays against `scratch/golden/quiz_after.json`, all-A/all-B personas; pure, no database | no |
+| `smoke_test_async_generation.py` | background generation: `/roadmap/generate-async` 202 and polling to done, progress fields, 409, ownership 404, fixed error codes with no exception text, own app context, daily cap, expiry, CSRF, sync route unchanged | no (generator stubbed) |
 | `smoke_test_llm.py` | `llm_client`: retry on throttling/5xx/timeouts, no retry on access-denied/validation, fallback model, provider switch, schema correction, no secrets or prompt text in errors or logs | no (fake Bedrock client, patched Gemini; hides real credentials and blocks real clients) |
 | `smoke_test_generator.py` | roadmap generator with a fake LLM: golden comparison for 3 paths, coverage/duplicate/index/allowlist/shape invariants at concurrency 1 and 3, thread hygiene, failure handling, duplicate rewrite, warm-up | no (fake LLM, local embeddings only; ~1.5 min, mostly model load) |
 | `smoke_test_profile_flow.py` | quiz then conversation then `CareerProfile` row; prints rather than counts | no |
@@ -273,6 +275,19 @@ roadmap numbers behind each row (local only).
   `docs/QUIZ_QUESTION_BANK.md` (every question, option and signal, with the old signals of Q1-Q10) after any change.
 - Pairs of paths that get special treatment (separating questions, the stop rule) are defined once, in
   `career_path_registry.PATH_PAIRS`.
+
+### Background roadmap generation
+
+- `POST /roadmap/generate-async` (body `{target_career_path}`, CSRF header like every POST) returns 202 `{job_id}`; 409
+  `{error: "job_running", job_id}` if you already have an active job; 429 `daily_limit` and the path errors as for
+  `/roadmap/generate` (which still exists, unchanged, and still blocks until the roadmap is saved).
+- `GET /roadmap/jobs/<job_id>` returns `{status, elapsed_s, phase_done?, phase_total?, roadmap_id?, error_code?}`; a job that is
+  not yours, unknown or expired is 404. `status` is `queued`, `running`, `done` or `failed`; `error_code` is one of
+  `generation_failed`, `save_failed`, `unexpected` (the real exception is in the server log only).
+- The roadmap page uses the async endpoints and keeps the job id in `sessionStorage`.
+- **Limitation:** jobs live in process memory (`app/pipeline/generation_jobs.py`): a restart loses running jobs, and with several
+  worker processes a poll can reach a worker that does not know the job. Run one worker, or move the registry to the
+  database or Redis first. A job and a synchronous generation from the same user can run at once.
 
 ### CSRF: required for every new state-changing request
 
@@ -383,3 +398,6 @@ Known Issues / Deployment Backlog
   and TensorFlow, PyTorch and pandas have no survey data (the 2025 survey dropped those columns), so they only help
   through the roadmap signal. The page says so; check a few real resumes before relying on it.
 - **`/resume/<id>/analyze` with a real LLM is untested** (stubbed in the tests and the browser check).
+- **Background jobs are in memory.** See "Background roadmap generation" above: one worker process only.
+- **`openai_compat` roadmap quality depends on reasoning.** With `LLM_REASONING_EFFORT=low` one run lost the `topic_refs` of
+  12 of 22 steps (the model truncated node ids); defaults are unchanged.
