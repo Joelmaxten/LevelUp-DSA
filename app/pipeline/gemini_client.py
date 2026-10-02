@@ -26,20 +26,25 @@ PRIMARY_MODEL = "gemini-flash-latest"
 FALLBACK_MODEL = "gemini-flash-lite-latest"
 
 
-def _build_config(max_output_tokens, json_mode):
+def _build_config(max_output_tokens, json_mode, system=None, timeout_s=None):
     """
-    None (not an empty GenerateContentConfig) when neither option is used,
-    so passing config=None to generate_content is byte-for-byte the same
-    call resume_feedback.py has always made - its default behavior (plain
-    text back, no explicit output cap) is unchanged.
+    None (not an empty GenerateContentConfig) when no option is used, so
+    passing config=None to generate_content is byte-for-byte the same call
+    resume_feedback.py has always made - its default behavior (plain text
+    back, no explicit output cap) is unchanged. system and timeout_s are
+    new, optional and likewise absent from the config unless given.
     """
-    if max_output_tokens is None and not json_mode:
+    if max_output_tokens is None and not json_mode and system is None and timeout_s is None:
         return None
     kwargs = {}
     if max_output_tokens is not None:
         kwargs["max_output_tokens"] = max_output_tokens
     if json_mode:
         kwargs["response_mime_type"] = "application/json"
+    if system is not None:
+        kwargs["system_instruction"] = system
+    if timeout_s is not None:
+        kwargs["http_options"] = types.HttpOptions(timeout=int(timeout_s * 1000))  # SDK takes milliseconds
     return types.GenerateContentConfig(**kwargs)
 
 
@@ -53,7 +58,13 @@ def _call_gemini(client, model, prompt, config):
     return client.models.generate_content(model=model, contents=prompt, config=config)
 
 
-def generate_with_retry(prompt, max_output_tokens=None, json_mode=False):
+def _usage(response):
+    meta = getattr(response, "usage_metadata", None)
+    return (getattr(meta, "prompt_token_count", None), getattr(meta, "candidates_token_count", None))
+
+
+def generate_with_retry(prompt, max_output_tokens=None, json_mode=False, system=None, timeout_s=None,
+                        primary_model=None, fallback_model=None, return_meta=False):
     """
     Calls Gemini with the given prompt: up to 3 retries with exponential
     backoff on the primary model (only for ServerError - 503-class
@@ -74,21 +85,35 @@ def generate_with_retry(prompt, max_output_tokens=None, json_mode=False):
     json_mode=True; _strip_code_fences() in roadmap_generator.py still
     handles the fenced case too, as a no-op safety net if a model ignores
     the mime type.
+
+    Added for llm_client.py, all defaulting to the old behavior: system
+    (system instruction), timeout_s (per-request HTTP timeout),
+    primary_model / fallback_model (override the module's two model names),
+    and return_meta=True, which returns {"text", "model_id", "input_tokens",
+    "output_tokens"} instead of just the text.
     """
     client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
-    config = _build_config(max_output_tokens, json_mode)
+    config = _build_config(max_output_tokens, json_mode, system, timeout_s)
+    primary = primary_model or PRIMARY_MODEL
+    fallback = fallback_model or FALLBACK_MODEL
+    used_model = primary
 
     try:
-        response = _call_gemini(client, PRIMARY_MODEL, prompt, config)
+        response = _call_gemini(client, primary, prompt, config)
     except (ServerError, ClientError) as primary_error:
         if isinstance(primary_error, ClientError) and primary_error.code != 429:
             raise ValueError(f"Gemini API call failed: {primary_error}")
         try:
-            response = client.models.generate_content(model=FALLBACK_MODEL, contents=prompt, config=config)
+            response = client.models.generate_content(model=fallback, contents=prompt, config=config)
+            used_model = fallback
         except (ServerError, ClientError) as fallback_error:
             raise ValueError(
                 "Gemini API call failed on both primary and fallback models. "
                 f"Primary: {primary_error} | Fallback: {fallback_error}"
             )
 
-    return response.text.strip()
+    text = response.text.strip()
+    if return_meta:
+        in_tok, out_tok = _usage(response)
+        return {"text": text, "model_id": used_model, "input_tokens": in_tok, "output_tokens": out_tok}
+    return text

@@ -46,6 +46,24 @@ class Config:
     ADZUNA_APP_KEY = os.environ.get("ADZUNA_APP_KEY", "")
     YOUTUBE_API_KEY = os.environ.get("YOUTUBE_API_KEY", "")
 
+    # LLM provider and models (see app/pipeline/llm_client.py). LLM_PROVIDER is
+    # "gemini" (default) or "bedrock". The three model IDs are per task; left
+    # empty, the gemini provider uses gemini_client's built-in models and the
+    # bedrock provider refuses to run (it has no sensible default). Bedrock
+    # reads AWS_REGION here and its credentials (AWS_BEARER_TOKEN_BEDROCK or
+    # the normal AWS chain) from the environment, never from this file.
+    LLM_PROVIDER = os.environ.get("LLM_PROVIDER", "gemini").strip().lower() or "gemini"
+    ROADMAP_MODEL_ID = os.environ.get("ROADMAP_MODEL_ID", "").strip()
+    FAST_MODEL_ID = os.environ.get("FAST_MODEL_ID", "").strip()
+    FALLBACK_MODEL_ID = os.environ.get("FALLBACK_MODEL_ID", "").strip()
+    # Model to use if the OTHER provider has to take over after the first one fails.
+    ALT_PROVIDER_MODEL_ID = os.environ.get("ALT_PROVIDER_MODEL_ID", "").strip()
+    AWS_REGION = os.environ.get("AWS_REGION", "").strip()
+    # {model_id: {"input": usd_per_million_tokens, "output": usd_per_million_tokens}}.
+    # Deliberately EMPTY: prices are never guessed, so cost shows as "unknown"
+    # until you fill in the real figures for the models you use.
+    PRICE_PER_MTOK = {}
+
     # Piston (self-hosted code execution)
     PISTON_API_URL = os.environ.get("PISTON_API_URL", "http://localhost:2000/api/v2/execute")
 
