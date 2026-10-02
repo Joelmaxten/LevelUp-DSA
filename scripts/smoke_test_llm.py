@@ -117,7 +117,7 @@ def run():
     llm_client._sleep = sleeps.append   # backoff costs no real time
 
     # 1. primary success
-    with Env(BEDROCK):
+    with Env({**BEDROCK, "LLM_TIMEOUT_S": 12.0}):
         fake, seen, p = with_fake_bedrock([ok_reply("hello", 12, 5)])
         with p:
             r = generate("roadmap", "p", system="be brief", max_output_tokens=99)
@@ -133,7 +133,7 @@ def run():
         with p:
             r = generate("fast", "p")
         check("task 'fast' uses FAST_MODEL_ID", r["model_id"] == "model-fast")
-        check("LLM_TIMEOUT_S is passed to the bedrock client", seen["timeout_s"] == llm_client._timeout_s())
+        check("LLM_TIMEOUT_S (config) is passed to the bedrock client", seen["timeout_s"] == 12.0)
 
     # 2. throttling then success
     with Env(BEDROCK):
@@ -233,14 +233,14 @@ def run():
         gemini_calls.append(kwargs)
         return {"text": '[{"title": "g"}]', "model_id": "gemini-x", "input_tokens": 3, "output_tokens": 2}
 
-    with Env({**BEDROCK, "LLM_PROVIDER": "gemini", "ROADMAP_MODEL_ID": ""}, {"GEMINI_API_KEY": FAKE_SECRET}):
+    with Env({**BEDROCK, "LLM_PROVIDER": "gemini", "ROADMAP_MODEL_ID": "", "LLM_TIMEOUT_S": 12.0}, {"GEMINI_API_KEY": FAKE_SECRET}):
         with patch.object(gemini_client, "generate_with_retry", fake_gemini):
             r = generate("roadmap", "p", schema=SCHEMA, max_output_tokens=50)
         check("gemini provider: delegates to gemini_client, returns tokens and model id",
               r["provider"] == "gemini" and r["model_id"] == "gemini-x" and r["input_tokens"] == 3
               and r["parsed"] == [{"title": "g"}])
-        check("gemini provider: timeout and json mode passed through",
-              gemini_calls[0]["timeout_s"] == llm_client._timeout_s() and gemini_calls[0]["json_mode"] is True
+        check("gemini provider: LLM_TIMEOUT_S and json mode passed through",
+              gemini_calls[0]["timeout_s"] == 12.0 and gemini_calls[0]["json_mode"] is True
               and gemini_calls[0]["max_output_tokens"] == 50)
 
     with Env({**BEDROCK, "ALT_PROVIDER_MODEL_ID": ""}, {"GEMINI_API_KEY": FAKE_SECRET}):

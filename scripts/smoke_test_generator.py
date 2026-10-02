@@ -97,6 +97,38 @@ def invariants(path, roadmap, audit, expected_topics):
           all(s["title"] and s["description"] and s["subtopics"] and 2 <= len(s["projects"]) <= 3 for s in steps))
 
 
+def warmup_checks():
+    """start_warmup(): runs once, honours the flag, survives failures. The loaders are stubbed (no model load)."""
+    import time
+    from app.config import Config
+    from app.pipeline import embedder, warmup
+    import app.routes.roadmap as roadmap_routes
+
+    calls = []
+    saved_flag, saved_started = Config.WARMUP_ON_START, warmup._started
+    try:
+        warmup._started = False
+        Config.WARMUP_ON_START = False
+        check("warm-up: does nothing when WARMUP_ON_START is off", warmup.start_warmup() is None)
+        Config.WARMUP_ON_START = True
+        with patch.object(embedder, "get_model", lambda: calls.append("model")),                 patch.object(embedder, "embed_chunks", lambda *a, **k: calls.append("encode")),                 patch.object(roadmap_routes, "_get_index", lambda: calls.append("index")):
+            thread = warmup.start_warmup()
+            check("warm-up: starts a daemon thread", thread is not None and thread.daemon)
+            thread.join(5)
+            check("warm-up: loads model, first encode and index", calls == ["model", "encode", "index"])
+            check("warm-up: a second start in the same process is a no-op", warmup.start_warmup() is None)
+        warmup._started = False
+
+        def boom():
+            raise RuntimeError("no model")
+        with patch.object(embedder, "get_model", boom), patch.object(roadmap_routes, "_get_index", lambda: calls.append("index2")):
+            thread = warmup.start_warmup()
+            thread.join(5)
+            check("warm-up: a failure is swallowed and the next step still runs", "index2" in calls and not thread.is_alive())
+    finally:
+        Config.WARMUP_ON_START, warmup._started = saved_flag, saved_started
+
+
 def slug(path):
     return path.replace(" ", "_").replace("&", "and")
 
@@ -126,6 +158,8 @@ def main():
         for p in patches:
             p.stop()
 
+    if not update:
+        warmup_checks()
     GOLDEN_DIR.mkdir(parents=True, exist_ok=True)
     for path, result in results.items():
         text = json.dumps({k: result[k] for k in ("career_path", "roadmap", "audit")}, ensure_ascii=False)

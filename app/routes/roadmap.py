@@ -1,4 +1,5 @@
 import math
+import threading
 from collections import defaultdict
 from datetime import datetime, timedelta
 
@@ -22,13 +23,16 @@ FAISS_INDEX_PATH = "data/processed/faiss_index"  # matches config.py's FAISS_IND
 # Loaded once per process, not per-request - the index is large and rebuilding
 # it on every call would be wasteful. Mirrors embedder.py's module-level model cache.
 _index_cache = None
+_index_lock = threading.Lock()
 _chunks_cache = None
 
 
 def _get_index():
     global _index_cache, _chunks_cache
     if _index_cache is None:
-        _index_cache, _chunks_cache = load_index(FAISS_INDEX_PATH)
+        with _index_lock:   # the startup warm-up thread and a first request can arrive together
+            if _index_cache is None:
+                _index_cache, _chunks_cache = load_index(FAISS_INDEX_PATH)
     return _index_cache, _chunks_cache
 
 

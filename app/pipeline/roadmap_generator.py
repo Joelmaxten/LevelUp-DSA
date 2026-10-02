@@ -70,6 +70,8 @@ roadmap.
 import json
 import logging
 import math
+import time
+from contextlib import contextmanager
 
 import numpy as np
 
@@ -647,7 +649,55 @@ def _derive_subtopics(steps, phase_node_id_to_title):
     return steps
 
 
-def _assign_more_topics(phase, steps, node_id_to_chunk):
+class _ChunkVectors:
+    """
+    The embeddings already stored in the FAISS index, looked up by node_id, so
+    _assign_more_topics doesn't re-embed hundreds of topics on every request.
+
+    Valid substitute for embed_chunks() because (checked against the real
+    index, see PROJECT_BIOGRAPHY.md): the index was built by
+    rag.build_index() with embedder.embed_chunks() - the same
+    all-MiniLM-L6-v2 model, "title. text" convention - then L2-normalized,
+    which is exactly what the caller does to embed_chunks()'s output anyway.
+    Stored and fresh vectors differ by at most ~7e-8 per component (batch
+    floating-point noise). A topic's vector is used only when the chunk it
+    comes from has the same title the caller would have embedded (5 of 1,200
+    topics in the three reference paths have a different inventory title);
+    otherwise None, and the caller embeds it as before.
+    """
+
+    def __init__(self, index, chunks):
+        self.index = index
+        self.chunks = chunks
+        self.position = {}
+        for pos, chunk in enumerate(chunks):
+            if "node_id" in chunk:
+                self.position[chunk["node_id"]] = pos   # last wins, like node_id_to_chunk
+
+    def get(self, node_id, title):
+        pos = self.position.get(node_id)
+        if pos is None or self.chunks[pos].get("title") != title:
+            return None
+        return self.index.reconstruct(pos)
+
+
+def _topic_embeddings(leftover, topic_pseudo_chunks, vectors):
+    rows = [None] * len(leftover)
+    missing = []
+    for i, topic in enumerate(leftover):
+        vec = vectors.get(topic["node_id"], topic["title"]) if vectors is not None else None
+        if vec is None:
+            missing.append(i)
+        else:
+            rows[i] = vec
+    if missing:
+        fresh = embed_chunks([topic_pseudo_chunks[i] for i in missing], show_progress=False)
+        for i, vec in zip(missing, fresh):
+            rows[i] = vec
+    return np.stack(rows)
+
+
+def _assign_more_topics(phase, steps, node_id_to_chunk, vectors=None):
     """
     Deterministically assigns every deduped topic in this phase's slice that
     no step's topic_refs already covers to exactly one step, capacity-aware
@@ -670,6 +720,9 @@ def _assign_more_topics(phase, steps, node_id_to_chunk):
     step is already at cap, to the currently least-full step. Still fully
     deterministic and still exactly one embedding pass (no extra Gemini
     calls) - only the assignment rule changed, not the embeddings.
+
+    vectors: an optional _ChunkVectors; with it, topic embeddings come from
+    the FAISS index instead of being recomputed (same results).
 
     Mutates and returns `steps`: every step gets a "more_topics" key (list
     of {"node_id", "title"}, sorted by similarity descending, empty if
@@ -700,7 +753,7 @@ def _assign_more_topics(phase, steps, node_id_to_chunk):
     ]
 
     step_embeddings = embed_chunks(step_pseudo_chunks, show_progress=False)
-    topic_embeddings = embed_chunks(topic_pseudo_chunks, show_progress=False)
+    topic_embeddings = _topic_embeddings(leftover, topic_pseudo_chunks, vectors)
 
     step_unit = step_embeddings / np.linalg.norm(step_embeddings, axis=1, keepdims=True)
     topic_unit = topic_embeddings / np.linalg.norm(topic_embeddings, axis=1, keepdims=True)
@@ -790,9 +843,27 @@ def _build_phase_audit(phase, steps, retrieved, node_id_to_chunk, source_to_quer
     }
 
 
-def generate_roadmap(career_path, conversation_signals, index, chunks):
+def _log_stage(timings, name, seconds):
+    """Logs how long a stage took (never any prompt or reply text) and, if given, appends (name, seconds) to timings."""
+    logger.info("roadmap_stage stage=%r seconds=%.3f", name, seconds)
+    if timings is not None:
+        timings.append((name, seconds))
+
+
+@contextmanager
+def _stage(timings, name):
+    started = time.perf_counter()
+    try:
+        yield
+    finally:
+        _log_stage(timings, name, time.perf_counter() - started)
+
+
+def generate_roadmap(career_path, conversation_signals, index, chunks, timings=None):
     """
     career_path: the student's #1 ranked career path (string).
+    timings: optional list; per-stage (name, seconds) tuples are appended to it
+    (the same figures are always logged).
     conversation_signals: CareerProfile.conversation_signals dict.
     index, chunks: the loaded FAISS index + metadata (from rag.load_index()).
 
@@ -817,6 +888,7 @@ def generate_roadmap(career_path, conversation_signals, index, chunks):
     local FAISS + sentence-transformer work, not a network call -
     negligible added latency, not a quota concern.
     """
+    total_started = time.perf_counter()
     inventory = _topic_inventory(career_path, chunks)
     if not inventory:
         raise ValueError(
@@ -824,8 +896,10 @@ def generate_roadmap(career_path, conversation_signals, index, chunks):
             "Cannot generate a grounded roadmap without a topic inventory."
         )
 
-    phase_plan = _partition_inventory(career_path, inventory)
+    with _stage(timings, "plan (inventory + folder-order LLM call)"):
+        phase_plan = _partition_inventory(career_path, inventory)
     base_queries = _build_diverse_queries(career_path, conversation_signals)
+    vectors = _ChunkVectors(index, chunks)
 
     phases_out = []
     audit_phases = []
@@ -837,6 +911,8 @@ def generate_roadmap(career_path, conversation_signals, index, chunks):
         phase_node_ids = {t["node_id"] for t in phase["topics"]}
         phase_queries = base_queries + [f"{career_path}: {phase['title']}"]
 
+        phase_label = f"phase {phase['phase_number']}"
+        retrieval_started = time.perf_counter()
         retrieved = search_diverse(phase_queries, index, chunks, career_path, total_k=TOTAL_K, per_folder_cap=PER_FOLDER_CAP)
         # Prefer chunks whose node actually belongs to this phase's own topic
         # slice, so the reference material text agrees with the topic
@@ -855,9 +931,11 @@ def generate_roadmap(career_path, conversation_signals, index, chunks):
             )
 
         checkpoint_chunks = _checkpoint_chunks_for_phase(career_path, phase, chunks)
+        _log_stage(timings, f"{phase_label}: retrieval", time.perf_counter() - retrieval_started)
 
         target_steps = phase["target_steps"]
         steps = None
+        llm_started = time.perf_counter()
         for attempt in (1, 2):
             prompt = _build_prompt(career_path, phase, retrieved_for_prompt, checkpoint_chunks, conversation_signals, used_node_ids, used_titles, target_steps)
             raw_text = _strip_code_fences(llm_client.generate("roadmap", prompt, max_output_tokens=ROADMAP_PHASE_MAX_OUTPUT_TOKENS, json_mode=True)["text"])
@@ -879,12 +957,15 @@ def generate_roadmap(career_path, conversation_signals, index, chunks):
                     f"Raw response: {raw_text[:500]}"
                 )
 
+        _log_stage(timings, f"{phase_label}: LLM call(s)", time.perf_counter() - llm_started)
+
+        post_started = time.perf_counter()
         steps = _validate_topic_refs(steps, phase_node_ids)
         phase_node_id_to_title = {t["node_id"]: t["title"] for t in phase["topics"]}
         steps = _derive_subtopics(steps, phase_node_id_to_title)
 
         node_id_to_chunk = {c["node_id"]: c for c in chunks if c.get("node_id") in phase_node_ids}
-        steps = _assign_more_topics(phase, steps, node_id_to_chunk)
+        steps = _assign_more_topics(phase, steps, node_id_to_chunk, vectors)
 
         for step in steps:
             step["global_step_index"] = global_index
@@ -901,5 +982,7 @@ def generate_roadmap(career_path, conversation_signals, index, chunks):
             "title": phase["title"],
             "steps": steps,
         })
+        _log_stage(timings, f"{phase_label}: post-processing", time.perf_counter() - post_started)
 
+    _log_stage(timings, "total", time.perf_counter() - total_started)
     return {"phases": phases_out}, {"phases": audit_phases}

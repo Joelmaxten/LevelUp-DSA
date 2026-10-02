@@ -64,6 +64,15 @@ class Config:
     # until you fill in the real figures for the models you use.
     PRICE_PER_MTOK = {}
 
+    # Seconds before a single LLM request is abandoned (every provider, every task).
+    LLM_TIMEOUT_S = float(os.environ.get("LLM_TIMEOUT_S", "90"))
+    # How many roadmap phases are written by the LLM at the same time. 1 = one after
+    # another, exactly the original behavior. See roadmap_generator.generate_roadmap.
+    PHASE_CONCURRENCY = max(1, int(os.environ.get("PHASE_CONCURRENCY", "1")))
+    # Load the embedding model and the FAISS index in a background thread when the
+    # server starts (run.py), so the first roadmap request doesn't pay ~20 s for it.
+    WARMUP_ON_START = _env_flag("WARMUP_ON_START", True)
+
     # Piston (self-hosted code execution)
     PISTON_API_URL = os.environ.get("PISTON_API_URL", "http://localhost:2000/api/v2/execute")
 

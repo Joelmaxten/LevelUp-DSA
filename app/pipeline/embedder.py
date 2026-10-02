@@ -3,16 +3,21 @@ Generates sentence embeddings for knowledge base text chunks using
 sentence-transformers (all-MiniLM-L6-v2, 384 dimensions).
 """
 
+import threading
+
 from sentence_transformers import SentenceTransformer
 
 _model = None
+_model_lock = threading.Lock()
 
 
 def get_model():
     """Load the embedding model once and reuse it (loading is slow, encoding is fast)."""
     global _model
     if _model is None:
-        _model = SentenceTransformer("all-MiniLM-L6-v2")
+        with _model_lock:   # the startup warm-up thread and a first request can arrive together
+            if _model is None:
+                _model = SentenceTransformer("all-MiniLM-L6-v2")
     return _model
 
 
