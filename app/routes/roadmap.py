@@ -9,6 +9,7 @@ from sqlalchemy.exc import IntegrityError
 
 from app import db
 from app.models import CareerProfile, GeneratedRoadmap, RoadmapProgress
+from app.pipeline import generation_jobs
 from app.pipeline.rag import load_index
 from app.pipeline.roadmap_generator import generate_roadmap
 from app.pipeline.youtube_resources import fetch_resources_for_roadmap
@@ -265,6 +266,80 @@ def generate():
         "completed_count": 0,
         "total_steps": len(step_indexes(steps)),
     }), 201
+
+
+def _daily_limit_response():
+    """The 429 body when the user has used today's roadmap allowance, or None. Same rule as /roadmap/generate."""
+    limit = current_app.config["ROADMAP_DAILY_LIMIT"]
+    window_start = datetime.utcnow() - timedelta(hours=24)
+    recent = (
+        GeneratedRoadmap.query
+        .filter(GeneratedRoadmap.user_id == current_user.id, GeneratedRoadmap.created_at > window_start)
+        .order_by(GeneratedRoadmap.created_at.asc())
+        .all()
+    )
+    if len(recent) < limit:
+        return None
+    frees_at = recent[len(recent) - limit].created_at + timedelta(hours=24)
+    minutes = max(1, math.ceil((frees_at - datetime.utcnow()).total_seconds() / 60))
+    return jsonify({"error": "daily_limit", "limit": limit, "resets_in_minutes": minutes}), 429
+
+
+@roadmap_bp.route("/roadmap/generate-async", methods=["POST"])
+@login_required
+def generate_async():
+    """
+    Same checks as POST /roadmap/generate (daily cap, path resolution, index available), but the generation runs
+    in a background thread (app/pipeline/generation_jobs.py): returns 202 {"job_id"} at once. One active job per
+    user (409 otherwise). Poll GET /roadmap/jobs/<job_id>.
+    """
+    limited = _daily_limit_response()
+    if limited is not None:
+        return limited
+
+    existing = generation_jobs.active_job_for(current_user.id)
+    if existing is not None:
+        return jsonify({"error": "job_running", "job_id": existing}), 409
+
+    profile = (
+        CareerProfile.query
+        .filter_by(user_id=current_user.id)
+        .order_by(CareerProfile.id.desc())
+        .first()
+    )
+    top_career_path, error = resolve_target_career_path(profile, allow_override=True)
+    if error:
+        return error
+    conversation_signals = profile.conversation_signals if profile is not None else {}
+
+    try:
+        index, chunks = _get_index()
+    except FileNotFoundError:
+        return jsonify({
+            "error": "Knowledge base index not found on this server. "
+                     "The FAISS index must be built before roadmap generation is available."
+        }), 503
+
+    job_id, refusal = generation_jobs.create_job(current_user.id)
+    if job_id is None:
+        reason, other_job = refusal
+        if reason == "job_running":
+            return jsonify({"error": "job_running", "job_id": other_job}), 409
+        return jsonify({"error": "busy", "message": "Too many roadmaps are being generated right now. Please try again in a minute."}), 503
+
+    # Plain data and the real app object go to the thread; no request, session or current_user.
+    generation_jobs.start_job(current_app._get_current_object(), job_id, current_user.id, top_career_path,
+                              dict(conversation_signals), index, chunks)
+    return jsonify({"job_id": job_id}), 202
+
+
+@roadmap_bp.route("/roadmap/jobs/<job_id>", methods=["GET"])
+@login_required
+def get_job(job_id):
+    status = generation_jobs.get_status(job_id, current_user.id)
+    if status is None:
+        return jsonify({"error": "Job not found."}), 404
+    return jsonify(status), 200
 
 
 @roadmap_bp.route("/roadmap/<int:roadmap_id>/resources", methods=["POST"])

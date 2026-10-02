@@ -71,6 +71,7 @@ import json
 import logging
 import math
 import re
+import threading
 import time
 from concurrent.futures import ThreadPoolExecutor
 from contextlib import contextmanager
@@ -1063,7 +1064,8 @@ def _finish_phase(phase, prep, steps, global_index, chunks, index, vectors, care
     return {"phase_number": phase["phase_number"], "title": phase["title"], "steps": steps}, audit, global_index
 
 
-def generate_roadmap(career_path, conversation_signals, index, chunks, timings=None, concurrency=None, duplicate_threshold=None):
+def generate_roadmap(career_path, conversation_signals, index, chunks, timings=None, concurrency=None, duplicate_threshold=None,
+                     on_progress=None):
     """
     career_path: the student's #1 ranked career path (string).
     conversation_signals: CareerProfile.conversation_signals dict.
@@ -1072,6 +1074,9 @@ def generate_roadmap(career_path, conversation_signals, index, chunks, timings=N
     (the same figures are always logged).
     concurrency: how many phases the LLM writes at once; default
     config.PHASE_CONCURRENCY.
+    on_progress: optional callback on_progress(phases_written, phase_total), called once after the plan (0, total)
+    and again each time a phase's LLM call(s) finish (from a worker thread when concurrency > 1). It only reports; it
+    cannot change the output.
     duplicate_threshold: cosine similarity at which two steps in different phases count as
     duplicates; default config.DUPLICATE_SIMILARITY_THRESHOLD.
 
@@ -1123,6 +1128,18 @@ def generate_roadmap(career_path, conversation_signals, index, chunks, timings=N
         phase_plan = _partition_inventory(career_path, inventory)
     base_queries = _build_diverse_queries(career_path, conversation_signals)
     vectors = _ChunkVectors(index, chunks)
+    written = {"n": 0}
+    written_lock = threading.Lock()
+
+    def phase_written():
+        with written_lock:
+            written["n"] += 1
+            count = written["n"]
+        if on_progress is not None:
+            on_progress(count, len(phase_plan))
+
+    if on_progress is not None:
+        on_progress(0, len(phase_plan))
 
     preps = []
     for phase in phase_plan:
@@ -1135,6 +1152,7 @@ def generate_roadmap(career_path, conversation_signals, index, chunks, timings=N
         for phase, prep in zip(phase_plan, preps):
             with _stage(timings, f"phase {phase['phase_number']}: LLM call(s)"):
                 steps = _write_phase(career_path, phase, prep, conversation_signals, used_node_ids, used_titles)
+            phase_written()
             steps = _validate_topic_refs(steps, prep["phase_node_ids"])
             raw_steps.append(steps)
             for step in steps:
@@ -1145,7 +1163,9 @@ def generate_roadmap(career_path, conversation_signals, index, chunks, timings=N
         def write(phase, prep):
             started = time.perf_counter()
             try:
-                return _write_phase(career_path, phase, prep, conversation_signals, set(), [], plan_context=_plan_block(phase_plan, phase))
+                result = _write_phase(career_path, phase, prep, conversation_signals, set(), [], plan_context=_plan_block(phase_plan, phase))
+                phase_written()
+                return result
             finally:
                 _log_stage(timings, f"phase {phase['phase_number']}: LLM call(s)", time.perf_counter() - started)
 
