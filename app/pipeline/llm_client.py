@@ -86,19 +86,6 @@ def _timeout_s():
     return float(_setting("LLM_TIMEOUT_S", DEFAULT_TIMEOUT_S))
 
 
-_SECRET_NAME = re.compile(r"(KEY|TOKEN|SECRET|PASSWORD|CREDENTIAL)", re.I)
-_SECRET_SHAPES = re.compile(r"(Bearer\s+\S+|AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z_\-]{20,}|[A-Za-z0-9+/=_\-]{40,})")
-
-
-def _redact(text):
-    """Remove anything that looks like (or is exactly) a credential from a message."""
-    text = str(text)
-    for name, value in os.environ.items():
-        if value and len(value) >= 6 and _SECRET_NAME.search(name):
-            text = text.replace(value, "[redacted]")
-    return _SECRET_SHAPES.sub("[redacted]", text)[:300]
-
-
 def estimate_cost_usd(model_id, input_tokens, output_tokens):
     """USD for one call, or None when the model has no price in config.PRICE_PER_MTOK or counts are unknown."""
     price = (_setting("PRICE_PER_MTOK", {}) or {}).get(model_id)
@@ -144,7 +131,7 @@ _bedrock_clients = {}
 
 def _bedrock_client():
     region, timeout_s = _setting("AWS_REGION", ""), _timeout_s()
-    key = (region, timeout_s, id(_bedrock_client_factory))
+    key = (region, timeout_s)
     if key not in _bedrock_clients:
         _bedrock_clients[key] = _bedrock_client_factory(region, timeout_s)
     return _bedrock_clients[key]
@@ -222,6 +209,17 @@ def _call_bedrock(task, models, prompt, system, max_output_tokens):
 
 # --------------------------------------------------------------------- gemini
 
+_GEMINI_STATUS_WORDS = ("RESOURCE_EXHAUSTED", "UNAVAILABLE", "PERMISSION_DENIED", "INVALID_ARGUMENT",
+                        "DEADLINE_EXCEEDED", "INTERNAL", "NOT_FOUND", "UNAUTHENTICATED")
+
+
+def _gemini_failure_summary(exc):
+    """HTTP codes and status words found in gemini_client's error text; never the free text itself."""
+    text = str(exc)
+    found = re.findall(r"[45]\d\d", text) + [w for w in _GEMINI_STATUS_WORDS if w in text]
+    return ", ".join(dict.fromkeys(found)) or "no status reported"
+
+
 def _call_gemini(task, primary, fallback, prompt, system, max_output_tokens, json_mode):
     kwargs = {"max_output_tokens": max_output_tokens, "json_mode": json_mode}
     if system is not None:
@@ -237,7 +235,7 @@ def _call_gemini(task, primary, fallback, prompt, system, max_output_tokens, jso
     except LLMError:
         raise
     except ValueError as exc:     # gemini_client's uniform "total failure" error
-        raise LLMError(f"gemini call failed: {_redact(exc)}", kind="failed", task=task, provider="gemini")
+        raise LLMError(f"gemini call failed ({_gemini_failure_summary(exc)}).", kind="failed", task=task, provider="gemini")
     except Exception as exc:
         raise LLMError(f"gemini call failed ({type(exc).__name__}).", kind="failed", task=task, provider="gemini")
     if isinstance(result, str):   # a stub (or an older gemini_client) that returns bare text
@@ -301,8 +299,14 @@ def _parse_and_validate(text, schema):
         try:
             jsonschema.validate(parsed, schema)
         except jsonschema.ValidationError as exc:
+            # Deliberately not exc.message: it quotes the offending value, i.e. reply text.
             path = "/".join(str(p) for p in exc.absolute_path) or "(root)"
-            return None, f"does not match the schema at {path}: {exc.message[:200]}"
+            detail = f"rule '{exc.validator}'"
+            if exc.validator == "required":
+                missing = re.match(r"^'([^']{1,60})' is a required property", exc.message)
+                if missing:
+                    detail += f", missing key '{missing.group(1)}'"
+            return None, f"does not match the schema at {path} ({detail})"
     return parsed, None
 
 
