@@ -21,9 +21,12 @@ import sys
 from pathlib import Path
 
 from app.pipeline import career_quiz_engine as engine
-from app.pipeline.career_quiz_data import CAREER_PATHS, QUESTIONS
+from collections import Counter
 
-GOLDEN_FILE = Path("scratch/golden/quiz_before.json")
+from app.pipeline.career_path_registry import PATH_PAIRS
+from app.pipeline.career_quiz_data import CAREER_PATHS, OPTION_SIGNALS, QUESTIONS
+
+GOLDEN_FILE = Path("scratch/golden/quiz_after.json")      # the redesigned quiz; quiz_before.json is the original engine's replay
 SEEDS = list(range(1, 31))
 
 checks = []
@@ -79,6 +82,31 @@ def persona_checks():
     check("persona: all-A and all-B top-3 paths do not overlap (opposite results)", not three_a & three_b)
 
 
+# Words that would name a career path inside an option the redesign wrote or changed.
+FORBIDDEN_IN_NEW_OPTIONS = ["full-stack", "backend", "frontend", "devops", "data science", "data analytics", "data engineering",
+                            "machine learning", "cybersecurity", "ui/ux", "qa &", "game development", "mobile app development"]
+
+
+def data_checks():
+    """Rules the question bank must always satisfy (docs/DEV_SETUP.md, career_quiz_data.py header)."""
+    options = {(q, o) for q, d in QUESTIONS.items() for o in d["options"]}
+    check("every option has a signal entry and every signal entry is a real option", set(OPTION_SIGNALS) == options)
+    check("every signalled path is one of the 15 career paths", all(p in CAREER_PATHS for v in OPTION_SIGNALS.values() for p in v))
+    check("each option signals 1 to 3 paths (never more than 3, never none)", all(1 <= len(v) <= 3 for v in OPTION_SIGNALS.values()))
+    coverage = Counter(p for v in OPTION_SIGNALS.values() for p in v)
+    low = {p: coverage[p] for p in CAREER_PATHS if coverage[p] < 6}
+    check("every one of the 15 paths has at least 6 options signalling it (including QA, Data Engineering, Cloud, DevOps)", not low)
+    for a, b in PATH_PAIRS:
+        only_a = sum(1 for v in OPTION_SIGNALS.values() if a in v and b not in v)
+        only_b = sum(1 for v in OPTION_SIGNALS.values() if b in v and a not in v)
+        check(f"pair {a} / {b}: at least 2 options signal only one of them, for each side ({only_a} / {only_b})", only_a >= 2 and only_b >= 2)
+    check("the bank is large enough that MAX_QUESTIONS is reachable", engine.MAX_QUESTIONS <= len(QUESTIONS))
+    check("MAX_QUESTIONS never exceeds the bank and is at most 14", engine.MAX_QUESTIONS == min(14, len(QUESTIONS)))
+    new_ids = [q for q in QUESTIONS if int(q[1:]) > 10]
+    check("no option of the added questions names a career path",
+          not [(q, o) for q in new_ids for o, t in QUESTIONS[q]["options"].items() if any(w in t.lower() for w in FORBIDDEN_IN_NEW_OPTIONS)])
+
+
 def main():
     argv = sys.argv[1:]
     golden_file = Path(argv[argv.index("--golden") + 1]) if "--golden" in argv else GOLDEN_FILE
@@ -97,7 +125,11 @@ def main():
     check("every quiz asks at least MIN_QUESTIONS and at most the maximum",
           all(engine.MIN_QUESTIONS <= r["answered"] <= min(engine.MAX_QUESTIONS, len(QUESTIONS)) for r in runs))
     check("session state stays JSON-safe", all(json.dumps(r) for r in runs))
-    check(f"golden file exists ({golden_file})", golden_file.exists())
+    data_checks()
+    if not golden_file.exists() and "--allow-missing-golden" in argv:
+        print(f"[SKIP] golden file {golden_file} not captured yet (--allow-missing-golden)")
+    else:
+        check(f"golden file exists ({golden_file})", golden_file.exists())
     if golden_file.exists():
         golden = json.loads(golden_file.read_text(encoding="utf-8"))
         current = json.loads(json.dumps(runs))

@@ -127,3 +127,20 @@ FOLDER_DISPLAY_NAMES = {
     "qa": "QA & Testing",
     "data-engineer": "Data Engineering",
 }
+
+
+# Pairs of paths the survey and the roadmaps cannot tell apart on their own, and which therefore get
+# their own separating questions in the career quiz (career_quiz_data.py) and special handling in the
+# quiz engine's stop rule (career_quiz_engine.py). The one place these pairs are defined.
+PATH_PAIRS = [
+    ("AI Engineering", "Machine Learning Engineering"),
+    ("Data Science", "Data Analytics"),
+    ("Cloud Engineering", "DevOps"),
+    ("UI/UX Design", "Frontend Development"),
+]
+
+PAIR_PARTNER = {}
+for _a, _b in PATH_PAIRS:
+    PAIR_PARTNER[_a] = _b
+    PAIR_PARTNER[_b] = _a
+assert all(p in CAREER_PATHS for pair in PATH_PAIRS for p in pair)
