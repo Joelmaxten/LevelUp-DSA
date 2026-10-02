@@ -227,13 +227,209 @@ async function fetchVideos() {
     renderRoadmap();
 }
 
+// ---------- generating a roadmap: a background job, polled ----------
+//
+// A roadmap can take a few minutes, so POST /roadmap/generate-async starts it on the server and this page
+// polls GET /roadmap/jobs/<id> every 3 s. The job id is kept in sessionStorage so a reload picks the same
+// job up again. Polling stops when the job is done or failed, or when the tab has been hidden for more
+// than 2 minutes (it resumes when the tab is visible again).
+
+const JOB_KEY = "levelupRoadmapJob";
+const POLL_MS = 3000;
+const HIDDEN_LIMIT_MS = 2 * 60 * 1000;
+
+let activeJob = null;      // { id, path, startedAt (ms), phaseDone, phaseTotal } while one is being followed
+let pollTimeout = null;
+let tickInterval = null;
+let hiddenSince = null;
+let pollingPaused = false; // stopped because the tab was hidden too long
+let progressNodes = null;  // the text nodes updated in place while a job runs
+
+function rememberJob(id) {
+    try { sessionStorage.setItem(JOB_KEY, id); } catch (_) { /* storage can be blocked: the job still runs, it just won't survive a reload */ }
+}
+function forgetJob() {
+    try { sessionStorage.removeItem(JOB_KEY); } catch (_) { /* nothing to do */ }
+}
+function rememberedJob() {
+    try { return sessionStorage.getItem(JOB_KEY); } catch (_) { return null; }
+}
+
+function stopPolling() {
+    clearTimeout(pollTimeout);
+    clearInterval(tickInterval);
+    pollTimeout = null;
+    tickInterval = null;
+    pollingPaused = false;
+}
+
+function formatElapsed(ms) {
+    const total = Math.max(0, Math.floor(ms / 1000));
+    return `${Math.floor(total / 60)}:${String(total % 60).padStart(2, "0")}`;
+}
+
+// Built once per job; only the text of two nodes changes afterwards (so nothing flickers or re-announces).
+function renderProgress() {
+    const counter = el("p", { className: "note", role: "status", text: "" });
+    const elapsed = el("p", { className: "note", "aria-hidden": "true", text: "" });
+    progressNodes = { counter, elapsed };
+    box.replaceChildren(row([], el("div", { className: "msg", role: "status" },
+        el("p", { text: "Generating your roadmap. This can take a few minutes. You can keep this page open." }),
+        counter,
+        elapsed,
+        el("div", { className: "working", "aria-hidden": "true" })
+    )));
+    updateProgress();
+}
+
+function updateProgress() {
+    if (!progressNodes || !activeJob) return;
+    progressNodes.elapsed.textContent = `Elapsed: ${formatElapsed(Date.now() - activeJob.startedAt)}`;
+    progressNodes.counter.textContent = activeJob.phaseTotal
+        ? `${activeJob.phaseDone} of ${activeJob.phaseTotal} parts written`
+        : "";
+}
+
+function renderJobFailed(path) {
+    const again = el("button", { className: "btn", type: "button", text: "Try again" });
+    again.addEventListener("click", () => (path ? generate(path) : renderPicker()));
+    box.replaceChildren(row([], el("div", { className: "msg msg-error", role: "alert" },
+        el("p", { text: "We couldn't generate your roadmap this time. This is usually temporary, so please try again." }),
+        el("div", { className: "actions" }, again)
+    )));
+}
+
+// The finished job's roadmap, loaded the way a just-generated one always was: show it, then add videos
+// in a separate request so a YouTube failure can't cost the student the roadmap.
+async function finishJob(roadmapId) {
+    showLoading("Loading your roadmap...");
+    const result = await getJson(`/roadmap/${roadmapId}`);
+    if (!result.ok) {
+        renderError(result, () => finishJob(roadmapId));
+        return;
+    }
+    roadmap = result.data;
+    completed = new Set(roadmap.completed_steps || []);
+    await refreshRoadmapsList();
+    await fetchVideos();
+}
+
+// One poll. Returns false only for "that job doesn't exist (any more)".
+async function pollOnce() {
+    if (!activeJob) return true;
+    const job = activeJob;
+    const result = await getJson(`/roadmap/jobs/${job.id}`);
+    if (activeJob !== job) return true;   // superseded while the request was in flight
+
+    if (result.status === 404) {
+        stopPolling();
+        forgetJob();
+        activeJob = null;
+        return false;
+    }
+    if (result.ok) {
+        const data = result.data;
+        if (data.status === "done") {
+            stopPolling();
+            forgetJob();
+            activeJob = null;
+            await finishJob(data.roadmap_id);
+            return true;
+        }
+        if (data.status === "failed") {
+            stopPolling();
+            forgetJob();
+            activeJob = null;
+            renderJobFailed(job.path);
+            return true;
+        }
+        job.startedAt = Date.now() - data.elapsed_s * 1000;
+        if (data.phase_total) {
+            job.phaseDone = data.phase_done;
+            job.phaseTotal = data.phase_total;
+        }
+        updateProgress();
+    }
+    // A network blip (status 0) or a server error just means: try again at the next tick.
+    scheduleNextPoll();
+    return true;
+}
+
+function scheduleNextPoll() {
+    clearTimeout(pollTimeout);
+    pollTimeout = setTimeout(() => {
+        if (hiddenSince !== null && Date.now() - hiddenSince > HIDDEN_LIMIT_MS) {
+            pollingPaused = true;   // resumed by the visibilitychange handler
+            clearInterval(tickInterval);
+            return;
+        }
+        pollOnce();
+    }, POLL_MS);
+}
+
+document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+        hiddenSince = Date.now();
+        return;
+    }
+    hiddenSince = null;
+    if (pollingPaused && activeJob) {
+        pollingPaused = false;
+        tickInterval = setInterval(updateProgress, 1000);
+        pollOnce();
+    }
+});
+
+function followJob(jobId, path, startedAtMs) {
+    stopPolling();
+    activeJob = { id: jobId, path, startedAt: startedAtMs || Date.now(), phaseDone: 0, phaseTotal: 0 };
+    rememberJob(jobId);
+    renderProgress();
+    tickInterval = setInterval(updateProgress, 1000);
+    scheduleNextPoll();
+}
+
+// On a reload: is there a job from this tab? Returns true if the page is now showing it (or its result).
+async function resumeJob(jobId) {
+    activeJob = { id: jobId, path: null, startedAt: Date.now(), phaseDone: 0, phaseTotal: 0 };
+    const result = await getJson(`/roadmap/jobs/${jobId}`);
+    if (result.status === 404) {
+        forgetJob();
+        activeJob = null;
+        return false;
+    }
+    if (result.ok && result.data.status === "done") {
+        forgetJob();
+        activeJob = null;
+        await finishJob(result.data.roadmap_id);
+        return true;
+    }
+    if (result.ok && result.data.status === "failed") {
+        forgetJob();
+        activeJob = null;
+        renderJobFailed(null);
+        return true;
+    }
+    followJob(jobId, null, result.ok ? Date.now() - result.data.elapsed_s * 1000 : Date.now());
+    if (result.ok && result.data.phase_total) {
+        activeJob.phaseDone = result.data.phase_done;
+        activeJob.phaseTotal = result.data.phase_total;
+        updateProgress();
+    }
+    return true;
+}
+
 // targetCareerPath is always sent now - the picker always runs before this
 // is ever called (see renderPicker/handlePathChosen), so there's no longer
 // a "no path chosen yet" case the way there was before this task.
 async function generate(targetCareerPath) {
-    showLoading("Generating your roadmap. This can take up to a minute...");
+    showLoading("Starting your roadmap...");
 
-    const result = await postJson("/roadmap/generate", { target_career_path: targetCareerPath });
+    const result = await postJson("/roadmap/generate-async", { target_career_path: targetCareerPath });
+    if (result.status === 409 && result.data && result.data.job_id) {
+        followJob(result.data.job_id, targetCareerPath);   // already running (for example in another tab): follow it
+        return;
+    }
     if (!result.ok) {
         if (isCareerPathSignal(result)) {
             // Defensive only - the picker already validates against the
@@ -244,13 +440,7 @@ async function generate(targetCareerPath) {
         }
         return;
     }
-
-    roadmap = result.data;
-    completed = new Set(roadmap.completed_steps || []);   // always [] for a just-generated roadmap
-    await refreshRoadmapsList();   // the new roadmap now belongs in the switcher/"already have one" check
-    // Videos are a separate request on purpose (see the backend): a YouTube
-    // failure must not cost the student the roadmap they just generated.
-    await fetchVideos();
+    followJob(result.data.job_id, targetCareerPath);
 }
 
 // On arrival: the roadmap named by ?id=N, or (no id) the newest one, or the
@@ -280,6 +470,8 @@ async function loadRoadmap(roadmapId) {
 async function init() {
     const params = new URLSearchParams(window.location.search);
     showLoading("Loading your roadmap...");
+    const savedJob = rememberedJob();
+    if (savedJob && params.get("new") !== "1" && await resumeJob(savedJob)) return;   // a generation from before the reload
     await refreshRoadmapsList();
     if (params.get("new") === "1") {
         renderIdle(true);
