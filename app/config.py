@@ -75,6 +75,9 @@ class Config:
     # then an explicitly set LLM_TIMEOUT_S, then 300 s.
     LLM_TIMEOUT_S_OPENAI_COMPAT = _env_number(
         "LLM_TIMEOUT_S_OPENAI_COMPAT", _env_number("LLM_TIMEOUT_S", 300.0, float), float)
+    # openai_compat only: sent as "reasoning_effort" ("low", "medium", "high") when non-empty; empty (the
+    # default) sends nothing. Reasoning models spend about half their output on reasoning.
+    LLM_REASONING_EFFORT = os.environ.get("LLM_REASONING_EFFORT", "").strip().lower()
     # Client-side cap on requests per minute for that provider, shared by every thread in the process.
     LLM_MAX_RPM = max(1, _env_number("LLM_MAX_RPM", 30, int))
     # {model_id: {"input": usd_per_million_tokens, "output": usd_per_million_tokens}}.

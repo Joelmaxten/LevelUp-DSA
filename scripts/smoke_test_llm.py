@@ -175,6 +175,13 @@ def openai_compat_checks(sleeps):
           call["url"] == "https://llm.test/v1/chat/completions" and call["headers"]["Authorization"] == f"Bearer {OC_KEY}"
           and call["json"]["model"] == "oc-primary" and call["json"]["max_tokens"] == 55 and call["timeout"] == 7.0
           and call["json"]["messages"] == [{"role": "system", "content": "be brief"}, {"role": "user", "content": "p"}])
+    fake, r, err = go([chat_reply("x")], config={"LLM_REASONING_EFFORT": ""})
+    check("openai_compat: LLM_REASONING_EFFORT empty (the default) sends no reasoning_effort field", "reasoning_effort" not in fake.calls[0]["json"])
+    fake, r, err = go([chat_reply("x")], config={"LLM_REASONING_EFFORT": "low"})
+    check("openai_compat: LLM_REASONING_EFFORT=low is sent as reasoning_effort (verified accepted by the real endpoint: 200)",
+          fake.calls[0]["json"]["reasoning_effort"] == "low")
+    fake, r, err = go([FakeHttpResponse(400)], config={"LLM_REASONING_EFFORT": "bogus"})
+    check("openai_compat: if the endpoint rejects the setting (400) it is a clear non-retried validation error", err is not None and err.kind == "validation" and len(fake.calls) == 1)
     fake, r, err = go([chat_reply("hi", usage=False)])
     check("openai_compat: no usage field -> token counts are None, not an error", r["input_tokens"] is None and r["output_tokens"] is None)
     fake, r, err = go([chat_reply("```json\n" + schema_ok + "\n```")], schema={"type": "array"})

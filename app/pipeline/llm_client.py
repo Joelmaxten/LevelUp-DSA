@@ -269,6 +269,9 @@ def _openai_once(model_id, prompt, system, max_output_tokens):
     body = {"model": model_id, "messages": messages}
     if max_output_tokens:
         body["max_tokens"] = max_output_tokens
+    effort = _setting("LLM_REASONING_EFFORT", "")
+    if effort:
+        body["reasoning_effort"] = effort
     headers = {"Authorization": f"Bearer {_setting('NVIDIA_API_KEY', '')}", "Content-Type": "application/json"}
     _limiter.acquire(int(_setting("LLM_MAX_RPM", 30)))
     try:
