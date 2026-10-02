@@ -336,6 +336,11 @@ class SurveyRespondent(db.Model):
     databases = db.Column(ARRAY(db.String), default=[])
     platforms = db.Column(ARRAY(db.String), default=[])
     webframes = db.Column(ARRAY(db.String), default=[])
+    # Nullable, added later (scripts/add_survey_skill_columns.py): the 2025 survey's other
+    # skill-like columns - IDEs/editors, SO tags (newer technologies), collaboration tools.
+    dev_envs = db.Column(ARRAY(db.String))
+    so_tags = db.Column(ARRAY(db.String))
+    office_stack = db.Column(ARRAY(db.String))
     source = db.Column(db.String(100), default="so_survey_2025_india")
 
     def __repr__(self):

@@ -24,7 +24,21 @@ COLUMNS_NEEDED = [
     "ConvertedCompYearly", "RemoteWork",
     "LanguageHaveWorkedWith", "DatabaseHaveWorkedWith",
     "PlatformHaveWorkedWith", "WebframeHaveWorkedWith",
+    # Added for resume-to-path fit (mode 1). The 2025 release has no MiscTech/ToolsTech
+    # columns (those were 2024); these are its other skill-like ones - see PROJECT_BIOGRAPHY.md.
+    "DevEnvsHaveWorkedWith", "SOTagsHaveWorkedWith", "OfficeStackAsyncHaveWorkedWith",
 ]
+
+# survey column -> survey_respondents column, for every semicolon-delimited skill list
+SKILL_COLUMNS = {
+    "LanguageHaveWorkedWith": "languages",
+    "DatabaseHaveWorkedWith": "databases",
+    "PlatformHaveWorkedWith": "platforms",
+    "WebframeHaveWorkedWith": "webframes",
+    "DevEnvsHaveWorkedWith": "dev_envs",
+    "SOTagsHaveWorkedWith": "so_tags",
+    "OfficeStackAsyncHaveWorkedWith": "office_stack",
+}
 
 DEVTYPE_TO_CAREER_PATH = {
     "Developer, full-stack": "Software Engineering / Full-Stack Development",
@@ -73,8 +87,7 @@ def process(csv_path, chunksize=50000):
 
     df["career_path"] = df["DevType"].map(DEVTYPE_TO_CAREER_PATH)  # NaN if unmapped
 
-    for col in ["LanguageHaveWorkedWith", "DatabaseHaveWorkedWith",
-                "PlatformHaveWorkedWith", "WebframeHaveWorkedWith"]:
+    for col in SKILL_COLUMNS:
         df[col] = df[col].apply(_split_skills)
 
     return df
