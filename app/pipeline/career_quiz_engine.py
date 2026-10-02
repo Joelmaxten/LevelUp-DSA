@@ -10,11 +10,15 @@ proxy for information gain, not a full Bayesian calculation.
 
 import statistics
 
+from app.pipeline.career_path_registry import PAIR_PARTNER
 from app.pipeline.career_quiz_data import CAREER_PATHS, QUESTIONS, OPTION_SIGNALS
 
 MIN_QUESTIONS = 8
-MAX_QUESTIONS = 12
-CONFIDENCE_GAP_THRESHOLD = 3  # top score must lead 2nd place by this much to stop early
+# Derived from the bank, so the maximum can never be a number of questions that does not exist
+# (it used to be a fixed 12 with only 10 questions, so it was never reached).
+MAX_QUESTIONS = min(14, len(QUESTIONS))
+CONFIDENCE_GAP_THRESHOLD = 3  # the leader must be this far ahead of the best path that is not its pair partner to stop early
+PAIR_GAP_THRESHOLD = 2        # a leader and its pair partner must be this far apart to stop early, unless no question can separate them
 
 
 def new_session():
@@ -89,10 +93,27 @@ def _estimate_information_gain(session, question_id):
 
 
 def next_question(session):
-    """Pick the unanswered question with the highest estimated information gain."""
+    """
+    Pick the unanswered question with the highest estimated information gain.
+
+    The one addition to that rule: when the leader and its pair partner (AI/ML, Data Science/
+    Data Analytics, ...) are within 1 point of each other and some unasked question can separate
+    them, only those separating questions are considered (still ranked by the same estimate).
+    Without this the variance proxy, which only looks at the top scores, asked a question that
+    could not tell the pair apart in about a fifth of such situations (see
+    scripts/simulate_quiz.py).
+    """
     unanswered = [qid for qid in QUESTIONS if qid not in session["asked_ids"]]
     if not unanswered:
         return None
+
+    scores = session["scores"]
+    leader = _leader(scores)
+    partner = PAIR_PARTNER.get(leader)
+    if partner is not None and abs(scores[leader] - scores[partner]) <= 1:
+        separating = separating_questions(session, leader, partner)
+        if separating:
+            unanswered = separating
 
     scored_questions = [
         (qid, _estimate_information_gain(session, qid)) for qid in unanswered
@@ -101,8 +122,35 @@ def next_question(session):
     return scored_questions[0][0]
 
 
+def _leader(scores):
+    """The top-scoring path; ties are broken alphabetically, explicitly, so the result never depends on dict order."""
+    return min(scores, key=lambda path: (-scores[path], path))
+
+
+def separating_questions(session, path_a, path_b):
+    """
+    Ids of the questions NOT yet asked that have at least one option signalling exactly one of the two
+    paths - i.e. questions whose answer can change the score difference between them.
+    """
+    return [
+        qid for qid in QUESTIONS
+        if qid not in session["asked_ids"]
+        and any((path_a in OPTION_SIGNALS.get((qid, option), [])) != (path_b in OPTION_SIGNALS.get((qid, option), []))
+                for option in QUESTIONS[qid]["options"])
+    ]
+
+
 def should_stop(session):
-    """Decide whether we have enough confidence to stop early."""
+    """
+    Decide whether we have enough confidence to stop early.
+
+    Never before MIN_QUESTIONS answers; always at MAX_QUESTIONS. In between, stop only when
+    - the leader is at least CONFIDENCE_GAP_THRESHOLD points ahead of the best path that is NOT its
+      pair partner (an AI/ML or Data Science/Analytics-style pair is not a real runner-up: the quiz
+      is meant to separate them with its own questions), AND
+    - if the leader has a pair partner: they are at least PAIR_GAP_THRESHOLD points apart, or no
+      unasked question can separate them any more (asking more would change nothing).
+    """
     num_answered = len(session["answered"])
 
     if num_answered < MIN_QUESTIONS:
@@ -110,21 +158,43 @@ def should_stop(session):
     if num_answered >= MAX_QUESTIONS:
         return True
 
-    ranked = sorted(session["scores"].values(), reverse=True)
-    top, second = ranked[0], ranked[1]
-    return (top - second) >= CONFIDENCE_GAP_THRESHOLD
+    scores = session["scores"]
+    leader = _leader(scores)
+    partner = PAIR_PARTNER.get(leader)
+    others = [score for path, score in scores.items() if path not in (leader, partner)]
+    if scores[leader] - (max(others) if others else 0) < CONFIDENCE_GAP_THRESHOLD:
+        return False
+
+    if partner is not None and scores[leader] - scores[partner] < PAIR_GAP_THRESHOLD:
+        return not separating_questions(session, leader, partner)
+    return True
 
 
 def get_results(session):
-    """Return ranked career paths with confidence percentages."""
+    """
+    Return ranked career paths with confidence percentages. Ties are ordered alphabetically,
+    explicitly (not by dict order, which Flask's session rewrites to sorted order anyway).
+    Every entry whose score equals the top score also has "tied": true (a single such entry is just
+    the winner; more than one is a tie - see tied_top()).
+    """
     total_signals = sum(session["scores"].values()) or 1
-    ranked = sorted(session["scores"].items(), key=lambda pair: pair[1], reverse=True)
+    ranked = sorted(session["scores"].items(), key=lambda pair: (-pair[1], pair[0]))
+    top_score = ranked[0][1]
 
-    return [
-        {
+    results = []
+    for path, score in ranked:
+        entry = {
             "career_path": path,
             "score": score,
             "confidence_pct": round((score / total_signals) * 100, 1),
         }
-        for path, score in ranked
-    ]
+        if score == top_score:
+            entry["tied"] = True
+        results.append(entry)
+    return results
+
+
+def tied_top(results):
+    """The paths whose score equals the top score, in registry order (one path when there is no tie)."""
+    group = {entry["career_path"] for entry in results if entry.get("tied")}
+    return [path for path in CAREER_PATHS if path in group]
