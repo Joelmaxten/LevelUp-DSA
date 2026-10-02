@@ -1,0 +1,5 @@
+# Extra packages for running the smoke tests (scripts/smoke_test_resume.py builds a PDF with fpdf2).
+-r requirements.txt
+fpdf2==2.8.8
+fonttools==4.65.0
+defusedxml==0.7.1
