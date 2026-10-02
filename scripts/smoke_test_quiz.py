@@ -23,7 +23,7 @@ from pathlib import Path
 from app.pipeline import career_quiz_engine as engine
 from collections import Counter
 
-from app.pipeline.career_path_registry import PATH_PAIRS
+from app.pipeline.career_path_registry import PAIR_PARTNER, PATH_PAIRS
 from app.pipeline.career_quiz_data import CAREER_PATHS, OPTION_SIGNALS, QUESTIONS
 
 GOLDEN_FILE = Path("scratch/golden/quiz_after.json")      # the redesigned quiz; quiz_before.json is the original engine's replay
@@ -107,6 +107,74 @@ def data_checks():
           not [(q, o) for q in new_ids for o, t in QUESTIONS[q]["options"].items() if any(w in t.lower() for w in FORBIDDEN_IN_NEW_OPTIONS)])
 
 
+def favouring(path, against=()):
+    """An answer chooser that always picks the option that signals `path` most strongly and `against` least."""
+    def choose(question_id, options):
+        def value(option):
+            signalled = OPTION_SIGNALS[(question_id, option)]
+            return (path in signalled, -sum(1 for p in against if p in signalled), -len(signalled))
+        return max(options, key=value)
+    return choose
+
+
+def invariant_checks():
+    """Properties of the whole quiz (engine + bank), not of any particular replay."""
+    cannot_win = []
+    for path in CAREER_PATHS:
+        scores = play(favouring(path))["scores"]
+        if any(score >= scores[path] for other, score in scores.items() if other != path):
+            cannot_win.append(path)
+    check("every one of the 15 paths can finish strictly #1 for some answer sequence" + (f" (cannot: {cannot_win})" if cannot_win else ""), not cannot_win)
+
+    for a, b in PATH_PAIRS:
+        a_wins = play(favouring(a, against=[b]))["scores"]
+        b_wins = play(favouring(b, against=[a]))["scores"]
+        check(f"pair {a} / {b} is separable: some sequence puts each side 2+ points ahead of the other",
+              a_wins[a] - a_wins[b] >= 2 and b_wins[b] - b_wins[a] >= 2)
+
+    rng = random.Random(99)
+    lengths = [play(lambda qid, options: rng.choice(options))["answered"] for _ in range(300)]
+    check("the stop rule never asks more than the bank holds or more than MAX_QUESTIONS (300 random sequences)",
+          max(lengths) <= min(len(QUESTIONS), engine.MAX_QUESTIONS) and min(lengths) >= engine.MIN_QUESTIONS)
+
+    # A pair within 1 point at the top must be followed by a separating question while one is left.
+    rng = random.Random(5)
+    misses = checked = 0
+    for _ in range(300):
+        session = engine.new_session()
+        while True:
+            question_id = engine.next_question(session)
+            if question_id is None:
+                break
+            leader = min(session["scores"], key=lambda p: (-session["scores"][p], p))
+            partner = PAIR_PARTNER.get(leader)
+            if partner and abs(session["scores"][leader] - session["scores"][partner]) <= 1:
+                separating = engine.separating_questions(session, leader, partner)
+                if separating:
+                    checked += 1
+                    misses += question_id not in separating
+            engine.apply_answer(session, question_id, rng.choice(list(QUESTIONS[question_id]["options"])))
+            if engine.should_stop(session):
+                break
+    check(f"a leader within 1 point of its pair partner is always followed by a separating question ({checked} situations checked)", checked > 0 and misses == 0)
+
+    # get_results fields.
+    session = engine.new_session()
+    for q, o in (("Q1", "A"), ("Q2", "A"), ("Q3", "A")):
+        engine.apply_answer(session, q, o)
+    results = engine.get_results(session)
+    top = results[0]["score"]
+    check("get_results keeps career_path/score/confidence_pct and marks exactly the top-score entries tied",
+          all({"career_path", "score", "confidence_pct"} <= set(r) for r in results)
+          and {r["career_path"] for r in results if r.get("tied")} == {r["career_path"] for r in results if r["score"] == top}
+          and all("tied" not in r for r in results if r["score"] != top))
+    check("tied_top lists the top-score paths in registry order",
+          engine.tied_top(results) == [p for p in CAREER_PATHS if session["scores"][p] == top])
+    flipped = {"scores": dict(reversed(list(session["scores"].items()))), "answered": session["answered"], "asked_ids": session["asked_ids"]}
+    check("results do not depend on the order of the scores dict (explicit alphabetical tie order)", engine.get_results(flipped) == results)
+    check("session state is JSON-safe", json.loads(json.dumps(session)) == session)
+
+
 def main():
     argv = sys.argv[1:]
     golden_file = Path(argv[argv.index("--golden") + 1]) if "--golden" in argv else GOLDEN_FILE
@@ -126,6 +194,7 @@ def main():
           all(engine.MIN_QUESTIONS <= r["answered"] <= min(engine.MAX_QUESTIONS, len(QUESTIONS)) for r in runs))
     check("session state stays JSON-safe", all(json.dumps(r) for r in runs))
     data_checks()
+    invariant_checks()
     if not golden_file.exists() and "--allow-missing-golden" in argv:
         print(f"[SKIP] golden file {golden_file} not captured yet (--allow-missing-golden)")
     else:
