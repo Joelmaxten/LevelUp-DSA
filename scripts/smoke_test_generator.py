@@ -15,6 +15,8 @@ Usage:
 """
 import json
 import sys
+import threading
+import time
 from pathlib import Path
 from unittest.mock import patch
 
@@ -40,14 +42,39 @@ def check(description, condition):
 
 # What the stub saw: phase title -> {"target": int, "inventory": [node_ids]}, filled from the prompts.
 SEEN = {}
+# Test controls and a log of every call (for the concurrency checks).
+CONTROL = {"delay": 0.0, "fail_phase": None}
+CALLS = []
+INFLIGHT = {"now": 0, "max": 0}
+_lock = threading.Lock()
 
 
 def _fake_generate(task, prompt, system=None, schema=None, max_output_tokens=None, json_mode=False):
-    """Stands in for llm_client.generate (the generator's only LLM entry point)."""
+    """Stands in for llm_client.generate (the generator's only LLM entry point). Thread-safe."""
+    import flask
+    record = {"thread": threading.current_thread().name, "app_context": flask.has_app_context(),
+              "request_context": flask.has_request_context(), "kind": "planner", "title": None,
+              "has_plan": "each written separately and at the same time" in prompt,
+              "has_exclusion": "EARLIER phases of this same roadmap" in prompt}
+    reply = None
     if not is_folder_order_prompt(prompt):
         title, target, topics = parse_phase_prompt(prompt)
+        record.update(kind="phase", title=title)
         SEEN[title] = {"target": target, "inventory": [t[0] for t in topics]}
-    return {"text": fake_reply(prompt), "parsed": None, "model_id": "fake", "provider": "fake",
+        if CONTROL["fail_phase"] == title:
+            reply = "this is not json"
+    with _lock:
+        CALLS.append(record)
+        INFLIGHT["now"] += 1
+        INFLIGHT["max"] = max(INFLIGHT["max"], INFLIGHT["now"])
+    try:
+        if CONTROL["delay"]:
+            time.sleep(CONTROL["delay"])
+        text = reply if reply is not None else fake_reply(prompt)
+    finally:
+        with _lock:
+            INFLIGHT["now"] -= 1
+    return {"text": text, "parsed": None, "model_id": "fake", "provider": "fake",
             "input_tokens": None, "output_tokens": None, "latency_s": 0.0, "cost_usd": None,
             "retries": 0, "schema_retry": False}
 
@@ -133,11 +160,68 @@ def slug(path):
     return path.replace(" ", "_").replace("&", "and")
 
 
-def run_path(path, index, chunks):
+def run_path(path, index, chunks, concurrency=1):
     SEEN.clear()
-    roadmap, audit = rg.generate_roadmap(path, SIGNALS, index, chunks)
+    roadmap, audit = rg.generate_roadmap(path, SIGNALS, index, chunks, concurrency=concurrency)
     expected = {t["node_id"] for t in rg._dedup_inventory(rg._topic_inventory(path, chunks))}
     return {"career_path": path, "roadmap": roadmap, "audit": audit, "_seen": dict(SEEN), "_expected": expected}
+
+
+def as_golden_text(result):
+    return json.dumps({k: result[k] for k in ("career_path", "roadmap", "audit")}, ensure_ascii=False)
+
+
+def concurrency_checks(index, chunks):
+    """Things only the parallel path can get wrong: bounds, thread hygiene, prompts, failure handling."""
+    import threading
+    import flask
+
+    path = "Full-Stack Development"        # 5 phases
+    original = (CONTROL["delay"], CONTROL["fail_phase"])
+    try:
+        # bounded + really parallel
+        CONTROL["delay"] = 0.15
+        CALLS.clear()
+        INFLIGHT.update(now=0, max=0)
+        run_path(path, index, chunks, concurrency=3)
+        check("concurrency 3: at most 3 phase calls in flight at once", INFLIGHT["max"] <= 3)
+        check("concurrency 3: phase calls really overlap (more than 1 in flight)", INFLIGHT["max"] >= 2)
+        phase_calls = [c for c in CALLS if c["kind"] == "phase"]
+        check("concurrency 3: phase calls run in worker threads, not the main thread",
+              phase_calls and all(c["thread"] != threading.main_thread().name for c in phase_calls))
+        check("concurrency 3: worker threads have no Flask app or request context",
+              all(not c["app_context"] and not c["request_context"] for c in phase_calls))
+        check("concurrency 3: the planner call runs first, before any phase call",
+              CALLS[0]["kind"] == "planner" and all(c["kind"] == "phase" for c in CALLS[1:]))
+        check("concurrency 3: each phase prompt carries the full plan, not an earlier-phases list",
+              all(c["has_plan"] and not c["has_exclusion"] for c in phase_calls))
+        CONTROL["delay"] = 0
+        CALLS.clear()
+        run_path(path, index, chunks, concurrency=1)
+        later = [c for c in CALLS if c["kind"] == "phase"][1:]
+        check("concurrency 1: later phases get the earlier-steps exclusion block, no plan block",
+              later and all(c["has_exclusion"] and not c["has_plan"] for c in later))
+
+        # one phase fails twice -> same ValueError as today, only that phase retried
+        for conc in (1, 3):
+            CALLS.clear()
+            CONTROL["fail_phase"] = "JavaScript"
+            try:
+                run_path(path, index, chunks, concurrency=conc)
+                err = None
+            except ValueError as exc:
+                err = exc
+            per_phase = {}
+            for c in CALLS:
+                if c["kind"] == "phase":
+                    per_phase[c["title"]] = per_phase.get(c["title"], 0) + 1
+            check(f"concurrency {conc}: a phase that stays invalid raises the usual ValueError",
+                  err is not None and "invalid JSON for phase 'JavaScript' after retry" in str(err))
+            check(f"concurrency {conc}: only the failing phase was retried (2 calls), every other phase called at most once",
+                  per_phase.get("JavaScript") == 2 and all(n == 1 for t, n in per_phase.items() if t != "JavaScript"))
+        CONTROL["fail_phase"] = None
+    finally:
+        CONTROL["delay"], CONTROL["fail_phase"] = original
 
 
 def main():
@@ -148,12 +232,18 @@ def main():
     for p in patches:
         p.start()
     try:
-        results = {}
+        results, parallel = {}, {}
         for path in PATHS:
-            results[path] = run_path(path, index, chunks)
+            results[path] = run_path(path, index, chunks, concurrency=1)
             SEEN.clear(); SEEN.update(results[path]["_seen"])
             if not update:
                 invariants(path, results[path]["roadmap"], results[path]["audit"], results[path]["_expected"])
+        if not update:
+            for path in PATHS:
+                parallel[path] = run_path(path, index, chunks, concurrency=3)
+                SEEN.clear(); SEEN.update(parallel[path]["_seen"])
+                invariants(f"{path} [concurrency 3]", parallel[path]["roadmap"], parallel[path]["audit"], parallel[path]["_expected"])
+            concurrency_checks(index, chunks)
     finally:
         for p in patches:
             p.stop()
@@ -162,7 +252,7 @@ def main():
         warmup_checks()
     GOLDEN_DIR.mkdir(parents=True, exist_ok=True)
     for path, result in results.items():
-        text = json.dumps({k: result[k] for k in ("career_path", "roadmap", "audit")}, ensure_ascii=False)
+        text = as_golden_text(result)
         golden_file = GOLDEN_DIR / f"golden_{slug(path)}.json"
         if update:
             golden_file.write_text(text, encoding="utf-8")
@@ -172,6 +262,8 @@ def main():
         if golden_file.exists():
             check(f"{path}: output is byte-identical to the golden reference",
                   golden_file.read_text(encoding="utf-8") == text)
+            check(f"{path}: concurrency 3 gives the same phase/step structure (the fake's replies don't depend on context, so it is identical)",
+                  as_golden_text(parallel[path]) == text)
 
     if update:
         return

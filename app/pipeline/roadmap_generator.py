@@ -71,10 +71,12 @@ import json
 import logging
 import math
 import time
+from concurrent.futures import ThreadPoolExecutor
 from contextlib import contextmanager
 
 import numpy as np
 
+from app.config import Config
 from app.pipeline.career_path_registry import FOLDER_DISPLAY_NAMES, FULL_STACK, SUPPORTING_FOLDERS
 from app.pipeline.conversation_data import ADDITIONAL_NOTES_KEY, CONVERSATION_QUESTIONS, OPTION_SIGNALS
 from app.pipeline.embedder import embed_chunks
@@ -550,7 +552,7 @@ def _exclusion_block(used_node_ids, used_titles):
     )
 
 
-def _build_prompt(career_path, phase, retrieved_chunks, checkpoint_chunks, conversation_signals, used_node_ids, used_titles, target_steps):
+def _build_prompt(career_path, phase, retrieved_chunks, checkpoint_chunks, conversation_signals, used_node_ids, used_titles, target_steps, plan_context=None):
     context_text = "\n\n".join(_context_line(c) for c in retrieved_chunks)
 
     sections = [context_text, _inventory_block(phase["topics"])]
@@ -576,7 +578,7 @@ the reference material and topic inventory below. Do not invent skills,
 tools, or steps that are not grounded in this material. topic_refs
 specifically must only contain node_id values that appear in the topic
 inventory below - never invented ones.
-{_exclusion_block(used_node_ids, used_titles)}
+{plan_context if plan_context is not None else _exclusion_block(used_node_ids, used_titles)}
 Reference material:
 {reference_and_inventory}
 
@@ -859,36 +861,177 @@ def _stage(timings, name):
         _log_stage(timings, name, time.perf_counter() - started)
 
 
-def generate_roadmap(career_path, conversation_signals, index, chunks, timings=None):
+def _rewrite_block(earlier_titles):
+    return (
+        "\nREWRITE NOTICE: an earlier version of this phase repeated steps that other phases already "
+        "cover. Do not use or closely paraphrase any of these existing step titles:\n"
+        + "\n".join(f"- {t}" for t in earlier_titles) + "\n"
+    )
+
+
+def _plan_block(phase_plan, phase):
+    """
+    Read-only context for a phase written in PARALLEL with the others: the whole plan,
+    so this call knows what its sibling phases cover and doesn't wander into their
+    topics or write a step they would naturally write. Replaces the "already
+    generated in earlier phases" block, which can't exist when no phase has finished.
+    """
+    lines = []
+    for other in phase_plan:
+        if other["phase_number"] == phase["phase_number"]:
+            lines.append(f'Phase {other["phase_number"]} "{other["title"]}": THIS is the phase you are writing.')
+        else:
+            titles = "; ".join(t["title"] for t in other["topics"])
+            lines.append(f'Phase {other["phase_number"]} "{other["title"]}" ({len(other["topics"])} topics): {titles}')
+    return (
+        f"\nThis roadmap has {len(phase_plan)} phases, each written separately and at the same time. "
+        "The full plan is below, read-only. Write steps ONLY for your own phase; do not cover "
+        "another phase's topics, and avoid step titles another phase would naturally use "
+        "(for example a generic \"Introduction\" or \"Getting started\" step):\n"
+        + "\n".join(lines) + "\n"
+    )
+
+
+def _prepare_phase(career_path, phase, base_queries, index, chunks):
+    """
+    Retrieval for one phase (embedding + FAISS: local CPU, so it runs in the calling
+    thread, not in a writer thread). Returns what the writer and the finisher need.
+    """
+    phase_node_ids = {t["node_id"] for t in phase["topics"]}
+    phase_queries = base_queries + [f"{career_path}: {phase['title']}"]
+
+    retrieved = search_diverse(phase_queries, index, chunks, career_path, total_k=TOTAL_K, per_folder_cap=PER_FOLDER_CAP)
+    # Prefer chunks whose node actually belongs to this phase's own topic
+    # slice, so the reference material text agrees with the topic
+    # whitelist given for this call; survey chunks (a career-path-level
+    # aggregate, not tied to one node) are kept regardless. Falls back to
+    # the unfiltered retrieval if that intersection is empty, rather than
+    # leaving the phase with no grounding text at all.
+    scoped = [c for c in retrieved if c.get("node_id") in phase_node_ids or "node_id" not in c]
+    retrieved_for_prompt = scoped or retrieved
+
+    if not retrieved_for_prompt:
+        raise ValueError(
+            f"No knowledge base content found for the {phase['title']!r} phase of "
+            f"career path: {career_path!r}. Cannot generate a grounded phase without "
+            "retrieved context."
+        )
+
+    return {
+        "phase_node_ids": phase_node_ids,
+        "phase_queries": phase_queries,
+        "retrieved_for_prompt": retrieved_for_prompt,
+        "checkpoint_chunks": _checkpoint_chunks_for_phase(career_path, phase, chunks),
+    }
+
+
+def _write_phase(career_path, phase, prep, conversation_signals, used_node_ids, used_titles, plan_context=None, extra_exclusion=None):
+    """
+    The LLM part of one phase: build the prompt, call the model, parse the JSON; if the
+    reply is truncated or invalid, ONE retry of this phase alone with a smaller step
+    target. Pure data in, data out - no Flask, no database, no shared mutable state - so
+    it is safe to run in a worker thread. Returns the raw list of steps.
+
+    plan_context: if given (parallel mode), replaces the "earlier phases" block.
+    extra_exclusion: (titles) appended as an exclusion list when a phase is being
+    rewritten because it duplicated an earlier one (see _regenerate_duplicate_phase).
+    """
+    target_steps = phase["target_steps"]
+    steps = None
+    for attempt in (1, 2):
+        prompt = _build_prompt(career_path, phase, prep["retrieved_for_prompt"], prep["checkpoint_chunks"],
+                               conversation_signals, used_node_ids, used_titles, target_steps, plan_context=plan_context)
+        if extra_exclusion:
+            prompt += _rewrite_block(extra_exclusion)
+        raw_text = _strip_code_fences(llm_client.generate("roadmap", prompt, max_output_tokens=ROADMAP_PHASE_MAX_OUTPUT_TOKENS, json_mode=True)["text"])
+        try:
+            steps = json.loads(raw_text)
+            break
+        except json.JSONDecodeError as e:
+            if attempt == 1:
+                reduced_target = max(2, round(target_steps * 2 / 3))
+                logger.warning(
+                    "Phase %r response was truncated or invalid JSON on attempt 1 "
+                    "(target %d steps): %s - retrying once with target reduced to %d.",
+                    phase["title"], target_steps, e, reduced_target,
+                )
+                target_steps = reduced_target
+                continue
+            raise ValueError(
+                f"Gemini returned invalid JSON for phase {phase['title']!r} after retry: {e}\n"
+                f"Raw response: {raw_text[:500]}"
+            )
+    return steps
+
+
+def _finish_phase(phase, prep, steps, global_index, chunks, index, vectors, career_path):
+    """
+    Local, CPU-only work on one phase's raw steps (runs in the calling thread, in plan
+    order): drop invalid topic_refs, derive subtopics, place the leftover topics as
+    more_topics, number the steps (within the phase, and globally across the roadmap),
+    and build the audit entry. Returns (phase_out, audit_entry, next_global_index).
+    """
+    phase_node_ids = prep["phase_node_ids"]
+    steps = _validate_topic_refs(steps, phase_node_ids)
+    phase_node_id_to_title = {t["node_id"]: t["title"] for t in phase["topics"]}
+    steps = _derive_subtopics(steps, phase_node_id_to_title)
+
+    node_id_to_chunk = {c["node_id"]: c for c in chunks if c.get("node_id") in phase_node_ids}
+    steps = _assign_more_topics(phase, steps, node_id_to_chunk, vectors)
+
+    for position, step in enumerate(steps, start=1):
+        step["step_number"] = position
+        step["global_step_index"] = global_index
+        global_index += 1
+
+    source_to_queries = _attribute_queries(prep["phase_queries"], index, chunks, career_path)
+    audit = _build_phase_audit(phase, steps, prep["retrieved_for_prompt"], node_id_to_chunk, source_to_queries, prep["phase_queries"])
+    return {"phase_number": phase["phase_number"], "title": phase["title"], "steps": steps}, audit, global_index
+
+
+def generate_roadmap(career_path, conversation_signals, index, chunks, timings=None, concurrency=None):
     """
     career_path: the student's #1 ranked career path (string).
-    timings: optional list; per-stage (name, seconds) tuples are appended to it
-    (the same figures are always logged).
     conversation_signals: CareerProfile.conversation_signals dict.
     index, chunks: the loaded FAISS index + metadata (from rag.load_index()).
+    timings: optional list; per-stage (name, seconds) tuples are appended to it
+    (the same figures are always logged).
+    concurrency: how many phases the LLM writes at once; default
+    config.PHASE_CONCURRENCY.
 
     Returns (roadmap, retrieved_chunks_audit):
     - roadmap: {"phases": [{"phase_number", "title", "steps": [...]}]} - see
       _step_schema_instructions() for a step's shape. Steps carry a
-      "global_step_index" assigned here in code (not by Gemini - a single
-      phase call has no visibility into how many steps preceded it in
-      earlier phases, so this can't reliably come from the model itself).
+      "global_step_index" assigned here in code, after the phase's steps are
+      known (the model can't know how many steps preceded its phase).
     - retrieved_chunks_audit: {"phases": [{"phase_number", "title",
       "queries", "retrieved", "steps"}]} - what grounded each phase.
 
-    Gemini call count: one folder-ordering call, plus one per phase - so 4
-    for a 3-folder path (AI/ML), 6 for a 5-folder path (Full-Stack), up
-    from the flat design's 1. Latency scales accordingly (each call still
-    carries its own up-to-3-retry 503 backoff from gemini_client.py, so a
-    worst-case generation is meaningfully slower - seconds becoming tens of
-    seconds to low minutes), and the free tier's daily-roadmap headroom
-    drops proportionally (youtube_resources.py's own quota note, on the
-    YouTube side, is unrelated and unaffected). Retrieval
-    (search_diverse/search calls) also runs once per phase, but that's
-    local FAISS + sentence-transformer work, not a network call -
-    negligible added latency, not a quota concern.
+    Stages: (1) planner: one LLM call orders the roadmap.sh folders into phases;
+    (2) one LLM call per phase; (3) local post-processing per phase, in plan
+    order; (4) the cross-phase duplicate check (_resolve_duplicates).
+
+    concurrency == 1 (default): phases are written one after another, each told
+    which step titles earlier phases already used - the original behavior, and
+    the output for a given set of LLM replies is unchanged.
+
+    concurrency > 1: after the planner call, the phase calls run in a bounded
+    ThreadPoolExecutor. They can't see each other's output, so each prompt gets
+    the whole plan (every phase's title and topics) as read-only context instead
+    (_plan_block), and the duplicate check afterwards catches what slipped
+    through. Worker threads touch no database and no Flask context: they get a
+    prompt's worth of plain data and return the parsed steps. Retrieval and
+    post-processing stay in the calling thread (the embedding model is shared);
+    global_step_index and step_number are assigned after every phase has
+    returned, in plan order. If a phase fails after its own retry, the same
+    ValueError as the sequential path is raised (the earliest failing phase in
+    plan order), and phases that had not started yet are cancelled.
+
+    Total LLM calls: 1 planner + 1 per phase (+1 per retried or rewritten phase).
     """
     total_started = time.perf_counter()
+    if concurrency is None:
+        concurrency = Config.PHASE_CONCURRENCY
     inventory = _topic_inventory(career_path, chunks)
     if not inventory:
         raise ValueError(
@@ -901,88 +1044,50 @@ def generate_roadmap(career_path, conversation_signals, index, chunks, timings=N
     base_queries = _build_diverse_queries(career_path, conversation_signals)
     vectors = _ChunkVectors(index, chunks)
 
-    phases_out = []
-    audit_phases = []
-    global_index = 1
-    used_node_ids = set()
-    used_titles = []
-
+    preps = []
     for phase in phase_plan:
-        phase_node_ids = {t["node_id"] for t in phase["topics"]}
-        phase_queries = base_queries + [f"{career_path}: {phase['title']}"]
+        with _stage(timings, f"phase {phase['phase_number']}: retrieval"):
+            preps.append(_prepare_phase(career_path, phase, base_queries, index, chunks))
 
-        phase_label = f"phase {phase['phase_number']}"
-        retrieval_started = time.perf_counter()
-        retrieved = search_diverse(phase_queries, index, chunks, career_path, total_k=TOTAL_K, per_folder_cap=PER_FOLDER_CAP)
-        # Prefer chunks whose node actually belongs to this phase's own topic
-        # slice, so the reference material text agrees with the topic
-        # whitelist given for this call; survey chunks (a career-path-level
-        # aggregate, not tied to one node) are kept regardless. Falls back to
-        # the unfiltered retrieval if that intersection is empty, rather than
-        # leaving the phase with no grounding text at all.
-        scoped = [c for c in retrieved if c.get("node_id") in phase_node_ids or "node_id" not in c]
-        retrieved_for_prompt = scoped or retrieved
+    phases_out, audit_phases = [], []
+    global_index = 1
 
-        if not retrieved_for_prompt:
-            raise ValueError(
-                f"No knowledge base content found for the {phase['title']!r} phase of "
-                f"career path: {career_path!r}. Cannot generate a grounded phase without "
-                "retrieved context."
-            )
-
-        checkpoint_chunks = _checkpoint_chunks_for_phase(career_path, phase, chunks)
-        _log_stage(timings, f"{phase_label}: retrieval", time.perf_counter() - retrieval_started)
-
-        target_steps = phase["target_steps"]
-        steps = None
-        llm_started = time.perf_counter()
-        for attempt in (1, 2):
-            prompt = _build_prompt(career_path, phase, retrieved_for_prompt, checkpoint_chunks, conversation_signals, used_node_ids, used_titles, target_steps)
-            raw_text = _strip_code_fences(llm_client.generate("roadmap", prompt, max_output_tokens=ROADMAP_PHASE_MAX_OUTPUT_TOKENS, json_mode=True)["text"])
+    if concurrency <= 1 or len(phase_plan) <= 1:
+        used_node_ids, used_titles = set(), []
+        for phase, prep in zip(phase_plan, preps):
+            with _stage(timings, f"phase {phase['phase_number']}: LLM call(s)"):
+                steps = _write_phase(career_path, phase, prep, conversation_signals, used_node_ids, used_titles)
+            with _stage(timings, f"phase {phase['phase_number']}: post-processing"):
+                phase_out, audit, global_index = _finish_phase(phase, prep, steps, global_index, chunks, index, vectors, career_path)
+            for step in phase_out["steps"]:
+                used_node_ids.update(step.get("topic_refs", []))
+                if step.get("title"):
+                    used_titles.append(step["title"])
+            phases_out.append(phase_out)
+            audit_phases.append(audit)
+    else:
+        def write(phase, prep):
+            started = time.perf_counter()
             try:
-                steps = json.loads(raw_text)
-                break
-            except json.JSONDecodeError as e:
-                if attempt == 1:
-                    reduced_target = max(2, round(target_steps * 2 / 3))
-                    logger.warning(
-                        "Phase %r response was truncated or invalid JSON on attempt 1 "
-                        "(target %d steps): %s - retrying once with target reduced to %d.",
-                        phase["title"], target_steps, e, reduced_target,
-                    )
-                    target_steps = reduced_target
-                    continue
-                raise ValueError(
-                    f"Gemini returned invalid JSON for phase {phase['title']!r} after retry: {e}\n"
-                    f"Raw response: {raw_text[:500]}"
-                )
+                return _write_phase(career_path, phase, prep, conversation_signals, set(), [], plan_context=_plan_block(phase_plan, phase))
+            finally:
+                _log_stage(timings, f"phase {phase['phase_number']}: LLM call(s)", time.perf_counter() - started)
 
-        _log_stage(timings, f"{phase_label}: LLM call(s)", time.perf_counter() - llm_started)
-
-        post_started = time.perf_counter()
-        steps = _validate_topic_refs(steps, phase_node_ids)
-        phase_node_id_to_title = {t["node_id"]: t["title"] for t in phase["topics"]}
-        steps = _derive_subtopics(steps, phase_node_id_to_title)
-
-        node_id_to_chunk = {c["node_id"]: c for c in chunks if c.get("node_id") in phase_node_ids}
-        steps = _assign_more_topics(phase, steps, node_id_to_chunk, vectors)
-
-        for step in steps:
-            step["global_step_index"] = global_index
-            global_index += 1
-            used_node_ids.update(step.get("topic_refs", []))
-            if step.get("title"):
-                used_titles.append(step["title"])
-
-        source_to_queries = _attribute_queries(phase_queries, index, chunks, career_path)
-        audit_phases.append(_build_phase_audit(phase, steps, retrieved_for_prompt, node_id_to_chunk, source_to_queries, phase_queries))
-
-        phases_out.append({
-            "phase_number": phase["phase_number"],
-            "title": phase["title"],
-            "steps": steps,
-        })
-        _log_stage(timings, f"{phase_label}: post-processing", time.perf_counter() - post_started)
+        with ThreadPoolExecutor(max_workers=min(concurrency, len(phase_plan)), thread_name_prefix="phase-writer") as pool:
+            futures = [pool.submit(write, phase, prep) for phase, prep in zip(phase_plan, preps)]
+            raw_steps = []
+            try:
+                for future in futures:           # plan order, so the earliest failing phase is the one reported
+                    raw_steps.append(future.result())
+            except BaseException:
+                for future in futures:
+                    future.cancel()
+                raise
+        for phase, prep, steps in zip(phase_plan, preps, raw_steps):
+            with _stage(timings, f"phase {phase['phase_number']}: post-processing"):
+                phase_out, audit, global_index = _finish_phase(phase, prep, steps, global_index, chunks, index, vectors, career_path)
+            phases_out.append(phase_out)
+            audit_phases.append(audit)
 
     _log_stage(timings, "total", time.perf_counter() - total_started)
     return {"phases": phases_out}, {"phases": audit_phases}
