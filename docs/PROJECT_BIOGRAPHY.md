@@ -1401,6 +1401,94 @@ generation spent about 14 of its 15 seconds re-embedding topics.
 ---
 ---
 ---
+## Resume Modes — "Which Path Fits My Resume?" and the Survey Skill Columns
+
+**What was built** (batch 4):
+- **Survey columns.** The original dataset slug was not recorded anywhere in the repo or
+  these docs; `kaggle datasets files` on `aliaslam25/stack-overflow-developer-survey-2025`
+  showed `survey_results_public.csv` at 140,893,245 bytes, exactly the size this document
+  records for the original download, so that is the dataset. After downloading it to
+  `data/raw/` (gitignored) the checks passed: the processor's India filter gives 2,547 rows
+  (the table has 2,547), and `dev_type` and the four skill lists matched the stored rows on
+  every row, in order. **The planned MiscTech/ToolsTech columns do not exist in the 2025
+  release** (they were 2024 questions). Its other skill-like columns were added instead,
+  as nullable arrays: `dev_envs` (DevEnvsHaveWorkedWith: IDEs and editors), `so_tags`
+  (SOTagsHaveWorkedWith: newer technologies such as Pydantic, LangGraph, Ollama) and
+  `office_stack` (OfficeStackAsyncHaveWorkedWith: GitHub, Jira, GitLab, Confluence).
+  `CommPlatformHaveWorkedWith` and `AIModelsHaveWorkedWith` were left out (communities and
+  model names are not resume skills). `scripts/add_survey_skill_columns.py` backs the table
+  up to `scratch/`, runs the ALTER TABLE, fills the columns, and verifies every existing
+  field is unchanged; the processor now returns the new columns for a rebuild.
+- **Vocabulary.** 61 skills were added for path-fit extraction (`skill_vocabulary.py`):
+  the new columns minus names that are ordinary words or too generic ("Cursor", "Linear",
+  "Zed", ...), plus 15 hand-listed common skills the survey has no column for (Git,
+  TensorFlow, PyTorch, Keras, pandas, NumPy, scikit-learn, ...). A second alias table
+  (`EXTENDED_SKILL_ALIASES`: sklearn, reactjs, vs code, html5, ...) is used only by the new
+  mode. The original vocabulary, alias table and `get_required_skills` are untouched:
+  the "does my resume fit my path" required-skills lists were compared with a snapshot taken
+  before the change and are identical for all 15 paths.
+- **Ranking** (`app/pipeline/path_fit.py`, pure and deterministic). Survey signal for paths
+  with at least 30 respondents: lift (share in path / share overall) x share in path, summed
+  over the resume's skills, counting only skills at least 10% of the path's respondents list,
+  across all seven skill columns (not five, see above). Roadmap signal: a skills summary is
+  embedded, the top 30 unfiltered knowledge-base chunks are counted per path and divided by
+  the path's total chunks. List A (9 paths) blends the two 50/50 after min-max
+  normalisation; List B (6 thin paths: Data Analytics 25 respondents, QA 22, Cybersecurity 12,
+  Game 14, Cloud 14, UI/UX 8) uses the roadmap signal only and is labelled so. Fit is shown
+  relative to the top of each list; rows within 15% of the top are near-ties; fewer than 3
+  recognised skills gives an `insufficient_data` state.
+- **Routes.** `POST /resume/discover` (PDF only, no path: saves a Resume row, no SkillGap,
+  no salary, no LLM, structure-only ATS score) and `POST /resume/<id>/analyze` (ownership
+  checked, stored skills reused, upload-shaped response plus `ats_unavailable`, feedback
+  through `llm_client` with graceful degradation). `/resume/upload` is unchanged. Both new
+  routes use the CSRF check and share the upload rate-limit bucket.
+- **Front end.** Two choices at the top of the resume page. "Which path fits my resume?"
+  uploads to `/resume/discover` and shows List A, then List B, near-ties side by side,
+  respondent counts, a limits note, and an "Analyze against this path" button per row;
+  "Does my resume fit my path?" is the existing flow with the shared picker.
+
+**Why:** a student without a target path had to guess one before getting any resume
+feedback.
+
+**Validation on three synthetic resumes** (`scripts/validate_path_fit.py`; weights fixed
+beforehand, not tuned):
+- (a) Python, SQL, MySQL, Git: Data Engineering 100%, Data Science 92.7% (a near-tie),
+  Machine Learning Engineering 70.5%, Backend 56.6%. List B: Cybersecurity 100% (roadmap
+  only, 12 respondents), Data Analytics 70%.
+- (b) JavaScript, React, Node.js, TypeScript, HTML/CSS: Full-Stack 100%, Frontend 89.0%
+  (near-tie), Mobile 57.1%, Backend 46.5%. List B: Cybersecurity 100% and QA 99.4% on very
+  little evidence (JavaScript and Node.js named in a few chunks).
+- (c) Python, TensorFlow, PyTorch, pandas, Docker: Data Science 100%, Machine Learning
+  Engineering 90.8% (near-tie), DevOps 69.4%, Data Engineering 65.4%, AI Engineering 45.3%.
+  Data Analytics leads List B at 100%. This resume reaches the right area, but only through
+  the roadmap signal: the survey has no TensorFlow/PyTorch/pandas data, so only Python and
+  Docker scored in the survey signal (Docker is what lifts DevOps). AI Engineering
+  ranks fifth.
+
+**Issues faced and root causes:**
+- The MiscTech/ToolsTech columns the plan assumed are not in the 2025 survey, as above.
+- `/resume/latest` pairs a user's newest Resume with their newest SkillGap, so a
+  discover-only resume would have been shown with an older, unrelated skill gap. Fixed with
+  a nullable `resumes.analysis_pending` flag (set by discover, cleared by analyze;
+  `latest_resume_analysis` skips pending rows). The column was added to the dev database with
+  `ALTER TABLE resumes ADD COLUMN IF NOT EXISTS analysis_pending BOOLEAN DEFAULT FALSE`.
+- The PhraseMatcher was cached once per process, so a second vocabulary could not coexist
+  with the original; it is now cached per vocabulary.
+- The extractor returns the text as it appears in the resume ("python"), not the canonical
+  name; the discover route canonicalises names before ranking (mode 2 still reports surface
+  forms, unchanged).
+- In the test, two Flask test clients used as context managers at once break request-context
+  teardown, and the shared hourly upload limit made later checks fail until the counters
+  were reset; both were test-harness problems, not app bugs.
+- Not checked: ranking quality on real resumes (only synthetic ones), and the real Gemini
+  feedback through `/resume/<id>/analyze` (stubbed in tests and in the browser check).
+
+**How verified:** `scripts/smoke_test_resume_modes.py` (46 checks); browser check of both
+modes at 1400px and 360px against a dev server with the LLM and Adzuna stubbed
+(`scratch/run_stub_server.py`); see DEV_SETUP.md.
+
+---
+---
 ## Still To Build
 
 - Real-model check of parallel generation: run `scripts/inspect_roadmap.py` for a few

@@ -202,6 +202,7 @@ For these tests run `pip install -r requirements-dev.txt` once (adds fpdf2).
 | `smoke_test_paths.py` | shared career-path picker, `/career/options`, path override, multiple roadmaps, dashboard roadmap list | no (Gemini patched) |
 | `smoke_test_progress.py` | roadmap tick/untick, progress counts, dashboard bar; `--keep` leaves a demo user whose login it prints | no |
 | `smoke_test_adzuna.py` | live listings: cache, failure handling, median-only salary, `/resume/listings` | no (HTTP patched) |
+| `smoke_test_resume_modes.py` | resume modes: ranking unit checks (near-ties, thin-path labelling, insufficient data), `/resume/discover` and `/resume/<id>/analyze` happy paths, 404/400/401, CSRF, rate limits, stored skills reused, `/resume/upload` unchanged, required-skills lists identical to the pre-change snapshot (`scratch/golden/required_skills_before.json`) | no (feedback stubbed; local index and embeddings; needs `requirements-dev.txt` for fpdf2) |
 | `smoke_test_llm.py` | `llm_client`: retry on throttling/5xx/timeouts, no retry on access-denied/validation, fallback model, provider switch, schema correction, no secrets or prompt text in errors or logs | no (fake Bedrock client, patched Gemini; hides real credentials and blocks real clients) |
 | `smoke_test_generator.py` | roadmap generator with a fake LLM: golden comparison for 3 paths, coverage/duplicate/index/allowlist/shape invariants at concurrency 1 and 3, thread hygiene, failure handling, duplicate rewrite, warm-up | no (fake LLM, local embeddings only; ~1.5 min, mostly model load) |
 | `smoke_test_profile_flow.py` | quiz then conversation then `CareerProfile` row; prints rather than counts | no |
@@ -231,6 +232,26 @@ gitignored; add changes with `git add -f`).
 | `scripts/measure_duplicate_threshold.py` | re-derives the duplicate-check threshold from the saved real roadmaps in `scratch/` |
 
 Per-stage timings of every real generation are also logged as `roadmap_stage` lines (never any prompt or reply text), and every LLM call as an `llm_call` line.
+
+### Survey skill columns and the resume-mode scripts
+
+`survey_respondents` has three nullable array columns, `dev_envs`, `so_tags` and `office_stack`, added after
+the table was first created (there is no migration tool). On a machine whose table predates them:
+
+1. Download the survey CSV: `kaggle datasets download -d aliaslam25/stack-overflow-developer-survey-2025 -f survey_results_public.csv -p data/raw --unzip`
+   (needs `KAGGLE_USERNAME` and `KAGGLE_KEY` in `.env`; the file is 140,893,245 bytes and `data/raw/` is gitignored).
+2. `PYTHONPATH=. venv/Scripts/python.exe scripts/add_survey_skill_columns.py`: backs the table up to `scratch/`, runs
+   `ALTER TABLE ... ADD COLUMN IF NOT EXISTS`, fills the columns by row order, verifies every existing field is unchanged
+   (it stops without writing if the row counts or any existing field differ), and prints the top 15 values per column.
+   Safe to re-run.
+3. `resumes.analysis_pending` (BOOLEAN) was added too, for `/resume/discover`:
+   `ALTER TABLE resumes ADD COLUMN IF NOT EXISTS analysis_pending BOOLEAN DEFAULT FALSE;`
+
+A fresh database gets all of these from `db.create_all()`. After a rebuild from the CSV with
+`so_survey_processor.process()` the new columns are in its output (`SKILL_COLUMNS` maps CSV column to table column).
+
+`scripts/validate_path_fit.py` prints the path-fit ranking for three synthetic resumes with the raw survey and
+roadmap numbers behind each row (local only).
 
 ### CSRF: required for every new state-changing request
 
@@ -336,3 +357,8 @@ Known Issues / Deployment Backlog
   The duplicate check catches about 5 of 12 hand-written paraphrases at its 0.80 threshold.
 - **A real Gemini request was sent by accident** while writing `smoke_test_llm.py` (see the
   Faster Roadmap Generation entry in PROJECT_BIOGRAPHY.md). Fixed; the test now blocks real clients.
+- **Path-fit ranking is validated only on synthetic resumes.** Pairs such as AI and ML score almost the same by design
+  (the survey has one "AI/ML engineer" answer), thin paths (fewer than 30 respondents) rest on roadmap content alone,
+  and TensorFlow, PyTorch and pandas have no survey data (the 2025 survey dropped those columns), so they only help
+  through the roadmap signal. The page says so; check a few real resumes before relying on it.
+- **`/resume/<id>/analyze` with a real LLM is untested** (stubbed in the tests and the browser check).
