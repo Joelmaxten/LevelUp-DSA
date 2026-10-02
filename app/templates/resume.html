@@ -8,11 +8,17 @@
         <div class="margin"></div>
         <div class="main">
             <h1 class="page-title">Resume analysis</h1>
-            <p class="lead">
-                See which skills for a career path are already on your resume, which are missing, what those roles pay,
-                and what to do in the next 30 days. If you've taken the career quiz we use your top match.
-                Otherwise you'll choose a path after uploading.
-            </p>
+            <p class="lead" id="mode-lead"></p>
+            <div class="mode-switch" role="group" aria-label="What do you want to find out?">
+                <button type="button" class="mode-btn" id="mode-discover" aria-pressed="false">
+                    <span class="mode-title">Which path fits my resume?</span>
+                    <span class="mode-sub">Upload a resume and see which career paths match the skills on it.</span>
+                </button>
+                <button type="button" class="mode-btn" id="mode-fit" aria-pressed="true">
+                    <span class="mode-title">Does my resume fit my path?</span>
+                    <span class="mode-sub">Pick a path, then see your skill gap, salary ranges, ATS score and a 30-day plan.</span>
+                </button>
+            </div>
         </div>
     </header>
 
@@ -33,17 +39,14 @@
                 </form>
                 <div>
                     <h2 class="block-title">What happens next</h2>
-                    <ul class="dots">
-                        <li>We read the text of your PDF and list the skills we find.</li>
-                        <li>We compare them with the skills working developers use for your target path.</li>
-                        <li>You see the gap, salary ranges, an ATS score, and a 30-day plan.</li>
-                    </ul>
+                    <ul class="dots" id="mode-steps"></ul>
                 </div>
             </div>
         </div>
     </div>
 
     <div id="resume-status"></div>
+    <div id="discover-results" hidden></div>
     <div id="resume-results" hidden></div>
 </div>
 
@@ -55,6 +58,47 @@ const formError = document.getElementById("form-error");
 const submitBtn = document.getElementById("submit-btn");
 const statusBox = document.getElementById("resume-status");
 const resultsBox = document.getElementById("resume-results");
+const discoverBox = document.getElementById("discover-results");
+
+// ---------- the two modes ----------
+
+const MODES = {
+    discover: {
+        button: "Find paths that fit",
+        lead: "Not sure which career path suits you? Upload your resume and we rank all 15 paths by how well the skills on it match each one. Nothing is saved as a career profile.",
+        steps: [
+            "We read the text of your PDF and list the skills we find.",
+            "We compare them with what Indian developers in each path report using, and with each path's learning roadmap.",
+            "You see the paths that fit best. Pick one to see your skill gap, salary ranges and a 30-day plan, without uploading again.",
+        ],
+    },
+    fit: {
+        button: "Analyze my resume",
+        lead: "See which skills for a career path are already on your resume, which are missing, what those roles pay, and what to do in the next 30 days. You choose the career path after picking your file.",
+        steps: [
+            "We read the text of your PDF and list the skills we find.",
+            "We compare them with the skills working developers use for your target path.",
+            "You see the gap, salary ranges, an ATS score, and a 30-day plan.",
+        ],
+    },
+};
+let mode = new URLSearchParams(window.location.search).get("mode") === "discover" ? "discover" : "fit";
+let discoveredResumeId = null;
+
+function applyMode(next) {
+    mode = next;
+    for (const name of Object.keys(MODES)) {
+        document.getElementById(`mode-${name}`).setAttribute("aria-pressed", name === mode ? "true" : "false");
+    }
+    document.getElementById("mode-lead").textContent = MODES[mode].lead;
+    document.getElementById("mode-steps").replaceChildren(...MODES[mode].steps.map((text) => el("li", { text })));
+    submitBtn.textContent = MODES[mode].button;
+    statusBox.replaceChildren();
+    formError.hidden = true;
+    discoverBox.hidden = mode !== "discover" || discoverBox.childElementCount === 0;
+}
+document.getElementById("mode-discover").addEventListener("click", () => applyMode("discover"));
+document.getElementById("mode-fit").addEventListener("click", () => applyMode("fit"));
 
 const MAX_BYTES = 5 * 1024 * 1024;   // mirrors MAX_CONTENT_LENGTH in app/config.py
 
@@ -111,6 +155,10 @@ function renderUploadError(result) {
         message = "That file is too large. The limit is 5 MB.";
     } else if (result.status === 429) {
         message = (result.data && result.data.message) || "You're uploading too often. Please wait a bit and try again.";
+    } else if (result.status === 404) {
+        message = "We couldn't find that resume any more. Upload it again.";
+    } else if (result.status === 503) {
+        message = "This feature isn't available on the server right now. Please try again later.";
     } else if (result.status === 0) {
         message = "Couldn't reach the server. Check your connection and try again.";
     } else {
@@ -166,6 +214,57 @@ async function upload(file, targetCareerPath) {
     resultsBox.scrollIntoView();
 }
 
+// ---------- mode 1: which path fits my resume ----------
+
+async function discover(file) {
+    uploadStarted = true;
+    submitBtn.disabled = true;
+    discoverBox.hidden = true;
+    resultsBox.hidden = true;
+    statusBox.replaceChildren(row([], working("Reading your resume and comparing it with every career path...")));
+
+    const body = new FormData();
+    body.append("resume", file);
+    const result = await postForm("/resume/discover", body);
+    submitBtn.disabled = false;
+
+    if (!result.ok) {
+        renderUploadError(result);
+        return;
+    }
+
+    statusBox.replaceChildren();
+    discoveredResumeId = result.data.resume_id;
+    discoverBox.replaceChildren(
+        row([el("p", { className: "note", text: "Compared with all 15 career paths" })], [
+            el("h2", { className: "path-name" }, el("span", { className: "mark", text: "Which path fits your resume" })),
+            el("p", { className: "note path-note", text: "Pick a path below to analyze this same resume against it." }),
+        ]),
+        ...discoverRows(result.data, analyzeStored, 2)
+    );
+    discoverBox.hidden = false;
+    discoverBox.scrollIntoView();
+}
+
+// "Analyze against this path" on a row: no re-upload, the stored resume is used.
+async function analyzeStored(path, button) {
+    button.disabled = true;
+    resultsBox.hidden = true;
+    statusBox.replaceChildren(row([], working(`Analyzing your resume against ${path}. This can take up to a minute...`)));
+    statusBox.scrollIntoView();
+
+    const result = await postJson(`/resume/${discoveredResumeId}/analyze`, { target_career_path: path });
+    button.disabled = false;
+
+    if (!result.ok) {
+        renderUploadError(result);
+        return;
+    }
+    statusBox.replaceChildren();
+    renderResults(result.data, false);
+    resultsBox.scrollIntoView();
+}
+
 form.addEventListener("submit", (event) => {
     event.preventDefault();
     formError.hidden = true;
@@ -177,6 +276,8 @@ form.addEventListener("submit", (event) => {
         showFormError("Only PDF files are accepted.");
     } else if (file.size > MAX_BYTES) {
         showFormError(`That file is ${(file.size / 1024 / 1024).toFixed(1)} MB. The limit is 5 MB.`);
+    } else if (mode === "discover") {
+        discover(file);
     } else {
         renderPicker(file);
     }
@@ -198,9 +299,11 @@ async function showSavedAnalysis() {
     }
 }
 
+applyMode(mode);
+
 if (new URLSearchParams(window.location.search).get("new") === "1") {
     fileInput.focus();
-} else {
+} else if (mode === "fit") {
     showSavedAnalysis();
 }
 </script>

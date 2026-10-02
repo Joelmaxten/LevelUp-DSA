@@ -1051,3 +1051,43 @@ h4 { font-weight: 700; font-size: 1.0625rem; }
     .skillmap .state-mastered .body { forced-color-adjust: none; }
     .skillmap .label-mark { fill: Highlight; }
 }
+
+
+/* ---------- Resume page: choosing a mode, and the "which path fits" lists ---------- */
+
+.mode-switch { display: grid; gap: 0.75rem; margin-top: 1.5rem; max-width: 52rem; }
+@media (min-width: 40rem) { .mode-switch { grid-template-columns: 1fr 1fr; } }
+.mode-btn {
+    display: block;
+    width: 100%;
+    padding: 0.9rem 1rem;
+    text-align: left;
+    font: inherit;
+    color: var(--ink);
+    background: transparent;
+    border: 2px solid var(--ink);
+    border-radius: 0;
+    cursor: pointer;
+}
+.mode-btn:hover { background: rgba(21, 28, 79, 0.08); }
+.mode-btn:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+.mode-btn[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+.mode-title { display: block; font-weight: 700; font-size: 1.0625rem; }
+.mode-sub { display: block; margin-top: 0.25rem; font-size: 0.9375rem; }
+
+.fit-card { padding: 0.25rem 0 1rem; min-width: 0; }
+.fit-name { font-size: 1.25rem; line-height: 1.2; overflow-wrap: anywhere; }
+.fit-pct { margin: 0.4rem 0 0.4rem; }
+.fit-pct .num { font-weight: 800; font-size: 1.5rem; }
+.fit-bar { height: 0.75rem; border: 2px solid var(--ink); background: transparent; }
+.fit-bar i { display: block; height: 100%; background: var(--ink); }
+.fit-label { margin: 0.9rem 0 0.2rem; }
+.fit-evidence { margin-top: 0.75rem; }
+.fit-row .fit-card { max-width: 40rem; }
+.fit-tie .tie-group { gap: 1.5rem; }
+.fit-limits { max-width: 46rem; }
+
+@media (forced-colors: active) {
+    .mode-btn[aria-pressed="true"] { forced-color-adjust: none; background: Highlight; color: HighlightText; }
+    .fit-bar i { forced-color-adjust: none; background: Highlight; }
+}

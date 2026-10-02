@@ -764,3 +764,94 @@ function resumeAnalysisRows(data, level) {
         ...feedbackRows(data.ai_feedback, level),
     ];
 }
+
+
+// ---------- "which path fits my resume" (POST /resume/discover) ----------
+//
+// Everything here is built with el() / textContent, never innerHTML: skill names and path
+// names come from the server.
+
+const FIT_LIMITS_NOTE = "How to read this: it is a skills match, not a hiring prediction. Paths that share most of their skills, such as AI and machine learning, score almost the same, so treat close scores as a tie rather than a ranking. Paths with few survey respondents rest on little data.";
+
+function fitBar(pct) {
+    const fill = el("i", {});
+    fill.style.width = `${Math.max(0, Math.min(100, pct))}%`;
+    return el("div", { className: "fit-bar", role: "img", "aria-label": `${Math.round(pct)} percent of the top match in this list` }, fill);
+}
+
+// One path: name, how it compares with the top of its list, the skills that counted, the
+// evidence behind it, and the button that analyzes the stored resume against it.
+function fitCard(entry, onAnalyze) {
+    const evidence = entry.basis === "based on roadmap content only"
+        ? `${entry.respondent_count} survey respondents, too few to use. Ranked on roadmap content only.`
+        : `${entry.respondent_count} survey respondents. Survey data and roadmap content.`;
+
+    const analyze = el("button", { className: "btn btn-outline", type: "button", text: "Analyze against this path" });
+    analyze.setAttribute("aria-label", `Analyze my resume against ${entry.path}`);
+    analyze.addEventListener("click", () => onAnalyze(entry.path, analyze));
+
+    return el("div", { className: "fit-card" },
+        el("h3", { className: "fit-name", text: entry.path }),
+        el("p", { className: "fit-pct" }, el("span", { className: "num", text: `${Math.round(entry.fit_pct)}%` }), " of the top match in this list"),
+        fitBar(entry.fit_pct),
+        entry.matched_skills.length
+            ? el("div", {}, el("p", { className: "note fit-label", text: "Skills that counted" }), skillChips(entry.matched_skills.slice(0, 8), "have"))
+            : el("p", { className: "note", text: "No single skill stood out for this path." }),
+        el("p", { className: "note fit-evidence", text: evidence }),
+        el("div", { className: "actions" }, analyze)
+    );
+}
+
+// One ranked list: a heading and explanation in the margin-style row, then the cards. The
+// near-tie group (if any) is shown side by side in one row instead of as a ranking.
+function fitList(title, intro, rows, tiePaths, onAnalyze, level) {
+    const out = [row([rowTitle(title, level), el("p", { className: "note", text: intro })], [], "fit-head")];
+    const tied = new Set(tiePaths);
+    let tieShown = false;
+    for (const entry of rows) {
+        if (tied.has(entry.path)) {
+            if (tieShown) continue;
+            tieShown = true;
+            out.push(row(
+                [el("p", { className: "note", text: "Too close to call" }), el("p", { className: "note", text: "These are within 15% of each other. Treat them as a tie." })],
+                el("div", { className: "split split-2 tie-group" }, ...rows.filter((r) => tied.has(r.path)).map((r) => fitCard(r, onAnalyze))),
+                "fit-row fit-tie"
+            ));
+        } else {
+            out.push(row([], fitCard(entry, onAnalyze), "fit-row"));
+        }
+    }
+    return out;
+}
+
+// data: the /resume/discover response. onAnalyze(path, buttonEl) runs when a row's button is pressed.
+function discoverRows(data, onAnalyze, level) {
+    const skillsMargin = [rowTitle("Skills we found", level), el("p", { className: "note", text: `${data.extracted_skills.length} recognised` })];
+    const skillsMain = data.extracted_skills.length
+        ? skillChips(data.extracted_skills, "have")
+        : el("p", { text: "We couldn't recognise any skills in this resume." });
+    const rows = [row(skillsMargin, skillsMain)];
+
+    if (data.insufficient_data) {
+        rows.push(row([rowTitle("Not enough to go on", level)], el("div", { className: "msg", role: "status" },
+            el("p", { text: `We recognised ${data.extracted_skills.length} skill${data.extracted_skills.length === 1 ? "" : "s"}, and we need at least 3 to compare career paths fairly.` }),
+            el("p", { text: "Add or expand a skills section with the languages, tools and frameworks you have used, then upload the resume again." })
+        )));
+        return rows;
+    }
+
+    rows.push(...fitList(
+        "Paths with survey data",
+        "Ranked by how common and how distinctive your skills are among Indian developers in the Stack Overflow Developer Survey, blended with how closely your skills match each path's learning roadmap.",
+        data.list_a, data.near_ties.a, onAnalyze, level
+    ));
+    if (data.list_b.length) {
+        rows.push(...fitList(
+            "Paths with little survey data",
+            "These paths have fewer than 30 survey respondents, so the survey can't be used for them. They are ranked from roadmap content alone and are less reliable.",
+            data.list_b, data.near_ties.b, onAnalyze, level
+        ));
+    }
+    rows.push(row([rowTitle("Limits of this match", level)], el("p", { className: "fit-limits", text: FIT_LIMITS_NOTE })));
+    return rows;
+}
