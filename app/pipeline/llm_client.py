@@ -3,7 +3,8 @@ One entry point for every LLM call the app makes: generate(task, prompt, ...).
 
 Providers: "gemini" (the default; delegates to gemini_client.generate_with_retry,
 whose retry/fallback behavior is unchanged) or "bedrock" (boto3 bedrock-runtime
-Converse API). Which one is used comes from config.LLM_PROVIDER; which model
+Converse API) or "openai_compat" (POST {LLM_BASE_URL}/chat/completions with `requests`; NVIDIA's
+endpoint by default; key from NVIDIA_API_KEY, sent only as a bearer header). Which one is used comes from config.LLM_PROVIDER; which model
 from the task: "roadmap" -> ROADMAP_MODEL_ID, "fast" -> FAST_MODEL_ID,
 "fallback" -> FALLBACK_MODEL_ID. Credentials are never read here: boto3 and the
 Gemini SDK take them from the environment themselves, and nothing in this
@@ -33,9 +34,11 @@ import json
 import logging
 import os
 import re
+import threading
 import time
 
 import jsonschema
+import requests
 
 from app.config import Config
 from app.pipeline import gemini_client
@@ -105,6 +108,8 @@ def strip_code_fences(text):
 def _provider_configured(provider, model_id=None):
     if provider == "gemini":
         return bool(os.environ.get("GEMINI_API_KEY"))
+    if provider == "openai_compat":
+        return bool(_setting("NVIDIA_API_KEY", "")) and bool(model_id)
     if provider == "bedrock":
         has_creds = bool(os.environ.get("AWS_BEARER_TOKEN_BEDROCK") or os.environ.get("AWS_ACCESS_KEY_ID"))
         return bool(_setting("AWS_REGION", "")) and has_creds and bool(model_id)
@@ -207,6 +212,113 @@ def _call_bedrock(task, models, prompt, system, max_output_tokens):
     raise LLMError(f"bedrock call failed ({last_kind}: {last_code}).", kind=kind, task=task, provider="bedrock")
 
 
+# ---------------------------------------------------------- openai-compatible (HTTP)
+
+class _RateLimiter:
+    """
+    Spaces request START times at least 60/rpm seconds apart, across all threads: each caller
+    reserves the next free slot under a lock and then sleeps outside it until the slot arrives, so
+    parallel phase writers and retries can never exceed the rate, and nobody is refused - they wait.
+    """
+
+    def __init__(self):
+        self._lock = threading.Lock()
+        self._next_slot = 0.0
+
+    def acquire(self, rpm):
+        interval = 60.0 / max(1, rpm)
+        with self._lock:
+            now = _monotonic()
+            slot = max(now, self._next_slot)
+            self._next_slot = slot + interval
+        wait = slot - now
+        if wait > 0:
+            _limiter_sleep(wait)
+        return wait
+
+
+_monotonic = time.monotonic        # tests replace these two to observe spacing without real waiting
+_limiter_sleep = time.sleep
+_limiter = _RateLimiter()
+_OC_MAX_RETRY_AFTER_S = 120
+
+
+class _HttpFailure(Exception):
+    def __init__(self, kind, code, retry_after):
+        super().__init__(f"{kind}:{code}")
+        self.kind, self.code, self.retry_after = kind, code, retry_after
+
+
+def _retry_after_seconds(response, default):
+    value = (getattr(response, "headers", None) or {}).get("Retry-After")
+    try:
+        return min(_OC_MAX_RETRY_AFTER_S, max(0.0, float(value)))
+    except (TypeError, ValueError):
+        return default
+
+
+def _openai_once(model_id, prompt, system, max_output_tokens):
+    """One HTTP request. Returns the raw result dict, or raises _HttpFailure(kind, code, retry_after)."""
+    url = f"{_setting('LLM_BASE_URL', '')}/chat/completions"
+    messages = ([{"role": "system", "content": system}] if system else []) + [{"role": "user", "content": prompt}]
+    body = {"model": model_id, "messages": messages}
+    if max_output_tokens:
+        body["max_tokens"] = max_output_tokens
+    headers = {"Authorization": f"Bearer {_setting('NVIDIA_API_KEY', '')}", "Content-Type": "application/json"}
+    _limiter.acquire(int(_setting("LLM_MAX_RPM", 30)))
+    try:
+        response = requests.post(url, headers=headers, json=body, timeout=_timeout_s())
+    except (requests.exceptions.Timeout, requests.exceptions.ConnectionError) as exc:
+        raise _HttpFailure("transient", type(exc).__name__, None)
+    except requests.exceptions.RequestException as exc:
+        raise _HttpFailure("validation", type(exc).__name__, None)
+    status = response.status_code
+    if status == 429 or status >= 500:
+        raise _HttpFailure("transient", str(status), _retry_after_seconds(response, None))
+    if status in (401, 403):
+        raise _HttpFailure("credentials", str(status), None)
+    if status == 404:
+        raise _HttpFailure("model", str(status), None)
+    if status >= 400:
+        raise _HttpFailure("validation", str(status), None)
+    try:
+        data = response.json()
+        text = (data["choices"][0]["message"]["content"] or "").strip()
+    except (ValueError, KeyError, IndexError, TypeError, AttributeError):
+        raise _HttpFailure("validation", "malformed_response", None)
+    usage = data.get("usage") if isinstance(data, dict) else None
+    usage = usage if isinstance(usage, dict) else {}
+    return {"text": text, "model_id": model_id,
+            "input_tokens": usage.get("prompt_tokens"), "output_tokens": usage.get("completion_tokens")}
+
+
+def _call_openai_compat(task, models, prompt, system, max_output_tokens):
+    """Try each model in order; returns (raw_result, retries). Same retry rules as bedrock; raises LLMError."""
+    if not models:
+        raise LLMError("No model ID is configured for the openai_compat provider.", kind="config", task=task, provider="openai_compat")
+    if not _setting("NVIDIA_API_KEY", ""):
+        raise LLMError("NVIDIA_API_KEY is not set.", kind="config", task=task, provider="openai_compat")
+    last_kind, last_code, retries = "failed", "", 0
+    for model_id in models:
+        for attempt in range(1, MAX_ATTEMPTS + 1):
+            try:
+                return _openai_once(model_id, prompt, system, max_output_tokens), retries
+            except _HttpFailure as failure:
+                last_kind, last_code = failure.kind, failure.code
+                if failure.kind == "transient" and attempt < MAX_ATTEMPTS:
+                    retries += 1
+                    wait = failure.retry_after if failure.retry_after is not None else BACKOFF_SECONDS[attempt - 1]
+                    _sleep(wait)
+                    continue
+                break
+        if last_kind == "validation":
+            raise LLMError(f"openai_compat rejected the request ({last_code}).", kind="validation", task=task, provider="openai_compat")
+        if last_kind == "credentials":
+            break
+    kind = {"transient": "transient", "model": "access", "credentials": "access"}.get(last_kind, "failed")
+    raise LLMError(f"openai_compat call failed ({last_kind}: {last_code}).", kind=kind, task=task, provider="openai_compat")
+
+
 # --------------------------------------------------------------------- gemini
 
 _GEMINI_STATUS_WORDS = ("RESOURCE_EXHAUSTED", "UNAVAILABLE", "PERMISSION_DENIED", "INVALID_ARGUMENT",
@@ -264,7 +376,9 @@ def _call_provider(provider, task, is_primary, prompt, system, max_output_tokens
         return _call_gemini(task, primary, fallback, prompt, system, max_output_tokens, json_mode)
     if provider == "bedrock":
         return _call_bedrock(task, [m for m in (primary, fallback) if m], prompt, system, max_output_tokens)
-    raise LLMError(f"Unknown LLM provider {provider!r} (expected 'gemini' or 'bedrock').", kind="config", task=task)
+    if provider == "openai_compat":
+        return _call_openai_compat(task, [m for m in (primary, fallback) if m], prompt, system, max_output_tokens)
+    raise LLMError(f"Unknown LLM provider {provider!r} (expected 'gemini', 'bedrock' or 'openai_compat').", kind="config", task=task)
 
 
 def _dispatch(task, prompt, system, max_output_tokens, json_mode):

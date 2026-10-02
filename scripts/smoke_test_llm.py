@@ -10,7 +10,11 @@ import io
 import logging
 import os
 import sys
+import threading
+import time
 from unittest.mock import patch
+
+import requests
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -98,6 +102,42 @@ def with_fake_bedrock(script):
     return fake, seen, patch.object(llm_client, "_bedrock_client_factory", factory)
 
 
+class FakeHttpResponse:
+    def __init__(self, status=200, body=None, headers=None):
+        self.status_code, self._body, self.headers = status, body, headers or {}
+
+    def json(self):
+        if self._body is None:
+            raise ValueError("no json")
+        return self._body
+
+
+def chat_reply(text, prompt_tokens=21, completion_tokens=9, usage=True):
+    body = {"choices": [{"message": {"role": "assistant", "content": text}}]}
+    if usage:
+        body["usage"] = {"prompt_tokens": prompt_tokens, "completion_tokens": completion_tokens}
+    return FakeHttpResponse(200, body)
+
+
+class FakePost:
+    """Stands in for requests.post: plays back a script of responses/exceptions and records every call."""
+    def __init__(self, script):
+        self.script, self.calls = list(script), []
+
+    def __call__(self, url, headers=None, json=None, timeout=None, **kw):
+        self.calls.append({"url": url, "headers": headers, "json": json, "timeout": timeout, "at": time.monotonic()})
+        item = self.script.pop(0)
+        if isinstance(item, Exception):
+            raise item
+        return item
+
+
+OC_KEY = "nvapi-FAKE-test-key-0123456789abcdef"
+OPENAI = {"LLM_PROVIDER": "openai_compat", "LLM_BASE_URL": "https://llm.test/v1", "NVIDIA_API_KEY": OC_KEY,
+          "ROADMAP_MODEL_ID": "oc-primary", "FAST_MODEL_ID": "oc-fast", "FALLBACK_MODEL_ID": "", "ALT_PROVIDER_MODEL_ID": "",
+          "LLM_MAX_RPM": 60000, "LLM_TIMEOUT_S": 7.0}
+
+
 def forbidden_client(*args, **kwargs):
     raise AssertionError("smoke_test_llm must never construct a real Gemini client")
 
@@ -108,8 +148,147 @@ def main():
     # Tests that need a "configured" provider set made-up credentials in a nested Env.
     no_creds = {"GEMINI_API_KEY": None, "AWS_BEARER_TOKEN_BEDROCK": None, "AWS_ACCESS_KEY_ID": None,
                 "AWS_SECRET_ACCESS_KEY": None}
-    with Env(env=no_creds), patch.object(gemini_client.genai, "Client", forbidden_client),             patch.object(gemini_client, "generate_with_retry", forbidden_client):
+    with Env({"NVIDIA_API_KEY": ""}, env=no_creds), patch.object(gemini_client.genai, "Client", forbidden_client), patch.object(gemini_client, "generate_with_retry", forbidden_client), patch.object(requests, "post", forbidden_client):
         run()
+
+
+def openai_compat_checks(sleeps):
+    llm_client._limiter_sleep = lambda seconds: None     # no real waiting except in the spacing test below
+    schema_ok = '[{"title": "x"}]'
+
+    def go(script, config=None, **kw):
+        fake = FakePost(script)
+        llm_client._limiter._next_slot = 0.0
+        with Env({**OPENAI, **(config or {})}), patch.object(requests, "post", fake):
+            sleeps.clear()
+            try:
+                return fake, generate(kw.pop("task", "roadmap"), kw.pop("prompt", "p"), **kw), None
+            except LLMError as exc:
+                return fake, None, exc
+
+    fake, r, err = go([chat_reply("hello")], system="be brief", max_output_tokens=55)
+    call = fake.calls[0]
+    check("openai_compat success: text, provider, model and token counts from the usage field",
+          r["text"] == "hello" and r["provider"] == "openai_compat" and r["model_id"] == "oc-primary"
+          and r["input_tokens"] == 21 and r["output_tokens"] == 9)
+    check("openai_compat request: POST {LLM_BASE_URL}/chat/completions, bearer header, system+user messages, max_tokens, LLM_TIMEOUT_S",
+          call["url"] == "https://llm.test/v1/chat/completions" and call["headers"]["Authorization"] == f"Bearer {OC_KEY}"
+          and call["json"]["model"] == "oc-primary" and call["json"]["max_tokens"] == 55 and call["timeout"] == 7.0
+          and call["json"]["messages"] == [{"role": "system", "content": "be brief"}, {"role": "user", "content": "p"}])
+    fake, r, err = go([chat_reply("hi", usage=False)])
+    check("openai_compat: no usage field -> token counts are None, not an error", r["input_tokens"] is None and r["output_tokens"] is None)
+    fake, r, err = go([chat_reply("```json\n" + schema_ok + "\n```")], schema={"type": "array"})
+    check("openai_compat: fenced JSON is unwrapped and parsed", r["parsed"] == [{"title": "x"}] and r["text"] == schema_ok)
+    fake, r, err = go([chat_reply("not json"), chat_reply(schema_ok)], schema=SCHEMA)
+    check("openai_compat: invalid JSON gets exactly one correction retry through the same path",
+          r["parsed"] == [{"title": "x"}] and r["schema_retry"] is True and len(fake.calls) == 2
+          and "not valid JSON" in fake.calls[1]["json"]["messages"][-1]["content"])
+
+    fake, r, err = go([FakeHttpResponse(429, None, {"Retry-After": "3"}), chat_reply("later")])
+    check("openai_compat: 429 with Retry-After is retried after exactly that wait, then succeeds",
+          r["text"] == "later" and len(fake.calls) == 2 and sleeps == [3.0] and r["retries"] == 1)
+    fake, r, err = go([FakeHttpResponse(503), FakeHttpResponse(500), chat_reply("ok")])
+    check("openai_compat: 5xx without Retry-After uses the normal backoff (2 s, 4 s)", r["text"] == "ok" and sleeps == [2, 4])
+    fake, r, err = go([requests.exceptions.ReadTimeout("slow"), requests.exceptions.ConnectionError("down"), chat_reply("ok")])
+    check("openai_compat: timeouts and connection errors are retried", r["text"] == "ok" and len(fake.calls) == 3)
+    fake, r, err = go([FakeHttpResponse(429, None, {"Retry-After": "100000"}), chat_reply("ok")])
+    check("openai_compat: an absurd Retry-After is capped", sleeps == [llm_client._OC_MAX_RETRY_AFTER_S])
+
+    for code in (401, 403):
+        fake, r, err = go([FakeHttpResponse(code)])
+        check(f"openai_compat: {code} is not retried (1 call, no wait) and raises LLMError(kind=access)",
+              err is not None and err.kind == "access" and len(fake.calls) == 1 and not sleeps)
+    fake, r, err = go([FakeHttpResponse(400)], config={"FALLBACK_MODEL_ID": "oc-fallback"})
+    check("openai_compat: 400 is not retried and the fallback model is not tried",
+          err is not None and err.kind == "validation" and len(fake.calls) == 1)
+    fake, r, err = go([FakeHttpResponse(404), chat_reply("from fallback")], config={"FALLBACK_MODEL_ID": "oc-fallback"})
+    check("openai_compat: unknown model (404) moves to the fallback model", r["model_id"] == "oc-fallback" and len(fake.calls) == 2)
+    fake, r, err = go([FakeHttpResponse(429)] * 3 + [chat_reply("fb")], config={"FALLBACK_MODEL_ID": "oc-fallback"})
+    check("openai_compat: fallback model used after 3 transient failures of the primary",
+          r["model_id"] == "oc-fallback" and [c["json"]["model"] for c in fake.calls] == ["oc-primary"] * 3 + ["oc-fallback"])
+    fake, r, err = go([chat_reply("x")], config={"NVIDIA_API_KEY": ""})
+    check("openai_compat: no NVIDIA_API_KEY -> config error and no request is made", err is not None and err.kind == "config" and not fake.calls)
+    fake, r, err = go([FakeHttpResponse(200, {"unexpected": True})])
+    check("openai_compat: a 200 without choices[0].message.content is an error, not a crash", err is not None and err.kind == "validation")
+
+    # failover to the other provider when it is configured
+    gemini_calls = []
+
+    def fake_gemini(prompt, **kwargs):
+        gemini_calls.append(kwargs)
+        return {"text": "from gemini", "model_id": "g", "input_tokens": 1, "output_tokens": 1}
+    fake = FakePost([FakeHttpResponse(503)] * 3)
+    with Env(OPENAI, {"GEMINI_API_KEY": FAKE_SECRET}), patch.object(requests, "post", fake), \
+            patch.object(gemini_client, "generate_with_retry", fake_gemini):
+        r = generate("roadmap", "p")
+    check("openai_compat: provider switch to gemini when the other provider is configured", r["provider"] == "gemini" and len(gemini_calls) == 1)
+
+    # the shared limiter
+    interval_rpm = 60
+    llm_client._limiter._next_slot = 0.0
+    waits, lock = [], threading.Lock()
+    original_monotonic = llm_client._monotonic
+    llm_client._monotonic = lambda: 100.0
+
+    def take():
+        w = llm_client._limiter.acquire(interval_rpm)
+        with lock:
+            waits.append(w)
+    threads = [threading.Thread(target=take) for _ in range(8)]
+    for t in threads:
+        t.start()
+    for t in threads:
+        t.join()
+    llm_client._monotonic = original_monotonic
+    check("limiter: 8 simultaneous callers at 60/min are given 8 distinct slots exactly 1 s apart (none refused)",
+          sorted(waits) == [float(i) for i in range(8)])
+
+    llm_client._limiter_sleep = time.sleep
+    llm_client._limiter._next_slot = 0.0
+    fake = FakePost([chat_reply("ok") for _ in range(8)])
+    started = time.monotonic()
+    with Env({**OPENAI, "LLM_MAX_RPM": 1200}), patch.object(requests, "post", fake):   # 0.05 s between requests
+        workers = [threading.Thread(target=lambda: generate("roadmap", "p")) for _ in range(8)]
+        for t in workers:
+            t.start()
+        for t in workers:
+            t.join()
+    times = sorted(c["at"] for c in fake.calls)
+    gaps = [b - a for a, b in zip(times, times[1:])]
+    check("limiter: 8 threads calling generate() at 1200/min really send requests >= ~0.05 s apart (real clock)",
+          len(times) == 8 and min(gaps) >= 0.04 and times[-1] - times[0] >= 0.3 and time.monotonic() - started >= 0.3)
+    llm_client._limiter_sleep = lambda seconds: None
+    llm_client._limiter._next_slot = 0.0
+    check("limiter: retries pass through the same limiter (a retried call takes a second slot)",
+          len(go([FakeHttpResponse(503), chat_reply("ok")], config={"LLM_MAX_RPM": 60})[0].calls) == 2)
+
+    # no key anywhere
+    stream = io.StringIO()
+    handler = logging.StreamHandler(stream)
+    handler.setLevel(logging.DEBUG)
+    root = logging.getLogger()
+    old_level = root.level
+    root.addHandler(handler)
+    root.setLevel(logging.DEBUG)
+    messages = []
+    try:
+        leaky = f"boom Authorization: Bearer {OC_KEY} {PROMPT_TEXT}"
+        for script in ([FakeHttpResponse(401)], [requests.exceptions.RequestException(leaky)], [FakeHttpResponse(500)] * 3,
+                       [requests.exceptions.ReadTimeout(leaky)] * 3, [chat_reply("bad " + REPLY_TEXT), chat_reply("worse " + REPLY_TEXT)]):
+            _, _, err = go(script, prompt=PROMPT_TEXT, schema=SCHEMA)
+            if err is not None:
+                messages.append(str(err))
+        go([chat_reply(REPLY_TEXT)], prompt=PROMPT_TEXT)
+    finally:
+        root.removeHandler(handler)
+        root.setLevel(old_level)
+    logged = stream.getvalue()
+    check("openai_compat: the API key appears in no error and no log line", len(messages) == 5 and all(OC_KEY not in m and "Bearer" not in m for m in messages)
+          and OC_KEY not in logged and "Bearer" not in logged)
+    check("openai_compat: neither prompt text nor reply text appears in errors or logs",
+          PROMPT_TEXT not in logged and REPLY_TEXT not in logged and all(PROMPT_TEXT not in m and REPLY_TEXT not in m for m in messages))
+    check("openai_compat: a successful call logs one line with provider, model, tokens and latency",
+          "llm_call task=roadmap provider=openai_compat model=oc-primary" in logged and "in_tokens=21" in logged)
 
 
 def run():
@@ -318,6 +497,8 @@ def run():
           and all(PROMPT_TEXT not in m and REPLY_TEXT not in m for m in messages))
     check("a successful call logs one line with task, model, tokens and latency",
           "llm_call task=roadmap provider=bedrock model=model-primary" in logged and "latency_s=" in logged)
+
+    openai_compat_checks(sleeps)
 
     # 9. cost is unknown unless a price is configured
     with Env(BEDROCK):

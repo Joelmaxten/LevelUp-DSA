@@ -65,6 +65,12 @@ class Config:
     # Model to use if the OTHER provider has to take over after the first one fails.
     ALT_PROVIDER_MODEL_ID = os.environ.get("ALT_PROVIDER_MODEL_ID", "").strip()
     AWS_REGION = os.environ.get("AWS_REGION", "").strip()
+    # LLM_PROVIDER="openai_compat": any OpenAI-compatible chat-completions endpoint (default: NVIDIA's).
+    # The key is only ever sent as a bearer header by llm_client; it is never logged or put in an error.
+    LLM_BASE_URL = (os.environ.get("LLM_BASE_URL", "").strip() or "https://integrate.api.nvidia.com/v1").rstrip("/")
+    NVIDIA_API_KEY = os.environ.get("NVIDIA_API_KEY", "").strip()
+    # Client-side cap on requests per minute for that provider, shared by every thread in the process.
+    LLM_MAX_RPM = max(1, _env_number("LLM_MAX_RPM", 30, int))
     # {model_id: {"input": usd_per_million_tokens, "output": usd_per_million_tokens}}.
     # Deliberately EMPTY: prices are never guessed, so cost shows as "unknown"
     # until you fill in the real figures for the models you use.

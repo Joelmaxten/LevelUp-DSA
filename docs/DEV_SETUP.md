@@ -88,7 +88,10 @@ three are needed to boot; the rest unlock features:
 | `ROADMAP_DAILY_LIMIT` | roadmaps one user may generate per rolling 24h | `5` |
 | `RESUME_UPLOAD_LIMIT_PER_HOUR` | resume uploads per user per hour (in-process counter) | `10` |
 | `RESUME_LISTINGS_LIMIT_PER_HOUR` | `/resume/listings` calls per user per hour (in-process counter) | `30` |
-| `LLM_PROVIDER` | `gemini` or `bedrock` (see `app/pipeline/llm_client.py`) | `gemini` |
+| `LLM_PROVIDER` | `gemini`, `bedrock` or `openai_compat` (see `app/pipeline/llm_client.py`) | `gemini` |
+| `LLM_BASE_URL` | `openai_compat` only: base URL of an OpenAI-compatible API; requests go to `{LLM_BASE_URL}/chat/completions` | `https://integrate.api.nvidia.com/v1` |
+| `NVIDIA_API_KEY` | `openai_compat` only: sent as a bearer header, never logged or put in an error. Model IDs come from the usual `ROADMAP_MODEL_ID` / `FAST_MODEL_ID` / `FALLBACK_MODEL_ID` | empty |
+| `LLM_MAX_RPM` | `openai_compat` only: client-side requests per minute, shared by every thread (calls wait for a slot, they are never refused) | `30` |
 | `ROADMAP_MODEL_ID`, `FAST_MODEL_ID`, `FALLBACK_MODEL_ID` | model per task (`roadmap` = each roadmap phase, `fast` = folder ordering and resume feedback, `fallback` = tried after a model fails). Empty with `gemini` = built-in Gemini models; required with `bedrock` | empty |
 | `ALT_PROVIDER_MODEL_ID` | model to use if the other provider has to take over after the first fails | empty |
 | `AWS_REGION` | Bedrock region. Credentials come from the environment (`AWS_BEARER_TOKEN_BEDROCK` or normal AWS credentials), never from code | empty |

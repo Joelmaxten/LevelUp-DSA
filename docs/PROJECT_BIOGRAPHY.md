@@ -1606,6 +1606,35 @@ browser check of an all-A and an all-B run at 1400px and 360px on a stubbed serv
 
 ---
 ---
+## OpenAI-Compatible Provider (NVIDIA Endpoint)
+
+**What was built:** `LLM_PROVIDER=openai_compat` in `llm_client.py`: `POST {LLM_BASE_URL}/chat/completions`
+with `requests` (default base URL `https://integrate.api.nvidia.com/v1`), key from `NVIDIA_API_KEY`
+(`config.py`) sent only as a bearer header, `LLM_TIMEOUT_S` as the request timeout, reply read from
+`choices[0].message.content`, token counts from `usage` when present. Code fences are stripped and the
+existing schema validation with one correction retry applies. Retries: only 429, 5xx, timeouts and
+connection errors, waiting exactly `Retry-After` when sent (capped at 120 s) and the usual 2 s / 4 s backoff
+otherwise; 401 and 403 are never retried (access error, the other provider is tried if configured), 400 is
+never retried and does not try the fallback model, 404 (unknown model) moves to the fallback model. A shared
+limiter (`LLM_MAX_RPM`, default 30, thread-safe) reserves request start slots under a lock and sleeps
+outside it, so parallel phase writers and retries wait instead of failing and can never exceed the rate.
+
+**Why:** a hosted OpenAI-compatible endpoint with a free tier is a third way to run the roadmap and resume
+calls, and its rate limits are strict enough that the parallel phase writers need a shared cap.
+
+**Issues faced and root causes:** no issue recorded. Limits: the provider has not been run against the
+real endpoint (every test stubs `requests.post`); model IDs are not chosen for you; JSON mode is not sent
+(not every model supports `response_format`), so JSON comes from the prompt plus fence stripping and the
+correction retry; the limiter is per process (several workers each get their own).
+
+**How verified:** `smoke_test_llm.py` (52 checks, 23 new): success, request shape, usage tokens, fenced JSON,
+correction retry, 429 with Retry-After, 5xx backoff, timeouts, 401/403/400 not retried, 404 fallback, no key
+set, provider switch, limiter spacing with 8 threads (frozen clock and real clock), and no key, bearer
+header, prompt text or reply text in any error or log. The generator golden outputs are still byte-identical
+with the gemini provider.
+
+---
+---
 ## Still To Build
 
 - Real-model check of parallel generation: run `scripts/inspect_roadmap.py` for a few
