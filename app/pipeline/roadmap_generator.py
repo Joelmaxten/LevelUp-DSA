@@ -76,7 +76,7 @@ import numpy as np
 from app.pipeline.career_path_registry import FOLDER_DISPLAY_NAMES, FULL_STACK, SUPPORTING_FOLDERS
 from app.pipeline.conversation_data import ADDITIONAL_NOTES_KEY, CONVERSATION_QUESTIONS, OPTION_SIGNALS
 from app.pipeline.embedder import embed_chunks
-from app.pipeline.gemini_client import generate_with_retry
+from app.pipeline import llm_client
 from app.pipeline.rag import list_topics, search, search_diverse
 
 logger = logging.getLogger(__name__)
@@ -316,7 +316,7 @@ def _order_folders(career_path, by_folder):
 
     prompt = _folder_order_prompt(career_path, by_folder, folder_names)
 
-    raw = _strip_code_fences(generate_with_retry(prompt, max_output_tokens=FOLDER_ORDER_MAX_OUTPUT_TOKENS, json_mode=True))
+    raw = _strip_code_fences(llm_client.generate("fast", prompt, max_output_tokens=FOLDER_ORDER_MAX_OUTPUT_TOKENS, json_mode=True)["text"])
     order = _parse_folder_order(raw, folder_names)
 
     if order is None:
@@ -324,7 +324,7 @@ def _order_folders(career_path, by_folder):
             "Folder-order response invalid for %r (expected exactly %r), retrying once.",
             career_path, folder_names,
         )
-        raw = _strip_code_fences(generate_with_retry(prompt, max_output_tokens=FOLDER_ORDER_MAX_OUTPUT_TOKENS, json_mode=True))
+        raw = _strip_code_fences(llm_client.generate("fast", prompt, max_output_tokens=FOLDER_ORDER_MAX_OUTPUT_TOKENS, json_mode=True)["text"])
         order = _parse_folder_order(raw, folder_names)
 
     if order is None:
@@ -860,7 +860,7 @@ def generate_roadmap(career_path, conversation_signals, index, chunks):
         steps = None
         for attempt in (1, 2):
             prompt = _build_prompt(career_path, phase, retrieved_for_prompt, checkpoint_chunks, conversation_signals, used_node_ids, used_titles, target_steps)
-            raw_text = _strip_code_fences(generate_with_retry(prompt, max_output_tokens=ROADMAP_PHASE_MAX_OUTPUT_TOKENS, json_mode=True))
+            raw_text = _strip_code_fences(llm_client.generate("roadmap", prompt, max_output_tokens=ROADMAP_PHASE_MAX_OUTPUT_TOKENS, json_mode=True)["text"])
             try:
                 steps = json.loads(raw_text)
                 break

@@ -11,7 +11,7 @@ which would risk generic or fabricated advice untethered to their actual
 data.
 """
 
-from app.pipeline.gemini_client import generate_with_retry
+from app.pipeline import llm_client
 
 
 def _build_prompt(resume_text, target_career_path, matched_skills, missing_skills):
@@ -47,4 +47,4 @@ def generate_resume_feedback(resume_text, target_career_path, matched_skills, mi
     Resume.ai_feedback.
     """
     prompt = _build_prompt(resume_text, target_career_path, matched_skills, missing_skills)
-    return generate_with_retry(prompt)
+    return llm_client.generate("fast", prompt)["text"]
