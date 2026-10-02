@@ -1086,6 +1086,9 @@ h4 { font-weight: 700; font-size: 1.0625rem; }
 .fit-row .fit-card { max-width: 40rem; }
 .fit-tie .tie-group { gap: 1.5rem; }
 .fit-limits { max-width: 46rem; }
+.fit-other > summary { cursor: pointer; font-weight: 700; padding: 0.4rem 0; }
+.fit-other > summary:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+.fit-other .fit-card { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
 
 @media (forced-colors: active) {
     .mode-btn[aria-pressed="true"] { forced-color-adjust: none; background: Highlight; color: HighlightText; }

@@ -24,11 +24,23 @@ Two independent signals:
 Output, in two lists (never merged, because their evidence differs):
 - List A: paths with enough respondents, ranked by an even blend of the two signals, each
   min-max normalised over List A.
-- List B: thin paths (fewer than MIN_RESPONDENTS), ranked by the roadmap signal alone and
-  labelled "based on roadmap content only".
-Each row's fit_pct is its score relative to the TOP of its own list (the top row is 100).
-Rows within NEAR_TIE of the top of a list are reported together as near-ties. Fewer than
+- List B: thin paths (fewer than MIN_RESPONDENTS), ranked by the roadmap signal alone, and
+  ONLY those with at least THIN_PATH_MIN_HITS of the RETRIEVE_K retrieved chunks tagged with
+  them (an evidence floor, see below). A thin path gets a rank, its matched skills and its
+  respondent count, but no fit percentage: a score from a handful of chunks looks more precise
+  than it is. If no thin path passes, List B is empty.
+List A rows carry fit_pct, the row's score relative to the TOP of the list (the top row is
+100). Rows within NEAR_TIE of the top of List A are reported together as near-ties. Fewer than
 MIN_SKILLS recognised skills gives an insufficient_data result instead of a ranking.
+
+Evidence floor (THIN_PATH_MIN_HITS = 6 of 30, i.e. 20% of the retrieved chunks): the 30
+retrieved chunks spread over 15 paths average 2 per path by chance. scripts/
+measure_thin_path_floor.py measured three developer resumes and two controls with generic
+skills (Excel, Word, Tally...): the counts for paths the resume has nothing to do with reached
+4 (Cybersecurity for a Python/SQL resume, QA for a JavaScript one); counts of 5 or more only
+appeared where the skills do relate to the path (Data Analytics for Excel or pandas, UI/UX
+for Photoshop). 6 is three times the chance level and above every unrelated count seen. It was
+not tuned to any one resume; UI/UX at 5 for Photoshop falls just below it.
 
 The constants below are fixed design choices, not tuned to any example resume.
 """
@@ -39,6 +51,7 @@ MIN_SHARE = 0.10
 NEAR_TIE = 0.15
 MIN_SKILLS = 3
 RETRIEVE_K = 30
+THIN_PATH_MIN_HITS = 6
 SURVEY_WEIGHT = 0.5
 ROADMAP_WEIGHT = 0.5
 
@@ -173,8 +186,9 @@ def rank_paths(resume_skills, stats, hits, path_totals):
     } for p in a_paths]
     a_entries.sort(key=lambda e: (-e["score"], e["path"]))
 
-    # List B: thin paths -> roadmap signal alone.
-    b_paths = sorted(p for p in path_totals if p not in survey)
+    # List B: thin paths -> roadmap signal alone, and only above the evidence floor; rank only.
+    hit_counts = Counter(path for chunk in hits for path in chunk.get("career_paths", []))
+    b_paths = sorted(p for p in path_totals if p not in survey and hit_counts.get(p, 0) >= THIN_PATH_MIN_HITS)
     b_entries = [{
         "path": p,
         "score": roadmap.get(p, 0.0),
@@ -183,13 +197,13 @@ def rank_paths(resume_skills, stats, hits, path_totals):
         "basis": BASIS_ROADMAP_ONLY,
     } for p in b_paths]
     b_entries.sort(key=lambda e: (-e["score"], e["path"]))
+    list_b = [{"rank": i, **{k: v for k, v in e.items() if k != "score"}} for i, e in enumerate(b_entries, start=1)]
 
     list_a = _finish_list(a_entries, a_entries[0]["score"] if a_entries else 0.0)
-    list_b = _finish_list(b_entries, b_entries[0]["score"] if b_entries else 0.0)
-    if all(r["fit_pct"] == 0.0 for r in list_a) and all(r["fit_pct"] == 0.0 for r in list_b):
+    if all(r["fit_pct"] == 0.0 for r in list_a) and not list_b:
         return empty     # nothing in the survey or the roadmaps relates to these skills
     return {"insufficient_data": False, "list_a": list_a, "list_b": list_b,
-            "near_ties": {"a": near_ties(list_a), "b": near_ties(list_b)}}
+            "near_ties": {"a": near_ties(list_a), "b": []}}
 
 
 def skills_summary(resume_skills):

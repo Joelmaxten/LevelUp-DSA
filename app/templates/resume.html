@@ -238,7 +238,7 @@ async function discover(file) {
     discoverBox.replaceChildren(
         row([el("p", { className: "note", text: "Compared with all 15 career paths" })], [
             el("h2", { className: "path-name" }, el("span", { className: "mark", text: "Which path fits your resume" })),
-            el("p", { className: "note path-note", text: "Pick a path below to analyze this same resume against it." }),
+            el("p", { className: "note path-note", text: result.data.insufficient_data ? "We could not rank the paths for this resume." : "Pick a path below to analyze this same resume against it." }),
         ]),
         ...discoverRows(result.data, analyzeStored, 2)
     );

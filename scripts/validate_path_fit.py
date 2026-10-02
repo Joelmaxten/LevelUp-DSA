@@ -41,10 +41,12 @@ def main():
             print(f"{'LIST A (30+ respondents)':<34}{'fit%':>6} {'resp':>5} {'survey raw':>11} {'roadmap raw':>12}  matched skills (survey)")
             for r in result["list_a"]:
                 print(f"{r['path']:<34}{r['fit_pct']:>6.1f} {r['respondent_count']:>5} {survey[r['path']]['score']:>11.3f} {roadmap.get(r['path'], 0):>12.4f}  {', '.join(r['matched_skills']) or '-'}")
-            print(f"\n{'LIST B (thin paths, roadmap only)':<34}{'fit%':>6} {'resp':>5} {'roadmap raw':>12}  skills named in retrieved chunks")
+            print(f"\nLIST B (thin paths with at least {path_fit.THIN_PATH_MIN_HITS} of {path_fit.RETRIEVE_K} retrieved chunks): rank only, no percentage")
             for r in result["list_b"]:
-                print(f"{r['path']:<34}{r['fit_pct']:>6.1f} {r['respondent_count']:>5} {roadmap.get(r['path'], 0):>12.4f}  {', '.join(r['matched_skills']) or '-'}")
-            print(f"\nnear-ties A: {result['near_ties']['a'] or 'none'} | near-ties B: {result['near_ties']['b'] or 'none'}")
+                print(f"  {r['rank']}. {r['path']} ({r['respondent_count']} respondents)  matched: {', '.join(r['matched_skills']) or '-'}")
+            if not result["list_b"]:
+                print("  (none)")
+            print(f"\nnear-ties A: {result['near_ties']['a'] or 'none'}")
             counts = {}
             for c in hits:
                 for p in c["career_paths"]:

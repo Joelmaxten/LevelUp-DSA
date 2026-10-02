@@ -63,23 +63,29 @@ def ranking_checks():
     totals = {"Data": 100, "Web": 1000, "Tiny": 50, "Empty": 10}
     hits = [{"career_paths": ["Data"], "title": "Python basics", "text": "python sql"}] * 6 + \
            [{"career_paths": ["Web"], "title": "JS", "text": "javascript"}] * 6 + \
-           [{"career_paths": ["Tiny"], "title": "Py", "text": "python"}] * 3
+           [{"career_paths": ["Tiny"], "title": "Py", "text": "python"}] * 7
     skills = {"Python", "SQL", "Git"}
 
     r = path_fit.rank_paths(skills, stats, hits, totals)
     check("ranking: fewer than 3 recognised skills -> insufficient_data, no lists",
           path_fit.rank_paths({"Python", "SQL"}, stats, hits, totals) ==
           {"insufficient_data": True, "list_a": [], "list_b": [], "near_ties": {"a": [], "b": []}})
-    check("ranking: paths with 30+ respondents are in list A, thin paths in list B",
-          [x["path"] for x in r["list_a"]] == ["Data", "Web"] and [x["path"] for x in r["list_b"]] == ["Tiny", "Empty"])
-    check("ranking: the top row of each list is 100% and rows are ordered by fit",
-          r["list_a"][0]["fit_pct"] == 100.0 and r["list_b"][0]["fit_pct"] == 100.0
-          and all(a["fit_pct"] >= b["fit_pct"] for a, b in zip(r["list_a"], r["list_a"][1:])))
+    check("ranking: paths with 30+ respondents are in list A; a thin path is in list B only if it clears the evidence floor",
+          [x["path"] for x in r["list_a"]] == ["Data", "Web"] and [x["path"] for x in r["list_b"]] == ["Tiny"])
+    check("ranking: the top row of list A is 100% and rows are ordered by fit",
+          r["list_a"][0]["fit_pct"] == 100.0 and all(a["fit_pct"] >= b["fit_pct"] for a, b in zip(r["list_a"], r["list_a"][1:])))
+    check("thin paths: rows carry rank, matched skills, respondent count and basis, and NO fit percentage",
+          [set(x) for x in r["list_b"]] == [{"rank", "path", "matched_skills", "respondent_count", "basis"}] and r["list_b"][0]["rank"] == 1)
+    below = [{"career_paths": ["Tiny"], "title": "Py", "text": "python"}] * (path_fit.THIN_PATH_MIN_HITS - 1)
+    check("thin paths: a path just under the evidence floor is not listed, and an empty list_b is a plain empty list",
+          path_fit.rank_paths(skills, stats, hits[:12] + below, totals)["list_b"] == [])
+    check("thin paths: exactly at the floor is listed",
+          [x["path"] for x in path_fit.rank_paths(skills, stats, hits[:12] + below + below[:1], totals)["list_b"]] == ["Tiny"])
     check("ranking: thin paths are labelled 'based on roadmap content only', list A rows are not",
           all(x["basis"] == "based on roadmap content only" for x in r["list_b"])
           and all(x["basis"] == "survey and roadmap content" for x in r["list_a"]))
     check("ranking: every row carries the respondent count",
-          [x["respondent_count"] for x in r["list_a"]] == [40, 40] and [x["respondent_count"] for x in r["list_b"]] == [10, 0])
+          [x["respondent_count"] for x in r["list_a"]] == [40, 40] and [x["respondent_count"] for x in r["list_b"]] == [10])
     data_row = r["list_a"][0]
     check("ranking: matched skills are the ones that scored (Python, SQL for Data; Git is in neither path)",
           sorted(data_row["matched_skills"]) == ["Python", "SQL"])
@@ -104,7 +110,8 @@ def ranking_checks():
     ties = path_fit.rank_paths({"x", "y", "z"}, ties_stats, [], {"P": 10, "Q": 10, "R": 10})
     check("near-ties: paths within 15% of the top of a list are flagged together",
           ties["near_ties"]["a"] == ["P", "Q"] and ties["list_a"][2]["path"] == "R" and ties["list_a"][2]["fit_pct"] < 85)
-    check("near-ties: nothing is flagged when only one path is close", r["near_ties"]["a"] == [] and r["near_ties"]["b"] == [])
+    check("near-ties: nothing is flagged when only one path is close; thin paths never have near-ties",
+          r["near_ties"]["a"] == [] and r["near_ties"]["b"] == [])
     check("ranking is deterministic (same input, same output)", path_fit.rank_paths(skills, stats, hits, totals) == r)
     flat = path_fit.rank_paths({"x", "y", "z"}, make_stats({"A": [set()] * 40}, [set()] * 40), [], {"A": 5})
     check("ranking: skills that relate to nothing in the survey or roadmaps -> insufficient_data", flat["insufficient_data"] is True)
@@ -176,9 +183,10 @@ def route_checks(app, tmp_dir):
             skills = body.get("extracted_skills", [])
             check("discover: skills come out under their canonical names, including extended-vocabulary ones (Git, TensorFlow, pandas)",
                   {"Python", "SQL", "MySQL", "Git", "TensorFlow", "PyTorch", "pandas", "Docker", "JavaScript", "React"} <= set(skills))
-            check("discover: both lists are populated and rows have path, fit_pct, matched_skills, respondent_count, basis",
-                  body["insufficient_data"] is False and len(body["list_a"]) + len(body["list_b"]) == len(CAREER_PATHS)
-                  and all(set(r) == {"path", "fit_pct", "matched_skills", "respondent_count", "basis"} for r in body["list_a"] + body["list_b"]))
+            check("discover: list A has the 9 paths with survey data (fit_pct rows); list B rows, if any, have a rank and no fit_pct",
+                  body["insufficient_data"] is False and len(body["list_a"]) == 9
+                  and all(set(r) == {"path", "fit_pct", "matched_skills", "respondent_count", "basis"} for r in body["list_a"])
+                  and all(set(r) == {"rank", "path", "matched_skills", "respondent_count", "basis"} for r in body["list_b"]))
             check("discover: ATS result is structure-only (no role keyword reasons)",
                   set(body["ats_structure_score"]) == {"score", "reasons"}
                   and not any("commonly-required" in r for r in body["ats_structure_score"]["reasons"]))
@@ -253,6 +261,27 @@ def route_checks(app, tmp_dir):
             body = resp.get_json() or {}
             check("discover: fewer than 3 recognised skills -> insufficient_data true, empty lists, resume still saved",
                   resp.status_code == 201 and body["insufficient_data"] is True and body["list_a"] == [] and body["list_b"] == [] and body["resume_id"])
+
+            # a control resume with generic office skills
+            control = tmp_dir / "control.pdf"
+            make_pdf(control, "Excel, Word, Tally, typing, and good communication")
+            resp = upload(client, control, "/resume/discover")
+            body = resp.get_json() or {}
+            check("control resume (Excel, Word, Tally): insufficient_data, nothing ranked, no thin-path list",
+                  resp.status_code == 201 and body["insufficient_data"] is True and body["list_a"] == [] and body["list_b"] == [])
+
+            # the real ranking on the synthetic developer resumes: no thin path as a headline
+            with app.app_context():
+                from app.pipeline import rag
+                index, chunks = rag.load_index(app.config["FAISS_INDEX_PATH"])
+                real = {name: path_fit.fit_for_skills(skills_set, index, chunks) for name, skills_set in {
+                    "a": {"Python", "SQL", "MySQL", "Git"},
+                    "b": {"JavaScript", "React", "Node.js", "TypeScript", "HTML/CSS"},
+                    "c": {"Python", "TensorFlow", "PyTorch", "pandas", "Docker"}}.items()}
+            check("real ranking, resumes (a) and (b): Cybersecurity is no longer shown as a headline (not in list B at all)",
+                  all("Cybersecurity" not in [r["path"] for r in real[k]["list_b"]] for k in ("a", "b")))
+            check("real ranking: the evidence floor leaves (a) and (b) with no thin-path list; (c) keeps only Data Analytics",
+                  real["a"]["list_b"] == [] and real["b"]["list_b"] == [] and [r["path"] for r in real["c"]["list_b"]] == ["Data Analytics"])
 
             # /resume/upload is unchanged
             with patch("app.routes.resume.generate_resume_feedback", return_value="stub feedback"):

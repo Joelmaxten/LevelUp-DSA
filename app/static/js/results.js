@@ -771,7 +771,7 @@ function resumeAnalysisRows(data, level) {
 // Everything here is built with el() / textContent, never innerHTML: skill names and path
 // names come from the server.
 
-const FIT_LIMITS_NOTE = "How to read this: it is a skills match, not a hiring prediction. Paths that share most of their skills, such as AI and machine learning, score almost the same, so treat close scores as a tie rather than a ranking. Paths with few survey respondents rest on little data.";
+const FIT_LIMITS_NOTE = "How to read this: it is a skills match, not a hiring prediction. Paths that share most of their skills, such as AI and machine learning, score almost the same, so treat close scores as a tie rather than a ranking. Paths with few survey respondents are listed separately, only when the learning roadmaps clearly relate to your skills, and without a score.";
 
 function fitBar(pct) {
     const fill = el("i", {});
@@ -800,6 +800,33 @@ function fitCard(entry, onAnalyze) {
         el("p", { className: "note fit-evidence", text: evidence }),
         el("div", { className: "actions" }, analyze)
     );
+}
+
+// A path with limited evidence: its rank, matched skills and respondent count, but no percentage.
+function thinPathCard(entry, onAnalyze) {
+    const analyze = el("button", { className: "btn btn-outline", type: "button", text: "Analyze against this path" });
+    analyze.setAttribute("aria-label", `Analyze my resume against ${entry.path}`);
+    analyze.addEventListener("click", () => onAnalyze(entry.path, analyze));
+    return el("div", { className: "fit-card" },
+        el("h3", { className: "fit-name" }, el("span", { className: "num", text: `${entry.rank}. ` }), entry.path),
+        entry.matched_skills.length
+            ? el("div", {}, el("p", { className: "note fit-label", text: "Skills that matched" }), skillChips(entry.matched_skills.slice(0, 8), "have"))
+            : el("p", { className: "note", text: "No single skill stood out for this path." }),
+        el("p", { className: "note fit-evidence", text: `${entry.respondent_count} survey respondents.` }),
+        el("div", { className: "actions" }, analyze)
+    );
+}
+
+// The thin-path list, collapsed. Nothing at all is rendered when no thin path passed the evidence floor.
+function thinPathsDetails(rows, onAnalyze) {
+    if (!rows.length) return null;
+    const details = el("details", { className: "fit-other" });
+    details.append(
+        el("summary", { text: `Other paths (limited evidence) (${rows.length})` }),
+        el("p", { className: "note", text: "These paths have fewer than 30 survey respondents, so they are listed from the learning roadmaps alone, in order, without a score." }),
+        ...rows.map((r) => thinPathCard(r, onAnalyze))
+    );
+    return details;
 }
 
 // One ranked list: a heading and explanation in the margin-style row, then the cards. The
@@ -845,13 +872,8 @@ function discoverRows(data, onAnalyze, level) {
         "Ranked by how common and how distinctive your skills are among Indian developers in the Stack Overflow Developer Survey, blended with how closely your skills match each path's learning roadmap.",
         data.list_a, data.near_ties.a, onAnalyze, level
     ));
-    if (data.list_b.length) {
-        rows.push(...fitList(
-            "Paths with little survey data",
-            "These paths have fewer than 30 survey respondents, so the survey can't be used for them. They are ranked from roadmap content alone and are less reliable.",
-            data.list_b, data.near_ties.b, onAnalyze, level
-        ));
-    }
+    const other = thinPathsDetails(data.list_b, onAnalyze);
+    if (other) rows.push(row([], other, "fit-row"));
     rows.push(row([rowTitle("Limits of this match", level)], el("p", { className: "fit-limits", text: FIT_LIMITS_NOTE })));
     return rows;
 }

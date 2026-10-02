@@ -1489,6 +1489,49 @@ modes at 1400px and 360px against a dev server with the LLM and Adzuna stubbed
 
 ---
 ---
+## Mode 1 Thin-Path List Fix — Evidence Floor
+
+**What was built:** the thin-path list in "which path fits my resume" (paths with fewer than
+30 survey respondents, ranked by the roadmap signal alone) is now gated by an evidence floor,
+shows a rank but no fit percentage, and sits collapsed under "Other paths (limited
+evidence)". List A is unchanged. If no thin path passes, nothing about thin paths is shown.
+
+**Why:** the first version gave the top thin path "100%" however little evidence there was:
+Cybersecurity (12 respondents) headlined resumes (a) and (b) on 2 to 4 retrieved chunks, and a
+list of percentages computed from a handful of chunks looks far more precise than it is.
+
+**Measurement** (`scripts/measure_thin_path_floor.py`; chunks tagged with each thin path among
+the top 30 retrieved; columns Cloud, Cybersecurity, Data Analytics, Game, QA, UI/UX):
+- (a) Python, SQL, MySQL, Git: 1, 4, 4, 0, 2, 0
+- (b) JavaScript, React, Node.js, TypeScript, HTML/CSS: 0, 2, 0, 1, 3, 1
+- (c) Python, TensorFlow, PyTorch, pandas, Docker: 1, 2, 6, 2, 1, 0
+- control 1, Excel, Word, Tally: 0, 3, 14, 0, 0, 1
+- control 2, Excel, Word, PowerPoint, Tally, Typing, Photoshop: 1, 4, 6, 0, 0, 5
+
+**Floor: 6 of 30 retrieved chunks (20%).** Thirty chunks over 15 paths average 2 per path by
+chance; counts for paths with nothing to do with the resume reached 4 (Cybersecurity,
+QA); counts of 5 or more appeared only where the skills genuinely relate (Data Analytics for
+Excel or pandas, UI/UX for Photoshop). 6 is three times chance and above every unrelated
+count seen. It was not tuned to any one resume, and it has a cost: UI/UX at 5 for Photoshop
+falls just under it. The measurement is small (five resumes), so treat 6 as a defensible
+starting point, not a calibrated value.
+
+**Result:** (a) and (b) now show no thin-path list; (c) shows Data Analytics only. The
+generic control resume is not recognised as having 3 skills (Excel, Word and Tally are not
+in the vocabulary), so it gets the "not enough to go on" state.
+
+**Issues faced and root causes:** the floor is on hit counts from one retrieval, so it
+inherits that retrieval's noise; a control with Excel retrieves Data Analytics 14 times,
+which is a real relationship (Excel is a data-analytics tool), so "unrelated" skills are
+hard to find in a knowledge base this broad. A one-line header fix for the insufficient-data
+state (it still said "Pick a path below") was made after the last browser check and was not
+re-checked in the browser because the stub dev server caches templates.
+
+**How verified:** `smoke_test_resume_modes.py` (52 checks, including a control resume and the
+real ranking for (a), (b), (c)); browser check at 1400px and 360px with stubs.
+
+---
+---
 ## Still To Build
 
 - Real-model check of parallel generation: run `scripts/inspect_roadmap.py` for a few
