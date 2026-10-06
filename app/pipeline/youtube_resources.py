@@ -331,7 +331,7 @@ def _fallback_search_videos(step_title, phase_title, youtube_client, exclude_ids
     return results
 
 
-def fetch_resources_for_roadmap(roadmap, chunks=None, max_fallback_searches=None):
+def fetch_resources_for_roadmap(roadmap, chunks=None, max_fallback_searches=None, use_youtube=True):
     """
     roadmap: a GeneratedRoadmap.steps value - either the current
     {"phases": [{"phase_number", "title", "steps": [...]}]} shape, or an
@@ -342,7 +342,10 @@ def fetch_resources_for_roadmap(roadmap, chunks=None, max_fallback_searches=None
     single-search behavior for every step, since there's no KB metadata to
     resolve from). max_fallback_searches: override for MAX_FALLBACK_SEARCHES
     (used by scripts/inspect_resources.py's --youtube flag for controlled
-    testing) - None uses the module default.
+    testing) - None uses the module default. use_youtube=False never builds a
+    YouTube client (KB-only: no network at all, zero fallback searches, a step
+    without topic_refs gets "videos": [] and "resource": None) - used by
+    scripts/build_base_roadmaps.py.
 
     Returns (new_roadmap, stats): new_roadmap is the SAME shape it was
     given. Every phased step with topic_refs gets "videos" (list, KB-first
@@ -360,7 +363,7 @@ def fetch_resources_for_roadmap(roadmap, chunks=None, max_fallback_searches=None
     """
     fallback_cap = MAX_FALLBACK_SEARCHES if max_fallback_searches is None else max_fallback_searches
     youtube_client = None
-    if os.environ.get("YOUTUBE_API_KEY"):
+    if use_youtube and os.environ.get("YOUTUBE_API_KEY"):
         youtube_client = build("youtube", "v3", developerKey=os.environ["YOUTUBE_API_KEY"])
 
     node_index = {c["node_id"]: c for c in chunks if "node_id" in c} if chunks else {}

@@ -95,6 +95,15 @@ class Config:
 
     # Seconds before a single LLM request is abandoned (every provider, every task).
     LLM_TIMEOUT_S = _env_number("LLM_TIMEOUT_S", 90.0, float)
+    # "cached" (default): POST /roadmap/generate-async serves a reviewed base roadmap from data/base_roadmaps/
+    # (app/pipeline/base_roadmaps.py) and only personalizes it with one short LLM call, so it finishes in seconds.
+    # A path with no valid base file, and "full", use the full generation as before. Anything else counts as "cached".
+    ROADMAP_MODE = os.environ.get("ROADMAP_MODE", "cached").strip().lower()
+    if ROADMAP_MODE not in ("cached", "full"):
+        ROADMAP_MODE = "cached"
+    # Seconds the personalization call (app/pipeline/roadmap_personalizer.py) may take, retries included; past that
+    # the base roadmap is saved without personalization.
+    LLM_PERSONALIZE_TIMEOUT_S = _env_number("LLM_PERSONALIZE_TIMEOUT_S", 25.0, float)
     # How many roadmap phases are written by the LLM at the same time. 1 = one after
     # another, exactly the original behavior. See roadmap_generator.generate_roadmap.
     PHASE_CONCURRENCY = max(1, _env_number("PHASE_CONCURRENCY", 1, int))
