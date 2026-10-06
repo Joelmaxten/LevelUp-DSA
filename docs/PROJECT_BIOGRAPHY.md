@@ -1748,6 +1748,40 @@ on a stubbed server.
 
 ---
 ---
+## Groq Support and a Real Qwen Attempt (Blocked by the Free-Tier Input Limit)
+
+**What was built:** the `openai_compat` key is now chosen from the host of `LLM_BASE_URL` (`groq.com` ->
+`GROQ_API_KEY`, `nvidia.com` -> `NVIDIA_API_KEY`, anything else -> `LLM_API_KEY`; a missing key gives one
+error naming the variable). Every response's `x-ratelimit-remaining-tokens`, `x-ratelimit-reset-tokens`
+(durations such as `27.705s` or `1m26.4s`) and `retry-after` are parsed (missing headers tolerated); before a
+request its tokens are estimated as prompt characters / 3.5 and, if that exceeds the remaining tokens, the call
+waits for the reset. `LLM_MAX_TPM` (default 0, off) is a client-side budget for providers with no headers.
+A 429 waits `retry-after` or the token reset; a 413 is never retried and raises `kind=too_large` with only
+the code, and logs the estimated and the limit token counts. `smoke_test_llm.py` has 84 checks (24 new).
+
+**Real attempt (2 of 6 requests used, `qwen/qwen3.8-27b`, Groq, concurrency 1, effort empty):**
+
+| # | task | status | latency | prompt / completion tokens | TPM remaining before -> after | limiter wait |
+|---|------|--------|---------|----------------------------|-------------------------------|--------------|
+| 1 | phase order | 200 | 5.2 s | 283 / 18 | unknown -> 7538 (reset 3.5 s) | 0 |
+| 2 | phase 1 | **413** | 1.7 s | none | unknown -> 8000 | 0 |
+
+The run stopped there (29.1 s including loading the index). **No roadmap was generated, so there is no wall
+time to compare with the 269 s NVIDIA run, no quality check, and no verdict on whether Qwen follows the schema.**
+
+**Root cause:** on this account (free `on_demand` tier) `qwen/qwen3.8-27b` has an *input* tokens-per-minute limit
+of 7,000 (the headers show 8,000 total tokens per minute). One roadmap phase prompt (24,289 characters) was
+9,270 input tokens, so it can never be accepted, however long it waits. Two things I measured: (1) the
+characters / 3.5 estimate gave 6,940 against a real 9,270, about 2.6 characters per token for this tokenizer
+(the planner prompt: estimate 334, real 283, so the ratio is content dependent); the estimate would have let
+this request through to a 413; (2) the first request showed no wait because there was no header yet.
+
+**Not done, deliberately:** shrinking the phase prompt or splitting phases (it changes the generator and its
+golden outputs), using a different Groq model, or upgrading the Groq tier. Nothing was tuned. Options for you:
+the Dev Tier (the error message offers it), a Groq model with a larger input limit, or a smaller phase prompt.
+
+---
+---
 ## Still To Build
 
 - Real-model check of parallel generation: run `scripts/inspect_roadmap.py` for a few
