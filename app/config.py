@@ -68,7 +68,15 @@ class Config:
     # LLM_PROVIDER="openai_compat": any OpenAI-compatible chat-completions endpoint (default: NVIDIA's).
     # The key is only ever sent as a bearer header by llm_client; it is never logged or put in an error.
     LLM_BASE_URL = (os.environ.get("LLM_BASE_URL", "").strip() or "https://integrate.api.nvidia.com/v1").rstrip("/")
+    # Which key is used follows the host of LLM_BASE_URL (llm_client._openai_key_variable): groq.com ->
+    # GROQ_API_KEY, nvidia.com -> NVIDIA_API_KEY, any other host -> LLM_API_KEY.
     NVIDIA_API_KEY = os.environ.get("NVIDIA_API_KEY", "").strip()
+    GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "").strip()
+    LLM_API_KEY = os.environ.get("LLM_API_KEY", "").strip()
+    # openai_compat only: client-side tokens-per-minute budget (input + output tokens; requests wait for the
+    # 60 s window) for providers that send no x-ratelimit-* headers. 0 = off. Providers that do send the
+    # headers (Groq) are paced from them regardless.
+    LLM_MAX_TPM = max(0, _env_number("LLM_MAX_TPM", 0, int))
     # Request timeout for that provider. A phase of a roadmap (a ~24,000-character prompt, ~11,500 output
     # tokens including the model's reasoning) took 178 s on openai/gpt-oss-20b, so the 90 s default for
     # the other providers made every phase time out. Order of precedence: LLM_TIMEOUT_S_OPENAI_COMPAT,

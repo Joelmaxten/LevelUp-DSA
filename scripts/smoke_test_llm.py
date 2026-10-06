@@ -133,7 +133,8 @@ class FakePost:
 
 
 OC_KEY = "nvapi-FAKE-test-key-0123456789abcdef"
-OPENAI = {"LLM_PROVIDER": "openai_compat", "LLM_BASE_URL": "https://llm.test/v1", "NVIDIA_API_KEY": OC_KEY,
+OPENAI = {"LLM_PROVIDER": "openai_compat", "LLM_BASE_URL": "https://llm.test/v1", "LLM_API_KEY": OC_KEY,   # unknown host -> LLM_API_KEY
+          "NVIDIA_API_KEY": "", "GROQ_API_KEY": "", "LLM_MAX_TPM": 0,
           "ROADMAP_MODEL_ID": "oc-primary", "FAST_MODEL_ID": "oc-fast", "FALLBACK_MODEL_ID": "", "ALT_PROVIDER_MODEL_ID": "",
           "LLM_MAX_RPM": 60000, "LLM_TIMEOUT_S": 7.0, "LLM_TIMEOUT_S_OPENAI_COMPAT": 7.0}
 
@@ -148,17 +149,19 @@ def main():
     # Tests that need a "configured" provider set made-up credentials in a nested Env.
     no_creds = {"GEMINI_API_KEY": None, "AWS_BEARER_TOKEN_BEDROCK": None, "AWS_ACCESS_KEY_ID": None,
                 "AWS_SECRET_ACCESS_KEY": None}
-    with Env({"NVIDIA_API_KEY": ""}, env=no_creds), patch.object(gemini_client.genai, "Client", forbidden_client), patch.object(gemini_client, "generate_with_retry", forbidden_client), patch.object(requests, "post", forbidden_client):
+    with Env({"NVIDIA_API_KEY": "", "GROQ_API_KEY": "", "LLM_API_KEY": ""}, env=no_creds), patch.object(gemini_client.genai, "Client", forbidden_client), patch.object(gemini_client, "generate_with_retry", forbidden_client), patch.object(requests, "post", forbidden_client):
         run()
 
 
 def openai_compat_checks(sleeps):
     llm_client._limiter_sleep = lambda seconds: None     # no real waiting except in the spacing test below
+    llm_client._pacer.reset()
     schema_ok = '[{"title": "x"}]'
 
     def go(script, config=None, **kw):
         fake = FakePost(script)
         llm_client._limiter._next_slot = 0.0
+        llm_client._pacer.reset()
         with Env({**OPENAI, **(config or {})}), patch.object(requests, "post", fake):
             sleeps.clear()
             try:
@@ -213,8 +216,8 @@ def openai_compat_checks(sleeps):
     fake, r, err = go([FakeHttpResponse(429)] * 3 + [chat_reply("fb")], config={"FALLBACK_MODEL_ID": "oc-fallback"})
     check("openai_compat: fallback model used after 3 transient failures of the primary",
           r["model_id"] == "oc-fallback" and [c["json"]["model"] for c in fake.calls] == ["oc-primary"] * 3 + ["oc-fallback"])
-    fake, r, err = go([chat_reply("x")], config={"NVIDIA_API_KEY": ""})
-    check("openai_compat: no NVIDIA_API_KEY -> config error and no request is made", err is not None and err.kind == "config" and not fake.calls)
+    fake, r, err = go([chat_reply("x")], config={"LLM_API_KEY": ""})
+    check("openai_compat: no key for the host -> config error and no request is made", err is not None and err.kind == "config" and not fake.calls)
     fake, r, err = go([FakeHttpResponse(200, {"unexpected": True})])
     check("openai_compat: a 200 without choices[0].message.content is an error, not a crash", err is not None and err.kind == "validation")
 
@@ -312,6 +315,8 @@ def openai_compat_checks(sleeps):
     check("limiter: retries pass through the same limiter (a retried call takes a second slot)",
           len(go([FakeHttpResponse(503), chat_reply("ok")], config={"LLM_MAX_RPM": 60})[0].calls) == 2)
 
+    groq_and_tokens_checks(go, sleeps)
+
     # no key anywhere
     stream = io.StringIO()
     handler = logging.StreamHandler(stream)
@@ -339,6 +344,107 @@ def openai_compat_checks(sleeps):
           PROMPT_TEXT not in logged and REPLY_TEXT not in logged and all(PROMPT_TEXT not in m and REPLY_TEXT not in m for m in messages))
     check("openai_compat: a successful call logs one line with provider, model, tokens and latency",
           "llm_call task=roadmap provider=openai_compat model=oc-primary" in logged and "in_tokens=21" in logged)
+
+
+def groq_and_tokens_checks(go, sleeps):
+    from app.pipeline.llm_client import parse_duration_s, parse_rate_headers, estimate_tokens, _openai_key_variable
+    close = lambda a, b: a is not None and abs(a - b) < 1e-6
+    ok_body = lambda text="a": chat_reply(text)._body
+
+    check("headers: '27.705s' and '1m26.4s' parse to seconds; ms, hours and bare numbers too",
+          close(parse_duration_s("27.705s"), 27.705) and close(parse_duration_s("1m26.4s"), 86.4)
+          and close(parse_duration_s("500ms"), 0.5) and close(parse_duration_s("1h2m3s"), 3723) and close(parse_duration_s("7"), 7))
+    check("headers: unreadable durations are None, not a crash", all(parse_duration_s(v) is None for v in ("soon", "", None, "1x", "s")))
+    rate = parse_rate_headers({"X-RateLimit-Remaining-Tokens": "5800", "x-ratelimit-reset-tokens": "1m26.4s",
+                               "x-ratelimit-limit-tokens": "6000", "Retry-After": "12"})
+    check("headers: remaining tokens, reset, limit and retry-after are read case-insensitively",
+          rate["remaining_tokens"] == 5800 and close(rate["reset_s"], 86.4) and rate["limit_tokens"] == 6000 and close(rate["retry_after_s"], 12))
+    check("headers: missing or empty headers give all None",
+          set(parse_rate_headers({}).values()) == {None} and set(parse_rate_headers(None).values()) == {None})
+
+    check("key selection: groq.com -> GROQ_API_KEY, nvidia.com -> NVIDIA_API_KEY, anything else -> LLM_API_KEY",
+          _openai_key_variable("https://api.groq.com/openai/v1") == "GROQ_API_KEY"
+          and _openai_key_variable("https://integrate.api.nvidia.com/v1") == "NVIDIA_API_KEY"
+          and _openai_key_variable("https://llm.test/v1") == "LLM_API_KEY"
+          and _openai_key_variable("https://groq.com.evil.test/v1") == "LLM_API_KEY"
+          and _openai_key_variable("") == "LLM_API_KEY")
+    for host, var in (("https://api.groq.com/openai/v1", "GROQ_API_KEY"), ("https://integrate.api.nvidia.com/v1", "NVIDIA_API_KEY"),
+                      ("https://llm.test/v1", "LLM_API_KEY")):
+        keys = {"GROQ_API_KEY": "groq-fake-key", "NVIDIA_API_KEY": "nv-fake-key", "LLM_API_KEY": "gen-fake-key"}
+        fake, r, err = go([chat_reply("ok")], config={"LLM_BASE_URL": host, **keys})
+        check(f"key selection: {host.split('/')[2]} sends the key of {var} and no other",
+              fake.calls[0]["headers"]["Authorization"] == f"Bearer {keys[var]}")
+        fake, r, err = go([chat_reply("ok")], config={"LLM_BASE_URL": host, **{k: "" for k in keys}})
+        check(f"key selection: missing key for {host.split('/')[2]} -> one config error naming {var}, no request",
+              err is not None and err.kind == "config" and var in str(err) and not fake.calls)
+
+    # pacing from the headers (the limiter's sleep is replaced by a recorder; nothing really waits)
+    waits = []
+    llm_client._limiter_sleep = waits.append
+    low = {"x-ratelimit-remaining-tokens": "100", "x-ratelimit-reset-tokens": "27.705s"}
+    big_prompt = "x" * 3500                                            # about 1001 estimated tokens
+
+    def two_calls(first_headers, second_prompt, config=None, first_reply=None):
+        waits.clear()
+        llm_client._pacer.reset()
+        llm_client._limiter._next_slot = 0.0
+        fake = FakePost([first_reply or FakeHttpResponse(200, ok_body(), first_headers), chat_reply("b")])
+        with Env({**OPENAI, **(config or {})}), patch.object(requests, "post", fake):
+            generate("roadmap", "short")
+            before = [w for w in waits if w > 0.5]
+            generate("roadmap", second_prompt)
+        return before, [w for w in waits if w > 0.5], fake      # (the 1 ms request-rate spacing is not a token wait)
+
+    check("pacing: the estimate is characters / 3.5 (system prompt included)", estimate_tokens("x" * 3500) in (1000, 1001) and estimate_tokens("x" * 35, "y" * 35) == 21)
+    before, after, fake = two_calls(low, big_prompt)
+    check("pacing: a request larger than the remaining tokens waits until the reset (27.705 s), then is sent",
+          before == [] and len(after) == 1 and 27.0 < after[0] <= 27.705 and len(fake.calls) == 2)
+    before, after, fake = two_calls(low, "tiny")
+    check("pacing: a request that fits in the remaining tokens does not wait", after == [])
+    before, after, fake = two_calls({"x-ratelimit-remaining-tokens": "10", "x-ratelimit-reset-tokens": "1m26.4s"}, big_prompt)
+    check("pacing: a reset of '1m26.4s' is waited as 86.4 s", len(after) == 1 and 85 < after[0] <= 86.5)
+    before, after, fake = two_calls({}, big_prompt)
+    check("pacing: a provider that sends no rate headers is never paced (LLM_MAX_TPM=0 is off)", after == [])
+
+    # LLM_MAX_TPM client-side budget: 1000/min
+    before, after, fake = two_calls(None, "x" * 700, config={"LLM_MAX_TPM": 1000}, first_reply=chat_reply("a", 600, 300))
+    check("LLM_MAX_TPM: used tokens are the actual ones (900) and the next request (~201) waits for the 60 s window",
+          len(after) == 1 and 55 < after[0] <= 60)
+    before, after, fake = two_calls(None, "x" * 350, config={"LLM_MAX_TPM": 1000}, first_reply=chat_reply("a", 100, 50))
+    check("LLM_MAX_TPM: within the budget nothing waits", after == [])
+    llm_client._limiter_sleep = lambda seconds: None
+    llm_client._pacer.reset()
+
+    # 429 with retry-after / reset, then 413
+    fake, r, err = go([FakeHttpResponse(429, None, {"retry-after": "4", "x-ratelimit-remaining-tokens": "0", "x-ratelimit-reset-tokens": "1.5s"}), chat_reply("ok")])
+    check("429 with retry-after: waits exactly retry-after (4 s), then succeeds",
+          r is not None and r["text"] == "ok" and sleeps == [4.0] and len(fake.calls) == 2)
+    fake, r, err = go([FakeHttpResponse(429, None, {"x-ratelimit-reset-tokens": "1m26.4s"}), chat_reply("ok")])
+    check("429 without retry-after: waits for the token reset (86.4 s), then succeeds", r is not None and len(sleeps) == 1 and abs(sleeps[0] - 86.4) < 1e-6)
+    fake, r, err = go([FakeHttpResponse(429), chat_reply("ok")])
+    check("429 with no headers at all: the normal backoff (2 s)", r is not None and sleeps == [2])
+
+    stream = io.StringIO()
+    handler = logging.StreamHandler(stream)
+    handler.setLevel(logging.DEBUG)
+    root = logging.getLogger()
+    old_level = root.level
+    root.addHandler(handler)
+    root.setLevel(logging.DEBUG)
+    try:
+        fake, r, err = go([FakeHttpResponse(413, None, {"x-ratelimit-limit-tokens": "6000"}), chat_reply("never")],
+                          config={"FALLBACK_MODEL_ID": "oc-fallback"}, prompt="y" * 7000 + PROMPT_TEXT)
+    finally:
+        root.removeHandler(handler)
+        root.setLevel(old_level)
+    logged = stream.getvalue()
+    check("413: not retried (1 request, no wait), the fallback model is not tried, LLMError(kind=too_large) with an error code only",
+          err is not None and err.kind == "too_large" and "413" in str(err) and len(fake.calls) == 1 and sleeps == []
+          and PROMPT_TEXT not in str(err) and PROMPT_TEXT not in logged)
+    check("413: the log line has the estimated and the limit token counts, and no key",
+          "llm_request_too_large estimated_tokens=2007 limit_tokens=6000" in logged and OC_KEY not in logged)
+    fake, r, err = go([FakeHttpResponse(413)])
+    check("413 without a limit header: the limit is logged as unknown, still not retried", err is not None and err.kind == "too_large" and len(fake.calls) == 1)
 
 
 def run():
