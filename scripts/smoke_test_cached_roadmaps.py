@@ -671,7 +671,100 @@ def route_checks(index, chunks):
             generation_jobs.reset_for_tests()
 
 
-SECTIONS = [build_script_checks, personalizer_checks, route_checks]
+# ----------------------------------------------------------------------------- 5. timing table (stub LLM delay 3 s) and front-end source checks
+
+STUB_DELAY_S = 3.0
+
+
+def timing_checks(index, chunks):
+    from app import create_app, db
+    from app.models import GeneratedRoadmap, RoadmapProgress, User
+    from app.pipeline import generation_jobs
+    from scripts._csrf import enable_csrf_client
+
+    big = max(CAREER_PATHS, key=lambda p: sum(len(ph["steps"]) for ph in real_shaped_base(p, index, chunks)["roadmap"]["phases"]))
+    app = create_app()
+    enable_csrf_client(app)
+    email = f"cachedtiming{random.randint(100000, 999999)}@example.com"
+    original_limit, original_mode = app.config["ROADMAP_DAILY_LIMIT"], app.config.get("ROADMAP_MODE")
+    rows, user_id = [], None
+    good = {"summary": "Focus on the basics.", "phase_notes": [], "priority_steps": [1], "can_skim": []}
+    with tempfile.TemporaryDirectory() as tmp:
+        tmp = Path(tmp)
+        for path in {PATH, big}:
+            write_doc(tmp, path, real_shaped_base(path, index, chunks))
+        generation_jobs.reset_for_tests()
+        try:
+            client = app.test_client()
+            user_id = client.post("/signup", json={"name": "Timing", "email": email, "password": PASSWORD}).get_json()["user_id"]
+            client.post("/login", json={"email": email, "password": PASSWORD})
+            app.config["ROADMAP_DAILY_LIMIT"] = 100
+            with patch.object(base_roadmaps, "BASE_DIR", tmp), patch("app.routes.roadmap._get_index", lambda: (index, chunks)):
+                for mode in ("cached", "full"):
+                    for path in sorted({PATH, big}):
+                        app.config["ROADMAP_MODE"] = mode
+                        calls = []
+                        if mode == "cached":
+                            llm = canned_llm(good, delay=STUB_DELAY_S, calls=calls)
+                        else:
+                            llm = fake_generate(delay=STUB_DELAY_S, counter=calls)
+                        with patch.object(llm_client, "generate", llm), LogCapture(logging.CRITICAL):
+                            started = time.monotonic()
+                            job = client.post("/roadmap/generate-async", json={"target_career_path": path}).get_json()["job_id"]
+                            body = wait_for(client, job, timeout=240)
+                            wall = time.monotonic() - started
+                        rows.append({"mode": body.get("mode"), "career_path": path, "status": body.get("status"), "llm_calls": len(calls),
+                                     "stub_llm_delay_s": STUB_DELAY_S, "wall_s": round(wall, 1)})
+        finally:
+            app.config["ROADMAP_DAILY_LIMIT"] = original_limit
+            if original_mode is not None:
+                app.config["ROADMAP_MODE"] = original_mode
+            time.sleep(0.3)
+            with app.app_context():
+                RoadmapProgress.query.filter(RoadmapProgress.user_id == user_id).delete(synchronize_session=False)
+                GeneratedRoadmap.query.filter(GeneratedRoadmap.user_id == user_id).delete(synchronize_session=False)
+                User.query.filter(User.email == email).delete(synchronize_session=False)
+                db.session.commit()
+            generation_jobs.reset_for_tests()
+
+    Path("scratch").mkdir(exist_ok=True)
+    with open("scratch/benchmark_cached.csv", "w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=["mode", "career_path", "status", "llm_calls", "stub_llm_delay_s", "wall_s"])
+        writer.writeheader()
+        writer.writerows(rows)
+    print("\nTiming (stub LLM delay 3 s per call; wall = POST /roadmap/generate-async until the job is done):")
+    print(f"{'mode':8s} {'career path':32s} {'llm calls':>9s} {'wall s':>7s}")
+    for r in rows:
+        print(f"{str(r['mode']):8s} {r['career_path']:32s} {r['llm_calls']:9d} {r['wall_s']:7.1f}")
+    cached = [r for r in rows if r["mode"] == "cached"]
+    full = [r for r in rows if r["mode"] == "full"]
+    check("timing: every run finished 'done' in the mode that was asked for", len(rows) == 4 and all(r["status"] == "done" for r in rows)
+          and len(cached) == 2 and len(full) == 2)
+    check("timing: cached = exactly one LLM call, about one stub delay (3 s) plus under 3 s of local work",
+          all(r["llm_calls"] == 1 and STUB_DELAY_S <= r["wall_s"] < STUB_DELAY_S + 3 for r in cached))
+    check("timing: full = a planner call plus one per phase (at least 3 calls), so at least 3 stub delays",
+          all(r["llm_calls"] >= 3 and r["wall_s"] >= STUB_DELAY_S * r["llm_calls"] for r in full))
+    check("timing: for every path the cached roadmap is ready several times faster than the full generation",
+          all(next(c for c in cached if c["career_path"] == f["career_path"])["wall_s"] * 2 < f["wall_s"] for f in full))
+    check("timing: table written to scratch/benchmark_cached.csv", Path("scratch/benchmark_cached.csv").is_file())
+
+
+def frontend_source_checks(index, chunks):
+    results = Path("app/static/js/results.js").read_text(encoding="utf-8")
+    page = Path("app/templates/roadmap.html").read_text(encoding="utf-8")
+    css = Path("app/static/css/style.css").read_text(encoding="utf-8")
+    added = results[results.index("function personalizationOf"):results.index("function roadmapDashboardSummary")]
+    check("front end: the personalization code builds text through el()/textContent only (no innerHTML in it, nor in roadmap.html)",
+          "innerHTML" not in added and "innerHTML" not in page and "insertAdjacentHTML" not in added + page)
+    check("front end: tags, phase note, summary and 'Based on a reviewed ... personalized for you' wording present; classes styled",
+          all(w in results for w in ('"Focus"', '"Can skim"', "personalized for you", "phase-note", "personal-summary"))
+          and all(c in css for c in (".step-tag-focus", ".step-tag-skim", ".phase-note", ".personal-summary")))
+    check("front end: cached waiting text, 1 s polling for the first 10 s then 3 s, and no video step when videos are already there",
+          "usually takes a few seconds" in page and "FAST_POLL_MS = 1000" in page and "FAST_POLL_WINDOW_MS = 10 * 1000" in page
+          and "POLL_MS = 3000" in page and "hasAllVideoResults(roadmap.steps)" in page)
+
+
+SECTIONS = [build_script_checks, personalizer_checks, route_checks, timing_checks, frontend_source_checks]
 
 
 def run():
