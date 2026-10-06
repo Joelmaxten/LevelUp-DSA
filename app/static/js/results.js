@@ -309,9 +309,14 @@ function wireStepCheckbox(checkSlot, stepProgress, liEl) {
 // before this task; subtopics/projects/resources/more_topics simply don't
 // appear when absent, and "videos" (new, up to 4 links) is preferred over the
 // legacy single "resource" link when both would otherwise apply.
-function roadmapStep(step, displayIndex, videosPending, isFirstOverall, stepProgress) {
+//
+// tag: optional "focus" | "skim" (a personalized cached roadmap marks some steps; see personalizationOf) - a small
+// label above the title. Absent for every older roadmap, which then renders exactly as before.
+function roadmapStep(step, displayIndex, videosPending, isFirstOverall, stepProgress, tag) {
     const text = el("div", { className: "step-text" });
     if (isFirstOverall) text.append(el("p", { className: "start-here" }, el("span", { className: "mark", text: "Start here" })));
+    if (tag === "focus") text.append(el("p", { className: "step-tag step-tag-focus", text: "Focus" }));
+    if (tag === "skim") text.append(el("p", { className: "step-tag step-tag-skim", text: "Can skim" }));
     text.append(
         el("h3", { className: "step-title" },
             el("span", { className: "step-done-mark", "aria-hidden": "true" }, icon("tick")),
@@ -369,17 +374,43 @@ function roadmapStep(step, displayIndex, videosPending, isFirstOverall, stepProg
 // (row() keeps it aligned with the steps' margin/main columns and the route spine).
 // Returned as a <summary> (via row()'s tag override) so roadmapStepList can use
 // it directly as a <details> phase's clickable header.
-function phaseHeaderRow(phase) {
+function phaseHeaderRow(phase, note) {
     const stepCount = phase.steps.length;
     return row(
         [el("p", { className: "note", text: `Phase ${phase.phase_number}` }), el("div", { className: "phase-progress" })],
         [
             el("h3", { className: "phase-title", text: phase.title }),
             el("p", { className: "note", text: `${stepCount} step${stepCount === 1 ? "" : "s"}` }),
+            note ? el("p", { className: "phase-note", text: note }) : "",
         ],
         "row-head phase-summary",
         "summary"
     );
+}
+
+// The optional personalization of a cached roadmap (steps.personalization, see
+// app/pipeline/roadmap_personalizer.py) or null. Older roadmaps and flat ones have none.
+function personalizationOf(steps) {
+    if (Array.isArray(steps) || !steps || typeof steps.personalization !== "object" || !steps.personalization) return null;
+    return steps.personalization;
+}
+
+// "For you" summary and the "Based on a reviewed ... roadmap" line, or "" when the roadmap is neither cached nor
+// personalized (every older roadmap). All text goes through textContent (el()).
+function roadmapOriginBlock(steps, careerPath) {
+    const personal = personalizationOf(steps);
+    const base = !Array.isArray(steps) && steps && typeof steps.base === "object" && steps.base ? steps.base : null;
+    if (!personal && !base) return "";
+    const main = [];
+    if (personal && typeof personal.summary === "string" && personal.summary) {
+        main.push(el("p", { className: "personal-summary", text: personal.summary }));
+    }
+    if (base) {
+        main.push(el("p", { className: "note based-on", text: personal
+            ? `Based on a reviewed ${careerPath} roadmap, personalized for you.`
+            : `Based on a reviewed ${careerPath} roadmap.` }));
+    }
+    return row([el("p", { className: "note", text: personal ? "For you" : "About this roadmap" })], main, "personal-row");
 }
 
 // steps: either an older roadmap's flat step array, or the current
@@ -400,6 +431,11 @@ function phaseHeaderRow(phase) {
 // bar for).
 function roadmapStepList(steps, videosPending, progress) {
     const indexes = computeStepIndexes(steps);
+    const personal = personalizationOf(steps);
+    const listOf = (name) => (personal && Array.isArray(personal[name]) ? personal[name] : []);
+    const focusSteps = new Set(listOf("priority_steps"));
+    const skimSteps = new Set(listOf("can_skim"));
+    const phaseNotes = new Map(listOf("phase_notes").filter((n) => n && typeof n.note === "string").map((n) => [n.phase_number, n.note]));
 
     let overallBar = "";
     let refreshOverall = () => {};
@@ -427,7 +463,7 @@ function roadmapStepList(steps, videosPending, progress) {
     steps.phases.forEach((phase, phaseIndex) => {
         const phaseIndexes = phase.steps.map(() => indexes[cursor++]);
 
-        const summary = phaseHeaderRow(phase);
+        const summary = phaseHeaderRow(phase, phaseNotes.get(phase.phase_number));
         let refreshPhase = () => {};
         if (progress) {
             const bar = summary.querySelector(".phase-progress");
@@ -442,7 +478,8 @@ function roadmapStepList(steps, videosPending, progress) {
             const isFirstOverall = !seenAny;
             seenAny = true;
             const stepProgress = progress ? { ...progress, stepIndex: phaseIndexes[i], refreshBars } : null;
-            return roadmapStep(step, i, videosPending, isFirstOverall, stepProgress);
+            const tag = focusSteps.has(phaseIndexes[i]) ? "focus" : (skimSteps.has(phaseIndexes[i]) ? "skim" : null);
+            return roadmapStep(step, i, videosPending, isFirstOverall, stepProgress, tag);
         }));
 
         const details = el("details", { className: "phase" }, summary, stepList);

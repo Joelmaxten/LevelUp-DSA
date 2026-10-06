@@ -189,6 +189,8 @@ function renderRoadmap() {
         [el("p", { className: "note", text: "Built for" }), when ? el("p", { className: "note", text: `Generated ${when}` }) : ""],
         el("h2", { className: "path-name" }, el("span", { className: "mark", text: roadmap.career_path }))
     ));
+    const origin = roadmapOriginBlock(roadmap.steps, roadmap.career_path);
+    if (origin) parts.push(origin);
     parts.push(roadmapStepList(roadmap.steps, videosState === "pending", {
         roadmapId: roadmap.roadmap_id,
         completed,
@@ -230,15 +232,18 @@ async function fetchVideos() {
 // ---------- generating a roadmap: a background job, polled ----------
 //
 // A roadmap can take a few minutes, so POST /roadmap/generate-async starts it on the server and this page
-// polls GET /roadmap/jobs/<id> every 3 s. The job id is kept in sessionStorage so a reload picks the same
+// polls GET /roadmap/jobs/<id>: every 1 s for the first 10 s (a cached roadmap is ready in seconds), then every 3 s.
+// The job id is kept in sessionStorage so a reload picks the same
 // job up again. Polling stops when the job is done or failed, or when the tab has been hidden for more
 // than 2 minutes (it resumes when the tab is visible again).
 
 const JOB_KEY = "levelupRoadmapJob";
 const POLL_MS = 3000;
+const FAST_POLL_MS = 1000;
+const FAST_POLL_WINDOW_MS = 10 * 1000;
 const HIDDEN_LIMIT_MS = 2 * 60 * 1000;
 
-let activeJob = null;      // { id, path, startedAt (ms), phaseDone, phaseTotal } while one is being followed
+let activeJob = null;      // { id, path, startedAt (ms), phaseDone, phaseTotal, mode } while one is being followed
 let pollTimeout = null;
 let tickInterval = null;
 let hiddenSince = null;
@@ -272,9 +277,10 @@ function formatElapsed(ms) {
 function renderProgress() {
     const counter = el("p", { className: "note", role: "status", text: "" });
     const elapsed = el("p", { className: "note", "aria-hidden": "true", text: "" });
-    progressNodes = { counter, elapsed };
+    const message = el("p", { text: "" });
+    progressNodes = { counter, elapsed, message };
     box.replaceChildren(row([], el("div", { className: "msg", role: "status" },
-        el("p", { text: "Generating your roadmap. This can take a few minutes. You can keep this page open." }),
+        message,
         counter,
         elapsed,
         el("div", { className: "working", "aria-hidden": "true" })
@@ -285,7 +291,11 @@ function renderProgress() {
 function updateProgress() {
     if (!progressNodes || !activeJob) return;
     progressNodes.elapsed.textContent = `Elapsed: ${formatElapsed(Date.now() - activeJob.startedAt)}`;
-    progressNodes.counter.textContent = activeJob.phaseTotal
+    const cached = activeJob.mode === "cached";   // a reviewed roadmap personalized for you: seconds, not minutes
+    progressNodes.message.textContent = cached
+        ? "Building your roadmap. This usually takes a few seconds."
+        : "Generating your roadmap. This can take a few minutes. You can keep this page open.";
+    progressNodes.counter.textContent = !cached && activeJob.phaseTotal
         ? `${activeJob.phaseDone} of ${activeJob.phaseTotal} parts written`
         : "";
 }
@@ -311,7 +321,12 @@ async function finishJob(roadmapId) {
     roadmap = result.data;
     completed = new Set(roadmap.completed_steps || []);
     await refreshRoadmapsList();
-    await fetchVideos();
+    if (hasAllVideoResults(roadmap.steps)) {
+        videosState = "done";   // a cached roadmap already has its videos: no "Finding videos" step
+        renderRoadmap();
+    } else {
+        await fetchVideos();
+    }
 }
 
 // One poll. Returns false only for "that job doesn't exist (any more)".
@@ -344,6 +359,7 @@ async function pollOnce() {
             return true;
         }
         job.startedAt = Date.now() - data.elapsed_s * 1000;
+        if (data.mode) job.mode = data.mode;
         if (data.phase_total) {
             job.phaseDone = data.phase_done;
             job.phaseTotal = data.phase_total;
@@ -364,7 +380,7 @@ function scheduleNextPoll() {
             return;
         }
         pollOnce();
-    }, POLL_MS);
+    }, activeJob && Date.now() - activeJob.startedAt < FAST_POLL_WINDOW_MS ? FAST_POLL_MS : POLL_MS);
 }
 
 document.addEventListener("visibilitychange", () => {
@@ -380,9 +396,9 @@ document.addEventListener("visibilitychange", () => {
     }
 });
 
-function followJob(jobId, path, startedAtMs) {
+function followJob(jobId, path, startedAtMs, mode) {
     stopPolling();
-    activeJob = { id: jobId, path, startedAt: startedAtMs || Date.now(), phaseDone: 0, phaseTotal: 0 };
+    activeJob = { id: jobId, path, startedAt: startedAtMs || Date.now(), phaseDone: 0, phaseTotal: 0, mode: mode || "full" };
     rememberJob(jobId);
     renderProgress();
     tickInterval = setInterval(updateProgress, 1000);
@@ -410,7 +426,7 @@ async function resumeJob(jobId) {
         renderJobFailed(null);
         return true;
     }
-    followJob(jobId, null, result.ok ? Date.now() - result.data.elapsed_s * 1000 : Date.now());
+    followJob(jobId, null, result.ok ? Date.now() - result.data.elapsed_s * 1000 : Date.now(), result.ok ? result.data.mode : null);
     if (result.ok && result.data.phase_total) {
         activeJob.phaseDone = result.data.phase_done;
         activeJob.phaseTotal = result.data.phase_total;
@@ -440,7 +456,7 @@ async function generate(targetCareerPath) {
         }
         return;
     }
-    followJob(result.data.job_id, targetCareerPath);
+    followJob(result.data.job_id, targetCareerPath, null, result.data.mode);
 }
 
 // On arrival: the roadmap named by ?id=N, or (no id) the newest one, or the

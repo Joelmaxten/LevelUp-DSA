@@ -711,6 +711,13 @@ h4 { font-weight: 700; font-size: 1.0625rem; }
 
 .start-here { margin-bottom: 0.5rem; font-weight: 700; font-size: 0.9375rem; }
 .step-title { font-size: clamp(1.25rem, 1.05rem + 0.8vw, 1.625rem); line-height: 1.2; }
+/* Personalized cached roadmap (all optional): a small label above a step's title, a note under a phase header, the summary. */
+.step-tag { display: inline-block; margin-bottom: 0.4rem; padding: 0.05rem 0.6rem; font: 700 0.8125rem/1.6 var(--font-body); border: 2px solid var(--ink); }
+.step-tag-focus { background: var(--ink); color: var(--paper); }
+.step-tag-skim { color: var(--pencil); border-color: var(--line); font-weight: 400; }
+.phase-note { margin-top: 0.5rem; max-width: 40rem; padding-left: 0.75rem; border-left: 3px solid var(--ink); }
+.personal-summary { max-width: 44rem; font-size: 1.125rem; }
+.personal-summary + .based-on { margin-top: 0.75rem; }
 .step-desc { margin-top: 0.5rem; max-width: 36rem; }
 
 .watch {
