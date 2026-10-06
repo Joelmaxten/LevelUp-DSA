@@ -9,7 +9,7 @@ from sqlalchemy.exc import IntegrityError
 
 from app import db
 from app.models import CareerProfile, GeneratedRoadmap, RoadmapProgress
-from app.pipeline import generation_jobs
+from app.pipeline import base_roadmaps, generation_jobs
 from app.pipeline.rag import load_index
 from app.pipeline.roadmap_generator import generate_roadmap
 from app.pipeline.youtube_resources import fetch_resources_for_roadmap
@@ -290,7 +290,8 @@ def _daily_limit_response():
 def generate_async():
     """
     Same checks as POST /roadmap/generate (daily cap, path resolution, index available), but the generation runs
-    in a background thread (app/pipeline/generation_jobs.py): returns 202 {"job_id"} at once. One active job per
+    in a background thread (app/pipeline/generation_jobs.py): returns 202 {"job_id", "mode"} at once ("cached" when a
+    reviewed base roadmap is personalized, "full" for a generation from scratch). One active job per
     user (409 otherwise). Poll GET /roadmap/jobs/<job_id>.
     """
     limited = _daily_limit_response()
@@ -320,7 +321,14 @@ def generate_async():
                      "The FAISS index must be built before roadmap generation is available."
         }), 503
 
-    job_id, refusal = generation_jobs.create_job(current_user.id)
+    # "cached" mode: a valid reviewed base roadmap for this path is personalized instead of generated from scratch
+    # (a few seconds instead of minutes). No valid base, or ROADMAP_MODE=full: the full generation, as before.
+    base = None
+    if current_app.config.get("ROADMAP_MODE", "cached") == "cached":
+        base = base_roadmaps.load_base(top_career_path, chunks)
+    mode = "cached" if base is not None else "full"
+
+    job_id, refusal = generation_jobs.create_job(current_user.id, mode)
     if job_id is None:
         reason, other_job = refusal
         if reason == "job_running":
@@ -329,8 +337,8 @@ def generate_async():
 
     # Plain data and the real app object go to the thread; no request, session or current_user.
     generation_jobs.start_job(current_app._get_current_object(), job_id, current_user.id, top_career_path,
-                              dict(conversation_signals), index, chunks)
-    return jsonify({"job_id": job_id}), 202
+                              dict(conversation_signals), index, chunks, base=base)
+    return jsonify({"job_id": job_id, "mode": mode}), 202
 
 
 @roadmap_bp.route("/roadmap/jobs/<job_id>", methods=["GET"])

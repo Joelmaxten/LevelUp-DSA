@@ -13,7 +13,12 @@ Design:
   happens inside it, the job ends as "done" or "failed" (a `finally` guarantees it), with a FIXED error
   code; exception text goes to the server log only and never to the client.
 - A failed job saves nothing, so it never counts against the daily roadmap cap (which counts saved rows).
+- Two modes. "full" is the generation above. "cached" (config ROADMAP_MODE, and a valid reviewed base file exists for the
+  path, see app/pipeline/base_roadmaps.py): the base roadmap is copied, personalized by one short LLM call
+  (app/pipeline/roadmap_personalizer.py) and saved, which takes seconds. If the personalization fails the base is saved
+  without it. The job reports phase_total=1 and "mode" so the page can word its waiting text.
 """
+import copy
 import logging
 import secrets
 import threading
@@ -22,6 +27,7 @@ import time
 from app import db
 from app.models import GeneratedRoadmap
 from app.pipeline.roadmap_generator import generate_roadmap
+from app.pipeline.roadmap_personalizer import personalize
 
 logger = logging.getLogger(__name__)
 
@@ -65,9 +71,9 @@ def active_job_for(user_id):
     return None
 
 
-def create_job(user_id):
+def create_job(user_id, mode="full"):
     """
-    Registers a new queued job. Returns (job_id, None), or (None, ("job_running", existing_job_id)) if the
+    Registers a new queued job (mode "full" or "cached"; a cached job starts at 0 of 1 parts). Returns (job_id, None), or (None, ("job_running", existing_job_id)) if the
     user already has an active one, or (None, ("busy", None)) if the registry is full of active jobs.
     """
     with _lock:
@@ -80,7 +86,8 @@ def create_job(user_id):
             return None, ("busy", None)
         job_id = secrets.token_urlsafe(16)
         _jobs[job_id] = {"user_id": user_id, "status": QUEUED, "created": now, "finished": None,
-                         "phase_done": None, "phase_total": None, "roadmap_id": None, "error_code": None}
+                         "phase_done": 0 if mode == "cached" else None, "phase_total": 1 if mode == "cached" else None,
+                         "roadmap_id": None, "error_code": None, "mode": mode}
         return job_id, None
 
 
@@ -93,7 +100,7 @@ def get_status(job_id, user_id):
         if job is None or job["user_id"] != user_id:
             return None
         end = job["finished"] if job["finished"] is not None else now
-        status = {"status": job["status"], "elapsed_s": round(end - job["created"], 1)}
+        status = {"status": job["status"], "elapsed_s": round(end - job["created"], 1), "mode": job.get("mode", "full")}
         if job["phase_total"] is not None:
             status["phase_done"] = job["phase_done"]
             status["phase_total"] = job["phase_total"]
@@ -117,15 +124,35 @@ def _progress(job_id):
     return on_progress
 
 
-def _run(app, job_id, user_id, career_path, conversation_signals, index, chunks):
+def _cached_steps(career_path, conversation_signals, base):
+    """The base roadmap (already a private copy) with the personalization, if it succeeded, and a "base" marker."""
+    steps = base["roadmap"]
+    try:
+        personalization = personalize(career_path, conversation_signals, steps)
+    except Exception:
+        logger.exception("personalization crashed; saving the base roadmap without it")
+        personalization = None
+    if personalization:
+        steps["personalization"] = personalization
+    meta = base["metadata"]
+    steps["base"] = {"source": "base_roadmap", "model_id": meta.get("model_id"), "built_at": meta.get("built_at"),
+                     "stale": bool(base.get("stale"))}
+    return steps, copy.deepcopy(base["audit"])
+
+
+def _run(app, job_id, user_id, career_path, conversation_signals, index, chunks, base=None):
     """Thread body. Never raises; always leaves the job done or failed."""
     outcome = {"status": FAILED, "error_code": ERROR_UNEXPECTED, "roadmap_id": None}
     try:
         _update(job_id, status=RUNNING)
         with app.app_context():
             try:
-                steps, audit = generate_roadmap(career_path, conversation_signals, index, chunks,
-                                                on_progress=_progress(job_id))
+                if base is None:
+                    steps, audit = generate_roadmap(career_path, conversation_signals, index, chunks,
+                                                    on_progress=_progress(job_id))
+                else:
+                    steps, audit = _cached_steps(career_path, conversation_signals, base)
+                    _update(job_id, phase_done=1, phase_total=1)
             except Exception:
                 logger.exception("roadmap job %s: generation failed", job_id)
                 outcome["error_code"] = ERROR_GENERATION
@@ -149,10 +176,10 @@ def _run(app, job_id, user_id, career_path, conversation_signals, index, chunks)
                 roadmap_id=outcome["roadmap_id"], finished=_now())
 
 
-def start_job(app, job_id, user_id, career_path, conversation_signals, index, chunks):
-    """Starts the worker thread for a job created with create_job. Returns the thread."""
+def start_job(app, job_id, user_id, career_path, conversation_signals, index, chunks, base=None):
+    """Starts the worker thread for a job created with create_job (base: a loaded base roadmap for a cached job)."""
     thread = threading.Thread(target=_run, name=f"roadmap-job-{job_id[:6]}", daemon=True,
-                              args=(app, job_id, user_id, career_path, conversation_signals, index, chunks))
+                              args=(app, job_id, user_id, career_path, conversation_signals, index, chunks, base))
     try:
         thread.start()
     except Exception:

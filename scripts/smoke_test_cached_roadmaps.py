@@ -449,7 +449,229 @@ def personalizer_checks(index, chunks):
                                         for ph in real_shaped_base(biggest, index, chunks)["roadmap"]["phases"] for s in ph["steps"]))
 
 
-SECTIONS = [build_script_checks, personalizer_checks]
+# ----------------------------------------------------------------------------- 4. async route, saved roadmap, progress, switcher
+
+PASSWORD = "SmokeTest#123"
+
+
+def wait_for(client, job_id, wanted=("done", "failed"), timeout=15):
+    deadline = time.time() + timeout
+    body = {}
+    while time.time() < deadline:
+        body = client.get(f"/roadmap/jobs/{job_id}").get_json() or {}
+        if body.get("status") in wanted:
+            return body
+        time.sleep(0.05)
+    return body
+
+
+def route_checks(index, chunks):
+    from app import create_app, db
+    from app.models import GeneratedRoadmap, RoadmapProgress, User
+    from app.pipeline import generation_jobs, roadmap_personalizer as rp
+    from app.pipeline.llm_client import LLMError
+    from scripts._csrf import enable_csrf_client
+
+    other_path = "DevOps"                         # has NO base file in these tests -> full generation
+    app = create_app()
+    enable_csrf_client(app)
+    suffix = random.randint(100000, 999999)
+    emails = [f"cachedtest{suffix}@example.com", f"cachedother{suffix}@example.com"]
+    user_ids = []
+    original_limit, original_mode = app.config["ROADMAP_DAILY_LIMIT"], app.config.get("ROADMAP_MODE")
+    full_runs = []
+
+    def stub_full(career_path, signals, idx, chnk, on_progress=None, **kw):
+        full_runs.append(career_path)
+        if on_progress:
+            on_progress(0, 2)
+            on_progress(2, 2)
+        step = {"step_number": 1, "title": "Full step", "description": "d", "topic_refs": [], "subtopics": [], "projects": [],
+                "more_topics": [], "global_step_index": 1}
+        return {"phases": [{"phase_number": 1, "title": "Full phase", "steps": [step]}]}, {"phases": []}
+
+    base_doc = real_shaped_base(PATH, index, chunks)
+    steps_of = lambda roadmap: [s for ph in roadmap["phases"] for s in ph["steps"]]
+    total_steps = len(steps_of(base_doc["roadmap"]))
+    indexes = [s["global_step_index"] for s in steps_of(base_doc["roadmap"])]
+    good_reply = {"summary": "Focus on the basics first.", "phase_notes": [{"phase_number": 1, "note": "Start here."}],
+                  "priority_steps": [indexes[0], indexes[2], 9999], "can_skim": [indexes[-1], indexes[0]]}
+    expected_personalization = {"summary": "Focus on the basics first.", "phase_notes": [{"phase_number": 1, "note": "Start here."}],
+                                "priority_steps": [indexes[0], indexes[2]], "can_skim": [indexes[-1]]}
+    signals_seen = []
+
+    with tempfile.TemporaryDirectory() as tmp:
+        tmp = Path(tmp)
+        write_doc(tmp, PATH, base_doc)
+        file_bytes = base_roadmaps.path_for(PATH, tmp).read_bytes()
+        generation_jobs.reset_for_tests()
+        try:
+            client, other = app.test_client(), app.test_client()
+            for c, email in ((client, emails[0]), (other, emails[1])):
+                user_ids.append(c.post("/signup", json={"name": "Cached Test", "email": email, "password": PASSWORD}).get_json()["user_id"])
+                c.post("/login", json={"email": email, "password": PASSWORD})
+            body = {"target_career_path": PATH}
+
+            with patch.object(base_roadmaps, "BASE_DIR", tmp), patch("app.routes.roadmap._get_index", lambda: (index, chunks)), \
+                    patch.object(generation_jobs, "generate_roadmap", stub_full), \
+                    patch.object(llm_client, "generate", canned_llm(good_reply, calls=signals_seen)):
+                # --- cached, with personalization
+                app.config["ROADMAP_MODE"] = "cached"
+                started = time.monotonic()
+                resp = client.post("/roadmap/generate-async", json=body)
+                data = resp.get_json()
+                done = wait_for(client, data["job_id"])
+                took = time.monotonic() - started
+                check("cached: POST /roadmap/generate-async -> 202 with a job_id and mode 'cached'",
+                      resp.status_code == 202 and data.get("mode") == "cached" and isinstance(data.get("job_id"), str))
+                check("cached: the job finishes done in seconds, reports phase_total 1 (1 of 1) and mode 'cached', and the full generator never ran",
+                      done["status"] == "done" and done["phase_total"] == 1 and done["phase_done"] == 1 and done["mode"] == "cached"
+                      and isinstance(done["roadmap_id"], int) and took < 10 and not full_runs)
+                rid = done["roadmap_id"]
+                with app.app_context():
+                    saved = db.session.get(GeneratedRoadmap, rid)
+                    saved_steps, saved_audit, saved_path, saved_user = saved.steps, saved.retrieved_chunks, saved.career_path, saved.user_id
+                check("cached: a GeneratedRoadmap was saved in the existing shape (user, path, phases identical to the base, audit = the base's audit)",
+                      saved_user == user_ids[0] and saved_path == PATH and saved_steps["phases"] == base_doc["roadmap"]["phases"]
+                      and saved_audit == base_doc["audit"])
+                check("cached: the personalization is stored inside the steps JSON under 'personalization' (validated: bad index dropped, overlap removed)",
+                      saved_steps.get("personalization") == expected_personalization)
+                check("cached: a 'base' key records source, model_id, built_at and stale=False",
+                      saved_steps.get("base") == {"source": "base_roadmap", "model_id": "fake-model", "built_at": "2026-01-01T00:00:00Z", "stale": False})
+                check("cached: every saved step already has videos and resources (nothing is left for the video step)",
+                      all("videos" in s and "resources" in s for s in steps_of(saved_steps)))
+                check("cached: the base file itself is not modified by the jobs", base_roadmaps.path_for(PATH, tmp).read_bytes() == file_bytes)
+                check("cached: the personalizer's one LLM call used task 'fast' (a single call per roadmap)",
+                      len(signals_seen) == 1 and signals_seen[0]["task"] == "fast")
+
+                # --- served unchanged by the existing endpoints
+                got = client.get(f"/roadmap/{rid}").get_json()
+                check("saved roadmap: GET /roadmap/<id> and /roadmap/latest return it with the extra keys and the right total_steps",
+                      got["steps"].get("personalization") == expected_personalization and got["total_steps"] == total_steps
+                      and client.get("/roadmap/latest").get_json()["roadmap_id"] == rid)
+                tick = client.post(f"/roadmap/{rid}/progress", json={"step_index": indexes[0], "done": True}).get_json()
+                tick2 = client.post(f"/roadmap/{rid}/progress", json={"step_index": indexes[-1], "done": True}).get_json()
+                check("progress: ticking steps of a cached roadmap works (completed_steps, completed_count, total_steps)",
+                      tick["completed_steps"] == [indexes[0]] and tick2["completed_count"] == 2 and tick2["total_steps"] == total_steps)
+                bad = client.post(f"/roadmap/{rid}/progress", json={"step_index": 9999, "done": True})
+                untick = client.post(f"/roadmap/{rid}/progress", json={"step_index": indexes[-1], "done": False}).get_json()
+                check("progress: an index that is not a step is refused (400); unticking works", bad.status_code == 400 and untick["completed_count"] == 1)
+
+                # --- a second roadmap, then the switcher list and dashboard
+                resp2 = client.post("/roadmap/generate-async", json=body)
+                done2 = wait_for(client, resp2.get_json()["job_id"])
+                listing = client.get("/roadmap/list").get_json()
+                check("switcher: /roadmap/list shows both cached roadmaps, newest first, with per-roadmap progress and total_steps",
+                      done2["status"] == "done" and [r["roadmap_id"] for r in listing] == [done2["roadmap_id"], rid]
+                      and listing[1]["completed_count"] == 1 and listing[1]["total_steps"] == total_steps and listing[0]["completed_count"] == 0)
+                dash = client.get("/dashboard/data")
+                check("dashboard: /dashboard/data works with a cached roadmap (200, roadmap and roadmaps present)",
+                      dash.status_code == 200 and dash.get_json()["roadmap"] is not None and len(dash.get_json()["roadmaps"]) == 2)
+                other_view = other.get(f"/roadmap/{rid}")
+                check("ownership: another user cannot read the cached roadmap (404) or its job (404)",
+                      other_view.status_code == 404 and other.get(f"/roadmap/jobs/{data['job_id']}").status_code == 404)
+
+                # --- personalization fails -> the base is still saved
+                with patch.object(llm_client, "generate", canned_llm(error=LLMError("down", kind="transient"))), LogCapture(logging.WARNING):
+                    resp3 = other.post("/roadmap/generate-async", json=body)
+                    done3 = wait_for(other, resp3.get_json()["job_id"])
+                with app.app_context():
+                    saved3 = db.session.get(GeneratedRoadmap, done3["roadmap_id"]).steps
+                check("cached, personalization fails: the job is still 'done'; the base is saved without a 'personalization' key but with 'base'",
+                      done3["status"] == "done" and resp3.get_json()["mode"] == "cached" and "personalization" not in saved3
+                      and saved3["phases"] == base_doc["roadmap"]["phases"] and saved3["base"]["source"] == "base_roadmap")
+                with patch.object(generation_jobs, "personalize", side_effect=RuntimeError("crash")), LogCapture(logging.CRITICAL):
+                    done4 = wait_for(other, other.post("/roadmap/generate-async", json=body).get_json()["job_id"])
+                check("cached, personalization crashes: still saved without it (the job never fails because of it)", done4["status"] == "done")
+
+                # --- stale base is served with stale=True
+                stale = copy.deepcopy(base_doc)
+                stale["metadata"]["inventory_fingerprint"] = "0" * 64
+                write_doc(tmp, PATH, stale)
+                with LogCapture(logging.CRITICAL):
+                    done5 = wait_for(other, other.post("/roadmap/generate-async", json=body).get_json()["job_id"])
+                with app.app_context():
+                    saved5 = db.session.get(GeneratedRoadmap, done5["roadmap_id"]).steps
+                check("cached, stale base: still served, saved with base.stale = true", done5["status"] == "done" and saved5["base"]["stale"] is True)
+                write_doc(tmp, PATH, base_doc)
+
+                # --- fallbacks to the full generation
+                app.config["ROADMAP_DAILY_LIMIT"] = 50
+                full_runs.clear()
+                resp6 = client.post("/roadmap/generate-async", json={"target_career_path": other_path})
+                done6 = wait_for(client, resp6.get_json()["job_id"])
+                with app.app_context():
+                    saved6 = db.session.get(GeneratedRoadmap, done6["roadmap_id"]).steps
+                check("no base for the path: full generation (mode 'full', the generator ran, no personalization or base key, progress 2 of 2)",
+                      resp6.get_json()["mode"] == "full" and done6["status"] == "done" and done6["mode"] == "full" and full_runs == [other_path]
+                      and "personalization" not in saved6 and "base" not in saved6 and done6["phase_total"] == 2)
+                app.config["ROADMAP_MODE"] = "full"
+                full_runs.clear()
+                resp7 = client.post("/roadmap/generate-async", json=body)
+                done7 = wait_for(client, resp7.get_json()["job_id"])
+                check("ROADMAP_MODE=full: the full generation is used even though a valid base exists",
+                      resp7.get_json()["mode"] == "full" and done7["mode"] == "full" and full_runs == [PATH])
+                app.config["ROADMAP_MODE"] = "cached"
+                base_roadmaps.path_for(PATH, tmp).write_text("{ corrupt", encoding="utf-8")
+                full_runs.clear()
+                with LogCapture(logging.CRITICAL):
+                    resp8 = client.post("/roadmap/generate-async", json=body)
+                    wait_for(client, resp8.get_json()["job_id"])
+                check("a corrupt base file counts as missing: full generation", resp8.get_json()["mode"] == "full" and full_runs == [PATH])
+                write_doc(tmp, PATH, base_doc)
+
+                # --- CSRF, validation, one active job, cap, sync route
+                check("CSRF: generate-async without a token -> 400 csrf, no job is created",
+                      client.post("/roadmap/generate-async", json=body, headers={"X-CSRF-Token": ""}).get_json() == {"error": "csrf"})
+                check("validation: an invalid career path -> 400 invalid_career_path (unchanged)",
+                      client.post("/roadmap/generate-async", json={"target_career_path": "Nope"}).get_json().get("error") == "invalid_career_path")
+                gate = threading.Event()
+
+                def slow_personalize(path, signals, roadmap):
+                    gate.wait(10)
+                    return None
+                with patch.object(generation_jobs, "personalize", slow_personalize):
+                    running = other.post("/roadmap/generate-async", json=body).get_json()["job_id"]
+                    again = other.post("/roadmap/generate-async", json=body)
+                    status = other.get(f"/roadmap/jobs/{running}").get_json()
+                    check("one active job per user still holds in cached mode (409 job_running); a running cached job reports 0 of 1",
+                          again.status_code == 409 and again.get_json() == {"error": "job_running", "job_id": running}
+                          and status["status"] in ("queued", "running") and status["phase_done"] == 0 and status["phase_total"] == 1 and status["mode"] == "cached")
+                    gate.set()
+                    wait_for(other, running)
+
+                with app.app_context():
+                    GeneratedRoadmap.query.filter_by(user_id=user_ids[1]).delete()
+                    db.session.commit()
+                app.config["ROADMAP_DAILY_LIMIT"] = 2
+                first = wait_for(other, other.post("/roadmap/generate-async", json=body).get_json()["job_id"])
+                second = wait_for(other, other.post("/roadmap/generate-async", json=body).get_json()["job_id"])
+                capped = other.post("/roadmap/generate-async", json=body)
+                check("daily cap: cached roadmaps count (limit 2: two accepted, the third -> 429 daily_limit)",
+                      first["status"] == second["status"] == "done" and capped.status_code == 429 and capped.get_json()["error"] == "daily_limit")
+                app.config["ROADMAP_DAILY_LIMIT"] = original_limit
+
+                with patch("app.routes.roadmap.generate_roadmap", lambda *a, **k: stub_full(PATH, {}, None, [])):
+                    app.config["ROADMAP_DAILY_LIMIT"] = 50
+                    resp9 = client.post("/roadmap/generate", json=body)
+                    data9 = resp9.get_json()
+                check("the synchronous /roadmap/generate is unchanged: it never uses the base (no personalization, no base key, original keys)",
+                      resp9.status_code == 201 and set(data9) == {"roadmap_id", "career_path", "steps", "completed_steps", "completed_count", "total_steps"}
+                      and "personalization" not in data9["steps"] and "base" not in data9["steps"])
+        finally:
+            app.config["ROADMAP_DAILY_LIMIT"] = original_limit
+            if original_mode is not None:
+                app.config["ROADMAP_MODE"] = original_mode
+            time.sleep(0.3)
+            with app.app_context():
+                RoadmapProgress.query.filter(RoadmapProgress.user_id.in_(user_ids)).delete(synchronize_session=False)
+                GeneratedRoadmap.query.filter(GeneratedRoadmap.user_id.in_(user_ids)).delete(synchronize_session=False)
+                User.query.filter(User.email.in_(emails)).delete(synchronize_session=False)
+                db.session.commit()
+            generation_jobs.reset_for_tests()
+
+
+SECTIONS = [build_script_checks, personalizer_checks, route_checks]
 
 
 def run():
