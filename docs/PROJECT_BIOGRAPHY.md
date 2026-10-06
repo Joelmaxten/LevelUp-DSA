@@ -1782,6 +1782,60 @@ the Dev Tier (the error message offers it), a Groq model with a larger input lim
 
 ---
 ---
+## Cached Base Roadmaps and Fast Personalization
+
+**Why:** a roadmap generated per student took about 4.5 minutes on NVIDIA `openai/gpt-oss-20b` (269 s measured), and a first attempt
+on Groq `qwen/qwen3.8-27b` could not even start (a phase prompt of about 9,270 input tokens against a 7,000 per minute limit).
+The roadmap for a career path is almost the same for every student, so generating it again for each one is the expensive part, not the
+personal part.
+
+**Design change:** from per-student generation to **a reviewed base roadmap per career path plus a small personalization**. The base is built
+once, offline, with a neutral profile, read by a person, and committed (`data/base_roadmaps/<slug>.json`). At request time
+`POST /roadmap/generate-async` (cached mode, the new default `ROADMAP_MODE`) copies the base, asks the `fast` model for a summary, a note per
+phase and which steps to focus on or skim, and saves a normal `GeneratedRoadmap`, so progress ticking, the switcher, the dashboard and the
+resource logic needed no change. The model cannot add or change steps: its reply is checked in code (unknown phases and step numbers
+dropped, overlap removed, text clipped). If personalization fails, the base is still saved. With no valid base for the path, or with
+`ROADMAP_MODE=full`, the old full generation runs. The synchronous `/roadmap/generate` and the generator are unchanged (its golden outputs are
+byte-identical).
+
+**What was built:** `app/pipeline/base_roadmaps.py` (validating loader, stale flag from a fingerprint of the KB topic inventory, corrupt
+file = missing); `scripts/build_base_roadmaps.py` (dry run by default, resumable, atomic writes, one failing path does not stop the others,
+KB-only resources through a new `use_youtube=False` switch on the resolver, provider and model printed, review document
+`docs/BASE_ROADMAP_REVIEW.md`); `app/pipeline/roadmap_personalizer.py` (one call, prompt capped at about 3,000 estimated tokens, untrusted note
+escaped as in the generator prompt, bounded by `LLM_PERSONALIZE_TIMEOUT_S`); job status now has `mode` and a cached job reports 1 part; the page
+shows the summary, phase notes, Focus and Can skim tags and a "Based on a reviewed ... roadmap" line, polls every 1 s for the first 10 s, and
+skips "Finding videos" for a roadmap that already has videos.
+
+**Measured (all with stubbed LLMs, nothing real was called; stub delay 3 s per call, wall time from POST to done):**
+
+| mode | career path | LLM calls | wall time |
+|---|---|---|---|
+| cached | Cybersecurity | 1 | 3.2 s |
+| cached | Frontend Development | 1 | 3.1 s |
+| full | Cybersecurity | 4 | 13.3 s |
+| full | Frontend Development | 7 | 24.5 s |
+
+These are stub delays, not real model times: the real figures depend on the model (the personalization is one small request, the full
+generation is one request per phase plus the planner). Prompt size of the personalizer, all 15 paths' outlines as the generator produces
+them with its fake LLM (short titles): at most 1,429 estimated tokens (chars / 3, with a worst-case 500-character escaped note); with
+140-character titles every path still stays under 3,000, and a synthetic 360-step roadmap fits by dropping step lists of the largest phases.
+Browser check on a stubbed server at 1400 px and 360 px, cached with and without personalization: no horizontal overflow, tags and notes
+shown only when present.
+
+**Issues faced:** with the Groq model every generation ended in the page's failed state (each phase prompt was rejected with a 413), which is what led to this change.
+During testing, a check of mine wrongly treated `True == 1` as a leak in the index list, and the personalizer's timeout cannot cancel the
+in-flight HTTP request (the worker thread is abandoned and ends when the request does). No other issue recorded.
+
+**Not covered / unverified:** no real base roadmap has been built yet (that is the next step, by hand: see DEV_SETUP, Base roadmaps), so the
+quality of a real gpt-oss-20b base and of a real personalization is unmeasured; the tests use the generator's fake LLM, so titles and step
+wording are synthetic. Jobs are still in process memory. `/roadmap/<id>/resources` still exists and, for a step with no `topic_refs`,
+would use YouTube if a key is set. A stale base is served, not blocked.
+
+**How verified:** `smoke_test_cached_roadmaps.py` (95 checks: loader, build script, personalizer, route, progress and switcher, timing,
+front-end source); the existing smoke tests still pass.
+
+---
+---
 ## Still To Build
 
 - Real-model check of parallel generation: run `scripts/inspect_roadmap.py` for a few

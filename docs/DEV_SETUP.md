@@ -95,6 +95,8 @@ three are needed to boot; the rest unlock features:
 | `LLM_REASONING_EFFORT` | `openai_compat` only: sent as `reasoning_effort` (`low`, `medium`, `high`) when set; empty sends nothing. `low` is accepted by the NVIDIA endpoint and cuts output about 5 times, but in one run it made the model mis-copy node ids; see the biography before enabling it for roadmap phases | empty |
 | `LLM_MAX_RPM` | `openai_compat` only: client-side requests per minute, shared by every thread (calls wait for a slot, they are never refused) | `30` |
 | `LLM_MAX_TPM` | `openai_compat` only: client-side tokens-per-minute budget (input + output tokens over a 60 s window; requests wait for room) for providers that publish no rate headers. `0` = off. Providers that send `x-ratelimit-remaining-tokens` / `x-ratelimit-reset-tokens` (Groq) are paced from those headers regardless: a request whose estimate (prompt characters / 3.5) exceeds the remaining tokens waits for the reset. A 429 waits `retry-after` or the token reset; a 413 (request larger than the per-minute limit) is never retried and raises `kind=too_large` | `0` |
+| `ROADMAP_MODE` | `cached` (default) or `full`. In `cached` mode `POST /roadmap/generate-async` serves the reviewed base roadmap in `data/base_roadmaps/` for the chosen path, personalized by one short LLM call, and finishes in seconds; a path with no valid base file falls back to the full generation. `full` always generates from scratch. Any other value counts as `cached`. The synchronous `/roadmap/generate` is never affected | `cached` |
+| `LLM_PERSONALIZE_TIMEOUT_S` | seconds the personalization call may take in total (retries included); after that the base roadmap is saved without personalization | `25` |
 | `ROADMAP_MODEL_ID`, `FAST_MODEL_ID`, `FALLBACK_MODEL_ID` | model per task (`roadmap` = each roadmap phase, `fast` = folder ordering and resume feedback, `fallback` = tried after a model fails). Empty with `gemini` = built-in Gemini models; required with `bedrock` | empty |
 | `ALT_PROVIDER_MODEL_ID` | model to use if the other provider has to take over after the first fails | empty |
 | `AWS_REGION` | Bedrock region. Credentials come from the environment (`AWS_BEARER_TOKEN_BEDROCK` or normal AWS credentials), never from code | empty |
@@ -211,6 +213,7 @@ For these tests run `pip install -r requirements-dev.txt` once (adds fpdf2).
 | `smoke_test_resume_modes.py` | resume modes: ranking unit checks (near-ties, thin-path labelling, insufficient data), `/resume/discover` and `/resume/<id>/analyze` happy paths, 404/400/401, CSRF, rate limits, stored skills reused, `/resume/upload` unchanged, required-skills lists identical to the pre-change snapshot (`scratch/golden/required_skills_before.json`) | no (feedback stubbed; local index and embeddings; needs `requirements-dev.txt` for fpdf2) |
 | `smoke_test_quiz.py` | career quiz: question-bank rules (1-3 paths per option, 6+ options per path, separating options for each pair), invariants (every path can be #1, every pair separable, stop rule within the bank), 30 seeded replays against `scratch/golden/quiz_after.json`, all-A/all-B personas; pure, no database | no |
 | `smoke_test_async_generation.py` | background generation: `/roadmap/generate-async` 202 and polling to done, progress fields, 409, ownership 404, fixed error codes with no exception text, own app context, daily cap, expiry, CSRF, sync route unchanged | no (generator stubbed) |
+| `smoke_test_cached_roadmaps.py` | cached base roadmaps: loader (valid, stale, corrupt, missing), the build script (dry run, resumable, no overwrite without `--force`, one failing path does not stop the others, environment override beats `.env`), the personalizer (bad indexes dropped, text clipped, overlap removed, injection stays escaped, failure is None, prompt under 3,000 estimated tokens for all 15 real outlines), the async route (cached with and without personalization, full fallback, `ROADMAP_MODE=full`, ownership, CSRF, cap, 409), progress and the switcher on a cached roadmap, a timing table written to `scratch/benchmark_cached.csv`; about 2 minutes | no (every LLM call stubbed, uses the local FAISS index) |
 | `smoke_test_llm.py` | `llm_client`: retry on throttling/5xx/timeouts, no retry on access-denied/validation, fallback model, provider switch, schema correction, no secrets or prompt text in errors or logs | no (fake Bedrock client, patched Gemini; hides real credentials and blocks real clients) |
 | `smoke_test_generator.py` | roadmap generator with a fake LLM: golden comparison for 3 paths, coverage/duplicate/index/allowlist/shape invariants at concurrency 1 and 3, thread hygiene, failure handling, duplicate rewrite, warm-up | no (fake LLM, local embeddings only; ~1.5 min, mostly model load) |
 | `smoke_test_profile_flow.py` | quiz then conversation then `CareerProfile` row; prints rather than counts | no |
@@ -279,16 +282,61 @@ roadmap numbers behind each row (local only).
 
 ### Background roadmap generation
 
-- `POST /roadmap/generate-async` (body `{target_career_path}`, CSRF header like every POST) returns 202 `{job_id}`; 409
+- `POST /roadmap/generate-async` (body `{target_career_path}`, CSRF header like every POST) returns 202 `{job_id, mode}` (`mode` is `cached` or `full`, see Base roadmaps below); 409
   `{error: "job_running", job_id}` if you already have an active job; 429 `daily_limit` and the path errors as for
   `/roadmap/generate` (which still exists, unchanged, and still blocks until the roadmap is saved).
-- `GET /roadmap/jobs/<job_id>` returns `{status, elapsed_s, phase_done?, phase_total?, roadmap_id?, error_code?}`; a job that is
+- `GET /roadmap/jobs/<job_id>` returns `{status, elapsed_s, mode, phase_done?, phase_total?, roadmap_id?, error_code?}` (a cached job reports 1 part); a job that is
   not yours, unknown or expired is 404. `status` is `queued`, `running`, `done` or `failed`; `error_code` is one of
   `generation_failed`, `save_failed`, `unexpected` (the real exception is in the server log only).
 - The roadmap page uses the async endpoints and keeps the job id in `sessionStorage`.
 - **Limitation:** jobs live in process memory (`app/pipeline/generation_jobs.py`): a restart loses running jobs, and with several
   worker processes a poll can reach a worker that does not know the job. Run one worker, or move the registry to the
   database or Redis first. A job and a synchronous generation from the same user can run at once.
+
+### Base roadmaps (cached mode)
+
+Writing a full roadmap per student takes minutes and the result barely depends on the student, so each career path now has ONE reviewed
+base roadmap, and a student gets a copy plus a short personalization (a summary, a note per phase, up to 8 "Focus" steps and up to 8
+"Can skim" steps) from one small LLM call. The personalization never adds or changes steps; if it fails the base is saved without it.
+
+- Files: `data/base_roadmaps/<slug>.json` (for example `cybersecurity.json`, `ui-ux-design.json`), **committed to git**. Each holds
+  `metadata` (career path, model, build time, generator settings, a fingerprint of the path's knowledge-base topic inventory), the
+  `roadmap` (phases and steps, with videos and resources already attached from the knowledge base) and the generator's `audit`.
+- Serving: `app/pipeline/base_roadmaps.py` validates a file before using it (phased shape, `global_step_index` contiguous from 1,
+  `topic_refs` inside the path's inventory, no duplicate titles, `videos` and `resources` on every step). A missing, corrupt or invalid
+  file counts as missing, so that path uses the full generation. If only the fingerprint no longer matches (the knowledge base changed) the
+  file is still served, a warning is logged, and the saved roadmap's `base.stale` is `true`; rebuild with `--force` when that happens.
+- What is stored on a cached roadmap: the usual `phases`, plus `personalization` (when it succeeded) and `base`
+  (`source`, `model_id`, `built_at`, `stale`) inside the `steps` JSON. Old roadmaps have neither, and the page renders them as before.
+
+Build them yourself (the script is a DRY RUN unless you add `--run`; nothing is called or written without it):
+
+```
+python scripts/build_base_roadmaps.py --paths "Cybersecurity"            # dry run: shows the provider, models, plan
+python scripts/build_base_roadmaps.py --paths "Cybersecurity" --run      # builds one path
+python scripts/build_base_roadmaps.py --all --run                        # every path that has no valid file yet
+python scripts/build_base_roadmaps.py --paths "DevOps" --run --force     # rebuild one that already exists
+python scripts/build_base_roadmaps.py --review-only                      # rewrite the review document only
+```
+
+- The script uses the existing generator with a neutral profile (no personal answers), attaches resources from the knowledge base only
+  (no network, no YouTube), validates, and writes atomically. Re-running it skips valid files, so an interrupted run resumes; a path that
+  fails is reported and the others continue (exit code 1 at the end). It prints the provider host and the models (never a key) first, and
+  turns off failover to a second provider for the run.
+- Provider and model come from the environment, and variables set before the command win over `.env`. PowerShell, NVIDIA `openai/gpt-oss-20b`
+  (the key is read from `NVIDIA_API_KEY` in `.env`, chosen by the host):
+
+```
+$env:LLM_PROVIDER="openai_compat"; $env:LLM_BASE_URL="https://integrate.api.nvidia.com/v1"
+$env:ROADMAP_MODEL_ID="openai/gpt-oss-20b"; $env:FAST_MODEL_ID="openai/gpt-oss-20b"; $env:FALLBACK_MODEL_ID="openai/gpt-oss-20b"
+python scripts/build_base_roadmaps.py --paths "Cybersecurity" --run
+python scripts/build_base_roadmaps.py --all --run
+```
+
+- Review: every run writes `docs/BASE_ROADMAP_REVIEW.md` with, for each path, every phase, every step title, and the descriptions of the
+  first two steps of each phase. Read it before committing the JSON files. It also shows the summary table columns per path: phases, steps,
+  discarded `topic_refs` (invented ids the generator dropped), duplicate warnings (phases rewritten / repeats kept), seconds and model.
+- The personalizer uses the `fast` model (`FAST_MODEL_ID`) at runtime, so that variable must point at a model the provider serves.
 
 ### CSRF: required for every new state-changing request
 
