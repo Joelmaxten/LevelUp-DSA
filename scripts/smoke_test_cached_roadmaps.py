@@ -170,7 +170,157 @@ def loader_checks(index, chunks):
               and subprocess.run(["git", "check-ignore", "-q", "data/base_roadmaps/x.json"]).returncode == 1)
 
 
-SECTIONS = []
+# ----------------------------------------------------------------------------- 2. build script
+
+SECRET_ENV_NAMES = ("NVIDIA_API_KEY", "GROQ_API_KEY", "LLM_API_KEY", "GEMINI_API_KEY", "YOUTUBE_API_KEY")
+
+
+def build_script_checks(index, chunks):
+    from scripts import build_base_roadmaps as bbr
+    second = "DevOps"
+    docs = {p: real_shaped_base(p, index, chunks) for p in (PATH, second)}
+    calls = []
+
+    def stub_generator(fail_for=()):
+        def generate(path, signals, idx, chnk, **kw):
+            calls.append((path, dict(signals)))
+            if path in fail_for:
+                raise ValueError("stub generator failure")
+            roadmap = copy.deepcopy(docs[path]["roadmap"])
+            for ph in roadmap["phases"]:       # the real generator output has no videos yet: the build step attaches them
+                for st in ph["steps"]:
+                    for key in ("videos", "resources", "resource"):
+                        st.pop(key, None)
+            return roadmap, copy.deepcopy(docs[path]["audit"])
+        return generate
+
+    def forbidden(*a, **k):
+        raise AssertionError("dry run called the generator")
+
+    def run_main(args, tmp, generator=None):
+        out, docs_file = tmp / "base", tmp / "review.md"
+        buffer, saved_env = io.StringIO(), dict(os.environ)
+        patches = [patch.object(bbr, "load_index", lambda p: (index, chunks)),
+                   patch.object(bbr, "generate_roadmap", generator or stub_generator()),
+                   patch.object(sys, "stdout", buffer)]
+        for p_ in patches:
+            p_.start()
+        try:
+            try:
+                code = bbr.main(args + ["--out-dir", str(out), "--docs-file", str(docs_file)])
+            except SystemExit as exc:          # argparse errors
+                code = exc.code
+        finally:
+            for p_ in reversed(patches):
+                p_.stop()
+            os.environ.clear()
+            os.environ.update(saved_env)
+        return code, buffer.getvalue(), out, docs_file
+
+    with tempfile.TemporaryDirectory() as tmp:
+        tmp = Path(tmp)
+        # dry run
+        calls.clear()
+        code, text, out, docs_file = run_main(["--paths", f"{PATH},{second}"], tmp, generator=forbidden)
+        secrets = [os.environ[n] for n in SECRET_ENV_NAMES if os.environ.get(n)]
+        check("build dry run (the default): returns 0, prints the plan, calls nothing and writes nothing (no files, no review document)",
+              code == 0 and "DRY RUN" in text and PATH in text and second in text and "build" in text and not out.exists() and not docs_file.exists())
+        check("build: the provider host and the models are printed before anything else, and no key value appears in the output",
+              text.index("provider:") < text.index("DRY RUN") and "host:" in text and "models: roadmap=" in text
+              and not any(secret in text for secret in secrets))
+        code, text, out, docs_file = run_main([], tmp)
+        check("build: no --paths/--all/--review-only is an argument error, not a build", code not in (0, None) and not out.exists())
+
+        # real run with the stubbed generator
+        calls.clear()
+        code, text, out, docs_file = run_main(["--paths", f"{PATH},{second}", "--run"], tmp)
+        built = {p: base_roadmaps.load_base(p, chunks, base_dir=out) for p in (PATH, second)}
+        check("build --run: both files written and valid with metadata; the NEUTRAL profile ({}) was passed to the generator",
+              code == 0 and all(built.values()) and [c[1] for c in calls] == [{}, {}]
+              and all(b["metadata"]["generator"]["profile"] == "neutral" and b["metadata"]["generator"]["resources"] == "kb_only" for b in built.values()))
+        steps = [s for ph in built[PATH]["roadmap"]["phases"] for s in ph["steps"]]
+        check("build --run: resources attached by the KB-only resolver (every step has videos and resources keys)",
+              all("videos" in s and "resources" in s for s in steps))
+        check("build --run: one summary row per path with phases, steps, discarded refs, duplicate warnings, seconds and model",
+              all(w in text for w in ("phases", "steps", "discarded_refs", "dups(rewritten/kept)", "seconds", "model")) and text.count(" built") >= 2)
+        review = docs_file.read_text(encoding="utf-8")
+        check("build --run: no leftover .tmp files; the review document lists the phases, step titles and first descriptions",
+              not list(out.glob("*.tmp")) and all(ph["title"] in review for ph in built[PATH]["roadmap"]["phases"])
+              and steps[0]["title"] in review and steps[0]["description"][:60] in review)
+        check("review document: paths not built yet are marked as such", "## Data Science" in review and "_Not built yet_" in review)
+
+        # resumable / no overwrite without --force
+        before = {p: base_roadmaps.path_for(p, out).read_bytes() for p in (PATH, second)}
+        calls.clear()
+        code, text, out, docs_file = run_main(["--paths", f"{PATH},{second}", "--run"], tmp)
+        check("build: resumable - a second run skips paths whose file exists and is valid (generator not called, files untouched)",
+              code == 0 and not calls and text.count("skipped") >= 2
+              and all(base_roadmaps.path_for(p, out).read_bytes() == before[p] for p in before))
+        calls.clear()
+        code, text, out, docs_file = run_main(["--paths", PATH, "--run", "--force"], tmp)
+        check("build: --force rebuilds only the requested path",
+              [c[0] for c in calls] == [PATH] and base_roadmaps.path_for(second, out).read_bytes() == before[second])
+        base_roadmaps.path_for(second, out).write_text("{ corrupt", encoding="utf-8")
+        calls.clear()
+        run_main(["--paths", second, "--run"], tmp)
+        check("build: an existing file that is invalid counts as missing and is rebuilt (no --force needed)",
+              [c[0] for c in calls] == [second] and base_roadmaps.load_base(second, chunks, base_dir=out) is not None)
+
+        # one path failing does not stop the others
+        calls.clear()
+        code, text, out, docs_file = run_main(["--paths", f"{PATH},{second}", "--run"], tmp / "fail", generator=stub_generator(fail_for=(PATH,)))
+        check("build: a failing path is reported as FAILED, the next path is still built, the exit code is 1",
+              code == 1 and "FAILED" in text and [c[0] for c in calls] == [PATH, second]
+              and base_roadmaps.load_base(second, chunks, base_dir=out) is not None and base_roadmaps.load_base(PATH, chunks, base_dir=out) is None)
+
+        def invalid_generator(path, signals, idx, chnk, **kw):
+            roadmap, audit = stub_generator()(path, signals, idx, chnk)
+            roadmap["phases"][0]["steps"][0]["topic_refs"] = ["not-in-inventory"]
+            return roadmap, audit
+        code, text, out, docs_file = run_main(["--paths", PATH, "--run"], tmp / "invalid", generator=invalid_generator)
+        check("build: a roadmap that fails the invariants is not written (FAILED, no file)",
+              code == 1 and "FAILED" in text and base_roadmaps.load_base(PATH, chunks, base_dir=out) is None)
+        code, text, out, docs_file = run_main(["--paths", "Nope"], tmp)
+        check("build: an unknown career path is refused with the valid list", code == 2 and "unknown career path" in text)
+
+        # the real generator with the fake LLM: discarded topic_refs and duplicate warnings are counted
+        def bogus_llm(task, prompt, system=None, schema=None, max_output_tokens=None, json_mode=False):
+            text = fake_reply(prompt)
+            if not prompt.startswith("You are planning the PHASE ORDER"):
+                steps = json.loads(text)
+                steps[0]["topic_refs"] = steps[0]["topic_refs"] + ["BOGUS-NODE-ID"]
+                text = json.dumps(steps)
+            return fake_llm_result(text)
+        saved_env = dict(os.environ)
+        try:
+            with patch.object(llm_client, "generate", bogus_llm), patch.object(bbr, "generate_roadmap", rg.generate_roadmap):
+                row = bbr.build_path(PATH, index, chunks, tmp / "real")
+        finally:
+            os.environ.clear()
+            os.environ.update(saved_env)
+        check("build: invented topic_refs are discarded by the generator and counted in the summary row; the file is still valid",
+              row["discarded_refs"] >= row["phases"] and base_roadmaps.load_base(PATH, chunks, base_dir=tmp / "real") is not None
+              and isinstance(row["dups_rewritten"], int) and isinstance(row["dups_kept"], int) and row["steps"] > 0)
+
+    # environment variables set before the command win over .env (a real subprocess, dry run: no calls)
+    names = ("LLM_PROVIDER", "LLM_BASE_URL", "ROADMAP_MODEL_ID", "FAST_MODEL_ID", "FALLBACK_MODEL_ID")
+    plain = {k: v for k, v in os.environ.items() if k not in names}
+    plain.update(HF_HUB_OFFLINE="1", PYTHONPATH=".")
+    env = {**plain, "LLM_PROVIDER": "openai_compat", "LLM_BASE_URL": "https://override.test/v1", "ROADMAP_MODEL_ID": "override-model-123",
+           "FAST_MODEL_ID": "override-fast", "FALLBACK_MODEL_ID": "override-fallback"}
+
+    def run(e):
+        return subprocess.run([sys.executable, "scripts/build_base_roadmaps.py", "--paths", PATH], env=e, capture_output=True, text=True, timeout=180)
+    over, without = run(env), run(plain)
+    check("build: environment variables set before the command win over .env (provider host and models printed from the override)",
+          over.returncode == 0 and "host: override.test" in over.stdout and "roadmap=override-model-123" in over.stdout
+          and "fast=override-fast" in over.stdout and "fallback=override-fallback" in over.stdout and "DRY RUN" in over.stdout)
+    check("build: without them the same script reads .env instead (so the override above really won), and no key value is printed",
+          without.returncode == 0 and "override.test" not in without.stdout and "override-model-123" not in without.stdout
+          and not any(os.environ.get(n) and os.environ[n] in (over.stdout + without.stdout) for n in SECRET_ENV_NAMES))
+
+
+SECTIONS = [build_script_checks]
 
 
 def run():
