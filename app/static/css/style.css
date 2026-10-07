@@ -245,50 +245,51 @@ h4 { font-weight: 700; font-size: 1.0625rem; }
 
 /* ---------- Header, nav, footer ---------- */
 
-.site-header { border-bottom: 1px solid var(--rule); }
+.site-header { background: var(--surface); border-bottom: 1px solid var(--rule); }
 
 .bar {
     max-width: calc(var(--sheet-w) + 2rem);
     margin: 0 auto;
-    padding: 0.75rem 1rem;
+    padding: var(--sp-2) var(--sp-4);
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 0.5rem 1.5rem;
+    gap: var(--sp-1) var(--sp-4);
 }
 
 .brand {
     display: inline-flex;
     align-items: center;
-    gap: 0.6rem;
+    gap: var(--sp-2);
+    min-height: var(--tap);
     margin-right: auto;
-    font-family: var(--font-display);
     font-weight: 800;
-    font-size: 1.1875rem;
+    font-size: var(--fs-lg);
+    letter-spacing: -0.01em;
     text-decoration: none;
 }
 .brand:hover { text-decoration: none; }
 .brand svg { display: block; }
 
-.site-nav { display: flex; align-items: center; flex-wrap: wrap; gap: 0.25rem 1.5rem; }
+.site-nav { display: flex; align-items: center; flex-wrap: wrap; gap: var(--sp-1); }
 
 .site-nav a,
 .site-nav .nav-btn {
-    padding: 0.5rem 0;
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap);
+    padding: 0 var(--sp-3);
+    border-radius: var(--r-pill);
     font: inherit;
-    font-weight: 500;
+    font-size: var(--fs-sm);
+    font-weight: 600;
     text-decoration: none;
     color: var(--ink);
 }
-.site-nav a:hover, .site-nav .nav-btn:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.3em; }
-.site-nav a[aria-current="page"] {
-    font-weight: 700;
-    text-decoration: underline;
-    text-decoration-thickness: 2px;
-    text-underline-offset: 0.35em;
-}
+.site-nav a:hover, .site-nav .nav-btn:hover { background: var(--tint); }
+.site-nav a[aria-current="page"] { background: var(--ink); color: var(--surface); }
 
-.nav-user { color: var(--pencil); font-size: 0.9375rem; }
+.nav-user { padding: 0 var(--sp-2); color: var(--pencil); font-size: var(--fs-sm); max-width: 9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .nav-btn { background: none; border: 0; cursor: pointer; }
 
 .nav-toggle { display: none; }
@@ -297,18 +298,19 @@ h4 { font-weight: 700; font-size: 1.0625rem; }
     .js .nav-many .nav-toggle {
         display: inline-flex;
         align-items: center;
-        min-height: 2.75rem;
-        padding: 0 1rem;
-        background: none;
+        min-height: var(--tap);
+        padding: 0 var(--sp-4);
+        background: var(--surface);
         color: var(--ink);
         border: 2px solid var(--ink);
-        border-radius: 2px;
-        font: 700 1rem var(--font-body);
+        border-radius: var(--r-pill);
+        font: 700 var(--fs-sm) var(--font-body);
         cursor: pointer;
     }
-    .js .nav-many .site-nav { display: none; flex-basis: 100%; flex-direction: column; align-items: flex-start; gap: 0; padding-bottom: 0.5rem; }
+    .js .nav-many .site-nav { display: none; flex-basis: 100%; flex-direction: column; align-items: stretch; gap: 0; padding-bottom: var(--sp-2); }
     .js .nav-many.open .site-nav { display: flex; }
-    .js .nav-many .site-nav a, .js .nav-many .site-nav .nav-btn, .js .nav-many .nav-user { padding: 0.65rem 0; }
+    .js .nav-many .site-nav a, .js .nav-many .site-nav .nav-btn { border-radius: var(--r-sm); }
+    .js .nav-many .nav-user { display: flex; align-items: center; min-height: var(--tap); padding: 0 var(--sp-3); max-width: none; }
 }
 
 @media (max-width: 29.99rem) {
@@ -318,10 +320,9 @@ h4 { font-weight: 700; font-size: 1.0625rem; }
 .site-footer {
     max-width: calc(var(--sheet-w) + 2rem);
     margin: 0 auto;
-    padding: 2rem 1rem 3rem;
-    border-top: 1px solid var(--rule);
+    padding: var(--sp-5) var(--sp-4) var(--sp-6);
     color: var(--pencil);
-    font-size: 0.9375rem;
+    font-size: var(--fs-xs);
 }
 
 /* ---------- 3. Components ---------- */

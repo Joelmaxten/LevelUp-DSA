@@ -7,20 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{% block title %}LevelUp DSA{% endblock %}</title>
 
-    {# Two families, each in its own request so one failing can't take the other down. Loaded
-       without blocking first paint (media="print" swap): on a slow connection the page shows
-       immediately in the fallback fonts and switches when they arrive. #}
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" media="print" onload="this.media='all'"
-          href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,600..900&display=swap">
-    <link rel="stylesheet" media="print" onload="this.media='all'"
-          href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400..800&display=swap">
-    <noscript>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,600..900&display=swap">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400..800&display=swap">
-    </noscript>
-
+    {# System font stack only: no web fonts are bundled, so none are requested. #}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <script>document.documentElement.classList.add("js");</script>
     {# Loaded synchronously in <head> so each page's inline script (which runs
@@ -54,11 +41,11 @@
                 {% if current_user.is_authenticated %}
                     {{ nav_link("/dashboard", "Dashboard") }}
                     {{ nav_link("/quiz", "Quiz") }}
-                    {{ nav_link("/conversation", "Your goals") }}
+                    {{ nav_link("/conversation", "Goals") }}
                     {{ nav_link("/roadmap", "Roadmap") }}
                     {{ nav_link("/resume", "Resume") }}
                     {{ nav_link("/dsa", "Skill map") }}
-                    <span class="nav-user">{{ current_user.name }}</span>
+                    <span class="nav-user" title="Signed in as {{ current_user.name }}">{{ current_user.name }}</span>
                     <button type="button" id="logout-btn" class="nav-btn">Log out</button>
                 {% else %}
                     {{ nav_link("/login", "Log in") }}
@@ -73,7 +60,7 @@
     </main>
 
     <footer class="site-footer">
-        <p>&copy; 2026 LevelUp DSA, Ballari Institute of Technology &amp; Management</p>
+        <p>&copy; 2026 LevelUp DSA &middot; Ballari Institute of Technology &amp; Management</p>
     </footer>
 
     <script>
