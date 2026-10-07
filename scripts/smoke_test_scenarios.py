@@ -118,7 +118,98 @@ def test_validator():
               all(name in run.stdout for name in ("good.json", "bad.json", "garbage.json")))
 
 
-SECTIONS = [test_validator]
+# ---------------------------------------------------------------- part 2: blind-solve checker
+KEY_FIELDS = ("correct", "explanation", "why_others_wrong", "key_justification")
+
+
+def test_blind_solve():
+    from scripts import blind_solve_scenarios as bs
+
+    data = load_pilot()
+    # 1. Real fields: no key field's text may appear in any prompt.
+    prompts = [bs.build_prompt(s, seed) for s in data["scenarios"] for seed in (0, 1)]
+    leaked = []
+    for s in data["scenarios"]:
+        for q in s["questions"]:
+            texts = [q["explanation"], q["key_justification"]] + list(q["why_others_wrong"].values())
+            for t in texts:
+                if any(t in p for p in prompts):
+                    leaked.append((q["id"], t[:40]))
+    check("blind prompts contain no explanation, why_others_wrong or key_justification text", not leaked)
+
+    # 2. Sentinels planted in every key field (and an unknown extra field) must never reach a prompt.
+    marked = load_pilot()
+    for s in marked["scenarios"]:
+        for q in s["questions"]:
+            q["explanation"] = "SENTINEL_EXPLANATION"
+            q["key_justification"] = "SENTINEL_JUSTIFICATION"
+            q["why_others_wrong"] = {"common_mistake": "SENTINEL_WRONG"}
+            q["future_answer_field"] = "SENTINEL_FUTURE"
+            q["correct"] = "SENTINEL_CORRECT"
+    all_prompts = "\n".join(bs.build_prompt(s) for s in marked["scenarios"])
+    check("no sentinel key text appears in any prompt", "SENTINEL" not in all_prompts)
+    view = json.dumps([bs.build_blind_view(s) for s in marked["scenarios"]])
+    check("blind view has no key field names", not any(f'"{f}"' in view for f in KEY_FIELDS + ("points",)))
+
+    # 3. Solving with a stub: a perfect stub agrees on everything; one wrong answer is reported.
+    calls = []
+
+    def stub_factory(wrong_for=None, fail_first_for=None):
+        def generate(task, prompt, system=None, schema=None, **kw):
+            calls.append((task, prompt))
+            scen = next(s for s in data["scenarios"] if s["title"] in prompt)
+            if fail_first_for == scen["id"] and sum(1 for _, p in calls if scen["title"] in p) == 1:
+                raise RuntimeError("stub outage")
+            answers = []
+            for q in scen["questions"]:
+                if q["type"] == "match":
+                    mapping = dict(q["correct"])
+                    if wrong_for == q["id"]:
+                        a, b = list(mapping)[:2]
+                        mapping[a], mapping[b] = mapping[b], mapping[a]
+                    answers.append({"question_id": q["id"], "mapping": [{"item_id": i, "target_id": t} for i, t in mapping.items()]})
+                else:
+                    sel = list(q["correct"])
+                    if wrong_for == q["id"]:
+                        sel = sel[::-1] if q["type"] == "order" else [o["id"] for o in q["options"] if o["id"] not in sel][:len(sel)]
+                    answers.append({"question_id": q["id"], "selected": sel})
+            return {"parsed": {"answers": answers}}
+        return generate
+
+    res = {s["id"]: bs.solve_scenario(s, stub_factory()) for s in data["scenarios"]}
+    report = bs.build_report(data["path"], data, res)
+    check("perfect stub: 22 questions, 0 disagreements", "| **Total** | **22** | **22** | **0** |" in report and "No disagreements" in report)
+    check("every stubbed call used task 'roadmap'", all(t == "roadmap" for t, _ in calls))
+    check("no stubbed prompt contained a key text", not any("SENTINEL" in p for _, p in calls))
+
+    for qid in ("mle-1-q1", "mle-1-q4", "mle-3-q4", "mle-1-q3"):
+        scen = next(s for s in data["scenarios"] if qid.startswith(s["id"] + "-"))
+        r = bs.solve_scenario(scen, stub_factory(wrong_for=qid))
+        rep = bs.build_report(data["path"], {"scenarios": [scen]}, {scen["id"]: r})
+        q = q_of(data, qid)
+        check(f"disagreement on {qid} is listed with question, both answers and key_justification",
+              f"### {qid}" in rep and q["prompt"] in rep and "**Key answer:**" in rep and "**Model answer:**" in rep
+              and q["key_justification"] in rep)
+
+    calls.clear()
+    r = bs.solve_scenario(data["scenarios"][1], stub_factory(fail_first_for="mle-2"))
+    check("a failed scenario is retried alone (2 calls for that scenario, none for others)",
+          r["error"] is None and r["attempts"] == 2 and len(calls) == 2)
+    r = bs.solve_scenario(data["scenarios"][1], lambda **kw: (_ for _ in ()).throw(RuntimeError("down")), retries=1)
+    check("a scenario that keeps failing is reported, not raised", r["error"] is not None and r["attempts"] == 2)
+
+    # 4. Dry run by default: no import of llm_client, no call, no file written.
+    docs_before = sorted(p.name for p in Path("docs").glob("SCENARIO_REVIEW_*"))
+    run = subprocess.run([sys.executable, "scripts/blind_solve_scenarios.py"], capture_output=True, text=True,
+                         env={**__import__("os").environ, "PYTHONPATH": "."})
+    check("dry run prints the plan and says no call was made", run.returncode == 0 and "DRY RUN" in run.stdout and "mle-5" in run.stdout)
+    check("dry run writes no review file", docs_before == sorted(p.name for p in Path("docs").glob("SCENARIO_REVIEW_*")))
+    run = subprocess.run([sys.executable, "scripts/blind_solve_scenarios.py", "--run"], capture_output=True, text=True,
+                         env={**__import__("os").environ, "PYTHONPATH": "."})
+    check("--run without --paths refuses (no call)", run.returncode == 2)
+
+
+SECTIONS = [test_validator, test_blind_solve]
 
 
 def main():
