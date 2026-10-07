@@ -614,24 +614,23 @@ h4 { font-weight: 700; font-size: 1.0625rem; }
     cursor: pointer;
 }
 
-/* A note box drawn on real ruled lines: the lines are the same height as the text. */
+/* The free-text note on the goals page. */
 .notes-input {
     display: block;
     width: 100%;
-    min-height: 10.5rem;
-    padding: 0;
-    background: repeating-linear-gradient(to bottom, transparent 0, transparent calc(1.75rem - 1px), var(--rule) calc(1.75rem - 1px), var(--rule) 1.75rem) local;
+    min-height: 8rem;
+    padding: var(--sp-3);
+    background: var(--surface);
     color: var(--ink);
-    border: 0;
-    border-bottom: 2px solid var(--line);
-    border-radius: 0;
+    border: 2px solid var(--line);
+    border-radius: var(--r-sm);
     font: inherit;
-    font-size: 1.0625rem;
-    line-height: 1.75rem;
+    font-size: var(--fs-md);
     resize: vertical;
 }
 .notes-input::placeholder { color: var(--pencil); opacity: 1; }
-.notes-input:focus-visible { border-bottom-color: var(--ink); }
+.notes-input:hover { border-color: var(--ink); }
+.notes-input:focus-visible { border-color: var(--ink); outline-offset: 1px; }
 
 .count-row { margin-top: 0.4rem; text-align: right; }
 .count { font-size: 0.9375rem; color: var(--pencil); }
@@ -691,7 +690,7 @@ h4 { font-weight: 700; font-size: 1.0625rem; }
 .opt-list { display: grid; gap: var(--sp-3); }
 .opt-card {
     display: grid;
-    grid-template-columns: 2.25rem minmax(0, 1fr);
+    grid-template-columns: auto minmax(0, 1fr);
     gap: var(--sp-3);
     align-items: center;
     min-height: 3.5rem;
@@ -718,6 +717,8 @@ h4 { font-weight: 700; font-size: 1.0625rem; }
 .opt-card:has(input:focus-visible) { outline: 3px solid var(--ink); outline-offset: 3px; }
 .opt-card:has(input:disabled) { cursor: default; }
 
+.opt-pct { width: auto; min-width: 3rem; padding: 0 var(--sp-2); border-radius: var(--r-pill); font-size: var(--fs-sm); }
+.picker .disclosure { border-top: 0; }
 .kbd-hint { font-size: var(--fs-xs); color: var(--pencil); }
 @media (hover: none) { .kbd-hint { display: none; } }
 
@@ -729,63 +730,6 @@ h4 { font-weight: 700; font-size: 1.0625rem; }
 .hero-match > .stack-sm { flex: 1 1 14rem; min-width: 0; }
 .hero-name { font-size: var(--fs-2xl); line-height: 1.05; overflow-wrap: anywhere; }
 .see-all .merit { margin-top: var(--sp-1); }
-
-/* ---------- Quiz + conversation options: OMR bubbles ---------- */
-
-.question {
-    font-size: clamp(1.5rem, 1.1rem + 1.8vw, 2.25rem);
-    line-height: 1.15;
-    margin-bottom: 2rem;
-}
-
-.question-tight { margin-bottom: 0.5rem; }
-.question-hint { margin-bottom: 1.25rem; }
-
-.options { border-bottom: 1px solid var(--rule); }
-
-/* Each answer is a real radio button (visually hidden but still focusable) inside a label, so arrow keys,
-   screen readers, and clicking anywhere on the row all work. Choosing one only marks it; Next moves on. */
-.option {
-    display: grid;
-    grid-template-columns: 2.5rem minmax(0, 1fr);
-    gap: 1rem;
-    align-items: start;
-    min-height: 3.5rem;
-    padding: 1rem 0;
-    border-top: 1px solid var(--rule);
-    cursor: pointer;
-}
-
-.bubble {
-    display: grid;
-    place-items: center;
-    width: 2.25rem; height: 2.25rem;
-    border: 2px solid var(--ink);
-    border-radius: 50%;
-    font-family: var(--font-display);
-    font-weight: 800;
-    font-size: 0.9375rem;
-    transition: background-color 0.15s, color 0.15s;
-}
-.option-text { padding-top: 0.2rem; }
-
-.option:hover .bubble { background: rgba(21, 28, 79, 0.14); }
-.option input:checked + .bubble { background: var(--ink); color: var(--paper); }
-.option input:checked ~ .option-text { font-weight: 700; }
-.option input:focus-visible + .bubble { outline: 3px solid var(--ink); outline-offset: 3px; }
-
-/* Previous / Next under the answers. Next stays disabled until an answer is chosen. */
-.choose-hint { margin-top: 1rem; }
-.qnav {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem 1.5rem;
-    margin-top: 1.75rem;
-}
-.qnav-end { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 1.5rem; }
-.qnav .btn { min-width: 8.5rem; }
 
 /* ---------- Career results ---------- */
 
@@ -1016,18 +960,6 @@ h4 { font-weight: 700; font-size: 1.0625rem; }
 
 /* ---------- Laptop layouts (1024px and up) ---------- */
 
-/* Quiz + goals: the question stays put on the left while you read the answers on the right. */
-.fine-print { margin-top: 2.5rem; }   /* used by the DSA page */
-.qa-q .question { margin-bottom: 2rem; }
-.qa-q .question-hint { margin-bottom: 0; }
-.qa-a { margin-top: 0; }
-@media (min-width: 64rem) {
-    .qa { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 4rem; align-items: start; }
-    .qa-q { position: sticky; top: 2rem; }
-    .qa-q .question { font-size: clamp(1.75rem, 0.9rem + 1.9vw, 2.75rem); margin-bottom: 1rem; }
-    .qa-q .question-tight { margin-bottom: 0.75rem; }
-}
-
 /* Career results, dashboard. */
 @media (min-width: 64rem) {
     .recap-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem 4rem; }
@@ -1155,13 +1087,6 @@ h4 { font-weight: 700; font-size: 1.0625rem; }
     .ask-grid .field { margin-top: 0; }
     .ask-grid .actions { margin-top: 1.5rem; }
 }
-
-/* Quiz-match radio cards (careerPathPicker's self-fetching mode): reuses
-   .options/.option/.bubble (the quiz/conversation answer-row look) - only
-   the bubble needs to widen from a single letter into a short percentage. */
-.path-matches { margin-top: 0.75rem; }
-.path-match-pct { width: auto; min-width: 2.25rem; padding: 0 0.5rem; border-radius: 999px; font-size: 0.8125rem; }
-.path-match-other { margin-top: 1.25rem; }
 
 /* "Your roadmaps" switcher (roadmap.html) - a plain link per roadmap, the
    current one marked instead of linked. */

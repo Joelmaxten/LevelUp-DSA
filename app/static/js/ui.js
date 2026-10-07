@@ -334,26 +334,23 @@ function _legacyCareerPathPicker({ options, message, lead, submitText, preselect
     });
 }
 
-// One quiz-match radio card: career path name + confidence %, reusing the
-// same .options/.option/.bubble pattern questionForm() uses for quiz/
-// conversation answers (.path-match-pct widens the bubble from a single
-// letter into a short percentage pill - see style.css).
+// One quiz-match card: career path name + confidence %, the same large option card the quiz uses
+// (the % takes the place of the 1-4 key).
 function _pathMatchCard(match, name, checked, onPick) {
     const safeId = `path-match-${match.career_path.replace(/[^A-Za-z0-9]+/g, "-")}`;
     const input = el("input", { type: "radio", name, id: safeId, className: "visually-hidden" });
     input.checked = checked;
     input.addEventListener("change", () => onPick(match.career_path));
-    return el("label", { className: "option", for: safeId },
+    return el("label", { className: "opt-card", for: safeId },
         input,
-        el("span", { className: "bubble path-match-pct", text: `${Math.round(match.confidence_pct)}%` }),
-        el("span", { className: "option-text", text: match.career_path })
+        el("span", { className: "opt-key opt-pct", text: `${Math.round(match.confidence_pct)}%` }),
+        el("span", { className: "opt-text", text: match.career_path })
     );
 }
 
-// The new, self-fetching picker: top quiz matches (if any) as radio cards,
-// then a "choose a different path" <select> of all 15. Preselects only
-// when the API itself says to (an unambiguous single top match) - never
-// from a remembered previous choice, unlike the legacy picker.
+// The new, self-fetching picker, as cards: top quiz matches (if any) as option cards, and a
+// "choose another path" <select> of all 15. Preselects only when the API itself says to (an
+// unambiguous single top match) - never from a remembered previous choice, unlike the legacy picker.
 function _fullCareerPathPicker({ has_profile, top_matches, preselect, all_paths, lead, submitText, onSubmit }) {
     const RADIO_NAME = "career-path-match";
     const hasMatches = has_profile && top_matches.length > 0;
@@ -371,7 +368,7 @@ function _fullCareerPathPicker({ has_profile, top_matches, preselect, all_paths,
     const submit = el("button", { className: "btn", type: "button", text: submitText });
     const sync = () => { submit.disabled = !chosen; };
 
-    const radioGroup = el("div", { className: "options path-matches", role: "radiogroup", "aria-label": "Your quiz matches" });
+    const radioGroup = el("div", { className: "opt-list", role: "radiogroup", "aria-label": "Your quiz matches" });
     if (hasMatches) {
         top_matches.forEach((match) => {
             radioGroup.append(_pathMatchCard(match, RADIO_NAME, match.career_path === preselect, (path) => {
@@ -394,28 +391,23 @@ function _fullCareerPathPicker({ has_profile, top_matches, preselect, all_paths,
     submit.addEventListener("click", () => { if (chosen) onSubmit(chosen); });
     sync();
 
-    const choiceUi = el("div", {});
+    const selectField = el("div", { className: "field" }, el("label", { for: "career-path-select", text: hasMatches ? "Another path" : "Career path" }), select);
+    const card = el("div", { className: "card card-pad stack picker", role: "group", "aria-labelledby": "career-path-heading" },
+        el("h2", { className: "h2", id: "career-path-heading", text: hasMatches ? "Pick a path" : "Which path?" }),
+        lead ? el("span", { className: "chip chip-line", text: lead }) : ""
+    );
     if (hasMatches) {
-        choiceUi.append(
-            el("h3", { className: "block-title", text: "Your quiz matches" }),
-            radioGroup,
-            el("div", { className: "field path-match-other" },
-                el("label", { for: "career-path-select", text: "Or choose a different path" }),
-                select
-            )
-        );
+        const other = el("details", { className: "disclosure" }, el("summary", { text: "Choose another path" }), selectField);
+        other.open = select.value !== "";   // a preselected path that isn't one of the matches: show it
+        card.append(radioGroup, other);
     } else {
-        choiceUi.append(el("div", { className: "field" }, el("label", { for: "career-path-select", text: "Career path" }), select));
+        card.append(selectField);
     }
-
-    return careerPathPickerFrame({
-        lead,
-        message: has_profile
-            ? "Pick the career path you're generating this for."
-            : "You haven't taken the career quiz, so tell us where you're headed and we'll measure against that.",
-        choiceUi,
-        submit,
-    });
+    card.append(
+        el("div", { className: "actions" }, submit),
+        disclosure("How this works", el("p", { text: "This choice applies to this one request. It doesn't change your quiz results." }))
+    );
+    return card;
 }
 
 // A row asking which career path to use. onSubmit(path) runs when the user confirms.
@@ -439,16 +431,19 @@ function careerPathPicker({ options, message, lead, submitText, preselected, onS
     }
 
     const container = el("div", {});
-    container.append(row([], working("Loading career paths...")));
-    getJson("/career/options").then((result) => {
-        if (!result.ok) {
-            container.replaceChildren(row([], el("div", { className: "msg msg-error", role: "alert" },
-                el("p", { text: "Couldn't load career paths. Please try again." })
-            )));
-            return;
-        }
-        container.replaceChildren(_fullCareerPathPicker({ ...result.data, lead, submitText, onSubmit }));
-    });
+    const load = () => {
+        container.replaceChildren(el("div", { className: "card card-pad" }, skeleton("Loading career paths", 2)));
+        getJson("/career/options").then((result) => {
+            if (!result.ok) {
+                const again = el("button", { className: "btn", type: "button", text: "Try again" });
+                again.addEventListener("click", load);
+                container.replaceChildren(alertEl("Couldn't load career paths.", "error", again));
+                return;
+            }
+            container.replaceChildren(_fullCareerPathPicker({ ...result.data, lead, submitText, onSubmit }));
+        });
+    };
+    load();
     return container;
 }
 
