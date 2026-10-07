@@ -172,49 +172,47 @@ function isSafeUrl(url) {
     return typeof url === "string" && /^https:\/\//i.test(url);
 }
 
-// Small chip list for a step's subtopics - plain text only, no links.
+// Chip list for a step's subtopics - plain text only, no links.
 function subtopicChips(subtopics) {
     if (!subtopics || !subtopics.length) return "";
     return el("ul", { className: "chips step-subtopics" }, ...subtopics.map((s) => el("li", { className: "chip", text: s })));
 }
 
-// Up to 4 video links, shown directly (not collapsed) - a "search result" tag
-// marks a youtube_search-sourced video; a roadmap.sh-sourced one gets no tag,
-// since that's the common/expected case and doesn't need calling out.
+// One video as a compact row: play icon, title, and a "search result" chip for a youtube_search-sourced
+// video (a roadmap.sh-sourced one gets no chip, since that's the common case and doesn't need calling out).
+function videoRow(video) {
+    const label = video.title || video.url || "Video";
+    const kids = [icon("play"), el("span", { className: "vrow-title", text: label })];
+    if (video.source === "youtube_search") kids.push(el("span", { className: "chip chip-line tag-search", text: "search result" }));
+    if (isSafeUrl(video.url)) {
+        kids.push(el("span", { className: "visually-hidden", text: "(opens in a new tab)" }));
+        return el("a", { className: "watch vrow", href: video.url, target: "_blank", rel: "noopener noreferrer", title: label }, ...kids);
+    }
+    return el("span", { className: "watch vrow", title: label }, ...kids);
+}
+
+// Up to 4 video links, shown directly (not collapsed).
 function videosBlock(videos) {
     if (!videos || !videos.length) {
-        return el("p", { className: "note", text: "No videos found for this step." });
+        return el("p", { className: "muted", text: "No videos found." });
     }
-    return el("ul", { className: "watch-list" }, ...videos.slice(0, 4).map((v) => {
-        const items = [];
-        if (isSafeUrl(v.url)) {
-            items.push(el("a", { className: "watch", href: v.url, target: "_blank", rel: "noopener noreferrer" },
-                icon("play"),
-                el("span", { text: v.title || v.url }),
-                el("span", { className: "visually-hidden", text: "(opens in a new tab)" })
-            ));
-        } else {
-            items.push(el("span", { className: "watch", text: v.title || "Video" }));
-        }
-        if (v.source === "youtube_search") items.push(el("span", { className: "tag tag-search", text: "search result" }));
-        return el("li", { className: "watch-item" }, ...items);
-    }));
+    return el("ul", { className: "watch-list" }, ...videos.slice(0, 4).map((v) => el("li", {}, videoRow(v))));
 }
 
 // A project's grounded flag says whether it came from roadmap.sh's own
 // curated project material (true) or is the model's own suggestion (false) -
-// see roadmap_generator.py's _project_instructions.
+// see roadmap_generator.py's _project_instructions. Collapsed by default.
 function projectsBlock(projects) {
     if (!projects || !projects.length) return "";
-    return el("div", { className: "step-projects" },
-        el("p", { className: "note", text: "Projects" }),
+    return el("details", { className: "disclosure step-projects" },
+        el("summary", { text: `Projects (${projects.length})` }),
         el("ul", { className: "projects" }, ...projects.map((p) => el("li", { className: "project" },
             el("p", { className: "project-title", text: p.title || "" }),
             p.description ? el("p", { className: "project-desc", text: p.description }) : "",
-            el("div", { className: "project-badges" },
-                p.difficulty ? el("span", { className: "badge badge-difficulty", text: p.difficulty }) : "",
+            el("div", { className: "chips" },
+                p.difficulty ? el("span", { className: "chip chip-line", text: p.difficulty }) : "",
                 el("span", {
-                    className: `badge ${p.grounded ? "badge-grounded" : "badge-suggested"}`,
+                    className: `chip ${p.grounded ? "chip-ink" : "chip-mark"}`,
                     text: p.grounded ? "from roadmap.sh" : "suggested",
                 })
             )
@@ -225,18 +223,16 @@ function projectsBlock(projects) {
 // Collapsed by default. A type label (official/course) sits on each link.
 function resourcesDetails(resources) {
     if (!resources || !resources.length) return "";
-    const details = el("details", { className: "step-resources" });
-    details.append(
+    return el("details", { className: "disclosure step-resources" },
         el("summary", { text: `Docs and courses (${resources.length})` }),
         el("ul", { className: "resource-list" }, ...resources.map((r) => {
-            const linkContent = [el("span", { className: "tag tag-type", text: r.type || "" })];
+            const linkContent = [el("span", { className: "chip chip-line tag-type", text: r.type || "" })];
             linkContent.push(isSafeUrl(r.url)
                 ? el("a", { href: r.url, target: "_blank", rel: "noopener noreferrer", text: r.title || r.url })
                 : el("span", { text: r.title || "Resource" }));
             return el("li", { className: "resource-item" }, ...linkContent);
         }))
     );
-    return details;
 }
 
 // Collapsed by default, and its list is built lazily on the FIRST toggle-open
@@ -245,7 +241,7 @@ function resourcesDetails(resources) {
 // DOM for every step up front.
 function moreTopicsDetails(moreTopics) {
     if (!moreTopics || !moreTopics.length) return "";
-    const details = el("details", { className: "step-more-topics" });
+    const details = el("details", { className: "disclosure step-more-topics" });
     const body = el("div", { className: "more-topics-body" });
     let built = false;
     details.addEventListener("toggle", () => {
@@ -254,7 +250,7 @@ function moreTopicsDetails(moreTopics) {
         body.append(el("ul", { className: "topic-list" }, ...moreTopics.map((t) => el("li", { text: t.title }))));
     });
     details.append(
-        el("summary", { text: `Also covered in this step (${moreTopics.length} topic${moreTopics.length === 1 ? "" : "s"})` }),
+        el("summary", { text: `Also covered (${moreTopics.length})` }),
         body
     );
     return details;
@@ -274,25 +270,23 @@ function computeStepIndexes(steps) {
     return flatSteps.map((step, i) => step.global_step_index ?? step.step_number ?? i + 1);
 }
 
-// A tiny stateful progress bar: label + thin fill, rewritten in place by
+// A tiny stateful progress bar: label + thin bar, rewritten in place by
 // update(done, total) rather than rebuilt by the caller each time - used
-// for the overall bar, each phase's compact bar, and the dashboard's
-// read-only summary bar. formatText(done, total, pct) returns the label.
+// for each phase's compact bar and the dashboard's read-only bars.
+// formatText(done, total, pct) returns the label.
 function makeProgressBar(formatText) {
     const container = el("div", { className: "progress-bar-block" });
     function update(done, total) {
         const pct = total > 0 ? Math.round((done / total) * 100) : 0;
-        const fill = el("span", { className: "progress-bar-fill" });
-        fill.style.width = `${pct}%`;
         container.replaceChildren(
-            el("p", { className: "note progress-bar-label", text: formatText(done, total, pct) }),
-            el("div", { className: "progress-bar", role: "img", "aria-label": formatText(done, total, pct) }, fill)
+            el("p", { className: "muted progress-bar-label", text: formatText(done, total, pct) }),
+            pbar(pct, formatText(done, total, pct))
         );
     }
     return [container, update];
 }
 
-// Fills an already-rendered step's empty .step-check placeholder with a
+// Fills an already-rendered step's .step-check placeholder with a
 // real checkbox + visually-hidden label + inline error slot, and wires its
 // optimistic-update / revert-on-failure behavior. stepProgress:
 // {roadmapId, completed: Set, onToggle, stepIndex, refreshBars} - the
@@ -306,7 +300,10 @@ function wireStepCheckbox(checkSlot, stepProgress, liEl) {
     const checkboxId = `step-check-${roadmapId}-${stepIndex}`;
     const checkbox = el("input", { type: "checkbox", id: checkboxId });
     checkbox.checked = completed.has(stepIndex);
-    const label = el("label", { className: "visually-hidden", for: checkboxId, text: `Mark step ${stepIndex} done` });
+    const label = el("label", { className: "step-check-box", for: checkboxId },
+        checkbox,
+        el("span", { className: "visually-hidden", text: `Mark step ${stepIndex} done` })
+    );
     const error = el("p", { className: "step-check-error", role: "alert" });
     error.hidden = true;
 
@@ -338,109 +335,106 @@ function wireStepCheckbox(checkSlot, stepProgress, liEl) {
         // says, not just the optimistic guess.
         liEl.classList.toggle("step-done", completed.has(stepIndex));
         stepProgress.refreshBars();
+        if (!ok) checkbox.focus();
     });
 
-    checkSlot.append(checkbox, label, error);
+    checkSlot.append(label, error);
+}
+
+// A step's description, two lines of it, with "More" / "Less" when there is more to read.
+function stepDescription(text) {
+    const desc = el("p", { className: "step-desc clamp-2", text: text || "" });
+    if (!text || text.length < 140) return desc;
+    const toggle = el("button", { className: "btn-link", type: "button", text: "More", "aria-expanded": "false" });
+    toggle.addEventListener("click", () => {
+        const open = desc.classList.toggle("clamp-2") === false;
+        toggle.textContent = open ? "Less" : "More";
+        toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+    return el("div", { className: "step-desc-wrap" }, desc, toggle);
 }
 
 // videosPending: a "Finding videos" placeholder is shown for steps that don't have a
 // video result yet (only ever true for the CURRENT shape - see fetchVideos in
 // roadmap.html; an old flat roadmap loaded from /roadmap/latest is never "pending").
 // isFirstOverall: true only for the very first step of the whole roadmap (gets the
-// "Start here" marker) - not just the first step of whichever phase/list is being
+// "Start here" chip) - not just the first step of whichever phase/list is being
 // built, so a phased roadmap only marks one true starting point.
 // displayIndex: this step's position within whatever list is currently being built -
-// only used as the step-num fallback for an older roadmap that predates
+// only used as the step number fallback for an older roadmap that predates
 // global_step_index.
 // stepProgress: optional {roadmapId, completed, onToggle, stepIndex, refreshBars} -
 // see roadmapStepList, which builds this per-step and is the only caller that
 // ever passes it. Absent (undefined) entirely when the caller (dashboard,
-// or roadmap.html before progress data is ready) didn't ask for progress
-// tracking - the step then renders exactly as it did before this task,
-// .step-check staying an empty placeholder.
-// The step number sits on the margin rule, which is what turns the rule into a route.
+// or the preview script) didn't ask for progress tracking - the step then
+// renders without a checkbox.
 //
 // Renders only the fields a step actually has: an old flat-roadmap step (just
-// step_number/title/description, maybe "resource") shows exactly what it did
-// before this task; subtopics/projects/resources/more_topics simply don't
-// appear when absent, and "videos" (new, up to 4 links) is preferred over the
-// legacy single "resource" link when both would otherwise apply.
+// step_number/title/description, maybe "resource") shows title, text and the video;
+// subtopics/projects/resources/more_topics simply don't appear when absent, and
+// "videos" (new, up to 4 links) is preferred over the legacy single "resource" link.
 //
-// tag: optional "focus" | "skim" (a personalized cached roadmap marks some steps; see personalizationOf) - a small
-// label above the title. Absent for every older roadmap, which then renders exactly as before.
+// tag: optional "focus" | "skim" (a personalized cached roadmap marks some steps; see personalizationOf) - a chip
+// above the title. Absent for every older roadmap, which then renders as before.
 function roadmapStep(step, displayIndex, videosPending, isFirstOverall, stepProgress, tag) {
-    const text = el("div", { className: "step-text" });
-    if (isFirstOverall) text.append(el("p", { className: "start-here" }, el("span", { className: "mark", text: "Start here" })));
-    if (tag === "focus") text.append(el("p", { className: "step-tag step-tag-focus", text: "Focus" }));
-    if (tag === "skim") text.append(el("p", { className: "step-tag step-tag-skim", text: "Can skim" }));
-    text.append(
-        el("h3", { className: "step-title" },
+    const number = String(step.global_step_index ?? step.step_number ?? displayIndex + 1);
+    const chips = el("div", { className: "step-chips" }, el("span", { className: "chip chip-line step-num", text: `Step ${number}` }));
+    if (isFirstOverall) chips.append(el("span", { className: "chip chip-mark start-here", text: "Start here" }));
+    if (tag === "focus") chips.append(el("span", { className: "chip chip-ink step-tag-focus", text: "Focus" }));
+    if (tag === "skim") chips.append(el("span", { className: "chip chip-line step-tag-skim", text: "Can skim" }));
+
+    const body = el("div", { className: "step-body" },
+        chips,
+        el("h3", { className: "step-title", tabindex: "-1" },
             el("span", { className: "step-done-mark", "aria-hidden": "true" }, icon("tick")),
             el("span", { text: step.title || `Step ${displayIndex + 1}` })
         ),
-        el("p", { className: "step-desc", text: step.description || "" }),
-        subtopicChips(step.subtopics),
-        projectsBlock(step.projects)
+        stepDescription(step.description),
+        subtopicChips(step.subtopics)
     );
 
-    const aside = el("div", { className: "step-aside" });
+    const extra = el("div", { className: "step-extra" });
     if ("videos" in step) {
-        aside.append(
-            el("p", { className: "note", text: "Videos for this step" }),
-            videosBlock(step.videos),
-            resourcesDetails(step.resources),
-            moreTopicsDetails(step.more_topics)
-        );
+        extra.append(videosBlock(step.videos), projectsBlock(step.projects), resourcesDetails(step.resources), moreTopicsDetails(step.more_topics));
     } else if ("resource" in step) {
-        // Legacy single-video shape (predates "videos") - same markup this
-        // page has always rendered for it.
+        // Legacy single-video shape (predates "videos").
         if (step.resource && isSafeUrl(step.resource.url)) {
-            aside.append(
-                el("p", { className: "note", text: "Video for this step" }),
-                el("a", {
-                    className: "watch",
-                    href: step.resource.url,
-                    target: "_blank",
-                    rel: "noopener noreferrer",
-                }, icon("play"), el("span", { text: step.resource.title || step.resource.url }), el("span", { className: "visually-hidden", text: "(opens in a new tab)" }))
-            );
+            extra.append(el("ul", { className: "watch-list" }, el("li", {}, videoRow(step.resource))));
         } else {
-            aside.append(el("p", { className: "note", text: "No videos found for this step." }));
+            extra.append(el("p", { className: "muted", text: "No videos found." }));
         }
-    } else if (videosPending) {
-        aside.append(el("p", { className: "note", text: "Finding videos...", role: "status" }));
+        extra.append(projectsBlock(step.projects));
+    } else {
+        if (videosPending) extra.append(skeleton("Finding videos", 1));
+        extra.append(projectsBlock(step.projects));
     }
-
-    const grid = el("div", { className: "step-grid" }, text, aside);
 
     const initialDone = stepProgress ? stepProgress.completed.has(stepProgress.stepIndex) : false;
     const checkSlot = el("div", { className: "step-check" });
-    const li = el("li", { className: `row step${isFirstOverall ? " step-first" : ""}${initialDone ? " step-done" : ""}` },
-        el("span", { className: "step-num num", text: String(step.global_step_index ?? step.step_number ?? displayIndex + 1), "aria-hidden": "true" }),
-        el("div", { className: "margin" }, checkSlot),
-        el("div", { className: "main" }, grid)
+    const li = el("li", { className: `step card card-flat${isFirstOverall ? " step-first" : ""}${initialDone ? " step-done" : ""}`, "data-step": number },
+        checkSlot,
+        body,
+        extra
     );
 
     if (stepProgress) wireStepCheckbox(checkSlot, stepProgress, li);
+    else checkSlot.hidden = true;
 
     return li;
 }
 
-// A phase's own heading row, styled like the rest of the page's section breaks
-// (row() keeps it aligned with the steps' margin/main columns and the route spine).
-// Returned as a <summary> (via row()'s tag override) so roadmapStepList can use
-// it directly as a <details> phase's clickable header.
+// A phase's own header, used as the <summary> of its <details>: number node, title, optional note, and a
+// slot (.phase-progress) for the live "N of M" bar.
 function phaseHeaderRow(phase, note) {
     const stepCount = phase.steps.length;
-    return row(
-        [el("p", { className: "note", text: `Phase ${phase.phase_number}` }), el("div", { className: "phase-progress" })],
-        [
-            el("h3", { className: "phase-title", text: phase.title }),
-            el("p", { className: "note", text: `${stepCount} step${stepCount === 1 ? "" : "s"}` }),
-            note ? el("p", { className: "phase-note", text: note }) : "",
-        ],
-        "row-head phase-summary",
-        "summary"
+    return el("summary", { className: "phase-summary" },
+        el("span", { className: "phase-node num", "aria-hidden": "true", text: String(phase.phase_number) }),
+        el("span", { className: "phase-titles" },
+            el("span", { className: "phase-title", text: phase.title }),
+            el("span", { className: "muted phase-count", text: `Phase ${phase.phase_number} · ${stepCount} step${stepCount === 1 ? "" : "s"}` }),
+            note ? el("span", { className: "phase-note", text: note }) : ""
+        ),
+        el("span", { className: "phase-progress" })
     );
 }
 
@@ -451,40 +445,43 @@ function personalizationOf(steps) {
     return steps.personalization;
 }
 
-// "For you" summary and the "Based on a reviewed ... roadmap" line, or "" when the roadmap is neither cached nor
-// personalized (every older roadmap). All text goes through textContent (el()).
-function roadmapOriginBlock(steps, careerPath) {
+// A slim "For you" callout with the personalization summary, or "" when there is none (every older roadmap).
+// All text goes through textContent (el()).
+function personalCallout(steps) {
+    const personal = personalizationOf(steps);
+    if (!personal || typeof personal.summary !== "string" || !personal.summary) return "";
+    return el("aside", { className: "callout", "aria-label": "For you" },
+        el("span", { className: "chip chip-ink", text: "For you" }),
+        el("p", { className: "personal-summary", text: personal.summary })
+    );
+}
+
+// Where the roadmap came from: chips for the header ("Reviewed base", and "May be outdated" when the reviewed
+// base is stale) and the one-line note for "How this works". Both empty for a roadmap that was generated from scratch.
+function roadmapOrigin(steps, careerPath) {
     const personal = personalizationOf(steps);
     const base = !Array.isArray(steps) && steps && typeof steps.base === "object" && steps.base ? steps.base : null;
-    if (!personal && !base) return "";
-    const main = [];
-    if (personal && typeof personal.summary === "string" && personal.summary) {
-        main.push(el("p", { className: "personal-summary", text: personal.summary }));
-    }
-    if (base) {
-        main.push(el("p", { className: "note based-on", text: personal
-            ? `Based on a reviewed ${careerPath} roadmap, personalized for you.`
-            : `Based on a reviewed ${careerPath} roadmap.` }));
-    }
-    return row([el("p", { className: "note", text: personal ? "For you" : "About this roadmap" })], main, "personal-row");
+    if (!base) return { chips: [], note: "" };
+    const chips = [el("span", { className: "chip chip-line", text: "Reviewed base" })];
+    if (base.stale) chips.push(el("span", { className: "chip chip-warn", text: "May be outdated" }));
+    const note = personal
+        ? `Based on a reviewed ${careerPath} roadmap, personalized for you.`
+        : `Based on a reviewed ${careerPath} roadmap.`;
+    return { chips, note, stale: !!base.stale };
 }
 
 // steps: either an older roadmap's flat step array, or the current
 // {"phases": [{"phase_number", "title", "steps": [...]}]} shape. Always returns one
-// node (a plain <ol class="route"> for the flat case - unchanged from before this
-// task - or a sequence of collapsible <details class="phase"> for the phased case),
-// since callers push this straight into a flat list of parts.
+// node (a plain <ol class="route"> for the flat case, or a collapsible timeline of
+// <details class="phase"> for the phased case), since callers push this straight into a
+// flat list of parts.
 //
-// progress: OPTIONAL {roadmapId, completed: Set, onToggle}. Omitted (as
-// every caller except roadmap.html does), behavior is byte-for-byte what
-// it was before this task - no checkboxes, no progress bars, .step-check
-// and .phase-progress stay the empty placeholders they've been since the
-// step-display task. Given, every step gets a live checkbox
-// (wireStepCheckbox), each phase's .phase-progress gets a live "N of M"
-// bar, and an overall bar is shown above the roadmap (flat roadmaps only
-// get the overall bar, per computeStepIndexes/step_indexes using
-// step_number for that shape - there are no phases to show a per-phase
-// bar for).
+// progress: OPTIONAL {roadmapId, completed: Set, onToggle, onChange}. Omitted (as
+// every caller except roadmap.html does), no checkboxes and no progress bars are shown.
+// Given, every step gets a live checkbox (wireStepCheckbox), each phase's
+// .phase-progress gets a live "N of M" bar, and onChange(done, total) is called on every
+// change so the page header's ring can follow (flat roadmaps only get that - there are no
+// phases to show a per-phase bar for).
 function roadmapStepList(steps, videosPending, progress) {
     const indexes = computeStepIndexes(steps);
     const personal = personalizationOf(steps);
@@ -493,23 +490,16 @@ function roadmapStepList(steps, videosPending, progress) {
     const skimSteps = new Set(listOf("can_skim"));
     const phaseNotes = new Map(listOf("phase_notes").filter((n) => n && typeof n.note === "string").map((n) => [n.phase_number, n.note]));
 
-    let overallBar = "";
-    let refreshOverall = () => {};
-    if (progress) {
-        const [container, update] = makeProgressBar((done, total, pct) => `${done} of ${total} steps, ${pct}%`);
-        overallBar = container;
-        refreshOverall = () => update(indexes.filter((idx) => progress.completed.has(idx)).length, indexes.length);
-    }
+    const refreshOverall = () => {
+        if (progress && progress.onChange) progress.onChange(indexes.filter((idx) => progress.completed.has(idx)).length, indexes.length);
+    };
 
     if (Array.isArray(steps)) {
-        const list = el("ol", { className: "route" }, ...steps.map((step, i) => {
+        const list = el("ol", { className: "route steps" }, ...steps.map((step, i) => {
             const stepProgress = progress ? { ...progress, stepIndex: indexes[i], refreshBars: refreshOverall } : null;
             return roadmapStep(step, i, videosPending, i === 0, stepProgress);
         }));
-        if (progress) {
-            refreshOverall();
-            return el("div", { className: "flat-progress-wrap" }, overallBar, list);
-        }
+        refreshOverall();
         return list;
     }
 
@@ -522,15 +512,15 @@ function roadmapStepList(steps, videosPending, progress) {
         const summary = phaseHeaderRow(phase, phaseNotes.get(phase.phase_number));
         let refreshPhase = () => {};
         if (progress) {
-            const bar = summary.querySelector(".phase-progress");
+            const slot = summary.querySelector(".phase-progress");
             const [barContainer, update] = makeProgressBar((done, total) => `${done} of ${total}`);
-            bar.append(barContainer);
+            slot.append(barContainer);
             refreshPhase = () => update(phaseIndexes.filter((idx) => progress.completed.has(idx)).length, phaseIndexes.length);
             refreshPhase();
         }
         const refreshBars = () => { refreshPhase(); refreshOverall(); };
 
-        const stepList = el("ol", { className: "route" }, ...phase.steps.map((step, i) => {
+        const stepList = el("ol", { className: "route steps" }, ...phase.steps.map((step, i) => {
             const isFirstOverall = !seenAny;
             seenAny = true;
             const stepProgress = progress ? { ...progress, stepIndex: phaseIndexes[i], refreshBars } : null;
@@ -538,23 +528,35 @@ function roadmapStepList(steps, videosPending, progress) {
             return roadmapStep(step, i, videosPending, isFirstOverall, stepProgress, tag);
         }));
 
-        const details = el("details", { className: "phase" }, summary, stepList);
+        const details = el("details", { className: "phase card" }, summary, el("div", { className: "phase-body" }, stepList));
         details.open = phaseIndex === 0;   // first phase open, rest closed
         phaseEls.push(details);
     });
 
-    if (progress) refreshOverall();
+    refreshOverall();
 
-    const expandBtn = el("button", { className: "btn-quiet", type: "button", text: "Expand all" });
-    const collapseBtn = el("button", { className: "btn-quiet", type: "button", text: "Collapse all" });
+    const expandBtn = el("button", { className: "btn btn-ghost btn-sm", type: "button", text: "Expand all" });
+    const collapseBtn = el("button", { className: "btn btn-ghost btn-sm", type: "button", text: "Collapse all" });
     expandBtn.addEventListener("click", () => phaseEls.forEach((d) => { d.open = true; }));
     collapseBtn.addEventListener("click", () => phaseEls.forEach((d) => { d.open = false; }));
 
-    return el("div", { className: "phases-detail" },
-        progress ? overallBar : "",
-        el("div", { className: "actions phase-controls" }, expandBtn, collapseBtn),
-        ...phaseEls
+    return el("div", { className: "phases-detail stack-sm" },
+        el("div", { className: "cluster phase-controls" }, expandBtn, collapseBtn),
+        el("div", { className: "timeline" }, ...phaseEls)
     );
+}
+
+// Jump to the first step that isn't ticked: open its phase, scroll to it and move focus to its title.
+// Returns false when every step is done (nothing to jump to).
+function goToFirstUnfinishedStep(root) {
+    const target = (root || document).querySelector(".step:not(.step-done)");
+    if (!target) return false;
+    const phase = target.closest("details.phase");
+    if (phase) phase.open = true;
+    target.scrollIntoView({ block: "center" });
+    const title = target.querySelector(".step-title");
+    if (title) title.focus({ preventScroll: true });
+    return true;
 }
 
 // A compact summary for space-constrained contexts (the dashboard, shown alongside

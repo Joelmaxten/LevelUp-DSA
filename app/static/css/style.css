@@ -850,71 +850,118 @@ h4 { font-weight: 700; font-size: 1.0625rem; }
 
 .prose { white-space: pre-wrap; overflow-wrap: anywhere; max-width: 38rem; }
 
-/* ---------- Roadmap: the margin rule becomes the route ---------- */
+/* ---------- Roadmap: header card, timeline of phases, compact step cards ---------- */
 
-.path-note { margin-top: 0.75rem; }
-.step-status { margin-top: 0.75rem; }
-.cols + .block { margin-top: 2rem; }
+.rm-head-top { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-5); }
+.rm-head-main { flex: 1 1 14rem; min-width: 0; display: grid; gap: var(--sp-2); }
+.rm-name { font-size: var(--fs-xl); line-height: 1.1; font-weight: 800; overflow-wrap: anywhere; }
+.rm-head-actions { display: grid; gap: var(--sp-3); flex: 0 1 15rem; min-width: min(100%, 12rem); }
+.rm-head-actions .field { margin: 0; }
+.rm-head-actions .btn { width: 100%; }
+.switcher label { font-size: var(--fs-xs); color: var(--pencil); }
 
-.path-name {
-    font-size: clamp(1.75rem, 1.1rem + 2.8vw, 3rem);
-    line-height: 1.12;
-}
+/* A slim note: the personalization summary. */
+.callout { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-3); padding: var(--sp-3) var(--sp-4); background: var(--tint); border-left: 4px solid var(--ink); border-radius: var(--r-sm); }
+.personal-summary { flex: 1 1 18rem; font-size: var(--fs-sm); }
 
-.step { position: relative; border-top: 0; padding-block: 1.25rem; }
-.step:first-child { padding-top: 2rem; }
-
-.step-num {
-    position: absolute;
-    top: 1.15rem;
-    left: calc(var(--margin-w) + var(--gutter) / 2);
-    transform: translateX(-50%);
+/* Phases: a vertical rail with a numbered node per phase; each phase opens to its steps. */
+.phase-controls { justify-content: flex-end; gap: var(--sp-1); }
+.timeline { position: relative; display: grid; gap: var(--sp-4); }
+.timeline::before { content: ""; position: absolute; left: calc(var(--sp-4) + 1.125rem - 1px); top: 1.5rem; bottom: 1.5rem; width: 2px; background: var(--rule); }
+.phase { position: relative; overflow: hidden; }
+.phase-summary {
     display: grid;
-    place-items: center;
-    width: 2.75rem; height: 2.75rem;
-    border-radius: 50%;
-    background: var(--ink);
-    color: var(--paper);
-    font-size: 1.125rem;
-}
-.step:first-child .step-num { top: 3.6rem; }
-.step-first .step-num { background: var(--marker); color: var(--ink); border: 2px solid var(--ink); }
-
-.start-here { margin-bottom: 0.5rem; font-weight: 700; font-size: 0.9375rem; }
-.step-title { font-size: clamp(1.25rem, 1.05rem + 0.8vw, 1.625rem); line-height: 1.2; }
-/* Personalized cached roadmap (all optional): a small label above a step's title, a note under a phase header, the summary. */
-.step-tag { display: inline-block; margin-bottom: 0.4rem; padding: 0.05rem 0.6rem; font: 700 0.8125rem/1.6 var(--font-body); border: 2px solid var(--ink); }
-.step-tag-focus { background: var(--ink); color: var(--paper); }
-.step-tag-skim { color: var(--pencil); border-color: var(--line); font-weight: 400; }
-.phase-note { margin-top: 0.5rem; max-width: 40rem; padding-left: 0.75rem; border-left: 3px solid var(--ink); }
-.personal-summary { max-width: 44rem; font-size: 1.125rem; }
-.personal-summary + .based-on { margin-top: 0.75rem; }
-.step-desc { margin-top: 0.5rem; max-width: 36rem; }
-
-.watch {
-    display: inline-flex;
+    grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: center;
-    gap: 0.6rem;
-    margin-top: 0.85rem;
-    padding: 0.4rem 0;
-    font-weight: 700;
-    overflow-wrap: anywhere;
+    gap: var(--sp-3);
+    min-height: 3.5rem;
+    padding: var(--sp-3) var(--sp-4);
+    cursor: pointer;
+    list-style: none;
+}
+.phase-summary::-webkit-details-marker { display: none; }
+.phase[open] > .phase-summary { border-bottom: 1px solid var(--rule); }
+.phase-node { display: grid; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: 50%; background: var(--ink); color: var(--surface); }
+.phase-titles { display: grid; gap: 2px; min-width: 0; }
+.phase-title { font-weight: 800; font-size: var(--fs-md); overflow-wrap: anywhere; }
+.phase-count { font-size: var(--fs-xs); }
+.phase-note { font-size: var(--fs-sm); color: var(--pencil); padding-left: var(--sp-3); border-left: 3px solid var(--ink); margin-top: var(--sp-1); }
+.phase-progress { min-width: 5.5rem; }
+.phase-progress .progress-bar-block { display: grid; gap: var(--sp-1); }
+.phase-progress .progress-bar-label { font-size: var(--fs-xs); text-align: right; }
+.phase-progress .pbar { height: 6px; }
+.phase-body { padding: var(--sp-3); }
+@media (max-width: 39.99rem) {
+    .phase-summary { grid-template-columns: auto minmax(0, 1fr); }
+    .phase-progress { grid-column: 2; }
+    .phase-progress .progress-bar-label { text-align: left; }
+    .timeline::before { display: none; }
 }
 
-@media (max-width: 47.99rem) {
-    .step { padding-left: 3.75rem; padding-block: 1rem; }
-    .step-num { left: 1.375rem; top: 0.9rem; width: 2.5rem; height: 2.5rem; }
-    .step:first-child .step-num { top: 3.4rem; }
-    .step::before {
-        content: "";
-        position: absolute;
-        left: 1.375rem;
-        top: 0; bottom: 0;
-        width: 1.5px;
-        background: var(--red);
-        opacity: 0.4;
-    }
+/* Steps: checkbox, then title / text / chips; videos and collapsed extras underneath. */
+.steps { display: grid; gap: var(--sp-3); }
+.step { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: var(--sp-3); padding: var(--sp-3) var(--sp-4) var(--sp-3) var(--sp-2); }
+.step-extra { grid-column: 2; display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--sp-1); margin-top: var(--sp-2); }
+.step-extra:empty { display: none; }
+.step-first { border-color: var(--ink); }
+.step-body { display: grid; gap: var(--sp-2); min-width: 0; align-content: start; }
+.step-chips { display: flex; flex-wrap: wrap; gap: var(--sp-1) var(--sp-2); }
+.step-title { font-size: var(--fs-md); line-height: 1.25; font-weight: 800; overflow-wrap: anywhere; }
+.step-title:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; border-radius: 2px; }
+.step-desc { color: var(--pencil); font-size: var(--fs-sm); }
+.step-desc-wrap { display: grid; justify-items: start; gap: 2px; }
+.btn-link { min-height: var(--tap); padding: 0; background: none; border: 0; color: var(--ink); font: 700 var(--fs-sm) var(--font-body); text-decoration: underline; cursor: pointer; }
+
+/* The tick box: a 44 px hit area around a 1.75rem box. */
+.step-check { display: grid; justify-items: center; align-content: start; width: var(--tap); }
+.step-check-box { display: grid; place-items: center; width: var(--tap); height: var(--tap); cursor: pointer; }
+.step-check-box input {
+    appearance: none;
+    width: 1.75rem; height: 1.75rem;
+    margin: 0;
+    background: var(--surface) center / 70% no-repeat;
+    border: 2px solid var(--ink);
+    border-radius: var(--r-sm);
+    cursor: pointer;
+    transition: background-color var(--t-fast) var(--ease);
 }
+.step-check-box input:checked {
+    background-color: var(--ink);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M2 7.5 5.5 11 12 3.5' fill='none' stroke='white' stroke-width='2.5'/%3E%3C/svg%3E");
+}
+.step-check-box input:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+.step-check-box input:disabled { cursor: wait; opacity: 0.6; }
+.step-check-error { max-width: 7rem; margin-top: var(--sp-1); color: var(--red); font-size: var(--fs-xs); font-weight: 700; text-align: center; }
+.step-done-mark { display: none; margin-right: var(--sp-1); vertical-align: -0.1em; }
+.step-done .step-done-mark { display: inline-flex; }
+.step-done .step-title { color: var(--pencil); }
+
+/* Up to 4 video links as compact rows. */
+.watch-list { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2px; }
+.vrow { min-width: 0; display: flex; align-items: center; gap: var(--sp-2); min-height: var(--tap); padding: 0 var(--sp-2); border-radius: var(--r-sm); font-weight: 600; font-size: var(--fs-sm); text-decoration: none; }
+a.vrow:hover { background: var(--tint); }
+.vrow svg { flex: none; }
+.vrow-title { min-width: 0; flex: 0 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* Collapsed extras inside a step: projects, docs and courses, also covered. */
+.step-extra .disclosure > summary { min-height: var(--tap); }
+.project { padding: var(--sp-2) 0; }
+.project + .project { border-top: 1px solid var(--rule); }
+.project-title { font-weight: 700; color: var(--ink); }
+.project-desc { margin: 2px 0 var(--sp-2); }
+.resource-list, .topic-list { display: grid; gap: var(--sp-2); }
+.resource-item { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--sp-2); }
+.tag-type { flex: none; text-transform: capitalize; }
+
+/* The page header while a roadmap is being built: the bar moves when the part count isn't known. */
+.pbar-indet > span { width: 35% !important; animation: indet 1.6s var(--ease) infinite; }
+@keyframes indet { from { transform: translateX(-100%); } to { transform: translateX(300%); } }
+
+.roadmap > * + * { margin-top: var(--sp-5); }
+.roadmap > .page-head { margin-top: 0; }
+
+/* Progress bar with a label: used in each phase header and in the dashboard's compact lists. */
+.progress-bar-block { margin: 0; }
 
 /* ---------- Dashboard ---------- */
 
@@ -970,131 +1017,12 @@ h4 { font-weight: 700; font-size: 1.0625rem; }
     .skill-cols > .block + .block { margin-top: 0; }
 }
 
-/* Roadmap: the step's words on the left, its video(s) on the right. Both
-   columns can now hold more than a title+link (subtopics/projects on the
-   left, several videos + two collapsed <details> on the right), but the
-   grid itself is untouched - it already puts text left / aside right on
-   desktop (>=64rem) and stacks them on anything narrower, all the way
-   down to a 360px phone, so the new content just flows into the same two
-   slots. */
-.step-aside { margin-top: 0.85rem; }
-.step-aside .watch { margin-top: 0; }
-@media (min-width: 64rem) {
-    .step-grid { display: grid; grid-template-columns: minmax(0, 1fr) 18rem; gap: 3rem; align-items: start; }
-    .step-aside { margin-top: 0.3rem; padding-left: 1.5rem; border-left: 1px solid var(--rule); }
-}
-
-
-/* Up to 4 video links, stacked - .watch already has the play-icon link
-   styling (shared with the legacy single-video markup); .watch-item just
-   adds a little vertical rhythm and room for the search-result tag. */
-.watch-list { margin-top: 0.6rem; }
-.watch-item { display: flex; align-items: center; flex-wrap: wrap; gap: 0.6rem; }
-.watch-item + .watch-item { margin-top: 0.5rem; }
-
-/* Small inline labels: a video's source, a resource's type. Quieter than
-   .badge (project difficulty/grounded) since these are provenance notes,
-   not a status to weigh a decision on. */
-.tag {
-    display: inline-block;
-    padding: 0.1rem 0.5rem;
-    border: 1px solid var(--rule);
-    border-radius: 2px;
-    color: var(--pencil);
-    font-size: 0.8125rem;
-    text-transform: capitalize;
-}
-
-.step-projects { margin-top: 1rem; }
-.projects { margin-top: 0.5rem; }
-.project { padding: 0.75rem 0; }
-.project + .project { border-top: 1px solid var(--rule); }
-.project-title { font-weight: 700; }
-.project-desc { margin-top: 0.25rem; color: var(--pencil); }
-.project-badges { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
-.badge-difficulty { border: 1px solid var(--line); color: var(--pencil); text-transform: capitalize; }
-.badge-grounded { background: var(--ink); color: var(--paper); }
-.badge-suggested { background: var(--marker); color: var(--ink); }
-
-/* Collapsed docs/courses and "also covered" lists - a step's own <details>,
-   distinct from a phase's (.phase below): plain disclosure triangles, no
-   border/background, since they're secondary content within the aside
-   column rather than a structural section of the page. */
-.step-resources, .step-more-topics { margin-top: 0.85rem; }
-.step-resources summary, .step-more-topics summary {
-    cursor: pointer;
-    font-weight: 700;
-    font-size: 0.9375rem;
-}
-.resource-list, .topic-list { margin-top: 0.5rem; }
-.resource-item { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.5rem; }
-.resource-item + .resource-item, .topic-list li + li { margin-top: 0.4rem; }
-.topic-list li { color: var(--pencil); font-size: 0.9375rem; }
-.tag-type { flex: none; }
-
-/* A phase is a <details>: closed phases still show their title/step-count
-   summary, so collapsing one doesn't remove it from the route's visual
-   rhythm. .phase-summary reuses row-head's existing margin/main layout
-   (phaseHeaderRow renders it as a <summary> via row()'s tag override). */
-.phase + .phase { margin-top: 1.5rem; }
-.phase-summary { cursor: pointer; list-style: none; }
-.phase-summary::-webkit-details-marker { display: none; }
-.phase-summary::before {
-    content: "▸";
-    display: inline-block;
-    margin-right: 0.5rem;
-    transition: transform 0.15s ease;
-}
-.phase[open] > .phase-summary::before { transform: rotate(90deg); }
-.phase-controls { display: flex; gap: 1.5rem; margin-bottom: 1.5rem; }
-
-/* Per-step checkbox, in the margin column (left of/above the step-num
-   circle depending on breakpoint - the circle is absolutely positioned,
-   so normal-flow content here doesn't collide with it). */
-.step-check { margin-top: 1.3rem; }
-.step:first-child .step-check { margin-top: 3.75rem; }
-.step-check input[type="checkbox"] {
-    width: 1.4rem;
-    height: 1.4rem;
-    accent-color: var(--ink);
-    cursor: pointer;
-}
-.step-check input:disabled { cursor: wait; opacity: 0.6; }
-.step-check-error { margin-top: 0.4rem; color: var(--red); font-size: 0.8125rem; max-width: 12rem; }
-@media (max-width: 47.99rem) {
-    .step-check { margin-top: 0; margin-bottom: 0.5rem; }
-    .step:first-child .step-check { margin-top: 0; }
-}
-
-/* A done step: light but clear treatment - a check mark and a muted
-   title - nothing collapses or is removed from view. */
-.step-done-mark { display: none; margin-right: 0.4rem; color: var(--ink); vertical-align: -0.1em; }
-.step-done .step-done-mark { display: inline-flex; }
-.step-done .step-title { color: var(--pencil); }
-
-/* Progress bars: the overall one above the roadmap, a compact one in each
-   phase header's .phase-progress, and a read-only one on the dashboard -
-   same thin-bar idea as .scale (ATS score) but without ticks. */
-.progress-bar-block { margin-bottom: 1.25rem; }
-.phase-progress .progress-bar-block { margin: 0.4rem 0 0; }
-.progress-bar-label { margin-bottom: 0.3rem; }
-.progress-bar { position: relative; height: 6px; background: var(--rule); max-width: 20rem; }
-.progress-bar-fill { display: block; height: 100%; background: var(--ink); }
-
 /* The ask-for-a-path row: the question on the left, the control on the right. */
 .ask-grid .field { margin: 1.75rem 0 0; }
 @media (min-width: 64rem) {
     .ask-grid .field { margin-top: 0; }
     .ask-grid .actions { margin-top: 1.5rem; }
 }
-
-/* "Your roadmaps" switcher (roadmap.html) - a plain link per roadmap, the
-   current one marked instead of linked. */
-.roadmap-switcher { margin-top: 0.5rem; }
-.roadmap-switcher-item + .roadmap-switcher-item { margin-top: 0.75rem; }
-.roadmap-switcher-item { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.6rem; }
-.roadmap-switcher-item a { font-weight: 700; }
-.roadmap-switcher-current .mark { font-weight: 700; }
 
 /* "Your roadmaps" dashboard list - a small read-only bar per roadmap. */
 .roadmap-list-item { padding: 0.85rem 0; }

@@ -3,19 +3,12 @@
 {% block title %}Your roadmap | LevelUp DSA{% endblock %}
 
 {% block content %}
-<div class="sheet">
-    <header class="row row-head">
-        <div class="margin"></div>
-        <div class="main">
-            <h1 class="page-title" id="roadmap-heading">Your roadmap</h1>
-            <p id="roadmap-intro" class="lead">
-                A step-by-step learning path for one career path. If you've taken the career quiz it's built from your top match
-                and your answers. Otherwise you'll choose a path when you generate it.
-            </p>
-        </div>
+<div class="wrap roadmap">
+    <header class="page-head">
+        <h1 class="h1" id="roadmap-heading">Roadmap</h1>
     </header>
 
-    <div id="roadmap-box"></div>
+    <div id="roadmap-box" class="stack"></div>
 </div>
 
 <script src="{{ url_for('static', filename='js/results.js') }}"></script>
@@ -51,12 +44,12 @@ async function toggleStep(stepIndex, done) {
 }
 
 function showLoading(message) {
-    box.replaceChildren(row([], working(message)));
+    box.replaceChildren(el("div", { className: "card card-pad" }, skeleton(message, 2)));
 }
 
 function errorMessage(result) {
-    if (result.status === 0) return "Couldn't reach the server. Check your connection and try again.";
-    return (result.data && result.data.error) || "Something went wrong. Please try again.";
+    if (result.status === 0) return "Couldn't reach the server. Check your connection.";
+    return (result.data && result.data.error) || "Something went wrong.";
 }
 
 // Refreshes the cached roadmaps list (for the switcher and the "you
@@ -81,7 +74,7 @@ function renderPicker() {
 // offer to open that one instead of silently generating a duplicate;
 // otherwise go straight to generating.
 async function handlePathChosen(path) {
-    showLoading("Checking your existing roadmaps...");
+    showLoading("Checking your roadmaps");
     await refreshRoadmapsList();
     const existing = roadmapsList.find((r) => r.career_path === path);
     if (existing) {
@@ -92,119 +85,133 @@ async function handlePathChosen(path) {
 }
 
 function renderExistingPrompt(path, existing) {
-    const openBtn = el("a", { className: "btn", href: `/roadmap?id=${existing.roadmap_id}`, text: "Open it" });
-    const newBtn = el("button", { className: "btn-quiet", type: "button", text: "Generate a new one anyway" });
+    const openBtn = el("a", { className: "btn", href: `/roadmap?id=${existing.roadmap_id}`, text: "Open roadmap" });
+    const newBtn = el("button", { className: "btn btn-ghost", type: "button", text: "Generate anyway" });
     newBtn.addEventListener("click", () => generate(path));
 
-    box.replaceChildren(row([], el("div", { className: "msg" },
-        el("p", { text: `You already have a roadmap for ${path} (${existing.completed_count} of ${existing.total_steps} steps done).` }),
+    box.replaceChildren(el("div", { className: "card card-pad stack-sm" },
+        el("p", { className: "h3", text: `You already have a ${path} roadmap.` }),
+        el("div", { className: "cluster" },
+            pbar(existing.total_steps > 0 ? (existing.completed_count / existing.total_steps) * 100 : 0, `${existing.completed_count} of ${existing.total_steps} steps done`),
+            el("span", { className: "num", text: `${existing.completed_count} / ${existing.total_steps}` })
+        ),
         el("div", { className: "actions" }, openBtn, newBtn)
-    )));
+    ));
 }
 
 function renderError(result, retry) {
-    const actions = el("div", { className: "actions" });
     let message;
+    let action;
 
     if (result.status === 401) {
         message = "You need to be logged in to continue.";
-        actions.append(el("a", { className: "btn", href: "/login?next=/roadmap", text: "Log in" }));
+        action = el("a", { className: "btn", href: "/login?next=/roadmap", text: "Log in" });
     } else if (result.status === 429 && result.data && result.data.error === "daily_limit") {
         // No retry button: trying again can't succeed until the window moves on.
         const mins = result.data.resets_in_minutes;
         const wait = mins >= 60
             ? `${Math.ceil(mins / 60)} hour${Math.ceil(mins / 60) === 1 ? "" : "s"}`
             : `${mins} minute${mins === 1 ? "" : "s"}`;
-        message = `You've reached today's limit of ${result.data.limit} roadmaps. You can generate another in about ${wait}. Your existing roadmaps are still available.`;
+        message = `Daily limit of ${result.data.limit} roadmaps reached. Try again in about ${wait}.`;
+        action = el("a", { className: "btn", href: "/dashboard", text: "Open dashboard" });
     } else if (result.status === 502 || result.status === 503) {
         // These bodies are developer-facing (raw LLM output / missing index), not for students.
         const raw = (result.data && result.data.error) || "";
         console.error("Roadmap generation failed:", result.status, raw);
         // Quota errors won't clear on an immediate retry, so don't say they might.
         message = /RESOURCE_EXHAUSTED|quota/i.test(raw)
-            ? "The AI service's usage limit has been reached for now. Please try again later."
-            : "We couldn't generate your roadmap right now. The AI service may be busy. Please try again in a moment.";
-        const again = el("button", { className: "btn", type: "button", text: "Try again" });
-        again.addEventListener("click", retry);
-        actions.append(again);
+            ? "The AI usage limit is reached. Try again later."
+            : "The AI service is busy. Try again in a moment.";
+        action = el("button", { className: "btn", type: "button", text: "Try again" });
+        action.addEventListener("click", retry);
     } else {
         message = errorMessage(result);
-        const again = el("button", { className: "btn", type: "button", text: "Try again" });
-        again.addEventListener("click", retry);
-        actions.append(again);
+        action = el("button", { className: "btn", type: "button", text: "Try again" });
+        action.addEventListener("click", retry);
     }
 
-    box.replaceChildren(row([], el("div", { className: "msg msg-error", role: "alert" }, el("p", { text: message }), actions)));
+    box.replaceChildren(alertEl(message, "error", action));
 }
 
 function renderIdle(startedFresh) {
-    const generateBtn = el("button", { className: "btn", type: "button", text: "Generate my roadmap" });
+    const generateBtn = el("button", { className: "btn", type: "button", text: "Generate roadmap" });
     generateBtn.addEventListener("click", renderPicker);
 
-    box.replaceChildren(row(
-        startedFresh ? el("p", { className: "note", text: "Any roadmap you already have stays saved." }) : [],
-        [
-            el("h2", { className: "phase-title", text: "Ready to build your roadmap?" }),
-            el("p", { className: "ask-text", text: "We'll write a full route from the basics to job-ready for your top career match (or a career path you choose), tailored to your answers if you've taken the quiz. Then we find videos for each step. This can take up to a minute." }),
-            el("div", { className: "actions" }, generateBtn)
-        ]
-    ));
-}
+    const notes = [
+        el("li", { text: "We write a route from the basics to job-ready, then find videos for each step." }),
+        el("li", { text: "It uses your top quiz match, or a path you choose. This can take up to a minute." }),
+    ];
+    if (startedFresh) notes.push(el("li", { text: "Any roadmap you already have stays saved." }));
 
-// "Your roadmaps": a plain link per roadmap (path, date, progress), the
-// current one highlighted instead of linked - shown only when there's
-// more than one, so a student with a single roadmap sees no extra chrome.
-function roadmapSwitcher(currentId) {
-    if (roadmapsList.length < 2) return "";
-    return row(
-        [el("p", { className: "note", text: "Your roadmaps" })],
-        el("ul", { className: "roadmap-switcher" }, ...roadmapsList.map((r) => {
-            const isCurrent = r.roadmap_id === currentId;
-            const pct = r.total_steps > 0 ? Math.round((r.completed_count / r.total_steps) * 100) : 0;
-            return el("li", { className: `roadmap-switcher-item${isCurrent ? " roadmap-switcher-current" : ""}` },
-                isCurrent
-                    ? el("span", { className: "mark", text: r.career_path })
-                    : el("a", { href: `/roadmap?id=${r.roadmap_id}`, text: r.career_path }),
-                el("span", { className: "note", text: `${formatDate(r.created_at)} · ${r.completed_count} of ${r.total_steps} steps · ${pct}%` })
-            );
-        }))
+    box.replaceChildren(
+        el("div", { className: "card" }, emptyState("No roadmap yet", generateBtn)),
+        el("details", { className: "disclosure" }, el("summary", { text: "How this works" }), el("ul", { className: "info-list" }, ...notes))
     );
 }
 
+// "Switch roadmap": a dropdown of the student's roadmaps (path, progress, date) - shown only when
+// there's more than one, so a student with a single roadmap sees no extra control.
+function roadmapSwitcher(currentId) {
+    if (roadmapsList.length < 2) return "";
+    const select = el("select", { id: "roadmap-switch", className: "select" }, ...roadmapsList.map((r) =>
+        el("option", { value: String(r.roadmap_id), text: `${r.career_path} - ${r.completed_count}/${r.total_steps} steps${r.created_at ? `, ${formatDate(r.created_at)}` : ""}` })
+    ));
+    select.value = String(currentId);
+    select.addEventListener("change", () => { window.location.href = `/roadmap?id=${encodeURIComponent(select.value)}`; });
+    return el("div", { className: "field switcher" }, el("label", { for: "roadmap-switch", text: "Switch roadmap" }), select);
+}
+
 function renderRoadmap() {
-    const parts = [roadmapSwitcher(roadmap.roadmap_id)];
+    const parts = [];
 
     if (videosState === "failed") {
-        const retryBtn = el("button", { className: "btn", type: "button", text: "Try adding videos again" });
+        const retryBtn = el("button", { className: "btn btn-secondary btn-sm", type: "button", text: "Add videos" });
         retryBtn.addEventListener("click", fetchVideos);
-        parts.push(row([], el("div", { className: "msg msg-error", role: "alert" },
-            el("p", { text: videosMessage }),
-            el("p", { className: "note", text: "Your roadmap is saved. Only the videos are missing." }),
-            el("div", { className: "actions" }, retryBtn)
-        )));
+        parts.push(alertEl(videosMessage, "error", retryBtn));
     }
 
+    const indexes = computeStepIndexes(roadmap.steps);
+    const doneNow = () => indexes.filter((idx) => completed.has(idx)).length;
+    const pctOf = (done) => (indexes.length ? Math.round((done / indexes.length) * 100) : 0);
+    const headerRing = ring(pctOf(doneNow()), `${pctOf(doneNow())}%`, `${doneNow()} of ${indexes.length}`, 112);
+
+    const continueBtn = el("button", { className: "btn", type: "button", text: "Continue" });
+    continueBtn.addEventListener("click", () => { goToFirstUnfinishedStep(box); });
+
+    const origin = roadmapOrigin(roadmap.steps, roadmap.career_path);
     const when = formatDate(roadmap.created_at);
-    parts.push(row(
-        [el("p", { className: "note", text: "Built for" }), when ? el("p", { className: "note", text: `Generated ${when}` }) : ""],
-        el("h2", { className: "path-name" }, el("span", { className: "mark", text: roadmap.career_path }))
-    ));
-    const origin = roadmapOriginBlock(roadmap.steps, roadmap.career_path);
-    if (origin) parts.push(origin);
+    const chips = [...(when ? [el("span", { className: "chip chip-line", text: when })] : []), ...origin.chips];
+
+    const head = el("section", { className: "card card-pad rm-head stack", "aria-labelledby": "rm-name" },
+        el("div", { className: "rm-head-top" },
+            headerRing,
+            el("div", { className: "rm-head-main" },
+                el("p", { className: "eyebrow", text: "Built for" }),
+                el("h2", { className: "rm-name", id: "rm-name", text: roadmap.career_path }),
+                chips.length ? el("ul", { className: "chips" }, ...chips.map((c) => el("li", {}, c))) : ""
+            ),
+            el("div", { className: "rm-head-actions" }, continueBtn, roadmapSwitcher(roadmap.roadmap_id))
+        ),
+        personalCallout(roadmap.steps),
+        origin.note ? disclosure("How this works", el("p", { text: origin.note }), origin.stale ? el("p", { text: "The reviewed roadmap may be out of date." }) : "") : ""
+    );
+    parts.push(head);
+
     parts.push(roadmapStepList(roadmap.steps, videosState === "pending", {
         roadmapId: roadmap.roadmap_id,
         completed,
         onToggle: toggleStep,
+        onChange: (done) => headerRing.setRing(pctOf(done), `${pctOf(done)}%`, `${done} of ${indexes.length}`),
     }));
 
     if (videosState !== "pending") {
-        const regenBtn = el("button", { className: "btn-quiet", type: "button", text: "Generate another roadmap" });
+        const regenBtn = el("button", { className: "btn btn-ghost", type: "button", text: "New roadmap" });
         regenBtn.addEventListener("click", renderPicker);
-        parts.push(row([], el("div", { className: "actions row-actions" },
-            el("a", { className: "btn", href: "/resume", text: "Analyze my resume" }),
-            el("a", { className: "btn-quiet", href: "/dsa", text: "Practice DSA on the skill map" }),
+        parts.push(el("div", { className: "actions" },
+            el("a", { className: "btn btn-secondary", href: "/resume", text: "Analyze resume" }),
+            el("a", { className: "btn btn-ghost", href: "/dsa", text: "Practice DSA" }),
             regenBtn
-        )));
+        ));
     }
 
     box.replaceChildren(...parts);
@@ -219,7 +226,7 @@ async function fetchVideos() {
         videosState = "failed";
         videosMessage = result.status === 401
             ? "You need to be logged in to add videos."
-            : errorMessage(result);
+            : `${errorMessage(result)} Your roadmap is saved.`;
         renderRoadmap();
         return;
     }
@@ -273,46 +280,48 @@ function formatElapsed(ms) {
     return `${Math.floor(total / 60)}:${String(total % 60).padStart(2, "0")}`;
 }
 
-// Built once per job; only the text of two nodes changes afterwards (so nothing flickers or re-announces).
+// Built once per job; only the text of a few nodes changes afterwards (so nothing flickers or re-announces).
 function renderProgress() {
-    const counter = el("p", { className: "note", role: "status", text: "" });
-    const elapsed = el("p", { className: "note", "aria-hidden": "true", text: "" });
-    const message = el("p", { text: "" });
-    progressNodes = { counter, elapsed, message };
-    box.replaceChildren(row([], el("div", { className: "msg", role: "status" },
-        message,
+    const counter = el("p", { className: "num", role: "status", text: "" });
+    const elapsed = el("span", { className: "chip chip-line", "aria-hidden": "true", text: "" });
+    const message = el("p", { className: "subtext", text: "" });
+    const bar = pbar(0, "Roadmap progress", true);
+    progressNodes = { counter, elapsed, message, bar };
+    box.replaceChildren(el("div", { className: "card card-pad stack" },
+        el("div", { className: "cluster between" }, el("h2", { className: "h2", text: "Building your roadmap" }), elapsed),
+        bar,
         counter,
-        elapsed,
-        el("div", { className: "working", "aria-hidden": "true" })
-    )));
+        message
+    ));
     updateProgress();
 }
 
 function updateProgress() {
     if (!progressNodes || !activeJob) return;
-    progressNodes.elapsed.textContent = `Elapsed: ${formatElapsed(Date.now() - activeJob.startedAt)}`;
+    progressNodes.elapsed.textContent = formatElapsed(Date.now() - activeJob.startedAt);
     const cached = activeJob.mode === "cached";   // a reviewed roadmap personalized for you: seconds, not minutes
     progressNodes.message.textContent = cached
-        ? "Building your roadmap. This usually takes a few seconds."
-        : "Generating your roadmap. This can take a few minutes. You can keep this page open.";
-    progressNodes.counter.textContent = !cached && activeJob.phaseTotal
-        ? `${activeJob.phaseDone} of ${activeJob.phaseTotal} parts written`
-        : "";
+        ? "This usually takes a few seconds."
+        : "This can take a few minutes. You can keep this page open.";
+    const parts = !cached && activeJob.phaseTotal;
+    progressNodes.counter.textContent = parts ? `${activeJob.phaseDone} of ${activeJob.phaseTotal} parts written` : "";
+    // A known part count fills the bar; otherwise it just moves, so the page never looks stuck.
+    progressNodes.bar.classList.toggle("pbar-indet", !parts);
+    const pct = parts ? Math.round((activeJob.phaseDone / activeJob.phaseTotal) * 100) : 0;
+    progressNodes.bar.firstElementChild.style.width = parts ? `${pct}%` : "";
+    progressNodes.bar.setAttribute("aria-valuenow", String(pct));
 }
 
 function renderJobFailed(path) {
     const again = el("button", { className: "btn", type: "button", text: "Try again" });
     again.addEventListener("click", () => (path ? generate(path) : renderPicker()));
-    box.replaceChildren(row([], el("div", { className: "msg msg-error", role: "alert" },
-        el("p", { text: "We couldn't generate your roadmap this time. This is usually temporary, so please try again." }),
-        el("div", { className: "actions" }, again)
-    )));
+    box.replaceChildren(alertEl("We couldn't build your roadmap. This is usually temporary.", "error", again));
 }
 
 // The finished job's roadmap, loaded the way a just-generated one always was: show it, then add videos
 // in a separate request so a YouTube failure can't cost the student the roadmap.
 async function finishJob(roadmapId) {
-    showLoading("Loading your roadmap...");
+    showLoading("Loading your roadmap");
     const result = await getJson(`/roadmap/${roadmapId}`);
     if (!result.ok) {
         renderError(result, () => finishJob(roadmapId));
@@ -439,7 +448,7 @@ async function resumeJob(jobId) {
 // is ever called (see renderPicker/handlePathChosen), so there's no longer
 // a "no path chosen yet" case the way there was before this task.
 async function generate(targetCareerPath) {
-    showLoading("Starting your roadmap...");
+    showLoading("Starting your roadmap");
 
     const result = await postJson("/roadmap/generate-async", { target_career_path: targetCareerPath });
     if (result.status === 409 && result.data && result.data.job_id) {
@@ -463,7 +472,7 @@ async function generate(targetCareerPath) {
 // "generate" prompt if there's none yet - unless the student came
 // specifically to make a new one (?new=1).
 async function loadRoadmap(roadmapId) {
-    showLoading("Loading your roadmap...");
+    showLoading("Loading your roadmap");
 
     const result = await getJson(roadmapId ? `/roadmap/${roadmapId}` : "/roadmap/latest");
     if (result.ok) {
@@ -485,7 +494,7 @@ async function loadRoadmap(roadmapId) {
 
 async function init() {
     const params = new URLSearchParams(window.location.search);
-    showLoading("Loading your roadmap...");
+    showLoading("Loading your roadmap");
     const savedJob = rememberedJob();
     if (savedJob && params.get("new") !== "1" && await resumeJob(savedJob)) return;   // a generation from before the reload
     await refreshRoadmapsList();
