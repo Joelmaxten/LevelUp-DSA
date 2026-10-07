@@ -603,218 +603,137 @@ function hasAllVideoResults(steps) {
 // ---------- resume analysis ----------
 
 function skillChips(skills, kind) {
-    return el("ul", { className: "skills" }, ...skills.map((skill) =>
-        el("li", { className: `skill skill-${kind}` }, kind === "have" ? icon("tick") : "", el("span", { text: skill }))
+    return el("ul", { className: "chips" }, ...skills.map((skill) =>
+        el("li", { className: `chip ${kind === "have" ? "chip-ink" : kind === "gap" ? "chip-mark" : "chip-line"}` }, kind === "have" ? icon("tick") : "", el("span", { text: skill }))
     ));
 }
 
-// One segment per skill: solid = on the resume, marker = still to learn. Makes the gap countable.
-function gaugeFor(matchedCount, missingCount) {
-    const total = matchedCount + missingCount;
-    const gauge = el("div", {
-        className: total > 16 ? "gauge gauge-dense" : "gauge",
-        role: "img",
-        "aria-label": `${matchedCount} of ${total} skills found on your resume`,
-    });
-    for (let i = 0; i < total; i++) {
-        const cell = el("i", { className: i < matchedCount ? "have" : "gap" });
-        cell.style.setProperty("--i", String(i));
-        gauge.append(cell);
-    }
-    return gauge;
+// ATS score -> a word. The thresholds (80 / 60) are the ones the page has always used.
+function atsBand(score) {
+    return score >= 80 ? { label: "Strong", low: false } : score >= 60 ? { label: "Fair", low: false } : { label: "Low", low: true };
 }
 
-function skillsRow(data, level) {
+function statTile(label, ...content) {
+    return el("div", { className: "card card-pad stat" }, el("p", { className: "eyebrow", text: label }), ...content);
+}
+
+// The first thing you see: ATS score, skill match, level. ats is null when the score couldn't be recomputed
+// for a saved analysis (the original PDF is no longer on the server, or can't be read any more).
+function scorecard(data) {
+    const matched = data.matched_skills.length;
+    const total = matched + data.missing_skills.length;
+    const ats = data.ats_score;
+
+    const atsTile = ats
+        ? statTile("ATS score",
+            el("div", { className: "cluster" }, ring(Math.max(0, Math.min(100, ats.score)), String(ats.score), "of 100", 88)),
+            el("details", { className: "disclosure" },
+                el("summary", { text: `Why this score (${ats.reasons.length})` }),
+                el("ul", { className: "info-list" }, ...ats.reasons.map((reason) => el("li", { text: reason })))))
+        : statTile("ATS score",
+            el("p", { className: "stat-figure num", text: "n/a" }),
+            el("p", { className: "muted", text: "The PDF is no longer saved. Upload it again." }));
+
+    const matchTile = statTile("Skill match",
+        total
+            ? el("p", { className: "stat-figure num", text: `${matched} of ${total}` })
+            : el("p", { className: "stat-figure num", text: "n/a" }),
+        total ? pbar(Math.round((matched / total) * 100), `${matched} of ${total} skills found on your resume`) : el("p", { className: "muted", text: "Not enough data for this path." }));
+
+    const level = ats ? atsBand(ats.score) : null;
+    const levelTile = statTile("Level",
+        el("p", { className: `stat-figure num${level && level.low ? " is-low" : ""}`, text: level ? level.label : "n/a" }),
+        el("p", { className: "muted", text: "ATS readability" }));
+
+    return el("div", { className: "grid grid-3 scorecard" }, atsTile, matchTile, levelTile);
+}
+
+function skillsPanel(data) {
     const matched = data.matched_skills;
     const missing = data.missing_skills;
-    const total = matched.length + missing.length;
+    if (matched.length + missing.length === 0) {
+        return el("p", { className: "muted", text: "Not enough data to benchmark this path yet." });
+    }
     const matchedSet = new Set(matched);
     const others = data.student_skills.filter((s) => !matchedSet.has(s));
-
-    const main = [];
-
-    if (total === 0) {
-        main.push(el("p", { text: "There isn't enough data yet to benchmark the skills this career path needs." }));
-    } else {
-        main.push(
-            el("p", { className: "stat-sentence" },
-                el("span", { className: "big-num num", text: `${matched.length} of ${total}` }),
-                ` of the skills most used in this career path are already on your resume.`
-            ),
-            gaugeFor(matched.length, missing.length)
-        );
-    }
-
-    const groups = [el("div", { className: "block" },
-        el("h3", { className: "block-title", text: "Already on your resume" }),
-        matched.length ? skillChips(matched, "have") : el("p", { className: "note", text: "None of the commonly needed skills were found in your resume." })
-    )];
-
-    if (total > 0) {
-        groups.push(el("div", { className: "block" },
-            el("h3", { className: "block-title", text: "Learn these next" }),
-            missing.length ? skillChips(missing, "gap") : el("p", { text: "You cover all of them. Nice work." })
-        ));
-    }
-
+    const out = [
+        el("div", { className: "stack-sm" },
+            el("h3", { className: "h3", text: "Learn next" }),
+            missing.length ? skillChips(missing, "gap") : el("p", { text: "You cover them all." })),
+        el("div", { className: "stack-sm" },
+            el("h3", { className: "h3", text: "On your resume" }),
+            matched.length ? skillChips(matched, "have") : el("p", { className: "muted", text: "None of the common skills were found." })),
+    ];
     if (others.length) {
-        groups.push(el("div", { className: "block" },
-            el("h3", { className: "block-title", text: "Other skills we found" }),
-            skillChips(others, "extra")
-        ));
+        out.push(el("details", { className: "disclosure" }, el("summary", { text: `Other skills found (${others.length})` }), skillChips(others, "extra")));
     }
-    main.push(el("div", { className: "skill-cols" }, ...groups));
-
-    return row(
-        [rowTitle("Skills match", level), el("p", { className: "note", text: "Compared with the skills most used for this career path." })],
-        main
-    );
+    return el("div", { className: "stack" }, ...out);
 }
 
-function atsRow(ats, level) {
-    const margin = [
-        rowTitle("ATS friendliness", level),
-        el("p", { className: "note", text: "A lightweight check of how easily an applicant tracking system can read your resume. It is not a full layout analysis." }),
-    ];
-
-    // ats is null when the score couldn't be recomputed for a saved analysis
-    // (the original PDF is no longer on the server, or can't be read any more).
-    if (!ats) {
-        return row(margin, el("p", { text: "This score can't be shown for a saved analysis because the original PDF is no longer available. Upload the resume again to get a fresh score." }));
-    }
-
-    const band = ats.score >= 80
-        ? { text: "Reads well to most systems.", low: false }
-        : ats.score >= 60
-            ? { text: "Readable, with room to improve.", low: false }
-            : { text: "Needs work before you send it out.", low: true };
-
-    const fill = el("span", { className: "scale-fill" });
-    fill.style.display = "block";
-    fill.style.width = `${Math.max(0, Math.min(100, ats.score))}%`;
-    const tick = (label, at, cls) => {
-        const t = el("span", { text: label, className: cls || "" });
-        if (!cls) t.style.left = `${at}%`;
-        return t;
-    };
-
-    return row(margin, el("div", { className: "split split-even-ish" },
-        el("div", {},
-            el("p", { className: "score" },
-                el("span", { className: "score-num num", text: String(ats.score) }),
-                el("span", { className: "score-of", text: "out of 100" })
-            ),
-            el("p", { className: `score-band${band.low ? " score-band-low" : ""}`, text: band.text }),
-            el("div", { className: "scale", "aria-hidden": "true" }, fill),
-            el("div", { className: "scale-ticks", "aria-hidden": "true" },
-                tick("0", 0, "at-start"), tick("60", 60), tick("80", 80), tick("100", 100, "at-end")
-            )
-        ),
-        el("div", {},
-            el(`h${Math.min((level || 2) + 1, 6)}`, { className: "block-title", text: "What we found" }),
-            el("ul", { className: "dots" }, ...ats.reasons.map((reason) => el("li", { text: reason })))
-        )
-    ));
+// Two median figures side by side. The two sources are kept separate on purpose: job postings skew toward
+// freshers, survey respondents are working developers. Averaging them would blend two different populations.
+function salaryTile(title, stats, medianText, chipText) {
+    if (!stats) return el("div", { className: "card card-flat card-pad stat" }, el("p", { className: "eyebrow", text: title }), el("p", { className: "muted", text: "No data for this path." }));
+    return el("div", { className: "card card-flat card-pad stat" },
+        el("p", { className: "eyebrow", text: title }),
+        el("p", { className: "stat-figure num", text: medianText }),
+        el("p", { className: "muted", text: "median per year" }),
+        el("div", { className: "chips" },
+            el("span", { className: "chip chip-line", text: `${stats.count} ${stats.count === 1 ? "entry" : "entries"}` }),
+            chipText ? el("span", { className: "chip chip-line", text: chipText }) : ""));
 }
 
-// median-only now (see the salary-simplification task) - the backend still
-// computes/returns min/max (format_salary_range_summary and any future
-// consumer may still need them), this column just no longer shows a Range.
-function salaryColumn(title, note, stats, formatter) {
-    const col = el("div", {}, el("h3", { className: "block-title", text: title }));
-    if (!stats) {
-        col.append(el("p", { className: "note", text: "No data available for this career path." }));
-        return col;
-    }
-    const s = formatter(stats);
-    col.append(
-        el("p", { className: "figure-label", text: "Median per year" }),
-        el("p", { className: "figure num", text: s.median }),
-        el("dl", { className: "facts" },
-            el("dt", { text: "Based on" }), el("dd", { text: `${stats.count} ${stats.count === 1 ? "entry" : "entries"}` })
-        ),
-        el("p", { className: "note", text: note })
-    );
-    return col;
+function salaryPanel(insights) {
+    return el("div", { className: "grid grid-2" },
+        salaryTile("Job postings, India", insights.job_postings, insights.job_postings ? formatInr(insights.job_postings.median) : "", ""),
+        salaryTile("Developer survey, India", insights.survey_respondents,
+            insights.survey_respondents ? `~${formatInr(insights.survey_respondents.approx_inr.median)}` : "", "converted from USD"));
 }
 
-function salaryRow(insights, level) {
-    // The two sources are shown separately on purpose: job postings skew toward
-    // freshers, survey respondents are working developers. Averaging them
-    // would blend two different populations.
-    const main = [
-        el("div", { className: "cols" },
-            salaryColumn(
-                "Job postings in India",
-                "Real listings, skewing toward fresher and entry-level roles.",
-                insights.job_postings,
-                (st) => ({ median: formatInr(st.median) })
-            ),
-            salaryColumn(
-                "Developer survey, India",
-                "Self-reported by working developers, so usually higher. Converted from USD at an approximate rate.",
-                insights.survey_respondents,
-                (st) => ({ median: `~${formatInr(st.approx_inr.median)}` })
-            )
-        ),
-    ];
-
-    return row(
-        [rowTitle("Salary expectations", level), el("p", { className: "note", text: "Per year, from two separate sources." })],
-        main
-    );
-}
-
-// Self-fetching: starts in a loading state, then GETs /resume/listings for
-// targetCareerPath and fills itself in - independent of whatever rendered
-// the rest of the page, same self-contained pattern as careerPathPicker's
-// self-fetching mode. Always shows the Adzuna credit line underneath,
+// Self-fetching: starts as a skeleton, then GETs /resume/listings for targetCareerPath and fills itself in -
+// independent of whatever rendered the rest of the page. Always shows the Adzuna credit line underneath,
 // regardless of load/empty/unavailable/success state.
-function liveListingsRow(targetCareerPath, level) {
-    const body = el("div", {});
+function liveListingsPanel(targetCareerPath) {
+    const body = el("div", {}, skeleton("Finding live listings", 2));
 
     function renderListings(listings) {
-        body.replaceChildren(el("ul", { className: "listings" }, ...listings.map((job) => {
+        body.replaceChildren(el("ul", { className: "jobs" }, ...listings.map((job) => {
             const whereText = [job.company, job.location].filter(Boolean).join(" · ");
             const text = [
-                el("span", { className: "listing-title", text: job.title || "" }),
-                whereText ? el("span", { className: "listing-where", text: whereText }) : "",
+                el("span", { className: "job-title", text: job.title || "" }),
+                whereText ? el("span", { className: "muted job-where", text: whereText }) : "",
             ];
             const content = isSafeUrl(job.url)
-                ? el("a", { className: "listing-link", href: job.url, target: "_blank", rel: "noopener noreferrer" },
+                ? el("a", { className: "job-link", href: job.url, target: "_blank", rel: "noopener noreferrer" },
                     ...text, el("span", { className: "visually-hidden", text: "(opens in a new tab)" }))
-                : el("span", {}, ...text);
+                : el("span", { className: "job-link" }, ...text);
 
-            if (job.salary_estimate == null) {
-                return el("li", { className: "listing" }, content);
+            const li = el("li", { className: "job" }, content);
+            if (job.salary_estimate != null) {
+                const figure = el("span", { className: "job-salary" }, el("span", { className: "num", text: formatInr(job.salary_estimate) }));
+                if (job.salary_is_predicted) figure.append(el("span", { className: "chip chip-line", text: "estimated" }));
+                li.append(figure);
             }
-            const figure = el("span", { className: "listing-salary" }, el("span", { className: "num", text: formatInr(job.salary_estimate) }));
-            if (job.salary_is_predicted) figure.append(el("span", { className: "tag", text: "estimated" }));
-            return el("li", { className: "listing" }, content, figure);
+            return li;
         })));
     }
 
-    body.append(working("Finding live listings..."));
     getJson(`/resume/listings?career_path=${encodeURIComponent(targetCareerPath)}`).then((result) => {
         if (!result.ok || result.data.unavailable) {
-            body.replaceChildren(el("p", { className: "note", text: "Live listings unavailable right now." }));
+            body.replaceChildren(el("p", { className: "muted", text: "Live listings are unavailable right now." }));
             return;
         }
         if (!result.data.listings.length) {
-            body.replaceChildren(el("p", { className: "note", text: "No live listings found for this role." }));
+            body.replaceChildren(el("p", { className: "muted", text: "No live listings found for this role." }));
             return;
         }
         renderListings(result.data.listings);
     });
 
-    return row(
-        [rowTitle("Live job listings", level), el("p", { className: "note", text: "Current openings for this career path." })],
-        [
-            body,
-            el("p", { className: "note credit" }, "Jobs by ",
-                el("a", { href: "https://www.adzuna.com", target: "_blank", rel: "noopener noreferrer", text: "Adzuna" })),
-        ]
-    );
+    return el("div", { className: "stack-sm" },
+        body,
+        el("p", { className: "muted credit" }, "Jobs by ",
+            el("a", { href: "https://www.adzuna.com", target: "_blank", rel: "noopener noreferrer", text: "Adzuna" })));
 }
 
 const FEEDBACK_HEADERS = ["Resume Suggestions", "30-Day Action Plan", "Keyword Suggestions"];
@@ -842,41 +761,46 @@ function parseFeedback(text) {
     return sections.length === FEEDBACK_HEADERS.length ? sections : null;
 }
 
-function feedbackRows(feedback, level) {
-    if (!feedback) {
-        return [row(
-            rowTitle("Feedback", level),
-            el("p", { text: "Written feedback isn't available for this analysis because the AI service didn't respond at the time. Your skill analysis was still saved. Upload your resume again later to get feedback." })
-        )];
-    }
+// Feedback text as a list: one item per non-empty line, with any leading bullet or number dropped.
+function feedbackList(text) {
+    const lines = text.replace(/\*\*/g, "").split("\n").map((l) => l.replace(/^\s*(?:[-*•]|\d+[.)])\s*/, "").trim()).filter(Boolean);
+    return el("ul", { className: "info-list feedback-list" }, ...lines.map((line) => el("li", { text: line })));
+}
 
-    const clean = (t) => t.replace(/\*\*/g, "").trim();
-    const sections = parseFeedback(feedback);
-    if (!sections) {
-        return [row(rowTitle("Feedback", level), el("p", { className: "prose", text: clean(feedback) }))];
+function feedbackPanel(feedback) {
+    if (!feedback) {
+        return el("p", { className: "muted", text: "Written feedback isn't available: the AI service didn't respond. Upload again later." });
     }
-    const columns = sections.map((sec) => {
+    const sections = parseFeedback(feedback);
+    if (!sections) return feedbackList(feedback);
+    return el("div", { className: "stack" }, ...sections.map((sec) => {
         // The action plan is the thing to do next, so it gets the marker.
-        const heading = el(`h${Math.min((level || 2) + 1, 6)}`, { className: "block-title" });
+        const heading = el("h3", { className: "h3" });
         heading.append(sec.title === "30-Day Action Plan"
             ? el("span", { className: "mark", text: FEEDBACK_TITLES[sec.title] })
             : FEEDBACK_TITLES[sec.title]);
-        return el("div", {}, heading, el("p", { className: "prose", text: clean(sec.lines.join("\n")) }));
-    });
-    return [row(
-        [rowTitle("Feedback", level), el("p", { className: "note", text: "Written by an AI from the text of your resume. Treat it as a starting point." })],
-        el("div", { className: "split split-feedback" }, ...columns)
-    )];
+        return el("div", { className: "stack-sm" }, heading, feedbackList(sec.lines.join("\n")));
+    }));
 }
 
-// Everything in a resume analysis except the page-specific header and buttons.
-function resumeAnalysisRows(data, level) {
+// Everything in a resume analysis except the page-specific header and buttons: the scorecard row, then one
+// section at a time, then the notes that stop a number being misread, in one disclosure.
+function resumeAnalysisNodes(data) {
     return [
-        skillsRow(data, level),
-        atsRow(data.ats_score, level),
-        salaryRow(data.salary_insights, level),
-        liveListingsRow(data.target_career_path, level),
-        ...feedbackRows(data.ai_feedback, level),
+        scorecard(data),
+        el("div", { className: "card card-pad" }, sectionTabs([
+            { title: "Skills gap", node: skillsPanel(data) },
+            { title: "Salary", node: salaryPanel(data.salary_insights) },
+            { title: "Jobs", node: liveListingsPanel(data.target_career_path) },
+            { title: "Feedback", node: feedbackPanel(data.ai_feedback) },
+        ], "Analysis sections")),
+        disclosure("How this works",
+            el("ul", { className: "info-list" },
+                el("li", { text: "Skills are compared with those most used for this career path." }),
+                el("li", { text: "The ATS score is a quick readability check, not a full layout analysis." }),
+                el("li", { text: "Salaries are per year. Postings lean toward freshers. Survey figures are self-reported and converted from USD at an approximate rate." }),
+                el("li", { text: "\"Estimated\" means a job's salary was predicted, not listed." }),
+                el("li", { text: "Feedback is written by an AI from your resume text. Treat it as a starting point." }))),
     ];
 }
 
@@ -886,109 +810,106 @@ function resumeAnalysisRows(data, level) {
 // Everything here is built with el() / textContent, never innerHTML: skill names and path
 // names come from the server.
 
-const FIT_LIMITS_NOTE = "How to read this: it is a skills match, not a hiring prediction. Paths that share most of their skills, such as AI and machine learning, score almost the same, so treat close scores as a tie rather than a ranking. Paths with few survey respondents are listed separately, only when the learning roadmaps clearly relate to your skills, and without a score.";
-
 function fitBar(pct) {
-    const fill = el("i", {});
-    fill.style.width = `${Math.max(0, Math.min(100, pct))}%`;
-    return el("div", { className: "fit-bar", role: "img", "aria-label": `${Math.round(pct)} percent of the top match in this list` }, fill);
+    return pbar(Math.max(0, Math.min(100, pct)), `${Math.round(pct)} percent of the top match in this list`);
 }
 
-// One path: name, how it compares with the top of its list, the skills that counted, the
-// evidence behind it, and the button that analyzes the stored resume against it.
-function fitCard(entry, onAnalyze) {
-    const evidence = entry.basis === "based on roadmap content only"
-        ? `${entry.respondent_count} survey respondents, too few to use. Ranked on roadmap content only.`
-        : `${entry.respondent_count} survey respondents. Survey data and roadmap content.`;
-
-    const analyze = el("button", { className: "btn btn-outline", type: "button", text: "Analyze against this path" });
+function analyzeButton(entry, onAnalyze, primary) {
+    const analyze = el("button", { className: `btn ${primary ? "" : "btn-secondary"} btn-sm`.replace("  ", " "), type: "button", text: "Analyze resume" });
     analyze.setAttribute("aria-label", `Analyze my resume against ${entry.path}`);
     analyze.addEventListener("click", () => onAnalyze(entry.path, analyze));
+    return analyze;
+}
 
-    return el("div", { className: "fit-card" },
-        el("h3", { className: "fit-name", text: entry.path }),
-        el("p", { className: "fit-pct" }, el("span", { className: "num", text: `${Math.round(entry.fit_pct)}%` }), " of the top match in this list"),
+// One path: name, how it compares with the top of its list, the skills that counted, the evidence behind it,
+// and the button that analyzes the stored resume against it.
+function fitCard(entry, onAnalyze, primary) {
+    const roadmapOnly = entry.basis === "based on roadmap content only";
+    return el("div", { className: "card card-pad fit-card stack-sm" },
+        el("div", { className: "cluster between" },
+            el("h3", { className: "h3 fit-name", text: entry.path }),
+            el("span", { className: "num fit-pct", text: `${Math.round(entry.fit_pct)}%` })),
         fitBar(entry.fit_pct),
         entry.matched_skills.length
-            ? el("div", {}, el("p", { className: "note fit-label", text: "Skills that counted" }), skillChips(entry.matched_skills.slice(0, 8), "have"))
-            : el("p", { className: "note", text: "No single skill stood out for this path." }),
-        el("p", { className: "note fit-evidence", text: evidence }),
-        el("div", { className: "actions" }, analyze)
+            ? skillChips(entry.matched_skills.slice(0, 8), "have")
+            : el("p", { className: "muted", text: "No single skill stood out." }),
+        el("div", { className: "chips" },
+            el("span", { className: "chip chip-line", text: `${entry.respondent_count} respondents` }),
+            roadmapOnly ? el("span", { className: "chip chip-warn", text: "Roadmap only" }) : ""),
+        el("div", { className: "actions" }, analyzeButton(entry, onAnalyze, primary))
     );
 }
 
 // A path with limited evidence: its rank, matched skills and respondent count, but no percentage.
 function thinPathCard(entry, onAnalyze) {
-    const analyze = el("button", { className: "btn btn-outline", type: "button", text: "Analyze against this path" });
-    analyze.setAttribute("aria-label", `Analyze my resume against ${entry.path}`);
-    analyze.addEventListener("click", () => onAnalyze(entry.path, analyze));
-    return el("div", { className: "fit-card" },
-        el("h3", { className: "fit-name" }, el("span", { className: "num", text: `${entry.rank}. ` }), entry.path),
+    return el("div", { className: "card card-flat card-pad fit-card stack-sm" },
+        el("h3", { className: "h3 fit-name" }, el("span", { className: "num", text: `${entry.rank}. ` }), entry.path),
         entry.matched_skills.length
-            ? el("div", {}, el("p", { className: "note fit-label", text: "Skills that matched" }), skillChips(entry.matched_skills.slice(0, 8), "have"))
-            : el("p", { className: "note", text: "No single skill stood out for this path." }),
-        el("p", { className: "note fit-evidence", text: `${entry.respondent_count} survey respondents.` }),
-        el("div", { className: "actions" }, analyze)
+            ? skillChips(entry.matched_skills.slice(0, 8), "have")
+            : el("p", { className: "muted", text: "No single skill stood out." }),
+        el("div", { className: "chips" }, el("span", { className: "chip chip-line", text: `${entry.respondent_count} respondents` })),
+        el("div", { className: "actions" }, analyzeButton(entry, onAnalyze, false))
     );
 }
 
 // The thin-path list, collapsed. Nothing at all is rendered when no thin path passed the evidence floor.
 function thinPathsDetails(rows, onAnalyze) {
     if (!rows.length) return null;
-    const details = el("details", { className: "fit-other" });
-    details.append(
-        el("summary", { text: `Other paths (limited evidence) (${rows.length})` }),
-        el("p", { className: "note", text: "These paths have fewer than 30 survey respondents, so they are listed from the learning roadmaps alone, in order, without a score." }),
-        ...rows.map((r) => thinPathCard(r, onAnalyze))
+    return el("details", { className: "disclosure fit-other" },
+        el("summary", { text: `Other paths, limited evidence (${rows.length})` }),
+        el("div", { className: "stack-sm" }, ...rows.map((r) => thinPathCard(r, onAnalyze)))
     );
-    return details;
 }
 
-// One ranked list: a heading and explanation in the margin-style row, then the cards. The
-// near-tie group (if any) is shown side by side in one row instead of as a ranking.
-function fitList(title, intro, rows, tiePaths, onAnalyze, level) {
-    const out = [row([rowTitle(title, level), el("p", { className: "note", text: intro })], [], "fit-head")];
+// The ranked list. Paths within 15% of each other are one "Too close to call" group, shown side by side.
+function fitList(rows, tiePaths, onAnalyze) {
+    const out = [];
     const tied = new Set(tiePaths);
     let tieShown = false;
+    let first = true;
     for (const entry of rows) {
         if (tied.has(entry.path)) {
             if (tieShown) continue;
             tieShown = true;
-            out.push(row(
-                [el("p", { className: "note", text: "Too close to call" }), el("p", { className: "note", text: "These are within 15% of each other. Treat them as a tie." })],
-                el("div", { className: "split split-2 tie-group" }, ...rows.filter((r) => tied.has(r.path)).map((r) => fitCard(r, onAnalyze))),
-                "fit-row fit-tie"
+            out.push(el("div", { className: "stack-sm" },
+                el("p", { className: "cluster" }, el("span", { className: "chip chip-mark", text: "Too close to call" }), el("span", { className: "muted", text: "within 15%" })),
+                el("div", { className: "grid grid-2 tie-group" }, ...rows.filter((r) => tied.has(r.path)).map((r, i) => fitCard(r, onAnalyze, first && i === 0)))
             ));
         } else {
-            out.push(row([], fitCard(entry, onAnalyze), "fit-row"));
+            out.push(fitCard(entry, onAnalyze, first));
         }
+        first = false;
     }
     return out;
 }
 
-// data: the /resume/discover response. onAnalyze(path, buttonEl) runs when a row's button is pressed.
-function discoverRows(data, onAnalyze, level) {
-    const skillsMargin = [rowTitle("Skills we found", level), el("p", { className: "note", text: `${data.extracted_skills.length} recognised` })];
-    const skillsMain = data.extracted_skills.length
-        ? skillChips(data.extracted_skills, "have")
-        : el("p", { text: "We couldn't recognise any skills in this resume." });
-    const rows = [row(skillsMargin, skillsMain)];
+// data: the /resume/discover response. onAnalyze(path, buttonEl) runs when a card's button is pressed.
+function discoverNodes(data, onAnalyze, onUploadAgain) {
+    const found = data.extracted_skills;
+    const head = el("div", { className: "card card-pad stack-sm" },
+        el("p", { className: "eyebrow", text: "Compared with all 15 paths" }),
+        el("h2", { className: "h2", text: "Which path fits" }),
+        found.length
+            ? el("details", { className: "disclosure", open: "" }, el("summary", { text: `Skills we found (${found.length})` }), skillChips(found, "have"))
+            : el("p", { className: "muted", text: "No skills recognised in this resume." })
+    );
+    const out = [head];
 
     if (data.insufficient_data) {
-        rows.push(row([rowTitle("Not enough to go on", level)], el("div", { className: "msg", role: "status" },
-            el("p", { text: `We recognised ${data.extracted_skills.length} skill${data.extracted_skills.length === 1 ? "" : "s"}, and we need at least 3 to compare career paths fairly.` }),
-            el("p", { text: "Add or expand a skills section with the languages, tools and frameworks you have used, then upload the resume again." })
-        )));
-        return rows;
+        const again = el("button", { className: "btn", type: "button", text: "Upload again" });
+        again.addEventListener("click", onUploadAgain);
+        out.push(alertEl(`We found ${found.length} skill${found.length === 1 ? "" : "s"}; we need 3 to compare paths. Add a skills section.`, "info", again));
+        return out;
     }
 
-    rows.push(...fitList(
-        "Paths with survey data",
-        "Ranked by how common and how distinctive your skills are among Indian developers in the Stack Overflow Developer Survey, blended with how closely your skills match each path's learning roadmap.",
-        data.list_a, data.near_ties.a, onAnalyze, level
-    ));
+    out.push(...fitList(data.list_a, data.near_ties.a, onAnalyze));
     const other = thinPathsDetails(data.list_b, onAnalyze);
-    if (other) rows.push(row([], other, "fit-row"));
-    rows.push(row([rowTitle("Limits of this match", level)], el("p", { className: "fit-limits", text: FIT_LIMITS_NOTE })));
-    return rows;
+    if (other) out.push(other);
+    out.push(disclosure("How this works",
+        el("ul", { className: "info-list" },
+            el("li", { text: "This is a skills match, not a hiring prediction." }),
+            el("li", { text: "Paths that share most skills score almost the same. Treat close scores as a tie." }),
+            el("li", { text: "Scores blend Stack Overflow survey data for India with each path's roadmap." }),
+            el("li", { text: "Paths with under 30 respondents are listed apart, without a score." }))));
+    return out;
 }

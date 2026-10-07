@@ -178,6 +178,54 @@ function ring(pct, centerText, subText, size) {
     return node;
 }
 
+// One section at a time: tabs on a wide screen, accordion headers on a narrow one (switches live when the
+// window crosses 48rem). items: [{ title, node }]. Only one section is open; on a narrow screen it can also be closed.
+let _sectionTabsCount = 0;
+function sectionTabs(items, label) {
+    const uid = ++_sectionTabsCount;
+    const wide = window.matchMedia("(min-width: 48rem)");
+    let active = 0;
+
+    const tablist = el("div", { className: "tabs", role: "tablist", "aria-label": label || "Sections" });
+    const root = el("div", { className: "sections" }, tablist);
+    const parts = items.map((item, i) => {
+        const tab = el("button", { type: "button", role: "tab", id: `sec-tab-${uid}-${i}`, "aria-controls": `sec-panel-${uid}-${i}`, text: item.title });
+        const head = el("button", { type: "button", className: "acc-head", id: `sec-head-${uid}-${i}`, "aria-controls": `sec-panel-${uid}-${i}` },
+            el("span", { text: item.title }), el("span", { className: "acc-chev", "aria-hidden": "true" }));
+        const panel = el("div", { className: "sec-panel", id: `sec-panel-${uid}-${i}` }, item.node);
+        tab.addEventListener("click", () => { active = i; render(); });
+        head.addEventListener("click", () => { active = active === i ? -1 : i; render(); });
+        tab.addEventListener("keydown", (event) => {
+            const step = event.key === "ArrowRight" ? 1 : event.key === "ArrowLeft" ? -1 : 0;
+            if (!step) return;
+            event.preventDefault();
+            active = (i + step + items.length) % items.length;
+            render();
+            parts[active].tab.focus();
+        });
+        tablist.append(tab);
+        root.append(head, panel);
+        return { tab, head, panel };
+    });
+
+    function render() {
+        const isWide = wide.matches;
+        if (isWide && active < 0) active = 0;
+        parts.forEach((part, i) => {
+            const on = i === active;
+            part.panel.hidden = !on;
+            part.tab.setAttribute("aria-selected", on ? "true" : "false");
+            part.tab.tabIndex = on ? 0 : -1;
+            part.head.setAttribute("aria-expanded", on ? "true" : "false");
+            part.panel.setAttribute("role", isWide ? "tabpanel" : "region");
+            part.panel.setAttribute("aria-labelledby", isWide ? part.tab.id : part.head.id);
+        });
+    }
+    wide.addEventListener("change", render);
+    render();
+    return root;
+}
+
 // A required single-choice question: large option cards, then Previous / Next.
 // Choosing an answer does NOT move on; Next stays disabled until one is chosen, so no
 // question can be skipped. Keys 1-4 (up to 9) pick the matching option; Enter moves on once one is picked.

@@ -1106,46 +1106,110 @@ a.vrow:hover { background: var(--tint); }
 }
 
 
-/* ---------- Resume page: choosing a mode, and the "which path fits" lists ---------- */
+/* ---------- Resume page ---------- */
 
-.mode-switch { display: grid; gap: 0.75rem; margin-top: 1.5rem; max-width: 52rem; }
-@media (min-width: 40rem) { .mode-switch { grid-template-columns: 1fr 1fr; } }
-.mode-btn {
-    display: block;
-    width: 100%;
-    padding: 0.9rem 1rem;
+.resume > * + * { margin-top: var(--sp-5); }
+.resume > .page-head { margin-top: 0; }
+
+/* Two large mode cards (toggle buttons). */
+.mode-switch { gap: var(--sp-3); }
+.mode-card {
+    display: grid;
+    gap: var(--sp-1);
+    align-content: start;
+    min-height: 5.5rem;
+    padding: var(--sp-4) var(--sp-5);
     text-align: left;
     font: inherit;
     color: var(--ink);
-    background: transparent;
-    border: 2px solid var(--ink);
-    border-radius: 0;
+    background: var(--surface);
+    border: 2px solid var(--line);
+    border-radius: var(--r);
+    cursor: pointer;
+    transition: border-color var(--t-fast) var(--ease), background-color var(--t-fast) var(--ease);
+}
+.mode-card:hover { border-color: var(--ink); background: var(--tint); }
+.mode-card[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--surface); }
+.mode-card[aria-pressed="true"] .mode-sub { color: #C9CFE2; }
+.mode-title { font-weight: 800; font-size: var(--fs-lg); line-height: 1.2; }
+.mode-sub { font-size: var(--fs-sm); color: var(--pencil); }
+
+/* The drop zone: dropping a file onto the input works natively. */
+.file-input {
+    display: block;
+    width: 100%;
+    padding: var(--sp-6) var(--sp-4);
+    background: var(--tint);
+    color: var(--pencil);
+    border: 2px dashed var(--line);
+    border-radius: var(--r);
+    font: inherit;
     cursor: pointer;
 }
-.mode-btn:hover { background: rgba(21, 28, 79, 0.08); }
-.mode-btn:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
-.mode-btn[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
-.mode-title { display: block; font-weight: 700; font-size: 1.0625rem; }
-.mode-sub { display: block; margin-top: 0.25rem; font-size: 0.9375rem; }
+.file-input:hover { border-color: var(--ink); }
+.file-input::file-selector-button {
+    margin-right: var(--sp-3);
+    min-height: var(--tap);
+    padding: 0 var(--sp-4);
+    background: var(--ink);
+    color: var(--surface);
+    border: 2px solid var(--ink);
+    border-radius: var(--r-pill);
+    font: 700 1rem var(--font-body);
+    cursor: pointer;
+}
 
-.fit-card { padding: 0.25rem 0 1rem; min-width: 0; }
-.fit-name { font-size: 1.25rem; line-height: 1.2; overflow-wrap: anywhere; }
-.fit-pct { margin: 0.4rem 0 0.4rem; }
-.fit-pct .num { font-weight: 800; font-size: 1.5rem; }
-.fit-bar { height: 0.75rem; border: 2px solid var(--ink); background: transparent; }
-.fit-bar i { display: block; height: 100%; background: var(--ink); }
-.fit-label { margin: 0.9rem 0 0.2rem; }
-.fit-evidence { margin-top: 0.75rem; }
-.fit-row .fit-card { max-width: 40rem; }
-.fit-tie .tie-group { gap: 1.5rem; }
-.fit-limits { max-width: 46rem; }
-.tied-list { list-style: none; margin: 0; padding: 0; }
-.tied-list li + li { margin-top: 0.5rem; }
-.fit-other > summary { cursor: pointer; font-weight: 700; padding: 0.4rem 0; }
-.fit-other > summary:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
-.fit-other .fit-card { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
+/* Scorecard: three tiles. */
+.stat { display: grid; gap: var(--sp-2); align-content: start; }
+.stat-figure { font-size: var(--fs-2xl); line-height: 1; }
+.stat-figure.is-low { color: var(--red); }
+
+/* One section at a time: tabs from 48rem up, accordion headers below. */
+.sections > .tabs { display: none; margin-bottom: var(--sp-4); }
+.acc-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-height: var(--tap);
+    padding: var(--sp-2) 0;
+    background: none;
+    border: 0;
+    border-top: 1px solid var(--rule);
+    color: var(--ink);
+    font: 800 var(--fs-md) var(--font-body);
+    cursor: pointer;
+}
+.sections > .acc-head:first-of-type { border-top: 0; }
+.acc-chev { width: 0.55rem; height: 0.55rem; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg); transition: transform var(--t-fast) var(--ease); }
+.acc-head[aria-expanded="true"] .acc-chev { transform: rotate(-135deg); }
+.sec-panel { padding: var(--sp-2) 0 var(--sp-4); }
+@media (min-width: 48rem) {
+    .sections > .tabs { display: inline-flex; }
+    .acc-head { display: none; }
+    .sec-panel { padding: 0; }
+}
+
+/* Live listings as compact rows. */
+.jobs { display: grid; }
+.job { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--sp-1) var(--sp-4); min-height: var(--tap); padding: var(--sp-2) 0; }
+.job + .job { border-top: 1px solid var(--rule); }
+.job-link { display: grid; min-width: 0; color: inherit; text-decoration: none; }
+a.job-link:hover .job-title { text-decoration: underline; }
+.job-title { font-weight: 700; }
+.job-where { font-size: var(--fs-sm); }
+.job-salary { display: flex; align-items: center; gap: var(--sp-2); flex: none; }
+.credit { font-size: var(--fs-xs); }
+
+.feedback-list { margin: 0; }
+
+/* Mode 1: path cards, near-ties side by side. */
+.fit-name { overflow-wrap: anywhere; }
+.fit-pct { font-size: var(--fs-lg); }
+.tie-group { align-items: stretch; }
+.fit-other > .stack-sm > * + * { margin-top: 0; }
 
 @media (forced-colors: active) {
-    .mode-btn[aria-pressed="true"] { forced-color-adjust: none; background: Highlight; color: HighlightText; }
-    .fit-bar i { forced-color-adjust: none; background: Highlight; }
+    .mode-card[aria-pressed="true"] { forced-color-adjust: none; background: Highlight; color: HighlightText; }
+    .pbar > span { forced-color-adjust: none; background: Highlight; }
 }

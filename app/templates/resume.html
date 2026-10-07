@@ -3,51 +3,40 @@
 {% block title %}Resume analysis | LevelUp DSA{% endblock %}
 
 {% block content %}
-<div class="sheet">
-    <header class="row row-head">
-        <div class="margin"></div>
-        <div class="main">
-            <h1 class="page-title">Resume analysis</h1>
-            <p class="lead" id="mode-lead"></p>
-            <div class="mode-switch" role="group" aria-label="What do you want to find out?">
-                <button type="button" class="mode-btn" id="mode-discover" aria-pressed="false">
-                    <span class="mode-title">Which path fits my resume?</span>
-                    <span class="mode-sub">Upload a resume and see which career paths match the skills on it.</span>
-                </button>
-                <button type="button" class="mode-btn" id="mode-fit" aria-pressed="true">
-                    <span class="mode-title">Does my resume fit my path?</span>
-                    <span class="mode-sub">Pick a path, then see your skill gap, salary ranges, ATS score and a 30-day plan.</span>
-                </button>
-            </div>
-        </div>
+<div class="wrap resume stack">
+    <header class="page-head">
+        <h1 class="h1">Resume analysis</h1>
     </header>
 
-    <div class="row">
-        <div class="margin">
-            <p class="note">PDF only, up to 5 MB.</p>
-            <p class="note">Drop the file onto the box, or choose it.</p>
-        </div>
-        <div class="main">
-            <div class="split split-wide">
-                <form id="resume-form" novalidate>
-                    <label class="label" for="resume-file">Your resume</label>
-                    <input type="file" id="resume-file" class="file-input" accept=".pdf,application/pdf" aria-describedby="form-error">
-                    <p id="form-error" class="field-error" role="alert" hidden></p>
-                    <div class="actions">
-                        <button type="submit" id="submit-btn" class="btn">Analyze my resume</button>
-                    </div>
-                </form>
-                <div>
-                    <h2 class="block-title">What happens next</h2>
-                    <ul class="dots" id="mode-steps"></ul>
-                </div>
-            </div>
-        </div>
+    <div class="grid grid-2 mode-switch" role="group" aria-label="What do you want to find out?">
+        <button type="button" class="mode-card" id="mode-discover" aria-pressed="false">
+            <span class="mode-title">Which path fits my resume?</span>
+            <span class="mode-sub">Rank all 15 paths by your skills.</span>
+        </button>
+        <button type="button" class="mode-card" id="mode-fit" aria-pressed="true">
+            <span class="mode-title">Does my resume fit my path?</span>
+            <span class="mode-sub">Skill gap, salary, ATS score, 30-day plan.</span>
+        </button>
     </div>
 
+    <section class="card card-pad stack" aria-label="Upload">
+        <form id="resume-form" novalidate class="stack-sm">
+            <label class="label" for="resume-file">Your resume <span class="chip chip-line">PDF, max 5 MB</span></label>
+            <input type="file" id="resume-file" class="file-input" accept=".pdf,application/pdf" aria-describedby="form-error">
+            <p id="form-error" class="field-error" role="alert" hidden></p>
+            <div class="actions">
+                <button type="submit" id="submit-btn" class="btn">Analyze resume</button>
+            </div>
+        </form>
+        <details class="disclosure">
+            <summary>How this works</summary>
+            <ul class="info-list" id="mode-steps"></ul>
+        </details>
+    </section>
+
     <div id="resume-status"></div>
-    <div id="discover-results" hidden></div>
-    <div id="resume-results" hidden></div>
+    <div id="discover-results" class="stack" hidden></div>
+    <div id="resume-results" class="stack" hidden></div>
 </div>
 
 <script src="{{ url_for('static', filename='js/results.js') }}"></script>
@@ -64,21 +53,19 @@ const discoverBox = document.getElementById("discover-results");
 
 const MODES = {
     discover: {
-        button: "Find paths that fit",
-        lead: "Not sure which career path suits you? Upload your resume and we rank all 15 paths by how well the skills on it match each one. Nothing is saved as a career profile.",
+        button: "Find paths",
         steps: [
-            "We read the text of your PDF and list the skills we find.",
-            "We compare them with what Indian developers in each path report using, and with each path's learning roadmap.",
-            "You see the paths that fit best. Pick one to see your skill gap, salary ranges and a 30-day plan, without uploading again.",
+            "We read your PDF and list the skills we find. Nothing is saved as a career profile.",
+            "We compare them with what Indian developers in each path report using, and with each path's roadmap.",
+            "Pick a path to see its skill gap, salary and 30-day plan, without uploading again.",
         ],
     },
     fit: {
-        button: "Analyze my resume",
-        lead: "See which skills for a career path are already on your resume, which are missing, what those roles pay, and what to do in the next 30 days. You choose the career path after picking your file.",
+        button: "Analyze resume",
         steps: [
-            "We read the text of your PDF and list the skills we find.",
-            "We compare them with the skills working developers use for your target path.",
-            "You see the gap, salary ranges, an ATS score, and a 30-day plan.",
+            "We read your PDF and list the skills we find.",
+            "You choose a career path after picking your file, and we compare against it.",
+            "You get the gap, salary, an ATS score and a 30-day plan.",
         ],
     },
 };
@@ -90,7 +77,6 @@ function applyMode(next) {
     for (const name of Object.keys(MODES)) {
         document.getElementById(`mode-${name}`).setAttribute("aria-pressed", name === mode ? "true" : "false");
     }
-    document.getElementById("mode-lead").textContent = MODES[mode].lead;
     document.getElementById("mode-steps").replaceChildren(...MODES[mode].steps.map((text) => el("li", { text })));
     submitBtn.textContent = MODES[mode].button;
     statusBox.replaceChildren();
@@ -102,37 +88,44 @@ document.getElementById("mode-fit").addEventListener("click", () => applyMode("f
 
 const MAX_BYTES = 5 * 1024 * 1024;   // mirrors MAX_CONTENT_LENGTH in app/config.py
 
+// A card with one status line and a moving bar, for the minute an analysis can take.
+function busyCard(message) {
+    return el("div", { className: "card card-pad stack-sm" },
+        el("p", { role: "status", text: message }),
+        pbar(0, "Working", true)
+    );
+}
+
 // ---------- results ----------
 
 // saved: these results came from the database (GET /resume/latest) rather than a just-finished upload.
 function renderResults(data, saved) {
     const when = formatDate(data.uploaded_at);
-    const notes = saved
-        ? [el("p", { className: "note", text: "Your most recent analysis" }), when ? el("p", { className: "note", text: `Uploaded ${when}` }) : "", data.file_name ? el("p", { className: "note", text: data.file_name }) : ""]
-        : [el("p", { className: "note", text: "Analysis complete" })];
+    const chips = [];
+    if (saved) chips.push(el("span", { className: "chip chip-line", text: "Latest analysis" }));
+    if (when) chips.push(el("span", { className: "chip chip-line", text: when }));
+    if (saved && data.file_name) chips.push(el("span", { className: "chip chip-line", text: data.file_name }));
 
     // Results are shown on this same page, so the way onward from here is the
     // roadmap, or back up to the form to try a different resume.
-    const anotherBtn = el("button", { className: "btn-quiet", type: "button", text: "Analyze another resume" });
+    const anotherBtn = el("button", { className: "btn btn-ghost", type: "button", text: "Analyze another" });
     anotherBtn.addEventListener("click", () => {
         window.scrollTo({ top: 0 });
         fileInput.focus();
     });
 
     resultsBox.replaceChildren(
-        row(
-            [el("p", { className: "note", text: "Measured against" }), ...notes],
-            [
-                el("h2", { className: "path-name" }, el("span", { className: "mark", text: data.target_career_path })),
-                el("p", { className: "note path-note", text: "Everything below is compared with this career path." })
-            ]
+        el("div", { className: "card card-pad stack-sm" },
+            el("p", { className: "eyebrow", text: "Measured against" }),
+            el("h2", { className: "h2", text: data.target_career_path }),
+            chips.length ? el("ul", { className: "chips" }, ...chips.map((c) => el("li", {}, c))) : ""
         ),
-        ...resumeAnalysisRows(data, 2),
-        row([], el("div", { className: "actions row-actions" },
-            el("a", { className: "btn", href: "/roadmap", text: "View my roadmap" }),
-            el("a", { className: "btn-quiet", href: "/dsa", text: "Practice DSA on the skill map" }),
+        ...resumeAnalysisNodes(data),
+        el("div", { className: "actions" },
+            el("a", { className: "btn", href: "/roadmap", text: "View roadmap" }),
+            el("a", { className: "btn btn-ghost", href: "/dsa", text: "Open skill map" }),
             anotherBtn
-        ))
+        )
     );
     resultsBox.hidden = false;
 }
@@ -145,28 +138,28 @@ function showFormError(message) {
 }
 
 function renderUploadError(result) {
-    const actions = el("div", { className: "actions" });
+    let action = "";
     let message;
 
     if (result.status === 401) {
         message = "You need to be logged in to continue.";
-        actions.append(el("a", { className: "btn", href: "/login?next=/resume", text: "Log in" }));
+        action = el("a", { className: "btn", href: "/login?next=/resume", text: "Log in" });
     } else if (result.status === 413) {
         message = "That file is too large. The limit is 5 MB.";
     } else if (result.status === 429) {
-        message = (result.data && result.data.message) || "You're uploading too often. Please wait a bit and try again.";
+        message = (result.data && result.data.message) || "You're uploading too often. Wait a bit and try again.";
     } else if (result.status === 404) {
         message = "We couldn't find that resume any more. Upload it again.";
     } else if (result.status === 503) {
-        message = "This feature isn't available on the server right now. Please try again later.";
+        message = "This feature isn't available right now. Try again later.";
     } else if (result.status === 0) {
-        message = "Couldn't reach the server. Check your connection and try again.";
+        message = "Couldn't reach the server. Check your connection.";
     } else {
         // 400 / 422 carry a student-safe "error"; the server's "detail" is deliberately never shown.
-        message = (result.data && result.data.error) || "Something went wrong. Please try again.";
+        message = (result.data && result.data.error) || "Something went wrong.";
     }
 
-    statusBox.replaceChildren(row([], el("div", { className: "msg msg-error", role: "alert" }, el("p", { text: message }), actions)));
+    statusBox.replaceChildren(action ? alertEl(message, "error", action) : alertEl(message, "error"));
 }
 
 let uploadStarted = false;   // lets a slow "load my saved analysis" response know it must not overwrite a newer upload
@@ -177,8 +170,8 @@ let uploadStarted = false;   // lets a slow "load my saved analysis" response kn
 // The path is per-upload only; nothing is saved as a profile.
 function renderPicker(file) {
     statusBox.replaceChildren(careerPathPicker({
-        lead: `For: ${file.name}`,
-        submitText: "Analyze with this path",
+        lead: file.name,
+        submitText: "Analyze resume",
         onSubmit: (path) => upload(file, path),
     }));
 }
@@ -188,7 +181,7 @@ async function upload(file, targetCareerPath) {
     submitBtn.disabled = true;   // also prevents a double-click from running the analysis (and its LLM call) twice
     const hadResults = !resultsBox.hidden;
     resultsBox.hidden = true;
-    statusBox.replaceChildren(row([], working("Analyzing your resume. This can take up to a minute...")));
+    statusBox.replaceChildren(busyCard("Analyzing your resume. This can take up to a minute."));
 
     const body = new FormData();
     body.append("resume", file);
@@ -221,7 +214,7 @@ async function discover(file) {
     submitBtn.disabled = true;
     discoverBox.hidden = true;
     resultsBox.hidden = true;
-    statusBox.replaceChildren(row([], working("Reading your resume and comparing it with every career path...")));
+    statusBox.replaceChildren(busyCard("Comparing your resume with every path."));
 
     const body = new FormData();
     body.append("resume", file);
@@ -235,22 +228,19 @@ async function discover(file) {
 
     statusBox.replaceChildren();
     discoveredResumeId = result.data.resume_id;
-    discoverBox.replaceChildren(
-        row([el("p", { className: "note", text: "Compared with all 15 career paths" })], [
-            el("h2", { className: "path-name" }, el("span", { className: "mark", text: "Which path fits your resume" })),
-            el("p", { className: "note path-note", text: result.data.insufficient_data ? "We could not rank the paths for this resume." : "Pick a path below to analyze this same resume against it." }),
-        ]),
-        ...discoverRows(result.data, analyzeStored, 2)
-    );
+    discoverBox.replaceChildren(...discoverNodes(result.data, analyzeStored, () => {
+        window.scrollTo({ top: 0 });
+        fileInput.focus();
+    }));
     discoverBox.hidden = false;
     discoverBox.scrollIntoView();
 }
 
-// "Analyze against this path" on a row: no re-upload, the stored resume is used.
+// "Analyze resume" on a card: no re-upload, the stored resume is used.
 async function analyzeStored(path, button) {
     button.disabled = true;
     resultsBox.hidden = true;
-    statusBox.replaceChildren(row([], working(`Analyzing your resume against ${path}. This can take up to a minute...`)));
+    statusBox.replaceChildren(busyCard(`Analyzing your resume against ${path}.`));
     statusBox.scrollIntoView();
 
     const result = await postJson(`/resume/${discoveredResumeId}/analyze`, { target_career_path: path });
@@ -295,7 +285,7 @@ async function showSavedAnalysis() {
         renderUploadError(result);
     } else if (result.status !== 404) {
         // 404 just means "nothing saved yet". Anything else: say so, but the form still works.
-        statusBox.replaceChildren(row([], el("p", { className: "note", text: "Couldn't load your previous analysis right now. You can still upload a resume." })));
+        statusBox.replaceChildren(el("p", { className: "muted", text: "Couldn't load your previous analysis. You can still upload a resume." }));
     }
 }
 
