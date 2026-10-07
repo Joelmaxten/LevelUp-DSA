@@ -758,7 +758,8 @@ def frontend_source_checks(index, chunks):
           "innerHTML" not in added and "innerHTML" not in page and "insertAdjacentHTML" not in added + page)
     check("front end: tags, phase note, summary and 'Based on a reviewed ... personalized for you' wording present; classes styled",
           all(w in results for w in ('"Focus"', '"Can skim"', "personalized for you", "phase-note", "personal-summary"))
-          and all(c in css for c in (".step-tag-focus", ".step-tag-skim", ".phase-note", ".personal-summary")))
+          and all(c in css for c in (".chip-ink", ".chip-line", ".phase-note", ".personal-summary"))   # tags are chips now (.step-tag-* rules removed in the UI polish)
+          and all(c in results for c in ("step-tag-focus", "step-tag-skim")))
     check("front end: cached waiting text, 1 s polling for the first 10 s then 3 s, and no video step when videos are already there",
           "usually takes a few seconds" in page and "FAST_POLL_MS = 1000" in page and "FAST_POLL_WINDOW_MS = 10 * 1000" in page
           and "POLL_MS = 3000" in page and "hasAllVideoResults(roadmap.steps)" in page)

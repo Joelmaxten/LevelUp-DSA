@@ -76,12 +76,9 @@ def build_html(career_path, roadmap_dict, source_note):
 <body class="js">
 <div style="{banner_style}">Standalone preview - {source_note}. Not a live page: no login, no server, no network calls.</div>
 <main class="page">
-<div class="sheet">
-  <header class="row row-head">
-    <div class="margin"></div>
-    <div class="main"><h1 class="page-title">Your roadmap</h1></div>
-  </header>
-  <div id="roadmap-box"></div>
+<div class="wrap roadmap stack">
+  <header class="page-head"><h1 class="h1">Roadmap</h1></header>
+  <div id="roadmap-box" class="stack"></div>
 </div>
 </main>
 <script>
@@ -95,9 +92,10 @@ const ROADMAP_DATA = {roadmap_json};
 const box = document.getElementById("roadmap-box");
 const when = ROADMAP_DATA.created_at ? formatDate(ROADMAP_DATA.created_at) : "";
 box.replaceChildren(
-    row(
-        [el("p", {{ className: "note", text: "Built for" }}), when ? el("p", {{ className: "note", text: "Generated " + when }}) : ""],
-        el("h2", {{ className: "path-name" }}, el("span", {{ className: "mark", text: ROADMAP_DATA.career_path }}))
+    el("section", {{ className: "card card-pad stack-sm" }},
+        el("p", {{ className: "eyebrow", text: "Built for" }}),
+        el("h2", {{ className: "rm-name", text: ROADMAP_DATA.career_path }}),
+        when ? el("span", {{ className: "chip chip-line", text: when }}) : ""
     ),
     roadmapStepList(ROADMAP_DATA.steps, false)
 );
