@@ -112,6 +112,72 @@ function working(message) {
     );
 }
 
+// ---------- Design-system builders (the markup is styled in style.css, "3. Components") ----------
+// Everything here is built with el() / textContent, never innerHTML.
+
+// A shimmering placeholder in place of "Loading..." text. role="status" so a screen reader hears one short message.
+function skeleton(label, lines) {
+    const box = el("div", { className: "skel", role: "status", "aria-label": label || "Loading" });
+    box.append(el("span", { className: "skel-line w-40" }));
+    for (let i = 0; i < (lines || 2); i++) box.append(el("span", { className: i % 2 ? "skel-line w-70" : "skel-line" }));
+    box.append(el("span", { className: "skel-line skel-block" }));
+    return box;
+}
+
+// Inline alert: one line plus (optionally) one action. kind: "error" | "ok" | "info".
+function alertEl(message, kind, ...actions) {
+    const box = el("div", { className: `alert${kind === "error" ? " alert-error" : kind === "ok" ? " alert-ok" : ""}`, role: kind === "error" ? "alert" : "status" },
+        el("p", { text: message }));
+    if (actions.length) box.append(el("div", { className: "actions" }, ...actions));
+    return box;
+}
+
+// An empty state: a line icon, one line, one action (a node, usually a .btn).
+function emptyState(title, action) {
+    const art = svgEl("svg", { class: "empty-icon", viewBox: "0 0 48 48", "aria-hidden": "true", focusable: "false" },
+        svgEl("path", { d: "M6 40h12v-9h12v-9h12V8", fill: "none", stroke: "currentColor", "stroke-width": "4", "stroke-linejoin": "round" }));
+    return el("div", { className: "empty" }, art, el("p", { className: "empty-title", text: title }), action || "");
+}
+
+// A "How this works"-style disclosure: one summary line, then the notes.
+function disclosure(summary, ...notes) {
+    return el("details", { className: "disclosure" }, el("summary", { text: summary }), ...notes);
+}
+
+// Thin progress bar: pct 0-100. label is read by screen readers (the bar itself has no text).
+function pbar(pct, label, large) {
+    const fill = el("span", {});
+    fill.style.width = `${Math.max(0, Math.min(100, pct))}%`;
+    return el("div", { className: `pbar${large ? " pbar-lg" : ""}`, role: "progressbar", "aria-valuemin": "0", "aria-valuemax": "100",
+        "aria-valuenow": String(Math.round(pct)), "aria-label": label }, fill);
+}
+
+// Progress ring with text in the middle. Returns the node; node.setRing(pct, centerText, subText) updates it in place.
+function ring(pct, centerText, subText, size) {
+    const px = size || 96;
+    const stroke = Math.max(6, Math.round(px / 10));
+    const r = (px - stroke) / 2;
+    const c = 2 * Math.PI * r;
+    const fill = svgEl("circle", { class: "ring-fill", cx: String(px / 2), cy: String(px / 2), r: String(r), "stroke-width": String(stroke), "stroke-dasharray": String(c) });
+    const svg = svgEl("svg", { width: String(px), height: String(px), viewBox: `0 0 ${px} ${px}`, "aria-hidden": "true", focusable: "false" },
+        svgEl("circle", { class: "ring-track", cx: String(px / 2), cy: String(px / 2), r: String(r), "stroke-width": String(stroke) }), fill);
+    const main = el("span", { className: "num", text: "" });
+    const small = el("small", { text: "" });
+    const label = el("span", { className: "ring-label" }, el("span", {}, main, small));
+    const node = el("div", { className: "ring", role: "img" }, svg, label);
+    node.style.width = node.style.height = `${px}px`;
+    label.style.fontSize = `${Math.round(px / 4.2)}px`;
+    node.setRing = (value, center, sub) => {
+        const p = Math.max(0, Math.min(100, value));
+        fill.style.strokeDashoffset = String(c * (1 - p / 100));
+        main.textContent = center;
+        small.textContent = sub || "";
+        node.setAttribute("aria-label", `${center}${sub ? " " + sub : ""}`);
+    };
+    node.setRing(pct, centerText, subText);
+    return node;
+}
+
 // A required single-choice question: OMR-style radio answers, then Previous / Next.
 // Choosing an answer does NOT move on; Next stays disabled until one is chosen, so no
 // question can be skipped.
