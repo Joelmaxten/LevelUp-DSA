@@ -58,6 +58,9 @@ def create_app(config_name=None):
     from app.routes.dsa import dsa_bp
     app.register_blueprint(dsa_bp)
 
+    from app.routes.scenarios import scenarios_bp
+    app.register_blueprint(scenarios_bp)
+
     from functools import wraps
 
     from flask import redirect, render_template, request, url_for
@@ -66,7 +69,7 @@ def create_app(config_name=None):
     # Pages a successful login may send the user on to (via ?next=). An
     # allowlist rather than "any local path", so /login?next=... can never be
     # turned into an open redirect.
-    POST_LOGIN_PAGES = {"/dashboard", "/quiz", "/conversation", "/roadmap", "/resume", "/dsa"}
+    POST_LOGIN_PAGES = {"/dashboard", "/quiz", "/conversation", "/roadmap", "/resume", "/dsa", "/scenarios"}
     # Where a plain login (no ?next=) goes. /dashboard shows a returning user's
     # saved results, and sends a brand-new user (nothing saved yet) to the home
     # page, where all the phases are offered side by side.
@@ -145,6 +148,11 @@ def create_app(config_name=None):
     @page_login_required
     def dsa_page():
         return render_template("dsa.html")
+
+    @app.route("/scenarios", methods=["GET"])
+    @page_login_required
+    def scenarios_page():
+        return render_template("scenarios.html")
 
     @app.route("/db-check")
     def db_check():

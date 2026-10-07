@@ -168,3 +168,17 @@ def recommended_next(scenarios, progress, weak=None):
             if any(t.lower() in weak_set for t in s["tests_topics"]):
                 return s["id"]
     return candidates[0]["id"]
+
+
+# conversation_signals["goal"] (the Goals chat) -> the ladder stages worth surfacing first. A hint for the
+# "matches your goal" marker only; it never locks or reorders anything.
+GOAL_STAGES = {
+    "build_fundamentals": {"foundations", "core_decision"},
+    "explore": {"foundations"},
+    "specific_role": {"debugging", "trade_offs", "end_to_end"},
+    "any_good_company": {"debugging", "trade_offs", "end_to_end"},
+}
+
+
+def matches_goal(scenario, goal):
+    return scenario["ladder_stage"] in GOAL_STAGES.get(goal, ())
