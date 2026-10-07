@@ -26,7 +26,63 @@ function formatUsd(n) {
     return `$${Math.round(n).toLocaleString("en-US")}`;
 }
 
-// ---------- career profile ----------
+// ---------- career profile (new: hero + See all) ----------
+
+// The top match (or the tied top matches) as a hero card. confidence_pct is the share of the
+// student's answers that pointed here; tied paths share it.
+function matchHero(ranking, tiedTop) {
+    const tied = Array.isArray(tiedTop) && tiedTop.length > 1;
+    const pct = ranking[0].confidence_pct;
+    const names = tied ? tiedTop : [ranking[0].career_path];
+    return el("section", { className: "card card-hero card-pad hero-match", "aria-labelledby": "match-eyebrow" },
+        ring(pct, `${pct}%`, "match", 112),
+        el("div", { className: "stack-sm" },
+            el("p", { className: "eyebrow", id: "match-eyebrow", text: tied ? "Top matches" : "Top match" }),
+            ...names.map((name) => el("h2", { className: "h2 hero-name", text: name })),
+            tied ? el("span", { className: "chip chip-mark", text: "Tied: you pick one next" }) : ""
+        )
+    );
+}
+
+// Every path in rank order. Rank is genuinely ordered content, so it is numbered.
+function rankList(ranking) {
+    const max = Math.max(...ranking.map((r) => r.confidence_pct)) || 1;
+    return el("ol", { className: "merit" }, ...ranking.map((r, i) =>
+        el("li", { className: `merit-item${i < 3 ? " merit-top" : ""}` },
+            el("span", { className: "merit-rank num", text: String(i + 1) }),
+            el("span", { className: "merit-name", text: r.career_path }),
+            el("span", { className: "merit-pct num", text: `${r.confidence_pct}%` }),
+            el("span", { className: "merit-track" }, pbar((r.confidence_pct / max) * 100, `${r.career_path}: ${r.confidence_pct}%`))
+        )
+    ));
+}
+
+// The hero, then everything else under "See all". tiedTop (optional): the quiz's list of paths that share the top score.
+function careerResultNodes(ranking, tiedTop) {
+    return [
+        matchHero(ranking, tiedTop),
+        el("details", { className: "disclosure see-all" },
+            el("summary", { text: `See all ${ranking.length} paths` }),
+            rankList(ranking),
+            el("p", { className: "muted", text: "Each % is the share of your answers that pointed to that path." })
+        ),
+    ];
+}
+
+// {question, answer} pairs: the conversation answers behind a profile, collapsed.
+function answersDisclosure(title, items) {
+    return el("details", { className: "disclosure" },
+        el("summary", { text: `${title} (${items.length})` }),
+        el("dl", { className: "recap-list" }, ...items.map((item) =>
+            el("div", { className: "recap-item" },
+                el("dt", { text: item.question }),
+                el("dd", { text: item.answer })
+            )
+        ))
+    );
+}
+
+// ---------- career profile (old rows, until the last page using them is migrated) ----------
 
 // The top match, set large. confidence_pct is the share of the student's answers that pointed here.
 function topMatchBlock(top) {

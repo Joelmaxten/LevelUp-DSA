@@ -3,24 +3,24 @@
 {% block title %}Career quiz | LevelUp DSA{% endblock %}
 
 {% block content %}
-<div class="sheet">
-    <header class="row row-head">
-        <div class="margin"></div>
-        <div class="main">
-            <h1 class="page-title" id="quiz-heading">Career quiz</h1>
-            <p class="lead" id="quiz-intro">
-                Pick the answer that sounds most like you. There are no right or wrong answers,
-                and you can't fail this. Every question needs an answer, and you can go back with Previous
-                to change an earlier answer.
-            </p>
-        </div>
+<div class="wrap quiz stack">
+    <header class="page-head">
+        <h1 class="h1" id="quiz-heading">Career quiz</h1>
+        <div id="quiz-progress"></div>
     </header>
 
-    <div id="quiz-question-box">
-        <div class="row"><div class="margin"></div><div class="main"><p class="note" role="status">Loading your first question...</p></div></div>
-    </div>
+    <div id="quiz-question-box"><div class="card card-pad"><div class="skel" role="status" aria-label="Loading"><span class="skel-line w-70"></span><span class="skel-line skel-block"></span></div></div></div>
 
-    <div id="quiz-results-box" hidden></div>
+    <div id="quiz-results-box" class="stack" hidden></div>
+
+    <details class="disclosure quiz-info">
+        <summary>How this works</summary>
+        <ul class="info-list">
+            <li>Pick what sounds most like you. There are no wrong answers.</li>
+            <li>Every question needs an answer. Use Previous to change one.</li>
+            <li id="quiz-length-note"></li>
+        </ul>
+    </details>
 </div>
 
 <script src="{{ url_for('static', filename='js/results.js') }}"></script>
@@ -29,7 +29,8 @@ const questionBox = document.getElementById("quiz-question-box");
 const resultsBox = document.getElementById("quiz-results-box");
 const heading = document.getElementById("quiz-heading");
 let quizLength = null;   // { min, max } as reported by /quiz/start, so the page never hard-codes how long the quiz is
-const intro = document.getElementById("quiz-intro");
+const progressBox = document.getElementById("quiz-progress");
+const lengthNote = document.getElementById("quiz-length-note");
 
 // The questions on the way to the current one, in order: { id, question }. The last is the one on screen.
 // The quiz is adaptive (which question comes next depends on the answers so far), so this only ever
@@ -40,33 +41,31 @@ const chosen = {};
 let moved = false;   // has the student moved at all? Only then is focus moved to the new question.
 
 function showLoading(message) {
-    questionBox.replaceChildren(row([], working(message)));
+    questionBox.replaceChildren(el("div", { className: "card card-pad" }, skeleton(message, 2)));
 }
 
 // retry: re-runs the failed request. A 400 means the server's copy of the quiz is gone or out of step
 // (for example the session expired), and the only way forward is to start again.
 function renderError(result, retry) {
-    const actions = el("div", { className: "actions" });
     let message;
+    let action;
 
     if (result.status === 401) {
         message = "You need to be logged in to continue.";
-        actions.append(el("a", { className: "btn", href: "/login?next=/quiz", text: "Log in" }));
+        action = el("a", { className: "btn", href: "/login?next=/quiz", text: "Log in" });
     } else if (result.status === 400) {
         message = (result.data && result.data.error) || "Your quiz session was lost.";
-        const restart = el("button", { className: "btn", type: "button", text: "Start the quiz again" });
-        restart.addEventListener("click", startQuiz);
-        actions.append(restart);
+        action = el("button", { className: "btn", type: "button", text: "Restart quiz" });
+        action.addEventListener("click", startQuiz);
     } else {
         message = result.status === 0
-            ? "Couldn't reach the server. Check your connection and try again."
-            : (result.data && result.data.error) || "Something went wrong. Please try again.";
-        const again = el("button", { className: "btn", type: "button", text: "Try again" });
-        again.addEventListener("click", retry);
-        actions.append(again);
+            ? "Couldn't reach the server. Check your connection."
+            : (result.data && result.data.error) || "Something went wrong.";
+        action = el("button", { className: "btn", type: "button", text: "Try again" });
+        action.addEventListener("click", retry);
     }
 
-    questionBox.replaceChildren(row([], el("div", { className: "msg msg-error", role: "alert" }, el("p", { text: message }), actions)));
+    questionBox.replaceChildren(alertEl(message, "error", action));
 }
 
 function showQuestion() {
@@ -85,17 +84,10 @@ function showQuestion() {
         onNext: (value) => goNext(id, value),
     });
 
-    questionBox.replaceChildren(row(
-        [
-            el("p", { className: "row-title", text: `Question ${number}` }),
-            el("p", { className: "note", text: quizLength ? `The quiz takes ${quizLength.min} to ${quizLength.max} questions.` : "" }),
-            el("p", { className: "note", text: "Every question needs an answer." }),
-        ],
-        el("div", { className: "qa" },
-            el("div", { className: "qa-q" }, title),
-            el("div", { className: "qa-a" }, form)
-        )
-    ));
+    const max = quizLength ? quizLength.max : null;
+    progressBox.replaceChildren(questionProgress(`Question ${number}`, max ? `up to ${max}` : "", max ? (number / max) * 100 : 0,
+        max ? `Question ${number} of at most ${max}` : `Question ${number}`));
+    questionBox.replaceChildren(el("div", { className: "card card-pad stack" }, title, form));
     if (moved) focusHeading(title);
 }
 
@@ -135,15 +127,15 @@ async function goBack(id, value) {
 
 function renderResults(results, tiedTop) {
     heading.textContent = "Your career results";
-    intro.textContent = `Here's how your answers rank the ${results.length} career paths. Next, a few questions about your goals help us tailor your roadmap.`;
+    progressBox.replaceChildren();
     questionBox.hidden = true;
 
     resultsBox.replaceChildren(
-        ...rankingRows(results, 2, tiedTop),
-        row([], el("div", { className: "actions row-actions" },
-            el("a", { className: "btn", href: "/conversation", text: "Continue to your goals" }),
-            el("a", { className: "btn-quiet", href: "/quiz", text: "Retake the quiz" })
-        ))
+        ...careerResultNodes(results, tiedTop),
+        el("div", { className: "actions" },
+            el("a", { className: "btn", href: "/conversation", text: "Continue to goals" }),
+            el("a", { className: "btn btn-ghost", href: "/quiz", text: "Retake quiz" })
+        )
     );
     resultsBox.hidden = false;
     focusHeading(heading);
@@ -162,6 +154,7 @@ async function startQuiz() {
         return;
     }
     quizLength = { min: result.data.min_questions, max: result.data.max_questions };
+    lengthNote.textContent = `It takes ${quizLength.min} to ${quizLength.max} questions.`;
     path.push({ id: result.data.question_id, question: result.data.question });
     showQuestion();
 }

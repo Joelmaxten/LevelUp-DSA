@@ -178,38 +178,37 @@ function ring(pct, centerText, subText, size) {
     return node;
 }
 
-// A required single-choice question: OMR-style radio answers, then Previous / Next.
+// A required single-choice question: large option cards, then Previous / Next.
 // Choosing an answer does NOT move on; Next stays disabled until one is chosen, so no
-// question can be skipped.
+// question can be skipped. Keys 1-4 (up to 9) pick the matching option; Enter moves on once one is picked.
 //   name: unique per question, so its radios group together.
 //   labelledBy: id of the heading that holds the question text.
 //   options: { A: "text", ... }.  selected: the key chosen earlier (so Previous/Next
 //   remembers it), or null.  canGoBack: false on the first question (Previous stays
 //   visible but disabled, so the buttons don't jump around).
 //   onNext(key) is only ever called with a real key. onBack(key) gets the current choice (or null).
+// The cards are real radio buttons (visually hidden but focusable) inside labels, so arrow keys,
+// screen readers and clicking anywhere on a card all work.
 function questionForm({ name, labelledBy, options, selected, canGoBack, nextText, onBack, onNext }) {
     let value = selected != null && Object.prototype.hasOwnProperty.call(options, selected) ? selected : null;
 
-    const group = el("div", { className: "options", role: "radiogroup", "aria-labelledby": labelledBy, "aria-required": "true" });
-    const back = el("button", { className: "btn btn-outline", type: "button", text: "Previous" });
+    const group = el("div", { className: "opt-list", role: "radiogroup", "aria-labelledby": labelledBy, "aria-required": "true" });
+    const back = el("button", { className: "btn btn-ghost", type: "button", text: "Previous" });
     const next = el("button", { className: "btn", type: "submit", text: nextText || "Next" });
-    const hint = el("p", { className: "note choose-hint", text: "Choose one answer to continue." });
+    const hint = el("p", { className: "kbd-hint", text: `Press 1-${Math.min(Object.keys(options).length, 9)} to choose, Enter to continue.` });
 
-    const sync = () => {
-        next.disabled = value === null;
-        hint.hidden = value !== null;
-    };
+    const sync = () => { next.disabled = value === null; };
 
-    for (const [key, text] of Object.entries(options)) {
+    Object.entries(options).forEach(([key, text], i) => {
         const input = el("input", { type: "radio", name, value: key, className: "visually-hidden" });
         input.checked = key === value;
         input.addEventListener("change", () => { value = key; sync(); });
-        group.append(el("label", { className: "option" },
+        group.append(el("label", { className: "opt-card" },
             input,
-            el("span", { className: "bubble", text: key }),
-            el("span", { className: "option-text", text })
+            el("span", { className: "opt-key", "aria-hidden": "true", text: String(i + 1) }),
+            el("span", { className: "opt-text", text })
         ));
-    }
+    });
 
     back.disabled = !canGoBack;
     sync();
@@ -221,7 +220,7 @@ function questionForm({ name, labelledBy, options, selected, canGoBack, nextText
         group.querySelectorAll("input").forEach((input) => { input.disabled = true; });
     };
 
-    const form = el("form", { className: "qform", novalidate: "" },
+    const form = el("form", { className: "qform stack-sm", novalidate: "" },
         group,
         hint,
         el("div", { className: "qnav" }, back, next)
@@ -236,7 +235,44 @@ function questionForm({ name, labelledBy, options, selected, canGoBack, nextText
         lock();
         onBack(value);
     });
+
+    // Keyboard: 1-9 picks an option, Enter (with nothing focused) continues. Removed once this form leaves the page.
+    const onKey = (event) => {
+        if (!form.isConnected) {
+            document.removeEventListener("keydown", onKey);
+            return;
+        }
+        if (event.defaultPrevented || event.ctrlKey || event.metaKey || event.altKey) return;
+        const target = event.target;
+        if (target && target.matches && target.matches("textarea, select, input:not([type=radio])")) return;
+        const onControl = target && target.matches && target.matches("button, a, input");
+        if (event.key === "Enter" && value !== null && !onControl) {
+            event.preventDefault();
+            form.requestSubmit();
+            return;
+        }
+        const n = Number(event.key);
+        if (!Number.isInteger(n) || n < 1 || n > 9) return;
+        const input = group.querySelectorAll("input")[n - 1];
+        if (!input || input.disabled) return;
+        event.preventDefault();
+        input.checked = true;
+        input.dispatchEvent(new Event("change"));
+        input.focus();
+    };
+    document.addEventListener("keydown", onKey);
     return form;
+}
+
+// "Question 3" on the left, a note on the right, a bar underneath. pct is 0-100.
+function questionProgress(left, right, pct, label) {
+    return el("div", { className: "qprogress" },
+        el("div", { className: "cluster between" },
+            el("span", { className: "num", text: left }),
+            right ? el("span", { className: "muted", text: right }) : ""
+        ),
+        pbar(pct, label || left)
+    );
 }
 
 // Move keyboard/screen-reader focus to a newly rendered heading, so a changed question is announced.

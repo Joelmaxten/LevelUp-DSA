@@ -679,6 +679,57 @@ h4 { font-weight: 700; font-size: 1.0625rem; }
 .feature-icon { width: 2rem; height: 2rem; color: var(--ink); }
 .feature .actions { margin-top: var(--sp-2); }
 
+/* ---------- Quiz and goals: one question per screen ---------- */
+
+.quiz .page-head, .goals .page-head { padding-bottom: var(--sp-4); }
+.qprogress { display: grid; gap: var(--sp-2); font-size: var(--fs-sm); }
+
+.question { font-size: var(--fs-xl); line-height: 1.2; font-weight: 800; letter-spacing: -0.01em; margin-bottom: 0; text-wrap: balance; }
+.question-tight { margin-bottom: var(--sp-2); }
+.question-hint { margin-bottom: var(--sp-4); }
+
+.opt-list { display: grid; gap: var(--sp-3); }
+.opt-card {
+    display: grid;
+    grid-template-columns: 2.25rem minmax(0, 1fr);
+    gap: var(--sp-3);
+    align-items: center;
+    min-height: 3.5rem;
+    padding: var(--sp-3) var(--sp-4);
+    background: var(--surface);
+    border: 2px solid var(--line);
+    border-radius: var(--r);
+    cursor: pointer;
+    transition: border-color var(--t-fast) var(--ease), background-color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
+}
+.opt-card:hover { border-color: var(--ink); background: var(--tint); }
+.opt-key {
+    display: grid;
+    place-items: center;
+    width: 2.25rem; height: 2.25rem;
+    border: 2px solid var(--ink);
+    border-radius: var(--r-sm);
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+}
+.opt-card:has(input:checked) { border-color: var(--ink); background: var(--tint); box-shadow: inset 0 0 0 1px var(--ink); }
+.opt-card:has(input:checked) .opt-key { background: var(--ink); color: var(--surface); }
+.opt-card:has(input:checked) .opt-text { font-weight: 700; }
+.opt-card:has(input:focus-visible) { outline: 3px solid var(--ink); outline-offset: 3px; }
+.opt-card:has(input:disabled) { cursor: default; }
+
+.kbd-hint { font-size: var(--fs-xs); color: var(--pencil); }
+@media (hover: none) { .kbd-hint { display: none; } }
+
+.qnav { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); margin-top: var(--sp-4); }
+.qnav-end { display: flex; align-items: center; gap: var(--sp-2); }
+
+/* Results: the hero match card, then "See all". */
+.hero-match { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-5); }
+.hero-match > .stack-sm { flex: 1 1 14rem; min-width: 0; }
+.hero-name { font-size: var(--fs-2xl); line-height: 1.05; overflow-wrap: anywhere; }
+.see-all .merit { margin-top: var(--sp-1); }
+
 /* ---------- Quiz + conversation options: OMR bubbles ---------- */
 
 .question {
@@ -758,9 +809,7 @@ h4 { font-weight: 700; font-size: 1.0625rem; }
 .merit-item + .merit-item { border-top: 1px solid var(--rule); }
 .merit-rank { color: var(--pencil); }
 .merit-top .merit-name { font-weight: 700; }
-.merit-track { grid-column: 2 / -1; display: block; height: 6px; margin-top: 0.5rem; background: var(--rule); }
-.merit-fill { display: block; height: 100%; background: var(--line); }
-.merit-top .merit-fill { background: var(--ink); }
+.merit-track { grid-column: 2 / -1; display: block; margin-top: 0.5rem; }
 
 .recap-item + .recap-item { margin-top: 1.25rem; }
 .recap-item dt { font-size: 0.9375rem; color: var(--pencil); }
