@@ -548,37 +548,47 @@ h4 { font-weight: 700; font-size: 1.0625rem; }
 
 /* ---------- Forms ---------- */
 
-.form { max-width: 26rem; margin-top: 2rem; }
-.field { margin-bottom: 1.75rem; }
-.field label, .label { display: block; margin-bottom: 0.15rem; font-weight: 700; }
+.form { max-width: 26rem; }
+.field { margin-bottom: var(--sp-5); }
+.field label, .label { display: block; margin-bottom: var(--sp-1); font-weight: 700; font-size: var(--fs-sm); }
 
 .input, .select {
     display: block;
     width: 100%;
-    min-height: 3rem;
-    padding: 0.5rem 0;
-    background: transparent;
+    min-height: var(--tap);
+    padding: 0.55rem var(--sp-3);
+    background: var(--surface);
     color: var(--ink);
-    border: 0;
-    border-bottom: 2px solid var(--line);
-    border-radius: 0;
+    border: 2px solid var(--line);
+    border-radius: var(--r-sm);
     font: inherit;
-    font-size: 1.125rem;
+    font-size: var(--fs-md);
+    transition: border-color var(--t-fast) var(--ease);
 }
-.input:focus-visible, .select:focus-visible { border-bottom-color: var(--ink); }
+.input:hover, .select:hover { border-color: var(--ink); }
+.input:focus-visible, .select:focus-visible { border-color: var(--ink); outline-offset: 1px; }
+.input[aria-invalid="true"] { border-color: var(--red); }
 
 .select {
     appearance: none;
-    padding-right: 2rem;
+    padding-right: 2.25rem;
     cursor: pointer;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='10' viewBox='0 0 16 10'%3E%3Cpath d='M1.5 1.5 8 8l6.5-6.5' fill='none' stroke='%23151C4F' stroke-width='2.5'/%3E%3C/svg%3E") no-repeat right 0.15rem center;
+    background: var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='10' viewBox='0 0 16 10'%3E%3Cpath d='M1.5 1.5 8 8l6.5-6.5' fill='none' stroke='%23151C4F' stroke-width='2.5'/%3E%3C/svg%3E") no-repeat right 0.85rem center;
 }
 
+.btn-block { width: 100%; }
 .form-foot { margin-top: 1.5rem; }
 .page-msg { margin-top: 1.5rem; }
 
-.hint { margin-top: 0.4rem; font-size: 0.9375rem; color: var(--pencil); }
-.field-error { margin-top: 0.4rem; font-size: 0.9375rem; font-weight: 700; color: var(--red); }
+.hint { margin-top: 0.4rem; font-size: var(--fs-sm); color: var(--pencil); }
+.field-error { margin-top: var(--sp-2); font-size: var(--fs-sm); font-weight: 700; color: var(--red); }
+.rule-chips { margin-top: var(--sp-2); }
+.rule-chips .chip { transition: background-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease); }
+
+/* Log in / sign up: one centred card. */
+.auth { padding: var(--sp-7) 0; }
+.auth-card { max-width: 26rem; margin: 0 auto; }
+.auth-card .form { max-width: none; }
 
 /* The resume drop sheet: dropping a file onto the input works natively. */
 .file-input {
@@ -967,12 +977,6 @@ h4 { font-weight: 700; font-size: 1.0625rem; }
     .qa-q { position: sticky; top: 2rem; }
     .qa-q .question { font-size: clamp(1.75rem, 0.9rem + 1.9vw, 2.75rem); margin-bottom: 1rem; }
     .qa-q .question-tight { margin-bottom: 0.75rem; }
-}
-
-/* Log in / sign up: the heading on the left, the form beside it. */
-@media (min-width: 64rem) {
-    .auth-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 26rem); gap: 4rem; align-items: start; max-width: 58rem; }
-    .auth-grid .form { margin-top: 0.75rem; }
 }
 
 /* Career results, dashboard. */

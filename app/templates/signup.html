@@ -3,41 +3,36 @@
 {% block title %}Sign up | LevelUp DSA{% endblock %}
 
 {% block content %}
-<div class="sheet">
-    <div class="row row-head">
-        <div class="margin">
-            <p class="note">You'll need a name, an email and a password. Everything you do here is saved to your account.</p>
-        </div>
-        <div class="main">
-          <div class="auth-grid">
-            <div>
-                <h1 class="page-title">Create your account</h1>
-            </div>
+<div class="wrap auth">
+    <div class="card card-pad auth-card stack">
+        <h1 class="h1">Create account</h1>
 
-            <form id="signup-form" class="form">
-                <div class="field">
-                    <label for="name">Name</label>
-                    <input class="input" type="text" id="name" autocomplete="name" required>
-                </div>
-                <div class="field">
-                    <label for="email">Email</label>
-                    <input class="input" type="email" id="email" autocomplete="email" required>
-                </div>
-                <div class="field">
-                    <label for="password">Password</label>
-                    <input class="input" type="password" id="password" required autocomplete="new-password"
-                           aria-describedby="password-hint password-error">
-                    <p id="password-hint" class="hint">At least 8 characters, with an uppercase letter, a lowercase letter, a number, and a special character.</p>
-                    <p id="password-error" class="field-error" role="alert" hidden></p>
-                </div>
-                <div class="actions">
-                    <button type="submit" id="signup-btn" class="btn">Create account</button>
-                </div>
-                <p id="signup-message" class="msg" role="status" hidden></p>
-                <p class="note form-foot">Already have an account? <a href="/login">Log in</a></p>
-            </form>
-          </div>
-        </div>
+        <form id="signup-form" class="form stack-sm">
+            <div class="field">
+                <label for="name">Name</label>
+                <input class="input" type="text" id="name" autocomplete="name" required>
+            </div>
+            <div class="field">
+                <label for="email">Email</label>
+                <input class="input" type="email" id="email" autocomplete="email" required>
+            </div>
+            <div class="field">
+                <label for="password">Password</label>
+                <input class="input" type="password" id="password" required autocomplete="new-password"
+                       aria-describedby="password-hint password-error">
+                <ul id="password-hint" class="chips rule-chips" aria-label="Password rules">
+                    <li class="chip chip-line" data-rule="length">8+ characters</li>
+                    <li class="chip chip-line" data-rule="upper">A-Z</li>
+                    <li class="chip chip-line" data-rule="lower">a-z</li>
+                    <li class="chip chip-line" data-rule="digit">0-9</li>
+                    <li class="chip chip-line" data-rule="special">Symbol</li>
+                </ul>
+                <p id="password-error" class="field-error" role="alert" hidden></p>
+            </div>
+            <button type="submit" id="signup-btn" class="btn btn-block">Create account</button>
+            <div id="signup-message" class="alert" role="status" hidden><p></p></div>
+        </form>
+        <p class="muted">Have an account? <a href="/login">Log in</a></p>
     </div>
 </div>
 
@@ -74,10 +69,30 @@ function showPasswordError(show) {
 }
 
 function showMessage(text, isError) {
-    messageEl.textContent = text;
-    messageEl.className = isError ? "msg msg-error" : "msg msg-ok";
+    messageEl.firstElementChild.textContent = text;
+    messageEl.className = isError ? "alert alert-error" : "alert alert-ok";
+    messageEl.setAttribute("role", isError ? "alert" : "status");
     messageEl.hidden = false;
 }
+
+// The rule chips light up as each rule is met. The server is still the real check (see above).
+const ruleChecks = {
+    length: (pw) => [...pw].length >= MIN_PASSWORD_LENGTH,
+    upper: (pw) => /[A-Z]/.test(pw),
+    lower: (pw) => /[a-z]/.test(pw),
+    digit: (pw) => /[0-9]/.test(pw),
+    special: (pw) => [...pw].some((c) => SPECIAL_CHARS.includes(c)),
+};
+function updateRuleChips() {
+    document.querySelectorAll(".rule-chips [data-rule]").forEach((chip) => {
+        const met = ruleChecks[chip.dataset.rule](passwordInput.value);
+        chip.classList.toggle("chip-ink", met);
+        chip.classList.toggle("chip-line", !met);
+        chip.setAttribute("aria-label", `${chip.textContent}: ${met ? "met" : "not met"}`);
+    });
+}
+passwordInput.addEventListener("input", updateRuleChips);
+updateRuleChips();
 
 // Validate once the field has been left, then keep the message live while
 // they fix it, so there's no error flashing while they're still on their first keystrokes.
@@ -93,6 +108,7 @@ passwordInput.addEventListener("input", () => {
 
 form.addEventListener("submit", async function (e) {
     e.preventDefault();
+    if (signupBtn.getAttribute("aria-busy") === "true") return;   // a request is already under way
     messageEl.hidden = true;
 
     const name = document.getElementById("name").value;
@@ -106,7 +122,7 @@ form.addEventListener("submit", async function (e) {
         return;
     }
 
-    signupBtn.disabled = true;
+    signupBtn.setAttribute("aria-busy", "true");
     const result = await postJson("/signup", { name, email, password });
 
     if (result.ok) {
@@ -115,7 +131,7 @@ form.addEventListener("submit", async function (e) {
         return;
     }
 
-    signupBtn.disabled = false;
+    signupBtn.removeAttribute("aria-busy");
     showMessage(
         result.status === 0
             ? "Couldn't reach the server. Check your connection and try again."

@@ -3,38 +3,27 @@
 {% block title %}Log in | LevelUp DSA{% endblock %}
 
 {% block content %}
-<div class="sheet">
-    <div class="row row-head">
-        <div class="margin">
-            <p class="note">Your quiz results, roadmap and resume analysis are saved to your account, so you can pick up where you left off.</p>
-        </div>
-        <div class="main">
-          <div class="auth-grid">
-            <div>
-                <h1 class="page-title">Log in</h1>
+<div class="wrap auth">
+    <div class="card card-pad auth-card stack">
+        <h1 class="h1">Log in</h1>
 
-                {% if registered %}
-                <p class="msg msg-ok page-msg" role="status">Your account is ready. Log in to get started.</p>
-                {% endif %}
+        {% if registered %}
+        <div class="alert alert-ok" role="status"><p>Account ready. Log in to start.</p></div>
+        {% endif %}
+
+        <form id="login-form" class="form stack-sm">
+            <div class="field">
+                <label for="email">Email</label>
+                <input class="input" type="email" id="email" autocomplete="email" required>
             </div>
-
-            <form id="login-form" class="form">
-                <div class="field">
-                    <label for="email">Email</label>
-                    <input class="input" type="email" id="email" autocomplete="email" required>
-                </div>
-                <div class="field">
-                    <label for="password">Password</label>
-                    <input class="input" type="password" id="password" autocomplete="current-password" required>
-                </div>
-                <div class="actions">
-                    <button type="submit" id="login-btn" class="btn">Log in</button>
-                </div>
-                <p id="login-message" class="msg" role="status" hidden></p>
-                <p class="note form-foot">New here? <a href="/signup">Create an account</a></p>
-            </form>
-          </div>
-        </div>
+            <div class="field">
+                <label for="password">Password</label>
+                <input class="input" type="password" id="password" autocomplete="current-password" required>
+            </div>
+            <button type="submit" id="login-btn" class="btn btn-block">Log in</button>
+            <div id="login-message" class="alert" role="status" hidden><p></p></div>
+        </form>
+        <p class="muted">New here? <a href="/signup">Create account</a></p>
     </div>
 </div>
 
@@ -46,19 +35,21 @@ const NEXT_URL = {{ next_url|tojson }};
 const loginMessage = document.getElementById("login-message");
 
 function showLoginMessage(text, isError) {
-    loginMessage.textContent = text;
-    loginMessage.className = isError ? "msg msg-error" : "msg msg-ok";
+    loginMessage.firstElementChild.textContent = text;
+    loginMessage.className = isError ? "alert alert-error" : "alert alert-ok";
+    loginMessage.setAttribute("role", isError ? "alert" : "status");
     loginMessage.hidden = false;
 }
 
 document.getElementById("login-form").addEventListener("submit", async function (e) {
     e.preventDefault();
+    const loginBtn = document.getElementById("login-btn");
+    if (loginBtn.getAttribute("aria-busy") === "true") return;   // a request is already under way
 
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
-    const loginBtn = document.getElementById("login-btn");
 
-    loginBtn.disabled = true;
+    loginBtn.setAttribute("aria-busy", "true");
     const result = await postJson("/login", { email, password });
 
     if (result.ok) {
@@ -67,7 +58,7 @@ document.getElementById("login-form").addEventListener("submit", async function 
         return;
     }
 
-    loginBtn.disabled = false;
+    loginBtn.removeAttribute("aria-busy");
     showLoginMessage(
         result.status === 0
             ? "Couldn't reach the server. Check your connection and try again."
