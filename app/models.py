@@ -350,3 +350,25 @@ class SurveyRespondent(db.Model):
 
     def __repr__(self):
         return f"<SurveyRespondent id={self.id} career_path={self.career_path!r}>"
+
+class ScenarioAttempt(db.Model):
+    """One run through a scenario (scenario-based practice). Created on start, completed on submit."""
+    __tablename__ = "scenario_attempts"
+    __table_args__ = (db.Index("ix_scenario_attempts_user_scenario", "user_id", "scenario_id"),)
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    path = db.Column(db.String(100))
+    scenario_id = db.Column(db.String(40))
+    answers = db.Column(db.JSON)              # the submitted answers, keyed by question id
+    score = db.Column(db.Integer)
+    max_score = db.Column(db.Integer)
+    passed = db.Column(db.Boolean)
+    shuffle_seed = db.Column(db.Integer)      # same seed -> same option order on resume
+    started_at = db.Column(db.DateTime, default=datetime.utcnow)
+    submitted_at = db.Column(db.DateTime)     # NULL = unfinished
+
+    user = db.relationship("User", backref="scenario_attempts")
+
+    def __repr__(self):
+        return f"<ScenarioAttempt user={self.user_id} scenario={self.scenario_id}>"

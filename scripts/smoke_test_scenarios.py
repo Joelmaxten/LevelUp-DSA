@@ -209,7 +209,166 @@ def test_blind_solve():
     check("--run without --paths refuses (no call)", run.returncode == 2)
 
 
-SECTIONS = [test_validator, test_blind_solve]
+# ---------------------------------------------------------------- part 3: store, engine, progress rules
+def test_store_engine():
+    from app.pipeline import scenario_store as store
+    from app.pipeline import scenario_engine as eng
+
+    # store
+    check("store lists the pilot path", store.list_paths() == ["Machine Learning Engineering"])
+    check("store: slug lookup works", store.get_by_slug("machine-learning-engineering") is not None
+          and store.get_by_slug("nope") is None)
+    d, sc = store.find_scenario("mle-3")
+    check("store: find_scenario returns path data and scenario", d is not None and sc["id"] == "mle-3")
+    check("store: unknown scenario id -> (None, None)", store.find_scenario("zzz") == (None, None))
+    with tempfile.TemporaryDirectory() as tmp:
+        bad = load_pilot()
+        q_of(bad, "mle-1-q1")["correct"] = ["z"]
+        (Path(tmp) / "bad.json").write_text(json.dumps(bad), encoding="utf-8")
+        (Path(tmp) / "junk.json").write_text("{nope", encoding="utf-8")
+        store.set_directory(tmp)
+        check("store refuses invalid and unreadable files (treated as missing)", store.list_paths() == [])
+        (Path(tmp) / "good.json").write_text(PILOT.read_text(encoding="utf-8"), encoding="utf-8")
+        store.set_directory(tmp)
+        check("store loads a valid file from another directory", store.list_paths() == ["Machine Learning Engineering"])
+        first = store.get_path("Machine Learning Engineering")
+        check("store caches (same object on repeat call)", store.get_path("Machine Learning Engineering") is first)
+        store.set_directory(Path(tmp) / "missing")
+        check("store: missing directory -> no paths, no error", store.list_paths() == [])
+    store.set_directory(None)
+
+    data = load_pilot()
+    scenarios = data["scenarios"]
+
+    # public_view never carries a key field
+    key_texts = []
+    for s in scenarios:
+        for q in s["questions"]:
+            key_texts += [q["explanation"], q["key_justification"]] + list(q["why_others_wrong"].values())
+    blob = json.dumps([eng.public_view(s, seed) for s in scenarios for seed in (1, 2, 3)])
+    check("public_view JSON has no key field names",
+          not any(f'"{f}"' in blob for f in ("correct", "explanation", "why_others_wrong", "key_justification", "common_mistake")))
+    check("public_view JSON has no explanation / justification text", not any(t in blob for t in key_texts))
+
+    # shuffle: deterministic per seed, different across seeds, ids kept
+    a, b, c = eng.public_view(scenarios[0], 7), eng.public_view(scenarios[0], 7), eng.public_view(scenarios[0], 8)
+    check("shuffle is deterministic for one seed", a == b)
+    check("shuffle differs across seeds", a != c and any(
+        [o["id"] for o in qa["options"]] != [o["id"] for o in qc["options"]]
+        for qa, qc in zip(a["questions"], c["questions"]) if "options" in qa))
+    ok_ids = all(sorted(o["id"] for o in qv.get("options", qv.get("items", []))) ==
+                 sorted(o["id"] for o in (q.get("options") or q["items"]))
+                 for qv, q in zip(a["questions"], scenarios[0]["questions"]))
+    check("shuffle keeps the original ids and options", ok_ids)
+    mt = eng.public_view(scenarios[2], 5)["questions"][3]
+    check("match items and targets are both present", len(mt["items"]) == len(mt["targets"]) == 4)
+
+    # perfect score from the key itself
+    perfect = {q["id"]: q["correct"] for s in scenarios for q in s["questions"]}
+    for s in scenarios:
+        g = eng.grade(s, perfect)
+        check(f"perfect answers from the key give 100% on {s['id']}",
+              g["percent"] == 100 and g["passed"] and g["score"] == 10 * len(s["questions"]))
+
+    def one(qtype):
+        for s in scenarios:
+            for q in s["questions"]:
+                if q["type"] == qtype:
+                    return s, q
+
+    # grading per type
+    for qtype in ("single_choice", "multi_select", "order", "match"):
+        s, q = one(qtype)
+        right = eng.grade_question(q, q["correct"])
+        check(f"{qtype}: correct answer awarded 10", right["correct"] and right["awarded"] == 10)
+        check(f"{qtype}: result carries explanation, why_others_wrong, correct_answer",
+              right["explanation"] and right["why_others_wrong"] and right["correct_answer"] == q["correct"])
+        for label, junk in (("missing answer", None), ("empty list", []), ("empty dict", {}), ("number", 7),
+                            ("unknown ids", ["zz"] if qtype != "match" else {"zz": "yy"}),
+                            ("nested garbage", [["a"], {"b": 1}]), ("string", "a,b")):
+            r = eng.grade_question(q, junk)
+            check(f"{qtype}: {label} is wrong and does not raise", not r["correct"] and r["awarded"] == 0)
+
+    s, q = one("single_choice")
+    wrong_id = next(o["id"] for o in q["options"] if o["id"] not in q["correct"])
+    check("single_choice: a wrong id is wrong", not eng.grade_question(q, [wrong_id])["correct"])
+    check("single_choice: two ids is wrong", not eng.grade_question(q, [q["correct"][0], wrong_id])["correct"])
+    check("single_choice: bare string id accepted", eng.grade_question(q, q["correct"][0])["correct"])
+    s, q = one("multi_select")
+    check("multi_select: any order of the exact set is right", eng.grade_question(q, list(reversed(q["correct"])))["correct"])
+    check("multi_select: partial set is wrong", not eng.grade_question(q, q["correct"][:1])["correct"])
+    extra = next(o["id"] for o in q["options"] if o["id"] not in q["correct"])
+    check("multi_select: correct set plus an extra is wrong", not eng.grade_question(q, q["correct"] + [extra])["correct"])
+    check("multi_select: duplicated ids are wrong", not eng.grade_question(q, q["correct"] + q["correct"][:1])["correct"])
+    s, q = one("order")
+    check("order: wrong sequence is wrong", not eng.grade_question(q, list(reversed(q["correct"])))["correct"])
+    check("order: a missing step is wrong", not eng.grade_question(q, q["correct"][:-1])["correct"])
+    s, q = one("match")
+    swapped = dict(q["correct"])
+    k1, k2 = list(swapped)[:2]
+    swapped[k1], swapped[k2] = swapped[k2], swapped[k1]
+    check("match: swapped pair is wrong", not eng.grade_question(q, swapped)["correct"])
+    check("match: partial mapping is wrong", not eng.grade_question(q, {k1: q["correct"][k1]})["correct"])
+    check("match: a list instead of a mapping is wrong", not eng.grade_question(q, list(q["correct"].values()))["correct"])
+
+    sc0 = scenarios[0]
+    check("grade: non-dict answers -> all wrong, no raise", eng.grade(sc0, "x")["score"] == 0 and eng.grade(sc0, None)["score"] == 0)
+    all_wrong = eng.grade(sc0, {"mle-1-q1": ["a"], "bogus-id": ["b"]})
+    check("grade: unknown question ids ignored, missing answers wrong", all_wrong["score"] == 0 and len(all_wrong["results"]) == 4)
+    partial = {q["id"]: q["correct"] for q in sc0["questions"]}
+    partial["mle-1-q1"] = ["a"]
+    gp = eng.grade(sc0, partial)
+    check("grade: 3 of 4 correct = 30/40 = 75% passes (>= 70%)", gp["score"] == 30 and gp["max_score"] == 40 and gp["passed"])
+    partial["mle-1-q2"] = ["a"]
+    gp = eng.grade(sc0, partial)
+    check("grade: 2 of 4 = 50% does not pass", gp["percent"] == 50 and not gp["passed"])
+    s5 = scenarios[4]
+    p5 = {q["id"]: q["correct"] for q in s5["questions"]}
+    p5["mle-5-q1"] = list(reversed(p5["mle-5-q1"]))
+    p5["mle-5-q2"] = ["zz"]
+    check("grade: 3 of 5 = 60% does not pass; the 70% boundary is inclusive",
+          not eng.grade(s5, p5)["passed"] and eng.is_passing(7, 10) and not eng.is_passing(6, 10))
+
+    # progress rules
+    def att(sid, score, mx=40):
+        return {"scenario_id": sid, "score": score, "max_score": mx}
+
+    p = eng.compute_progress(scenarios, [])
+    check("progress: scenario 1 open, the rest locked at the start",
+          p["mle-1"]["state"] == "open" and all(p[f"mle-{n}"]["state"] == "locked" for n in range(2, 6)))
+    p = eng.compute_progress(scenarios, [att("mle-1", 10)])
+    check("progress: a failed attempt on N still opens N+1 and marks N attempted",
+          p["mle-1"]["state"] == "attempted" and p["mle-2"]["state"] == "open" and p["mle-3"]["state"] == "locked")
+    p = eng.compute_progress(scenarios, [att("mle-1", 10), att("mle-1", 40), att("mle-1", 20)])
+    check("progress: best score is kept and passed once any attempt passes",
+          p["mle-1"]["best_score"] == 40 and p["mle-1"]["state"] == "passed")
+    p = eng.compute_progress(scenarios, [att("mle-3", 40)])
+    check("progress: a submission on a later scenario does not unlock the ones before it",
+          p["mle-2"]["state"] == "locked" and p["mle-3"]["state"] == "passed")
+    check("progress: unfinished attempts (no score) are ignored",
+          eng.compute_progress(scenarios, [{"scenario_id": "mle-1", "score": None, "max_score": None}])["mle-2"]["state"] == "locked")
+
+    # weak topics and recommendation
+    p = eng.compute_progress(scenarios, [att("mle-1", 40), att("mle-2", 10, 40)])
+    weak = eng.weak_topics(scenarios, p)
+    check("weak topics = tests_topics of scenarios below 70%", weak == scenarios[1]["tests_topics"])
+    check("recommended_next without weak topics = first open not passed", eng.recommended_next(scenarios, p, []) == "mle-2")
+    check("recommended_next with nothing started = scenario 1",
+          eng.recommended_next(scenarios, eng.compute_progress(scenarios, []), []) == "mle-1")
+    p = eng.compute_progress(scenarios, [att("mle-1", 10, 40), att("mle-2", 40)])
+    check("recommended_next returns the failed earlier scenario over a later open one",
+          eng.recommended_next(scenarios, p, eng.weak_topics(scenarios, p)) == "mle-1")
+    fab = [dict(scenarios[0], tests_topics=["A"]), dict(scenarios[1], tests_topics=["B"]), dict(scenarios[2], tests_topics=["C"])]
+    fprog = {"mle-1": {"state": "passed", "best_score": 40, "max_score": 40},
+             "mle-2": {"state": "open", "best_score": None, "max_score": None},
+             "mle-3": {"state": "open", "best_score": None, "max_score": None}}
+    check("recommended_next prefers an open scenario overlapping weak topics", eng.recommended_next(fab, fprog, ["c"]) == "mle-3")
+    check("recommended_next falls back to the first open one when nothing overlaps", eng.recommended_next(fab, fprog, ["zzz"]) == "mle-2")
+    done = eng.compute_progress(scenarios, [att(s["id"], 40) for s in scenarios])
+    check("recommended_next is None when everything is passed", eng.recommended_next(scenarios, done, []) is None)
+
+
+SECTIONS = [test_validator, test_blind_solve, test_store_engine]
 
 
 def main():
