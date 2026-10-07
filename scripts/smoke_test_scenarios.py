@@ -584,6 +584,17 @@ def test_routes():
         check("rate limit on submit: 2nd call -> 429 with Retry-After", resp.status_code == 429 and resp.headers.get("Retry-After"))
         reset_rate_limits()
 
+        page = alice.get("/scenarios")
+        html = page.get_data(as_text=True)
+        check("GET /scenarios renders for a logged-in user with the script and nav link",
+              page.status_code == 200 and "js/scenarios.js" in html and 'href="/scenarios"' in html)
+        check("dsa.html still renders", alice.get("/dsa").status_code == 200)
+        check("map payload has scene_url (null when no scene file exists)", "scene_url" in alice.get("/scenarios/machine-learning-engineering").get_json())
+        js = Path("app/static/js/scenarios.js").read_text(encoding="utf-8")
+        check("scenarios.js never uses innerHTML / insertAdjacentHTML / document.write",
+              not any(w in js for w in ("innerHTML", "outerHTML", "insertAdjacentHTML", "document.write")))
+        check("scenarios.js makes no direct fetch() (shared request helper only)", "fetch(" not in js)
+
         check("CareerProfile is unchanged after every scenario call", profile_snapshot(alice_id) == before)
         check("no CareerProfile was created for a user who had none", profile_snapshot(bob_id) == [])
     finally:

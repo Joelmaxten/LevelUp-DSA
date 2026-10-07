@@ -1139,3 +1139,90 @@ a.job-link:hover .job-title { text-decoration: underline; }
     .mode-card[aria-pressed="true"] { forced-color-adjust: none; background: Highlight; color: HighlightText; }
     .pbar > span { forced-color-adjust: none; background: Highlight; }
 }
+
+/* ---------- Scenarios (map + player) ---------- */
+.scen-picker { display: grid; gap: var(--sp-1); max-width: 24rem; }
+.scen-path-title { font-size: var(--fs-xl); font-weight: 800; letter-spacing: -0.01em; }
+.scen-sub { font-size: var(--fs-md); font-weight: 700; margin-bottom: var(--sp-2); }
+.scen-head { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); flex-wrap: wrap; }
+.scen-title { font-size: var(--fs-xl); font-weight: 800; line-height: 1.2; }
+.scen-title:focus, .scen-prompt:focus, .scen-verdict:focus, #scen-heading:focus { outline: none; }
+.scen-score { font-size: var(--fs-lg); font-weight: 700; }
+.scen-list { list-style: none; padding: 0; margin: 0; }
+.scen-row { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-4); flex-wrap: wrap; }
+.scen-row-title { font-size: var(--fs-md); font-weight: 700; margin-bottom: var(--sp-2); }
+.chip-state-passed { background: var(--ink); color: var(--surface); }
+.chip-state-locked { background: transparent; border-color: var(--line); color: var(--pencil); font-weight: 500; }
+
+/* Map: one canvas that scales as a whole (fixed 16:10 box), nodes placed by fractions of it. */
+.smap {
+    position: relative; width: 100%; aspect-ratio: 16 / 10; overflow: hidden;
+    border: 1px solid var(--rule); border-radius: var(--r-lg);
+    background: linear-gradient(165deg, var(--tint) 0%, var(--surface) 55%, var(--rule) 100%);
+}
+.smap-scene { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.smap-edges { position: absolute; inset: 0; width: 100%; height: 100%; }
+.smap-edge { stroke: var(--ink); stroke-width: 3; stroke-linecap: round; vector-effect: non-scaling-stroke; opacity: 0.55; }
+.smap-edge.is-locked { stroke: var(--line); stroke-dasharray: 2 8; opacity: 0.8; }
+.smap-node {
+    position: absolute; transform: translate(-50%, -50%);
+    display: grid; place-items: center; width: var(--tap); height: var(--tap); padding: 0;
+    border: 2px solid var(--ink); border-radius: 50%; background: var(--surface); color: var(--ink);
+    font: inherit; font-weight: 800; cursor: pointer; box-shadow: var(--shadow-1);
+}
+.smap-node:hover { background: var(--tint); }
+.smap-node:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+.smap-node.is-attempted { background: var(--tint); }
+.smap-node.is-passed { background: var(--ink); color: var(--surface); }
+.smap-node.is-locked { background: var(--paper); border-style: dashed; border-color: var(--line); color: var(--pencil); cursor: not-allowed; }
+.smap-node.is-recommended { box-shadow: 0 0 0 4px var(--marker), var(--shadow-1); animation: smap-pulse 2.4s var(--ease) infinite; }
+.smap-name {
+    position: absolute; top: calc(100% + 4px); left: 50%; transform: translateX(-50%);
+    padding: 1px 6px; border-radius: var(--r-sm); background: var(--surface); color: var(--ink);
+    font-size: var(--fs-xs); font-weight: 600; white-space: nowrap; pointer-events: none;
+}
+.smap-goal {
+    position: absolute; top: -8px; right: -8px; width: 20px; height: 20px; display: grid; place-items: center;
+    border-radius: 50%; background: var(--marker); color: var(--ink); border: 1px solid var(--ink); font-size: 12px; line-height: 1;
+}
+@keyframes smap-pulse {
+    0%, 100% { box-shadow: 0 0 0 4px var(--marker), var(--shadow-1); }
+    50% { box-shadow: 0 0 0 9px rgba(246, 232, 75, 0.35), var(--shadow-1); }
+}
+@media (max-width: 40rem) { .smap-name { display: none; } }
+@media (prefers-reduced-motion: reduce) { .smap-node.is-recommended { animation: none; } }
+
+/* Player */
+.scen-bg summary { cursor: pointer; font-weight: 700; min-height: var(--tap); display: flex; align-items: center; }
+.scen-bg p { max-width: 46rem; }
+.scen-fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+.scen-prompt { font-size: var(--fs-md); font-weight: 700; padding: 0; margin-bottom: var(--sp-2); }
+.scen-options { display: grid; gap: var(--sp-2); margin-top: var(--sp-3); }
+.scen-opt {
+    display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; min-height: var(--tap); padding: var(--sp-2) var(--sp-3);
+    border: 1px solid var(--line); border-radius: var(--r); background: var(--surface); cursor: pointer;
+}
+.scen-opt input { width: 1.25rem; height: 1.25rem; flex: none; accent-color: var(--ink); }
+.scen-opt:has(input:checked) { border-color: var(--ink); background: var(--tint); box-shadow: inset 0 0 0 1px var(--ink); }
+.scen-opt:has(input:focus-visible) { outline: 3px solid var(--ink); outline-offset: 3px; }
+.scen-opt.is-right { border-color: var(--ink); background: var(--tint); }
+.scen-opt.is-wrong { border-color: var(--red); }
+.scen-opt-text { flex: 1 1 14rem; }
+.scen-opt-status { font-size: var(--fs-xs); font-weight: 700; color: var(--pencil); }
+.scen-opt.is-wrong .scen-opt-status, .scen-opt-status.is-wrong { color: var(--red); }
+.scen-order { list-style: decimal; padding-left: 1.75rem; margin: var(--sp-3) 0 0; display: grid; gap: var(--sp-2); }
+.scen-order-item { padding: var(--sp-2) var(--sp-3); border: 1px solid var(--line); border-radius: var(--r); background: var(--surface); }
+.scen-order-item::marker { font-weight: 800; }
+.scen-order-text { display: block; margin-bottom: var(--sp-2); }
+.scen-order-btns { display: flex; gap: var(--sp-2); }
+.scen-move { min-height: var(--tap); min-width: var(--tap); }
+.scen-match { display: grid; gap: var(--sp-3); margin-top: var(--sp-3); }
+.scen-match-row { display: grid; gap: var(--sp-2); }
+.scen-match-row label { font-weight: 600; }
+.scen-verdict { font-size: var(--fs-md); font-weight: 800; }
+.scen-verdict.is-right::before { content: "\2713 "; }
+.scen-verdict.is-wrong { color: var(--red); }
+.scen-feedback > * + * { margin-top: var(--sp-3); }
+.scen-answer-list, .scen-why { margin: 0; padding-left: 1.25rem; display: grid; gap: var(--sp-2); }
+.scen-results { list-style: none; padding: 0; margin: 0; }
+.scen-result-q { margin: var(--sp-2) 0; color: var(--pencil); }

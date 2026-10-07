@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block title %}Scenarios | LevelUp DSA{% endblock %}
+
+{% block content %}
+<div class="wrap scen">
+    <header class="page-head">
+        <h1 class="h1" id="scen-heading" tabindex="-1">Scenarios</h1>
+        <p class="lead muted">Short, realistic work situations. Make the call, then see why.</p>
+    </header>
+
+    <div id="scen-box" class="stack"><div class="card card-pad"><div class="skel" role="status" aria-label="Loading"><span class="skel-line w-40"></span><span class="skel-line skel-block"></span></div></div></div>
+    <div id="scen-live" class="visually-hidden" role="status" aria-live="polite"></div>
+</div>
+
+<script src="{{ url_for('static', filename='js/scenarios.js') }}"></script>
+{% endblock %}

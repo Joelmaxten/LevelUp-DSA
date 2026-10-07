@@ -8,10 +8,11 @@ re-answer that question.
 
 Error bodies are {"error": "<fixed_code>"} only - never exception text. Reads CareerProfile (never writes it).
 """
+import os
 import secrets
 from datetime import datetime
 
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, current_app, jsonify, request
 from flask_login import current_user, login_required
 
 from app import db
@@ -81,13 +82,20 @@ def _map_scenarios(path_data, goal):
     return entries, weak
 
 
+def _scene_url(scene_id):
+    """URL of static/scenes/<scene_id>.svg if that file exists, else None (the page draws a gradient instead)."""
+    if os.path.isfile(os.path.join(current_app.static_folder, "scenes", f"{scene_id}.svg")):
+        return f"/static/scenes/{scene_id}.svg"
+    return None
+
+
 def _map_payload(path_data):
     profile = _profile()
     goal = (profile.conversation_signals or {}).get("goal") if profile else None
     entries, weak = _map_scenarios(path_data, goal)
     return {
         "path": path_data["path"], "slug": store.slugify(path_data["path"]),
-        "scene_id": path_data["map"]["scene_id"], "theme": path_data["map"]["theme"],
+        "scene_id": path_data["map"]["scene_id"], "scene_url": _scene_url(path_data["map"]["scene_id"]), "theme": path_data["map"]["theme"],
         "edges": path_data["map"]["edges"], "scenarios": entries, "weak_topics": weak,
     }
 
