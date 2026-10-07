@@ -1,143 +1,94 @@
 {% extends "layout.html" %}
 
-{% block title %}LevelUp DSA | Find your tech career path and close your skill gap{% endblock %}
+{% block title %}LevelUp DSA | Find your tech career path{% endblock %}
 
 {% block content %}
-<div class="sheet">
+<div class="wrap landing">
 
-    <header class="row row-head">
-        <div class="margin"></div>
-        <div class="main">
-            <div class="split split-hero">
+    <section class="landing-hero" aria-labelledby="hero-heading">
+        <div class="stack-sm">
+            <h1 class="h1 hero-title" id="hero-heading">Find your tech career path</h1>
+            {% if current_user.is_authenticated and has_saved_work %}
+            <p class="subtext">Welcome back, {{ current_user.name }}.</p>
+            {% else %}
+            <p class="subtext">A quiz, a resume check and a roadmap, built around you.</p>
+            {% endif %}
 
-                <div class="hero-copy">
-                    <h1 class="hero">
-                        <span class="hero-q">Which tech career is actually right for you?</span>
-                        <span class="hero-q">What is your resume missing?</span>
-                        <span class="hero-q">What should you learn first?</span>
-                        <span class="hero-a">Get a plan with <span class="mark">the exact skills and steps</span>, not vague advice.</span>
-                    </h1>
-
-                    <p class="lead">
-                        LevelUp DSA is for students who don't have a mentor to ask. Take a short quiz, upload your resume,
-                        work through a map of DSA topics, and see exactly where you stand for the career you're aiming at.
-                    </p>
-
-                    {% if current_user.is_authenticated %}
-                        {% if has_saved_work %}
-                        <p class="welcome">Welcome back, {{ current_user.name }}.</p>
-                        <div class="actions"><a href="/dashboard" class="btn">Go to my dashboard</a></div>
-                        {% else %}
-                        <p class="welcome">Welcome, {{ current_user.name }}. Start anywhere below. Each one works on its own.</p>
-                        {% endif %}
+            <div class="actions">
+                {% if current_user.is_authenticated %}
+                    {% if has_saved_work %}
+                    <a href="/dashboard" class="btn">Open dashboard</a>
                     {% else %}
-                    <div class="actions">
-                        <a href="/signup" class="btn">Create your account</a>
-                        <a href="/login" class="btn-quiet">Log in</a>
-                    </div>
+                    <a href="/quiz" class="btn">Take quiz</a>
                     {% endif %}
-                </div>
-
-                {# A labelled sample, so a visitor can see what they'd get before signing up. The numbers are illustrative. #}
-                <aside class="specimen-wrap" aria-labelledby="sample-heading">
-                    <h2 class="block-title" id="sample-heading">What you get</h2>
-                    <p class="note">A sample analysis, with example numbers to show the format. It is not a real student's result.</p>
-                    <div class="specimen">
-                        <p class="note">Sample target</p>
-                        <p class="specimen-target">Data Science</p>
-
-                        <p class="stat-sentence">
-                            <span class="big-num num">6 of 9</span>
-                            of the skills most used in this career path are already on the resume.
-                        </p>
-                        <div class="gauge" role="img" aria-label="6 of 9 skills found on the resume">
-                            <i class="have" style="--i:0"></i><i class="have" style="--i:1"></i><i class="have" style="--i:2"></i>
-                            <i class="have" style="--i:3"></i><i class="have" style="--i:4"></i><i class="have" style="--i:5"></i>
-                            <i class="gap" style="--i:6"></i><i class="gap" style="--i:7"></i><i class="gap" style="--i:8"></i>
-                        </div>
-
-                        <div class="block">
-                            <p class="block-title">Already on the resume</p>
-                            <ul class="skills">
-                                <li class="skill skill-have"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5 5.5 11 12 3.5" fill="none" stroke="currentColor" stroke-width="2.5"/></svg><span>Python</span></li>
-                                <li class="skill skill-have"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5 5.5 11 12 3.5" fill="none" stroke="currentColor" stroke-width="2.5"/></svg><span>SQL</span></li>
-                                <li class="skill skill-have"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5 5.5 11 12 3.5" fill="none" stroke="currentColor" stroke-width="2.5"/></svg><span>Pandas</span></li>
-                                <li class="skill skill-have"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5 5.5 11 12 3.5" fill="none" stroke="currentColor" stroke-width="2.5"/></svg><span>NumPy</span></li>
-                                <li class="skill skill-have"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5 5.5 11 12 3.5" fill="none" stroke="currentColor" stroke-width="2.5"/></svg><span>Git</span></li>
-                                <li class="skill skill-have"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5 5.5 11 12 3.5" fill="none" stroke="currentColor" stroke-width="2.5"/></svg><span>Jupyter Notebook</span></li>
-                            </ul>
-                        </div>
-                        <div class="block">
-                            <p class="block-title">Learn these next</p>
-                            <ul class="skills">
-                                <li class="skill skill-gap"><span>Tableau</span></li>
-                                <li class="skill skill-gap"><span>scikit-learn</span></li>
-                                <li class="skill skill-gap"><span>Docker</span></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <p class="after-specimen">
-                        Each missing skill becomes a step in a roadmap, with a video to start from. You always see what to do
-                        first, not a list of everything you could learn.
-                    </p>
-                </aside>
-
+                {% else %}
+                    <a href="/signup" class="btn">Create account</a>
+                    <a href="/login" class="btn btn-ghost">Log in</a>
+                {% endif %}
             </div>
         </div>
-    </header>
 
-    <section class="row" aria-labelledby="phases-heading">
-        <div class="margin">
-            <h2 class="row-title" id="phases-heading">Where to start</h2>
-            <p class="note">You don't have to go in order. Each one works on its own.</p>
-        </div>
-        <div class="main">
-          <div class="phases">
+        {# A labelled sample, so a visitor can see what they'd get before signing up. The numbers are illustrative. #}
+        <aside class="card card-pad sample" aria-labelledby="sample-heading">
+            <div class="cluster between">
+                <h2 class="eyebrow" id="sample-heading">Sample result: Data Science</h2>
+                <span class="chip chip-line">Example numbers</span>
+            </div>
+            <div class="sample-top">
+                <div class="ring" role="img" aria-label="6 of 9 skills found on the resume" id="sample-ring"></div>
+                <p class="sample-line"><span class="num">6 of 9</span> skills already on the resume</p>
+            </div>
+            <ul class="chips" aria-label="Skills already on the resume">
+                {% for skill in ["Python", "SQL", "Pandas", "NumPy", "Git", "Jupyter"] %}
+                <li class="chip chip-ink"><svg width="12" height="12" viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M2 7.5 5.5 11 12 3.5" fill="none" stroke="currentColor" stroke-width="2.5"/></svg>{{ skill }}</li>
+                {% endfor %}
+            </ul>
+            <ul class="chips" aria-label="Skills to learn next">
+                {% for skill in ["Tableau", "scikit-learn", "Docker"] %}
+                <li class="chip chip-mark">{{ skill }}</li>
+                {% endfor %}
+            </ul>
+        </aside>
+    </section>
 
-            <article class="phase">
-                <p class="status">Available now</p>
-                <h3 class="phase-title"><a href="/quiz">Which career suits me?</a></h3>
-                <p class="phase-name">Career guidance</p>
-                <p>
-                    Answer 8 to 12 quick questions about what you enjoy, then a few about your goals. You get your best-fit
-                    career paths ranked, and a step-by-step roadmap for your top match with a video for each step.
-                </p>
-                <div class="actions"><a class="btn-quiet" href="/quiz">Take the career quiz</a></div>
+    <section class="stack-sm" aria-labelledby="start-heading">
+        <h2 class="h2" id="start-heading">Start anywhere</h2>
+        <div class="grid grid-3">
+            <article class="card card-pad feature">
+                <svg class="feature-icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M6 8l3 3 5-6M6 18l3 3 5-6M18 9h8M18 19h8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <h3 class="h3">Career quiz</h3>
+                <p class="muted">See which of 15 paths fits you.</p>
+                <div class="actions"><a class="btn btn-secondary" href="/quiz">Take quiz</a></div>
             </article>
-
-            <article class="phase">
-                <p class="status">Available now</p>
-                <h3 class="phase-title"><a href="/resume">What is my resume missing?</a></h3>
-                <p class="phase-name">Resume analyzer</p>
-                <p>
-                    Upload your resume as a PDF. We list the skills we find, compare them with what working developers use
-                    for your target path, and show the gap, salary ranges, an ATS score and a 30-day action plan.
-                    Haven't taken the quiz? Pick a career path yourself.
-                </p>
-                <div class="actions"><a class="btn-quiet" href="/resume">Analyze my resume</a></div>
+            <article class="card card-pad feature">
+                <svg class="feature-icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M9 4h10l6 6v18H9zM19 4v6h6M13 16h8M13 21h8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <h3 class="h3">Resume check</h3>
+                <p class="muted">Get your skill gap, salary and ATS score.</p>
+                <div class="actions"><a class="btn btn-secondary" href="/resume">Check resume</a></div>
             </article>
-
-            <article class="phase">
-                <p class="status">Available now</p>
-                <h3 class="phase-title"><a href="/dsa">Where do I start with DSA?</a></h3>
-                <p class="phase-name">Gamified DSA</p>
-                <p>
-                    A skill map of data structures and algorithms that unlock as you master the basics, with practice
-                    problems framed around your career path. You can explore the map and read the problems now.
-                    Writing and running code, XP and streaks arrive in the next update.
-                </p>
-                <div class="actions"><a class="btn-quiet" href="/dsa">Open the skill map</a></div>
+            <article class="card card-pad feature">
+                <svg class="feature-icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M7 25V15M7 15l9-8 9 8M16 7v18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="7" cy="25" r="2.5" fill="currentColor"/><circle cx="16" cy="25" r="2.5" fill="currentColor"/><circle cx="25" cy="25" r="2.5" fill="currentColor"/></svg>
+                <h3 class="h3">Skill map</h3>
+                <p class="muted">Unlock DSA topics in order.</p>
+                <div class="actions"><a class="btn btn-secondary" href="/dsa">Open skill map</a></div>
             </article>
-
-          </div>
-
-            {% if not current_user.is_authenticated %}
-            <p class="note fine-print">
-                You'll be asked to log in or sign up first, then taken straight to the page you picked.
-            </p>
-            {% endif %}
         </div>
     </section>
 
+    <details class="disclosure">
+        <summary>How this works</summary>
+        <ul class="info-list">
+            <li>Each tool works on its own. {% if not current_user.is_authenticated %}You log in first, then land on the page you picked.{% endif %}</li>
+            <li>Every missing skill becomes a roadmap step with a video to start from.</li>
+            <li>The skill map lets you explore topics and read problems now. Coding, XP and streaks come later.</li>
+            <li>The sample uses example numbers, not a real student's result.</li>
+        </ul>
+    </details>
+
 </div>
+
+<script>
+// The sample's ring (6 of 9), drawn by the same helper the real pages use.
+document.getElementById("sample-ring").replaceWith(ring(Math.round((6 / 9) * 100), "67%", "match", 88));
+</script>
 {% endblock %}

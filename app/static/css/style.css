@@ -654,54 +654,20 @@ h4 { font-weight: 700; font-size: 1.0625rem; }
 
 /* ---------- Landing ---------- */
 
-.hero { max-width: none; }
-.hero-q {
-    display: block;
-    font-weight: 700;
-    font-size: clamp(1.3125rem, 0.95rem + 1.6vw, 2rem);
-    line-height: 1.2;
-    letter-spacing: -0.01em;
-    color: var(--pencil);
+.landing { padding-bottom: var(--sp-7); }
+.landing > * + * { margin-top: var(--sp-6); }
+.landing-hero { display: grid; gap: var(--sp-6); padding: var(--sp-7) 0 var(--sp-4); align-items: center; }
+@media (min-width: 60rem) {
+    .landing-hero { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: var(--sp-7); }
 }
-.hero-q + .hero-q { margin-top: 0.4rem; }
-.hero-a {
-    display: block;
-    margin-top: 1.75rem;
-    font-size: clamp(2.25rem, 1rem + 3.4vw, 4.25rem);
-    line-height: 1.04;
-}
-
-.welcome { margin-top: 2rem; font-size: 1.1875rem; }
-
-.phase + .phase { margin-top: 2.5rem; padding-top: 2.5rem; border-top: 1px solid var(--rule); }
-.status + .phase-title { margin-top: 0.75rem; }
-.phase-title { font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.125rem); }
-.phase-title a { text-decoration: none; }
-.phase-title a:hover { text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 0.15em; }
-.phase-name { margin-top: 0.4rem; font-weight: 700; }
-.phase p { margin-top: 0.75rem; max-width: 34rem; }
-.phase .actions { margin-top: 1rem; }
-
-.phase-soon .phase-title, .phase-soon p { color: var(--pencil); }
-
-/* Availability: a dot and a word. Filled = you can use it now. Hollow = not built yet. */
-.status { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.9375rem; font-weight: 700; }
-.status::before {
-    content: "";
-    width: 0.7rem; height: 0.7rem;
-    border-radius: 50%;
-    border: 2px solid var(--ink);
-    background: var(--ink);
-}
-.status-soon { color: var(--pencil); }
-.status-soon::before { background: transparent; border-color: var(--pencil); }
-
-/* The labelled sample on the landing page: the only thing that's boxed, because it's a specimen. */
-.specimen { padding: 1.75rem; border: 2px solid var(--ink); }
-.specimen-target { font-weight: 700; }
-.specimen .stat-sentence { margin-top: 1.25rem; }
-.after-specimen { margin-top: 1.5rem; max-width: 34rem; }
-.fine-print { margin-top: 2.5rem; }
+.hero-title { font-size: var(--fs-3xl); }
+.sample { display: grid; gap: var(--sp-4); }
+.sample-top { display: flex; align-items: center; gap: var(--sp-4); }
+.sample-line { font-size: var(--fs-md); }
+.sample-line .num { font-size: var(--fs-xl); display: block; }
+.feature { display: grid; gap: var(--sp-2); align-content: start; }
+.feature-icon { width: 2rem; height: 2rem; color: var(--ink); }
+.feature .actions { margin-top: var(--sp-2); }
 
 /* ---------- Quiz + conversation options: OMR bubbles ---------- */
 
@@ -991,18 +957,8 @@ h4 { font-weight: 700; font-size: 1.0625rem; }
 
 /* ---------- Laptop layouts (1024px and up) ---------- */
 
-/* Landing: the three phases side by side. They are independent, so they are columns, not a numbered list. */
-@media (min-width: 75rem) {
-    .phases { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .phase { padding: 0 2.5rem; }
-    .phase:first-child { padding-left: 0; }
-    .phase:last-child { padding-right: 0; }
-    .phase + .phase { margin-top: 0; padding-top: 0; border-top: 0; border-left: 1px solid var(--rule); }
-}
-
-.specimen-wrap .specimen { margin-top: 0.75rem; }
-
 /* Quiz + goals: the question stays put on the left while you read the answers on the right. */
+.fine-print { margin-top: 2.5rem; }   /* used by the DSA page */
 .qa-q .question { margin-bottom: 2rem; }
 .qa-q .question-hint { margin-bottom: 0; }
 .qa-a { margin-top: 0; }
