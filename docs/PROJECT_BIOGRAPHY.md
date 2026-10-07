@@ -1834,6 +1834,43 @@ would use YouTube if a key is set. A stale base is served, not blocked.
 **How verified:** `smoke_test_cached_roadmaps.py` (95 checks: loader, build script, personalizer, route, progress and switcher, timing,
 front-end source); the existing smoke tests still pass.
 
+## Front-End Polish: One Design System for Every Page but the Skill Map
+
+**What changed:** every page except the DSA skill map was rebuilt on one design system. `style.css` now starts with tokens (the original
+palette, a spacing scale, radii, shadows, a type scale, motion, a 44 px tap size) and a set of components (button with primary / secondary
+/ ghost / loading, card, chip, badge, progress bar and ring, segmented control and tabs, empty state, skeleton, inline alert, disclosure).
+The web-font requests were dropped for the system font stack, because no font is bundled. Pages, in the order they were done: layout
+(pill navbar, one-line footer), landing (one headline, three cards, a sample result), sign up and log in (one card, live password-rule
+chips), quiz (one question per card, progress bar, option cards, keys 1-4 and Enter, a hero for the top match or the tied top matches
+with the rest under "See all"), goals, career profile and the path picker (cards), roadmap (header with a progress ring, a Continue
+button to the first unfinished step, a roadmap dropdown, collapsible phases, compact step cards, a slim personalization callout, a
+generating state with elapsed time and part count, a failed state with Try again), resume (two mode cards, a scorecard row, then one
+section at a time as tabs on desktop and accordion on mobile), dashboard (next action, overall progress, roadmap list, resume status).
+Explanatory text moved behind "How this works" disclosures; the notes that stop a number being misread (resume limits, estimated salary,
+AI feedback, reviewed-base staleness, what a "search result" video is) were kept, shortened. Visible words per page, before and after,
+are in `docs/UI_BEFORE_AFTER.md` (for example: dashboard 649 to 89, resume results 507 to 132, quiz results 143 to 38).
+
+**Behaviour kept:** every state-changing request still goes through the CSRF helpers in `ui.js`; all data is inserted with `el()` /
+`textContent` (no `innerHTML`); every outside link passes `isSafeUrl` and has `rel="noopener noreferrer"`; job polling, the sessionStorage
+resume and the hidden-tab pause are unchanged; steps are still ticked optimistically and rolled back on failure; flat old roadmaps and
+roadmaps without optional fields still render; the legacy `careerPathPicker` branch that `dsa.html` uses is byte-identical, and
+`dsa.html` and `dna_map.js` were not touched.
+
+**Verified:** on a stubbed server (every LLM, YouTube and Adzuna call patched) at 1400, 768 and 360 px: no horizontal overflow on any
+page, no script errors, a visible focus ring on the quiz cards and the roadmap tick box. The quiz was walked with real key presses (a
+number key picks an answer, Enter moves on) and a step was ticked with Tab and Space. The ten no-real-call smoke suites pass with the
+same counts as before (security 30, paths 49, progress 31, adzuna 34, llm 84, generator 121, resume_modes 52, quiz 33,
+async_generation 25, cached_roadmaps 95). `scripts/make_roadmap_preview.py` still renders the QA and flat fixtures with no console errors.
+
+**Changed checks:** `smoke_test_cached_roadmaps.py` sliced the roadmap script up to `roadmapDashboardSummary`, which no longer exists
+(it now slices up to `hasAllVideoResults`), and it asserted `.step-tag-focus` / `.step-tag-skim` rules in the CSS; the tags are now
+chips, so it asserts `.chip-ink` / `.chip-line` in the CSS and the tag class names in the script.
+
+**Not covered / unverified:** the screenshots in `scratch/screens/` are only the 360 px set (plus one cropped 768 px shot), because the
+browser pane crops wider viewports; wider layouts were checked by measurement, not by eye. The resume "Level" tile is the ATS band,
+since no experience-level field exists in the data. Colour contrast was checked for the token pairs, not for every rendered state.
+
+---
 ---
 ---
 ## Still To Build

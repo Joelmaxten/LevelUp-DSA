@@ -338,6 +338,24 @@ python scripts/build_base_roadmaps.py --all --run
   discarded `topic_refs` (invented ids the generator dropped), duplicate warnings (phases rewritten / repeats kept), seconds and model.
 - The personalizer uses the `fast` model (`FAST_MODEL_ID`) at runtime, so that variable must point at a model the provider serves.
 
+### Front-end design system (where the tokens and components live)
+
+All styling is in one file, `app/static/css/style.css`, in this order: (1) tokens in `:root` (colours, the `--sp-*` spacing scale,
+`--r-*` radii, `--shadow-*`, `--fs-*` type scale, `--ease` / `--t*` motion, `--tap` = 44 px minimum target, `--wrap` content width);
+(2) base (reset, the one focus ring, skip link, `.visually-hidden`); (3) components: `.btn` (primary; `.btn-secondary`, `.btn-ghost`,
+`aria-busy="true"` for the loading state), `.card`, `.chip` / `.badge`, `.pbar` and `.ring`, `.seg` / `.tabs`, `.empty`, `.skel`,
+`.alert`, `.disclosure` (a `<details>` used for every "How this works"); (4) page rules (landing, quiz and goals, roadmap, resume,
+dashboard); (5) the legacy "sheet" layout (`.sheet`, `.row`, `.margin`, `.main`), which only the DSA skill-map page and the
+legacy career-path picker still use. Do not restyle that last block without opening `/dsa`.
+
+The JS builders for the components are in `app/static/js/ui.js`: `skeleton()`, `alertEl()`, `emptyState()`, `disclosure()`, `pbar()`,
+`ring()`, `sectionTabs()` (tabs on a wide screen, accordion on a narrow one), `questionForm()` (option cards, keys 1-9, Enter) and
+`questionProgress()`. Page renderers shared by several pages are in `app/static/js/results.js`. Rules for new UI: text only through `el()` /
+`textContent`, state-changing requests only through the CSRF helpers, one filled button per screen, and no web fonts or CDNs (the
+system font stack is used because no font is bundled; the DSA page still loads D3 from its CDN, as before). Text colours must stay
+`--ink` or `--pencil` (both pass 4.5:1 on `--paper`, `--surface` and `--tint`; `scratch/contrast.py` checks the pairs).
+`scripts/make_roadmap_preview.py` builds a standalone page from `style.css`, `ui.js` and `results.js`, so it follows these files.
+
 ### CSRF: required for every new state-changing request
 
 The server rejects any POST/PUT/PATCH/DELETE without a valid `X-CSRF-Token` header
