@@ -148,11 +148,12 @@ psql -U postgres -d levelup_dsa_dev
 ```sql
 \dt
 ```
-You should see 18 tables: `users`, `career_paths`, `career_profiles`,
+You should see 19 tables (`scenario_attempts`, added for scenarios, is the 19th and is
+listed below): `users`, `career_paths`, `career_profiles`,
 `roadmap_steps`, `user_progress`, `generated_roadmaps`, `roadmap_progress`,
 `dsa_nodes`, `dsa_problems`, `dsa_problem_framings`, `user_dsa_activity`,
 `node_mastery`, `weakness_profiles`, `user_attempts`, `resumes`, `skill_gaps`,
-`job_listings`, `survey_respondents`.
+`job_listings`, `survey_respondents`, `scenario_attempts`.
 Note: there's no migration tool (like Alembic) in place yet — table creation is
 manual via `db.create_all()`. If the schema changes later, existing tables won't
 auto-update; they'd need to be dropped and recreated, or a migration tool added.
@@ -213,6 +214,7 @@ For these tests run `pip install -r requirements-dev.txt` once (adds fpdf2).
 | `smoke_test_resume_modes.py` | resume modes: ranking unit checks (near-ties, thin-path labelling, insufficient data), `/resume/discover` and `/resume/<id>/analyze` happy paths, 404/400/401, CSRF, rate limits, stored skills reused, `/resume/upload` unchanged, required-skills lists identical to the pre-change snapshot (`scratch/golden/required_skills_before.json`) | no (feedback stubbed; local index and embeddings; needs `requirements-dev.txt` for fpdf2) |
 | `smoke_test_quiz.py` | career quiz: question-bank rules (1-3 paths per option, 6+ options per path, separating options for each pair), invariants (every path can be #1, every pair separable, stop rule within the bank), 30 seeded replays against `scratch/golden/quiz_after.json`, all-A/all-B personas; pure, no database | no |
 | `smoke_test_async_generation.py` | background generation: `/roadmap/generate-async` 202 and polling to done, progress fields, 409, ownership 404, fixed error codes with no exception text, own app context, daily cap, expiry, CSRF, sync route unchanged | no (generator stubbed) |
+| `smoke_test_scenarios.py` | scenarios: validator (pilot file plus 20+ deliberately broken copies), blind-solve prompt leak proof, store, engine (all four question types, shuffle, grading edge cases), unlock / best-score / recommendation rules, every route (401, 403, 404, 409, 400, CSRF, rate limit), `CareerProfile` untouched, page renders, `dsa.html` still renders | no (no LLM, YouTube or Adzuna code is reachable; the blind-solve checker is only exercised with a stub) |
 | `smoke_test_cached_roadmaps.py` | cached base roadmaps: loader (valid, stale, corrupt, missing), the build script (dry run, resumable, no overwrite without `--force`, one failing path does not stop the others, environment override beats `.env`), the personalizer (bad indexes dropped, text clipped, overlap removed, injection stays escaped, failure is None, prompt under 3,000 estimated tokens for all 15 real outlines), the async route (cached with and without personalization, full fallback, `ROADMAP_MODE=full`, ownership, CSRF, cap, 409), progress and the switcher on a cached roadmap, a timing table written to `scratch/benchmark_cached.csv`; about 2 minutes | no (every LLM call stubbed, uses the local FAISS index) |
 | `smoke_test_llm.py` | `llm_client`: retry on throttling/5xx/timeouts, no retry on access-denied/validation, fallback model, provider switch, schema correction, no secrets or prompt text in errors or logs | no (fake Bedrock client, patched Gemini; hides real credentials and blocks real clients) |
 | `smoke_test_generator.py` | roadmap generator with a fake LLM: golden comparison for 3 paths, coverage/duplicate/index/allowlist/shape invariants at concurrency 1 and 3, thread hygiene, failure handling, duplicate rewrite, warm-up | no (fake LLM, local embeddings only; ~1.5 min, mostly model load) |
@@ -368,6 +370,46 @@ script or test, call `enable_csrf_client(app)` from `scripts/_csrf.py` right aft
 `create_app()`; the test client then fetches and sends the token like a browser.
 With `curl`, GET `/` with `-c cookies.txt`, read the `csrf-token` meta tag, and
 send it with `-H "X-CSRF-Token: ..."` plus `-b cookies.txt`.
+
+### Scenarios (scenario-based practice)
+
+Short work scenarios per career path, shown as a map. Pilot path: Machine Learning Engineering
+(`data/scenarios/ml-engineering.json`, 5 scenarios, 22 questions). Page: `/scenarios`; API:
+`app/routes/scenarios.py`; rules: `app/pipeline/scenario_engine.py` (pure); loading:
+`app/pipeline/scenario_store.py`; checks: `app/pipeline/scenario_validator.py`.
+
+- **New table `scenario_attempts`.** Created by `db.create_all()` (it only adds missing tables, so nothing else is
+  touched): id, user_id, path, scenario_id, answers (JSON), score, max_score, passed, shuffle_seed, started_at,
+  submitted_at, with an index on (user_id, scenario_id). `submitted_at` NULL means the attempt is unfinished.
+- **File format** (schema version 1): top level `schema_version`, `path` (a name in `CAREER_PATHS`), `map`
+  (`scene_id`, `theme`, `edges`), `scenarios`. A scenario has `id` (`mle-N`), `order` (1..N), `ladder_stage`
+  (`foundations`, `core_decision`, `debugging`, `trade_offs`, `end_to_end`, in that order), `title`, `difficulty`,
+  `estimated_minutes`, `background`, `constraints`, `tests_topics`, `map_node` (`x`, `y` in 0..1, `label`) and
+  `questions` (`mle-N-qM`). Question types: `single_choice` (`correct` = one id), `multi_select` (`correct` = ids),
+  `order` (`correct` = all ids in order), `match` (`items`, `targets`, `correct` = {item id: target id}). Every question
+  also needs `explanation`, `why_others_wrong` (one entry per wrong option; `common_mistake` for order and match) and
+  `key_justification`.
+- **Validate before anything else:** `PYTHONPATH=. python scripts/validate_scenarios.py` checks every file in
+  `data/scenarios/`, prints per-file results and exits non-zero on any error. Warnings (all correct answers in one
+  position; the longest option being correct in more than 60% of single-choice questions) never fail it. The store
+  refuses an invalid file, so it behaves as if it were missing.
+- **Blind-solve check** (a model answers without seeing the key; disagreements go to
+  `docs/SCENARIO_REVIEW_<path slug>.md` for a human to judge). Dry run by default:
+  `PYTHONPATH=. python scripts/blind_solve_scenarios.py`. The real run calls the configured model (one call per
+  scenario, one retry for a failed scenario only):
+  `PYTHONPATH=. python scripts/blind_solve_scenarios.py --run --paths "Machine Learning Engineering"`.
+- **Answer delivery.** The server never sends the key. `POST /scenarios/<id>/start` returns the shuffled public view;
+  `POST /scenarios/<id>/answer` locks one question and returns that question's explanation; `POST /scenarios/<id>/submit`
+  grades everything on the server. A locked answer cannot be changed (the submit call uses the stored one).
+- **Rules.** Scenario 1 is always open; scenario N+1 opens after any submitted attempt on N; the best score is kept;
+  10 points per question, all or nothing; pass is 70% or more. The "matches your goal" marker maps the Goals chat's
+  `goal` signal to ladder stages (`build_fundamentals` -> foundations and core decisions, `explore` -> foundations,
+  `specific_role` and `any_good_company` -> debugging, trade-offs and end to end); it is a hint and never locks anything.
+- **Add a path:** write `data/scenarios/<slug>.json` in the format above with a `path` that is in `CAREER_PATHS`; add
+  the path's id prefix to `PATH_ID_PREFIX` in `scenario_validator.py`; run the validator; optionally drop a scene at
+  `app/static/scenes/<scene_id>.svg` (without one the map shows a gradient); run the blind-solve check and read the
+  review file before shipping.
+- **Tests:** `PYTHONPATH=. python scripts/smoke_test_scenarios.py` (see the table above).
 
 ### Cleaning up test users
 

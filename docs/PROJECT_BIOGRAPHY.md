@@ -1871,6 +1871,58 @@ browser pane crops wider viewports; wider layouts were checked by measurement, n
 since no experience-level field exists in the data. Colour contrast was checked for the token pairs, not for every rendered state.
 
 ---
+## Scenario-Based Gamification (Pilot: Machine Learning Engineering)
+
+**What was built.** A new "Scenarios" page. Each career path gets a map of short work scenarios (a background, constraints and
+4-5 questions of four kinds: single choice, choose-all-that-apply, ordering, matching). The pilot is Machine Learning
+Engineering: 5 scenarios and 22 questions in `data/scenarios/ml-engineering.json`. The pieces: a validator and script
+(`scenario_validator.py`, `validate_scenarios.py`), a blind-solve checker (`blind_solve_scenarios.py`), a store, a pure engine for
+shuffling, grading and the unlock rules, one new table (`scenario_attempts`), a blueprint (`app/routes/scenarios.py`), the page
+(`scenarios.html`, `scenarios.js`, a CSS section) and `smoke_test_scenarios.py`.
+
+**Why, and the design change.** The planned Phase 3 was the Skill DNA Map with Piston code execution, XP/mastery/streaks and an
+adaptive bandit map that would spawn problems from weakness scores. Scenarios replace that direction for new work: a student makes a
+decision in a realistic situation and sees why the other options fail, which suits judgement skills better than DSA-style
+problems, needs no code runner and has no bandit. The Skill DNA Map (`/dsa`) is untouched and still works; nothing was removed.
+Content is authored by hand and checked by code (the validator) and by a model that has not seen the key (the blind-solve check).
+
+**Decisions.**
+- Grading is on the server and all-or-nothing per question; the pass mark is 70%. A scenario opens after any submitted attempt on
+  the one before it (passing is not required), and the best score is kept.
+- Explanations arrive per question without shipping the key early: each question is "locked" with its own request, which returns
+  that question's explanation, and the locked answer cannot be changed afterwards. This added a fifth route (`/answer`) to the four
+  that were specified.
+- Option order is shuffled with a seed stored on the attempt, so a resumed attempt looks the same. The student view is built from a
+  whitelist of fields, so a new answer field added to a file later cannot leak.
+- The blind-solve prompt is built the same way, and a test plants marker text in every key field and checks it never appears.
+- "Matches your goal" is derived from the Goals chat's `goal` signal through a small mapping I chose (documented in DEV_SETUP); it
+  is only a marker. The quiz result (`CareerProfile`) is read, never written.
+
+**Issues met.**
+- A preview server built from the full stub module took minutes to start (it loads the search index); the scenario routes need none
+  of it, so the UI check uses a small server (`scratch/scenario_server.py`) with every API key removed from the environment.
+- The first keyboard-only run showed the "Next question" button sat before the feedback in tab order, so Tab skipped the feedback;
+  it now follows the feedback card. Focus also moves to the scenario title when a scenario opens.
+- The test script must load `.env` before importing the app package (the config reads the environment at import time).
+- `cleanup_demo_users.py` has a guard that refuses to run when a table references users and is not listed; `ScenarioAttempt` was
+  added to its list.
+
+**Verified.** The validator passes the pilot file with 0 errors and 1 warning (the longest option is correct in 8 of 12
+single-choice questions). `smoke_test_scenarios.py`: 186 checks, all stubbed. On a stubbed server at 360 px, plus 768 px for the
+match question: no horizontal overflow and no console errors; map nodes are 44 x 44 px; one scenario was completed with the
+keyboard only (radio, checkbox and the ordering buttons). The existing no-real-call suites keep their earlier counts (see the
+final report of this task for the numbers).
+
+**Not done / not verified.** The blind-solve check has not been run against a real model, so the key itself is unreviewed by a model.
+Screenshots at 1400 px are cropped by the browser pane (layout was checked by measurement). No scene artwork exists
+(`static/scenes/ml-engineering.svg` is absent; the map uses a gradient). Only one path has scenarios.
+
+**Still depends on the old Skill DNA Map pieces (unchanged):** the `dsa_*`, `node_mastery`, `weakness_profiles` and `user_attempts`
+tables and models; `app/routes/dsa.py` and `dsa_graph.py`; `dashboard.py` (it reads `NodeMastery` and `UserDSAActivity` for
+"saved work" and the DSA progress card); the seed and verify scripts and `smoke_test_dsa.py`. There is no code that computes the
+weakness formula (the `WeaknessProfile` table exists but nothing writes it) and no Placement Readiness Score yet.
+
+---
 ---
 ---
 ## Still To Build
@@ -1882,6 +1934,7 @@ since no experience-level field exists in the data. Colour contrast was checked 
 - Roadmap v2 verification backlog (see "Not yet verified" in the Roadmap Generation
   v2 entry; not re-checked since the career-path restructuring)
 - Phase 3 Stage 2 (Piston, code execution, XP/mastery/streaks) and Stage 3
-  (adaptive bandit map)
+  (adaptive bandit map): superseded for new work by scenarios (see Scenario-Based Gamification); the DSA map stays as is
+- Scenario content for the other 14 paths, a real blind-solve run on the pilot, scene artwork
 - Placement Readiness Score (roadmap progress is now stored and can feed it)
 - Deployment (see "Known Issues / Deployment Backlog" in DEV_SETUP.md)

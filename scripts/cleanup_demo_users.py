@@ -23,7 +23,7 @@ load_dotenv()
 
 from app import create_app, db
 from app.models import (
-    CareerProfile, GeneratedRoadmap, NodeMastery, Resume, RoadmapProgress, SkillGap,
+    CareerProfile, GeneratedRoadmap, NodeMastery, Resume, RoadmapProgress, ScenarioAttempt, SkillGap,
     User, UserAttempt, UserDSAActivity, UserProgress, WeaknessProfile,
 )
 
@@ -33,7 +33,7 @@ EMAIL_SUFFIX = "@example.com"
 # every other table here references only users (and shared reference data we never touch).
 DEPENDENT_MODELS = [
     RoadmapProgress, GeneratedRoadmap, UserAttempt, UserDSAActivity, NodeMastery,
-    WeaknessProfile, UserProgress, SkillGap, Resume, CareerProfile,
+    WeaknessProfile, UserProgress, SkillGap, Resume, CareerProfile, ScenarioAttempt,
 ]
 
 
