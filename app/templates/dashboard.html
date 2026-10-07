@@ -3,19 +3,12 @@
 {% block title %}Your dashboard | LevelUp DSA{% endblock %}
 
 {% block content %}
-<div class="sheet">
-    <header class="row row-head">
-        <div class="margin">
-            <p class="note">Signed in as {{ current_user.name }}. You can redo any step whenever you like. Your earlier results stay saved.</p>
-        </div>
-        <div class="main">
-            <h1 class="page-title">Your dashboard</h1>
-        </div>
+<div class="wrap dashboard">
+    <header class="page-head">
+        <h1 class="h1">Dashboard</h1>
     </header>
 
-    <div id="dashboard-box">
-        <div class="row"><div class="margin"></div><div class="main"><p class="note" role="status">Loading your results...</p></div></div>
-    </div>
+    <div id="dashboard-box" class="stack"><div class="card card-pad"><div class="skel" role="status" aria-label="Loading"><span class="skel-line w-40"></span><span class="skel-line skel-block"></span></div></div></div>
 </div>
 
 <script src="{{ url_for('static', filename='js/results.js') }}"></script>
@@ -23,220 +16,150 @@
 const box = document.getElementById("dashboard-box");
 
 function renderError(result) {
-    const actions = el("div", { className: "actions" });
     let message;
+    let action;
 
     if (result.status === 401) {
         message = "You need to be logged in to continue.";
-        actions.append(el("a", { className: "btn", href: "/login?next=/dashboard", text: "Log in" }));
+        action = el("a", { className: "btn", href: "/login?next=/dashboard", text: "Log in" });
     } else {
         message = result.status === 0
-            ? "Couldn't reach the server. Check your connection and try again."
-            : (result.data && result.data.error) || "Something went wrong. Please try again.";
-        const again = el("button", { className: "btn", type: "button", text: "Try again" });
-        again.addEventListener("click", load);
-        actions.append(again);
+            ? "Couldn't reach the server. Check your connection."
+            : (result.data && result.data.error) || "Something went wrong.";
+        action = el("button", { className: "btn", type: "button", text: "Try again" });
+        action.addEventListener("click", load);
     }
 
-    box.replaceChildren(row([], el("div", { className: "msg msg-error", role: "alert" }, el("p", { text: message }), actions)));
+    box.replaceChildren(alertEl(message, "error", action));
 }
 
-// The head of one dashboard section. Its notes and "start fresh" actions sit in the margin.
-// The id lets the status line below (and a #career / #roadmap / #resume link) jump straight here.
-function sectionHead(id, title, notes, actions) {
-    const head = row(
-        [...notes.filter(Boolean).map((text) => el("p", { className: "note", text })), actions.length ? el("div", { className: "actions" }, ...actions) : ""],
-        el("h2", { className: "section-title", text: title }),
-        "section-head"
-    );
-    head.id = id;
-    return head;
-}
-
-// Shown for a step the user hasn't done yet: a sentence pointing at the next action.
-function emptyRow(message, ctaText, ctaHref) {
-    return row([], [
-        el("p", { text: message }),
-        el("div", { className: "actions" }, el("a", { className: "btn", href: ctaHref, text: ctaText }))
-    ]);
-}
-
-function careerSection(profile) {
-    if (!profile) {
-        return [
-            sectionHead("career", "Career profile", ["Not started"], []),
-            emptyRow("You haven't taken the career quiz yet. It ranks all ten career paths by how well they fit your answers.", "Take the quiz", "/quiz"),
-        ];
+// The one thing to do next: a title and a single button. Order: roadmap first, then keep going on it,
+// then the resume, the quiz and the skill map.
+function nextAction(data) {
+    const progress = data.roadmap && data.roadmap.progress;
+    const left = progress ? progress.total_steps - progress.completed_count : 0;
+    if (!data.roadmap) return { title: "Build your roadmap", button: "Build roadmap", href: "/roadmap" };
+    if (left > 0) return { title: `${left} step${left === 1 ? "" : "s"} left on your roadmap`, button: "Continue roadmap", href: "/roadmap" };
+    if (!data.resume) return { title: "See what your resume is missing", button: "Analyze resume", href: "/resume" };
+    if (!data.career_profile) return { title: "Rank all career paths", button: "Take quiz", href: "/quiz" };
+    if (data.dsa && data.dsa.mastered < data.dsa.total) {
+        return { title: data.dsa.started ? "Keep going on your skill map" : "Start your skill map", button: "Open skill map", href: "/dsa" };
     }
-    const when = formatDate(profile.created_at);
-    const rows = [
-        sectionHead("career", "Career profile", [when ? `Completed ${when}` : ""], [
-            el("a", { className: "btn-quiet", href: "/quiz", text: "Retake the quiz" }),
-        ]),
-        ...rankingRows(profile.career_ranking, 3),
-    ];
-    if (profile.answers.length) rows.push(answersRow("Your goals and preferences", profile.answers, 3));
-    return rows;
+    return { title: "You're all caught up", button: "Open roadmap", href: "/roadmap" };
 }
 
-function roadmapSection(roadmap) {
-    if (!roadmap) {
-        // Works without a quiz result: the roadmap page asks for a career path in that case.
-        return [
-            sectionHead("roadmap", "Your roadmap", ["Not started"], []),
-            emptyRow("You haven't generated a roadmap yet. It turns a career path into steps you can start on this week.", "Generate my roadmap", "/roadmap"),
-        ];
-    }
-    const when = formatDate(roadmap.created_at);
-    const rows = [
-        sectionHead("roadmap", "Your roadmap", [roadmap.career_path, when ? `Generated ${when}` : ""], [
-            el("a", { className: "btn-quiet", href: "/roadmap?new=1", text: "Generate a new roadmap" }),
-        ]),
-        roadmapDashboardSummary(roadmap.steps, roadmap.progress),
-    ];
-    if (!hasAllVideoResults(roadmap.steps)) {
-        rows.push(row([], el("p", {},
-            "Some steps don't have videos yet. ",
-            el("a", { href: "/roadmap", text: "Open your roadmap to add them." })
-        )));
-    }
-    return rows;
-}
-
-// A small read-only bar + link per roadmap the student has, newest first -
-// distinct from roadmapSection above (which only ever shows the single
-// newest one in full). [] (no section at all) when there are none yet.
-function roadmapsListSection(roadmaps) {
-    if (!roadmaps || !roadmaps.length) return [];
-    return [
-        sectionHead("roadmaps", "Your roadmaps", [], []),
-        row([], el("ul", { className: "roadmap-list" }, ...roadmaps.map((r) => {
-            const [bar, update] = makeProgressBar((done, total, pct) => `${done} of ${total} steps, ${pct}%`);
-            update(r.completed_count, r.total_steps);
-            return el("li", { className: "roadmap-list-item" },
-                el("a", { className: "roadmap-list-link", href: `/roadmap?id=${r.roadmap_id}` }, el("span", { className: "mark", text: r.career_path })),
-                bar
-            );
-        }))),
-    ];
-}
-
-function resumeSection(resume) {
-    if (!resume) {
-        // Works without a quiz result: the resume page asks for a career path in that case.
-        return [
-            sectionHead("resume", "Resume analysis", ["Not started"], []),
-            emptyRow("You haven't analyzed a resume yet. Upload a PDF to see which skills you're missing for a career path.", "Upload my resume", "/resume"),
-        ];
-    }
-    const when = formatDate(resume.uploaded_at);
-    return [
-        sectionHead("resume", "Resume analysis", [resume.target_career_path, when ? `Uploaded ${when}` : "", resume.file_name], [
-            el("a", { className: "btn-quiet", href: "/resume?new=1", text: "Upload a new resume" }),
-        ]),
-        ...resumeAnalysisRows(resume, 3),
-    ];
-}
-
-// One cell per skill-map topic: solid ink = mastered, marker = open now, dashed = still locked.
-function dsaGauge(dsa) {
-    const open = dsa.total - dsa.mastered - dsa.locked;
-    const gauge = el("div", {
-        className: dsa.total > 16 ? "gauge gauge-dense" : "gauge",
-        role: "img",
-        "aria-label": `${dsa.mastered} of ${dsa.total} skill map topics mastered, ${open} open, ${dsa.locked} locked`,
-    });
-    for (let i = 0; i < dsa.total; i++) {
-        const cell = el("i", { className: i < dsa.mastered ? "have" : i < dsa.mastered + open ? "gap" : "locked" });
-        cell.style.setProperty("--i", String(i));
-        gauge.append(cell);
-    }
-    return gauge;
-}
-
-// null = the DSA tables aren't set up on this server, so the section is left out entirely.
-function dsaSection(dsa) {
-    if (!dsa) return [];
-    if (!dsa.started) {
-        return [
-            sectionHead("dsa", "Skill map", ["Not started"], []),
-            emptyRow("You haven't started the skill map. It lays out every DSA topic in the order to learn them, and opens each one as you master the one before it.", "Open the skill map", "/dsa"),
-        ];
-    }
-    return [
-        sectionHead("dsa", "Skill map", [`${dsa.mastered} of ${dsa.total} topics mastered`], [
-            el("a", { className: "btn-quiet", href: "/dsa", text: "Open the skill map" }),
-        ]),
-        row([], [
-            dsaGauge(dsa),
-            dsa.next_up.length
-                ? el("p", { className: "next-up" }, "Open now: ", el("a", { href: "/dsa" }, el("span", { className: "mark", text: dsa.next_up.join(", ") })), ".")
-                : el("p", { className: "next-up", text: "Every open topic is mastered." }),
-        ]),
-    ];
-}
-
-// Where the student stands, in one sentence, and the single next thing to do (marked).
-function standingRow(data) {
+function nextCard(data) {
+    const next = nextAction(data);
     const path = data.career_profile
         ? data.career_profile.career_ranking[0].career_path
         : (data.roadmap && data.roadmap.career_path) || (data.resume && data.resume.target_career_path) || null;
-
-    let next;
-    if (!data.roadmap) {
-        next = ["Next: ", el("a", { href: "/roadmap" }, el("span", { className: "mark", text: "get your roadmap" })), "."];
-    } else if (!data.resume) {
-        next = ["Next: ", el("a", { href: "/resume" }, el("span", { className: "mark", text: "see what your resume is missing" })), "."];
-    } else if (!data.career_profile) {
-        next = ["You can also ", el("a", { href: "/quiz" }, el("span", { className: "mark", text: "take the career quiz" })), " to rank all ten paths."];
-    } else if (data.dsa && data.dsa.mastered < data.dsa.total) {
-        next = ["Next: ", el("a", { href: "/dsa" }, el("span", { className: "mark", text: data.dsa.started ? "keep going on your skill map" : "start your skill map" })), "."];
-    } else {
-        next = ["You've done everything here. Redo any of it whenever you like."];
-    }
-
-    // stateText overrides "Done" / "Not started" for steps that are a matter of degree (the skill map).
-    const item = (done, label, href, stateText) => el("a", { href },
-        el("span", { className: done ? "status" : "status status-soon", text: label }),
-        el("span", { className: "state", text: stateText || (done ? "Done" : "Not started") })
-    );
-
-    return row([], el("div", { className: "split split-wide" },
-        el("div", {},
-            el("p", { className: "standing" },
-                path ? "You're working toward " : "You're just getting started.",
-                path ? el("span", { className: "mark", text: path }) : "",
-                path ? "." : ""
-            ),
-            el("p", { className: "next-up" }, ...next)
+    return el("section", { className: "card card-hero card-pad next-card", "aria-labelledby": "next-title" },
+        el("div", { className: "stack-sm" },
+            el("p", { className: "eyebrow", text: path ? `Working toward ${path}` : "Get started" }),
+            el("h2", { className: "h2", id: "next-title", text: next.title })
         ),
-        el("nav", { className: "progress progress-col", "aria-label": "Jump to a section" },
-            item(!!data.career_profile, "Career profile", "#career"),
-            item(!!data.roadmap, "Roadmap", "#roadmap"),
-            item(!!data.resume, "Resume analysis", "#resume"),
-            data.dsa ? item(data.dsa.started, "Skill map", "#dsa", data.dsa.started ? `${data.dsa.mastered} of ${data.dsa.total}` : "") : ""
+        el("a", { className: "btn", href: next.href, text: next.button })
+    );
+}
+
+// Overall progress: how many of the stages are done, each a chip that links to its page.
+function progressCard(data) {
+    const stages = [
+        { label: "Quiz", done: !!data.career_profile, href: "/quiz" },
+        { label: "Roadmap", done: !!data.roadmap, href: "/roadmap" },
+        { label: "Resume", done: !!data.resume, href: "/resume" },
+    ];
+    if (data.dsa) stages.push({ label: "Skill map", done: data.dsa.started, href: "/dsa" });
+    const done = stages.filter((s) => s.done).length;
+
+    const chips = stages.map((s) => el("li", {},
+        el("a", { className: `chip ${s.done ? "chip-ink" : "chip-line"}`, href: s.href }, s.done ? icon("tick") : "", el("span", { text: s.label }))));
+
+    const stats = [];
+    if (data.roadmap && data.roadmap.progress) {
+        const p = data.roadmap.progress;
+        stats.push(el("span", { className: "chip", text: `${p.completed_count} of ${p.total_steps} roadmap steps` }));
+    }
+    if (data.dsa && data.dsa.started) stats.push(el("span", { className: "chip", text: `${data.dsa.mastered} of ${data.dsa.total} topics` }));
+
+    return el("section", { className: "card card-pad progress-card", "aria-label": "Overall progress" },
+        ring(Math.round((done / stages.length) * 100), `${done}/${stages.length}`, "done", 104),
+        el("div", { className: "stack-sm" },
+            el("ul", { className: "chips" }, ...chips),
+            stats.length ? el("ul", { className: "chips" }, ...stats.map((c) => el("li", {}, c))) : ""
         )
-    ));
+    );
+}
+
+// A compact row per roadmap, newest first.
+function roadmapsCard(roadmaps) {
+    if (!roadmaps || !roadmaps.length) {
+        return el("section", { className: "card" }, emptyState("No roadmaps yet", el("a", { className: "btn", href: "/roadmap" }, "Build roadmap")));
+    }
+    return el("section", { className: "card card-pad stack-sm", "aria-labelledby": "roadmaps-title" },
+        el("div", { className: "cluster between" },
+            el("h2", { className: "h3", id: "roadmaps-title", text: "Roadmaps" }),
+            el("a", { className: "btn btn-ghost btn-sm", href: "/roadmap?new=1", text: "New roadmap" })
+        ),
+        el("ul", { className: "roadmap-list" }, ...roadmaps.map((r) => {
+            const pct = r.total_steps > 0 ? Math.round((r.completed_count / r.total_steps) * 100) : 0;
+            return el("li", { className: "roadmap-list-item" },
+                el("a", { className: "roadmap-list-link", href: `/roadmap?id=${r.roadmap_id}` }, r.career_path),
+                el("span", { className: "num roadmap-list-pct", text: `${r.completed_count}/${r.total_steps}` }),
+                pbar(pct, `${r.career_path}: ${r.completed_count} of ${r.total_steps} steps, ${pct}%`)
+            );
+        }))
+    );
+}
+
+function resumeCard(resume) {
+    if (!resume) {
+        return el("section", { className: "card" }, emptyState("No resume yet", el("a", { className: "btn", href: "/resume" }, "Upload resume")));
+    }
+    const when = formatDate(resume.uploaded_at);
+    const matched = resume.matched_skills.length;
+    const total = matched + resume.missing_skills.length;
+    const chips = [];
+    if (resume.ats_score) chips.push(el("span", { className: "chip chip-ink", text: `ATS ${resume.ats_score.score}/100` }));
+    if (total) chips.push(el("span", { className: "chip", text: `${matched} of ${total} skills` }));
+    if (when) chips.push(el("span", { className: "chip chip-line", text: when }));
+    return el("section", { className: "card card-pad stack-sm", "aria-labelledby": "resume-title" },
+        el("div", { className: "cluster between" },
+            el("h2", { className: "h3", id: "resume-title", text: "Resume" }),
+            el("a", { className: "btn btn-ghost btn-sm", href: "/resume", text: "View analysis" })
+        ),
+        el("p", { className: "num", text: resume.target_career_path }),
+        el("ul", { className: "chips" }, ...chips.map((c) => el("li", {}, c)))
+    );
+}
+
+// The quiz result and the answers behind it, collapsed so the page stays short.
+function careerDetails(profile) {
+    if (!profile) return "";
+    const top = profile.career_ranking[0];
+    const details = el("details", { className: "card card-pad career-details" },
+        el("summary", {}, el("span", { className: "h3", text: "Career results" }), el("span", { className: "chip chip-ink", text: `${top.career_path} ${top.confidence_pct}%` })),
+        el("div", { className: "stack-sm" },
+            ...careerResultNodes(profile.career_ranking),
+            profile.answers.length ? answersDisclosure("Your answers", profile.answers) : "",
+            el("div", { className: "actions" }, el("a", { className: "btn btn-ghost btn-sm", href: "/quiz", text: "Retake quiz" }))
+        )
+    );
+    return details;
 }
 
 function render(data) {
     box.replaceChildren(
-        standingRow(data),
-        ...careerSection(data.career_profile),
-        ...roadmapSection(data.roadmap),
-        ...roadmapsListSection(data.roadmaps),
-        ...resumeSection(data.resume),
-        ...dsaSection(data.dsa)
+        nextCard(data),
+        progressCard(data),
+        roadmapsCard(data.roadmaps),
+        resumeCard(data.resume),
+        careerDetails(data.career_profile)
     );
-    // Honour a #career / #roadmap / #resume / #dsa link now that the sections exist.
-    if (window.location.hash) {
-        const target = document.getElementById(window.location.hash.slice(1));
-        if (target) target.scrollIntoView();
-    }
 }
 
 async function load() {
-    box.replaceChildren(row([], working("Loading your results...")));
+    box.replaceChildren(el("div", { className: "card card-pad" }, skeleton("Loading your results", 2)));
     const result = await getJson("/dashboard/data");
     if (!result.ok) {
         renderError(result);

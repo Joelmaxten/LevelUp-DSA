@@ -753,7 +753,7 @@ def frontend_source_checks(index, chunks):
     results = Path("app/static/js/results.js").read_text(encoding="utf-8")
     page = Path("app/templates/roadmap.html").read_text(encoding="utf-8")
     css = Path("app/static/css/style.css").read_text(encoding="utf-8")
-    added = results[results.index("function personalizationOf"):results.index("function roadmapDashboardSummary")]
+    added = results[results.index("function personalizationOf"):results.index("function hasAllVideoResults")]
     check("front end: the personalization code builds text through el()/textContent only (no innerHTML in it, nor in roadmap.html)",
           "innerHTML" not in added and "innerHTML" not in page and "insertAdjacentHTML" not in added + page)
     check("front end: tags, phase note, summary and 'Based on a reviewed ... personalized for you' wording present; classes styled",

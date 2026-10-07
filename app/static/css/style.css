@@ -965,17 +965,23 @@ a.vrow:hover { background: var(--tint); }
 
 /* ---------- Dashboard ---------- */
 
-.standing { font-size: clamp(1.75rem, 1.1rem + 2.8vw, 3rem); line-height: 1.12; }
-.next-up { margin-top: 1.25rem; font-size: 1.1875rem; }
-
-.progress { display: flex; flex-wrap: wrap; gap: 0.25rem 2rem; margin-top: 2rem; }
-.progress a { display: inline-flex; align-items: center; gap: 0.6rem; min-height: 2.75rem; font-weight: 700; }
-.progress .state { font-weight: 400; color: var(--pencil); }
-
-.section-head { padding-block: 2.5rem 1rem; }
-.section-head + .row { border-top: 0; padding-top: 1rem; }
-.section-title { font-size: clamp(1.75rem, 1.2rem + 2.2vw, 2.5rem); }
-.section-head .actions { margin-top: 0.5rem; }
+.next-card { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--sp-4) var(--sp-5); }
+.next-card .btn { background: var(--marker); border-color: var(--marker); color: var(--ink); }
+.next-card .btn:hover { background: #FFF07A; border-color: #FFF07A; }
+.progress-card { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-5); }
+.progress-card .stack-sm { flex: 1 1 14rem; min-width: 0; }
+a.chip { text-decoration: none; min-height: 2rem; }
+a.chip:hover { text-decoration: underline; }
+.roadmap-list { display: grid; }
+.roadmap-list-item { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: var(--sp-1) var(--sp-3); padding: var(--sp-3) 0; }
+.roadmap-list-item + .roadmap-list-item { border-top: 1px solid var(--rule); }
+.roadmap-list-item .pbar { grid-column: 1 / -1; }
+.roadmap-list-link { display: inline-flex; align-items: center; min-height: var(--tap); font-weight: 700; overflow-wrap: anywhere; }
+.career-details > summary { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--sp-2); min-height: var(--tap); cursor: pointer; list-style: none; }
+.career-details > summary::-webkit-details-marker { display: none; }
+.career-details[open] > summary { margin-bottom: var(--sp-4); }
+.dashboard > * + *, #dashboard-box > * + * { margin-top: var(--sp-4); }
+.dashboard > .page-head { margin-top: 0; }
 
 /* ---------- Motion + contrast preferences ---------- */
 

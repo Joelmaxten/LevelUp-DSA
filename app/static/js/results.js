@@ -22,10 +22,6 @@ function formatInr(n) {
     return `₹${Math.round(n).toLocaleString("en-IN")}`;
 }
 
-function formatUsd(n) {
-    return `$${Math.round(n).toLocaleString("en-US")}`;
-}
-
 // ---------- career profile (new: hero + See all) ----------
 
 // The top match (or the tied top matches) as a hero card. confidence_pct is the share of the
@@ -80,85 +76,6 @@ function answersDisclosure(title, items) {
             )
         ))
     );
-}
-
-// ---------- career profile (old rows, until the last page using them is migrated) ----------
-
-// The top match, set large. confidence_pct is the share of the student's answers that pointed here.
-function topMatchBlock(top) {
-    return el("div", { className: "top-match" },
-        el("p", { className: "top-match-name" }, el("span", { className: "mark", text: top.career_path })),
-        el("p", { className: "note", text: `${top.confidence_pct}% of your answers pointed here.` })
-    );
-}
-
-// Every path in rank order. Rank is genuinely ordered content, so it is numbered.
-function meritList(ranking) {
-    const max = Math.max(...ranking.map((r) => r.confidence_pct)) || 1;
-    return el("ol", { className: "merit" }, ...ranking.map((r, i) => {
-        const fill = el("span", { className: "merit-fill" });
-        fill.style.width = `${(r.confidence_pct / max) * 100}%`;
-        return el("li", { className: `merit-item${i < 3 ? " merit-top" : ""}` },
-            el("span", { className: "merit-rank num", text: String(i + 1) }),
-            el("span", { className: "merit-name", text: r.career_path }),
-            el("span", { className: "merit-pct num", text: `${r.confidence_pct}%` }),
-            el("span", { className: "merit-track", "aria-hidden": "true" }, fill)
-        );
-    }));
-}
-
-// Several paths that share the top score, shown together instead of one arbitrary winner.
-function tiedTopBlock(tiedPaths, ranking) {
-    const byPath = new Map(ranking.map((r) => [r.career_path, r]));
-    return el("div", { className: "top-match top-match-tied" },
-        el("ul", { className: "tied-list" }, ...tiedPaths.map((path) =>
-            el("li", { className: "top-match-name" }, el("span", { className: "mark", text: path }))
-        )),
-        el("p", { className: "note", text: `${byPath.get(tiedPaths[0]).confidence_pct}% of your answers pointed to each of them.` })
-    );
-}
-
-// tiedTop (optional): the quiz's list of paths that share the top score. With more than one, the
-// top is shown as "Your top matches"; without it (or with one path) the page is exactly as before.
-function rankingRows(ranking, level, tiedTop) {
-    const l = level || 2;
-    const tied = Array.isArray(tiedTop) && tiedTop.length > 1;
-    return [
-        row(
-            [rowTitle("Your career results", l), el("p", { className: "note", text: "The share of your answers that pointed to each path." })],
-            el("div", { className: "split split-even-ish" },
-                tied
-                ? el("div", {},
-                    el("p", { className: "note", text: "Your top matches" }),
-                    tiedTopBlock(tiedTop, ranking),
-                    el("p", { className: "top-match-next", text: "These paths scored the same on your answers. You will choose between them when you build your roadmap." })
-                )
-                : el("div", {},
-                    el("p", { className: "note", text: "Your top match" }),
-                    topMatchBlock(ranking[0]),
-                    el("p", { className: "top-match-next", text: "Your roadmap is built around this path." })
-                ),
-                el("div", {},
-                    el(`h${Math.min(l + 1, 6)}`, { className: "block-title", text: "Every path, ranked" }),
-                    meritList(ranking)
-                )
-            )
-        ),
-    ];
-}
-
-// {question, answer} pairs: the conversation answers behind a profile.
-function answersBlock(items) {
-    return el("dl", { className: "recap-list" }, ...items.map((item) =>
-        el("div", { className: "recap-item" },
-            el("dt", { text: item.question }),
-            el("dd", { text: item.answer })
-        )
-    ));
-}
-
-function answersRow(title, items, level, note) {
-    return row([rowTitle(title, level), note ? el("p", { className: "note", text: note }) : ""], answersBlock(items));
 }
 
 // ---------- roadmap ----------
@@ -557,38 +474,6 @@ function goToFirstUnfinishedStep(root) {
     const title = target.querySelector(".step-title");
     if (title) title.focus({ preventScroll: true });
     return true;
-}
-
-// A compact summary for space-constrained contexts (the dashboard, shown alongside
-// several other sections) - phase titles and step counts only, no step-by-step detail,
-// since a phased roadmap can run to 20+ steps where the old flat one topped out at 12.
-// An older flat-shape roadmap is short enough to just show in full via roadmapStepList.
-//
-// dashboardProgress: OPTIONAL {completed_count, total_steps} (the
-// dashboard's own compact shape - NOT the same shape as roadmapStepList's
-// "progress", which needs a live completed Set + onToggle for its
-// checkboxes). Shows a small READ-ONLY bar when present; nothing when
-// absent (an old dashboard payload, or a roadmap somehow missing it).
-function roadmapDashboardSummary(steps, dashboardProgress) {
-    const bar = (() => {
-        if (!dashboardProgress) return "";
-        const [container, update] = makeProgressBar((done, total, pct) => `${done} of ${total} steps, ${pct}%`);
-        update(dashboardProgress.completed_count, dashboardProgress.total_steps);
-        return container;
-    })();
-
-    if (Array.isArray(steps)) {
-        return el("div", { className: "block" }, bar, roadmapStepList(steps, false));
-    }
-
-    const totalSteps = steps.phases.reduce((n, phase) => n + phase.steps.length, 0);
-    return el("div", { className: "block" },
-        bar,
-        el("p", { className: "note", text: `${steps.phases.length} phases, ${totalSteps} steps in total` }),
-        el("ul", { className: "dots" }, ...steps.phases.map((phase) =>
-            el("li", { text: `${phase.title} — ${phase.steps.length} step${phase.steps.length === 1 ? "" : "s"}` })
-        ))
-    );
 }
 
 // A roadmap only counts as "fully resourced" once every step (across every phase, for

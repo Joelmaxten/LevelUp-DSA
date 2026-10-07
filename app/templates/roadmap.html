@@ -161,6 +161,19 @@ function roadmapSwitcher(currentId) {
     return el("div", { className: "field switcher" }, el("label", { for: "roadmap-switch", text: "Switch roadmap" }), select);
 }
 
+// The notes that stop a roadmap being misread, in one disclosure: where it came from (and whether that source may
+// be out of date), and what a "search result" video tag means. "" when there is nothing to say.
+function howItWorks(origin) {
+    const allSteps = Array.isArray(roadmap.steps) ? roadmap.steps : roadmap.steps.phases.flatMap((phase) => phase.steps);
+    const hasSearchVideo = allSteps.some((step) => (step.videos || []).some((v) => v.source === "youtube_search"));
+    const notes = [];
+    if (origin.note) notes.push(origin.note);
+    if (origin.stale) notes.push("The reviewed roadmap may be out of date.");
+    if (hasSearchVideo) notes.push("A \"search result\" video was found by search, not picked by a reviewer.");
+    if (!notes.length) return "";
+    return disclosure("How this works", el("ul", { className: "info-list" }, ...notes.map((text) => el("li", { text }))));
+}
+
 function renderRoadmap() {
     const parts = [];
 
@@ -193,7 +206,7 @@ function renderRoadmap() {
             el("div", { className: "rm-head-actions" }, continueBtn, roadmapSwitcher(roadmap.roadmap_id))
         ),
         personalCallout(roadmap.steps),
-        origin.note ? disclosure("How this works", el("p", { text: origin.note }), origin.stale ? el("p", { text: "The reviewed roadmap may be out of date." }) : "") : ""
+        howItWorks(origin)
     );
     parts.push(head);
 
