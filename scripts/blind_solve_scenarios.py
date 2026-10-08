@@ -17,15 +17,25 @@ whole path.
 """
 import argparse
 import json
+import os
 import random
 import re
 import sys
 from pathlib import Path
+from urllib.parse import urlparse
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:      # so "python scripts/blind_solve_scenarios.py" works without PYTHONPATH
+    sys.path.insert(0, str(ROOT))
+
+from dotenv import load_dotenv
+load_dotenv(ROOT / ".env")         # BEFORE the first app import: app.config reads the environment when imported.
+                                   # Variables already set in the shell win over .env.
 
 from app.pipeline.scenario_validator import load_and_validate
 
-SCENARIO_DIR = Path("data/scenarios")
-DOCS_DIR = Path("docs")
+SCENARIO_DIR = ROOT / "data" / "scenarios"
+DOCS_DIR = ROOT / "docs"
 
 SYSTEM = ("You are a careful senior practitioner answering exam questions about a realistic work scenario. "
           "Answer only from the scenario and your own expertise. Reply with JSON only.")
@@ -195,6 +205,45 @@ def build_report(path_name, data, results):
     return summary + ("## Disagreements\n\n" + "\n".join(sections) if sections else "No disagreements.\n")
 
 
+def provider_banner():
+    """
+    (lines, problem): which provider, host and roadmap model this run resolved, and the NAME of the key
+    variable it needs with whether it is set. Never a value. problem is a message when a required variable
+    is missing, else None.
+    """
+    from app.config import Config
+    from app.pipeline import llm_client
+
+    provider = Config.LLM_PROVIDER
+    model = getattr(Config, "ROADMAP_MODEL_ID", "") or "(provider default)"
+    lines = [f"provider: {provider}"]
+    problem = None
+    if provider == "openai_compat":
+        host = urlparse(Config.LLM_BASE_URL).hostname or "?"
+        needed = [llm_client._openai_key_variable()]
+        lines.append(f"base URL host: {host}")
+    elif provider == "bedrock":
+        lines.append(f"region: {getattr(Config, 'AWS_REGION', '') or '(not set)'}")
+        needed = ["AWS_BEARER_TOKEN_BEDROCK or AWS_ACCESS_KEY_ID"]
+    else:
+        lines.append("base URL host: Gemini API (SDK)")
+        needed = ["GEMINI_API_KEY"]
+    lines.append(f"roadmap model: {model}")
+
+    def is_set(name):
+        return any(os.environ.get(n) or getattr(Config, n, "") for n in name.split(" or "))
+
+    for name in needed:
+        ok = is_set(name)
+        lines.append(f"key variable: {name} ({'set' if ok else 'NOT SET'})")
+        if not ok:
+            problem = (f"{name} is not set for provider {provider}; check .env or the shell environment "
+                       "(LLM_PROVIDER decides which key is needed).")
+    if provider not in ("gemini", "openai_compat", "bedrock"):
+        problem = f"unknown LLM_PROVIDER {provider!r}"
+    return lines, problem
+
+
 def find_files(wanted):
     found = {}
     for f in sorted(SCENARIO_DIR.glob("*.json")):
@@ -223,25 +272,42 @@ def main(argv=None):
         print("No valid scenario file for: " + ", ".join(sorted(missing)))
         return 2
 
+    banner_lines, problem = provider_banner()
+    print("\nLLM settings this run would use:")
+    for line in banner_lines:
+        print("  " + line)
+
     for path_name, data in files.items():
         print(f"\n{path_name}: {len(data['scenarios'])} scenarios, "
               f"{sum(len(s['questions']) for s in data['scenarios'])} questions")
         for s in data["scenarios"]:
             print(f"  {s['id']}: {len(s['questions'])} questions, prompt {len(build_prompt(s))} chars, one call")
     if not args.run:
+        if problem:
+            print(f"\nNOTE: --run would refuse: {problem}")
         print("\nDRY RUN: no call made. Add --run --paths \"<path>\" to send these prompts.")
         return 0
+    if problem:
+        print(f"\nRefusing to run: {problem}")
+        return 2
 
     from app.pipeline import llm_client
+    exit_code = 0
     for path_name, data in files.items():
         results = {}
         for s in data["scenarios"]:
             results[s["id"]] = solve_scenario(s, llm_client.generate, retries=args.retries)
             print(f"  {s['id']}: " + (results[s["id"]]["error"] or "solved"))
+        if all(r["error"] for r in results.values()):
+            print(f"Every scenario for {path_name} failed to get an answer: no review file written "
+                  "(check the settings above and the error text per scenario).")
+            exit_code = 1
+            continue
         out = DOCS_DIR / f"SCENARIO_REVIEW_{slug(path_name)}.md"
         out.write_text(build_report(path_name, data, results), encoding="utf-8")
-        print(f"Wrote {out}")
-    return 0
+        failed = [k for k, r in results.items() if r["error"]]
+        print(f"Wrote {out}" + (f" (no result for: {', '.join(failed)})" if failed else ""))
+    return exit_code
 
 
 if __name__ == "__main__":

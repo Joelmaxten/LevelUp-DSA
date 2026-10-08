@@ -212,6 +212,120 @@ def test_blind_solve():
     check("--run without --paths refuses (no call)", run.returncode == 2)
 
 
+# ---------------------------------------------------------------- part 2b: blind-solve runtime (.env, banner, failures)
+def test_blind_solve_runtime():
+    import contextlib
+    import io
+    import os
+    from unittest import mock
+
+    from app.config import Config
+    from app.pipeline import llm_client
+    from scripts import blind_solve_scenarios as bs
+
+    root = str(Path(__file__).resolve().parents[1])
+    env_no_pythonpath = {k: v for k, v in os.environ.items() if k != "PYTHONPATH"}
+
+    # 1. .env is loaded before app.config is imported, and the script runs without PYTHONPATH from another cwd.
+    probe = (
+        "import sys, dotenv, importlib.util\n"
+        "calls = []\n"
+        "dotenv.load_dotenv = lambda *a, **k: calls.append('app.config' in sys.modules)\n"
+        f"spec = importlib.util.spec_from_file_location('bs', r'{root}/scripts/blind_solve_scenarios.py')\n"
+        "mod = importlib.util.module_from_spec(spec)\n"
+        "spec.loader.exec_module(mod)\n"
+        "print('CALLS', calls)\n")
+    with tempfile.TemporaryDirectory() as elsewhere:
+        run = subprocess.run([sys.executable, "-c", probe], capture_output=True, text=True, cwd=elsewhere, env=env_no_pythonpath)
+        check("load_dotenv is called once, before app.config is imported (and without PYTHONPATH)",
+              "CALLS [False]" in run.stdout)
+        run = subprocess.run([sys.executable, f"{root}/scripts/blind_solve_scenarios.py"], capture_output=True, text=True,
+                             cwd=elsewhere, env=env_no_pythonpath)
+        check("python scripts/blind_solve_scenarios.py works with no PYTHONPATH from any directory",
+              run.returncode == 0 and "mle-5" in run.stdout and "DRY RUN" in run.stdout)
+        check("the dry run prints the provider banner", "provider:" in run.stdout and "key variable:" in run.stdout)
+
+    # 2. Banner: provider, host, model, key variable NAME and set/not set - never a value.
+    secret = "sk-SECRET-VALUE-0123456789"
+    with mock.patch.object(Config, "LLM_PROVIDER", "openai_compat"), \
+            mock.patch.object(Config, "LLM_BASE_URL", "https://integrate.api.nvidia.com/v1"), \
+            mock.patch.object(Config, "ROADMAP_MODEL_ID", "some/model"), \
+            mock.patch.object(Config, "NVIDIA_API_KEY", secret), \
+            mock.patch.dict(os.environ, {"NVIDIA_API_KEY": secret}):
+        lines, problem = bs.provider_banner()
+        text = "\n".join(lines)
+        check("banner names provider, host, model and the key variable as set",
+              all(x in text for x in ("openai_compat", "integrate.api.nvidia.com", "some/model", "NVIDIA_API_KEY (set)")) and problem is None)
+        check("banner never contains the key value", secret not in text and "SECRET" not in text)
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf), mock.patch.object(bs, "DOCS_DIR", Path(tempfile.mkdtemp())), \
+                mock.patch.object(llm_client, "generate", lambda **kw: {"parsed": {"answers": []}}):
+            bs.main(["--run", "--paths", "Machine Learning Engineering", "--retries", "0"])
+        check("nothing printed by a whole --run contains the key value", secret not in buf.getvalue())
+
+    with mock.patch.object(Config, "LLM_PROVIDER", "openai_compat"), \
+            mock.patch.object(Config, "LLM_BASE_URL", "https://integrate.api.nvidia.com/v1"), \
+            mock.patch.object(Config, "NVIDIA_API_KEY", ""), \
+            mock.patch.dict(os.environ, {"NVIDIA_API_KEY": ""}):
+        calls = []
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf), mock.patch.object(llm_client, "generate", lambda **kw: calls.append(1)):
+            code = bs.main(["--run", "--paths", "Machine Learning Engineering"])
+        check("--run refuses (exit 2, no call) when the provider's key variable is not set",
+              code == 2 and not calls and "NVIDIA_API_KEY is not set" in buf.getvalue() and "NOT SET" in buf.getvalue())
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            code = bs.main([])
+        check("the dry run still works and warns that --run would refuse", code == 0 and "would refuse" in buf.getvalue())
+
+    # 3 and 4. All-failed and partially failed runs (stubbed model, key check bypassed).
+    data = load_pilot()
+
+    def run_main(stub, existing=None):
+        tmp = Path(tempfile.mkdtemp())
+        target = tmp / "SCENARIO_REVIEW_machine-learning-engineering.md"
+        if existing is not None:
+            target.write_text(existing, encoding="utf-8")
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf), mock.patch.object(bs, "DOCS_DIR", tmp), \
+                mock.patch.object(bs, "provider_banner", lambda: (["provider: stub"], None)), \
+                mock.patch.object(llm_client, "generate", stub):
+            code = bs.main(["--run", "--paths", "Machine Learning Engineering", "--retries", "0"])
+        return code, target, buf.getvalue()
+
+    def always_fail(**kw):
+        raise RuntimeError("gemini call failed (KeyError)")
+
+    code, target, out = run_main(always_fail)
+    check("all scenarios failed: exit non-zero and no review file written", code != 0 and not target.exists())
+    check("all scenarios failed: the message says nothing was written", "no review file written" in out)
+    code, target, out = run_main(always_fail, existing="KEEP ME")
+    check("all scenarios failed: an existing review file is not overwritten",
+          code != 0 and target.read_text(encoding="utf-8") == "KEEP ME")
+
+    def key_answers(scen):
+        answers = []
+        for q in scen["questions"]:
+            if q["type"] == "match":
+                answers.append({"question_id": q["id"], "mapping": [{"item_id": i, "target_id": t} for i, t in q["correct"].items()]})
+            else:
+                answers.append({"question_id": q["id"], "selected": list(q["correct"])})
+        return answers
+
+    def fail_mle2(task, prompt, **kw):
+        scen = next(s for s in data["scenarios"] if s["title"] in prompt)
+        if scen["id"] == "mle-2":
+            raise RuntimeError("stub outage")
+        return {"parsed": {"answers": key_answers(scen)}}
+
+    code, target, out = run_main(fail_mle2)
+    text = target.read_text(encoding="utf-8") if target.exists() else ""
+    check("partial failure: the file is still written and exit is 0", code == 0 and target.exists())
+    check("partial failure: succeeded scenarios are reported, the failed one is marked",
+          "| mle-1 | 4 | 4 | 0 |" in text and "no result: RuntimeError" in text and "(no result for: mle-2)" in out
+          and "| **Total** | **18** | **18** | **0** |" in text)
+
+
 # ---------------------------------------------------------------- part 3: store, engine, progress rules
 def test_store_engine():
     from app.pipeline import scenario_store as store
@@ -606,7 +720,7 @@ def test_routes():
             db.session.commit()
 
 
-SECTIONS = [test_validator, test_blind_solve, test_store_engine, test_routes]
+SECTIONS = [test_validator, test_blind_solve, test_blind_solve_runtime, test_store_engine, test_routes]
 
 
 def main():
