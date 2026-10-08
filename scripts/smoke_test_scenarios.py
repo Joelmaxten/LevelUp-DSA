@@ -102,8 +102,19 @@ def test_validator():
     result = validate_scenario_file((lambda d: (same_position(d), d)[1])(load_pilot()))
     check("validator warns when every correct answer is in one position",
           any("position" in w for w in result["warnings"]))
-    check("validator: pilot warns about the longest-option bias (warning, not error)",
-          any("longest option" in w for w in base["warnings"]) and not base["errors"])
+    def longest_is_correct(d):
+        for s in d["scenarios"]:
+            for q in s["questions"]:
+                if q["type"] == "single_choice":
+                    for o in q["options"]:
+                        if o["id"] in q["correct"]:
+                            o["text"] += " and this extra wording makes it clearly the longest option by a wide margin"
+        return d
+    biased = validate_scenario_file(longest_is_correct(load_pilot()))
+    check("validator warns when the correct option is usually the longest (warning, not error)",
+          any("longest option" in w for w in biased["warnings"]) and not biased["errors"])
+    check("validator: pilot no longer has the longest-option bias",
+          not any("longest option" in w for w in base["warnings"]) and not base["errors"])
 
     # script: temp dir with one good and one broken copy -> non-zero exit; good copy alone -> zero
     with tempfile.TemporaryDirectory() as tmp:
