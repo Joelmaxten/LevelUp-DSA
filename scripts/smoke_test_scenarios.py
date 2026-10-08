@@ -574,6 +574,28 @@ def test_routes():
               resp.status_code == 200 and body["paths"][0]["slug"] == "machine-learning-engineering"
               and body["quiz_path"] == "Machine Learning Engineering")
         check("paths: a user with no quiz result gets quiz_path null", bob.get("/scenarios/paths").get_json()["quiz_path"] is None)
+        check("paths: quiz_path_available is true when the top path has a file", body["quiz_path_available"] is True)
+        check("paths: no quiz result -> quiz_path null and quiz_path_available false (current behaviour kept)",
+              bob.get("/scenarios/paths").get_json()["quiz_path_available"] is False)
+        carol, carol_id = login("c")
+        with app.app_context():
+            db.session.add(CareerProfile(user_id=carol_id, career_ranking=[{"career_path": "Cybersecurity", "score": 7}],
+                                         conversation_signals={"goal": "explore"}))
+            db.session.commit()
+        carol_before = profile_snapshot(carol_id)
+        resp = carol.get("/scenarios/paths")
+        cbody = resp.get_json()
+        check("paths: top quiz path without a file -> quiz_path named, quiz_path_available false, pilot still listed",
+              resp.status_code == 200 and cbody["quiz_path"] == "Cybersecurity" and cbody["quiz_path_available"] is False
+              and [p["name"] for p in cbody["paths"]] == ["Machine Learning Engineering"])
+        check("paths payload for that user leaks no question text",
+              not any(q["prompt"] in json.dumps(cbody) for s_ in scenarios for q in s_["questions"]))
+        check("a path with no file has no map (404 path_not_found)",
+              carol.get("/scenarios/cybersecurity").status_code == 404)
+        check("quiz-path fallback did not write CareerProfile", profile_snapshot(carol_id) == carol_before)
+        js_text = Path("app/static/js/scenarios.js").read_text(encoding="utf-8")
+        check("scenarios.js shows the coming-soon message with an explicit button to the pilot",
+              "are coming soon." in js_text and "quiz_path_available" in js_text and "scenarios instead" in js_text)
         resp = alice.get("/scenarios/machine-learning-engineering")
         m = resp.get_json()
         by_id = {s["id"]: s for s in m["scenarios"]}

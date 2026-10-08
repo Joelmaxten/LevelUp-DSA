@@ -58,7 +58,18 @@ async function loadPaths() {
         box.replaceChildren(emptyState("No scenarios are available yet."));
         return;
     }
-    const first = paths.paths.find((p) => p.name === paths.quiz_path) || paths.paths[0];
+    // The pilot shown when the student's own path has nothing yet.
+    const pilot = paths.paths.find((p) => p.name === "Machine Learning Engineering") || paths.paths[0];
+    if (paths.quiz_path && !paths.quiz_path_available) {
+        const open = el("button", { type: "button", className: "btn", text: `Open ${pilot.name} scenarios instead` });
+        open.addEventListener("click", () => loadMap(pilot.slug));
+        box.replaceChildren(el("div", { className: "card card-pad stack-sm", role: "status" },
+            el("h2", { className: "scen-path-title", text: `Scenarios for ${paths.quiz_path} are coming soon.` }),
+            el("p", { className: "muted", text: `Your top career match has no scenarios yet. ${pilot.name} is available to try meanwhile.` }),
+            el("div", { className: "actions" }, open)));
+        return;
+    }
+    const first = paths.paths.find((p) => p.name === paths.quiz_path) || pilot;
     loadMap(first.slug);
 }
 

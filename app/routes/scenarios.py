@@ -111,7 +111,10 @@ def list_paths():
     return jsonify({
         "paths": [{"name": name, "slug": store.slugify(name), "scenario_count": len(d["scenarios"])}
                   for name, d in available.items()],
-        "quiz_path": quiz_path if quiz_path in available else None,
+        # quiz_path is the student's top quiz match whether or not it has scenarios (null = no quiz result), so the
+        # page can say "coming soon" instead of quietly showing another path.
+        "quiz_path": quiz_path if isinstance(quiz_path, str) else None,
+        "quiz_path_available": quiz_path in available,
     }), 200
 
 
