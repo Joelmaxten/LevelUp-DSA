@@ -11,7 +11,8 @@ Four components, each 0..1 or unavailable (None):
 
 Base weights are roadmap .25, skill_gap .35, dsa .30, streak .10. An unavailable component is dropped and the
 remaining weights are re-normalised to sum to 1. The score is 0..100 rounded half-up to one decimal; a student is
-"placement ready" at 70.0 or more (judged on the rounded score, so the number shown and the state always agree).
+"placement ready" at 70.0 or more, judged on the UNROUNDED score (so 69.96 is not ready even though it is shown as
+70.0; floating-point noise below 1e-9 is ignored, so a true 70 never reads as 69.999999999).
 """
 from datetime import timedelta
 from decimal import ROUND_HALF_UP, Decimal
@@ -79,10 +80,11 @@ def combine(components):
     present = [name for name in BASE_WEIGHTS if clean[name] is not None]
     total_units = sum(_UNITS[n] for n in present)
     weights = {n: _UNITS[n] / total_units for n in present} if present else {}
-    score = _round_1(100 * sum(weights[n] * clean[n] for n in present)) if present else None
+    raw = 100 * sum(weights[n] * clean[n] for n in present) if present else None
+    score = _round_1(raw) if present else None
     return {
         "score": score,
-        "ready": score is not None and score >= READY_THRESHOLD,
+        "ready": raw is not None and round(raw, 9) >= READY_THRESHOLD,
         "threshold": READY_THRESHOLD,
         "components": clean,
         "weights": weights,

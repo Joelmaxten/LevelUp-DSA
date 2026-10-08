@@ -118,8 +118,11 @@ def test_pure():
     check("threshold: exactly 70.0 is ready", at["score"] == 70.0 and at["ready"] is True and at["threshold"] == 70.0)
     below = r.combine({"roadmap": 0.699})
     check("threshold: 69.9 is not ready", below["score"] == 69.9 and below["ready"] is False)
-    check("threshold: a raw 69.96 rounds to 70.0 and is shown and judged ready (display and state agree)",
-          r.combine({"roadmap": 0.6996})["score"] == 70.0 and r.combine({"roadmap": 0.6996})["ready"] is True)
+    low = r.combine({"roadmap": 0.6996})
+    check("threshold: a raw 69.96 is NOT ready but is shown rounded as 70.0 (decision uses the unrounded score)",
+          low["score"] == 70.0 and low["ready"] is False)
+    check("threshold: a raw 70.04 is ready and shown as 70.0", r.combine({"roadmap": 0.7004})["score"] == 70.0
+          and r.combine({"roadmap": 0.7004})["ready"] is True)
     check("score bounds: all zeros -> 0.0, all ones -> 100.0",
           r.combine(dict.fromkeys(full, 0.0))["score"] == 0.0 and r.combine(dict.fromkeys(full, 1.0))["score"] == 100.0)
     check("out-of-range inputs are clamped", r.combine({"roadmap": 5, "dsa": -3})["components"] == {
