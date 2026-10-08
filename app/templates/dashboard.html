@@ -148,10 +148,39 @@ function careerDetails(profile) {
     return details;
 }
 
-function render(data) {
+const READINESS_LABELS = { roadmap: "Roadmap steps", skill_gap: "Resume skills", dsa: "Scenarios", streak: "Last 30 days" };
+
+// Placement readiness: one score, a bar per part, "not available yet" for a part with no data.
+function readinessCard(r) {
+    if (!r || r.score === null) {
+        return el("section", { className: "card card-pad stack-sm", "aria-labelledby": "ready-title" },
+            el("h2", { className: "h3", id: "ready-title", text: "Placement readiness" }),
+            el("p", { className: "muted", text: "Not available yet. Build a roadmap, analyze your resume or try a scenario to see your score." }));
+    }
+    const rows = Object.keys(READINESS_LABELS).map((name) => {
+        const value = r.components[name];
+        if (value === null || value === undefined) {
+            return el("li", { className: "roadmap-list-item" },
+                el("span", { text: READINESS_LABELS[name] }), el("span", { className: "muted", text: "not available yet" }));
+        }
+        const pct = Math.round(value * 100);
+        return el("li", { className: "roadmap-list-item" },
+            el("span", { text: READINESS_LABELS[name] }), el("span", { className: "num roadmap-list-pct", text: `${pct}%` }),
+            pbar(pct, `${READINESS_LABELS[name]}: ${pct}%`));
+    });
+    return el("section", { className: "card card-pad stack-sm", "aria-labelledby": "ready-title" },
+        el("div", { className: "cluster between" },
+            el("h2", { className: "h3", id: "ready-title", text: "Placement readiness" }),
+            el("span", { className: `chip ${r.ready ? "chip-ink" : "chip-line"}`, text: r.ready ? "Placement ready" : `Not ready yet (${r.threshold} needed)` })),
+        el("p", { className: "num", text: `${r.score} / 100` }),
+        el("ul", { className: "roadmap-list" }, ...rows));
+}
+
+function render(data, readiness) {
     box.replaceChildren(
         nextCard(data),
         progressCard(data),
+        readinessCard(readiness),
         roadmapsCard(data.roadmaps),
         resumeCard(data.resume),
         careerDetails(data.career_profile)
@@ -160,12 +189,12 @@ function render(data) {
 
 async function load() {
     box.replaceChildren(el("div", { className: "card card-pad" }, skeleton("Loading your results", 2)));
-    const result = await getJson("/dashboard/data");
+    const [result, ready] = await Promise.all([getJson("/dashboard/data"), getJson("/readiness")]);
     if (!result.ok) {
         renderError(result);
         return;
     }
-    render(result.data);
+    render(result.data, ready.ok ? ready.data : null);   // the score is extra: if it fails the dashboard still loads
 }
 
 load();
