@@ -16,7 +16,23 @@ SCHEMA_VERSION = 1
 LADDER_STAGES = ["foundations", "core_decision", "debugging", "trade_offs", "end_to_end"]
 QUESTION_TYPES = ["single_choice", "multi_select", "order", "match"]
 # Id prefix per path (mle-1, mle-1-q2). A path without an entry here cannot have a scenario file yet.
-PATH_ID_PREFIX = {"Machine Learning Engineering": "mle", "Cybersecurity": "cyb"}
+PATH_ID_PREFIX = {
+    "Full-Stack Development": "fsd",
+    "AI Engineering": "aie",
+    "Machine Learning Engineering": "mle",
+    "Data Science": "dsc",
+    "Data Analytics": "dan",
+    "Cybersecurity": "cyb",
+    "Mobile App Development": "mob",
+    "Game Development": "gam",
+    "Backend Engineering": "bke",
+    "UI/UX Design": "uxd",
+    "Frontend Development": "fed",
+    "Cloud Engineering": "cle",
+    "DevOps": "dop",
+    "QA & Test Automation": "qat",
+    "Data Engineering": "den",
+}
 
 NUMBER_WORDS = {"two": 2, "three": 3, "four": 4, "five": 5, "2": 2, "3": 3, "4": 4, "5": 5}
 STATED_NUMBER = re.compile(r"\b(?:which|choose|select|pick)\s+(two|three|four|five|[2-5])\b", re.I)

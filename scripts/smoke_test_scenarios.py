@@ -753,7 +753,21 @@ def test_routes():
             db.session.commit()
 
 
-SECTIONS = [test_validator, test_blind_solve, test_blind_solve_runtime, test_store_engine, test_routes]
+# ---------------------------------------------------------------- id prefixes
+def test_id_prefixes():
+    import re
+    from app.pipeline.career_path_registry import CAREER_PATHS
+    from app.pipeline.scenario_validator import PATH_ID_PREFIX
+
+    check("every registry path has an id prefix", all(p in PATH_ID_PREFIX for p in CAREER_PATHS))
+    check("no prefix for a path outside the registry", set(PATH_ID_PREFIX) <= set(CAREER_PATHS))
+    check("id prefixes are unique", len(set(PATH_ID_PREFIX.values())) == len(PATH_ID_PREFIX))
+    check("every prefix is 3 lowercase letters", all(re.fullmatch(r"[a-z]{3}", v) for v in PATH_ID_PREFIX.values()))
+    check("every prefix yields ids the validator pattern accepts",
+          all(re.fullmatch(rf"{v}-(\d+)", f"{v}-1") and re.fullmatch(r"^[a-z0-9]+$", v) for v in PATH_ID_PREFIX.values()))
+
+
+SECTIONS = [test_validator, test_id_prefixes, test_blind_solve, test_blind_solve_runtime, test_store_engine, test_routes]
 
 
 def main():
