@@ -1,0 +1,606 @@
+{
+  "schema_version": 1,
+  "path": "QA & Test Automation",
+  "map": {
+    "scene_id": "qa-test-automation",
+    "theme": "A mountain observatory town of telescopes and measuring instruments, where an exam hall with ticking clocks, a tax office of tidy ledgers, a travel depot with departure boards, an insurance vault with balance scales and an auction square under a great bell are linked by stone steps. The palette is slate, lime and clean ivory, and the mood moves from careful checking at the exam hall to sharp-eyed confidence at the auction square.",
+    "edges": [["qat-1", "qat-2"], ["qat-2", "qat-3"], ["qat-3", "qat-4"], ["qat-4", "qat-5"]]
+  },
+  "scenarios": [
+    {
+      "id": "qat-1",
+      "order": 1,
+      "ladder_stage": "foundations",
+      "title": "First Test Plan for the Vidya Vahini Exam Portal",
+      "difficulty": 1,
+      "estimated_minutes": 8,
+      "background": "Vidya Vahini is a fictional online exam portal used by a state board in Karnataka for 200,000 students. A junior QA engineer joins two weeks before results go live. The registration form accepts applicants aged 18 to 60, results show a percentage calculated from marks, and developers complain that bug reports are vague, such as 'results page broken'. The QA lead asks her to design tests and write better reports.",
+      "constraints": [
+        "Results go live in two weeks and cannot be delayed",
+        "There are two QA engineers for six developers",
+        "Wrong results would affect students' admissions"
+      ],
+      "tests_topics": [
+        "Boundary value analysis",
+        "Bug reporting",
+        "Test levels",
+        "Types of testing"
+      ],
+      "map_node": {"x": 0.1, "y": 0.84, "label": "Ticking Exam Hall"},
+      "questions": [
+        {
+          "id": "qat-1-q1",
+          "type": "single_choice",
+          "prompt": "The age field must accept applicants aged 18 to 60 inclusive. Which set of ages best tests the boundaries?",
+          "options": [
+            {"id": "a", "text": "25, 35 and 45, which are typical ages of real applicants"},
+            {"id": "b", "text": "17, 18, 60 and 61, on and just outside each boundary"},
+            {"id": "c", "text": "0 and 100, the most extreme values anyone might type"},
+            {"id": "d", "text": "Every whole age from 1 to 100, checked one after another"}
+          ],
+          "correct": ["b"],
+          "explanation": "Bugs cluster at the edges of ranges, for example a developer writing 'greater than 18' instead of 'at least 18'. Testing the boundary values themselves and the values just outside them, 17, 18, 60 and 61, catches these off-by-one mistakes with very few tests.",
+          "why_others_wrong": {
+            "a": "Values in the middle of the range rarely reveal mistakes at the edges.",
+            "c": "Extreme values check far outside the range but miss errors right at 18 and 60.",
+            "d": "Testing every value is wasteful and still gives no more insight than the boundaries."
+          },
+          "key_justification": "Boundary value analysis tests on and just beyond each edge of a valid range.",
+          "points": 10
+        },
+        {
+          "id": "qat-1-q2",
+          "type": "single_choice",
+          "prompt": "Which bug report will help the developers most?",
+          "options": [
+            {"id": "a", "text": "'Results page broken. Please fix urgently, students are waiting.'"},
+            {"id": "b", "text": "'The results feature does not work properly on the portal, sometimes.'"},
+            {"id": "c", "text": "'I think the percentage maths is wrong. The developer should check it.'"},
+            {"id": "d", "text": "Steps, expected 72.5% vs actual 7.25%, browser, roll no. and a screenshot"}
+          ],
+          "correct": ["d"],
+          "explanation": "A useful bug report lets a developer reproduce the problem without asking questions: the exact steps, the expected and actual results, the environment such as browser and test account, and evidence such as a screenshot. Here it also reveals the likely cause, a misplaced decimal point.",
+          "why_others_wrong": {
+            "a": "Urgency without details leaves the developer guessing what is broken and where.",
+            "b": "'Sometimes' and 'not properly' give no way to reproduce or locate the problem.",
+            "c": "A suspicion with no steps or data cannot be confirmed or fixed."
+          },
+          "key_justification": "Good bug reports give steps, expected versus actual results, environment and evidence.",
+          "points": 10
+        },
+        {
+          "id": "qat-1-q3",
+          "type": "multi_select",
+          "prompt": "Which two checks are best written as unit tests?",
+          "options": [
+            {"id": "a", "text": "The function that turns marks into a percentage"},
+            {"id": "b", "text": "A browser journey from login all the way to results"},
+            {"id": "c", "text": "The check that a roll number has the right format"},
+            {"id": "d", "text": "A load test with 10,000 students checking results"},
+            {"id": "e", "text": "An unscripted exploratory session on the results page"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "Unit tests check small pieces of logic in isolation, quickly and many times, such as calculating a percentage or validating a roll number format. They can cover many input cases in milliseconds.",
+          "why_others_wrong": {
+            "b": "A full browser journey is an end-to-end test that crosses many components.",
+            "d": "Load testing measures the whole system under traffic, not a single unit.",
+            "e": "Exploratory testing is a manual, human-led activity, not an automated unit test."
+          },
+          "key_justification": "Unit tests target small, isolated pieces of logic.",
+          "points": 10
+        },
+        {
+          "id": "qat-1-q4",
+          "type": "match",
+          "prompt": "Match each type of testing to its purpose.",
+          "items": [
+            {"id": "i1", "text": "Smoke testing"},
+            {"id": "i2", "text": "Regression testing"},
+            {"id": "i3", "text": "Exploratory testing"},
+            {"id": "i4", "text": "Acceptance testing"}
+          ],
+          "targets": [
+            {"id": "t1", "text": "Confirm the system meets the business's requirements before sign-off"},
+            {"id": "t2", "text": "Quickly confirm a new build's key features work at all"},
+            {"id": "t3", "text": "Learn about the product and test it at once, without scripts"},
+            {"id": "t4", "text": "Check that existing features still work after a change"}
+          ],
+          "correct": {"i1": "t2", "i2": "t4", "i3": "t3", "i4": "t1"},
+          "explanation": "A smoke test is a fast check that a build is not fundamentally broken before deeper testing. Regression tests protect existing behaviour after changes, exploratory testing uses a tester's skill to find unexpected problems, and acceptance testing confirms the system does what the business asked for.",
+          "why_others_wrong": {
+            "common_mistake": "Confusing smoke and regression testing: a smoke test is a quick, shallow check of key features, while regression testing is a broader check that nothing that used to work has broken."
+          },
+          "key_justification": "Each testing type answers a different question about the build.",
+          "points": 10
+        }
+      ]
+    },
+    {
+      "id": "qat-2",
+      "order": 2,
+      "ladder_stage": "core_decision",
+      "title": "Building the Automation Suite for Saral Tax",
+      "difficulty": 2,
+      "estimated_minutes": 10,
+      "background": "Saral Tax is a fictional income-tax filing website from Pune used by 900,000 taxpayers. Manual regression testing of the main flows takes four days before every release. The QA team has been given time to build an automated test suite. The pages change often, the developers use generated CSS class names, the tax rules use income slabs and age groups, and the team must decide what to automate and how to structure the tests so they stay maintainable.",
+      "constraints": [
+        "Taxpayers' real PAN and bank details must never appear in tests",
+        "The suite must keep working as pages are redesigned",
+        "Releases happen every two weeks"
+      ],
+      "tests_topics": [
+        "Choosing what to automate",
+        "Robust selectors",
+        "The page object pattern",
+        "Test design techniques and test data"
+      ],
+      "map_node": {"x": 0.3, "y": 0.66, "label": "Ledger Tax Office"},
+      "questions": [
+        {
+          "id": "qat-2-q1",
+          "type": "single_choice",
+          "prompt": "What should the team automate first?",
+          "options": [
+            {"id": "a", "text": "Every screen in the product, including rarely used admin pages"},
+            {"id": "b", "text": "Stable, high-value flows repeated each release, like filing"},
+            {"id": "c", "text": "A brand-new page whose design will change again next week"},
+            {"id": "d", "text": "A one-time data migration check that runs once and is retired"}
+          ],
+          "correct": ["b"],
+          "explanation": "Automation pays off where the same checks run every release and failures would be costly, such as logging in, filing a return and paying tax. Those flows are also fairly stable, so the tests will not need constant rewriting.",
+          "why_others_wrong": {
+            "a": "Automating everything at once spreads effort thin and includes low-value pages.",
+            "c": "Tests for a page that keeps changing must be rewritten constantly.",
+            "d": "A check that runs once gives no return on the effort of automating it."
+          },
+          "key_justification": "Automate stable, high-value, frequently repeated checks first.",
+          "points": 10
+        },
+        {
+          "id": "qat-2-q2",
+          "type": "single_choice",
+          "prompt": "Tests keep breaking because they find buttons by generated CSS classes like .btn-x7f2a or by XPath position. How should elements be located?",
+          "options": [
+            {"id": "a", "text": "Use the full absolute XPath copied from the browser's DevTools"},
+            {"id": "b", "text": "Find elements by their pixel coordinates on a fixed screen size"},
+            {"id": "c", "text": "Use the generated CSS class names, but update them every release"},
+            {"id": "d", "text": "Use dedicated test ids, or roles and labels that users see"}
+          ],
+          "correct": ["d"],
+          "explanation": "Attributes such as data-testid exist only for testing and do not change when the layout or styling is redesigned. Locating elements by their accessible role and visible label, such as the 'Submit return' button, also keeps tests close to how users find things.",
+          "why_others_wrong": {
+            "a": "Absolute XPaths break as soon as any element above the target moves.",
+            "b": "Coordinates break with every screen size, font or layout change.",
+            "c": "Updating selectors each release is the maintenance cost the team is trying to avoid."
+          },
+          "key_justification": "Use stable, intention-revealing selectors rather than layout- or style-dependent ones.",
+          "points": 10
+        },
+        {
+          "id": "qat-2-q3",
+          "type": "single_choice",
+          "prompt": "The login page's layout is about to change, and 120 tests interact with it. How should the suite be structured so the change is cheap?",
+          "options": [
+            {"id": "a", "text": "Copy the login steps into each test so that tests are independent"},
+            {"id": "b", "text": "Delete all the login tests and check the login page by hand instead"},
+            {"id": "c", "text": "Put the login page's actions in one page object the tests all use"},
+            {"id": "d", "text": "Record each test with a recorder tool and re-record any that break"}
+          ],
+          "correct": ["c"],
+          "explanation": "The page object pattern keeps each page's locators and actions, such as logIn(user), in one class. When the login page changes, only that class is updated, and all 120 tests keep working unchanged.",
+          "why_others_wrong": {
+            "a": "Copied steps mean 120 places to update when the page changes.",
+            "b": "Manual checking brings back the slow, repetitive work automation was meant to remove.",
+            "d": "Recorded tests are brittle and duplicate steps, so re-recording them becomes a constant chore."
+          },
+          "key_justification": "Page objects centralise page details so UI changes are fixed in one place.",
+          "points": 10
+        },
+        {
+          "id": "qat-2-q4",
+          "type": "multi_select",
+          "prompt": "Which two test-data practices should the suite follow?",
+          "options": [
+            {"id": "a", "text": "Each test creates the data it needs, via the API, and cleans up"},
+            {"id": "b", "text": "All tests share one taxpayer account, running at the same time"},
+            {"id": "c", "text": "Use made-up taxpayers with fake PANs and fake bank details"},
+            {"id": "d", "text": "Copy the production database, real taxpayer data and all"},
+            {"id": "e", "text": "Rely on tests running in a fixed order to set up each other"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "Tests that create and clean up their own data can run in any order and in parallel without interfering with each other. Synthetic taxpayers keep real personal and financial data out of test environments, where it is less protected.",
+          "why_others_wrong": {
+            "b": "Tests running at the same time on one account overwrite each other's data and fail randomly.",
+            "d": "Real taxpayer data in test systems is a serious privacy and legal risk.",
+            "e": "Order-dependent tests break when one fails or when the suite runs in parallel."
+          },
+          "key_justification": "Tests should own their synthetic data and be independent of each other.",
+          "points": 10
+        },
+        {
+          "id": "qat-2-q5",
+          "type": "match",
+          "prompt": "Match each test design technique to an example from the tax rules.",
+          "items": [
+            {"id": "i1", "text": "Equivalence partitioning"},
+            {"id": "i2", "text": "Boundary value analysis"},
+            {"id": "i3", "text": "Decision table testing"},
+            {"id": "i4", "text": "State transition testing"}
+          ],
+          "targets": [
+            {"id": "t1", "text": "Test every combination of age group, residency and deductions"},
+            {"id": "t2", "text": "Test one income from inside each tax slab"},
+            {"id": "t3", "text": "Check returns move from draft to filed and block invalid moves"},
+            {"id": "t4", "text": "Test incomes exactly at each slab's limit and one rupee over"}
+          ],
+          "correct": {"i1": "t2", "i2": "t4", "i3": "t1", "i4": "t3"},
+          "explanation": "Equivalence partitioning picks one value per group that should behave the same, such as one income per slab. Boundary value analysis targets the edges of those groups, decision tables cover combinations of conditions, and state transition testing checks allowed and forbidden moves between a return's states.",
+          "why_others_wrong": {
+            "common_mistake": "Mixing up partitioning and boundaries: partitioning tests one value from the middle of each group, while boundary analysis tests the edges where the groups meet."
+          },
+          "key_justification": "Each technique reduces the test count while targeting a different kind of defect.",
+          "points": 10
+        }
+      ]
+    },
+    {
+      "id": "qat-3",
+      "order": 3,
+      "ladder_stage": "debugging",
+      "title": "Taming Flaky Tests at Ghumakkad Travels",
+      "difficulty": 3,
+      "estimated_minutes": 12,
+      "background": "Ghumakkad Travels is a fictional holiday-booking site in Chandigarh with 1,400 automated UI and API tests. The team no longer trusts the suite: tests fail at random with 'element not found', some pass alone but fail in the full run, a date test fails only when the CI server runs in the early hours, and a payment bug reached Safari users even though every test passed. The QA lead has a week to make the suite trustworthy again.",
+      "constraints": [
+        "The CI server runs in UTC, while the business runs on Indian time",
+        "The suite runs in parallel on four workers",
+        "Many customers book on iPhones using Safari"
+      ],
+      "tests_topics": [
+        "Waits and synchronisation",
+        "Test isolation",
+        "Cross-browser coverage",
+        "Diagnosing test failures"
+      ],
+      "map_node": {"x": 0.5, "y": 0.5, "label": "Departure Board Depot"},
+      "questions": [
+        {
+          "id": "qat-3-q1",
+          "type": "single_choice",
+          "prompt": "Search tests fail at random with 'element not found'. Results load asynchronously, and the tests use sleep(2) before checking them. What is the fix?",
+          "options": [
+            {"id": "a", "text": "Increase every sleep from 2 seconds to 10 seconds across the suite"},
+            {"id": "b", "text": "Wait for the specific condition, such as the results being visible"},
+            {"id": "c", "text": "Rerun each failing test automatically, up to five times in a row"},
+            {"id": "d", "text": "Remove the result checks so the search tests can no longer fail"}
+          ],
+          "correct": ["b"],
+          "explanation": "A fixed sleep is either too short on a slow run or wasted time on a fast one. Waiting explicitly until a condition is true, such as the results list being visible or the search request finishing, makes the test as fast as the app and reliable when it is slow.",
+          "why_others_wrong": {
+            "a": "Longer sleeps make the suite much slower and still fail when loading takes longer than 10 seconds.",
+            "c": "Retries hide the timing problem instead of fixing it.",
+            "d": "Without checks the tests pass but verify nothing."
+          },
+          "key_justification": "Replace fixed sleeps with explicit waits for the condition the test needs.",
+          "points": 10
+        },
+        {
+          "id": "qat-3-q2",
+          "type": "single_choice",
+          "prompt": "Some tests pass when run alone but fail in the full parallel run. What is the most likely cause?",
+          "options": [
+            {"id": "a", "text": "The CI machines are too slow to run tests one at a time on"},
+            {"id": "b", "text": "Tests share state, like one account or cart, and interfere"},
+            {"id": "c", "text": "The tests were written in the wrong programming language"},
+            {"id": "d", "text": "The test names are too long for the test runner to handle"}
+          ],
+          "correct": ["b"],
+          "explanation": "Passing alone but failing together is the classic sign of tests depending on shared state: one test changes a shared account, cart or database row that another relies on. Giving each test its own data and resetting state between tests removes the interference.",
+          "why_others_wrong": {
+            "a": "Slowness would affect tests run alone too, not only the combined run.",
+            "c": "The language does not explain failures that depend on which tests run together.",
+            "d": "Name length does not affect whether tests interfere with each other."
+          },
+          "key_justification": "Order- or concurrency-dependent failures point to shared state between tests.",
+          "points": 10
+        },
+        {
+          "id": "qat-3-q3",
+          "type": "single_choice",
+          "prompt": "Every test passed, but a payment bug reached Safari users. The suite runs only on Chrome. What should change?",
+          "options": [
+            {"id": "a", "text": "Tell customers to switch to Chrome for booking their holidays"},
+            {"id": "b", "text": "Add more Chrome tests for the payment page and its flows"},
+            {"id": "c", "text": "Run the critical flows like payment on WebKit/Safari too"},
+            {"id": "d", "text": "Run the entire suite on every browser for every commit"}
+          ],
+          "correct": ["c"],
+          "explanation": "Browsers differ in their engines, so a flow that works in Chrome can fail in Safari. Running the most important journeys, such as search, booking and payment, on WebKit or real Safari as well as Chrome covers the browsers many customers actually use, without multiplying the whole suite.",
+          "why_others_wrong": {
+            "a": "Customers will not change browsers, and the site must work for them.",
+            "b": "More Chrome tests still never run Safari's engine.",
+            "d": "Running all 1,400 tests on every browser for every commit is slow and costly; critical flows give most of the value."
+          },
+          "key_justification": "Cover critical flows on the browsers your users actually use.",
+          "points": 10
+        },
+        {
+          "id": "qat-3-q4",
+          "type": "multi_select",
+          "prompt": "A test that checks 'today's bookings' fails only when CI runs between midnight and 5:30 am Indian time. Which two fixes address the cause?",
+          "options": [
+            {"id": "a", "text": "Have the test control the clock with a fixed date and time zone"},
+            {"id": "b", "text": "Run the test suite only during office hours to avoid the window"},
+            {"id": "c", "text": "Work out 'today' in the same time zone the application uses"},
+            {"id": "d", "text": "Delete the date checks from this test so it can always pass"},
+            {"id": "e", "text": "Rerun the test each night until it eventually passes again"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "Between midnight and 5:30 am in India it is still the previous day in UTC, so a test that works out 'today' on the UTC server disagrees with the app, which uses Indian time. Fixing the clock and time zone in the test, and calculating dates in the app's own time zone, removes the dependence on when the test runs.",
+          "why_others_wrong": {
+            "b": "Avoiding the time window hides a real time-zone bug that customers may also hit.",
+            "d": "Removing the checks means the test no longer verifies the feature.",
+            "e": "Reruns at the same time of night fail the same way."
+          },
+          "key_justification": "Tests must control time and use the same time zone as the application.",
+          "points": 10
+        },
+        {
+          "id": "qat-3-q5",
+          "type": "match",
+          "prompt": "Match each failure to its most likely cause.",
+          "items": [
+            {"id": "i1", "text": "Clicks fail with 'element click intercepted by another element'"},
+            {"id": "i2", "text": "A test stays green even though the feature it covers is broken"},
+            {"id": "i3", "text": "API tests start failing with 401 an hour into the suite"},
+            {"id": "i4", "text": "Screenshot comparisons fail on every single run by a few pixels"}
+          ],
+          "targets": [
+            {"id": "t1", "text": "The test never asserts the outcome that actually matters"},
+            {"id": "t2", "text": "The screen includes changing content such as live timestamps"},
+            {"id": "t3", "text": "A cookie banner or overlay is covering the target button"},
+            {"id": "t4", "text": "The auth token expires partway through the test run"}
+          ],
+          "correct": {"i1": "t3", "i2": "t1", "i3": "t4", "i4": "t2"},
+          "explanation": "An intercepted click means something is on top of the button, often a banner or modal. A test that passes while the feature is broken is not checking the right result, 401s after a fixed time point to an expiring token, and screenshots that never match usually contain content that changes on every run.",
+          "why_others_wrong": {
+            "common_mistake": "Treating the always-green test as healthy: a test that cannot fail gives false confidence, so its assertions must be checked by deliberately breaking the feature."
+          },
+          "key_justification": "Each failure pattern points to a specific test or environment cause.",
+          "points": 10
+        }
+      ]
+    },
+    {
+      "id": "qat-4",
+      "order": 4,
+      "ladder_stage": "trade_offs",
+      "title": "Testing What Matters at Jeevan Raksha Insurance",
+      "difficulty": 4,
+      "estimated_minutes": 14,
+      "background": "Jeevan Raksha is a fictional insurance company in Chennai whose platform is made of eight microservices for quotes, policies, payments and claims. Management has demanded 90% code coverage. The end-to-end suite across all eight services takes three hours and fails randomly. A release is due in two days with less testing time than usual, and three known minor bugs are still open. The QA lead must decide where to spend effort and how to advise on the release.",
+      "constraints": [
+        "Payment and policy issuing errors cost money and trust",
+        "Eight teams deploy their services independently",
+        "Only two days remain before the planned release"
+      ],
+      "tests_topics": [
+        "Risk-based testing",
+        "Code coverage",
+        "Contract testing",
+        "Release decisions"
+      ],
+      "map_node": {"x": 0.7, "y": 0.36, "label": "Balance-Scale Vault"},
+      "questions": [
+        {
+          "id": "qat-4-q1",
+          "type": "single_choice",
+          "prompt": "There is less testing time than usual before the release. How should the QA lead decide what to test?",
+          "options": [
+            {"id": "a", "text": "Test every feature equally lightly, so that nothing is skipped"},
+            {"id": "b", "text": "Test only the features that are easiest and quickest to check"},
+            {"id": "c", "text": "Focus on high-impact, high-risk areas like payments, and changes"},
+            {"id": "d", "text": "Test only the parts the developers say they are worried about"}
+          ],
+          "correct": ["c"],
+          "explanation": "Risk-based testing ranks areas by how bad a failure would be and how likely it is. Payments and policy issuing carry the highest impact, and recently changed code is the most likely to break, so the limited time goes there first.",
+          "why_others_wrong": {
+            "a": "Spreading effort evenly leaves the riskiest flows under-tested.",
+            "b": "Easy checks are rarely where the dangerous bugs are.",
+            "d": "Developers' worries are useful input, but they are not a complete risk assessment."
+          },
+          "key_justification": "Prioritise testing by impact and likelihood of failure.",
+          "points": 10
+        },
+        {
+          "id": "qat-4-q2",
+          "type": "single_choice",
+          "prompt": "Management demands 90% code coverage. What should the QA lead explain about coverage?",
+          "options": [
+            {"id": "a", "text": "It is a full measure of quality, so 90% coverage means 90% bug-free"},
+            {"id": "b", "text": "It shows which code ran, not which behaviour was actually checked"},
+            {"id": "c", "text": "It can only be measured accurately for frontend code, not services"},
+            {"id": "d", "text": "It should be pushed to 100% at any cost before the next release"}
+          ],
+          "correct": ["b"],
+          "explanation": "Coverage counts which lines were executed, so a test can run code without asserting anything useful. It is valuable for finding untested areas, while the quality of assertions, checked for example with mutation testing, shows whether tests would actually catch bugs.",
+          "why_others_wrong": {
+            "a": "High coverage with weak assertions can still let serious bugs through.",
+            "c": "Coverage tools exist for backend services as well as front-end code.",
+            "d": "Chasing 100% often produces low-value tests written only to hit the number."
+          },
+          "key_justification": "Coverage shows what code ran, not whether behaviour was verified.",
+          "points": 10
+        },
+        {
+          "id": "qat-4-q3",
+          "type": "single_choice",
+          "prompt": "The three-hour end-to-end suite across eight services is slow and flaky, and teams deploy independently. What should replace most of it?",
+          "options": [
+            {"id": "a", "text": "Consumer-driven contract tests, plus a few end-to-end journeys"},
+            {"id": "b", "text": "An even larger end-to-end suite, run once a week on weekends"},
+            {"id": "c", "text": "Manual regression testing of all eight services before releases"},
+            {"id": "d", "text": "No integration testing at all, only unit tests in each service"}
+          ],
+          "correct": ["a"],
+          "explanation": "Contract tests check that each service provides exactly what its consumers expect, and they run quickly within each team's own pipeline whenever that service changes. A small number of end-to-end tests then covers the most critical journeys, such as buying a policy.",
+          "why_others_wrong": {
+            "b": "A bigger, weekly suite gives even slower feedback and stays flaky.",
+            "c": "Manual testing of eight independently deployed services cannot keep pace.",
+            "d": "Unit tests alone miss mismatches between services, which are a major source of failures."
+          },
+          "key_justification": "Contract tests verify service integrations quickly; keep only a few end-to-end tests.",
+          "points": 10
+        },
+        {
+          "id": "qat-4-q4",
+          "type": "multi_select",
+          "prompt": "Three minor known bugs remain open before the release. Which two practices should guide the decision?",
+          "options": [
+            {"id": "a", "text": "QA lays out each bug's severity, impact and workaround"},
+            {"id": "b", "text": "QA blocks any release that still has an open bug of any kind"},
+            {"id": "c", "text": "Decide against release criteria that were agreed in advance"},
+            {"id": "d", "text": "Hide the open bugs from management so the date is still met"},
+            {"id": "e", "text": "Release without telling the support team about the open bugs"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "QA's role is to give a clear picture of risk: how severe each bug is, who it affects and whether there is a workaround. Comparing that with exit criteria agreed before testing began, such as no open critical or high bugs, makes the release decision objective rather than a last-minute argument.",
+          "why_others_wrong": {
+            "b": "Almost every release has some minor known bugs; blocking on any bug means never shipping.",
+            "d": "Hiding bugs removes the information decision-makers need.",
+            "e": "Support needs to know about known issues to help customers quickly."
+          },
+          "key_justification": "Inform release decisions with transparent risk and agreed exit criteria.",
+          "points": 10
+        }
+      ]
+    },
+    {
+      "id": "qat-5",
+      "order": 5,
+      "ladder_stage": "end_to_end",
+      "title": "Test Strategy for the Digital Mandi Launch",
+      "difficulty": 5,
+      "estimated_minutes": 16,
+      "background": "Digital Mandi is a fictional online auction platform from Indore where farmers sell produce to traders across India. At closing time, up to 50,000 traders bid in the final minute. Traders link bank accounts, many use the mobile app on slow networks, and some farmers rely on screen readers. The company is moving from testing at the end of each release to building quality in from the start, and the QA lead must design the strategy for launch.",
+      "constraints": [
+        "Auctions close with up to 50,000 bids in the last minute",
+        "Traders' bank details must never be visible to others",
+        "The app must work on slow 2G and 3G connections"
+      ],
+      "tests_topics": [
+        "QA in the development cycle",
+        "Performance testing",
+        "Shift-left testing",
+        "Accessibility and risk-based test types"
+      ],
+      "map_node": {"x": 0.88, "y": 0.16, "label": "Great Bell Auction Square"},
+      "questions": [
+        {
+          "id": "qat-5-q1",
+          "type": "order",
+          "prompt": "Put QA's activities within one sprint in order.",
+          "options": [
+            {"id": "a", "text": "Automate the tests alongside the feature's development"},
+            {"id": "b", "text": "Review the story and agree testable acceptance criteria"},
+            {"id": "c", "text": "Run exploratory testing on the finished feature before release"},
+            {"id": "d", "text": "Run the automated tests in CI on every change"},
+            {"id": "e", "text": "Design the test cases and the test data they need"}
+          ],
+          "correct": ["b", "e", "a", "d", "c"],
+          "explanation": "QA starts by making the requirement testable, then designs cases and data from it. Tests are automated while the feature is built and run in CI on every change, and exploratory testing of the finished feature catches what scripts did not anticipate before it ships.",
+          "why_others_wrong": {
+            "common_mistake": "Writing automated tests only after the feature is finished, which pushes testing to the end of the sprint and delays feedback to developers."
+          },
+          "key_justification": "Define criteria, design tests, automate alongside development, run in CI, then explore.",
+          "points": 10
+        },
+        {
+          "id": "qat-5-q2",
+          "type": "single_choice",
+          "prompt": "How should the team test the final minute of an auction with 50,000 bidders?",
+          "options": [
+            {"id": "a", "text": "Ask ten colleagues to bid at the same moment from their phones"},
+            {"id": "b", "text": "Test on a developer laptop with one simulated bidder at a time"},
+            {"id": "c", "text": "Wait to see how the real launch-day auction performs, then fix it"},
+            {"id": "d", "text": "Ramp realistic load and spikes to peak in a production-like setup"}
+          ],
+          "correct": ["d"],
+          "explanation": "A load test with realistic bidding patterns, ramping up to the expected peak plus a sudden spike, shows how the system behaves where it matters. Running it in a production-like environment and measuring 95th-percentile response times and error rates shows whether bids are accepted in time.",
+          "why_others_wrong": {
+            "a": "Ten people are thousands of times below the real load.",
+            "b": "One bidder at a time tests nothing about concurrency.",
+            "c": "Finding the limit on launch day means real farmers and traders lose auctions."
+          },
+          "key_justification": "Performance testing needs realistic peak and spike load in a production-like environment.",
+          "points": 10
+        },
+        {
+          "id": "qat-5-q3",
+          "type": "single_choice",
+          "prompt": "The company wants to 'shift testing left'. What does that look like in practice?",
+          "options": [
+            {"id": "a", "text": "QA helps refine stories into testable Given-When-Then criteria"},
+            {"id": "b", "text": "QA tests everything in a longer phase just before each release"},
+            {"id": "c", "text": "Developers stop testing so that QA owns all quality on their own"},
+            {"id": "d", "text": "Testing moves to after release, guided by customer complaints"}
+          ],
+          "correct": ["a"],
+          "explanation": "Shifting left means building quality in earlier, so problems are prevented or caught when they are cheapest to fix. When QA helps write clear acceptance criteria during refinement, misunderstandings are cleared up before any code is written.",
+          "why_others_wrong": {
+            "b": "A longer testing phase at the end is the approach shift-left moves away from.",
+            "c": "Shift-left spreads quality across the team rather than putting it on QA alone.",
+            "d": "Testing after release moves it right, to the most expensive point."
+          },
+          "key_justification": "Shift-left brings testing thinking into requirements and development early.",
+          "points": 10
+        },
+        {
+          "id": "qat-5-q4",
+          "type": "multi_select",
+          "prompt": "Some farmers rely on screen readers. Which two accessibility testing practices should be in place?",
+          "options": [
+            {"id": "a", "text": "Run an automated accessibility checker such as axe in CI"},
+            {"id": "b", "text": "Look at the screens and judge whether they seem accessible"},
+            {"id": "c", "text": "Test key flows by hand with a screen reader and the keyboard"},
+            {"id": "d", "text": "Skip accessibility testing, since few users seem to need it"},
+            {"id": "e", "text": "Check only that the colours chosen match the brand guide"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "Automated checkers catch common issues such as missing labels and low contrast on every change. They find only part of the problems, so manual testing of key flows with a screen reader and keyboard is needed to confirm farmers can actually list produce and follow auctions.",
+          "why_others_wrong": {
+            "b": "Visual inspection misses problems that only appear with assistive technology.",
+            "d": "Excluding users who rely on assistive technology is unfair and often unlawful.",
+            "e": "Brand colours say nothing about whether a screen reader user can use the app."
+          },
+          "key_justification": "Combine automated accessibility checks with manual assistive-technology testing.",
+          "points": 10
+        },
+        {
+          "id": "qat-5-q5",
+          "type": "match",
+          "prompt": "Match each launch risk to the type of testing that addresses it.",
+          "items": [
+            {"id": "i1", "text": "The auction must accept 50,000 bids in its final minute"},
+            {"id": "i2", "text": "Traders must never see another trader's bank details"},
+            {"id": "i3", "text": "Prices must update on the app over slow 2G connections"},
+            {"id": "i4", "text": "A new release must not break bidding that already works"}
+          ],
+          "targets": [
+            {"id": "t1", "text": "Testing on real devices with throttled network speeds"},
+            {"id": "t2", "text": "An automated regression suite run on every change"},
+            {"id": "t3", "text": "Load and spike testing at the expected peak"},
+            {"id": "t4", "text": "Security testing of access control between accounts"}
+          ],
+          "correct": {"i1": "t3", "i2": "t4", "i3": "t1", "i4": "t2"},
+          "explanation": "Peak bidding is a performance risk, covered by load and spike tests. Seeing other traders' data is an authorisation risk, covered by security testing, slow-network behaviour needs real devices with throttled connections, and protecting existing features is the job of an automated regression suite.",
+          "why_others_wrong": {
+            "common_mistake": "Expecting functional tests to catch the bank-details risk: a normal test logs in as one trader and sees correct data, while access-control testing deliberately tries to reach another trader's records."
+          },
+          "key_justification": "Each risk calls for a matching test type: performance, security, network or regression.",
+          "points": 10
+        }
+      ]
+    }
+  ]
+}
