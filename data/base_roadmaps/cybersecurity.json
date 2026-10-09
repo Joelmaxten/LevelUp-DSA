@@ -1,0 +1,3533 @@
+{
+ "metadata": {
+  "schema_version": 1,
+  "career_path": "Cybersecurity",
+  "model_id": "openai/gpt-oss-20b",
+  "built_at": "2026-10-09T16:18:47Z",
+  "generator": {
+   "profile": "neutral",
+   "provider": "openai_compat",
+   "llm_host": "integrate.api.nvidia.com",
+   "phase_concurrency": 1,
+   "duplicate_similarity_threshold": 0.8,
+   "reasoning_effort": "",
+   "resources": "kb_only"
+  },
+  "inventory_fingerprint": "708726faa481baabe1afd770ea0ac99da1f4d627f28091fb9d30d52ddafd7aff"
+ },
+ "roadmap": {
+  "phases": [
+   {
+    "phase_number": 1,
+    "title": "Cybersecurity",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "Foundational IT & Operating Systems",
+      "description": "Build a technical base by mastering hardware, OS installation, and command line fundamentals—essential for any cybersecurity journey.",
+      "topic_refs": [
+       "lbAgU5lR1O7L_5mCbNz_D",
+       "oimYzZYFXKjgvc7D4c-2u",
+       "Ih0YZt8u9vDwYo8y1t41n",
+       "02aaEP9E5tlefeGBxf_Rj",
+       "WDrSO7wBNn-2jB8mcyT7j",
+       "BNUKEQ4YpZmIhSPQdkHgU",
+       "4frVcjYI1VlVU9hQgpwcT"
+      ],
+      "projects": [
+       {
+        "title": "Set Up a Dual-boot Lab",
+        "description": "Create Windows and Linux VMs and install essential packages for later labs.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Hardware Component Identification",
+        "description": "Label and document major PC components.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "CompTIA A+",
+       "Fundamental IT Skills",
+       "Computer Hardware Components",
+       "Operating System Installation and Configuration",
+       "Common Commands"
+      ],
+      "more_topics": [
+       {
+        "node_id": "p34Qwlj2sjwEPR2ay1WOK",
+        "title": "CompTIA Linux+"
+       },
+       {
+        "node_id": "WCeJrvWl837m1BIjuA1Mu",
+        "title": "pwn.college"
+       },
+       {
+        "node_id": "_RnuQ7952N8GWZfPD60sJ",
+        "title": "Programming Skills and Knowledge (Optional But Recommended)"
+       },
+       {
+        "node_id": "pJUhQin--BGMuXHPwx3JJ",
+        "title": "OS-Independent Troubleshooting"
+       },
+       {
+        "node_id": "C5bCIdPi0gGkY_r4qqoXZ",
+        "title": "Legal Departments and Cybersecurity"
+       },
+       {
+        "node_id": "uoGA4T_-c-2ip_zfEUcJJ",
+        "title": "Reverse Engineering Fundamentals"
+       },
+       {
+        "node_id": "-RnlvUltJ9IDtH0HEnMbN",
+        "title": "WHOIS"
+       },
+       {
+        "node_id": "gNan93Mg9Ym2AF3Q2gqoi",
+        "title": "WinHex"
+       },
+       {
+        "node_id": "8jj9hpe9jQIgCc8Txyw3O",
+        "title": "C++"
+       },
+       {
+        "node_id": "MGitS_eJBoY99zOR-W3F4",
+        "title": "GUI vs. CLI Navigation"
+       },
+       {
+        "node_id": "vGVFhZXYOZOy4qFpLLbxp",
+        "title": "VirtualBox"
+       },
+       {
+        "node_id": "CIoLaRv5I3sCr9tBnZHEi",
+        "title": "Hypervisor"
+       },
+       {
+        "node_id": "ORIdKG8H97VkBUYpiDtXf",
+        "title": "Domain Name System (DNS)"
+       },
+       {
+        "node_id": "LrwTMH_1fTd8iB9wJg-0t",
+        "title": "Metropolitan Area Network (MAN)"
+       },
+       {
+        "node_id": "r1IKvhpwg2umazLGlQZL1",
+        "title": "DNS"
+       },
+       {
+        "node_id": "nOND14t7ISgSH3zNpV3F8",
+        "title": "Memory Leak"
+       }
+      ],
+      "global_step_index": 1,
+      "resource": {
+       "title": "CompTIA A+ Course",
+       "url": "https://youtube.com/watch?v=1CZXXNKAY5o"
+      },
+      "videos": [
+       {
+        "title": "CompTIA A+ Course",
+        "url": "https://youtube.com/watch?v=1CZXXNKAY5o",
+        "video_id": "1CZXXNKAY5o",
+        "source": "roadmap.sh",
+        "topic": "CompTIA A+"
+       },
+       {
+        "title": "Computer Components for Dummies",
+        "url": "https://youtube.com/watch?v=cZs6kh0WFRY",
+        "video_id": "cZs6kh0WFRY",
+        "source": "roadmap.sh",
+        "topic": "Computer Hardware Components"
+       },
+       {
+        "title": "60 Linux commands you must know",
+        "url": "https://youtube.com/watch?v=gd7BXuUQ91w",
+        "video_id": "gd7BXuUQ91w",
+        "source": "roadmap.sh",
+        "topic": "Common Commands"
+       },
+       {
+        "title": "Windows 11 Full Tutorial - A 2 Hour Course to Learn and Master Windows 11",
+        "url": "https://youtube.com/watch?v=UKn-r3X2CLk",
+        "video_id": "UKn-r3X2CLk",
+        "source": "roadmap.sh",
+        "topic": "Windows"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "CompTIA A+",
+        "url": "https://www.comptia.org/certifications/a",
+        "topic": "CompTIA A+"
+       },
+       {
+        "type": "official",
+        "title": "Windows Security",
+        "url": "https://learn.microsoft.com/en-us/windows/security/",
+        "topic": "Windows"
+       },
+       {
+        "type": "official",
+        "title": "CompTIA Linux+",
+        "url": "https://www.comptia.org/certifications/linux",
+        "topic": "CompTIA Linux+"
+       },
+       {
+        "type": "official",
+        "title": "pwn.college",
+        "url": "https://pwn.college/",
+        "topic": "pwn.college"
+       }
+      ]
+     },
+     {
+      "step_number": 2,
+      "title": "Networking Fundamentals",
+      "description": "Learn the building blocks of network communication: addressing, protocols, and traffic capture tools—knowledge that underpins intrusion detection and security operations.",
+      "topic_refs": [
+       "OXUd1UPPsBhNoUGLKZJGV",
+       "FdoqB2---uDAyz6xZjk_u",
+       "PPIH1oHW4_ZDyD3U3shDg",
+       "E8Z7qFFW-I9ivr0HzoXCq",
+       "fzdZF-nzIL69kaA7kwOCn",
+       "hkO3Ga6KctKODr4gos6qX",
+       "0tx2QYDYXhm85iYrCWd9U",
+       "TIxEkfBrN6EXQ3IKP1B7u",
+       "Hoou7kWyfB2wx_yFHug_H"
+      ],
+      "projects": [
+       {
+        "title": "Design a Subnet Layout",
+        "description": "Create CIDR blocks for a small office network, including gateway and address pools.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Capture & Analyze Traffic",
+        "description": "Use Wireshark to capture a TCP handshake and identify the protocol details.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "OSI Model",
+       "IP",
+       "CIDR",
+       "Subnetting Fundamentals",
+       "ARP"
+      ],
+      "more_topics": [
+       {
+        "node_id": "M52V7hmG4ORf4TIVw3W3J",
+        "title": "ARP"
+       },
+       {
+        "node_id": "T0aU8ZQGShmF9uXhWY4sD",
+        "title": "Basics of Computer Networking"
+       },
+       {
+        "node_id": "f-v8qtweWXFY_Ryo3oYUF",
+        "title": "subnet mask"
+       },
+       {
+        "node_id": "gSLr-Lc119eX9Ig-kDzJ2",
+        "title": "Networking Knowledge"
+       },
+       {
+        "node_id": "Sm9bxKUElINHND8FdZ5f2",
+        "title": "Wireshark"
+       },
+       {
+        "node_id": "ViF-mpR17MB3_KJ1rV8mS",
+        "title": "Common Protocols and Their Uses"
+       },
+       {
+        "node_id": "IXNGFF4sOFbQ_aND-ELK0",
+        "title": "ipconfig"
+       },
+       {
+        "node_id": "u-6xuZUyOrogh1bU4cwER",
+        "title": "ipconfig"
+       },
+       {
+        "node_id": "k6UX0BJho5arjGD2RWPgH",
+        "title": "Packet Sniffers"
+       },
+       {
+        "node_id": "hN8p5YBcSaPm-byQUIz8L",
+        "title": "IPAM"
+       },
+       {
+        "node_id": "K05mEAsjImyPge0hDtsU0",
+        "title": "Protocol Analyzers"
+       },
+       {
+        "node_id": "lwSFIbIX-xOZ0QK2sGFb1",
+        "title": "Router"
+       },
+       {
+        "node_id": "T4312p70FqRBkzVfWKMaR",
+        "title": "Dynamic Host Configuration Protocol (DHCP)"
+       },
+       {
+        "node_id": "y8GaUNpaCT1Ai88wPOk6d",
+        "title": "Tcpdump"
+       },
+       {
+        "node_id": "R5HEeh6jwpQDo27rz1KSH",
+        "title": "DHCP"
+       },
+       {
+        "node_id": "r9byGV8XuBPzoqj5ZPf2W",
+        "title": "Switch"
+       },
+       {
+        "node_id": "oFgyQYL3Ws-l7B5AF-bTR",
+        "title": "Sinkholes"
+       },
+       {
+        "node_id": "xFuWk7M-Vctk_xb7bHbWs",
+        "title": "route"
+       },
+       {
+        "node_id": "Cclbt4bNfkHwFwZOvJuLK",
+        "title": "hping"
+       },
+       {
+        "node_id": "2nQfhnvBjJg1uDZ28aE4v",
+        "title": "Public vs Private IP Addresses"
+       },
+       {
+        "node_id": "GuuY-Q6FZzfspB3wrH64r",
+        "title": "ping"
+       }
+      ],
+      "global_step_index": 2,
+      "resource": {
+       "title": "What is OSI Model?",
+       "url": "https://youtube.com/watch?v=Ilk7UXzV_Qc"
+      },
+      "videos": [
+       {
+        "title": "What is OSI Model?",
+        "url": "https://youtube.com/watch?v=Ilk7UXzV_Qc",
+        "video_id": "Ilk7UXzV_Qc",
+        "source": "roadmap.sh",
+        "topic": "OSI Model"
+       },
+       {
+        "title": "What's an IP address?",
+        "url": "https://youtube.com/watch?v=6is6Gulh7qE",
+        "video_id": "6is6Gulh7qE",
+        "source": "roadmap.sh",
+        "topic": "IP"
+       },
+       {
+        "title": "What is Network CIDR Notation?",
+        "url": "https://youtube.com/watch?v=tpa9QSiiiUo",
+        "video_id": "tpa9QSiiiUo",
+        "source": "roadmap.sh",
+        "topic": "CIDR"
+       },
+       {
+        "title": "ARP Explained",
+        "url": "https://youtube.com/watch?v=cn8Zxh9bPio",
+        "video_id": "cn8Zxh9bPio",
+        "source": "roadmap.sh",
+        "topic": "ARP"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "NMAP",
+        "url": "https://nmap.org/",
+        "topic": "NMAP"
+       },
+       {
+        "type": "official",
+        "title": "Wireshark",
+        "url": "https://www.wireshark.org/",
+        "topic": "Wireshark"
+       },
+       {
+        "type": "official",
+        "title": "hping",
+        "url": "https://salsa.debian.org/debian/hping3",
+        "topic": "hping"
+       }
+      ]
+     },
+     {
+      "step_number": 3,
+      "title": "Operating System Hardening",
+      "description": "Secure endpoints by hardening OS settings, managing privileges, and enforcing local policy—vital for protecting against local attacks.",
+      "topic_refs": [
+       "_S25EOGS3P8647zLM5i-g",
+       "cvI8-sxY5i8lpelW9iY_5",
+       "FxuMJmDoDkIsPFp2iocFg",
+       "jWl1VWkZn3n1G2eHq6EnX",
+       "BNUKEQ4YpZmIhSPQdkHgU",
+       "dztwr-DSckggQbcNIi4_2",
+       "4frVcjYI1VlVU9hQgpwcT"
+      ],
+      "projects": [
+       {
+        "title": "Implement Local Firewall Rules",
+        "description": "Configure ufw on Ubuntu to block unnecessary inbound traffic.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Audit User Privileges",
+        "description": "Generate a report listing all users with sudo rights on a Windows machine.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Operating System Hardening",
+       "Privilege escalation",
+       "Group Policy",
+       "Host-Based Firewall",
+       "Windows"
+      ],
+      "more_topics": [
+       {
+        "node_id": "yXOGqlufAZ69uiBzKFfh6",
+        "title": "Operating System Versions and Differences"
+       },
+       {
+        "node_id": "UY6xdt_V3YMkZxZ1hZLvW",
+        "title": "Operating Systems"
+       },
+       {
+        "node_id": "LEgJtu1GZKOtoAXyOGWLE",
+        "title": "Endpoint Security"
+       },
+       {
+        "node_id": "p7w3C94xjLwSMm5qA8XlL",
+        "title": "Host Operating System"
+       },
+       {
+        "node_id": "LocGETHz6ANYinNd5ZLsS",
+        "title": "Guest Operating Systems"
+       },
+       {
+        "node_id": "W7bcydXdwlubXF2PHKOuq",
+        "title": "Port Blocking"
+       },
+       {
+        "node_id": "SLKwuLHHpC7D1FqrpPRAe",
+        "title": "Sandboxing"
+       },
+       {
+        "node_id": "Ot3LGpM-CT_nKsNqIKIye",
+        "title": "Installing Software and Applications"
+       },
+       {
+        "node_id": "zRXyoJMap9irOYo3AdHE8",
+        "title": "File CRUD Operations in Operating Systems"
+       },
+       {
+        "node_id": "Jd9t8e9r29dHRsN40dDOk",
+        "title": "GTFOBINS"
+       },
+       {
+        "node_id": "aDF7ZcOX9uR8l0W4aqhYn",
+        "title": "Isolation"
+       },
+       {
+        "node_id": "e-MDyUR3GEv-e4Qsx_5vV",
+        "title": "Patching"
+       },
+       {
+        "node_id": "OAukNfV5T0KTnIF9jKYRF",
+        "title": "Mandatory Access Control (MAC)"
+       },
+       {
+        "node_id": "Rnpx7VkhrBkSQTni6UuTR",
+        "title": "WADCOMS"
+       },
+       {
+        "node_id": "v7CD_sHqLWbm9ibXXESIK",
+        "title": "Malware Analysis and Types"
+       },
+       {
+        "node_id": "HSCGbM2-aTnJWUX6jGaDP",
+        "title": "WPS"
+       },
+       {
+        "node_id": "8JM95sonFUhZCdaynUA_M",
+        "title": "ACLs"
+       },
+       {
+        "node_id": "ZTC5bLWEIQcdmowc7sk_E",
+        "title": "VM"
+       },
+       {
+        "node_id": "AjywuCZdBi9atGUbetlUL",
+        "title": "VMWare"
+       },
+       {
+        "node_id": "bTfL7cPOmBBFl-eHxUJI6",
+        "title": "Understanding Permissions"
+       },
+       {
+        "node_id": "35oCRzhzpVfitQPL4K9KC",
+        "title": "Access Control Lists (ACLs)"
+       },
+       {
+        "node_id": "BisNooct1vJDKaBKsGR7_",
+        "title": "ESXi"
+       },
+       {
+        "node_id": "xWxusBtMEWnd-6n7oqjHz",
+        "title": "Local Area Networks (LANs)"
+       }
+      ],
+      "global_step_index": 3,
+      "resource": {
+       "title": "Hardening Techniques",
+       "url": "https://youtube.com/watch?v=wXoC46Qr_9Q"
+      },
+      "videos": [
+       {
+        "title": "Hardening Techniques",
+        "url": "https://youtube.com/watch?v=wXoC46Qr_9Q",
+        "video_id": "wXoC46Qr_9Q",
+        "source": "roadmap.sh",
+        "topic": "Operating System Hardening"
+       },
+       {
+        "title": "Privilege Escalation",
+        "url": "https://youtube.com/watch?v=ksjU3Iu195Q",
+        "video_id": "ksjU3Iu195Q",
+        "source": "roadmap.sh",
+        "topic": "Privilege escalation"
+       },
+       {
+        "title": "Learn Windows Group Policy the easy way!",
+        "url": "https://youtube.com/watch?v=rEhTzP-ScBo",
+        "video_id": "rEhTzP-ScBo",
+        "source": "roadmap.sh",
+        "topic": "Group Policy"
+       },
+       {
+        "title": "Host-based Firewalls",
+        "url": "https://youtube.com/watch?v=aRHhm980oaE",
+        "video_id": "aRHhm980oaE",
+        "source": "roadmap.sh",
+        "topic": "Host-Based Firewall"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Group Policy overview",
+        "url": "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/hh831791(v=ws.11)",
+        "topic": "Group Policy"
+       },
+       {
+        "type": "official",
+        "title": "Windows Security",
+        "url": "https://learn.microsoft.com/en-us/windows/security/",
+        "topic": "Windows"
+       },
+       {
+        "type": "official",
+        "title": "macOS",
+        "url": "https://www.apple.com/macos/macos-sequoia/",
+        "topic": "MacOS"
+       },
+       {
+        "type": "official",
+        "title": "VMWare",
+        "url": "https://www.vmware.com/",
+        "topic": "VMWare"
+       }
+      ]
+     },
+     {
+      "step_number": 4,
+      "title": "Security Fundamentals & Governance",
+      "description": "Understand the core security concepts, risk frameworks, and compliance requirements that guide all defensive actions.",
+      "topic_refs": [
+       "uz6ELaLEu9U4fHVfnQiOa",
+       "fjEdufrZAfW4Rl6yDU8Hk",
+       "HjfgaSEZjW9BOXy_Ixzkk",
+       "05Gbgy6aawYlYIx38u8DE",
+       "_hYN0gEi9BL24nptEtXWU",
+       "Rae-f9DHDZuwIwW6eRtKF",
+       "HavEL0u65ZxHt92TfbLzk"
+      ],
+      "projects": [
+       {
+        "title": "Create a Basic Incident Response Plan",
+        "description": "Draft a step‑by‑step response process for a simulated breach.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Map an Organization’s Risk Landscape",
+        "description": "Identify high‑value assets and potential threats for a hypothetical small business.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "CIA Triad",
+       "Risk Management Framework (RMF)",
+       "Cybersecurity Framework (CSF)",
+       "Compliance",
+       "Security Skills and Knowledge"
+      ],
+      "more_topics": [
+       {
+        "node_id": "ggAja18sBUUdCfVsT0vCv",
+        "title": "Understanding Risk in Cybersecurity"
+       },
+       {
+        "node_id": "pou5xHwnz9Zsy5J6lNlKq",
+        "title": "picoCTF"
+       },
+       {
+        "node_id": "AAo7DXB7hyBzO6p05gx1i",
+        "title": "CEH"
+       },
+       {
+        "node_id": "s86x24SHPEbbOB9lYNU-w",
+        "title": "CISM"
+       },
+       {
+        "node_id": "sSihnptkoEqUsHjDpckhG",
+        "title": "CIS"
+       },
+       {
+        "node_id": "BqvijNoRzSGYLCMP-6hhr",
+        "title": "CISSP"
+       },
+       {
+        "node_id": "kqT0FRLt9Ak9P8PhHldO-",
+        "title": "Roles of Compliance and Auditors"
+       },
+       {
+        "node_id": "lqFp4VLY_S-5tAbhNQTew",
+        "title": "CISA"
+       },
+       {
+        "node_id": "YEy6o-clTBKZp1yOkLwNb",
+        "title": "SFTP"
+       },
+       {
+        "node_id": "oRssaVG-K-JwlL6TAHhXw",
+        "title": "ISO"
+       },
+       {
+        "node_id": "9Z6HPHPj4escSVDWftFEx",
+        "title": "FTP vs SFTP"
+       },
+       {
+        "node_id": "lv6fI3WeJawuCbwKtMRIh",
+        "title": "Stakeholders"
+       }
+      ],
+      "global_step_index": 4,
+      "resource": {
+       "title": "The CIA Triad - Professor Messer",
+       "url": "https://youtube.com/watch?v=SBcDGb9l6yo"
+      },
+      "videos": [
+       {
+        "title": "The CIA Triad - Professor Messer",
+        "url": "https://youtube.com/watch?v=SBcDGb9l6yo",
+        "video_id": "SBcDGb9l6yo",
+        "source": "roadmap.sh",
+        "topic": "CIA Triad"
+       },
+       {
+        "title": "RMF explained in 5 minutes",
+        "url": "https://youtube.com/watch?v=X5yqPFp__rc",
+        "video_id": "X5yqPFp__rc",
+        "source": "roadmap.sh",
+        "topic": "Risk Management Framework (RMF)"
+       },
+       {
+        "title": "NIST Cybersecurity Framework Explained",
+        "url": "https://youtube.com/watch?v=_KXqDNVmpu8",
+        "video_id": "_KXqDNVmpu8",
+        "source": "roadmap.sh",
+        "topic": "Cybersecurity Framework (CSF)"
+       },
+       {
+        "title": "Defense-in-Depth - CompTIA Security+",
+        "url": "https://youtube.com/watch?v=HLQ4wX8NxQY",
+        "video_id": "HLQ4wX8NxQY",
+        "source": "roadmap.sh",
+        "topic": "Defense in Depth"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "About the Risk Management Framework (RMF)",
+        "url": "https://csrc.nist.gov/projects/risk-management/about-rmf",
+        "topic": "Risk Management Framework (RMF)"
+       },
+       {
+        "type": "official",
+        "title": "NIST Cybersecurity Framework",
+        "url": "https://www.nist.gov/cyberframework",
+        "topic": "Cybersecurity Framework (CSF)"
+       },
+       {
+        "type": "official",
+        "title": "picoCTF",
+        "url": "https://picoctf.org/",
+        "topic": "picoCTF"
+       },
+       {
+        "type": "official",
+        "title": "CEH",
+        "url": "https://www.eccouncil.org/train-certify/certified-ethical-hacker-ceh/",
+        "topic": "CEH"
+       }
+      ]
+     },
+     {
+      "step_number": 5,
+      "title": "Web & Application Security",
+      "description": "Explore common web vulnerabilities and the tools used to detect and mitigate them.",
+      "topic_refs": [
+       "3Awm221OJHxXNLiL9yxfd",
+       "2jo1r9O_rCnDwRv1_4Wo-",
+       "pK2iRArULlK-B3iSVo4-n",
+       "fyOYVqiBqyKC4aqc6-y0q",
+       "P-Am25WJV8cFd_KsX7cdj",
+       "L0ROYh2DNlkybNDO2ezJY"
+      ],
+      "projects": [
+       {
+        "title": "Perform an OWASP Top 10 Audit",
+        "description": "Use a web application scanner to find XSS and CSRF weaknesses.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Craft a Simple SQL Injection Payload",
+        "description": "Insert a UNION SELECT payload to retrieve hidden data from a demo site.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "HTTP / HTTPS",
+       "Cross-Site Scripting (XSS)",
+       "Cross-Site Request Forgery (CSRF)",
+       "OWASP Top 10 and Web-Based Attacks",
+       "What is SQL Injection?"
+      ],
+      "more_topics": [
+       {
+        "node_id": "dcvuKHq0nHgHLcLwtl4IJ",
+        "title": "Watering Hole Attack"
+       },
+       {
+        "node_id": "lMiW2q-b72KUl-2S7M6Vb",
+        "title": "urlscan"
+       },
+       {
+        "node_id": "LKK1A5-xawA7yCIAWHS8P",
+        "title": "SSL / TLS"
+       },
+       {
+        "node_id": "urtsyYWViEzbqYLoNfQAh",
+        "title": "DNS Poisoning/DNS Spoofing/DNS Cache Poisoning"
+       },
+       {
+        "node_id": "kxlg6rpfqqoBfmMMg3EkJ",
+        "title": "Obfuscation"
+       },
+       {
+        "node_id": "2SThr6mHpX6rpW-gmsqxG",
+        "title": "JavaScript"
+       },
+       {
+        "node_id": "dJ0NUsODFhk52W2zZxoPh",
+        "title": "SSL and TLS Basics"
+       },
+       {
+        "node_id": "Ia6M1FKPNpqLDiWx7CwDh",
+        "title": "RDP"
+       },
+       {
+        "node_id": "0UZmAECMnfioi-VeXcvg8",
+        "title": "Hashing"
+       },
+       {
+        "node_id": "ftYYMxRpVer-jgSswHLNa",
+        "title": "FTP"
+       },
+       {
+        "node_id": "F1QVCEmGkgvz-_H5lTxY2",
+        "title": "Connection Types"
+       },
+       {
+        "node_id": "0TWwox-4pSwuXojI8ixFO",
+        "title": "Localhost"
+       }
+      ],
+      "global_step_index": 5,
+      "resource": {
+       "title": "Cross-site Scripting",
+       "url": "https://youtube.com/watch?v=PKgw0CLZIhE"
+      },
+      "videos": [
+       {
+        "title": "Cross-site Scripting",
+        "url": "https://youtube.com/watch?v=PKgw0CLZIhE",
+        "video_id": "PKgw0CLZIhE",
+        "source": "roadmap.sh",
+        "topic": "Cross-Site Scripting (XSS)"
+       },
+       {
+        "title": "Cross-Site Request Forgery Explained",
+        "url": "https://youtube.com/watch?v=eWEgUcHPle0",
+        "video_id": "eWEgUcHPle0",
+        "source": "roadmap.sh",
+        "topic": "Cross-Site Request Forgery (CSRF)"
+       },
+       {
+        "title": "SQL Injections are scary",
+        "url": "https://youtube.com/watch?v=2OPVViV-GQk",
+        "video_id": "2OPVViV-GQk",
+        "source": "roadmap.sh",
+        "topic": "What is SQL Injection?"
+       },
+       {
+        "title": "Watering Hole Attacks",
+        "url": "https://youtube.com/watch?v=uBoVWqkfZjk",
+        "video_id": "uBoVWqkfZjk",
+        "source": "roadmap.sh",
+        "topic": "Watering Hole Attack"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "OWASP Top Ten",
+        "url": "https://owasp.org/www-project-top-ten/",
+        "topic": "OWASP Top 10 and Web-Based Attacks"
+       },
+       {
+        "type": "official",
+        "title": "OWASP Vulnerable Web Applications Directory (VWAD)",
+        "url": "https://vwad.owasp.org/",
+        "topic": "OWASP Top 10 and Web-Based Attacks"
+       },
+       {
+        "type": "official",
+        "title": "OWASP's article on Path Traversal",
+        "url": "https://owasp.org/www-community/attacks/Path_Traversal",
+        "topic": "Directory Traversal Attacks"
+       },
+       {
+        "type": "official",
+        "title": "urlscan.io",
+        "url": "https://urlscan.io/",
+        "topic": "urlscan"
+       }
+      ]
+     },
+     {
+      "step_number": 6,
+      "title": "Network Security Enforcement",
+      "description": "Deploy firewall, IDS/IPS, and segmentation controls to protect the network perimeter and internal segments.",
+      "topic_refs": [
+       "np0PwKy-EvIa_f_LC6Eem",
+       "tWDo5R3KU5KOjDdtv801x",
+       "LIPtxl_oKZRcbvXT4EdNf",
+       "7w9qj16OD4pUzq-ItdxeK",
+       "jWl1VWkZn3n1G2eHq6EnX",
+       "gTozEpxJeG1NTkVBHH-05",
+       "gNFVtBxSYP5Uw3o3tlJ0M",
+       "PUgPgpKio4Npzs86qEXa7",
+       "6oAzYfwsHQYNVbi7c2Tly",
+       "d5Cv3EXf6OXW19yPJ4x6e",
+       "u4hySof6if5hiONSaW-Uf"
+      ],
+      "projects": [
+       {
+        "title": "Configure a Next‑Gen Firewall Rule Set",
+        "description": "Define traffic policies for a small business network.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Deploy a Host‑based IDS",
+        "description": "Install and tune Suricata on a Linux VM.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Firewall Logs",
+       "Firewalls and Next-Generation Firewalls",
+       "Network Intrusion Detection System (NIDS)",
+       "NIPS",
+       "Host-Based Firewall"
+      ],
+      "more_topics": [
+       {
+        "node_id": "FJsEBOFexbDyAj86XWBCc",
+        "title": "Intrusion Detection and Prevention Systems"
+       },
+       {
+        "node_id": "SOkJUTd1NUKSwYMIprv4m",
+        "title": "NIST"
+       },
+       {
+        "node_id": "iJRQHzh5HXADuWpCouwxv",
+        "title": "Port Scanners"
+       },
+       {
+        "node_id": "jr8JlyqmN3p7Ol3_kD9AH",
+        "title": "iptables"
+       },
+       {
+        "node_id": "xXz-SwvXA2cLfdCd-hLtW",
+        "title": "NetFlow"
+       },
+       {
+        "node_id": "lG6afUOx3jSQFxbH92otL",
+        "title": "Kerberos"
+       },
+       {
+        "node_id": "2M3PRbGzo14agbEPe32ww",
+        "title": "netstat"
+       },
+       {
+        "node_id": "OUarb1oS1-PX_3OXNR0rV",
+        "title": "nslookup"
+       },
+       {
+        "node_id": "tk4iG5i1Ml9w9KRO1tGJU",
+        "title": "nslookup"
+       },
+       {
+        "node_id": "KbFwL--xF-eYjGy8PZdrM",
+        "title": "Event Logs"
+       },
+       {
+        "node_id": "0DWh4WmLK_ENDuqQmQcu4",
+        "title": "Bus"
+       },
+       {
+        "node_id": "D2YYv1iTRGken75sHO0Gt",
+        "title": "dig"
+       },
+       {
+        "node_id": "XyaWZZ45axJMKXoWwsyFj",
+        "title": "dig"
+       },
+       {
+        "node_id": "LLGXONul7JfZGUahnK0AZ",
+        "title": "DNSSEC"
+       },
+       {
+        "node_id": "gfpvDQz61I3zTB7tGu7vp",
+        "title": "DMZ"
+       },
+       {
+        "node_id": "5rKaFtjYx0n2iF8uTLs8X",
+        "title": "default gateway"
+       },
+       {
+        "node_id": "tf0TymdPHbplDHvuVIIh4",
+        "title": "Network Time Protocol (NTP)"
+       },
+       {
+        "node_id": "Dfz-6aug0juUpMmOJLCJ9",
+        "title": "grep"
+       },
+       {
+        "node_id": "iolsTC-63d_1wzKGul-cT",
+        "title": "Data Loss Prevention (DLP)"
+       }
+      ],
+      "global_step_index": 6,
+      "resource": {
+       "title": "Reviewing Firewall Logs",
+       "url": "https://youtube.com/watch?v=XiJ30f8V_T4"
+      },
+      "videos": [
+       {
+        "title": "Reviewing Firewall Logs",
+        "url": "https://youtube.com/watch?v=XiJ30f8V_T4",
+        "video_id": "XiJ30f8V_T4",
+        "source": "roadmap.sh",
+        "topic": "Firewall Logs"
+       },
+       {
+        "title": "Intrusion Prevention - SY0-601 CompTIA Security+",
+        "url": "https://youtube.com/watch?v=WPPSsFnWOYg",
+        "video_id": "WPPSsFnWOYg",
+        "source": "roadmap.sh",
+        "topic": "NIPS"
+       },
+       {
+        "title": "Host-based Firewalls",
+        "url": "https://youtube.com/watch?v=aRHhm980oaE",
+        "video_id": "aRHhm980oaE",
+        "source": "roadmap.sh",
+        "topic": "Host-Based Firewall"
+       },
+       {
+        "title": "VPN (Virtual Private Network) Explained",
+        "url": "https://youtube.com/watch?v=R-JUOpCgTZc",
+        "video_id": "R-JUOpCgTZc",
+        "source": "roadmap.sh",
+        "topic": "Virtual Private Networks (VPNs)"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "NIST",
+        "url": "https://www.nist.gov/",
+        "topic": "NIST"
+       },
+       {
+        "type": "official",
+        "title": "Cisco NetFlow",
+        "url": "https://www.cisco.com/c/en/us/products/ios-nx-os-software/ios-netflow/index.html",
+        "topic": "NetFlow"
+       }
+      ]
+     },
+     {
+      "step_number": 7,
+      "title": "Threat Hunting & Intelligence",
+      "description": "Build the ability to proactively search for indicators of compromise and use threat data to guide red‑team activities.",
+      "topic_refs": [
+       "_x3BgX93N-Pt1_JK7wk0p",
+       "wN5x5pY53B8d0yopa1z8F",
+       "auR7fNyd77W2UA-PjXeJS",
+       "H38Vb7xvuBJXVzgPBdRdT",
+       "AY-hoPGnAZSd1ExaYX8LR",
+       "7oFwRkmoZom8exMDtMslX"
+      ],
+      "projects": [
+       {
+        "title": "Build a Basic Threat Hunting Notebook",
+        "description": "Collect and correlate log data from a simulated environment.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Research a Recent APT Group",
+        "description": "Document the tactics, techniques, and procedures of a known threat actor.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Threat Hunting Basics",
+       "Threat Intelligence and Open-Source Intelligence (OSINT) Fundamentals",
+       "MITRE ATT&CK Framework",
+       "Cyber Kill Chain",
+       "Diamond Model"
+      ],
+      "more_topics": [
+       {
+        "node_id": "SwVGVP2bbCFs2uNg9Qtxb",
+        "title": "OSCP"
+       },
+       {
+        "node_id": "7Bmp4x6gbvWMuVDdGRUGj",
+        "title": "Kill Chain"
+       },
+       {
+        "node_id": "l0BvDtwWoRSEjm6O0WDPy",
+        "title": "APT"
+       },
+       {
+        "node_id": "nlmATCTgHoIoMcEOW8bUW",
+        "title": "GSEC"
+       },
+       {
+        "node_id": "HPlPGKs7NLqmBidHJkOZg",
+        "title": "Known vs. Unknown Threats"
+       },
+       {
+        "node_id": "UU_inxa8Y2lLP2BRhdLDT",
+        "title": "Reconnaissance"
+       },
+       {
+        "node_id": "ZiUT-lyIBfHTzG-dwSy96",
+        "title": "GIAC"
+       },
+       {
+        "node_id": "t4h9rEKWz5Us0qJKXhxlX",
+        "title": "GPEN"
+       },
+       {
+        "node_id": "bj5YX8zhlam0yoNckL8e4",
+        "title": "Honeypots"
+       },
+       {
+        "node_id": "cSz9Qx3PGwmhq3SSKYKfg",
+        "title": "Tracert"
+       },
+       {
+        "node_id": "jJtS0mgCYc0wbjuXssDRO",
+        "title": "Tracert"
+       },
+       {
+        "node_id": "fUBNKHNPXbemRYrnzH3VT",
+        "title": "WiFi"
+       },
+       {
+        "node_id": "umbMBQ0yYmB5PgWfY6zfO",
+        "title": "Network Attached Storage (NAS) and Storage Area Networks (SAN)"
+       }
+      ],
+      "global_step_index": 7,
+      "resource": {
+       "title": "Cyber Security Threat Hunting Explained",
+       "url": "https://youtube.com/watch?v=VNp35Uw_bSM"
+      },
+      "videos": [
+       {
+        "title": "Cyber Security Threat Hunting Explained",
+        "url": "https://youtube.com/watch?v=VNp35Uw_bSM",
+        "video_id": "VNp35Uw_bSM",
+        "source": "roadmap.sh",
+        "topic": "Threat Hunting Basics"
+       },
+       {
+        "title": "MITRE ATT&CK Framework",
+        "url": "https://youtube.com/watch?v=Yxv1suJYMI8",
+        "video_id": "Yxv1suJYMI8",
+        "source": "roadmap.sh",
+        "topic": "MITRE ATT&CK Framework"
+       },
+       {
+        "title": "Learn the Cyber Kill Chain",
+        "url": "https://youtube.com/watch?v=oCUrkc_0tmw",
+        "video_id": "oCUrkc_0tmw",
+        "source": "roadmap.sh",
+        "topic": "Cyber Kill Chain"
+       },
+       {
+        "title": "The Diamond Model for Intrusion Detection",
+        "url": "https://youtube.com/watch?v=3AOKomsmeUY",
+        "video_id": "3AOKomsmeUY",
+        "source": "roadmap.sh",
+        "topic": "Diamond Model"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "OSINT Framework",
+        "url": "https://osintframework.com/",
+        "topic": "Threat Intelligence and Open-Source Intelligence (OSINT) Fundamentals"
+       },
+       {
+        "type": "official",
+        "title": "MITRE ATT&CK®",
+        "url": "https://attack.mitre.org/",
+        "topic": "MITRE ATT&CK Framework"
+       },
+       {
+        "type": "official",
+        "title": "Cyber Kill Chain",
+        "url": "https://www.lockheedmartin.com/en-us/capabilities/cyber/cyber-kill-chain.html",
+        "topic": "Cyber Kill Chain"
+       },
+       {
+        "type": "official",
+        "title": "Offensive Security Certified Professional",
+        "url": "https://www.offsec.com/courses/pen-200/",
+        "topic": "OSCP"
+       }
+      ]
+     },
+     {
+      "step_number": 8,
+      "title": "Incident Response & Forensics",
+      "description": "Learn how to contain, investigate, and recover from security incidents using industry‑standard tools and processes.",
+      "topic_refs": [
+       "l7WnKuR2HTD4Vf9U2TxkK",
+       "9xbU_hrEOUtMm-Q09Fe6t",
+       "bIwpjIoxSUZloxDuQNpMu",
+       "_jJhL1RtaqHJmlcWrd-Ak",
+       "wspNQPmqWRjKoFm6x_bVw",
+       "N17xAIo7sgbB0nrIDMWju",
+       "vFjbZAJq8OfLb3_tsc7oT",
+       "ErRol7AT02HTn3umsPD_0"
+      ],
+      "projects": [
+       {
+        "title": "Create an Incident Response Playbook",
+        "description": "Document the steps for handling a ransomware event.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Conduct a Basic Disk Image Analysis",
+        "description": "Use FTK Imager to extract data from a forensic image.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Containment",
+       "dd for Incident Response and Discovery",
+       "autopsy",
+       "FTK Imager",
+       "memdump"
+      ],
+      "more_topics": [
+       {
+        "node_id": "7KLGFfco-hw7a62kXtS3d",
+        "title": "Digital Forensics"
+       },
+       {
+        "node_id": "w6V4JOtXKCMPAkKIQxvMg",
+        "title": "Preparation"
+       },
+       {
+        "node_id": "XsRoldaBXUSiGbvY1TjQd",
+        "title": "Identification"
+       },
+       {
+        "node_id": "Iu0Qtk13RjrhHpSlm0uyh",
+        "title": "Dumpster Diving"
+       },
+       {
+        "node_id": "9asy3STW4oTYYHcUazaRj",
+        "title": "Backups and Resiliency"
+       },
+       {
+        "node_id": "KsZ63c3KQLLn373c5CZnp",
+        "title": "Infrared"
+       }
+      ],
+      "global_step_index": 8,
+      "resource": {
+       "title": "How to use the dd command in Linux",
+       "url": "https://youtube.com/watch?v=hsDxcJhCRLI"
+      },
+      "videos": [
+       {
+        "title": "How to use the dd command in Linux",
+        "url": "https://youtube.com/watch?v=hsDxcJhCRLI",
+        "video_id": "hsDxcJhCRLI",
+        "source": "roadmap.sh",
+        "topic": "dd for Incident Response and Discovery"
+       },
+       {
+        "title": "Disk analysis with Autopsy",
+        "url": "https://youtube.com/watch?v=o6boK9dG-Lc",
+        "video_id": "o6boK9dG-Lc",
+        "source": "roadmap.sh",
+        "topic": "autopsy"
+       },
+       {
+        "title": "Imaging a Directory Using FTK Imager",
+        "url": "https://youtube.com/watch?v=trWDlPif84o",
+        "video_id": "trWDlPif84o",
+        "source": "roadmap.sh",
+        "topic": "FTK Imager"
+       },
+       {
+        "title": "Incident Response Process",
+        "url": "https://youtube.com/watch?v=fU_w8Ou9RVg",
+        "video_id": "fU_w8Ou9RVg",
+        "source": "roadmap.sh",
+        "topic": "Recovery"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Autopsy",
+        "url": "https://www.autopsy.com/",
+        "topic": "autopsy"
+       },
+       {
+        "type": "official",
+        "title": "Create Forensic Images with Exterro FTK Imager",
+        "url": "https://www.exterro.com/digital-forensics-software/ftk-imager",
+        "topic": "FTK Imager"
+       },
+       {
+        "type": "official",
+        "title": "memdump",
+        "url": "https://www.kali.org/tools/memdump/",
+        "topic": "memdump"
+       }
+      ]
+     },
+     {
+      "step_number": 9,
+      "title": "Vulnerability Management & Testing",
+      "description": "Perform scans, exploit tests, and remediation strategies to reduce attack surface.",
+      "topic_refs": [
+       "NkAAQikwH-A6vrF8fWpuB",
+       "lcxAXtO6LoGd85nOFnLo8",
+       "Lg7mz4zeCToEzZBFxYuaU",
+       "7tDxTcKJNAUxbHLPCnPFO",
+       "Hoou7kWyfB2wx_yFHug_H",
+       "IF5H0ZJ72XnqXti3jRWYF"
+      ],
+      "projects": [
+       {
+        "title": "Run a Web Application Scan",
+        "description": "Use Nikto to identify common vulnerabilities on a demo site.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Exploit a Local Privilege Escalation",
+        "description": "Find and exploit a Windows buffer overflow bug.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Penetration Testing Rules of Engagement",
+       "Vulnerability Management",
+       "Common Exploit Frameworks",
+       "Blue / Red / Purple Teams",
+       "NMAP"
+      ],
+      "more_topics": [
+       {
+        "node_id": "xqwIEyGfdZFxk6QqbPswe",
+        "title": "NMAP"
+       },
+       {
+        "node_id": "rzY_QsvnC1shDTPQ-til0",
+        "title": "Common Hacking Tools"
+       },
+       {
+        "node_id": "kht-L7_v-DbglMYUHuchp",
+        "title": "TryHackMe"
+       },
+       {
+        "node_id": "s9tHpzYRj2HCImwQhnjFM",
+        "title": "Management"
+       },
+       {
+        "node_id": "rwniCTWfYpKP5gi02Pa9f",
+        "title": "GWAPT"
+       },
+       {
+        "node_id": "zqRaMmqcLfx400kJ-h0LO",
+        "title": "Zero-Day Exploits"
+       },
+       {
+        "node_id": "W94wY_otBuvVW_-EFlKA6",
+        "title": "VulnHub"
+       },
+       {
+        "node_id": "v9njgIxZyabJZ5iND3JGc",
+        "title": "Zero-Day Exploits"
+       },
+       {
+        "node_id": "w6wXkoLrv0_d-Ah0txUHd",
+        "title": "Kali Linux"
+       },
+       {
+        "node_id": "wkuE_cChPZT2MHyGjUuU4",
+        "title": "HackTheBox"
+       },
+       {
+        "node_id": "zR6djXnfTSFVEfvJonQjf",
+        "title": "ParrotOS"
+       },
+       {
+        "node_id": "h__KxKa0Q74_egY7GOe-L",
+        "title": "Joe Sandbox"
+       },
+       {
+        "node_id": "xeRWOX1fWQDLNLWMAFTEe",
+        "title": "Troubleshooting"
+       },
+       {
+        "node_id": "yfTpp-ePuDB931FnvNB-Y",
+        "title": "ping"
+       },
+       {
+        "node_id": "n8ZOZxNhlnw7DpzoXe_f_",
+        "title": "Buffer Overflow"
+       },
+       {
+        "node_id": "P0ZhAXd_H-mTOMr13Ag31",
+        "title": "Star"
+       },
+       {
+        "node_id": "9vEUVJ8NTh0wKyIE6-diY",
+        "title": "Ring"
+       },
+       {
+        "node_id": "PYeF15e7iVB9seFrrO7W6",
+        "title": "Mesh Network Topology"
+       },
+       {
+        "node_id": "W_oloLu2Euz5zRSy7v_T8",
+        "title": "Loopback"
+       }
+      ],
+      "global_step_index": 9,
+      "resource": {
+       "title": "CompTIA Pentest+ : Rules of Engagement",
+       "url": "https://youtube.com/watch?v=Rt-4j8k6J2U"
+      },
+      "videos": [
+       {
+        "title": "CompTIA Pentest+ : Rules of Engagement",
+        "url": "https://youtube.com/watch?v=Rt-4j8k6J2U",
+        "video_id": "Rt-4j8k6J2U",
+        "source": "roadmap.sh",
+        "topic": "Penetration Testing Rules of Engagement"
+       },
+       {
+        "title": "Vulnerability Management explained by experts",
+        "url": "https://youtube.com/watch?v=RE6_Lo2wSIg",
+        "video_id": "RE6_Lo2wSIg",
+        "source": "roadmap.sh",
+        "topic": "Vulnerability Management"
+       },
+       {
+        "title": "Metasploit for Beginners",
+        "url": "https://youtube.com/watch?v=8lR27r8Y_ik",
+        "video_id": "8lR27r8Y_ik",
+        "source": "roadmap.sh",
+        "topic": "Common Exploit Frameworks"
+       },
+       {
+        "title": "Nmap Tutorial to find Network Vulnerabilities",
+        "url": "https://youtube.com/watch?v=4t4kBkMsDbQ",
+        "video_id": "4t4kBkMsDbQ",
+        "source": "roadmap.sh",
+        "topic": "NMAP"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Metasploit Framework",
+        "url": "https://www.metasploit.com/",
+        "topic": "Common Exploit Frameworks"
+       },
+       {
+        "type": "official",
+        "title": "Core Impact",
+        "url": "https://www.coresecurity.com/",
+        "topic": "Common Exploit Frameworks"
+       },
+       {
+        "type": "official",
+        "title": "NMAP",
+        "url": "https://nmap.org/",
+        "topic": "NMAP"
+       },
+       {
+        "type": "official",
+        "title": "TryHackMe",
+        "url": "https://tryhackme.com/",
+        "topic": "TryHackMe"
+       }
+      ]
+     },
+     {
+      "step_number": 10,
+      "title": "Cloud Security & Architecture",
+      "description": "Understand how to secure federated, multi‑cloud environments and manage cloud‑native threats.",
+      "topic_refs": [
+       "ZDj7KBuyZsKyEMZViMoXW",
+       "KGjYM4Onr5GQf1Yv9IabI",
+       "XL3FVeGFDhAl_gSol6Tjt",
+       "ThLsXkqLw--uddHz0spCH",
+       "GklBi7Qx1akN_cS9UMrha",
+       "0LztOTc3NG3OujCVwlcVU",
+       "tOLA5QPKi6LHl1ljsOMwX",
+       "vVaBQ5VtsE_ZeXbCOF8ux"
+      ],
+      "projects": [
+       {
+        "title": "Set Up a Simple VPC in AWS",
+        "description": "Create subnets, route tables, and security groups in a demo account.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Policy Review for IAM Roles",
+        "description": "Audit AWS IAM policies for least‑privilege violations.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Public Cloud",
+       "Cloud vs. On-Premises",
+       "Cloud Deployment Basics",
+       "Cloud Security Concepts",
+       "Azure"
+      ],
+      "more_topics": [
+       {
+        "node_id": "ywRlTuTfh5-NHnv4ZyW1t",
+        "title": "Hybrid Cloud Model"
+       },
+       {
+        "node_id": "ecpMKP1cQXXsfKETDUrSf",
+        "title": "Private"
+       },
+       {
+        "node_id": "1nPifNUm-udLChIqLC_uK",
+        "title": "Infrastructure as a Service (IaaS)"
+       },
+       {
+        "node_id": "PQ_np6O-4PK2V-r5lywQg",
+        "title": "Platform as a Service (PaaS)"
+       },
+       {
+        "node_id": "sVw5KVNxPEatBRKb2ZbS_",
+        "title": "SaaS"
+       },
+       {
+        "node_id": "IOK_FluAv34j3Tj_NvwdO",
+        "title": "Google Workspace (Formerly G Suite)"
+       },
+       {
+        "node_id": "-83ltMEl3le3yD68OFnTM",
+        "title": "Serverless Computing"
+       },
+       {
+        "node_id": "RJctUpvlUJGAdwBNtDSXw",
+        "title": "Infrastructure as Code"
+       },
+       {
+        "node_id": "Wqy6ki13hP5c0VhGYEhHj",
+        "title": "iCloud"
+       },
+       {
+        "node_id": "E7yfALgu9E2auOYDOTmex",
+        "title": "iCloud"
+       },
+       {
+        "node_id": "9OastXVfiG1YRMm68ecnn",
+        "title": "Dropbox"
+       },
+       {
+        "node_id": "7svh9qaaPp0Hz23yinIye",
+        "title": "Private vs Public Keys"
+       },
+       {
+        "node_id": "WG7DdsxESm31VcLFfkVTz",
+        "title": "Authentication vs. Authorization"
+       },
+       {
+        "node_id": "MWqnhDKm9jXvDDjkeVNxm",
+        "title": "OneDrive"
+       },
+       {
+        "node_id": "251sxqoHggQ4sZ676iX5w",
+        "title": "Virtual Machines"
+       },
+       {
+        "node_id": "zQx_VUS1zRmF4zCGjJD5-",
+        "title": "Handshakes"
+       },
+       {
+        "node_id": "fxyJxrf3mnFTa3wXk1MCW",
+        "title": "Public Key Infrastructure (PKI)"
+       },
+       {
+        "node_id": "4Man3Bd-ySLFlAdxbLOHw",
+        "title": "Box"
+       },
+       {
+        "node_id": "2jsTgT7k8MeaDtx6RJhOP",
+        "title": "S3"
+       },
+       {
+        "node_id": "6ILPXeUDDmmYRiA_gNTSr",
+        "title": "SSL vs TLS"
+       },
+       {
+        "node_id": "fTZ4PqH-AMhYA_65w4wFO",
+        "title": "Google Drive"
+       },
+       {
+        "node_id": "Kkd3f_0OYNCdpDgrJ-_Ju",
+        "title": "NAT"
+       }
+      ],
+      "global_step_index": 10,
+      "resource": {
+       "title": "What is a Public Cloud",
+       "url": "https://youtube.com/watch?v=KaCyfQ7luVY"
+      },
+      "videos": [
+       {
+        "title": "What is a Public Cloud",
+        "url": "https://youtube.com/watch?v=KaCyfQ7luVY",
+        "video_id": "KaCyfQ7luVY",
+        "source": "roadmap.sh",
+        "topic": "Public Cloud"
+       },
+       {
+        "title": "On Premise vs Cloud : Is Cloud Computing the future?",
+        "url": "https://youtube.com/watch?v=FuPh2o-GMDA",
+        "video_id": "FuPh2o-GMDA",
+        "source": "roadmap.sh",
+        "topic": "Cloud vs. On-Premises"
+       },
+       {
+        "title": "Deploying a Website to AWS in Under 1 Minute",
+        "url": "https://youtube.com/watch?v=goiW0g7A0WE",
+        "video_id": "goiW0g7A0WE",
+        "source": "roadmap.sh",
+        "topic": "Cloud Deployment Basics"
+       },
+       {
+        "title": "What is cloud security",
+        "url": "https://youtube.com/watch?v=jI8IKpjiCSM",
+        "video_id": "jI8IKpjiCSM",
+        "source": "roadmap.sh",
+        "topic": "Cloud Security Concepts"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Azure",
+        "url": "https://azure.microsoft.com",
+        "topic": "Azure"
+       },
+       {
+        "type": "official",
+        "title": "AWS",
+        "url": "https://aws.amazon.com",
+        "topic": "AWS"
+       },
+       {
+        "type": "official",
+        "title": "Google Cloud Platform",
+        "url": "https://cloud.google.com",
+        "topic": "GCP"
+       },
+       {
+        "type": "official",
+        "title": "Cloud Computing, Hosting Services, and APIs",
+        "url": "https://cloud.google.com/gcp",
+        "topic": "GCP"
+       }
+      ]
+     },
+     {
+      "step_number": 11,
+      "title": "Security Automation & SOAR",
+      "description": "Harness scripting and orchestration to streamline detection, response, and investigation workflows.",
+      "topic_refs": [
+       "XiHvGy--OkPFfJeKA6-LP",
+       "paY9x2VJA98FNGBFGRXp2",
+       "tao0Bb_JR0Ubl62HO8plp",
+       "i0ulrA-GJrNhIVmzdWDrn",
+       "c2kY3wZVFKZYxMARhLIwO",
+       "7oFwRkmoZom8exMDtMslX"
+      ],
+      "projects": [
+       {
+        "title": "Automate Log Collection with Python",
+        "description": "Write a script to tail syslog and push alerts to a SIEM API.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Build a SIEM Rule Set",
+        "description": "Create Correlation rules for detecting brute‑force logins on a Linux box.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Python",
+       "PowerShell",
+       "Bash",
+       "Security Orchestration, Automation, and Response (SOAR)",
+       "SIEM"
+      ],
+      "more_topics": [
+       {
+        "node_id": "10qbxX8DCrfyH7tgYexxQ",
+        "title": "LOLBAS"
+       },
+       {
+        "node_id": "GZHFR43UzN0WIIxGKZOdX",
+        "title": "any.run"
+       },
+       {
+        "node_id": "QvHWrmMzO8IvNQ234E_wf",
+        "title": "Endpoint Detection and Response (EDR)"
+       },
+       {
+        "node_id": "VNmrb5Dm4UKUgL8JBfhnE",
+        "title": "head"
+       },
+       {
+        "node_id": "l5EnhOCnkN-RKvgrS9ylH",
+        "title": "Host Intrusion Prevention System (HIPS)"
+       },
+       {
+        "node_id": "D2ptX6ja_HvFEafMIzWOy",
+        "title": "cat"
+       },
+       {
+        "node_id": "W7iQUCjODGYgE4PjC5TZI",
+        "title": "curl"
+       },
+       {
+        "node_id": "rxzcAzHjzIc9lkWSw0fef",
+        "title": "VirusTotal"
+       },
+       {
+        "node_id": "3140n5prZYySsuBHjqGOJ",
+        "title": "Antivirus"
+       },
+       {
+        "node_id": "jqX1A5hFF3Qznqup4lfiF",
+        "title": "proxmox"
+       },
+       {
+        "node_id": "9QtY1hMJ7NKLFztYK-mHY",
+        "title": "Antimalware"
+       },
+       {
+        "node_id": "9rmDvycXFcsGOq3v-_ziD",
+        "title": "S/MIME"
+       },
+       {
+        "node_id": "762Wf_Eh-3zq69CZZiIjR",
+        "title": "tail"
+       },
+       {
+        "node_id": "lFt1k1Q-NlWWqyDA3gWD1",
+        "title": "UrlVoid"
+       },
+       {
+        "node_id": "jehVvdz8BnruKjqHMKu5v",
+        "title": "Go"
+       }
+      ],
+      "global_step_index": 11,
+      "resource": {
+       "title": "Python in 100 Seconds",
+       "url": "https://youtube.com/watch?v=x7X9w_GIm1s"
+      },
+      "videos": [
+       {
+        "title": "Python in 100 Seconds",
+        "url": "https://youtube.com/watch?v=x7X9w_GIm1s",
+        "video_id": "x7X9w_GIm1s",
+        "source": "roadmap.sh",
+        "topic": "Python"
+       },
+       {
+        "title": "PowerShell Course",
+        "url": "https://youtube.com/watch?v=ZOoCaWyifmI",
+        "video_id": "ZOoCaWyifmI",
+        "source": "roadmap.sh",
+        "topic": "PowerShell"
+       },
+       {
+        "title": "What is SOAR (Security, Orchestration, Automation & Response)",
+        "url": "https://youtube.com/watch?v=k7ju95jDxFA",
+        "video_id": "k7ju95jDxFA",
+        "source": "roadmap.sh",
+        "topic": "Security Orchestration, Automation, and Response (SOAR)"
+       },
+       {
+        "title": "SIEM Explained - Professor Messer",
+        "url": "https://youtube.com/watch?v=JEcETdy5WxU",
+        "video_id": "JEcETdy5WxU",
+        "source": "roadmap.sh",
+        "topic": "SIEM"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "PowerShell.org",
+        "url": "https://powershell.org/",
+        "topic": "PowerShell"
+       },
+       {
+        "type": "official",
+        "title": "Bash",
+        "url": "https://www.gnu.org/software/bash/",
+        "topic": "Bash"
+       },
+       {
+        "type": "official",
+        "title": "LOLBAS Project",
+        "url": "https://lolbas-project.github.io/#",
+        "topic": "LOLBAS"
+       },
+       {
+        "type": "official",
+        "title": "Any.run",
+        "url": "https://any.run/",
+        "topic": "any.run"
+       }
+      ]
+     },
+     {
+      "step_number": 12,
+      "title": "Persistent Threats & Defense",
+      "description": "Explore advanced lateral movement techniques and the controls required to harden against them.",
+      "topic_refs": [
+       "sMuKqf27y4iG0GrCdF5DN",
+       "pnfVrOjDeG1uYAeqHxhJP",
+       "Ee7LfbhwJbiWjJ3b_bbni",
+       "rmR6HJqEhHDgX55Xy5BAW"
+      ],
+      "projects": [
+       {
+        "title": "Simulate Pass‑the‑Hash Attack",
+        "description": "Use a compromised token to authenticate on a remote Windows machine.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Configure a Rogue Access Point",
+        "description": "Set up a captive portal and capture roaming Wi‑Fi traffic.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Pass the Hash",
+       "Multi-Factor Authentication (MFA) and Two-Factor Authentication (2FA)",
+       "Rogue Access Point",
+       "Key Exchange"
+      ],
+      "more_topics": [
+       {
+        "node_id": "LfWJJaT3fv0p6fUeS8b84",
+        "title": "Deauth Attack"
+       },
+       {
+        "node_id": "tH3RLnJseqOzRIbZMklHD",
+        "title": "RADIUS"
+       },
+       {
+        "node_id": "MBnDE0VyVh2u2p-r90jVk",
+        "title": "WPA, WPA2, WPA3, and WEP"
+       },
+       {
+        "node_id": "ODlVT6MhV-RVUbRMG0mHi",
+        "title": "Man-in-the-middle attack"
+       },
+       {
+        "node_id": "DbWf5LdqiByPiJa4xHtl_",
+        "title": "Bluetooth"
+       },
+       {
+        "node_id": "mIX8PsIGuwgPCGQZ6ok2H",
+        "title": "Replay Attack"
+       },
+       {
+        "node_id": "xL32OqDKm6O043TYgVV1r",
+        "title": "Single Sign-On (SSO)"
+       },
+       {
+        "node_id": "vYvFuz7lAJXZ1vK_4999a",
+        "title": "Local Authentication"
+       },
+       {
+        "node_id": "Q0i-plPQkb_NIvOQBVaDd",
+        "title": "Brute Force vs. Password Spraying"
+       },
+       {
+        "node_id": "z_fDvTgKw51Uepo6eMQd9",
+        "title": "LDAPS"
+       },
+       {
+        "node_id": "8Mog890Lj-gVBpWa05EzT",
+        "title": "SSH"
+       },
+       {
+        "node_id": "1jwtExZzR9ABKvD_S9zFG",
+        "title": "EAP vs PEAP"
+       },
+       {
+        "node_id": "UF3BV1sEEOrqh5ilnfM1B",
+        "title": "Jump Server"
+       },
+       {
+        "node_id": "hwAUFLYpc_ftCfXq95dey",
+        "title": "NFC"
+       },
+       {
+        "node_id": "_9lQSG6fn69Yd9rs1pQdL",
+        "title": "SRTP"
+       },
+       {
+        "node_id": "lV3swvD6QGLmD9iVfbKIF",
+        "title": "LDAP"
+       },
+       {
+        "node_id": "QCVYF1rmPsMVtklBNDNaB",
+        "title": "WLAN"
+       },
+       {
+        "node_id": "vCkTJMkDXcQmwsmeNUAX5",
+        "title": "WAN"
+       }
+      ],
+      "global_step_index": 12,
+      "resource": {
+       "title": "Secret Key Exchange",
+       "url": "https://youtube.com/watch?v=NmM9HA2MQGI"
+      },
+      "videos": [
+       {
+        "title": "Secret Key Exchange",
+        "url": "https://youtube.com/watch?v=NmM9HA2MQGI",
+        "video_id": "NmM9HA2MQGI",
+        "source": "roadmap.sh",
+        "topic": "Key Exchange"
+       },
+       {
+        "title": "How RADIUS Authentication Works",
+        "url": "https://youtube.com/watch?v=LLrb3em-_po",
+        "video_id": "LLrb3em-_po",
+        "source": "roadmap.sh",
+        "topic": "RADIUS"
+       },
+       {
+        "title": "WiFi Security: What is WEP, WPA, and WPA2",
+        "url": "https://youtube.com/watch?v=jErjdGfbgoE",
+        "video_id": "jErjdGfbgoE",
+        "source": "roadmap.sh",
+        "topic": "WPA, WPA2, WPA3, and WEP"
+       },
+       {
+        "title": "Everything about Bluetooth Security",
+        "url": "https://youtube.com/watch?v=i9mzl51ammA",
+        "video_id": "i9mzl51ammA",
+        "source": "roadmap.sh",
+        "topic": "Bluetooth"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Remote Authentication Dial In User Service (RADIUS) - RFC 2865",
+        "url": "https://datatracker.ietf.org/doc/html/rfc2865",
+        "topic": "RADIUS"
+       }
+      ]
+     },
+     {
+      "step_number": 13,
+      "title": "Social Engineering & Phishing Defense",
+      "description": "Identify and mitigate human‑centric attacks that bypass technical controls.",
+      "topic_refs": [
+       "7obusm5UtHwWMcMMEB3lt",
+       "KSwl6sX2W47vUmytpm8LH",
+       "d4U6Jq-CUB1nNN2OCFoum",
+       "O1VceThdxRlgQ6DcGyY7Y",
+       "FD0bkmxNpPXiUB_NevEUf",
+       "O1fY2n40yjZtJUEeoItKr"
+      ],
+      "projects": [
+       {
+        "title": "Craft a Spear‑Phishing Template",
+        "description": "Create an email phishing landing page that mimics a realistic service.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Run a Phishing Simulation",
+        "description": "Use an open‑source tool to send test emails to a lab group.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Phishing",
+       "Whaling",
+       "Smishing",
+       "Social Engineering",
+       "Shoulder Surfing"
+      ],
+      "more_topics": [
+       {
+        "node_id": "M65fCl72qlF0VTbGNT6du",
+        "title": "Whishing"
+       },
+       {
+        "node_id": "ZEgxmvjWPp5NofLFz_FTJ",
+        "title": "Impersonation"
+       },
+       {
+        "node_id": "05tH6WhToC615JTFN-TPc",
+        "title": "Human Resources in Cybersecurity"
+       },
+       {
+        "node_id": "LteSouUtAj3JWWOzcjQPl",
+        "title": "Spoofing"
+       },
+       {
+        "node_id": "XwRCZf-yHJsXVjaRfb3R4",
+        "title": "False Negatives and False Positives"
+       },
+       {
+        "node_id": "M6uwyD4ibguxytf1od-og",
+        "title": "True Positives and True Negatives"
+       },
+       {
+        "node_id": "cO70zHvHgBAH29khF-hBW",
+        "title": "Drive-by Attack"
+       },
+       {
+        "node_id": "0LeDwj_tMaXjQBBOUJ5CL",
+        "title": "Typosquatting"
+       },
+       {
+        "node_id": "jqWhR6oTyX6yolUBv71VC",
+        "title": "Salting"
+       },
+       {
+        "node_id": "cbEMUyg_btIPjdx-XqIM5",
+        "title": "Spam vs. Spim"
+       },
+       {
+        "node_id": "rA1skdztev3-8VmAtIlmr",
+        "title": "CREST"
+       },
+       {
+        "node_id": "o-keJgF9hmifQ_hUD91iN",
+        "title": "Tailgating"
+       }
+      ],
+      "global_step_index": 13,
+      "resource": {
+       "title": "Phishing attacks are SCARY easy to do!! (let me show you!)",
+       "url": "https://youtube.com/watch?v=u9dBGWVwMMA"
+      },
+      "videos": [
+       {
+        "title": "Phishing attacks are SCARY easy to do!! (let me show you!)",
+        "url": "https://youtube.com/watch?v=u9dBGWVwMMA",
+        "video_id": "u9dBGWVwMMA",
+        "source": "roadmap.sh",
+        "topic": "Phishing"
+       },
+       {
+        "title": "What is a whaling attack and how to stay protected",
+        "url": "https://youtube.com/watch?v=jQONycdUOAA",
+        "video_id": "jQONycdUOAA",
+        "source": "roadmap.sh",
+        "topic": "Whaling"
+       },
+       {
+        "title": "What is smishing? How phishing via text message works",
+        "url": "https://youtube.com/watch?v=ZOZGQeG8avQ",
+        "video_id": "ZOZGQeG8avQ",
+        "source": "roadmap.sh",
+        "topic": "Smishing"
+       },
+       {
+        "title": "How Hackers Can Grab Your Passwords Over Wi-Fi with Evil Twin Attacks",
+        "url": "https://youtube.com/watch?v=HyxQqDq3qs4",
+        "video_id": "HyxQqDq3qs4",
+        "source": "roadmap.sh",
+        "topic": "What is Evil Twin attack"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "CREST Certifications",
+        "url": "https://www.crest-approved.org/skills-certifications-careers/crest-certifications/",
+        "topic": "CREST"
+       }
+      ]
+     },
+     {
+      "step_number": 14,
+      "title": "Capstone & Continuous Improvement",
+      "description": "Integrate all skills into real‑world scenarios and prepare for professional certifications.",
+      "topic_refs": [
+       "Ec6EairjFJLCHc7b-1xxe",
+       "AxeDcKK3cUtEojtHQPBw7",
+       "7tDxTcKJNAUxbHLPCnPFO",
+       "Rae-f9DHDZuwIwW6eRtKF",
+       "vVaBQ5VtsE_ZeXbCOF8ux"
+      ],
+      "projects": [
+       {
+        "title": "Develop a Personal Runbook Library",
+        "description": "Document custom playbooks for the most common incidents you have practiced.",
+        "difficulty": "advanced",
+        "grounded": false
+       },
+       {
+        "title": "Prepare for CompTIA Security+ Exam",
+        "description": "Create a study plan covering all syllabus topics.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Runbooks",
+       "CompTIA Security+",
+       "Blue / Red / Purple Teams",
+       "Defense in Depth",
+       "Cloud Skills and Knowledge"
+      ],
+      "more_topics": [
+       {
+        "node_id": "4RGbNOfMPDbBcvUFWTTCV",
+        "title": "CompTIA Network+"
+       },
+       {
+        "node_id": "4RD22UZATfL8dc71YkJwQ",
+        "title": "CCNA"
+       },
+       {
+        "node_id": "_7RjH4Goi0x6Noy6za0rP",
+        "title": "Popular Productivity Suites"
+       },
+       {
+        "node_id": "-5haJATqlmj0SFSFAqN6A",
+        "title": "Microsoft Office Suite"
+       },
+       {
+        "node_id": "WXRaVCYwuGQsjJ5wyvbea",
+        "title": "Certificates"
+       }
+      ],
+      "global_step_index": 14,
+      "resource": {
+       "title": "Create Automation Runbooks with AWS Systems Manager",
+       "url": "https://youtube.com/watch?v=fQ_KahCPBeU"
+      },
+      "videos": [
+       {
+        "title": "Create Automation Runbooks with AWS Systems Manager",
+        "url": "https://youtube.com/watch?v=fQ_KahCPBeU",
+        "video_id": "fQ_KahCPBeU",
+        "source": "roadmap.sh",
+        "topic": "Runbooks"
+       },
+       {
+        "title": "Defense-in-Depth - CompTIA Security+",
+        "url": "https://youtube.com/watch?v=HLQ4wX8NxQY",
+        "video_id": "HLQ4wX8NxQY",
+        "source": "roadmap.sh",
+        "topic": "Defense in Depth"
+       },
+       {
+        "title": "What Cloud Skills are Essential?",
+        "url": "https://youtube.com/watch?v=udKBDRcj178",
+        "video_id": "udKBDRcj178",
+        "source": "roadmap.sh",
+        "topic": "Cloud Skills and Knowledge"
+       },
+       {
+        "title": "CompTIA Network+ Course",
+        "url": "https://youtube.com/watch?v=xmpYfyNmWbw",
+        "video_id": "xmpYfyNmWbw",
+        "source": "roadmap.sh",
+        "topic": "CompTIA Network+"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "CompTIA Security+ Website",
+        "url": "https://www.comptia.org/certifications/security",
+        "topic": "CompTIA Security+"
+       },
+       {
+        "type": "official",
+        "title": "CompTIA Network+",
+        "url": "https://www.comptia.org/certifications/network",
+        "topic": "CompTIA Network+"
+       },
+       {
+        "type": "official",
+        "title": "CCNA Certification",
+        "url": "https://www.cisco.com/site/us/en/learn/training-certifications/certifications/enterprise/ccna/index.html",
+        "topic": "CCNA"
+       },
+       {
+        "type": "official",
+        "title": "Microsoft Office",
+        "url": "https://www.office.com/",
+        "topic": "Popular Productivity Suites"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 2,
+    "title": "DevSecOps",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "DevSecOps Foundations & Secure Coding",
+      "description": "Establish a solid conceptual baseline for DevSecOps and secure coding practices, enabling the student to embed security across the software lifecycle.",
+      "topic_refs": [
+       "SJa6UcRcgT08lF8Phnh0X",
+       "yMb0-A55r1KEsLntOmp5F",
+       "r3XBfcNtxSraF11YK_5d5",
+       "txcfATz3k89CedFrSZMWj",
+       "wjJPzrFJBNYOD3SJLzW2M",
+       "iHd6XNAUGXn3_d-I_YtTM",
+       "JBNiSzYD8DSnKfHoKRjMg",
+       "0ey7Spq4DoZ-AfXOsMtag"
+      ],
+      "projects": [
+       {
+        "title": "Python & Bash Scripting Lab",
+        "description": "Build interactive scripts for basic DevSecOps tasks",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Secure Coding Checklist",
+        "description": "Create a reusable checklist for secure coding patterns",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "DevSecOps vs. DevOps",
+       "NIST Cybersecurity Framework",
+       "Bash Scripting",
+       "Python in DevSecOps",
+       "Scripting Knowledge"
+      ],
+      "more_topics": [
+       {
+        "node_id": "-X3GTFpg3kzm0cELAngjb",
+        "title": "DevSecOps"
+       },
+       {
+        "node_id": "nKthK-OsFO0TGwptD-Dme",
+        "title": "Ruby in DevSecOps"
+       },
+       {
+        "node_id": "v5FGKQc-_7NYEsWjmTEuq",
+        "title": "Programming Languages"
+       },
+       {
+        "node_id": "V_-gY34XcyIqPcLKtDJZr",
+        "title": "Rust"
+       },
+       {
+        "node_id": "UcBt4BsvLDlsnVy3KKJ1y",
+        "title": "Go Programming Language"
+       },
+       {
+        "node_id": "91lxZEOZ6KF3tY9id2Au8",
+        "title": "PowerShell"
+       },
+       {
+        "node_id": "7MavDAydyrt0tOJ6a6xRQ",
+        "title": "Text Editors: Vim, Nano, and Emacs"
+       },
+       {
+        "node_id": "iHhitN8zToXm4nK1m0OeR",
+        "title": "Wireshark Basics"
+       }
+      ],
+      "global_step_index": 15,
+      "resource": {
+       "title": "What is DevSecOps? | DevOps vs DevSecOps | KodeKloud",
+       "url": "https://youtube.com/watch?v=1XpUDV7PBFo"
+      },
+      "videos": [
+       {
+        "title": "What is DevSecOps? | DevOps vs DevSecOps | KodeKloud",
+        "url": "https://youtube.com/watch?v=1XpUDV7PBFo",
+        "video_id": "1XpUDV7PBFo",
+        "source": "roadmap.sh",
+        "topic": "DevSecOps vs. DevOps"
+       },
+       {
+        "title": "Bash Scripting Tutorial for Beginners",
+        "url": "https://youtube.com/watch?v=tK9Oc6AEnR4",
+        "video_id": "tK9Oc6AEnR4",
+        "source": "roadmap.sh",
+        "topic": "Bash Scripting"
+       },
+       {
+        "title": "Learn Python - Full Course",
+        "url": "https://youtube.com/watch?v=4M87qBgpafk",
+        "video_id": "4M87qBgpafk",
+        "source": "roadmap.sh",
+        "topic": "Python in DevSecOps"
+       },
+       {
+        "title": "What's the difference between Programming and Scripting?",
+        "url": "https://youtube.com/watch?v=7-0iBZxNq74",
+        "video_id": "7-0iBZxNq74",
+        "source": "roadmap.sh",
+        "topic": "Scripting Knowledge"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Python Website",
+        "url": "https://www.python.org/",
+        "topic": "Python in DevSecOps"
+       },
+       {
+        "type": "official",
+        "title": "Ruby",
+        "url": "https://www.ruby-lang.org/en/",
+        "topic": "Ruby in DevSecOps"
+       },
+       {
+        "type": "official",
+        "title": "Rust Programming Language",
+        "url": "https://rust-lang.org/",
+        "topic": "Rust"
+       },
+       {
+        "type": "official",
+        "title": "Rust by Example",
+        "url": "https://doc.rust-lang.org/stable/rust-by-example/index.html#rust-by-example",
+        "topic": "Rust"
+       }
+      ]
+     },
+     {
+      "step_number": 2,
+      "title": "CI/CD Pipeline Hardening",
+      "description": "Integrate automated security checks into CI/CD workflows to detect issues early and expedite trustworthy releases.",
+      "topic_refs": [
+       "nkPrYgpM5Mn6C_9u9yAyQ",
+       "HahTEhITEAGaoys1psZqV",
+       "bPmjX9IPL9Da0XUApY5UF",
+       "EnDqfr07RzNZmPIth6wSq",
+       "-OWtiqx4YbcOVhtYU0D69",
+       "l76yFl4lSXnxg5DBbnnID"
+      ],
+      "projects": [
+       {
+        "title": "CI/CD Security Pipeline",
+        "description": "Build a pipeline with Docker, image scanning, and patch checks",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Automated Vulnerability Scan",
+        "description": "Add a Trivy or Clair security scan to CI/CD",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Build Pipeline Hardening",
+       "Automated Patching",
+       "Image Scanning",
+       "Container Security",
+       "Docker Security"
+      ],
+      "more_topics": [],
+      "global_step_index": 16,
+      "resource": {
+       "title": "Hardening Your CI/CD Pipelines with GitOps and Continuous Security",
+       "url": "https://youtube.com/watch?v=OHly5mGdhNY"
+      },
+      "videos": [
+       {
+        "title": "Hardening Your CI/CD Pipelines with GitOps and Continuous Security",
+        "url": "https://youtube.com/watch?v=OHly5mGdhNY",
+        "video_id": "OHly5mGdhNY",
+        "source": "roadmap.sh",
+        "topic": "Build Pipeline Hardening"
+       },
+       {
+        "title": "What Is Patch Management, and Why Does Your Company Need It?",
+        "url": "https://youtube.com/watch?v=O5XXlJear0w",
+        "video_id": "O5XXlJear0w",
+        "source": "roadmap.sh",
+        "topic": "Automated Patching"
+       },
+       {
+        "title": "What is AWS Key Management Service? | Amazon Web Services",
+        "url": "https://youtube.com/watch?v=8Z0wsE2HoSo",
+        "video_id": "8Z0wsE2HoSo",
+        "source": "roadmap.sh",
+        "topic": "Key Management Service"
+       },
+       {
+        "title": "Encryption with Cloud KMS Keys - GCP",
+        "url": "https://youtube.com/watch?v=WKZC93y-aWI",
+        "video_id": "WKZC93y-aWI",
+        "source": "roadmap.sh",
+        "topic": "Key Management Service"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Docker Security",
+        "url": "https://docs.docker.com/engine/security/",
+        "topic": "Docker Security"
+       }
+      ]
+     },
+     {
+      "step_number": 3,
+      "title": "Zero Trust Cloud & Network Hardening",
+      "description": "Apply Zero Trust principles to cloud infrastructure and network design, ensuring highly secure environments.",
+      "topic_refs": [
+       "ou2-KKBNyOxH_IW9s3eE9",
+       "eTOjfNSzlvbWsyX5an_5w",
+       "LV_uiNRdUi9OrmxQCdeGw",
+       "GPVN-nDitsY1bF_3huqnh",
+       "Cr0VAtdu0ZYPOkUU_7vjR",
+       "ixiKWBp8m4tP55dBYFzRL",
+       "3UAH70FkQlv5_VbYon4U9",
+       "-RORxEsNvIPSlnM2TWB3j",
+       "iONpD135a4kd3zR5ufoTx",
+       "rK-RToN5JRcclYl23TyYz",
+       "9Tea1ge_l1fls0fyPxMPG"
+      ],
+      "projects": [
+       {
+        "title": "Zero Trust Microservices",
+        "description": "Design a mock microservice architecture with strict identity checks",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Network Segmentation Design",
+        "description": "Set up VLANs and firewall rules for secure segments",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Cloud Security",
+       "Cloud Security Posture Management (CSPM)",
+       "Firewalls",
+       "VLANs",
+       "Network Segmentation"
+      ],
+      "more_topics": [
+       {
+        "node_id": "ltpquwL_YEvbgMZ2OyNS4",
+        "title": "DDoS Mitigation Strategy"
+       },
+       {
+        "node_id": "FvU310TuexCsp8QkvxJib",
+        "title": "TLS"
+       },
+       {
+        "node_id": "LKMBv-M9k71yrR2WzN4bK",
+        "title": "SHA-256"
+       },
+       {
+        "node_id": "84HlHz8bHCDtAPGpq7LpX",
+        "title": "Networking Basics"
+       },
+       {
+        "node_id": "mT1cKWZcKXwvopW6BeX-A",
+        "title": "Symmetric Encryption"
+       },
+       {
+        "node_id": "WamX-UieM8NxhK6P_bDCB",
+        "title": "HTTP"
+       }
+      ],
+      "global_step_index": 17,
+      "resource": {
+       "title": "What is CSPM (Cloud Security Posture Management)?",
+       "url": "https://youtube.com/watch?v=V4wmb5KVmKM"
+      },
+      "videos": [
+       {
+        "title": "What is CSPM (Cloud Security Posture Management)?",
+        "url": "https://youtube.com/watch?v=V4wmb5KVmKM",
+        "video_id": "V4wmb5KVmKM",
+        "source": "roadmap.sh",
+        "topic": "Cloud Security Posture Management (CSPM)"
+       },
+       {
+        "title": "Firewalls and Network Security - SimpliLearn",
+        "url": "https://youtube.com/watch?v=9GZlVOafYTg",
+        "video_id": "9GZlVOafYTg",
+        "source": "roadmap.sh",
+        "topic": "Firewalls"
+       },
+       {
+        "title": "VLAN Explained",
+        "url": "https://youtube.com/watch?v=jC6MJTh9fRE",
+        "video_id": "jC6MJTh9fRE",
+        "source": "roadmap.sh",
+        "topic": "VLANs"
+       },
+       {
+        "title": "What is Network Segmentation?",
+        "url": "https://youtube.com/watch?v=ouvqTP3RajU",
+        "video_id": "ouvqTP3RajU",
+        "source": "roadmap.sh",
+        "topic": "Network Segmentation"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 4,
+      "title": "Threat Modeling & Vulnerability Assessment",
+      "description": "Explore systematic threat assessment and automate vulnerability discovery to reduce risk exposure.",
+      "topic_refs": [
+       "qfhpMprVX562UuktYN9BZ",
+       "XA7JUF00B1locP0xY3T95",
+       "EZZsZHxu7__yM2l9tr95-",
+       "6A_3p3CzwxFVjJaXahEVr",
+       "EqbzAy56Tu8asKNFzuti_",
+       "Pkud7rAzdV5asF5aGAq7z",
+       "mIcs0fp3T9IwwAvgYyKnY",
+       "JyXv5vPHCjSBc0J-PpUEV",
+       "0Tci_Ks8jXisin90VqB_D",
+       "6Q2VIdeSuBZzo7c1qnYLG",
+       "V97S_0PrVw3jjHnmcxDgJ"
+      ],
+      "projects": [
+       {
+        "title": "PASTA Threat Model",
+        "description": "Conduct a threat model for a sample web application",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Automated Vulnerability Scan",
+        "description": "Use Nessus and OpenVAS to scan a containerized service",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Threat Modeling Workflows",
+       "Threat Modeling",
+       "STRIDE",
+       "PASTA",
+       "Nessus"
+      ],
+      "more_topics": [
+       {
+        "node_id": "JztcgG94qZ5trdhfDcRa6",
+        "title": "Attack Surface Mapping"
+       },
+       {
+        "node_id": "AAd_X7gI-WA7Jh9FKsuE_",
+        "title": "Dependency Risk Management"
+       },
+       {
+        "node_id": "eALB73XbtnFF3-PYcLcZq",
+        "title": "Multi-Region Security Planning"
+       },
+       {
+        "node_id": "a4dYHrx1KzhKRtarZT1iy",
+        "title": "Defense in Depth"
+       },
+       {
+        "node_id": "E2jGo4HeKaeuXYa9-f-vy",
+        "title": "Endpoint Detection"
+       },
+       {
+        "node_id": "k7AtVkkVavHjCVo1hqCc0",
+        "title": "CIA Triad"
+       },
+       {
+        "node_id": "-j1PH9_z-Eq3jxX6e8VmQ",
+        "title": "Alert Types"
+       },
+       {
+        "node_id": "MMTCo21ap15MrPV64vKka",
+        "title": "Monitoring"
+       },
+       {
+        "node_id": "TnDsOr1iJX3hY7vJRpp7S",
+        "title": "DNS"
+       }
+      ],
+      "global_step_index": 18,
+      "resource": {
+       "title": "1. Introduction, Threat Models",
+       "url": "https://youtube.com/watch?v=GqmQg-cszw4"
+      },
+      "videos": [
+       {
+        "title": "1. Introduction, Threat Models",
+        "url": "https://youtube.com/watch?v=GqmQg-cszw4",
+        "video_id": "GqmQg-cszw4",
+        "source": "roadmap.sh",
+        "topic": "Threat Modeling"
+       },
+       {
+        "title": "PASTA Threat Modeling for Cybersecurity | Threat Modeling Example",
+        "url": "https://youtube.com/watch?v=s21aI-jqIVM",
+        "video_id": "s21aI-jqIVM",
+        "source": "roadmap.sh",
+        "topic": "PASTA"
+       },
+       {
+        "title": "Nessus Vulnerability Scanner Tutorial (Cyber Security Tools)",
+        "url": "https://youtube.com/watch?v=x87gbgQD4eg",
+        "video_id": "x87gbgQD4eg",
+        "source": "roadmap.sh",
+        "topic": "Nessus"
+       },
+       {
+        "title": "Learn Qualys Vulnerability Management (Home Lab)",
+        "url": "https://youtube.com/watch?v=l5At5WDj7v0",
+        "video_id": "l5At5WDj7v0",
+        "source": "roadmap.sh",
+        "topic": "Qualys"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Nessus",
+        "url": "https://www.tenable.com/products/nessus",
+        "topic": "Nessus"
+       },
+       {
+        "type": "official",
+        "title": "Qualys",
+        "url": "https://www.qualys.com/",
+        "topic": "Qualys"
+       },
+       {
+        "type": "official",
+        "title": "Qualys VMDR Getting Started Guide",
+        "url": "https://docs.qualys.com/en/vmdr/getting-started-guide/vmdr/getting_started_guide.htm",
+        "topic": "Qualys"
+       },
+       {
+        "type": "official",
+        "title": "Training Videos",
+        "url": "https://docs.qualys.com/en/pm/latest/other_resources/training_videos.htm",
+        "topic": "Qualys"
+       }
+      ]
+     },
+     {
+      "step_number": 5,
+      "title": "Secure Application Development",
+      "description": "Implement robust secure coding patterns to protect against common injection, XSS, and validation attacks.",
+      "topic_refs": [
+       "ph7rFQFJffi_di133vm3Z",
+       "VPBQh3CSsNA-esuvEHT3X",
+       "lq4nTMBniaxxwPvH5M77Z",
+       "igGASa7AknApWtq57v2Qx",
+       "TqmbGC_Q_b3BkU7UkvE-S",
+       "rK-RToN5JRcclYl23TyYz"
+      ],
+      "projects": [
+       {
+        "title": "XSS Prevention Demo",
+        "description": "Add XSS filter and content security policy to a Node.js app",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Input Validation Toolkit",
+        "description": "Build reusable validation helpers for API input",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Cross-Site Scripting (XSS) Prevention",
+       "SQL Injection Prevention",
+       "Input Validation Patterns",
+       "OWASP Top 10",
+       "bcrypt"
+      ],
+      "more_topics": [
+       {
+        "node_id": "aMu0e6xQ3Rak44F_I7Ish",
+        "title": "Secure API Design"
+       },
+       {
+        "node_id": "uAUg6mDDDq7ZyR0IEDxg5",
+        "title": "Burp Suite"
+       },
+       {
+        "node_id": "PYH_nc4bktIJoCJA6OC5E",
+        "title": "Intrusion Prevention Systems"
+       },
+       {
+        "node_id": "BeUiBY18JHqCKVNtYAHH3",
+        "title": "JavaScript and Node.js"
+       },
+       {
+        "node_id": "EqfPoveYajk61VH-ii_uE",
+        "title": "Cryptographic Hashing"
+       }
+      ],
+      "global_step_index": 19,
+      "resource": {
+       "title": "Cross-Site Scripting: A 25-Year Threat That Is Still Going Strong",
+       "url": "https://youtube.com/watch?v=z4LhLJnmoZ0"
+      },
+      "videos": [
+       {
+        "title": "Cross-Site Scripting: A 25-Year Threat That Is Still Going Strong",
+        "url": "https://youtube.com/watch?v=z4LhLJnmoZ0",
+        "video_id": "z4LhLJnmoZ0",
+        "source": "roadmap.sh",
+        "topic": "Cross-Site Scripting (XSS) Prevention"
+       },
+       {
+        "title": "SQL Injections are scary",
+        "url": "https://youtube.com/watch?v=2OPVViV-GQk",
+        "video_id": "2OPVViV-GQk",
+        "source": "roadmap.sh",
+        "topic": "SQL Injection Prevention"
+       },
+       {
+        "title": "Password Storage Tier List: encryption, hashing, salting, bcrypt, and beyond",
+        "url": "https://youtube.com/watch?v=qgpsIBLvrGY",
+        "video_id": "qgpsIBLvrGY",
+        "source": "roadmap.sh",
+        "topic": "bcrypt"
+       },
+       {
+        "title": "What is the Principle of Least Privilege?",
+        "url": "https://youtube.com/watch?v=8GZ6516Kao4",
+        "video_id": "8GZ6516Kao4",
+        "source": "roadmap.sh",
+        "topic": "Least Privilege"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Burp",
+        "url": "https://portswigger.net/burp",
+        "topic": "Burp Suite"
+       },
+       {
+        "type": "official",
+        "title": "Getting started with Burp Suite",
+        "url": "https://portswigger.net/burp/documentation/desktop/getting-started",
+        "topic": "Burp Suite"
+       },
+       {
+        "type": "official",
+        "title": "Introduction to Node.js",
+        "url": "https://nodejs.org/en/learn/getting-started/introduction-to-nodejs",
+        "topic": "JavaScript and Node.js"
+       }
+      ]
+     },
+     {
+      "step_number": 6,
+      "title": "Incident Response & SOAR Automation",
+      "description": "Design and automate incident response pipelines, reducing manual effort and improving response speed.",
+      "topic_refs": [
+       "V5eQcby9FNcGv68KPj5rH",
+       "X-pvSQnfB2W4992_3eOEy",
+       "rXS1CIZHu7TA_o7L-vMtV",
+       "O0aVW37VhZInw9Z9Mghcg",
+       "hnroE_riXvw6BqYdirWBX",
+       "_Kr2_N8021tsZfa0wZ3Vu",
+       "VyzLkdcLgxfSSFuUS0xO_"
+      ],
+      "projects": [
+       {
+        "title": "Mock SOAR Flow",
+        "description": "Configure a playbook that triggers on a simulated alert",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "SIEM Log Forwarding",
+        "description": "Set up insecure log forwarding to a SIEM for analysis",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Incident Response",
+       "IR Lifecycle",
+       "SOAR Automation",
+       "SOAR Concepts",
+       "SIEM"
+      ],
+      "more_topics": [
+       {
+        "node_id": "CUjGVwPvQytVYqy2zEPuw",
+        "title": "Containment"
+       },
+       {
+        "node_id": "A67WShi92I-TX0iK7Fv0L",
+        "title": "EDR Strategy"
+       },
+       {
+        "node_id": "h_kjdN5uGNKLtJ3puQ9RH",
+        "title": "Forensics"
+       },
+       {
+        "node_id": "MF8AYjKun5SHtumTyuurJ",
+        "title": "SBOMs"
+       }
+      ],
+      "global_step_index": 20,
+      "resource": {
+       "title": "Cybersecurity IDR: Incident Detection & Response | Google Cybersecurity Certificate",
+       "url": "https://youtube.com/watch?v=MsGl6lX-YaI"
+      },
+      "videos": [
+       {
+        "title": "Cybersecurity IDR: Incident Detection & Response | Google Cybersecurity Certificate",
+        "url": "https://youtube.com/watch?v=MsGl6lX-YaI",
+        "video_id": "MsGl6lX-YaI",
+        "source": "roadmap.sh",
+        "topic": "Incident Response"
+       },
+       {
+        "title": "Incident Response Lifecycle | IR Plan | NIST SP 800-61 Security Incident Handling| Cybersecurity",
+        "url": "https://youtube.com/watch?v=IRSQEO0koYY",
+        "video_id": "IRSQEO0koYY",
+        "source": "roadmap.sh",
+        "topic": "IR Lifecycle"
+       },
+       {
+        "title": "What is SOAR (Security, Orchestration, Automation & Response",
+        "url": "https://youtube.com/watch?v=k7ju95jDxFA",
+        "video_id": "k7ju95jDxFA",
+        "source": "roadmap.sh",
+        "topic": "SOAR Concepts"
+       },
+       {
+        "title": "SIEM Explained - Professor Messer",
+        "url": "https://youtube.com/watch?v=JEcETdy5WxU",
+        "video_id": "JEcETdy5WxU",
+        "source": "roadmap.sh",
+        "topic": "SIEM"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 7,
+      "title": "Container & Orchestration Security",
+      "description": "Strengthen container runtime security and Kubernetes best practices to reduce attack surface.",
+      "topic_refs": [
+       "EnDqfr07RzNZmPIth6wSq",
+       "YveqgdX6eNRFC1zU_q7r1",
+       "-OWtiqx4YbcOVhtYU0D69",
+       "bPmjX9IPL9Da0XUApY5UF",
+       "nkPrYgpM5Mn6C_9u9yAyQ",
+       "l76yFl4lSXnxg5DBbnnID"
+      ],
+      "projects": [
+       {
+        "title": "PodSecurityPolicy Demo",
+        "description": "Create a policy restricting privileged container use",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Container Scanning Pipeline",
+        "description": "Automate Trivy scans in a Kubernetes deployment pipeline",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Container Security",
+       "Kubernetes Security",
+       "Docker Security",
+       "Image Scanning",
+       "Build Pipeline Hardening"
+      ],
+      "more_topics": [
+       {
+        "node_id": "qKHb2e9g_Xuo-nHepICTR",
+        "title": "Supply Chain Security"
+       }
+      ],
+      "global_step_index": 21,
+      "resource": {
+       "title": "Hardening Your CI/CD Pipelines with GitOps and Continuous Security",
+       "url": "https://youtube.com/watch?v=OHly5mGdhNY"
+      },
+      "videos": [
+       {
+        "title": "Hardening Your CI/CD Pipelines with GitOps and Continuous Security",
+        "url": "https://youtube.com/watch?v=OHly5mGdhNY",
+        "video_id": "OHly5mGdhNY",
+        "source": "roadmap.sh",
+        "topic": "Build Pipeline Hardening"
+       },
+       {
+        "title": "What is AWS Key Management Service? | Amazon Web Services",
+        "url": "https://youtube.com/watch?v=8Z0wsE2HoSo",
+        "video_id": "8Z0wsE2HoSo",
+        "source": "roadmap.sh",
+        "topic": "Key Management Service"
+       },
+       {
+        "title": "Understanding software supply chain threats | Security Detail",
+        "url": "https://youtube.com/watch?v=BqpWvESLW78",
+        "video_id": "BqpWvESLW78",
+        "source": "roadmap.sh",
+        "topic": "Supply Chain Security"
+       },
+       {
+        "title": "Encryption with Cloud KMS Keys - GCP",
+        "url": "https://youtube.com/watch?v=WKZC93y-aWI",
+        "video_id": "WKZC93y-aWI",
+        "source": "roadmap.sh",
+        "topic": "Key Management Service"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Security",
+        "url": "https://kubernetes.io/docs/concepts/security/",
+        "topic": "Kubernetes Security"
+       },
+       {
+        "type": "official",
+        "title": "Docker Security",
+        "url": "https://docs.docker.com/engine/security/",
+        "topic": "Docker Security"
+       }
+      ]
+     },
+     {
+      "step_number": 8,
+      "title": "Identity, Access & Credential Management",
+      "description": "Implement secure identity and credential handling, covering IAM, PKI, and key lifecycle.",
+      "topic_refs": [
+       "-RORxEsNvIPSlnM2TWB3j",
+       "JDglIowCyRjSoqCcNfkZr",
+       "iONpD135a4kd3zR5ufoTx",
+       "quUzTCnBnmJoSmIPBGjxk",
+       "nEYMyTKfRDqA2Uc1tCwxv",
+       "0ey7Spq4DoZ-AfXOsMtag"
+      ],
+      "projects": [
+       {
+        "title": "IAM Policy Sample",
+        "description": "Create role-based access policies for a cloud platform",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "PKI Certification Flow",
+        "description": "Set up a simple CA and issue certificates for services",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "IAM",
+       "Identity and Access Management (IAM)",
+       "Identity Basics",
+       "Certificate Lifecycle",
+       "PKI Design and Failover"
+      ],
+      "more_topics": [
+       {
+        "node_id": "XRnxOPVChkGLQSXX-kUmi",
+        "title": "Large Scale Identity Strategy"
+       },
+       {
+        "node_id": "iiOWJ7KXyHp_ovVWNmDoc",
+        "title": "Authentication"
+       },
+       {
+        "node_id": "68qVLExPlVrKJweTjd_S5",
+        "title": "Enterprise Operations"
+       },
+       {
+        "node_id": "04_UcLELHkqjBCwliCw7H",
+        "title": "Audit & Compliance Mapping"
+       },
+       {
+        "node_id": "DYmh1MkmAuXUJOFqnFzWc",
+        "title": "Authorization"
+       },
+       {
+        "node_id": "L3Mu6rCIu58VyhtxeyLXq",
+        "title": "Intrusion Detection Systems"
+       },
+       {
+        "node_id": "lLWQhvzXn3EpeCf9Mhgyj",
+        "title": "Access Control Lists (ACLs)"
+       },
+       {
+        "node_id": "VmDslOmZANHpHmAInFa_j",
+        "title": "SOC 2"
+       },
+       {
+        "node_id": "hz0WFG5ksaBFMpq7ypLgF",
+        "title": "Asymmetric Encryption"
+       }
+      ],
+      "global_step_index": 22,
+      "resource": {
+       "title": "Identity & Access Management (IAM)",
+       "url": "https://youtube.com/watch?v=aNj36g7fSsU"
+      },
+      "videos": [
+       {
+        "title": "Identity & Access Management (IAM)",
+        "url": "https://youtube.com/watch?v=aNj36g7fSsU",
+        "video_id": "aNj36g7fSsU",
+        "source": "roadmap.sh",
+        "topic": "IAM"
+       },
+       {
+        "title": "AWS IAM Core Concepts You NEED to Know",
+        "url": "https://youtube.com/watch?v=_ZCTvmaPgao",
+        "video_id": "_ZCTvmaPgao",
+        "source": "roadmap.sh",
+        "topic": "Identity and Access Management (IAM)"
+       },
+       {
+        "title": "What is Encryption?",
+        "url": "https://youtube.com/watch?v=9chKCUQ8_VQ",
+        "video_id": "9chKCUQ8_VQ",
+        "source": "roadmap.sh",
+        "topic": "Encryption"
+       },
+       {
+        "title": "Authentication vs Authorization Explained",
+        "url": "https://youtube.com/watch?v=7ijBiXddB7w",
+        "video_id": "7ijBiXddB7w",
+        "source": "roadmap.sh",
+        "topic": "Authorization"
+       }
+      ],
+      "resources": []
+     }
+    ]
+   }
+  ]
+ },
+ "audit": {
+  "phases": [
+   {
+    "phase_number": 1,
+    "title": "Cybersecurity",
+    "queries": [
+     "Cybersecurity",
+     "Cybersecurity fundamentals",
+     "Cybersecurity: Cybersecurity"
+    ],
+    "retrieved": [
+     {
+      "source": "cyber-security/fundamental-it-skills@oimYzZYFXKjgvc7D4c-2u.md",
+      "score": 0.5832774043083191,
+      "queries": [
+       "Cybersecurity",
+       "Cybersecurity fundamentals",
+       "Cybersecurity: Cybersecurity"
+      ]
+     },
+     {
+      "source": "cyber-security/security-skills-and-knowledge@_hYN0gEi9BL24nptEtXWU.md",
+      "score": 0.5739344358444214,
+      "queries": [
+       "Cybersecurity",
+       "Cybersecurity fundamentals",
+       "Cybersecurity: Cybersecurity"
+      ]
+     },
+     {
+      "source": "cyber-security/hr@05tH6WhToC615JTFN-TPc.md",
+      "score": 0.564216136932373,
+      "queries": [
+       "Cybersecurity",
+       "Cybersecurity fundamentals",
+       "Cybersecurity: Cybersecurity"
+      ]
+     },
+     {
+      "source": "cyber-security/containment@l7WnKuR2HTD4Vf9U2TxkK.md",
+      "score": 0.5579828023910522,
+      "queries": [
+       "Cybersecurity",
+       "Cybersecurity fundamentals",
+       "Cybersecurity: Cybersecurity"
+      ]
+     },
+     {
+      "source": "cyber-security/comptia-security@AxeDcKK3cUtEojtHQPBw7.md",
+      "score": 0.5523349046707153,
+      "queries": [
+       "Cybersecurity",
+       "Cybersecurity fundamentals",
+       "Cybersecurity: Cybersecurity"
+      ]
+     },
+     {
+      "source": "cyber-security/tryhackme@kht-L7_v-DbglMYUHuchp.md",
+      "score": 0.5467090606689453,
+      "queries": [
+       "Cybersecurity",
+       "Cybersecurity fundamentals",
+       "Cybersecurity: Cybersecurity"
+      ]
+     },
+     {
+      "source": "so_survey_2025_india/Cybersecurity",
+      "score": 0.38151007890701294,
+      "queries": []
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 1,
+      "topic_refs": [
+       "lbAgU5lR1O7L_5mCbNz_D",
+       "oimYzZYFXKjgvc7D4c-2u",
+       "Ih0YZt8u9vDwYo8y1t41n",
+       "02aaEP9E5tlefeGBxf_Rj",
+       "WDrSO7wBNn-2jB8mcyT7j",
+       "BNUKEQ4YpZmIhSPQdkHgU",
+       "4frVcjYI1VlVU9hQgpwcT"
+      ],
+      "queries": [
+       "Cybersecurity",
+       "Cybersecurity fundamentals",
+       "Cybersecurity: Cybersecurity"
+      ]
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 2,
+      "topic_refs": [
+       "OXUd1UPPsBhNoUGLKZJGV",
+       "FdoqB2---uDAyz6xZjk_u",
+       "PPIH1oHW4_ZDyD3U3shDg",
+       "E8Z7qFFW-I9ivr0HzoXCq",
+       "fzdZF-nzIL69kaA7kwOCn",
+       "hkO3Ga6KctKODr4gos6qX",
+       "0tx2QYDYXhm85iYrCWd9U",
+       "TIxEkfBrN6EXQ3IKP1B7u",
+       "Hoou7kWyfB2wx_yFHug_H"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 3,
+      "topic_refs": [
+       "_S25EOGS3P8647zLM5i-g",
+       "cvI8-sxY5i8lpelW9iY_5",
+       "FxuMJmDoDkIsPFp2iocFg",
+       "jWl1VWkZn3n1G2eHq6EnX",
+       "BNUKEQ4YpZmIhSPQdkHgU",
+       "dztwr-DSckggQbcNIi4_2",
+       "4frVcjYI1VlVU9hQgpwcT"
+      ],
+      "queries": [
+       "Cybersecurity fundamentals"
+      ]
+     },
+     {
+      "step_number": 4,
+      "global_step_index": 4,
+      "topic_refs": [
+       "uz6ELaLEu9U4fHVfnQiOa",
+       "fjEdufrZAfW4Rl6yDU8Hk",
+       "HjfgaSEZjW9BOXy_Ixzkk",
+       "05Gbgy6aawYlYIx38u8DE",
+       "_hYN0gEi9BL24nptEtXWU",
+       "Rae-f9DHDZuwIwW6eRtKF",
+       "HavEL0u65ZxHt92TfbLzk"
+      ],
+      "queries": [
+       "Cybersecurity",
+       "Cybersecurity fundamentals",
+       "Cybersecurity: Cybersecurity"
+      ]
+     },
+     {
+      "step_number": 5,
+      "global_step_index": 5,
+      "topic_refs": [
+       "3Awm221OJHxXNLiL9yxfd",
+       "2jo1r9O_rCnDwRv1_4Wo-",
+       "pK2iRArULlK-B3iSVo4-n",
+       "fyOYVqiBqyKC4aqc6-y0q",
+       "P-Am25WJV8cFd_KsX7cdj",
+       "L0ROYh2DNlkybNDO2ezJY"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 6,
+      "global_step_index": 6,
+      "topic_refs": [
+       "np0PwKy-EvIa_f_LC6Eem",
+       "tWDo5R3KU5KOjDdtv801x",
+       "LIPtxl_oKZRcbvXT4EdNf",
+       "7w9qj16OD4pUzq-ItdxeK",
+       "jWl1VWkZn3n1G2eHq6EnX",
+       "gTozEpxJeG1NTkVBHH-05",
+       "gNFVtBxSYP5Uw3o3tlJ0M",
+       "PUgPgpKio4Npzs86qEXa7",
+       "6oAzYfwsHQYNVbi7c2Tly",
+       "d5Cv3EXf6OXW19yPJ4x6e",
+       "u4hySof6if5hiONSaW-Uf"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 7,
+      "global_step_index": 7,
+      "topic_refs": [
+       "_x3BgX93N-Pt1_JK7wk0p",
+       "wN5x5pY53B8d0yopa1z8F",
+       "auR7fNyd77W2UA-PjXeJS",
+       "H38Vb7xvuBJXVzgPBdRdT",
+       "AY-hoPGnAZSd1ExaYX8LR",
+       "7oFwRkmoZom8exMDtMslX"
+      ],
+      "queries": [
+       "Cybersecurity",
+       "Cybersecurity fundamentals",
+       "Cybersecurity: Cybersecurity"
+      ]
+     },
+     {
+      "step_number": 8,
+      "global_step_index": 8,
+      "topic_refs": [
+       "l7WnKuR2HTD4Vf9U2TxkK",
+       "9xbU_hrEOUtMm-Q09Fe6t",
+       "bIwpjIoxSUZloxDuQNpMu",
+       "_jJhL1RtaqHJmlcWrd-Ak",
+       "wspNQPmqWRjKoFm6x_bVw",
+       "N17xAIo7sgbB0nrIDMWju",
+       "vFjbZAJq8OfLb3_tsc7oT",
+       "ErRol7AT02HTn3umsPD_0"
+      ],
+      "queries": [
+       "Cybersecurity",
+       "Cybersecurity fundamentals",
+       "Cybersecurity: Cybersecurity"
+      ]
+     },
+     {
+      "step_number": 9,
+      "global_step_index": 9,
+      "topic_refs": [
+       "NkAAQikwH-A6vrF8fWpuB",
+       "lcxAXtO6LoGd85nOFnLo8",
+       "Lg7mz4zeCToEzZBFxYuaU",
+       "7tDxTcKJNAUxbHLPCnPFO",
+       "Hoou7kWyfB2wx_yFHug_H",
+       "IF5H0ZJ72XnqXti3jRWYF"
+      ],
+      "queries": [
+       "Cybersecurity",
+       "Cybersecurity fundamentals",
+       "Cybersecurity: Cybersecurity"
+      ]
+     },
+     {
+      "step_number": 10,
+      "global_step_index": 10,
+      "topic_refs": [
+       "ZDj7KBuyZsKyEMZViMoXW",
+       "KGjYM4Onr5GQf1Yv9IabI",
+       "XL3FVeGFDhAl_gSol6Tjt",
+       "ThLsXkqLw--uddHz0spCH",
+       "GklBi7Qx1akN_cS9UMrha",
+       "0LztOTc3NG3OujCVwlcVU",
+       "tOLA5QPKi6LHl1ljsOMwX",
+       "vVaBQ5VtsE_ZeXbCOF8ux"
+      ],
+      "queries": [
+       "Cybersecurity fundamentals"
+      ]
+     },
+     {
+      "step_number": 11,
+      "global_step_index": 11,
+      "topic_refs": [
+       "XiHvGy--OkPFfJeKA6-LP",
+       "paY9x2VJA98FNGBFGRXp2",
+       "tao0Bb_JR0Ubl62HO8plp",
+       "i0ulrA-GJrNhIVmzdWDrn",
+       "c2kY3wZVFKZYxMARhLIwO",
+       "7oFwRkmoZom8exMDtMslX"
+      ],
+      "queries": [
+       "Cybersecurity",
+       "Cybersecurity fundamentals",
+       "Cybersecurity: Cybersecurity"
+      ]
+     },
+     {
+      "step_number": 12,
+      "global_step_index": 12,
+      "topic_refs": [
+       "sMuKqf27y4iG0GrCdF5DN",
+       "pnfVrOjDeG1uYAeqHxhJP",
+       "Ee7LfbhwJbiWjJ3b_bbni",
+       "rmR6HJqEhHDgX55Xy5BAW"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 13,
+      "global_step_index": 13,
+      "topic_refs": [
+       "7obusm5UtHwWMcMMEB3lt",
+       "KSwl6sX2W47vUmytpm8LH",
+       "d4U6Jq-CUB1nNN2OCFoum",
+       "O1VceThdxRlgQ6DcGyY7Y",
+       "FD0bkmxNpPXiUB_NevEUf",
+       "O1fY2n40yjZtJUEeoItKr"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 14,
+      "global_step_index": 14,
+      "topic_refs": [
+       "Ec6EairjFJLCHc7b-1xxe",
+       "AxeDcKK3cUtEojtHQPBw7",
+       "7tDxTcKJNAUxbHLPCnPFO",
+       "Rae-f9DHDZuwIwW6eRtKF",
+       "vVaBQ5VtsE_ZeXbCOF8ux"
+      ],
+      "queries": [
+       "Cybersecurity",
+       "Cybersecurity fundamentals",
+       "Cybersecurity: Cybersecurity"
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 2,
+    "title": "DevSecOps",
+    "queries": [
+     "Cybersecurity",
+     "Cybersecurity fundamentals",
+     "Cybersecurity: DevSecOps"
+    ],
+    "retrieved": [
+     {
+      "source": "devsecops/introduction@-X3GTFpg3kzm0cELAngjb.md",
+      "score": 0.7784059047698975,
+      "queries": [
+       "Cybersecurity: DevSecOps"
+      ]
+     },
+     {
+      "source": "devsecops/devsecops-vs-devops@SJa6UcRcgT08lF8Phnh0X.md",
+      "score": 0.6914910078048706,
+      "queries": [
+       "Cybersecurity: DevSecOps"
+      ]
+     },
+     {
+      "source": "devsecops/nist@yMb0-A55r1KEsLntOmp5F.md",
+      "score": 0.5824249982833862,
+      "queries": [
+       "Cybersecurity",
+       "Cybersecurity fundamentals",
+       "Cybersecurity: DevSecOps"
+      ]
+     },
+     {
+      "source": "devsecops/ruby@nKthK-OsFO0TGwptD-Dme.md",
+      "score": 0.5362288951873779,
+      "queries": [
+       "Cybersecurity: DevSecOps"
+      ]
+     },
+     {
+      "source": "devsecops/soar-automation@rXS1CIZHu7TA_o7L-vMtV.md",
+      "score": 0.5153393745422363,
+      "queries": [
+       "Cybersecurity",
+       "Cybersecurity fundamentals",
+       "Cybersecurity: DevSecOps"
+      ]
+     },
+     {
+      "source": "devsecops/python@txcfATz3k89CedFrSZMWj.md",
+      "score": 0.491483211517334,
+      "queries": [
+       "Cybersecurity: DevSecOps"
+      ]
+     },
+     {
+      "source": "so_survey_2025_india/Cybersecurity",
+      "score": 0.38151007890701294,
+      "queries": []
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 15,
+      "topic_refs": [
+       "SJa6UcRcgT08lF8Phnh0X",
+       "yMb0-A55r1KEsLntOmp5F",
+       "r3XBfcNtxSraF11YK_5d5",
+       "txcfATz3k89CedFrSZMWj",
+       "wjJPzrFJBNYOD3SJLzW2M",
+       "iHd6XNAUGXn3_d-I_YtTM",
+       "JBNiSzYD8DSnKfHoKRjMg",
+       "0ey7Spq4DoZ-AfXOsMtag"
+      ],
+      "queries": [
+       "Cybersecurity",
+       "Cybersecurity fundamentals",
+       "Cybersecurity: DevSecOps"
+      ]
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 16,
+      "topic_refs": [
+       "nkPrYgpM5Mn6C_9u9yAyQ",
+       "HahTEhITEAGaoys1psZqV",
+       "bPmjX9IPL9Da0XUApY5UF",
+       "EnDqfr07RzNZmPIth6wSq",
+       "-OWtiqx4YbcOVhtYU0D69",
+       "l76yFl4lSXnxg5DBbnnID"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 17,
+      "topic_refs": [
+       "ou2-KKBNyOxH_IW9s3eE9",
+       "eTOjfNSzlvbWsyX5an_5w",
+       "LV_uiNRdUi9OrmxQCdeGw",
+       "GPVN-nDitsY1bF_3huqnh",
+       "Cr0VAtdu0ZYPOkUU_7vjR",
+       "ixiKWBp8m4tP55dBYFzRL",
+       "3UAH70FkQlv5_VbYon4U9",
+       "-RORxEsNvIPSlnM2TWB3j",
+       "iONpD135a4kd3zR5ufoTx",
+       "rK-RToN5JRcclYl23TyYz",
+       "9Tea1ge_l1fls0fyPxMPG"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 4,
+      "global_step_index": 18,
+      "topic_refs": [
+       "qfhpMprVX562UuktYN9BZ",
+       "XA7JUF00B1locP0xY3T95",
+       "EZZsZHxu7__yM2l9tr95-",
+       "6A_3p3CzwxFVjJaXahEVr",
+       "EqbzAy56Tu8asKNFzuti_",
+       "Pkud7rAzdV5asF5aGAq7z",
+       "mIcs0fp3T9IwwAvgYyKnY",
+       "JyXv5vPHCjSBc0J-PpUEV",
+       "0Tci_Ks8jXisin90VqB_D",
+       "6Q2VIdeSuBZzo7c1qnYLG",
+       "V97S_0PrVw3jjHnmcxDgJ"
+      ],
+      "queries": [
+       "Cybersecurity: DevSecOps"
+      ]
+     },
+     {
+      "step_number": 5,
+      "global_step_index": 19,
+      "topic_refs": [
+       "ph7rFQFJffi_di133vm3Z",
+       "VPBQh3CSsNA-esuvEHT3X",
+       "lq4nTMBniaxxwPvH5M77Z",
+       "igGASa7AknApWtq57v2Qx",
+       "TqmbGC_Q_b3BkU7UkvE-S",
+       "rK-RToN5JRcclYl23TyYz"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 6,
+      "global_step_index": 20,
+      "topic_refs": [
+       "V5eQcby9FNcGv68KPj5rH",
+       "X-pvSQnfB2W4992_3eOEy",
+       "rXS1CIZHu7TA_o7L-vMtV",
+       "O0aVW37VhZInw9Z9Mghcg",
+       "hnroE_riXvw6BqYdirWBX",
+       "_Kr2_N8021tsZfa0wZ3Vu",
+       "VyzLkdcLgxfSSFuUS0xO_"
+      ],
+      "queries": [
+       "Cybersecurity",
+       "Cybersecurity fundamentals",
+       "Cybersecurity: DevSecOps"
+      ]
+     },
+     {
+      "step_number": 7,
+      "global_step_index": 21,
+      "topic_refs": [
+       "EnDqfr07RzNZmPIth6wSq",
+       "YveqgdX6eNRFC1zU_q7r1",
+       "-OWtiqx4YbcOVhtYU0D69",
+       "bPmjX9IPL9Da0XUApY5UF",
+       "nkPrYgpM5Mn6C_9u9yAyQ",
+       "l76yFl4lSXnxg5DBbnnID"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 8,
+      "global_step_index": 22,
+      "topic_refs": [
+       "-RORxEsNvIPSlnM2TWB3j",
+       "JDglIowCyRjSoqCcNfkZr",
+       "iONpD135a4kd3zR5ufoTx",
+       "quUzTCnBnmJoSmIPBGjxk",
+       "nEYMyTKfRDqA2Uc1tCwxv",
+       "0ey7Spq4DoZ-AfXOsMtag"
+      ],
+      "queries": []
+     }
+    ]
+   }
+  ]
+ }
+}
