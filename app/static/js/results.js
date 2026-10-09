@@ -495,7 +495,7 @@ function skillChips(skills, kind) {
 
 // ATS score -> a word. The thresholds (80 / 60) are the ones the page has always used.
 function atsBand(score) {
-    return score >= 80 ? { label: "Strong", low: false } : score >= 60 ? { label: "Fair", low: false } : { label: "Low", low: true };
+    return score >= 80 ? { label: "Easy to read", low: false } : score >= 60 ? { label: "Readable", low: false } : { label: "Hard to read", low: true };
 }
 
 function statTile(label, ...content) {
@@ -526,9 +526,9 @@ function scorecard(data) {
         total ? pbar(Math.round((matched / total) * 100), `${matched} of ${total} skills found on your resume`) : el("p", { className: "muted", text: "Not enough data for this path." }));
 
     const level = ats ? atsBand(ats.score) : null;
-    const levelTile = statTile("Level",
+    const levelTile = statTile("Readability",
         el("p", { className: `stat-figure num${level && level.low ? " is-low" : ""}`, text: level ? level.label : "n/a" }),
-        el("p", { className: "muted", text: "ATS readability" }));
+        el("p", { className: "muted", text: "How easily an ATS can read your resume. Not how well you fit the role." }));
 
     return el("div", { className: "grid grid-3 scorecard" }, atsTile, matchTile, levelTile);
 }
@@ -544,7 +544,9 @@ function skillsPanel(data) {
     const out = [
         el("div", { className: "stack-sm" },
             el("h3", { className: "h3", text: "Learn next" }),
-            missing.length ? skillChips(missing, "gap") : el("p", { text: "You cover them all." })),
+            missing.length ? skillChips(missing, "gap") : el("p", { text: "You cover them all." }),
+            ...Object.entries(data.partial_skills || {}).map(([skill, p]) =>
+                el("p", { className: "muted", text: `${skill}: partly covered. Found ${p.found.join(", ")}; still missing ${p.missing.join(", ")}.` }))),
         el("div", { className: "stack-sm" },
             el("h3", { className: "h3", text: "On your resume" }),
             matched.length ? skillChips(matched, "have") : el("p", { className: "muted", text: "None of the common skills were found." })),

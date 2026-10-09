@@ -15,6 +15,7 @@ import pdfplumber
 from app.models import SurveyRespondent
 from app.pipeline.resume_skill_extractor import extract_skills
 from app.pipeline.skill_vocabulary import AMBIGUOUS_SURVEY_NAMES, SUPPLEMENTAL_SKILLS, SURVEY_EXTRA_COLUMNS
+from app.pipeline.skill_matching import is_excluded_tooling, resolve_required
 from app.pipeline.survey_queries import respondents_for_path
 
 REQUIRED_SKILLS_TOP_N = 10  # more than the 5 used for FAISS chunks - a real
@@ -31,6 +32,15 @@ def extract_text_from_pdf(file_path):
             if page_text:
                 text_parts.append(page_text)
     return "\n".join(text_parts)
+
+
+def get_pdf_page_count(file_path):
+    """Number of pages in a PDF, or None if it can't be read."""
+    try:
+        with pdfplumber.open(file_path) as pdf:
+            return len(pdf.pages)
+    except Exception:
+        return None
 
 
 def get_full_skill_vocabulary():
@@ -81,6 +91,10 @@ def get_required_skills(career_path, overall_top_n=REQUIRED_SKILLS_TOP_N):
         for r in respondents:
             combined_counter.update(getattr(r, attr))
 
+    # package managers etc. are dropped before the cut, so the list stays overall_top_n long
+    for skill in [s for s in combined_counter if is_excluded_tooling(s)]:
+        del combined_counter[skill]
+
     return {skill for skill, _ in combined_counter.most_common(overall_top_n)}
 
 
@@ -104,8 +118,7 @@ def analyze_resume(file_path, target_career_path):
 
     required_skills = get_required_skills(target_career_path)
 
-    missing_skills = required_skills - student_skills
-    matched_skills = required_skills & student_skills
+    matched_skills, missing_skills, partial_skills = resolve_required(required_skills, student_skills)
 
     return {
         "extracted_text": text,
@@ -113,4 +126,6 @@ def analyze_resume(file_path, target_career_path):
         "required_skills": required_skills,
         "missing_skills": missing_skills,
         "matched_skills": matched_skills,
+        "partial_skills": partial_skills,   # {"HTML/CSS": {"found": ["HTML"], "missing": ["CSS"]}}; also in missing_skills
+        "page_count": get_pdf_page_count(file_path),
     }

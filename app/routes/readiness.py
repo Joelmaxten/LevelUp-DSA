@@ -14,6 +14,7 @@ from app.pipeline import readiness
 from app.pipeline import scenario_engine as engine
 from app.pipeline import scenario_store as store
 from app.pipeline.resume_analyzer import get_required_skills
+from app.pipeline.skill_matching import resolve_required
 from app.routes.roadmap import roadmap_progress
 
 readiness_bp = Blueprint("readiness", __name__)
@@ -35,7 +36,7 @@ def gather_inputs(user_id, today):
     if resume is not None and gap is not None and gap.target_role:
         required = get_required_skills(gap.target_role)
         if required:
-            skill_gap = (len(required & set(resume.extracted_skills or [])), len(required))
+            skill_gap = (len(resolve_required(required, set(resume.extracted_skills or []))[0]), len(required))
 
     profile = (CareerProfile.query.filter_by(user_id=user_id).order_by(CareerProfile.id.desc()).first())
     path = None

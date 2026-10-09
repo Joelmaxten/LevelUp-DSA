@@ -217,7 +217,7 @@ def route_checks(app, tmp_dir):
             body = resp.get_json() or {}
             check("analyze: 201, same keys as /resume/upload (plus ats_unavailable), reusing stored skills (extractor never called)",
                   resp.status_code == 201 and set(body) == {"resume_id", "target_career_path", "student_skills", "matched_skills",
-                                                             "missing_skills", "ai_feedback", "salary_insights", "ats_score", "ats_unavailable"})
+                                                             "missing_skills", "partial_skills", "ai_feedback", "salary_insights", "ats_score", "ats_unavailable"})
             check("analyze: feedback from the (stubbed) LLM, salary insights, ATS with keyword density",
                   body["ai_feedback"] == "stub feedback" and set(body["salary_insights"]) == {"job_postings", "survey_respondents"}
                   and body["ats_score"] is not None and body["ats_unavailable"] is False and feedback.call_count == 1)
@@ -292,7 +292,7 @@ def route_checks(app, tmp_dir):
             body = resp.get_json() or {}
             check("upload: still 201 with the original response keys",
                   resp.status_code == 201 and set(body) == {"resume_id", "target_career_path", "student_skills", "matched_skills",
-                                                             "missing_skills", "ai_feedback", "salary_insights", "ats_score"})
+                                                             "missing_skills", "partial_skills", "ai_feedback", "salary_insights", "ats_score"})
             extended_only = {"Git", "TensorFlow", "PyTorch", "pandas"}
             check("upload: still uses the ORIGINAL vocabulary (extended-only skills such as Git/TensorFlow are not reported)",
                   not extended_only & {s.lower() if s.islower() else s for s in body["student_skills"]}
