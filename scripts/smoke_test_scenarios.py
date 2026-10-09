@@ -343,7 +343,7 @@ def test_store_engine():
     from app.pipeline import scenario_engine as eng
 
     # store
-    check("store lists the available paths", sorted(store.list_paths()) == ["Cybersecurity", "Machine Learning Engineering"])
+    check("store lists the available paths", sorted(store.list_paths()) == ["Cybersecurity", "Full-Stack Development", "Machine Learning Engineering"])
     check("store: slug lookup works", store.get_by_slug("machine-learning-engineering") is not None
           and store.get_by_slug("nope") is None)
     d, sc = store.find_scenario("mle-3")
@@ -587,7 +587,7 @@ def test_routes():
         cbody = resp.get_json()
         check("paths: top quiz path without a file -> quiz_path named, quiz_path_available false, pilot still listed",
               resp.status_code == 200 and cbody["quiz_path"] == "Game Development" and cbody["quiz_path_available"] is False
-              and sorted(p["name"] for p in cbody["paths"]) == ["Cybersecurity", "Machine Learning Engineering"])
+              and sorted(p["name"] for p in cbody["paths"]) == ["Cybersecurity", "Full-Stack Development", "Machine Learning Engineering"])
         check("paths payload for that user leaks no question text",
               not any(q["prompt"] in json.dumps(cbody) for s_ in scenarios for q in s_["questions"]))
         check("a path with no file has no map (404 path_not_found)",
