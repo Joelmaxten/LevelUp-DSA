@@ -1,0 +1,606 @@
+{
+  "schema_version": 1,
+  "path": "Data Analytics",
+  "map": {
+    "scene_id": "data-analytics",
+    "theme": "A busy hill-station market town, where a coffee kiosk square, a textile bazaar, a pharmacy lane, a cinema hall with a neon marquee and a lookout point above the valley are joined by winding stairways. The palette is warm saffron, slate blue and cream, and the mood moves from cheerful bustle at the kiosks to clear-eyed calm at the lookout.",
+    "edges": [["dan-1", "dan-2"], ["dan-2", "dan-3"], ["dan-3", "dan-4"], ["dan-4", "dan-5"]]
+  },
+  "scenarios": [
+    {
+      "id": "dan-1",
+      "order": 1,
+      "ladder_stage": "foundations",
+      "title": "Making Sense of Sales at Kaapi Katte",
+      "difficulty": 1,
+      "estimated_minutes": 8,
+      "background": "Kaapi Katte is a fictional chain of 12 filter-coffee kiosks in Bengaluru. The owner exports six months of bills from the billing app into a spreadsheet and asks a new analyst for a simple summary: what a typical bill looks like, how revenue has moved month by month, and which kiosk is doing best. Most bills are between 60 and 250 rupees, but the export also contains a few office catering orders worth up to 40,000 rupees each. The export was taken twice by mistake for some days, and different staff typed kiosk names in different ways.",
+      "constraints": [
+        "The owner reads the summary on a phone between kiosk visits",
+        "The data comes from one spreadsheet export, with no database",
+        "The summary is needed by Monday morning"
+      ],
+      "tests_topics": [
+        "Mean versus median",
+        "Choosing the right chart",
+        "Basic data cleaning",
+        "Data types"
+      ],
+      "map_node": {"x": 0.1, "y": 0.84, "label": "Kiosk Square"},
+      "questions": [
+        {
+          "id": "dan-1-q1",
+          "type": "single_choice",
+          "prompt": "The owner wants to know what a typical customer spends per bill. Which figure should the analyst report?",
+          "options": [
+            {"id": "a", "text": "The mean bill, which is total revenue divided by the bill count"},
+            {"id": "b", "text": "The median bill, the middle value once bills are sorted by amount"},
+            {"id": "c", "text": "The largest bill recorded at any kiosk over the six months"},
+            {"id": "d", "text": "Total revenue divided by the 12 kiosks in the Kaapi Katte chain"}
+          ],
+          "correct": ["b"],
+          "explanation": "A handful of catering orders worth thousands of rupees pull the mean far above what an ordinary customer pays. The median is the middle bill, so it barely moves when a few extreme values are added, and it describes the typical purchase much better here.",
+          "why_others_wrong": {
+            "a": "The mean is dragged upward by the few very large catering orders, so it overstates a typical bill.",
+            "c": "The largest bill is one extreme catering order, the opposite of typical.",
+            "d": "Revenue per kiosk is a different measure; it says nothing about what one customer spends."
+          },
+          "key_justification": "With strong outliers, the median describes the typical value better than the mean.",
+          "points": 10
+        },
+        {
+          "id": "dan-1-q2",
+          "type": "single_choice",
+          "prompt": "Which chart best shows how total monthly revenue has moved over the six months?",
+          "options": [
+            {"id": "a", "text": "A pie chart with one slice of the circle for each of the six months"},
+            {"id": "b", "text": "A scatter plot of each bill amount against the time it was paid"},
+            {"id": "c", "text": "A line chart with months along the bottom and revenue up the side"},
+            {"id": "d", "text": "A 3D stacked bar chart with each kiosk drawn as a separate layer"}
+          ],
+          "correct": ["c"],
+          "explanation": "A trend over time is read most easily as a line moving left to right, where rises and dips stand out at a glance, even on a phone screen.",
+          "why_others_wrong": {
+            "a": "Pie charts show parts of a whole and hide the order of the months, so a trend is very hard to see.",
+            "b": "Tens of thousands of individual bills make a dense cloud, which hides the monthly totals the owner asked for.",
+            "d": "3D effects distort heights, and twelve stacked layers make the overall trend hard to read."
+          },
+          "key_justification": "Use a line chart for a single measure changing over time.",
+          "points": 10
+        },
+        {
+          "id": "dan-1-q3",
+          "type": "multi_select",
+          "prompt": "Which two problems must be fixed before the analyst can trust revenue totals per kiosk?",
+          "options": [
+            {"id": "a", "text": "Some days' bills appear twice because the export was run twice"},
+            {"id": "b", "text": "The rows are sorted by date with the newest bills at the top"},
+            {"id": "c", "text": "One kiosk is typed as both 'Jayanagar' and 'Jaya Nagar'"},
+            {"id": "d", "text": "The column headings in the export are formatted in bold text"},
+            {"id": "e", "text": "The data includes weekends as well as ordinary weekdays"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "Duplicated bills inflate revenue for those days, so they must be removed using the bill number. Two spellings of one kiosk split its revenue across two names, so its total would look smaller than it really is until the names are standardised.",
+          "why_others_wrong": {
+            "b": "Sort order does not change any total.",
+            "d": "Formatting of headings has no effect on the numbers.",
+            "e": "Weekend sales are real sales and belong in the totals."
+          },
+          "key_justification": "Duplicates and inconsistent category labels both corrupt grouped totals.",
+          "points": 10
+        },
+        {
+          "id": "dan-1-q4",
+          "type": "match",
+          "prompt": "Match each column in the export to its type of data.",
+          "items": [
+            {"id": "i1", "text": "Bill amount in rupees"},
+            {"id": "i2", "text": "Kiosk name"},
+            {"id": "i3", "text": "Customer rating from one to five stars"},
+            {"id": "i4", "text": "Date and time the bill was paid"}
+          ],
+          "targets": [
+            {"id": "t1", "text": "Ordinal: categories with a meaningful order"},
+            {"id": "t2", "text": "Continuous numeric: a measured amount"},
+            {"id": "t3", "text": "Date-time: a point in time"},
+            {"id": "t4", "text": "Nominal: labels with no natural order"}
+          ],
+          "correct": {"i1": "t2", "i2": "t4", "i3": "t1", "i4": "t3"},
+          "explanation": "An amount of money is a measured number, and kiosk names are just labels with no order. Star ratings are ordered categories, since four stars beats three, although the gap between levels is not guaranteed to be equal, and the payment time is a date-time that supports grouping by day, week or month.",
+          "why_others_wrong": {
+            "common_mistake": "Treating star ratings as nominal: unlike kiosk names, the ratings have a clear order, which makes them ordinal."
+          },
+          "key_justification": "Data type decides which summaries and charts make sense for a column.",
+          "points": 10
+        }
+      ]
+    },
+    {
+      "id": "dan-2",
+      "order": 2,
+      "ladder_stage": "core_decision",
+      "title": "Building the First Reports for Rangoli Fashions",
+      "difficulty": 2,
+      "estimated_minutes": 10,
+      "background": "Rangoli Fashions is a fictional online clothing store based in Jaipur that sells across India. Its data sits in a SQL database with a customers table, an orders table (order_id, customer_id, order_date, status, amount) and a products table. Guest checkouts create orders whose customer_id is empty. The marketing head wants a weekly report and keeps asking questions such as how many customers bought in March and which categories earn more than five lakh rupees.",
+      "constraints": [
+        "Reports are built with SQL queries on the live database's read replica",
+        "Guest orders are about 20% of all orders and must not be lost",
+        "Marketing and finance must agree on how each metric is defined"
+      ],
+      "tests_topics": [
+        "SQL aggregation",
+        "SQL joins",
+        "WHERE versus HAVING",
+        "Metric definitions"
+      ],
+      "map_node": {"x": 0.3, "y": 0.66, "label": "Textile Bazaar"},
+      "questions": [
+        {
+          "id": "dan-2-q1",
+          "type": "single_choice",
+          "prompt": "How many registered customers placed at least one order in March? Which approach gives the right count?",
+          "options": [
+            {"id": "a", "text": "COUNT(*) on the orders table, filtered to March order dates"},
+            {"id": "b", "text": "COUNT(DISTINCT customer_id) on orders filtered to March dates"},
+            {"id": "c", "text": "COUNT(*) on the whole customers table, with no date filter"},
+            {"id": "d", "text": "SUM(customer_id) on the orders table, filtered to March dates"}
+          ],
+          "correct": ["b"],
+          "explanation": "A customer who ordered three times in March appears in three order rows, so counting distinct customer ids counts each person once. COUNT(DISTINCT) also ignores the empty ids of guest orders, which fits a question about registered customers.",
+          "why_others_wrong": {
+            "a": "This counts orders, so a customer with three orders is counted three times.",
+            "c": "This counts everyone who ever registered, including people who did not order in March.",
+            "d": "Adding up id numbers produces a meaningless total, not a count of people."
+          },
+          "key_justification": "Count distinct ids when one entity can appear in many rows.",
+          "points": 10
+        },
+        {
+          "id": "dan-2-q2",
+          "type": "single_choice",
+          "prompt": "The report joins orders to customers to show each order's city, and must include guest orders whose customer_id is empty. Which join is right?",
+          "options": [
+            {"id": "a", "text": "orders INNER JOIN customers on the customer_id column"},
+            {"id": "b", "text": "orders RIGHT JOIN customers on the customer_id column"},
+            {"id": "c", "text": "orders CROSS JOIN customers, then filter rows to match"},
+            {"id": "d", "text": "orders LEFT JOIN customers on the customer_id column"}
+          ],
+          "correct": ["d"],
+          "explanation": "A left join keeps every row from the orders table and fills the customer columns with nulls where no customer matches, so guest orders stay in the report with an empty city.",
+          "why_others_wrong": {
+            "a": "An inner join keeps only orders that match a customer, so all guest orders disappear.",
+            "b": "A right join keeps every customer, including those with no orders, and still drops guest orders.",
+            "c": "A cross join pairs every order with every customer, creating a huge table, and filtering it back only gives the inner join result."
+          },
+          "key_justification": "Use a left join from the table whose rows must all be kept.",
+          "points": 10
+        },
+        {
+          "id": "dan-2-q3",
+          "type": "single_choice",
+          "prompt": "Marketing wants the product categories whose total revenue is above five lakh rupees. Which query structure is correct?",
+          "options": [
+            {"id": "a", "text": "GROUP BY category, then HAVING SUM(amount) > 500000"},
+            {"id": "b", "text": "WHERE SUM(amount) > 500000, then GROUP BY category"},
+            {"id": "c", "text": "WHERE amount > 500000, then GROUP BY category"},
+            {"id": "d", "text": "ORDER BY amount DESC and keep the first five rows"}
+          ],
+          "correct": ["a"],
+          "explanation": "WHERE filters individual rows before grouping, while HAVING filters whole groups after the aggregate is calculated. A condition on a group's total therefore belongs in HAVING.",
+          "why_others_wrong": {
+            "b": "Aggregate functions are not allowed in WHERE, because WHERE runs before any groups exist.",
+            "c": "This keeps only single orders above five lakh, which almost no clothing order is, instead of filtering on category totals.",
+            "d": "The top five single orders say nothing about which category totals pass the threshold."
+          },
+          "key_justification": "Filter rows with WHERE and aggregated groups with HAVING.",
+          "points": 10
+        },
+        {
+          "id": "dan-2-q4",
+          "type": "multi_select",
+          "prompt": "Marketing and finance report different 'conversion rates'. Which two things must they agree on before the number can be compared?",
+          "options": [
+            {"id": "a", "text": "Whether the bottom of the ratio counts visits or unique visitors"},
+            {"id": "b", "text": "Which BI tool will draw the conversion chart on the dashboard"},
+            {"id": "c", "text": "Whether cancelled or returned orders count as conversions"},
+            {"id": "d", "text": "Whether the number is shown as a percentage or as a decimal"},
+            {"id": "e", "text": "Which analyst is responsible for running the weekly query"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "A conversion rate is a numerator divided by a denominator, and both teams can be right while reporting different numbers if they define those parts differently. Agreeing whether the base is visits or unique visitors, and whether cancelled or returned orders count, makes the metric the same everywhere.",
+          "why_others_wrong": {
+            "b": "The charting tool does not change the value being reported.",
+            "d": "Percentage versus decimal is only formatting; 0.03 and 3% are the same number.",
+            "e": "Who runs the query does not matter if the definition is the same."
+          },
+          "key_justification": "A metric is defined by its numerator and denominator; presentation choices do not change it.",
+          "points": 10
+        },
+        {
+          "id": "dan-2-q5",
+          "type": "match",
+          "prompt": "Match each question from marketing to the SQL technique that answers it.",
+          "items": [
+            {"id": "i1", "text": "Which city has the highest average order value?"},
+            {"id": "i2", "text": "What is the running total of revenue through the month?"},
+            {"id": "i3", "text": "Which registered customers have never ordered?"},
+            {"id": "i4", "text": "What is each product's sales rank within its category?"}
+          ],
+          "targets": [
+            {"id": "t1", "text": "Left join to orders and keep rows with no matching order"},
+            {"id": "t2", "text": "RANK() OVER (PARTITION BY category ORDER BY sales DESC)"},
+            {"id": "t3", "text": "GROUP BY city with AVG(amount), then sort the results"},
+            {"id": "t4", "text": "SUM(amount) OVER (ORDER BY order_date)"}
+          ],
+          "correct": {"i1": "t3", "i2": "t4", "i3": "t1", "i4": "t2"},
+          "explanation": "An average per city is a grouped aggregate, and a running total is a window sum ordered by date. Finding customers with no orders is an anti-join, a left join that keeps only unmatched rows, and ranking within each category needs a ranking window partitioned by category.",
+          "why_others_wrong": {
+            "common_mistake": "Using GROUP BY for the running total: grouping collapses each day into one row, while a window function keeps every row and adds the cumulative sum beside it."
+          },
+          "key_justification": "Grouped aggregates, window functions and anti-joins answer different shapes of question.",
+          "points": 10
+        }
+      ]
+    },
+    {
+      "id": "dan-3",
+      "order": 3,
+      "ladder_stage": "debugging",
+      "title": "Why Swasthya Pharmacy's Dashboard Lies",
+      "difficulty": 3,
+      "estimated_minutes": 12,
+      "background": "Swasthya Pharmacy is a fictional chain of 90 pharmacies with home delivery across Bihar and Jharkhand. Its operations dashboard was built quickly last year, and managers have stopped trusting it. Revenue doubled on the chart after a developer added product details, a monthly report showed a 30% fall in October that finance cannot see, delivery times look excellent even though customers in Patna complain, and two stores compare strangely on return rates. The analyst has one week to find out what is wrong.",
+      "constraints": [
+        "Order timestamps are stored in UTC, while the business runs on Indian time",
+        "Each order has one or more rows in the order_items table",
+        "The dashboard's numbers go to the board every month"
+      ],
+      "tests_topics": [
+        "Join fan-out",
+        "Incomplete periods",
+        "Missing values and survivorship",
+        "Simpson's paradox"
+      ],
+      "map_node": {"x": 0.5, "y": 0.5, "label": "Pharmacy Lane"},
+      "questions": [
+        {
+          "id": "dan-3-q1",
+          "type": "single_choice",
+          "prompt": "After joining orders to order_items to show product names, SUM(order_total) roughly doubled. Orders average two items each. What went wrong?",
+          "options": [
+            {"id": "a", "text": "The database rounds every amount up when it sums a large column"},
+            {"id": "b", "text": "Each order total repeats once per item, so the sum counts it again"},
+            {"id": "c", "text": "The join removed the orders that had a cancelled status"},
+            {"id": "d", "text": "The order_items table stores its amounts in paise, not rupees"}
+          ],
+          "correct": ["b"],
+          "explanation": "Joining one order to its many item rows copies the order-level total onto every item row, so summing it counts each order once per item. The fix is to sum item-level amounts after the join, or to total the orders before joining in the item details.",
+          "why_others_wrong": {
+            "a": "Databases do not round sums up in this way, and rounding could not double a total.",
+            "c": "Removing orders would make the sum smaller, not larger.",
+            "d": "The query sums order_total from the orders table, not the item amounts, and a paise mix-up would multiply by 100, not by about 2."
+          },
+          "key_justification": "A one-to-many join repeats parent values; aggregate at the right grain.",
+          "points": 10
+        },
+        {
+          "id": "dan-3-q2",
+          "type": "single_choice",
+          "prompt": "The monthly report, run on the morning of 29 October, shows October revenue 30% below September. Finance says sales were flat. What is the most likely explanation?",
+          "options": [
+            {"id": "a", "text": "Customers suddenly stopped buying medicine during October"},
+            {"id": "b", "text": "The report compares a partial October with a full September"},
+            {"id": "c", "text": "September's revenue figure was entered twice by a cashier"},
+            {"id": "d", "text": "The October chart uses a different colour from September"}
+          ],
+          "correct": ["b"],
+          "explanation": "On 29 October the month has about 28 days of data against September's 30, and the most recent days may not be loaded yet. Comparing an incomplete period with a complete one makes any month look like a fall; the report should compare like-for-like periods or wait until the month closes.",
+          "why_others_wrong": {
+            "a": "Finance sees flat sales, so there is no real collapse in demand to explain.",
+            "c": "A double entry would make September look higher, but nothing points to that and finance's numbers do not show it.",
+            "d": "Colour has no effect on the values shown."
+          },
+          "key_justification": "Never compare an incomplete period with a complete one.",
+          "points": 10
+        },
+        {
+          "id": "dan-3-q3",
+          "type": "single_choice",
+          "prompt": "Average delivery time on the dashboard is 2.1 hours, yet Patna customers complain. About 15% of Patna orders are still undelivered after a day and have no delivered_at time. Why does the average look so good?",
+          "options": [
+            {"id": "a", "text": "AVG skips rows with no delivery time, so the stuck orders vanish"},
+            {"id": "b", "text": "Patna's delivery riders are faster than those in every other city"},
+            {"id": "c", "text": "The average is calculated in minutes but labelled as hours"},
+            {"id": "d", "text": "The dashboard shows the median, which is always lower than the mean"}
+          ],
+          "correct": ["a"],
+          "explanation": "SQL's AVG ignores nulls, so orders that never arrived contribute nothing and only successful deliveries are averaged. The dashboard should also show the share of orders not delivered within a target time, so the worst cases stay visible.",
+          "why_others_wrong": {
+            "b": "Fast riders do not explain complaints about orders that have not arrived at all.",
+            "c": "A unit error would affect every city equally and would not explain why only Patna complains.",
+            "d": "The median is not always lower than the mean, and the stated figure is an average."
+          },
+          "key_justification": "Aggregates that skip missing values can hide failures; report the missing cases explicitly.",
+          "points": 10
+        },
+        {
+          "id": "dan-3-q4",
+          "type": "multi_select",
+          "prompt": "Store A has a higher overall return rate than Store B, yet A's return rate is lower in every product category. A sells far more cosmetics, which are often returned. Which two conclusions are correct?",
+          "options": [
+            {"id": "a", "text": "A's higher overall rate comes from its mix of product categories"},
+            {"id": "b", "text": "A's staff handle returns worse and need retraining right away"},
+            {"id": "c", "text": "Comparing within each category is fairer for judging the stores"},
+            {"id": "d", "text": "The data must be wrong, because this pattern cannot happen"},
+            {"id": "e", "text": "The category breakdown should be removed to keep the chart simple"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "This is Simpson's paradox: a group can do better in every subgroup yet worse overall when it has much more of a subgroup with a high base rate. Store A's overall rate is raised by selling many cosmetics, so the stores should be compared category by category or on a mix-adjusted rate.",
+          "why_others_wrong": {
+            "b": "A actually does better within every category, so the data points away from a staff problem.",
+            "d": "The pattern is a well-known, real effect of combining groups of different sizes.",
+            "e": "Removing the breakdown hides the explanation and leaves the misleading overall comparison."
+          },
+          "key_justification": "When subgroup and overall comparisons disagree, check whether the subgroup mix explains it.",
+          "points": 10
+        },
+        {
+          "id": "dan-3-q5",
+          "type": "match",
+          "prompt": "Match each data problem found in the audit to the fix.",
+          "items": [
+            {"id": "i1", "text": "Late-night sales before 5:30 am land on the previous day's total"},
+            {"id": "i2", "text": "The same customer exists twice, from two old CRMs"},
+            {"id": "i3", "text": "Store code 0042 shows up as 42 after a CSV import"},
+            {"id": "i4", "text": "A new store's revenue appears in no regional total"}
+          ],
+          "targets": [
+            {"id": "t1", "text": "Read the store code column as text, not as a number"},
+            {"id": "t2", "text": "Add the store to the store-to-region mapping table"},
+            {"id": "t3", "text": "Convert timestamps from UTC to IST before grouping"},
+            {"id": "t4", "text": "Merge records that share a normalised phone number"}
+          ],
+          "correct": {"i1": "t3", "i2": "t4", "i3": "t1", "i4": "t2"},
+          "explanation": "India is five and a half hours ahead of UTC, so a sale between midnight and 5:30 am in India is still the previous day in UTC and lands on that day's total unless timestamps are converted. Duplicate customers are merged on a reliable normalised key, codes with leading zeros must be stored as text, and a store missing from the mapping table is dropped from every regional total.",
+          "why_others_wrong": {
+            "common_mistake": "Blaming the shifted late-night sales on late data loading: the cut-off falls exactly at 5:30 am Indian time, which is midnight in UTC, so the cause is the time zone."
+          },
+          "key_justification": "Time zones, entity keys, column types and mapping tables are common silent sources of wrong totals.",
+          "points": 10
+        }
+      ]
+    },
+    {
+      "id": "dan-4",
+      "order": 4,
+      "ladder_stage": "trade_offs",
+      "title": "Dashboards People Actually Use at Sapna Cinemas",
+      "difficulty": 4,
+      "estimated_minutes": 14,
+      "background": "Sapna Cinemas is a fictional chain of 40 screens across Gujarat. The CEO has asked for a new dashboard covering ticket sales, food and drink, occupancy and marketing, and has a long wish list. Theatre managers plan staffing each morning, the marketing team wants to share data with an outside agency, and the data team must choose how fresh the data should be. A streaming setup would cost about five times as much to run as the current daily batch job.",
+      "constraints": [
+        "Theatre managers make staffing decisions once each morning",
+        "The data budget is fixed for the year",
+        "Customer phone numbers and emails are personal data that must be protected"
+      ],
+      "tests_topics": [
+        "Dashboard design for an audience",
+        "Data freshness versus cost",
+        "Honest charts",
+        "Data sharing and privacy"
+      ],
+      "map_node": {"x": 0.7, "y": 0.36, "label": "Cinema Marquee"},
+      "questions": [
+        {
+          "id": "dan-4-q1",
+          "type": "single_choice",
+          "prompt": "The CEO's wish list has 30 charts. What should the analyst build for the CEO's own view?",
+          "options": [
+            {"id": "a", "text": "All 30 charts on one long page, so nothing at all is left out"},
+            {"id": "b", "text": "A single table of every raw transaction, filterable by column"},
+            {"id": "c", "text": "One chart per theatre, 40 in all, each with every metric shown"},
+            {"id": "d", "text": "A few key metrics against targets, with drill-downs for detail"}
+          ],
+          "correct": ["d"],
+          "explanation": "An executive needs to see quickly whether the business is on track, so a small set of headline metrics compared with targets answers that at a glance. Drill-down links keep the detail available without crowding the first screen.",
+          "why_others_wrong": {
+            "a": "Thirty charts on one page bury the few numbers that matter and are rarely read in full.",
+            "b": "Raw transactions push all the analysis work onto the CEO.",
+            "c": "Forty small charts make comparison hard and hide the overall picture."
+          },
+          "key_justification": "Design for the audience's decision: a few key metrics against targets, with detail on demand.",
+          "points": 10
+        },
+        {
+          "id": "dan-4-q2",
+          "type": "single_choice",
+          "prompt": "Should the data team build a real-time streaming pipeline for the managers' staffing view?",
+          "options": [
+            {"id": "a", "text": "Yes, because fresher data is always worth paying more for"},
+            {"id": "b", "text": "No; keep a daily refresh that is ready before managers plan"},
+            {"id": "c", "text": "Yes, but refresh the data only once a week to save money"},
+            {"id": "d", "text": "No; stop refreshing it and send managers a yearly report instead"}
+          ],
+          "correct": ["b"],
+          "explanation": "Managers plan staffing once each morning, so data that is complete by then supports every decision they make. Paying five times more for second-by-second freshness would not change any of those decisions.",
+          "why_others_wrong": {
+            "a": "Freshness only has value if someone acts on it sooner; here nobody does.",
+            "c": "Weekly data is too stale for daily staffing, and the option contradicts itself.",
+            "d": "A yearly report cannot support daily staffing decisions."
+          },
+          "key_justification": "Match data freshness to how often decisions are made, not to what is technically possible.",
+          "points": 10
+        },
+        {
+          "id": "dan-4-q3",
+          "type": "single_choice",
+          "prompt": "A draft bar chart shows occupancy of 62% at one theatre and 64% at another, with the y-axis starting at 60%. The second bar looks twice as tall. What should the analyst do?",
+          "options": [
+            {"id": "a", "text": "Keep the axis as it is, because the difference becomes easier to see"},
+            {"id": "b", "text": "Switch to a 3D bar chart so the gap between the bars looks smaller"},
+            {"id": "c", "text": "Start the bar chart's y-axis at zero so bar heights match values"},
+            {"id": "d", "text": "Remove the axis labels so that viewers judge only by bar height"}
+          ],
+          "correct": ["c"],
+          "explanation": "A bar's length is read as its value, so a bar chart should start at zero; otherwise a 2-point gap looks like a doubling. If small differences really matter, a dot or line chart with a clearly labelled axis is a more honest way to zoom in.",
+          "why_others_wrong": {
+            "a": "Making the gap easier to see by exaggerating it misleads anyone who reads the bars.",
+            "b": "3D effects distort size even more and make values harder to read accurately.",
+            "d": "Without labels, viewers cannot see the true values and are left with the misleading heights."
+          },
+          "key_justification": "Bar charts must start at zero so that length represents value.",
+          "points": 10
+        },
+        {
+          "id": "dan-4-q4",
+          "type": "multi_select",
+          "prompt": "The outside marketing agency wants data to plan a loyalty campaign. Which two practices should the analyst follow?",
+          "options": [
+            {"id": "a", "text": "Share only the fields the campaign needs, nothing beyond them"},
+            {"id": "b", "text": "Email a spreadsheet that lists every customer's phone number"},
+            {"id": "c", "text": "Give the agency a login to the production database for speed"},
+            {"id": "d", "text": "Aggregate or pseudonymise the data so no one is identifiable"},
+            {"id": "e", "text": "Send a full database backup so the agency can explore freely"}
+          ],
+          "correct": ["a", "d"],
+          "explanation": "Sharing only what the campaign needs limits what can leak or be misused. Aggregating, or replacing identities with pseudonymous ids, lets the agency see patterns such as how often members visit without receiving phone numbers or emails.",
+          "why_others_wrong": {
+            "b": "Phone numbers are personal data, and an emailed spreadsheet is easily forwarded and leaked.",
+            "c": "Production access exposes everything and can also affect the live system.",
+            "e": "A full backup shares far more personal data than any campaign needs."
+          },
+          "key_justification": "Share the minimum necessary data, de-identified wherever possible.",
+          "points": 10
+        }
+      ]
+    },
+    {
+      "id": "dan-5",
+      "order": 5,
+      "ladder_stage": "end_to_end",
+      "title": "Finding Why Complaints Rose at Nirmal Purifiers",
+      "difficulty": 5,
+      "estimated_minutes": 16,
+      "background": "Nirmal Purifiers is a fictional company that sells and services water purifiers across Tamil Nadu and Kerala. Customer complaints have risen 40% over two quarters, and the leadership team wants to know why and what to do, with a presentation in three weeks. Data is spread across the CRM, the technician app's visit logs, the installation records and a call-centre system. A new purifier model launched six months ago, and a technician training programme is being rolled out region by region.",
+      "constraints": [
+        "Leadership wants a recommendation, not only charts",
+        "Regions differ greatly in how many customers they have",
+        "The training rollout has reached only half the regions so far"
+      ],
+      "tests_topics": [
+        "The analytics process",
+        "Correlation versus causation",
+        "Cohort analysis",
+        "Communicating findings"
+      ],
+      "map_node": {"x": 0.88, "y": 0.16, "label": "Valley Lookout"},
+      "questions": [
+        {
+          "id": "dan-5-q1",
+          "type": "order",
+          "prompt": "Put the steps of this analysis in order.",
+          "options": [
+            {"id": "a", "text": "Explore and analyse the patterns behind the rise in complaints"},
+            {"id": "b", "text": "Agree the exact business question and decision with leadership"},
+            {"id": "c", "text": "Present the findings with a clear recommendation and its impact"},
+            {"id": "d", "text": "Find and pull the data from the CRM, visit logs and call centre"},
+            {"id": "e", "text": "Clean the data and check that totals match each source system"}
+          ],
+          "correct": ["b", "d", "e", "a", "c"],
+          "explanation": "The question comes first, because it decides which data is needed. The data is then gathered, cleaned and checked against each source before any analysis, and the recommendation is presented once the analysis supports it.",
+          "why_others_wrong": {
+            "common_mistake": "Analysing the raw data before cleaning and reconciling it, which risks building conclusions on duplicates or missing records that the checks would have caught."
+          },
+          "key_justification": "Question, gather, clean and validate, analyse, then communicate.",
+          "points": 10
+        },
+        {
+          "id": "dan-5-q2",
+          "type": "single_choice",
+          "prompt": "Areas with more technician visits also have more complaints. A manager concludes that visits cause complaints and wants to cut visits. What is the best response?",
+          "options": [
+            {"id": "a", "text": "Agree, and cut visits in the areas with the most complaints first"},
+            {"id": "b", "text": "Agree, because a strong correlation proves that one causes the other"},
+            {"id": "c", "text": "Disagree; complaints likely cause visits, so check the timing first"},
+            {"id": "d", "text": "Disagree, because correlations between two business metrics are random"}
+          ],
+          "correct": ["c"],
+          "explanation": "Correlation alone does not show direction: a complaint usually triggers a technician visit, so the arrow probably runs the other way. Checking whether complaints come before or after visits, and what the visits were for, separates the possibilities before anyone cuts service.",
+          "why_others_wrong": {
+            "a": "Cutting visits in the worst areas would leave the customers with the most problems without help.",
+            "b": "A strong correlation can come from reverse causation or a shared cause; it does not prove one causes the other.",
+            "d": "The correlation is probably real; the issue is what it means, not whether it exists."
+          },
+          "key_justification": "Correlation does not establish causation or its direction; check timing and mechanism.",
+          "points": 10
+        },
+        {
+          "id": "dan-5-q3",
+          "type": "single_choice",
+          "prompt": "Is the new purifier model causing more complaints? Newer machines have had less time to develop faults. Which analysis compares the models fairly?",
+          "options": [
+            {"id": "a", "text": "Compare all-time complaint totals for the old and new models"},
+            {"id": "b", "text": "Compare complaint rates at the same age, by installation month"},
+            {"id": "c", "text": "Compare last month's complaints for each model, with no other step"},
+            {"id": "d", "text": "Count the customers who gave each model five stars in a survey"}
+          ],
+          "correct": ["b"],
+          "explanation": "A cohort analysis groups machines by when they were installed and compares complaint rates at the same age, for example in their first three months. That removes the advantage older machines have had in time to break, and using rates rather than totals removes differences in how many were sold.",
+          "why_others_wrong": {
+            "a": "The old model has been installed for years and sold in larger numbers, so its totals are bound to be higher.",
+            "c": "One month mixes machines of very different ages, so age is still confounded with the model.",
+            "d": "Ratings measure satisfaction from those who answered, not complaint rates."
+          },
+          "key_justification": "Compare cohorts at the same age using rates to remove time and size effects.",
+          "points": 10
+        },
+        {
+          "id": "dan-5-q4",
+          "type": "multi_select",
+          "prompt": "Which two choices will make the leadership presentation most effective?",
+          "options": [
+            {"id": "a", "text": "Open with the answer and its impact in rupees, then the evidence"},
+            {"id": "b", "text": "Show every one of the 40 SQL queries so the method is complete"},
+            {"id": "c", "text": "Give each chart a title that states its takeaway in plain words"},
+            {"id": "d", "text": "Leave out the data's limitations so the case sounds stronger"},
+            {"id": "e", "text": "Start with p-values and model settings to show it is rigorous"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "Leaders need the conclusion and what it is worth first, with evidence following to support it. A chart titled with its takeaway, such as 'Complaints for the new model are twice the old model's at three months', tells them what to see instead of leaving them to work it out.",
+          "why_others_wrong": {
+            "b": "The queries belong in an appendix; on slides they bury the message.",
+            "d": "Hiding limitations damages trust when they surface and can lead to poor decisions.",
+            "e": "Technical detail first loses a non-technical audience before the point is made."
+          },
+          "key_justification": "Lead with the recommendation and make every chart state its point.",
+          "points": 10
+        },
+        {
+          "id": "dan-5-q5",
+          "type": "match",
+          "prompt": "Match each leadership question to the analysis that answers it best.",
+          "items": [
+            {"id": "i1", "text": "Which region's complaints grew fastest?"},
+            {"id": "i2", "text": "Did the technician training reduce repeat visits?"},
+            {"id": "i3", "text": "How many complaints should we plan for next quarter?"},
+            {"id": "i4", "text": "Do machines installed in the monsoon fail sooner?"}
+          ],
+          "targets": [
+            {"id": "t1", "text": "Compare trained and untrained regions over the same months"},
+            {"id": "t2", "text": "Compare complaint rates by installation-month cohort"},
+            {"id": "t3", "text": "Compare growth rates per customer, not raw complaint counts"},
+            {"id": "t4", "text": "Build a time-series forecast that accounts for seasonal patterns"}
+          ],
+          "correct": {"i1": "t3", "i2": "t1", "i3": "t4", "i4": "t2"},
+          "explanation": "Regions differ in size, so growth should be compared as rates. The training's effect can be estimated by comparing regions that have it with regions that do not yet, over the same months, a forecast needs to model seasonality, and monsoon installations are a cohort compared with other installation months.",
+          "why_others_wrong": {
+            "common_mistake": "Judging the training with a simple before-and-after comparison in trained regions: complaints are rising everywhere, so untrained regions over the same period are needed to separate the training's effect from the overall trend."
+          },
+          "key_justification": "Pick the comparison that removes the main confounder: size, the overall trend, seasonality or install age.",
+          "points": 10
+        }
+      ]
+    }
+  ]
+}
