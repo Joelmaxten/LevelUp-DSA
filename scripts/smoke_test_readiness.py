@@ -260,9 +260,72 @@ def test_route():
             db.session.commit()
 
 
+# ---------------------------------------------------------------- dashboard for three user states
+def test_dashboard_states():
+    import re
+
+    from app import create_app, db
+    from app.models import CareerProfile, User
+    from scripts._csrf import enable_csrf_client
+
+    app = create_app()
+    enable_csrf_client(app)
+    suffix = random.randint(100000, 999999)
+    user_ids = []
+    unsafe = re.compile(r"\.innerHTML|innerHTML\s*=|outerHTML\s*=|insertAdjacentHTML|document\.write")
+    scripts_text = "".join(Path(f"app/static/js/{n}").read_text(encoding="utf-8") for n in ("ui.js", "results.js"))
+    check("the scripts the dashboard loads never assign HTML (no .innerHTML / insertAdjacentHTML / document.write)", not unsafe.search(scripts_text))
+
+    def new_user(tag, top_path=None):
+        client = app.test_client()
+        email = f"dash{tag}{suffix}@example.com"
+        resp = client.post("/signup", json={"name": "Dash Test", "email": email, "password": "SmokeTest#123"})
+        uid = resp.get_json()["user_id"]
+        user_ids.append(uid)
+        client.post("/login", json={"email": email, "password": "SmokeTest#123"})
+        if top_path:
+            with app.app_context():
+                db.session.add(CareerProfile(user_id=uid, career_ranking=[{"career_path": top_path, "score": 9}], conversation_signals={}))
+                db.session.commit()
+        return client
+
+    states = [
+        ("brand-new account (nothing saved)", new_user("n"), {"dsa_unavailable": True, "dsa": None}),
+        ("quiz result only (top path has scenarios)", new_user("q", "Machine Learning Engineering"), {"dsa_unavailable": False, "dsa": 0.0}),
+        ("quiz result whose top path has no scenario file", new_user("x", "Cybersecurity"), {"dsa_unavailable": True, "dsa": None}),
+    ]
+    try:
+        for label, client, want in states:
+            page = client.get("/dashboard")
+            html = page.get_data(as_text=True)
+            check(f"{label}: GET /dashboard renders the page (200, no redirect)", page.status_code == 200 and "dashboard-box" in html)
+            check(f"{label}: page has the readiness card markup and loads /readiness",
+                  "readinessCard" in html and 'getJson("/readiness")' in html and "Placement readiness" in html and "not available yet" in html)
+            check(f"{label}: page has no HTML assignment", not unsafe.search(html))
+            resp = client.get("/readiness")
+            body = resp.get_json()
+            check(f"{label}: GET /readiness is valid JSON with the full shape",
+                  resp.status_code == 200 and resp.mimetype == "application/json"
+                  and set(body) == {"score", "ready", "threshold", "components", "weights", "unavailable"})
+            check(f"{label}: score 0.0 / 100, not ready, roadmap and skill_gap not available",
+                  body["score"] == 0.0 and body["ready"] is False and {"roadmap", "skill_gap"} <= set(body["unavailable"])
+                  and body["components"]["streak"] == 0.0)
+            check(f"{label}: scenarios component is {'unavailable' if want['dsa_unavailable'] else '0.0 (available)'}",
+                  ("dsa" in body["unavailable"]) == want["dsa_unavailable"] and body["components"]["dsa"] == want["dsa"])
+        # the home page still offers the first-time flow to a new account
+        check("home page for a brand-new account still offers the quiz", b"/quiz" in states[0][1].get("/").data)
+    finally:
+        with app.app_context():
+            for uid in user_ids:
+                CareerProfile.query.filter_by(user_id=uid).delete()
+                User.query.filter_by(id=uid).delete()
+            db.session.commit()
+
+
 def main():
     test_pure()
     test_route()
+    test_dashboard_states()
     failed = [d for d, ok in checks if not ok]
     print(f"\n{len(checks) - len(failed)}/{len(checks)} checks passed")
     for d in failed:

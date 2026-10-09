@@ -120,11 +120,8 @@ def create_app(config_name=None):
     @app.route("/dashboard", methods=["GET"])
     @page_login_required
     def dashboard_page():
-        # Nothing saved yet = a first-time user: send them to the home page, where
-        # career guidance, the resume analyzer and DSA practice are all offered
-        # independently, rather than an empty dashboard or a forced start at the quiz.
-        if not user_has_saved_work(current_user.id):
-            return redirect("/")
+        # Always renders for a logged-in user. A brand-new account gets the empty states and the Placement
+        # Readiness card (0.0 / 100) instead of a silent bounce to the home page.
         return render_template("dashboard.html")
 
     @app.route("/quiz", methods=["GET"])

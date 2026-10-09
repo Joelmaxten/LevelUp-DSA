@@ -172,7 +172,7 @@ function readinessCard(r) {
         el("div", { className: "cluster between" },
             el("h2", { className: "h3", id: "ready-title", text: "Placement readiness" }),
             el("span", { className: `chip ${r.ready ? "chip-ink" : "chip-line"}`, text: r.ready ? "Placement ready" : `Not ready yet (${r.threshold} needed)` })),
-        el("p", { className: "num", text: `${r.score} / 100` }),
+        el("p", { className: "num", text: `${r.score.toFixed(1)} / 100` }),
         el("ul", { className: "roadmap-list" }, ...rows));
 }
 
