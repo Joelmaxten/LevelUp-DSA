@@ -1,0 +1,606 @@
+{
+  "schema_version": 1,
+  "path": "Data Engineering",
+  "map": {
+    "scene_id": "data-engineering",
+    "theme": "A canal city of locks, sluice gates and waterwheels, where a supermarket warehouse on the quay, a power station with humming meters, a food depot by a busy bridge, a lending house with a counting room and a water tower over the reservoir are linked by flowing canals and lock gates. The palette is deep aqua, moss green and lamp gold, and the mood moves from steady routine at the warehouse to calm mastery at the reservoir.",
+    "edges": [["den-1", "den-2"], ["den-2", "den-3"], ["den-3", "den-4"], ["den-4", "den-5"]]
+  },
+  "scenarios": [
+    {
+      "id": "den-1",
+      "order": 1,
+      "ladder_stage": "foundations",
+      "title": "Organising the Sales Data at Sitara Retail",
+      "difficulty": 1,
+      "estimated_minutes": 8,
+      "background": "Sitara Retail is a fictional chain of 120 supermarkets in Kerala. Every night each store's billing system exports the day's sales as CSV files, and three years of them now total about 2 billion rows. Analysts query them for monthly reports, which take hours because every query reads every file. A new data engineer is asked to set up proper storage and checks before the team adds more sources.",
+      "constraints": [
+        "Most reports filter by date and store",
+        "Business logic in reports changes a few times a year",
+        "The daily sales table is used by the finance team every morning"
+      ],
+      "tests_topics": [
+        "File formats and partitioning",
+        "Keeping raw data",
+        "Data quality checks",
+        "Core data engineering terms"
+      ],
+      "map_node": {"x": 0.1, "y": 0.84, "label": "Quayside Warehouse"},
+      "questions": [
+        {
+          "id": "den-1-q1",
+          "type": "single_choice",
+          "prompt": "Queries over 2 billion rows of CSV files read every file and take hours. How should the data be stored for analytics?",
+          "options": [
+            {"id": "a", "text": "Merge all the CSV files into one giant CSV file kept on one disk"},
+            {"id": "b", "text": "Save the rows as JSON lines, since they are easier to read by eye"},
+            {"id": "c", "text": "Compressed Parquet, partitioned by sale date, with store as a column"},
+            {"id": "d", "text": "Store each sale as its own small file so they can be read in parallel"}
+          ],
+          "correct": ["c"],
+          "explanation": "Parquet stores data by column and compresses it, so a query reading three columns skips the rest of the data. Partitioning by sale date lets a query for one month read only that month's files, which together cut both run time and cost dramatically.",
+          "why_others_wrong": {
+            "a": "One huge CSV is still row-based and uncompressed, and every query still reads all of it.",
+            "b": "JSON is even larger than CSV and still row-based.",
+            "d": "Billions of tiny files overwhelm the storage and query engine with per-file overhead."
+          },
+          "key_justification": "Use columnar, compressed formats partitioned by the common filter column.",
+          "points": 10
+        },
+        {
+          "id": "den-1-q2",
+          "type": "single_choice",
+          "prompt": "A colleague suggests deleting the raw CSV files once they are cleaned and loaded. Why should the raw data be kept unchanged?",
+          "options": [
+            {"id": "a", "text": "Raw files are always smaller than the cleaned tables made from them"},
+            {"id": "b", "text": "Analysts should run their monthly reports directly on the raw CSVs"},
+            {"id": "c", "text": "Keeping raw files means the cleaning step never needs any testing"},
+            {"id": "d", "text": "When logic changes or a bug is found, history can be reprocessed"}
+          ],
+          "correct": ["d"],
+          "explanation": "Cleaning and business rules change, and bugs are found later. Keeping the original data untouched in cheap storage means the team can rebuild any table from scratch with corrected logic, which is why many pipelines load raw data first and transform it afterwards.",
+          "why_others_wrong": {
+            "a": "Raw files are often larger than cleaned, compressed tables.",
+            "b": "Reports should use the cleaned tables; raw data is for reprocessing, not daily reporting.",
+            "c": "Transformations always need testing whether or not the raw data is kept."
+          },
+          "key_justification": "Immutable raw data lets pipelines be reprocessed when logic changes.",
+          "points": 10
+        },
+        {
+          "id": "den-1-q3",
+          "type": "multi_select",
+          "prompt": "Which two checks should run before the daily sales table is published to finance?",
+          "options": [
+            {"id": "a", "text": "The row count is within the range seen on recent similar days"},
+            {"id": "b", "text": "The pipeline ran on a weekday rather than at the weekend"},
+            {"id": "c", "text": "Key columns are not null and transaction ids are unique"},
+            {"id": "d", "text": "The output file names are shorter than fifty characters"},
+            {"id": "e", "text": "The data engineer was logged in while the pipeline ran"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "A row count far outside the usual range catches missing stores or duplicated files. Checking that key fields such as store, date and amount are filled, and that transaction ids are unique, catches broken or duplicated data before finance uses it.",
+          "why_others_wrong": {
+            "b": "Stores sell every day, so weekend runs are normal and say nothing about data quality.",
+            "d": "File name length has no bearing on whether the data is correct.",
+            "e": "Pipelines should run unattended; who is logged in does not affect the data."
+          },
+          "key_justification": "Gate publishing on volume and integrity checks such as nulls and uniqueness.",
+          "points": 10
+        },
+        {
+          "id": "den-1-q4",
+          "type": "match",
+          "prompt": "Match each term to its meaning.",
+          "items": [
+            {"id": "i1", "text": "Fact table"},
+            {"id": "i2", "text": "Dimension table"},
+            {"id": "i3", "text": "Partitioning"},
+            {"id": "i4", "text": "Data lake"}
+          ],
+          "targets": [
+            {"id": "t1", "text": "Splitting stored data by a column such as date, so less is scanned"},
+            {"id": "t2", "text": "Low-cost storage that holds raw files in many different formats"},
+            {"id": "t3", "text": "Records measurable events, such as each sale with its amount"},
+            {"id": "t4", "text": "Holds descriptive context, such as details of stores or products"}
+          ],
+          "correct": {"i1": "t3", "i2": "t4", "i3": "t1", "i4": "t2"},
+          "explanation": "A fact table holds one row per event with numbers to add up, such as quantity and amount. Dimension tables describe the who, what and where, partitioning splits data so queries read only what they need, and a data lake stores raw files cheaply in their original formats.",
+          "why_others_wrong": {
+            "common_mistake": "Putting product details in the fact table: repeating them on every sale wastes space and makes them hard to update, which is why they live in a dimension table joined by a key."
+          },
+          "key_justification": "Facts hold events and measures; dimensions hold context; partitions and lakes organise storage.",
+          "points": 10
+        }
+      ]
+    },
+    {
+      "id": "den-2",
+      "order": 2,
+      "ladder_stage": "core_decision",
+      "title": "Designing the Meter Pipeline at Swachh Urja",
+      "difficulty": 2,
+      "estimated_minutes": 10,
+      "background": "Swachh Urja is a fictional electricity distribution company in Gujarat with 2 million smart meters that send a reading every 15 minutes. Bills are produced monthly, but the operations team wants outages detected within a minute. Today the pipeline is twelve cron scripts that rely on running at the right times, a failed nightly load was rerun and doubled a day's readings, and the customer table is copied from the billing database with a full dump every night.",
+      "constraints": [
+        "Outage alerts are needed within one minute",
+        "Bills must count every reading exactly once",
+        "The billing database must not be slowed during the day"
+      ],
+      "tests_topics": [
+        "Batch versus streaming",
+        "Idempotent loads",
+        "Workflow orchestration",
+        "Change data capture"
+      ],
+      "map_node": {"x": 0.3, "y": 0.66, "label": "Humming Power Station"},
+      "questions": [
+        {
+          "id": "den-2-q1",
+          "type": "single_choice",
+          "prompt": "Bills are monthly, but outages must be detected within a minute. How should the readings be processed?",
+          "options": [
+            {"id": "a", "text": "One monthly batch job for both the billing and the outage alerts"},
+            {"id": "b", "text": "Stream processing for outage alerts, batch jobs for billing"},
+            {"id": "c", "text": "Stream everything, including billing, because streams are newer"},
+            {"id": "d", "text": "A nightly batch job that alerts staff to outages the next morning"}
+          ],
+          "correct": ["b"],
+          "explanation": "Outage detection needs results within seconds, which stream processing over the incoming readings provides. Billing needs complete, carefully checked monthly totals, which scheduled batch jobs produce more simply and cheaply. Each workload gets the approach that fits its freshness need.",
+          "why_others_wrong": {
+            "a": "A monthly job detects outages weeks too late.",
+            "c": "Streaming billing adds complexity and cost for numbers needed once a month.",
+            "d": "A next-morning alert misses the one-minute requirement by hours."
+          },
+          "key_justification": "Use streaming where results are needed in seconds and batch where periodic totals suffice.",
+          "points": 10
+        },
+        {
+          "id": "den-2-q2",
+          "type": "single_choice",
+          "prompt": "A failed nightly load was rerun and doubled that day's readings, because it appends rows. How should the load be designed?",
+          "options": [
+            {"id": "a", "text": "Make reruns replace the day's partition, or merge rows on their keys"},
+            {"id": "b", "text": "Never rerun a failed job; enter the missing day by hand instead"},
+            {"id": "c", "text": "Keep appending, then halve the totals whenever a rerun happened"},
+            {"id": "d", "text": "Append the rows twice on every run so that totals stay consistent"}
+          ],
+          "correct": ["a"],
+          "explanation": "An idempotent load gives the same result however many times it runs. Overwriting the whole partition for that day, or merging on a unique key such as meter id and reading time, means a rerun replaces the data instead of adding a second copy.",
+          "why_others_wrong": {
+            "b": "Failures are normal, and manual fixes are slow and error-prone.",
+            "c": "Correcting totals afterwards is fragile and breaks if a job runs three times or fails partway.",
+            "d": "Deliberately duplicating data makes every reading count twice."
+          },
+          "key_justification": "Make loads idempotent with partition overwrites or key-based merges.",
+          "points": 10
+        },
+        {
+          "id": "den-2-q3",
+          "type": "single_choice",
+          "prompt": "The pipeline is twelve cron scripts timed to run one after another. When one runs late, the next runs on incomplete data. What should replace them?",
+          "options": [
+            {"id": "a", "text": "Put longer gaps between the cron times so each one can finish"},
+            {"id": "b", "text": "Merge all twelve scripts into one script run once a night by cron"},
+            {"id": "c", "text": "An orchestrator running the steps as a DAG with retries and alerts"},
+            {"id": "d", "text": "Have an engineer start each of the twelve scripts by hand each day"}
+          ],
+          "correct": ["c"],
+          "explanation": "A workflow orchestrator such as Airflow models the steps as a directed acyclic graph, so each step starts only after the steps it depends on have succeeded. Built-in retries, alerts and run history replace guesswork about timing.",
+          "why_others_wrong": {
+            "a": "Wider gaps waste time and still fail whenever a step runs longer than expected.",
+            "b": "One giant script cannot retry a single failed step and is hard to debug.",
+            "d": "Manual runs depend on one person and do not scale."
+          },
+          "key_justification": "Orchestrate dependent steps as a DAG with retries and alerting instead of timed cron jobs.",
+          "points": 10
+        },
+        {
+          "id": "den-2-q4",
+          "type": "multi_select",
+          "prompt": "The customer table is fully dumped from the billing database every night. Which two choices keep the warehouse fresh with little load on billing?",
+          "options": [
+            {"id": "a", "text": "Capture changes from the database's log with a CDC tool"},
+            {"id": "b", "text": "Run SELECT * on the whole table every five minutes all day"},
+            {"id": "c", "text": "Apply the changes as merges on the customer's primary key"},
+            {"id": "d", "text": "Copy only rows whose id is higher than the last one copied"},
+            {"id": "e", "text": "Point every dashboard at the live billing database instead"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "Change data capture reads inserts, updates and deletes from the database's transaction log, which adds little load and misses nothing. Merging those changes on the primary key keeps the warehouse copy current without reloading the whole table.",
+          "why_others_wrong": {
+            "b": "Frequent full scans put heavy load on the billing database during the day.",
+            "d": "Tracking only new ids misses updates and deletes to existing customers.",
+            "e": "Analytical queries on the live database slow billing, which the constraints forbid."
+          },
+          "key_justification": "Use log-based change data capture and key-based merges for efficient incremental sync.",
+          "points": 10
+        },
+        {
+          "id": "den-2-q5",
+          "type": "match",
+          "prompt": "Match each requirement to the design choice that fits it.",
+          "items": [
+            {"id": "i1", "text": "Analysts query three years of readings by month and region"},
+            {"id": "i2", "text": "Detect signs of meter tampering within seconds"},
+            {"id": "i3", "text": "Rebuild a table after fixing a bug in its transformation logic"},
+            {"id": "i4", "text": "See which pipelines feed the managing director's dashboard"}
+          ],
+          "targets": [
+            {"id": "t1", "text": "Keep raw data unchanged and backfill the transformation"},
+            {"id": "t2", "text": "A lineage view in the data catalog"},
+            {"id": "t3", "text": "Columnar storage partitioned by date"},
+            {"id": "t4", "text": "Stream processing with time-windowed aggregates"}
+          ],
+          "correct": {"i1": "t3", "i2": "t4", "i3": "t1", "i4": "t2"},
+          "explanation": "Long-range analytical queries run fastest on columnar storage partitioned by date. Seconds-level detection needs windowed stream processing, fixing a logic bug means re-running the transformation over the preserved raw data, and lineage in a data catalog shows which pipelines and tables feed a dashboard.",
+          "why_others_wrong": {
+            "common_mistake": "Patching the wrong rows by hand after a logic bug: rebuilding from preserved raw data is repeatable and fixes every affected row, including ones nobody noticed."
+          },
+          "key_justification": "Each requirement maps to a storage, processing, recovery or governance choice.",
+          "points": 10
+        }
+      ]
+    },
+    {
+      "id": "den-3",
+      "order": 3,
+      "ladder_stage": "debugging",
+      "title": "Fixing the Numbers at Bhojan Express",
+      "difficulty": 3,
+      "estimated_minutes": 12,
+      "background": "Bhojan Express is a fictional food-delivery company in Hyderabad. Its data platform runs Spark jobs that load order events into a warehouse each night at 1 am. Finance reports that warehouse revenue is lower than their own numbers, a pipeline silently loaded empty amounts after an upstream change, queries on the 5 TB orders table are slow, one Spark job takes two hours although most of its tasks finish in minutes, and dashboards show some puzzling figures.",
+      "constraints": [
+        "Delivery-app events can reach the platform hours after they happen",
+        "The orders table grows by 20 GB a day",
+        "The upstream app team deploys several times a week"
+      ],
+      "tests_topics": [
+        "Late-arriving data",
+        "Schema changes and data contracts",
+        "Partition pruning",
+        "Data skew and pipeline symptoms"
+      ],
+      "map_node": {"x": 0.5, "y": 0.5, "label": "Bridgeside Food Depot"},
+      "questions": [
+        {
+          "id": "den-3-q1",
+          "type": "single_choice",
+          "prompt": "Warehouse revenue for each day is a little lower than finance's number. Some delivery events reach the platform hours late, after the 1 am job has processed that day. What fixes this?",
+          "options": [
+            {"id": "a", "text": "Tell finance to subtract the difference from their own numbers"},
+            {"id": "b", "text": "Reprocess the last few days on each run so late events are counted"},
+            {"id": "c", "text": "Throw away any event that arrives after the 1 am job has run"},
+            {"id": "d", "text": "Move the job from 1 am to midnight so that it runs a bit sooner"}
+          ],
+          "correct": ["b"],
+          "explanation": "Events are assigned to the day they happened, but some arrive after that day was processed, so they are never counted. Re-processing a rolling window of recent days by event time, with an idempotent load, lets late events land in the right day.",
+          "why_others_wrong": {
+            "a": "Finance's numbers are right; the warehouse is missing data.",
+            "c": "Dropping late events makes the shortfall permanent.",
+            "d": "Running earlier gives even less time for late events to arrive."
+          },
+          "key_justification": "Handle late-arriving data by reprocessing a recent window by event time.",
+          "points": 10
+        },
+        {
+          "id": "den-3-q2",
+          "type": "single_choice",
+          "prompt": "The app team renamed the field 'amount' to 'order_amount' without telling anyone, and the pipeline loaded empty amounts for two days. What best prevents this?",
+          "options": [
+            {"id": "a", "text": "Ask the app team to never change any field names in the future"},
+            {"id": "b", "text": "Treat missing columns as zero so the pipeline keeps on running"},
+            {"id": "c", "text": "An agreed data contract, with schema checks that fail loudly"},
+            {"id": "d", "text": "Check the warehouse by hand every Monday for any empty values"}
+          ],
+          "correct": ["c"],
+          "explanation": "A data contract records the fields, types and meaning the pipeline depends on, and producers agree to announce breaking changes. Validating each batch against it, and failing with an alert when a required field is missing, turns a silent data error into an immediate, visible failure.",
+          "why_others_wrong": {
+            "a": "Fields legitimately change; the problem is changing them without agreement or checks.",
+            "b": "Defaulting to zero hides the problem and corrupts revenue figures.",
+            "d": "A weekly manual check finds problems days late, after reports have gone out."
+          },
+          "key_justification": "Use data contracts and schema validation that fail loudly on breaking changes.",
+          "points": 10
+        },
+        {
+          "id": "den-3-q3",
+          "type": "single_choice",
+          "prompt": "A query for one week of orders scans the whole 5 TB table. The table has no partitions, and the query filters with WHERE CAST(order_time AS DATE) BETWEEN ... What should change?",
+          "options": [
+            {"id": "a", "text": "Partition the table by order date and filter on that column"},
+            {"id": "b", "text": "Add more worker nodes so the full 5 TB scan finishes sooner"},
+            {"id": "c", "text": "Ask analysts to query only once a week so the cost is lower"},
+            {"id": "d", "text": "Convert the table back into CSV files so it is simpler to read"}
+          ],
+          "correct": ["a"],
+          "explanation": "With the table partitioned by order date, a filter directly on that partition column lets the engine skip every partition outside the week, called partition pruning. The query then reads a few hundred gigabytes instead of 5 TB.",
+          "why_others_wrong": {
+            "b": "More nodes still read all 5 TB, so cost stays high and keeps growing.",
+            "c": "Rationing queries hurts analysts and does not fix the cause.",
+            "d": "CSV is slower to scan and cannot skip columns."
+          },
+          "key_justification": "Partition by the common filter column and filter on it directly so partitions are pruned.",
+          "points": 10
+        },
+        {
+          "id": "den-3-q4",
+          "type": "multi_select",
+          "prompt": "One Spark task runs for two hours while the others finish in minutes. The job groups by city, and Hyderabad has far more orders than any other city. Which two fixes help?",
+          "options": [
+            {"id": "a", "text": "Salt the hot key so Hyderabad's rows spread across tasks"},
+            {"id": "b", "text": "Give the driver much more memory and change nothing else"},
+            {"id": "c", "text": "Turn on Spark's adaptive handling of skewed partitions"},
+            {"id": "d", "text": "Reduce the job to a single partition so it all runs once"},
+            {"id": "e", "text": "Rerun the job until it happens to finish more quickly"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "This is data skew: one key holds most of the rows, so one task does most of the work. Adding a random salt to the hot key splits it across many tasks, which are combined afterwards, and Spark's adaptive query execution can also split skewed partitions automatically, especially in joins.",
+          "why_others_wrong": {
+            "b": "The slow work runs on an executor, not the driver.",
+            "d": "One partition puts all the work on a single task, which is even slower.",
+            "e": "The skew is in the data, so every rerun is just as slow."
+          },
+          "key_justification": "Fix data skew by splitting hot keys or using adaptive skew handling.",
+          "points": 10
+        },
+        {
+          "id": "den-3-q5",
+          "type": "match",
+          "prompt": "Match each symptom to its most likely cause.",
+          "items": [
+            {"id": "i1", "text": "Duplicate orders appear after Tuesday's failed job was retried"},
+            {"id": "i2", "text": "Last year's orders now show each customer's current city"},
+            {"id": "i3", "text": "Order counts double after joining orders to the restaurant table"},
+            {"id": "i4", "text": "At 11 am the dashboard still shows the day before yesterday"}
+          ],
+          "targets": [
+            {"id": "t1", "text": "The restaurant dimension has duplicate keys"},
+            {"id": "t2", "text": "The load appends rows instead of being idempotent"},
+            {"id": "t3", "text": "An upstream job is late and nothing checks freshness"},
+            {"id": "t4", "text": "The customer dimension overwrites history in place"}
+          ],
+          "correct": {"i1": "t2", "i2": "t4", "i3": "t1", "i4": "t3"},
+          "explanation": "Duplicates after a retry mean the load added a second copy instead of replacing it. Past orders showing current details mean the dimension keeps no history, doubling after a join means the joined table has more than one row per key, and stale data without an alert means no freshness check catches a late upstream job.",
+          "why_others_wrong": {
+            "common_mistake": "Blaming the doubled counts on duplicate orders: the orders themselves are unique, and the extra rows come from matching each order to two copies of the same restaurant."
+          },
+          "key_justification": "Retries, history, join keys and freshness each produce a recognisable symptom.",
+          "points": 10
+        }
+      ]
+    },
+    {
+      "id": "den-4",
+      "order": 4,
+      "ladder_stage": "trade_offs",
+      "title": "Balancing Access, Cost and History at Arth Lending",
+      "difficulty": 4,
+      "estimated_minutes": 14,
+      "background": "Arth Lending is a fictional digital lender in Noida that gives small business loans. Its warehouse holds borrowers' PAN numbers, phone numbers, loan histories and credit limits that change over time. Analysts want broad access to study repayment behaviour, the monthly warehouse bill tripled after analysts started running SELECT * on a 10 TB table, risk models need credit limits as they were at each past date, and the CEO is asking for a 'real-time' disbursal dashboard that she reviews each morning.",
+      "constraints": [
+        "Personal and financial data must be protected under Indian law",
+        "The data budget is fixed for the year",
+        "Risk models must reproduce past decisions exactly"
+      ],
+      "tests_topics": [
+        "Protecting personal data",
+        "Controlling warehouse cost",
+        "Slowly changing dimensions",
+        "Matching freshness to need"
+      ],
+      "map_node": {"x": 0.7, "y": 0.36, "label": "Counting Room"},
+      "questions": [
+        {
+          "id": "den-4-q1",
+          "type": "single_choice",
+          "prompt": "Analysts need repayment behaviour data but not PAN or phone numbers. How should access be set up?",
+          "options": [
+            {"id": "a", "text": "Give all analysts full access to the raw tables to save time"},
+            {"id": "b", "text": "Email analysts weekly CSV extracts that include all columns"},
+            {"id": "c", "text": "Mask or tokenise personal columns; limit raw data by role"},
+            {"id": "d", "text": "Block all analyst access to loan data until laws are clearer"}
+          ],
+          "correct": ["c"],
+          "explanation": "Masking or tokenising identifiers lets analysts study behaviour, and still join records through tokens, without seeing PAN or phone numbers. Role-based access keeps the raw personal columns available only to the few people whose job requires them.",
+          "why_others_wrong": {
+            "a": "Broad raw access exposes personal data to people who do not need it.",
+            "b": "Emailed extracts with personal data spread uncontrolled copies.",
+            "d": "Blocking all access stops legitimate, valuable analysis."
+          },
+          "key_justification": "Give analysts de-identified data and restrict raw personal data by role.",
+          "points": 10
+        },
+        {
+          "id": "den-4-q2",
+          "type": "single_choice",
+          "prompt": "The warehouse bill tripled because analysts run SELECT * on a 10 TB table, and the warehouse charges by data scanned. What helps most?",
+          "options": [
+            {"id": "a", "text": "Partition and cluster the table, and build summary tables"},
+            {"id": "b", "text": "Ban analysts from using the warehouse for the rest of the year"},
+            {"id": "c", "text": "Copy the whole 10 TB table again for each team of analysts"},
+            {"id": "d", "text": "Run every query twice so the results can be compared later"}
+          ],
+          "correct": ["a"],
+          "explanation": "Partitioning and clustering let queries scan only the dates and keys they need, and pre-built summary tables answer common questions from a small fraction of the data. Teaching analysts to select only needed columns and setting budget alerts keeps cost in check.",
+          "why_others_wrong": {
+            "b": "Banning analysts removes the warehouse's value.",
+            "c": "Extra copies multiply storage costs and still get fully scanned.",
+            "d": "Running queries twice doubles the cost."
+          },
+          "key_justification": "Reduce scan-based cost with partitioning, clustering and summary tables.",
+          "points": 10
+        },
+        {
+          "id": "den-4-q3",
+          "type": "single_choice",
+          "prompt": "Risk models need each borrower's credit limit as it was on any past date, but the table overwrites the old value whenever a limit changes. How should the table be designed?",
+          "options": [
+            {"id": "a", "text": "Keep overwriting, and ask the risk team to remember past values"},
+            {"id": "b", "text": "Add a new row per change, with valid-from and valid-to dates"},
+            {"id": "c", "text": "Keep just the first credit limit ever given and ignore changes"},
+            {"id": "d", "text": "Store every past limit in one comma-separated text field instead"}
+          ],
+          "correct": ["b"],
+          "explanation": "A type 2 slowly changing dimension adds a new row for each change and marks when each version was valid. A model can then join to the version that was valid on the decision date and reproduce past decisions exactly.",
+          "why_others_wrong": {
+            "a": "Overwriting destroys the history the models need.",
+            "c": "Ignoring changes makes the data wrong for every borrower whose limit changed.",
+            "d": "A text list cannot be joined or filtered by date reliably."
+          },
+          "key_justification": "Keep history with a type 2 slowly changing dimension when point-in-time accuracy matters.",
+          "points": 10
+        },
+        {
+          "id": "den-4-q4",
+          "type": "multi_select",
+          "prompt": "The CEO asks for a 'real-time' disbursal dashboard but reviews it each morning. Which two steps should the data engineer take?",
+          "options": [
+            {"id": "a", "text": "Ask what decision it supports and how fresh the data must be"},
+            {"id": "b", "text": "Build streaming at any cost, because the CEO asked for it"},
+            {"id": "c", "text": "Offer an hourly or daily refresh if it meets the real need"},
+            {"id": "d", "text": "Connect the dashboard straight to the live loans database"},
+            {"id": "e", "text": "Refuse the request, since real-time data is always too costly"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "'Real-time' often means 'up to date when I look', so understanding the decision and acceptable delay comes first. If a morning review is the use, an hourly or daily refresh meets the need at a fraction of the cost and complexity of streaming.",
+          "why_others_wrong": {
+            "b": "Building streaming without checking the need spends budget that may not be required.",
+            "d": "Analytical queries on the live database can slow loan processing.",
+            "e": "Refusing outright ignores a legitimate need that a simpler design can meet."
+          },
+          "key_justification": "Clarify the freshness the decision needs and choose the simplest design that meets it.",
+          "points": 10
+        }
+      ]
+    },
+    {
+      "id": "den-5",
+      "order": 5,
+      "ladder_stage": "end_to_end",
+      "title": "Building the NeerSathi Water Data Platform",
+      "difficulty": 5,
+      "estimated_minutes": 16,
+      "background": "NeerSathi is a fictional data platform for a city water utility in Tamil Nadu. Ten thousand sensors report flow and pressure every minute, and meters feed monthly billing. Engineers want leak alerts within two minutes, finance needs monthly billing reports, data scientists want five years of raw sensor history for models, and ward officers want a simple daily dashboard. A small data team must design the platform from ingestion to publishing.",
+      "constraints": [
+        "Leak alerts must reach engineers within two minutes",
+        "Data scientists and SQL analysts both need access",
+        "The team has four data engineers"
+      ],
+      "tests_topics": [
+        "Layered pipeline design",
+        "Lakehouse storage",
+        "Data freshness and SLAs",
+        "Governance and system design"
+      ],
+      "map_node": {"x": 0.88, "y": 0.16, "label": "Reservoir Water Tower"},
+      "questions": [
+        {
+          "id": "den-5-q1",
+          "type": "order",
+          "prompt": "Put the stages of the daily dashboard pipeline in order.",
+          "options": [
+            {"id": "a", "text": "Build aggregated tables for the ward dashboards"},
+            {"id": "b", "text": "Ingest the raw sensor files into the lake unchanged"},
+            {"id": "c", "text": "Publish the tables with documentation for analysts"},
+            {"id": "d", "text": "Clean, deduplicate and standardise the readings"},
+            {"id": "e", "text": "Run quality checks that must pass before publishing"}
+          ],
+          "correct": ["b", "d", "a", "e", "c"],
+          "explanation": "Raw data lands first, unchanged, so it can always be reprocessed. It is then cleaned and standardised, and aggregated for the dashboards. Quality checks gate the release of those aggregates, and only data that passes is published with documentation.",
+          "why_others_wrong": {
+            "common_mistake": "Cleaning the data before storing the raw copy, which throws away the originals needed to reprocess history when cleaning rules change."
+          },
+          "key_justification": "Ingest raw, clean, aggregate, check quality, then publish.",
+          "points": 10
+        },
+        {
+          "id": "den-5-q2",
+          "type": "single_choice",
+          "prompt": "Data scientists want raw files and analysts want SQL tables. Which storage design serves both best for a small team?",
+          "options": [
+            {"id": "a", "text": "A separate copy of all data for each team, kept in sync by hand"},
+            {"id": "b", "text": "Only CSV files in a shared folder that every team reads directly"},
+            {"id": "c", "text": "Only a classic warehouse, with raw files deleted once loaded"},
+            {"id": "d", "text": "A lakehouse: object storage with an open table format and SQL"}
+          ],
+          "correct": ["d"],
+          "explanation": "A lakehouse keeps data in low-cost object storage using an open table format such as Delta Lake or Apache Iceberg, which adds transactions and schema management. Data scientists read the files directly, analysts query the same tables with SQL, and the team maintains one copy.",
+          "why_others_wrong": {
+            "a": "Hand-synced copies drift apart and multiply the work and storage.",
+            "b": "Plain CSV files lack schemas, transactions and efficient querying.",
+            "c": "Deleting raw files leaves data scientists without the history they need."
+          },
+          "key_justification": "A lakehouse serves raw-file and SQL users from one governed copy.",
+          "points": 10
+        },
+        {
+          "id": "den-5-q3",
+          "type": "single_choice",
+          "prompt": "Ward officers complain that the dashboard is sometimes not updated when they open it at 9 am. What should the team put in place?",
+          "options": [
+            {"id": "a", "text": "Ask ward officers to report any stale data by phone when they see it"},
+            {"id": "b", "text": "Agree an update time, such as 7 am, and alert if a table misses it"},
+            {"id": "c", "text": "Refresh the dashboard every minute, even though it shows daily data"},
+            {"id": "d", "text": "Remove the 'last updated' time so that officers stop noticing delays"}
+          ],
+          "correct": ["b"],
+          "explanation": "A data freshness agreement states when each table must be ready. Monitoring each table's last update time against it, with an alert when a deadline is missed, lets the team fix delays before officers open the dashboard, and showing 'last updated' keeps users informed.",
+          "why_others_wrong": {
+            "a": "Relying on users to notice means the team always learns of problems last.",
+            "c": "Refreshing daily data every minute wastes resources and does not fix late upstream jobs.",
+            "d": "Hiding the update time hides the problem instead of solving it."
+          },
+          "key_justification": "Define freshness agreements and monitor them with alerts.",
+          "points": 10
+        },
+        {
+          "id": "den-5-q4",
+          "type": "multi_select",
+          "prompt": "Which two governance practices should the platform include from the start?",
+          "options": [
+            {"id": "a", "text": "A data catalog listing each table's owner and its description"},
+            {"id": "b", "text": "Give every user administrator rights so nobody is ever blocked"},
+            {"id": "c", "text": "Role-based access, with customer personal details masked"},
+            {"id": "d", "text": "Share CSV extracts by email whenever someone asks for data"},
+            {"id": "e", "text": "Skip documentation, since the column names explain themselves"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "A catalog with owners and descriptions tells people what each table means and whom to ask, which prevents misuse. Role-based access with masked personal details, such as customers' names and phone numbers on meter accounts, protects privacy while keeping data usable.",
+          "why_others_wrong": {
+            "b": "Admin rights for everyone make accidental deletion and data leaks likely.",
+            "d": "Emailed extracts create untracked copies that quickly go out of date.",
+            "e": "Column names rarely explain units, definitions or known caveats."
+          },
+          "key_justification": "Governance needs discoverable, owned data and role-based protection of personal details.",
+          "points": 10
+        },
+        {
+          "id": "den-5-q5",
+          "type": "match",
+          "prompt": "Match each user group's need to the part of the platform that serves it.",
+          "items": [
+            {"id": "i1", "text": "Engineers need leak alerts within two minutes"},
+            {"id": "i2", "text": "Finance needs accurate monthly billing reports"},
+            {"id": "i3", "text": "Data scientists train models on five years of raw readings"},
+            {"id": "i4", "text": "Ward officers view a simple daily dashboard"}
+          ],
+          "targets": [
+            {"id": "t1", "text": "Aggregated tables feeding a BI dashboard"},
+            {"id": "t2", "text": "Stream processing on incoming sensor data"},
+            {"id": "t3", "text": "A raw zone in the lake, in columnar files"},
+            {"id": "t4", "text": "Scheduled batch jobs with reconciliation checks"}
+          ],
+          "correct": {"i1": "t2", "i2": "t4", "i3": "t3", "i4": "t1"},
+          "explanation": "Two-minute leak alerts need stream processing on the incoming readings. Monthly billing suits scheduled batch jobs that reconcile totals, data scientists need the full raw history in efficient columnar files, and ward officers are best served by small aggregated tables behind a dashboard.",
+          "why_others_wrong": {
+            "common_mistake": "Running the ward dashboards straight from the raw sensor data: every view would scan millions of readings, while small aggregated tables answer them instantly."
+          },
+          "key_justification": "Serve each user group from the layer that matches its freshness and detail needs.",
+          "points": 10
+        }
+      ]
+    }
+  ]
+}
