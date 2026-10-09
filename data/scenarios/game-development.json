@@ -1,0 +1,606 @@
+{
+  "schema_version": 1,
+  "path": "Game Development",
+  "map": {
+    "scene_id": "game-development",
+    "theme": "A carnival island of floating fairgrounds, where a mud-pit kabaddi arena, a lantern maze, a neon race track, a card pavilion under silk tents and a drum stage on a cliff edge are joined by rope bridges and bouncing platforms. The palette is magenta, electric yellow and night blue, and the mood moves from playful energy at the arena to a festival roar at the drum stage.",
+    "edges": [["gam-1", "gam-2"], ["gam-2", "gam-3"], ["gam-3", "gam-4"], ["gam-4", "gam-5"]]
+  },
+  "scenarios": [
+    {
+      "id": "gam-1",
+      "order": 1,
+      "ladder_stage": "foundations",
+      "title": "First Playable of Kabaddi Rush",
+      "difficulty": 1,
+      "estimated_minutes": 8,
+      "background": "Kabaddi Rush is a fictional mobile game from a three-person indie studio in Kolkata, built in a common game engine. A raider runs into the opponent's half, tags defenders and races back. In the first playable build, the raider runs noticeably faster on a friend's 120 Hz phone than on the team's 60 Hz test phone, and the ball in a mini-game sometimes flies straight through thin walls. The team also wants to agree on basic vocabulary before hiring an artist.",
+      "constraints": [
+        "The game must play the same on 60 Hz and 120 Hz phones",
+        "The team has three people and no dedicated engine programmer",
+        "The first public demo is in six weeks"
+      ],
+      "tests_topics": [
+        "Frame-rate independence",
+        "Collision detection",
+        "The game loop",
+        "Core game vocabulary"
+      ],
+      "map_node": {"x": 0.1, "y": 0.84, "label": "Kabaddi Arena"},
+      "questions": [
+        {
+          "id": "gam-1-q1",
+          "type": "single_choice",
+          "prompt": "The raider moves 0.1 units every frame, so he runs twice as fast on the 120 Hz phone. What is the correct fix?",
+          "options": [
+            {"id": "a", "text": "Lock the game to 30 frames per second on every type of phone"},
+            {"id": "b", "text": "Halve the speed value whenever the game detects a 120 Hz screen"},
+            {"id": "c", "text": "Multiply speed by the time since the last frame when moving him"},
+            {"id": "d", "text": "Move the raider only on every second frame on 120 Hz phones"}
+          ],
+          "correct": ["c"],
+          "explanation": "Movement tied to frames runs faster when there are more frames per second. Using a speed in units per second and multiplying it by the elapsed frame time, often called delta time, makes the raider cover the same distance per second at any frame rate.",
+          "why_others_wrong": {
+            "a": "Locking to 30 fps wastes smooth screens and still breaks whenever a frame takes longer than expected.",
+            "b": "Special-casing one refresh rate fails on 90 Hz and 144 Hz phones and when frame times vary.",
+            "d": "Skipping frames makes movement stutter and still depends on the refresh rate."
+          },
+          "key_justification": "Scale movement by elapsed time so that speed does not depend on frame rate.",
+          "points": 10
+        },
+        {
+          "id": "gam-1-q2",
+          "type": "single_choice",
+          "prompt": "In the mini-game, a fast ball sometimes passes straight through a thin wall. What is happening, and what helps?",
+          "options": [
+            {"id": "a", "text": "The wall's texture is too small; use a higher-resolution image"},
+            {"id": "b", "text": "The ball skips past the wall between steps; use continuous detection"},
+            {"id": "c", "text": "The ball is too heavy; lower its mass in the physics settings"},
+            {"id": "d", "text": "The camera is too far away; move it closer to the moving ball"}
+          ],
+          "correct": ["b"],
+          "explanation": "Physics checks positions at discrete steps, so a fast object can be in front of a thin wall on one step and behind it on the next, never overlapping it. This is called tunnelling, and it is fixed with continuous collision detection on the ball, thicker colliders or smaller physics steps.",
+          "why_others_wrong": {
+            "a": "Textures only affect how the wall looks, not whether the physics engine detects a hit.",
+            "c": "Mass changes how a collision responds, not whether a collision is detected in the first place.",
+            "d": "The camera has no effect on physics."
+          },
+          "key_justification": "Fast objects tunnel through thin colliders; continuous collision detection prevents it.",
+          "points": 10
+        },
+        {
+          "id": "gam-1-q3",
+          "type": "multi_select",
+          "prompt": "Which two tasks belong inside the game's per-frame loop?",
+          "options": [
+            {"id": "a", "text": "Read the player's touch input for this frame"},
+            {"id": "b", "text": "Load every level's art and sound from storage"},
+            {"id": "c", "text": "Update character positions using elapsed time"},
+            {"id": "d", "text": "Download the global leaderboard from the server"},
+            {"id": "e", "text": "Rebuild the game's entire menu from scratch"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "Each frame the loop reads input, updates the game state, such as positions, using the elapsed time, and then draws the result. Anything slow or rarely changing belongs outside the loop, at load time or in the background.",
+          "why_others_wrong": {
+            "b": "Loading all assets every frame would make the game unplayably slow; assets load once, before the level starts.",
+            "d": "A network call every frame floods the server and stalls the game; leaderboards are fetched occasionally.",
+            "e": "Rebuilding the menu each frame wastes time on something that rarely changes."
+          },
+          "key_justification": "The frame loop handles input, update and render; slow or rare work stays outside it.",
+          "points": 10
+        },
+        {
+          "id": "gam-1-q4",
+          "type": "match",
+          "prompt": "Match each term to its meaning.",
+          "items": [
+            {"id": "i1", "text": "Sprite"},
+            {"id": "i2", "text": "Collider"},
+            {"id": "i3", "text": "Frame rate"},
+            {"id": "i4", "text": "Game loop"}
+          ],
+          "targets": [
+            {"id": "t1", "text": "The repeating cycle of reading input, updating and drawing"},
+            {"id": "t2", "text": "A 2D image drawn on screen for a character or object"},
+            {"id": "t3", "text": "How many images the game draws to the screen each second"},
+            {"id": "t4", "text": "An invisible shape the physics engine uses to detect contact"}
+          ],
+          "correct": {"i1": "t2", "i2": "t4", "i3": "t3", "i4": "t1"},
+          "explanation": "A sprite is the picture players see, while a collider is the invisible shape used for hits and contact, and the two often differ in shape. The frame rate is how often the screen is redrawn, and the game loop is the cycle that produces each of those frames.",
+          "why_others_wrong": {
+            "common_mistake": "Treating the sprite as what the physics engine collides with: collisions use the separate, usually simpler, collider shape."
+          },
+          "key_justification": "Visuals, physics shapes, redraw rate and the frame cycle are distinct concepts.",
+          "points": 10
+        }
+      ]
+    },
+    {
+      "id": "gam-2",
+      "order": 2,
+      "ladder_stage": "core_decision",
+      "title": "Structuring the Code of Mehfil Quest",
+      "difficulty": 2,
+      "estimated_minutes": 10,
+      "background": "Mehfil Quest is a fictional 2D action-platformer from a studio in Pune, set in a lantern-lit maze of old havelis. Guard enemies patrol, chase, attack and run away when hurt, and their code has become a tangle of nested if-statements. The hero's magic spray fires up to 500 sparks a second, and the game stutters during big fights. Players have lost progress when the game crashed while saving, and testers say jumping feels 'unfair' near ledges.",
+      "constraints": [
+        "The game targets mid-range phones and low-cost laptops",
+        "Two programmers share the codebase",
+        "Save files must survive crashes and updates"
+      ],
+      "tests_topics": [
+        "State machines",
+        "Object pooling",
+        "Save systems",
+        "Game feel and design patterns"
+      ],
+      "map_node": {"x": 0.3, "y": 0.66, "label": "Lantern Maze"},
+      "questions": [
+        {
+          "id": "gam-2-q1",
+          "type": "single_choice",
+          "prompt": "The guard's patrol, chase, attack and flee logic is a tangle of nested ifs, and new behaviours keep breaking old ones. What structure should the team use?",
+          "options": [
+            {"id": "a", "text": "A finite state machine with one state per behaviour"},
+            {"id": "b", "text": "One larger function that holds every one of the ifs"},
+            {"id": "c", "text": "Random choice of a behaviour on each animation frame"},
+            {"id": "d", "text": "Separate copies of the guard script for each behaviour"}
+          ],
+          "correct": ["a"],
+          "explanation": "A finite state machine makes the guard be in exactly one state at a time, each with its own logic and clear rules for moving to another state, such as chase becoming flee when health is low. Adding a behaviour then means adding a state and its transitions, not rewriting a web of conditions.",
+          "why_others_wrong": {
+            "b": "Merging the ifs into one function keeps the same tangle, only harder to read.",
+            "c": "Random behaviour each frame makes guards jitter between actions and look broken.",
+            "d": "Copies drift apart and cannot handle switching between behaviours cleanly."
+          },
+          "key_justification": "Enemy behaviours with clear modes and transitions are best modelled as a state machine.",
+          "points": 10
+        },
+        {
+          "id": "gam-2-q2",
+          "type": "single_choice",
+          "prompt": "Creating and destroying up to 500 sparks per second causes stutters in big fights. What is the standard fix?",
+          "options": [
+            {"id": "a", "text": "Create each spark at a much lower image resolution"},
+            {"id": "b", "text": "Pool sparks: keep a set and reuse them, never destroy"},
+            {"id": "c", "text": "Delay spark creation until the fight has finished"},
+            {"id": "d", "text": "Run the game's physics simulation fewer times per second"}
+          ],
+          "correct": ["b"],
+          "explanation": "Constantly creating and destroying objects causes allocation work and garbage collection pauses, which show up as stutters. An object pool creates a fixed set of sparks up front, hides finished ones and reuses them, so no new objects are created during a fight.",
+          "why_others_wrong": {
+            "a": "Smaller images reduce drawing cost but not the creation and destruction that causes the stutter.",
+            "c": "Sparks must appear when the hero fires, so delaying them breaks the game.",
+            "d": "Fewer physics steps make movement less accurate and do not remove the allocation pauses."
+          },
+          "key_justification": "Reuse frequently spawned objects with pooling to avoid allocation and garbage collection spikes.",
+          "points": 10
+        },
+        {
+          "id": "gam-2-q3",
+          "type": "single_choice",
+          "prompt": "Players lost all progress when the game crashed in the middle of saving. How should saving work?",
+          "options": [
+            {"id": "a", "text": "Save only when the player quits the game from its main menu"},
+            {"id": "b", "text": "Save a full copy of the game's memory to one file each frame"},
+            {"id": "c", "text": "Write a versioned save to a temp file, then swap it in place"},
+            {"id": "d", "text": "Keep progress only in memory and trust the game not to crash"}
+          ],
+          "correct": ["c"],
+          "explanation": "Writing to a temporary file and only replacing the real save once the write has finished means a crash leaves either the old save or the new one, never a half-written file. Storing a version number in the save lets future updates read and upgrade older saves.",
+          "why_others_wrong": {
+            "a": "A crash before quitting loses everything since the last quit.",
+            "b": "Dumping memory every frame is slow, huge, and breaks whenever the code changes.",
+            "d": "Every crash, power cut or force-close would wipe the player's progress."
+          },
+          "key_justification": "Make saves atomic and versioned so crashes and updates cannot corrupt them.",
+          "points": 10
+        },
+        {
+          "id": "gam-2-q4",
+          "type": "multi_select",
+          "prompt": "Testers say jumping near ledges feels unfair. Which two techniques make the jump feel more responsive?",
+          "options": [
+            {"id": "a", "text": "Allow a jump for a few frames after the hero walks off a ledge"},
+            {"id": "b", "text": "Play a 200 ms wind-up animation before every jump begins"},
+            {"id": "c", "text": "Remember a jump press made just before landing and use it"},
+            {"id": "d", "text": "Lock the game at 20 fps to make the timing more predictable"},
+            {"id": "e", "text": "Vary the jump height randomly to keep each jump interesting"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "Allowing a jump shortly after leaving a ledge, often called coyote time, forgives presses that are a fraction late. Buffering a press made just before landing and acting on it when the hero lands forgives presses that are slightly early. Together they match what players believe they pressed.",
+          "why_others_wrong": {
+            "b": "A long wind-up adds delay between the press and the jump, which feels less responsive.",
+            "d": "A low frame rate makes input detection coarser and the game feel worse.",
+            "e": "Random jump height makes platforming unpredictable and more frustrating."
+          },
+          "key_justification": "Coyote time and input buffering forgive slightly late or early presses.",
+          "points": 10
+        },
+        {
+          "id": "gam-2-q5",
+          "type": "match",
+          "prompt": "Match each design problem to the pattern that fits it.",
+          "items": [
+            {"id": "i1", "text": "The UI, sound and achievements must all react when the hero dies"},
+            {"id": "i2", "text": "Thousands of identical lanterns share one model and texture"},
+            {"id": "i3", "text": "Weapons with different firing styles can be swapped mid-game"},
+            {"id": "i4", "text": "The puzzle rooms need an undo for each move the player makes"}
+          ],
+          "targets": [
+            {"id": "t1", "text": "Store each move as a command object that can be reversed"},
+            {"id": "t2", "text": "Swap interchangeable behaviour objects behind one interface"},
+            {"id": "t3", "text": "Publish an event that each interested system listens for"},
+            {"id": "t4", "text": "Share one copy of the heavy data across every instance"}
+          ],
+          "correct": {"i1": "t3", "i2": "t4", "i3": "t2", "i4": "t1"},
+          "explanation": "A death event lets any system react without the hero knowing about each one, which is the observer pattern. Shared data for identical objects is the flyweight idea, swappable firing styles behind one interface are the strategy pattern, and reversible moves come from storing each action as a command.",
+          "why_others_wrong": {
+            "common_mistake": "Having the hero call the UI, sound and achievement code directly: every new system then needs changes to the hero, which an event avoids."
+          },
+          "key_justification": "Observer, flyweight, strategy and command each solve a recurring game-code problem.",
+          "points": 10
+        }
+      ]
+    },
+    {
+      "id": "gam-3",
+      "order": 3,
+      "ladder_stage": "debugging",
+      "title": "Hunting Frame Drops in Rangbaaz Racing",
+      "difficulty": 3,
+      "estimated_minutes": 12,
+      "background": "Rangbaaz Racing is a fictional street-racing game set in busy Indian cities, from a studio in Bengaluru. It runs at a smooth 60 fps on the developers' gaming PCs but drops to 20 fps on popular low-cost phones, hitches every few seconds and crashes when loading the Old Delhi track on phones with 2 GB of RAM. The profiler shows about 1,800 draw calls per frame on the city track, and the speedometer creates a new text string every frame.",
+      "constraints": [
+        "Most players use phones that cost under 15,000 rupees",
+        "The art team cannot redo every model before launch",
+        "The game must hold 30 fps on the target phones"
+      ],
+      "tests_topics": [
+        "Draw calls and batching",
+        "Garbage collection hitches",
+        "Texture memory",
+        "Profiling practice"
+      ],
+      "map_node": {"x": 0.5, "y": 0.5, "label": "Neon Race Track"},
+      "questions": [
+        {
+          "id": "gam-3-q1",
+          "type": "single_choice",
+          "prompt": "The city track issues about 1,800 draw calls per frame, and the CPU on low-end phones cannot keep up. What helps most?",
+          "options": [
+            {"id": "a", "text": "Share materials and texture atlases so objects can be batched"},
+            {"id": "b", "text": "Raise the game's target frame rate from 30 to 60 fps"},
+            {"id": "c", "text": "Give each building its own unique material and texture"},
+            {"id": "d", "text": "Turn up the screen resolution so each pixel costs less"}
+          ],
+          "correct": ["a"],
+          "explanation": "Each draw call has CPU overhead, and objects that share a material and texture can be drawn together in batches. Combining textures into atlases and reusing materials, along with static batching for buildings that never move, cuts the draw-call count sharply.",
+          "why_others_wrong": {
+            "b": "A higher target asks the overloaded CPU to do even more work per second.",
+            "c": "Unique materials stop batching completely and increase the number of draw calls.",
+            "d": "More pixels means more GPU work and does not reduce CPU draw-call overhead."
+          },
+          "key_justification": "Reduce draw calls by batching objects that share materials and textures.",
+          "points": 10
+        },
+        {
+          "id": "gam-3-q2",
+          "type": "single_choice",
+          "prompt": "The game hitches every few seconds, and the profiler shows garbage collection spikes. The speedometer builds a new text string every frame. What should change?",
+          "options": [
+            {"id": "a", "text": "Call the garbage collector manually during every frame"},
+            {"id": "b", "text": "Change the speedometer text only when the shown value changes"},
+            {"id": "c", "text": "Make the speedometer font larger so the text is easier to read"},
+            {"id": "d", "text": "Move the speedometer code into the game's loading screen"}
+          ],
+          "correct": ["b"],
+          "explanation": "Allocating a new string sixty times a second fills memory with garbage that the collector must periodically clean up, causing hitches. Updating the text only when the displayed number changes, and reusing buffers, removes most of those allocations.",
+          "why_others_wrong": {
+            "a": "Collecting every frame makes every frame slower and does not stop the allocations.",
+            "c": "Font size does not change how much memory is allocated.",
+            "d": "The speedometer must update during the race, so it cannot live on the loading screen."
+          },
+          "key_justification": "Avoid per-frame allocations in hot paths to prevent garbage collection hitches.",
+          "points": 10
+        },
+        {
+          "id": "gam-3-q3",
+          "type": "single_choice",
+          "prompt": "The game crashes on 2 GB phones while loading the Old Delhi track, which uses dozens of uncompressed 4096x4096 textures. What is the best fix?",
+          "options": [
+            {"id": "a", "text": "Ask players to close other apps before they start a race"},
+            {"id": "b", "text": "Convert the textures to uncompressed PNG files on disk"},
+            {"id": "c", "text": "Load every track's textures into memory at app launch"},
+            {"id": "d", "text": "Use GPU-compressed formats and smaller sizes on low-end phones"}
+          ],
+          "correct": ["d"],
+          "explanation": "An uncompressed 4096x4096 texture takes about 64 MB of memory, so dozens of them exceed what a 2 GB phone can give the game. GPU formats such as ASTC or ETC2 stay compressed in memory, and serving lower-resolution versions to low-end phones cuts memory use several times over.",
+          "why_others_wrong": {
+            "a": "Closing other apps frees a little memory but cannot make room for gigabytes of textures.",
+            "b": "PNG saves disk space only; the GPU still needs the full uncompressed image in memory.",
+            "c": "Loading every track up front uses even more memory and crashes sooner."
+          },
+          "key_justification": "Texture memory is cut with GPU-compressed formats and resolution scaled to the device.",
+          "points": 10
+        },
+        {
+          "id": "gam-3-q4",
+          "type": "multi_select",
+          "prompt": "Which two practices should guide the team's optimisation work?",
+          "options": [
+            {"id": "a", "text": "Profile on the low-cost target phones, not on the dev PCs"},
+            {"id": "b", "text": "Rewrite any code that looks slow before measuring it"},
+            {"id": "c", "text": "Measure frame time before and after each single change"},
+            {"id": "d", "text": "Profile only inside the editor running on the workstation"},
+            {"id": "e", "text": "Apply a dozen optimisations at once to save the team time"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "Low-cost phones have different bottlenecks from gaming PCs, so only profiling on them shows what really limits the game. Measuring before and after each change shows whether it helped, and by how much.",
+          "why_others_wrong": {
+            "b": "Code that looks slow often is not the bottleneck, so this wastes effort.",
+            "d": "The editor adds its own overhead and runs on very different hardware.",
+            "e": "With many changes at once, nobody can tell which one helped or which one broke something."
+          },
+          "key_justification": "Measure on target hardware and change one thing at a time.",
+          "points": 10
+        },
+        {
+          "id": "gam-3-q5",
+          "type": "match",
+          "prompt": "Match each symptom to its most likely cause.",
+          "items": [
+            {"id": "i1", "text": "Frame time is high while the CPU is idle and the GPU is maxed out"},
+            {"id": "i2", "text": "The screen freezes for two seconds right as the race starts"},
+            {"id": "i3", "text": "Frame rate falls steadily after ten minutes as the phone heats up"},
+            {"id": "i4", "text": "Audio crackles when many cars crash at the same moment"}
+          ],
+          "targets": [
+            {"id": "t1", "text": "Too many sounds play at once, with no limit on voices"},
+            {"id": "t2", "text": "Overdraw from many layered full-screen transparent effects"},
+            {"id": "t3", "text": "Assets load in one blocking step when the race begins"},
+            {"id": "t4", "text": "Running uncapped makes the chip throttle to stay cool"}
+          ],
+          "correct": {"i1": "t2", "i2": "t3", "i3": "t4", "i4": "t1"},
+          "explanation": "An idle CPU with a maxed GPU means the game is GPU-bound, and layered transparent effects that redraw the same pixels many times are a common cause. A freeze at race start points to assets loading on the main thread, a slow decline as the phone heats is thermal throttling, and crackling during many crashes means too many simultaneous sounds.",
+          "why_others_wrong": {
+            "common_mistake": "Treating the slow decline as a memory leak: a drop that follows the phone's temperature points to thermal throttling, which a frame-rate cap helps."
+          },
+          "key_justification": "Read the symptom's pattern to tell GPU-bound, loading, thermal and audio problems apart.",
+          "points": 10
+        }
+      ]
+    },
+    {
+      "id": "gam-4",
+      "order": 4,
+      "ladder_stage": "trade_offs",
+      "title": "Going Online with Tara Studios",
+      "difficulty": 4,
+      "estimated_minutes": 14,
+      "background": "Tara Studios is a fictional six-person studio in Hyderabad. It runs a popular online four-player card game, Patta Mahal, where cheating has become a problem, and it is prototyping a fast 1v1 arena game where players fight in real time. Both games are free to play, and the studio must earn money without driving players away. Players connect over mobile data, with round-trip times between 60 and 200 ms.",
+      "constraints": [
+        "Players are on mobile data with variable latency",
+        "Cheating destroys trust in competitive games",
+        "The studio cannot afford to rebuild the games' engine"
+      ],
+      "tests_topics": [
+        "Authoritative servers",
+        "Client-side prediction",
+        "Engine choice",
+        "Fair monetisation"
+      ],
+      "map_node": {"x": 0.7, "y": 0.36, "label": "Card Pavilion"},
+      "questions": [
+        {
+          "id": "gam-4-q1",
+          "type": "single_choice",
+          "prompt": "In Patta Mahal, cheaters use modified apps to see other players' hands. How should the game be designed to stop this?",
+          "options": [
+            {"id": "a", "text": "Encrypt the full deck and send it to every player's phone"},
+            {"id": "b", "text": "Let the phones share the whole game state peer to peer"},
+            {"id": "c", "text": "Let each phone decide its own cards and tell the others"},
+            {"id": "d", "text": "Keep the deck on the server and send players only their cards"}
+          ],
+          "correct": ["d"],
+          "explanation": "If a phone never receives other players' cards, no modified app can reveal them. An authoritative server shuffles, deals and checks every move, and sends each player only what that player is allowed to see.",
+          "why_others_wrong": {
+            "a": "The decryption key must be on the phone to play, so a modified app can read the whole deck.",
+            "b": "Every phone then holds every hand, which is exactly what cheaters exploit.",
+            "c": "A cheating phone could simply claim it holds whatever cards it wants."
+          },
+          "key_justification": "Hidden information stays on an authoritative server; clients get only what they may see.",
+          "points": 10
+        },
+        {
+          "id": "gam-4-q2",
+          "type": "single_choice",
+          "prompt": "In the 1v1 arena game, waiting for the server before moving makes controls feel laggy at 150 ms. What is the standard approach?",
+          "options": [
+            {"id": "a", "text": "Wait for the server before showing any of the player's own moves"},
+            {"id": "b", "text": "Move instantly on the phone; the server checks and corrects it"},
+            {"id": "c", "text": "Trust whatever position each phone reports to the game server"},
+            {"id": "d", "text": "Add a fixed 500 ms delay to every move so they all feel the same"}
+          ],
+          "correct": ["b"],
+          "explanation": "With client-side prediction, the player's own character responds immediately while the server stays in charge. When the server's answer arrives, the client reconciles any difference, so the game feels responsive while cheating through fake positions is still rejected.",
+          "why_others_wrong": {
+            "a": "This is the current laggy behaviour that players complain about.",
+            "c": "Trusting client positions lets cheaters teleport or move faster than allowed.",
+            "d": "A large fixed delay makes every move feel sluggish for everyone."
+          },
+          "key_justification": "Client-side prediction with server reconciliation gives responsiveness without trusting the client.",
+          "points": 10
+        },
+        {
+          "id": "gam-4-q3",
+          "type": "single_choice",
+          "prompt": "A programmer proposes writing a custom engine for the 2D arena game, which targets Android, iOS and the web. Which decision fits the studio best?",
+          "options": [
+            {"id": "a", "text": "Write the custom engine, since it gives the team full control"},
+            {"id": "b", "text": "Use a mature engine with mobile and web export, like Unity or Godot"},
+            {"id": "c", "text": "Write separate custom engines for Android, iOS and the web"},
+            {"id": "d", "text": "Build the game with plain spreadsheet macros and no engine"}
+          ],
+          "correct": ["b"],
+          "explanation": "A small team shipping to three platforms gets rendering, physics, input and export from a mature engine on day one, and can spend its time on the game itself. A custom engine only pays off when a studio needs something existing engines cannot do.",
+          "why_others_wrong": {
+            "a": "A custom engine costs months or years before the game itself gets any attention.",
+            "c": "Three custom engines triple that cost.",
+            "d": "Spreadsheet macros cannot render a real-time action game."
+          },
+          "key_justification": "Small teams should use a proven engine unless they have a unique technical need.",
+          "points": 10
+        },
+        {
+          "id": "gam-4-q4",
+          "type": "multi_select",
+          "prompt": "The studio needs revenue without losing players' trust. Which two monetisation choices fit best?",
+          "options": [
+            {"id": "a", "text": "Sell cosmetic items such as card backs and arena outfits"},
+            {"id": "b", "text": "Sell stronger cards that only paying players can ever use"},
+            {"id": "c", "text": "Offer optional ads that give a small in-game reward"},
+            {"id": "d", "text": "Show a 30-second unskippable ad after every single round"},
+            {"id": "e", "text": "Sell random loot boxes aimed at players under sixteen"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "Cosmetic items let players spend money without changing who wins, so the competition stays fair. Optional rewarded ads let players choose when to watch in exchange for something, which earns revenue while respecting their time.",
+          "why_others_wrong": {
+            "b": "Pay-to-win items make competitive matches unfair and drive away non-paying players.",
+            "d": "Forced long ads after every round frustrate players and push them to quit.",
+            "e": "Gambling-style mechanics aimed at children are ethically harmful and restricted in several countries."
+          },
+          "key_justification": "Fair monetisation sells appearance and optional value, not victory or gambling.",
+          "points": 10
+        }
+      ]
+    },
+    {
+      "id": "gam-5",
+      "order": 5,
+      "ladder_stage": "end_to_end",
+      "title": "From Prototype to Launch: Dhol Dash",
+      "difficulty": 5,
+      "estimated_minutes": 16,
+      "background": "Dhol Dash is a fictional rhythm game from a studio in Ahmedabad, where players tap to the beats of folk and Bollywood-style tracks. A rough prototype is fun, and a publisher will fund launch if the studio can show a polished level in three months. The game uses online leaderboards, and the studio plans festival events with new song packs. Early testers often wear Bluetooth earphones, and many get stuck on level 3.",
+      "constraints": [
+        "Taps must line up with the music to within tens of milliseconds",
+        "Leaderboards must not be ruined by cheaters",
+        "The studio has nine people and one publisher deadline"
+      ],
+      "tests_topics": [
+        "Production phases",
+        "Playtesting",
+        "Audio timing",
+        "Live operations"
+      ],
+      "map_node": {"x": 0.88, "y": 0.16, "label": "Drum Stage"},
+      "questions": [
+        {
+          "id": "gam-5-q1",
+          "type": "order",
+          "prompt": "Put the production phases of Dhol Dash in order.",
+          "options": [
+            {"id": "a", "text": "Build a vertical slice: one level polished to final quality"},
+            {"id": "b", "text": "Launch, then run live events and new song packs"},
+            {"id": "c", "text": "Prototype the core tap-to-the-beat mechanic quickly"},
+            {"id": "d", "text": "Run a closed beta with real players to find problems"},
+            {"id": "e", "text": "Produce the remaining levels, songs and art in volume"}
+          ],
+          "correct": ["c", "a", "e", "d", "b"],
+          "explanation": "A rough prototype proves the core mechanic is fun, and a vertical slice proves the team can reach final quality, which is also what the publisher wants to see. Content is then produced in volume, a closed beta finds problems before the public does, and live operations begin after launch.",
+          "why_others_wrong": {
+            "common_mistake": "Producing all the levels before the vertical slice, which risks building lots of content around art, audio or controls that later change."
+          },
+          "key_justification": "Prototype, vertical slice, production, beta, launch and live ops.",
+          "points": 10
+        },
+        {
+          "id": "gam-5-q2",
+          "type": "single_choice",
+          "prompt": "Many testers get stuck on level 3. How should the team find out why?",
+          "options": [
+            {"id": "a", "text": "Ask the designers, who know the level better than anyone"},
+            {"id": "b", "text": "Watch new players silently and note where they fail"},
+            {"id": "c", "text": "Have the best player on the team replay the level for an hour"},
+            {"id": "d", "text": "Send a survey asking players to rate level 3 out of ten"}
+          ],
+          "correct": ["b"],
+          "explanation": "Watching first-time players without helping them shows exactly where they fail and what they misunderstand. Designers and experts already know the level, so they cannot see what confuses a newcomer.",
+          "why_others_wrong": {
+            "a": "Designers know how the level is meant to be played, which is exactly what new players do not.",
+            "c": "An expert passing the level says nothing about why new players fail.",
+            "d": "A rating shows that players are unhappy, not where or why they get stuck."
+          },
+          "key_justification": "Observe fresh players without intervening to see real difficulty problems.",
+          "points": 10
+        },
+        {
+          "id": "gam-5-q3",
+          "type": "single_choice",
+          "prompt": "With Bluetooth earphones, testers' taps feel early or late even when they match the beat. What is the best fix?",
+          "options": [
+            {"id": "a", "text": "Raise the frame rate so taps are detected more often"},
+            {"id": "b", "text": "Ban Bluetooth earphones from the game entirely"},
+            {"id": "c", "text": "Make every song slower so the timing window is wider"},
+            {"id": "d", "text": "Time taps by the audio clock and add a latency calibration"}
+          ],
+          "correct": ["d"],
+          "explanation": "Bluetooth audio arrives at the ear one or two hundred milliseconds late, and the delay varies by device. Timing taps against the audio playback clock rather than frame time, and letting players run a short calibration that measures their own offset, makes the judgement line up with what they hear.",
+          "why_others_wrong": {
+            "a": "The frame rate is not the problem; the sound itself reaches the player late.",
+            "b": "Many players only use Bluetooth earphones, so banning them loses those players.",
+            "c": "Slower songs change the music and still leave taps offset from the sound."
+          },
+          "key_justification": "Rhythm games must measure against the audio clock and calibrate for output latency.",
+          "points": 10
+        },
+        {
+          "id": "gam-5-q4",
+          "type": "multi_select",
+          "prompt": "Which two analytics signals best show whether the difficulty curve is right?",
+          "options": [
+            {"id": "a", "text": "The share of players who complete each level, in order"},
+            {"id": "b", "text": "The total number of installs since the launch day"},
+            {"id": "c", "text": "The average number of attempts before passing each level"},
+            {"id": "d", "text": "The number of lines of code in the game's project"},
+            {"id": "e", "text": "The app's average rating on the store each day"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "A level-by-level completion funnel shows where players drop out, and the number of attempts before passing shows how hard each level really is. A sudden drop or a spike in attempts marks a level that needs tuning.",
+          "why_others_wrong": {
+            "b": "Installs measure marketing reach, not difficulty.",
+            "d": "Code size has nothing to do with how hard the levels are.",
+            "e": "Store ratings mix many factors and cannot point to a specific level."
+          },
+          "key_justification": "Per-level completion and attempt counts reveal difficulty spikes.",
+          "points": 10
+        },
+        {
+          "id": "gam-5-q5",
+          "type": "match",
+          "prompt": "Match each live-operations problem to the best response.",
+          "items": [
+            {"id": "i1", "text": "Impossible perfect scores appear on the leaderboard"},
+            {"id": "i2", "text": "The leaderboard servers slow to a crawl during the Navratri event"},
+            {"id": "i3", "text": "A new song pack crashes the game on older phones"},
+            {"id": "i4", "text": "Half of new players stop playing after their second day"}
+          ],
+          "targets": [
+            {"id": "t1", "text": "Switch the pack off with remote config while it is fixed"},
+            {"id": "t2", "text": "Study where new players drop off and improve onboarding"},
+            {"id": "t3", "text": "Check submitted scores on the server against the song data"},
+            {"id": "t4", "text": "Load-test before events and add capacity that scales up"}
+          ],
+          "correct": {"i1": "t3", "i2": "t4", "i3": "t1", "i4": "t2"},
+          "explanation": "The server knows each song's note count and length, so it can reject scores that are impossible for that song. Predictable event spikes call for load testing and scalable capacity, a crashing content pack can be disabled remotely without waiting for a store update, and early drop-off is a retention problem studied through the onboarding funnel.",
+          "why_others_wrong": {
+            "common_mistake": "Fixing cheating on the client, for example by hiding the score code: a modified app can still send any score, so checks must run on the server."
+          },
+          "key_justification": "Live ops needs server-side validation, capacity planning, remote content switches and retention analysis.",
+          "points": 10
+        }
+      ]
+    }
+  ]
+}
