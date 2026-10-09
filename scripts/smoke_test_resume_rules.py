@@ -76,6 +76,26 @@ check("extract_skills returns HTML and CSS separately plus the databases",
 m, miss, _ = resolve_required({"HTML/CSS", "SQL", "React"}, found)
 check("extractor output + rules: nothing missing for the bug-report resume", not miss)
 
+# ---------- alias boundaries ----------
+_V = {"JavaScript", "TypeScript", "Node.js", "Vue.js", "Next.js", "React", "Amazon Web Services (AWS)", "Kubernetes"}
+def _got(text):
+    return extract_skills(text, _V)
+check("Node.js alone does not give JavaScript", "JavaScript" not in _got("Skills: Node.js, Express"))
+check("Node.js alone still gives Node.js", "Node.js" in _got("Skills: Node.js"))
+check("'JavaScript, Node.js' gives both", {"JavaScript", "Node.js"} <= _got("JavaScript, Node.js"))
+check("'JS' alone gives JavaScript", "JavaScript" in _got("JS"))
+check("'js,' and '(JS)' still give JavaScript", "JavaScript" in _got("Python, js, sql") and "JavaScript" in _got("Frontend (JS)"))
+check("Vue.js does not give JavaScript", "JavaScript" not in _got("Vue.js"))
+check("Next.js does not give JavaScript", "JavaScript" not in _got("Next.js"))
+check("React.js does not give JavaScript", "JavaScript" not in _got("React.js"))
+check("Next.ts-style and hyphen-joined 'ts' do not give TypeScript",
+      "TypeScript" not in _got("Next.ts") and "TypeScript" not in _got("ts-node") and "TypeScript" not in _got("tests"))
+check("'TS' and '(ts)' still give TypeScript", "TypeScript" in _got("TS") and "TypeScript" in _got("lang (ts)."))
+check("'JS.' at the end of a sentence still matches", "JavaScript" in _got("I write JS."))
+check("other short aliases keep working (AWS, K8s)",
+      "Amazon Web Services (AWS)" in _got("Cloud: AWS, K8s") and "Kubernetes" in _got("Cloud: AWS, K8s"))
+check("'k8s' inside a longer token does not match", "Kubernetes" not in _got("xk8s k8sx"))
+
 # ---------- exclusion set ----------
 check("the exclusion set holds npm, pip, yarn and the other package managers",
       {"npm", "pip", "yarn", "pnpm", "cargo", "nuget", "composer", "maven", "gradle"} <= EXCLUDED_TOOLING)
