@@ -1,0 +1,606 @@
+{
+  "schema_version": 1,
+  "path": "Frontend Development",
+  "map": {
+    "scene_id": "frontend-development",
+    "theme": "A rooftop city of shopfront windows and glowing signboards, where a sweet shop with a striped awning, a travel agency full of paper maps, a bookshop with rolling ladders, an office tower of glass dashboards and a concert ground with festoon lights are linked by footbridges between the rooftops. The palette is marigold, violet and fresh white, and the mood moves from cosy craft at the sweet shop to electric excitement at the concert ground.",
+    "edges": [["fed-1", "fed-2"], ["fed-2", "fed-3"], ["fed-3", "fed-4"], ["fed-4", "fed-5"]]
+  },
+  "scenarios": [
+    {
+      "id": "fed-1",
+      "order": 1,
+      "ladder_stage": "foundations",
+      "title": "Building the Mithai Mahal Shop Page",
+      "difficulty": 1,
+      "estimated_minutes": 8,
+      "background": "Mithai Mahal is a fictional family sweet shop in Varanasi that wants its first website, with a menu, photos and an 'Order on WhatsApp' button. A cousin built a draft: the order button is a div with a click handler, the three product cards have fixed pixel widths that overflow on phones, and every photo is a 4,000-pixel PNG straight from the camera. Most customers will visit on phones over mobile data.",
+      "constraints": [
+        "Most visitors use phones on mobile data",
+        "The page must be usable with a keyboard and a screen reader",
+        "The shop has no budget for paid tools"
+      ],
+      "tests_topics": [
+        "Semantic HTML",
+        "Responsive layout",
+        "Image performance",
+        "Core CSS concepts"
+      ],
+      "map_node": {"x": 0.1, "y": 0.84, "label": "Sweet Shop Awning"},
+      "questions": [
+        {
+          "id": "fed-1-q1",
+          "type": "single_choice",
+          "prompt": "The 'Order on WhatsApp' control is a div with a click handler. Keyboard users cannot reach it, and screen readers do not announce it. What is the best fix?",
+          "options": [
+            {"id": "a", "text": "Give the div a bright colour so the control stands out from the rest"},
+            {"id": "b", "text": "Add a title attribute to the div that describes what the click does"},
+            {"id": "c", "text": "Use a real link or button, which brings keyboard and reader support"},
+            {"id": "d", "text": "Add a mouseover handler so the div reacts whenever it is hovered"}
+          ],
+          "correct": ["c"],
+          "explanation": "Native elements carry built-in behaviour: links and buttons can be focused with the Tab key, activated with Enter, and are announced with their role by screen readers. Since this control opens WhatsApp, a link to the WhatsApp URL is the natural element, and it gets all that for free.",
+          "why_others_wrong": {
+            "a": "Colour changes appearance only; the div still cannot be focused or announced.",
+            "b": "A title attribute is unreliable for screen readers and does not make the div focusable.",
+            "d": "Hover does not exist for keyboard and touch users, so it adds nothing for them."
+          },
+          "key_justification": "Use semantic, native interactive elements instead of clickable divs.",
+          "points": 10
+        },
+        {
+          "id": "fed-1-q2",
+          "type": "single_choice",
+          "prompt": "Three product cards sit side by side with fixed 400-pixel widths and overflow on phones. How should the layout be built?",
+          "options": [
+            {"id": "a", "text": "Use CSS Grid with repeat(auto-fit, minmax(250px, 1fr)) for the cards"},
+            {"id": "b", "text": "Put the cards in an HTML table with three columns and fixed widths"},
+            {"id": "c", "text": "Position each card absolutely using exact pixel offsets from the top"},
+            {"id": "d", "text": "Make a separate phone-only copy of the page with different HTML"}
+          ],
+          "correct": ["a"],
+          "explanation": "A grid with auto-fit and minmax fits as many cards per row as there is space for, each at least 250 pixels wide, and wraps them onto new rows on narrow screens. One fluid layout then works from small phones to wide desktops without overflow.",
+          "why_others_wrong": {
+            "b": "Tables are for tabular data, and fixed column widths overflow on phones in the same way.",
+            "c": "Absolute positioning ignores screen size and breaks as soon as content or width changes.",
+            "d": "A duplicate page doubles the maintenance and still has to guess which screen sizes count as phones."
+          },
+          "key_justification": "Use fluid CSS Grid or Flexbox layouts that adapt to the available width.",
+          "points": 10
+        },
+        {
+          "id": "fed-1-q3",
+          "type": "multi_select",
+          "prompt": "The camera photos make the page very slow on mobile data. Which two changes help most?",
+          "options": [
+            {"id": "a", "text": "Serve resized images with srcset, in a modern format like WebP"},
+            {"id": "b", "text": "Keep the 4,000-pixel PNGs and shrink them using CSS widths"},
+            {"id": "c", "text": "Lazy-load the photos further down with loading=\"lazy\""},
+            {"id": "d", "text": "Embed every photo as a base64 string inside the HTML file"},
+            {"id": "e", "text": "Add more photos so that the page looks fuller while it loads"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "Resized images in an efficient format, with srcset letting the browser pick a size that matches the screen, often cut each download by more than 90%. Lazy-loading photos that are below the visible area means they download only when the visitor scrolls near them.",
+          "why_others_wrong": {
+            "b": "CSS changes the display size but the full multi-megabyte file still downloads.",
+            "d": "Base64 makes images about a third larger and stops the browser from caching them separately.",
+            "e": "More photos add more data to download, which makes the page slower."
+          },
+          "key_justification": "Send appropriately sized, compressed images and defer offscreen ones.",
+          "points": 10
+        },
+        {
+          "id": "fed-1-q4",
+          "type": "match",
+          "prompt": "Match each CSS feature to what it does.",
+          "items": [
+            {"id": "i1", "text": "box-sizing: border-box"},
+            {"id": "i2", "text": "position: sticky"},
+            {"id": "i3", "text": "z-index"},
+            {"id": "i4", "text": "rem units"}
+          ],
+          "targets": [
+            {"id": "t1", "text": "Sets which overlapping element is drawn on top"},
+            {"id": "t2", "text": "Counts padding and border inside the set width"},
+            {"id": "t3", "text": "Scales sizes with the root element's font size"},
+            {"id": "t4", "text": "Holds an element in place once you scroll to it"}
+          ],
+          "correct": {"i1": "t2", "i2": "t4", "i3": "t1", "i4": "t3"},
+          "explanation": "With border-box, a 300-pixel-wide box stays 300 pixels however much padding it has. Sticky positioning scrolls an element normally until it reaches an edge and then holds it there, z-index orders overlapping positioned elements, and rem units scale with the root font size, so they respect a user's text-size setting.",
+          "why_others_wrong": {
+            "common_mistake": "Confusing sticky with fixed positioning: a fixed element is always pinned to the screen, while a sticky one scrolls with the page until it reaches its set edge."
+          },
+          "key_justification": "These properties control box sizing, scroll behaviour, stacking and scalable units.",
+          "points": 10
+        }
+      ]
+    },
+    {
+      "id": "fed-2",
+      "order": 2,
+      "ladder_stage": "core_decision",
+      "title": "Getting State Right in the Yatra Kosh Search App",
+      "difficulty": 2,
+      "estimated_minutes": 10,
+      "background": "Yatra Kosh is a fictional travel site in Jaipur, built as a React single-page app, where people search buses and trains and book tickets. The search box calls the API on every keystroke, users lose their filters when they refresh or share a link, deleting a passenger row in the booking form sometimes shows the wrong names in the remaining rows, and data passes through six layers of components. The team must fix these before the holiday rush.",
+      "constraints": [
+        "The search API is rate-limited to protect the backend",
+        "Search links are often shared on WhatsApp",
+        "The front end is React; the API is maintained by another team"
+      ],
+      "tests_topics": [
+        "Debouncing input",
+        "URL state",
+        "List keys",
+        "Validation and state management"
+      ],
+      "map_node": {"x": 0.3, "y": 0.66, "label": "Map-Filled Travel Agency"},
+      "questions": [
+        {
+          "id": "fed-2-q1",
+          "type": "single_choice",
+          "prompt": "Typing 'Jodhpur' in the search box fires seven API requests, one per letter, and hits the rate limit. What should change?",
+          "options": [
+            {"id": "a", "text": "Debounce the input and search once typing has paused for ~300 ms"},
+            {"id": "b", "text": "Ask the API team to remove the rate limit for the search endpoint"},
+            {"id": "c", "text": "Send each keystroke's request but hide every result except the last"},
+            {"id": "d", "text": "Load the full timetable for every route when the app first opens"}
+          ],
+          "correct": ["a"],
+          "explanation": "Debouncing waits until the user pauses typing before sending a request, so a burst of keystrokes becomes one search. Cancelling any in-flight request when a new one starts, for example with an AbortController, saves even more work.",
+          "why_others_wrong": {
+            "b": "The limit protects the backend; removing it shifts the overload onto the API team.",
+            "c": "Every request is still sent, so the rate limit is hit just the same.",
+            "d": "A full timetable is a huge download for each visitor and is quickly out of date."
+          },
+          "key_justification": "Debounce rapid input so that requests fire only after the user pauses.",
+          "points": 10
+        },
+        {
+          "id": "fed-2-q2",
+          "type": "single_choice",
+          "prompt": "Users lose their filters on refresh, and links shared on WhatsApp open an empty search. Where should the filter state live?",
+          "options": [
+            {"id": "a", "text": "In component state only, which resets when the page is reloaded"},
+            {"id": "b", "text": "In the URL's query parameters, read when the page first loads"},
+            {"id": "c", "text": "In a cookie that the server reads only when users are logged in"},
+            {"id": "d", "text": "In a global variable on the window object, set when filters change"}
+          ],
+          "correct": ["b"],
+          "explanation": "Putting search filters in the URL, such as ?from=JP&to=JU&date=2026-11-02, means a refresh restores them, the back button works, and a shared link opens the same search for the person who receives it.",
+          "why_others_wrong": {
+            "a": "Component state lives only in memory, so a refresh or a shared link loses it.",
+            "c": "A cookie stays on the sender's browser, so the person who receives a shared link sees none of it.",
+            "d": "A window variable is lost on refresh just like component state."
+          },
+          "key_justification": "Shareable, refresh-safe view state belongs in the URL.",
+          "points": 10
+        },
+        {
+          "id": "fed-2-q3",
+          "type": "single_choice",
+          "prompt": "The passenger list uses each row's array index as its React key. After deleting the second row, the third row shows the deleted passenger's name in its input. Why, and what is the fix?",
+          "options": [
+            {"id": "a", "text": "React is buggy with forms; replace every input with plain text"},
+            {"id": "b", "text": "The names are too long; trim them before they are put in state"},
+            {"id": "c", "text": "Index keys shift on delete; key each row by a stable unique id"},
+            {"id": "d", "text": "The list needs a re-render; reload the page after each delete"}
+          ],
+          "correct": ["c"],
+          "explanation": "React uses keys to match rows between renders. When a row is deleted, every later row's index shifts, so React reuses the wrong row's input state for the remaining passengers. Giving each passenger a stable unique id as its key keeps state attached to the right row.",
+          "why_others_wrong": {
+            "a": "React handles forms reliably when keys are stable; the bug is in the key choice.",
+            "b": "Name length has nothing to do with which row's state is reused.",
+            "d": "Reloading loses the whole form, which is far worse than the bug."
+          },
+          "key_justification": "Use stable, unique keys for list items, never array indexes when items can move.",
+          "points": 10
+        },
+        {
+          "id": "fed-2-q4",
+          "type": "multi_select",
+          "prompt": "The booking form collects passenger names and ages. Which two validation practices are correct?",
+          "options": [
+            {"id": "a", "text": "Validate in the browser so mistakes are shown as soon as possible"},
+            {"id": "b", "text": "Rely on the browser checks alone, since users cannot get past them"},
+            {"id": "c", "text": "Validate again on the server, because browser checks can be skipped"},
+            {"id": "d", "text": "Allow only English letters A to Z in passenger name fields"},
+            {"id": "e", "text": "Validate on the server only and show no messages in the browser"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "Checks in the browser give instant, friendly feedback, such as 'Age must be a number'. They can be bypassed by anyone sending requests directly, so the server must validate everything again before booking.",
+          "why_others_wrong": {
+            "b": "Browser checks are easily bypassed with developer tools or direct API calls.",
+            "d": "Many passengers' names contain other scripts, spaces or punctuation, so this rejects valid names.",
+            "e": "Users then find mistakes only after submitting, which is slower and more frustrating."
+          },
+          "key_justification": "Validate on the client for experience and on the server for correctness.",
+          "points": 10
+        },
+        {
+          "id": "fed-2-q5",
+          "type": "match",
+          "prompt": "Match each front-end problem to the technique that fixes it.",
+          "items": [
+            {"id": "i1", "text": "An older search's results arrive late and overwrite the newer ones"},
+            {"id": "i2", "text": "The user's currency is passed down through six component layers"},
+            {"id": "i3", "text": "A 5,000-row results list re-renders slowly as the user scrolls"},
+            {"id": "i4", "text": "Four components each fetch the same station list separately"}
+          ],
+          "targets": [
+            {"id": "t1", "text": "Render only the visible rows with a virtualised list"},
+            {"id": "t2", "text": "Use a shared data-fetching cache keyed by the request"},
+            {"id": "t3", "text": "Cancel or ignore responses that are not for the latest request"},
+            {"id": "t4", "text": "Provide the value through React context or a state store"}
+          ],
+          "correct": {"i1": "t3", "i2": "t4", "i3": "t1", "i4": "t2"},
+          "explanation": "Out-of-order responses are a race, fixed by cancelling stale requests or ignoring responses that do not match the latest query. Values needed deep in the tree come from context or a store instead of being passed through every layer, long lists render only the visible rows, and repeated fetches share one cached request.",
+          "why_others_wrong": {
+            "common_mistake": "Fixing the out-of-order results with a debounce: debouncing reduces how many requests are sent, but two requests can still finish in the wrong order."
+          },
+          "key_justification": "Races, deep props, long lists and repeated fetches each have a standard fix.",
+          "points": 10
+        }
+      ]
+    },
+    {
+      "id": "fed-3",
+      "order": 3,
+      "ladder_stage": "debugging",
+      "title": "Slow and Jumpy Pages at Pustak Ghar",
+      "difficulty": 3,
+      "estimated_minutes": 12,
+      "background": "Pustak Ghar is a fictional online bookshop in Kozhikode. Its book pages score badly on Core Web Vitals: the content jumps when images and ad slots load, the large hero image appears late because it is added by JavaScript after a big bundle runs, and the browser blocks requests from the shop at shop.pustakghar.in to the API at api.pustakghar.in with a CORS error. Staff also say the admin app gets slower the longer it stays open.",
+      "constraints": [
+        "Search ranking and conversions depend on Core Web Vitals",
+        "The shop and the API run on different subdomains",
+        "Staff keep the admin single-page app open all day"
+      ],
+      "tests_topics": [
+        "Layout shift",
+        "Largest Contentful Paint",
+        "CORS",
+        "Memory leaks and browser DevTools"
+      ],
+      "map_node": {"x": 0.5, "y": 0.5, "label": "Bookshop Ladders"},
+      "questions": [
+        {
+          "id": "fed-3-q1",
+          "type": "single_choice",
+          "prompt": "Text jumps down the page as book covers and an ad slot load, and readers tap the wrong links. What fixes this layout shift?",
+          "options": [
+            {"id": "a", "text": "Load the covers and the ad last, after the rest of the page"},
+            {"id": "b", "text": "Hide the whole page until every single image has loaded"},
+            {"id": "c", "text": "Set width, height or aspect-ratio and reserve space for the ad"},
+            {"id": "d", "text": "Add a CSS fade-in animation to each image as it finishes loading"}
+          ],
+          "correct": ["c"],
+          "explanation": "Content shifts when the browser does not know how much space an image or ad will take until it arrives. Giving images width and height attributes or a CSS aspect-ratio, and giving the ad slot a fixed minimum size, reserves the space up front, so nothing moves when they load.",
+          "why_others_wrong": {
+            "a": "Loading them later still pushes content down when they appear, possibly while the reader is reading.",
+            "b": "Hiding the page delays everything and hurts loading metrics badly.",
+            "d": "A fade-in changes how images appear, not the space they suddenly take up."
+          },
+          "key_justification": "Prevent layout shift by reserving space for media and dynamic content.",
+          "points": 10
+        },
+        {
+          "id": "fed-3-q2",
+          "type": "single_choice",
+          "prompt": "The hero image is the page's largest element, but it is added by JavaScript after a 900 KB bundle runs, so it appears late. What helps most?",
+          "options": [
+            {"id": "a", "text": "Add the image in an even later script, after analytics has run"},
+            {"id": "b", "text": "Put the image in the HTML with high fetch priority, compressed"},
+            {"id": "c", "text": "Load the image with loading=\"lazy\" so it downloads only on scroll"},
+            {"id": "d", "text": "Turn the image into a CSS background that the bundle sets later"}
+          ],
+          "correct": ["b"],
+          "explanation": "Largest Contentful Paint measures when the biggest visible element appears. Placing the hero image directly in the HTML lets the browser find and fetch it immediately, and fetchpriority=\"high\" plus a compressed modern format makes it arrive sooner, instead of waiting for the bundle.",
+          "why_others_wrong": {
+            "a": "Delaying the image further makes the largest element appear even later.",
+            "c": "Lazy-loading the visible hero image delays the very element that is being measured.",
+            "d": "A background set by the bundle is still discovered only after the script runs."
+          },
+          "key_justification": "Make the largest above-the-fold element discoverable early and prioritised.",
+          "points": 10
+        },
+        {
+          "id": "fed-3-q3",
+          "type": "single_choice",
+          "prompt": "The browser blocks fetch calls from shop.pustakghar.in to api.pustakghar.in with a CORS error. What is the correct fix?",
+          "options": [
+            {"id": "a", "text": "Ask customers to install a browser extension that disables CORS"},
+            {"id": "b", "text": "Set mode: 'no-cors' on every fetch call made by the shop page"},
+            {"id": "c", "text": "Wrap the fetch in try-catch and quietly ignore the CORS errors"},
+            {"id": "d", "text": "Have the API allow the shop's origin with CORS response headers"}
+          ],
+          "correct": ["d"],
+          "explanation": "Browsers block cross-origin reads unless the server says they are allowed. The API must answer with Access-Control-Allow-Origin set to https://shop.pustakghar.in, and handle preflight requests for methods and headers it accepts, so the browser lets the shop read the responses.",
+          "why_others_wrong": {
+            "a": "Customers will not install extensions, and turning off browser security is dangerous.",
+            "b": "no-cors makes the response unreadable to the page, so the shop still gets no data.",
+            "c": "Ignoring the error does not deliver the data the page needs."
+          },
+          "key_justification": "CORS is fixed on the server by allowing the trusted origin.",
+          "points": 10
+        },
+        {
+          "id": "fed-3-q4",
+          "type": "multi_select",
+          "prompt": "The admin app gets slower the longer it stays open. Which two causes are most likely?",
+          "options": [
+            {"id": "a", "text": "Event listeners added each time a view mounts and never removed"},
+            {"id": "b", "text": "The CSS file is a little larger than it was at the last release"},
+            {"id": "c", "text": "Timers started with setInterval that are not cleared on unmount"},
+            {"id": "d", "text": "HTML comments that are left in the page's markup by developers"},
+            {"id": "e", "text": "The app's favicon is a PNG image rather than an SVG image"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "A slowdown that grows with time points to something accumulating. Listeners added on every mount without cleanup, and intervals that keep running after their view is gone, pile up work and memory each time staff navigate around the app.",
+          "why_others_wrong": {
+            "b": "A slightly larger CSS file loads once; it does not grow worse over time.",
+            "d": "Comments are parsed once and cost almost nothing.",
+            "e": "The favicon's format has no effect on runtime speed."
+          },
+          "key_justification": "Gradual slowdowns come from uncleaned listeners, timers and references.",
+          "points": 10
+        },
+        {
+          "id": "fed-3-q5",
+          "type": "match",
+          "prompt": "Match each debugging task to the DevTools panel that answers it.",
+          "items": [
+            {"id": "i1", "text": "Find which API request is returning a 500 error"},
+            {"id": "i2", "text": "See why a CSS rule is not being applied to a button"},
+            {"id": "i3", "text": "Find the long tasks that make clicks feel slow"},
+            {"id": "i4", "text": "Check a stored cookie's value and its security flags"}
+          ],
+          "targets": [
+            {"id": "t1", "text": "Application panel"},
+            {"id": "t2", "text": "Performance panel"},
+            {"id": "t3", "text": "Network panel"},
+            {"id": "t4", "text": "Elements panel with its Styles pane"}
+          ],
+          "correct": {"i1": "t3", "i2": "t4", "i3": "t2", "i4": "t1"},
+          "explanation": "The Network panel lists every request with its status code and response. The Elements panel's Styles pane shows which rules apply and which are overridden, the Performance panel records long tasks on the main thread, and the Application panel shows cookies, storage and their flags.",
+          "why_others_wrong": {
+            "common_mistake": "Looking for slow clicks in the Network panel: if requests are fast, the delay is JavaScript blocking the main thread, which the Performance panel shows."
+          },
+          "key_justification": "Each DevTools panel answers a different kind of front-end question.",
+          "points": 10
+        }
+      ]
+    },
+    {
+      "id": "fed-4",
+      "order": 4,
+      "ladder_stage": "trade_offs",
+      "title": "Keeping the Dhanda Dost Dashboard Fast and Maintainable",
+      "difficulty": 4,
+      "estimated_minutes": 14,
+      "background": "Dhanda Dost is a fictional accounting web app for small shops in Coimbatore. Its JavaScript bundle has grown to 3 MB, mostly because a charting library loads even on the login page. Four front-end developers are debating whether to build their own component library, how to test a growing app that breaks often, and what to do about the 15% of users on old Android phones with outdated browsers.",
+      "constraints": [
+        "Shop owners log in on low-cost phones over mobile data",
+        "Four front-end developers support the whole app",
+        "Old Android browsers lack some modern JavaScript features"
+      ],
+      "tests_topics": [
+        "Code splitting",
+        "Build versus adopt components",
+        "Front-end testing strategy",
+        "Browser support"
+      ],
+      "map_node": {"x": 0.7, "y": 0.36, "label": "Glass Dashboard Tower"},
+      "questions": [
+        {
+          "id": "fed-4-q1",
+          "type": "single_choice",
+          "prompt": "The 3 MB bundle includes the charting library even on the login page. What is the best fix?",
+          "options": [
+            {"id": "a", "text": "Minify the bundle once more and keep shipping it as a single file"},
+            {"id": "b", "text": "Split code by route and load the charts only on the reports pages"},
+            {"id": "c", "text": "Remove every chart from the app to make the bundle a lot smaller"},
+            {"id": "d", "text": "Ask users to keep the app open all day so it rarely needs to load"}
+          ],
+          "correct": ["b"],
+          "explanation": "Route-based code splitting with dynamic import() loads each page's code only when it is visited. The login page then downloads a small bundle, and the charting library arrives only when a user opens a report.",
+          "why_others_wrong": {
+            "a": "The bundle is presumably already minified, so another pass saves little while every page still loads everything.",
+            "c": "Charts are a core feature of an accounting dashboard.",
+            "d": "Users cannot avoid first loads, and the login page is always loaded first."
+          },
+          "key_justification": "Split bundles by route so each page loads only the code it needs.",
+          "points": 10
+        },
+        {
+          "id": "fed-4-q2",
+          "type": "single_choice",
+          "prompt": "Should the four developers build their own component library from scratch?",
+          "options": [
+            {"id": "a", "text": "Yes, because a custom library is always faster than any other"},
+            {"id": "b", "text": "Yes, and they should also build their own date and number logic"},
+            {"id": "c", "text": "No; avoid shared components and write each screen's widgets fresh"},
+            {"id": "d", "text": "No; theme a mature, accessible open-source library to match the brand"}
+          ],
+          "correct": ["d"],
+          "explanation": "Accessible dropdowns, dialogs and date pickers take a lot of work to get right. A small team gets more value from a well-tested open-source component library themed to its brand, and can spend its time on the accounting features customers pay for.",
+          "why_others_wrong": {
+            "a": "Custom components are not inherently faster, and building them costs months of a small team's time.",
+            "b": "Rebuilding date and number handling adds even more risk for no user benefit.",
+            "c": "Writing widgets afresh on every screen creates inconsistent, duplicated and buggy code."
+          },
+          "key_justification": "Small teams should adopt and theme proven components rather than build them from scratch.",
+          "points": 10
+        },
+        {
+          "id": "fed-4-q3",
+          "type": "single_choice",
+          "prompt": "The app keeps breaking in production. Which testing strategy should the team adopt?",
+          "options": [
+            {"id": "a", "text": "Only end-to-end browser tests, covering every screen in the app"},
+            {"id": "b", "text": "Many unit tests, component tests that act like users, few E2E"},
+            {"id": "c", "text": "Manual testing by the developers just before each release only"},
+            {"id": "d", "text": "Snapshot tests of every component's HTML and nothing besides"}
+          ],
+          "correct": ["b"],
+          "explanation": "Fast unit tests cover logic such as tax calculations, component tests check behaviour the way a user interacts, with tools like Testing Library, and a small set of end-to-end tests covers critical journeys such as creating an invoice. This mix gives broad coverage that runs quickly and fails for meaningful reasons.",
+          "why_others_wrong": {
+            "a": "Testing everything end to end is slow and flaky, so developers stop trusting and running the tests.",
+            "c": "Manual checks before release miss regressions and do not scale as the app grows.",
+            "d": "Snapshots catch markup changes, not broken behaviour, and are often updated without review."
+          },
+          "key_justification": "Balance many fast unit and component tests with a few end-to-end tests of critical flows.",
+          "points": 10
+        },
+        {
+          "id": "fed-4-q4",
+          "type": "multi_select",
+          "prompt": "15% of users are on old Android browsers that lack some modern features. Which two approaches fit best?",
+          "options": [
+            {"id": "a", "text": "Make core tasks work without the newest browser features"},
+            {"id": "b", "text": "Block old browsers and show an 'upgrade your phone' page"},
+            {"id": "c", "text": "Transpile and polyfill based on a target browser list"},
+            {"id": "d", "text": "Send every polyfill that exists to every user's browser"},
+            {"id": "e", "text": "Ignore old browsers, since they are only a small group"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "Progressive enhancement keeps core tasks such as recording a sale working on older browsers while adding extras where they are supported. A target browser list tells the build tools exactly which syntax to transpile and which features to polyfill, so older browsers work without bloating the code for everyone else.",
+          "why_others_wrong": {
+            "b": "Blocking 15% of paying shop owners loses customers who cannot easily buy a new phone.",
+            "d": "Shipping every polyfill makes the app heavier for everyone, including modern browsers.",
+            "e": "Fifteen percent is a large share of customers to leave with a broken app."
+          },
+          "key_justification": "Support older browsers with progressive enhancement and targeted transpiling and polyfills.",
+          "points": 10
+        }
+      ]
+    },
+    {
+      "id": "fed-5",
+      "order": 5,
+      "ladder_stage": "end_to_end",
+      "title": "Launching the Sangam Tickets Flash Sale",
+      "difficulty": 5,
+      "estimated_minutes": 16,
+      "background": "Sangam Tickets is a fictional ticketing site in Bengaluru. For a big concert, 100,000 fans will arrive the minute sales open to pick seats on an interactive seat map. The front-end team is building the seat map and checkout. It must stay fast on mid-range phones, show seats being taken in near real time, work with keyboards and screen readers, and support English, Kannada and Tamil. Last year the site's front end fell over in the first minute.",
+      "constraints": [
+        "100,000 visitors arrive within the first minute",
+        "Seat availability changes every second",
+        "The site must be accessible and available in three languages"
+      ],
+      "tests_topics": [
+        "Front-end release pipeline",
+        "CDN and caching",
+        "Monitoring in production",
+        "Accessible interactive widgets"
+      ],
+      "map_node": {"x": 0.88, "y": 0.16, "label": "Festoon Concert Ground"},
+      "questions": [
+        {
+          "id": "fed-5-q1",
+          "type": "order",
+          "prompt": "Put the steps for shipping the new seat map in order.",
+          "options": [
+            {"id": "a", "text": "Deploy a preview build for QA and design review"},
+            {"id": "b", "text": "Build the components from the shared design tokens"},
+            {"id": "c", "text": "Release to production while watching real-user metrics"},
+            {"id": "d", "text": "Write component and integration tests for the seat map"},
+            {"id": "e", "text": "Run automated performance and accessibility checks in CI"}
+          ],
+          "correct": ["b", "d", "e", "a", "c"],
+          "explanation": "The seat map is built from shared tokens and covered by tests, and CI then checks performance and accessibility automatically on every change. A preview deployment lets QA and designers review the real build, and the release goes out with real-user monitoring watching how it behaves.",
+          "why_others_wrong": {
+            "common_mistake": "Sending the build for QA review before the automated checks run, which spends people's time on problems a machine would have caught in minutes."
+          },
+          "key_justification": "Build, test, check automatically, review a preview, then release with monitoring.",
+          "points": 10
+        },
+        {
+          "id": "fed-5-q2",
+          "type": "single_choice",
+          "prompt": "100,000 fans will load the site in the same minute. How should the front end's static files be served?",
+          "options": [
+            {"id": "a", "text": "From the main app server, with caching turned off to stay fresh"},
+            {"id": "b", "text": "Via a CDN, with hashed filenames and long cache times"},
+            {"id": "c", "text": "From one server in Mumbai that is upgraded for the sale day"},
+            {"id": "d", "text": "As one huge HTML file with all scripts and styles inlined"}
+          ],
+          "correct": ["b"],
+          "explanation": "A CDN serves files from servers close to each fan and absorbs the spike. Content-hashed filenames, such as app.3f9a1c.js, can be cached for a year because every new build gets new names, while the small HTML page is cached briefly so it always points to the latest files.",
+          "why_others_wrong": {
+            "a": "Serving every file from the app server without caching overloads it in the first seconds.",
+            "c": "One server, however large, is a single bottleneck and is far from many fans.",
+            "d": "Inlining everything prevents caching and makes every page load download the whole site."
+          },
+          "key_justification": "Serve static assets from a CDN with cache-busting filenames and long cache lifetimes.",
+          "points": 10
+        },
+        {
+          "id": "fed-5-q3",
+          "type": "single_choice",
+          "prompt": "Last year, fans saw blank screens, but the team only heard about it on social media. What should be in place this year?",
+          "options": [
+            {"id": "a", "text": "Ask fans to email screenshots whenever they run into a problem"},
+            {"id": "b", "text": "Rely on the developers' own laptops showing no console errors"},
+            {"id": "c", "text": "Track JS errors with source maps, plus real-user monitoring"},
+            {"id": "d", "text": "Check the server's CPU graph in the hours after the sale ends"}
+          ],
+          "correct": ["c"],
+          "explanation": "An error-tracking service records JavaScript errors from real visitors, and source maps turn them back into readable code locations. Real-user monitoring of load times and Core Web Vitals shows slowdowns as they happen, so the team learns about problems in seconds rather than from social media.",
+          "why_others_wrong": {
+            "a": "Few fans email, and screenshots arrive far too late during a one-minute rush.",
+            "b": "Developers' laptops and networks are nothing like fans' phones.",
+            "d": "Server CPU says nothing about JavaScript errors in fans' browsers, and checking afterwards is too late."
+          },
+          "key_justification": "Monitor real users' errors and performance in production.",
+          "points": 10
+        },
+        {
+          "id": "fed-5-q4",
+          "type": "multi_select",
+          "prompt": "Which two choices make the seat map accessible?",
+          "options": [
+            {"id": "a", "text": "Make seats keyboard-reachable with arrow keys and a visible focus"},
+            {"id": "b", "text": "Show seat details only in tooltips that appear on mouse hover"},
+            {"id": "c", "text": "Give each seat a name like 'Row F, seat 12, available, 1,500 rupees'"},
+            {"id": "d", "text": "Mark available and sold seats by colour alone to keep it simple"},
+            {"id": "e", "text": "Disable pinch-to-zoom so the map always stays at a single size"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "Keyboard navigation with a clear focus indicator lets people who cannot use a mouse or touch screen pick seats. A descriptive accessible name for each seat tells screen-reader users its row, number, status and price.",
+          "why_others_wrong": {
+            "b": "Hover does not exist for keyboard, touch or screen-reader users.",
+            "d": "Colour alone fails for colour-blind users and says nothing to screen readers.",
+            "e": "Blocking zoom stops low-vision users from enlarging the small seats."
+          },
+          "key_justification": "Interactive widgets need keyboard operation and meaningful accessible names.",
+          "points": 10
+        },
+        {
+          "id": "fed-5-q5",
+          "type": "match",
+          "prompt": "Match each requirement to the technique that delivers it.",
+          "items": [
+            {"id": "i1", "text": "Seats taken by others should disappear within a second"},
+            {"id": "i2", "text": "The site must stay usable on a slow 3G connection"},
+            {"id": "i3", "text": "Prices and dates appear in English, Kannada and Tamil"},
+            {"id": "i4", "text": "A crash in the seat map must not blank the whole page"}
+          ],
+          "targets": [
+            {"id": "t1", "text": "An error boundary around the seat map component"},
+            {"id": "t2", "text": "Live updates over WebSocket or server-sent events"},
+            {"id": "t3", "text": "Translation files and locale-aware Intl formatting"},
+            {"id": "t4", "text": "A performance budget that limits JavaScript size"}
+          ],
+          "correct": {"i1": "t2", "i2": "t4", "i3": "t3", "i4": "t1"},
+          "explanation": "Pushing seat changes over a WebSocket or server-sent events updates the map almost instantly. A performance budget keeps the code light enough for slow connections, translation files with Intl formatting show text, prices and dates correctly for each language, and an error boundary contains a crash so the rest of the page keeps working.",
+          "why_others_wrong": {
+            "common_mistake": "Polling the server every second for seat changes: with 100,000 fans this creates a flood of requests, while a pushed stream sends only the changes."
+          },
+          "key_justification": "Real-time pushes, budgets, internationalisation and error boundaries each meet a launch need.",
+          "points": 10
+        }
+      ]
+    }
+  ]
+}
