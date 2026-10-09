@@ -1,0 +1,606 @@
+{
+  "schema_version": 1,
+  "path": "DevOps",
+  "map": {
+    "scene_id": "devops",
+    "theme": "A riverside factory town of conveyor belts and signal lamps, where a print workshop, a cloud kitchen with a row of chimneys, a railway control room, a telephone exchange with blinking switchboards and an insurance tower with a watch room at the top are joined by moving walkways. The palette is industrial teal, signal red and warm brass, and the mood moves from hands-on tinkering at the workshop to calm control in the watch room.",
+    "edges": [["dop-1", "dop-2"], ["dop-2", "dop-3"], ["dop-3", "dop-4"], ["dop-4", "dop-5"]]
+  },
+  "scenarios": [
+    {
+      "id": "dop-1",
+      "order": 1,
+      "ladder_stage": "foundations",
+      "title": "Ending Manual Deploys at Chitra Prints",
+      "difficulty": 1,
+      "estimated_minutes": 8,
+      "background": "Chitra Prints is a fictional online photo-printing startup in Jaipur. Its Python web app is deployed by one developer who copies files to the server over FTP late at night. Tests exist but are run only when someone remembers, and bugs reach customers regularly. A new hire's code works on her laptop but fails on the server because the Python and library versions differ. The founders want deploys to become routine and safe.",
+      "constraints": [
+        "The team is four developers, none dedicated to operations",
+        "The app runs on a single Linux server today",
+        "Customers order prints around the clock"
+      ],
+      "tests_topics": [
+        "Continuous integration",
+        "Containers",
+        "Dockerfile practice",
+        "Core DevOps vocabulary"
+      ],
+      "map_node": {"x": 0.1, "y": 0.84, "label": "Print Workshop"},
+      "questions": [
+        {
+          "id": "dop-1-q1",
+          "type": "single_choice",
+          "prompt": "Tests are run only when someone remembers, so bugs reach customers. What is the first practice to introduce?",
+          "options": [
+            {"id": "a", "text": "Ask everyone to promise that they will run the tests before deploying"},
+            {"id": "b", "text": "Run the tests on every push and block merging when they fail"},
+            {"id": "c", "text": "Run the full test suite once a month, on the last Friday of it"},
+            {"id": "d", "text": "Delete the tests that fail most often, since they slow down work"}
+          ],
+          "correct": ["b"],
+          "explanation": "Continuous integration runs the test suite automatically on every push or pull request, so a broken change is caught within minutes. Blocking merges when tests fail stops broken code from reaching the main branch, without relying on anyone remembering.",
+          "why_others_wrong": {
+            "a": "Promises fail under deadline pressure; automation does not forget.",
+            "c": "A month of changes piles up between runs, so failures are hard to trace and fix.",
+            "d": "Deleting failing tests hides problems instead of fixing them."
+          },
+          "key_justification": "Automate tests on every change and gate merges on the result.",
+          "points": 10
+        },
+        {
+          "id": "dop-1-q2",
+          "type": "single_choice",
+          "prompt": "Code works on the new developer's laptop but fails on the server because the Python and library versions differ. What solves this best?",
+          "options": [
+            {"id": "a", "text": "Give every developer the same laptop model and operating system"},
+            {"id": "b", "text": "Write a wiki page listing which Python version to install by hand"},
+            {"id": "c", "text": "Package the app and its pinned dependencies as a container image"},
+            {"id": "d", "text": "Update the server's libraries to the newest versions every week"}
+          ],
+          "correct": ["c"],
+          "explanation": "A container image bundles the app with the exact runtime and library versions it needs, so the same image runs identically on a laptop, in CI and on the server. Pinning dependency versions in the build keeps those environments matched over time.",
+          "why_others_wrong": {
+            "a": "Identical laptops still drift as people install different packages, and the server is not a laptop.",
+            "b": "Manual setup instructions are followed inconsistently and go out of date.",
+            "d": "Unplanned weekly upgrades create new differences and can break the app without warning."
+          },
+          "key_justification": "Containers with pinned dependencies make environments consistent from laptop to production.",
+          "points": 10
+        },
+        {
+          "id": "dop-1-q3",
+          "type": "multi_select",
+          "prompt": "Which two practices belong in a good Dockerfile for this Python app?",
+          "options": [
+            {"id": "a", "text": "Start from a small base image with a pinned version tag"},
+            {"id": "b", "text": "Copy the payment API key into the image during the build"},
+            {"id": "c", "text": "Install dependencies before copying code, to reuse layers"},
+            {"id": "d", "text": "Always use the 'latest' tag so the base stays up to date"},
+            {"id": "e", "text": "Run the app as the root user so it never hits permissions"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "A small, pinned base image such as python:3.12-slim keeps the image lean and builds repeatable. Copying the requirements file and installing dependencies before copying the code means Docker reuses the cached dependency layer when only the code changes, which makes builds much faster.",
+          "why_others_wrong": {
+            "b": "Secrets baked into an image can be read by anyone who pulls it; they should be injected at runtime.",
+            "d": "'latest' changes without warning, so the same Dockerfile can produce different images.",
+            "e": "Running as root means any break-in gets full control of the container."
+          },
+          "key_justification": "Pin small base images, order layers for caching, and keep secrets and root out of images.",
+          "points": 10
+        },
+        {
+          "id": "dop-1-q4",
+          "type": "match",
+          "prompt": "Match each term to its meaning.",
+          "items": [
+            {"id": "i1", "text": "Continuous integration"},
+            {"id": "i2", "text": "Continuous delivery"},
+            {"id": "i3", "text": "Container image"},
+            {"id": "i4", "text": "Artifact registry"}
+          ],
+          "targets": [
+            {"id": "t1", "text": "Keeping every change in a state ready to release at any time"},
+            {"id": "t2", "text": "A store of versioned build outputs, such as images or packages"},
+            {"id": "t3", "text": "Merging and testing changes often, automatically, into one branch"},
+            {"id": "t4", "text": "A packaged app with its runtime and libraries, ready to run"}
+          ],
+          "correct": {"i1": "t3", "i2": "t1", "i3": "t4", "i4": "t2"},
+          "explanation": "Continuous integration merges and tests changes frequently and automatically. Continuous delivery keeps the result always releasable, so a deploy is a routine decision, a container image packages the app with what it needs to run, and an artifact registry stores versioned builds for deployment.",
+          "why_others_wrong": {
+            "common_mistake": "Treating continuous delivery as automatic deployment of every change to production: that is continuous deployment, while delivery means every change is ready to release when the team chooses."
+          },
+          "key_justification": "CI, CD, images and registries are the core building blocks of a delivery pipeline.",
+          "points": 10
+        }
+      ]
+    },
+    {
+      "id": "dop-2",
+      "order": 2,
+      "ladder_stage": "core_decision",
+      "title": "Designing the Release Process at Swaad Kitchens",
+      "difficulty": 2,
+      "estimated_minutes": 10,
+      "background": "Swaad Kitchens is a fictional cloud-kitchen brand in Bengaluru with 40 kitchens and an ordering platform built by 15 developers. Feature branches live for weeks and merging them is painful. Deploys happen on Friday nights with 20 minutes of downtime, staging and production are built separately from different branches, and rolling back takes hours. Lunch and dinner peaks mean any outage loses real orders.",
+      "constraints": [
+        "There must be no downtime during lunch and dinner peaks",
+        "A bad release must be reversible within minutes",
+        "Fifteen developers work in the same repository"
+      ],
+      "tests_topics": [
+        "Branching strategy",
+        "Blue-green and canary releases",
+        "Build once, promote everywhere",
+        "Release practices"
+      ],
+      "map_node": {"x": 0.3, "y": 0.66, "label": "Chimney Row Kitchen"},
+      "questions": [
+        {
+          "id": "dop-2-q1",
+          "type": "single_choice",
+          "prompt": "Feature branches live for weeks, and merging them causes days of conflicts. What branching approach should the team move to?",
+          "options": [
+            {"id": "a", "text": "Make the feature branches last even longer, so merges are rarer"},
+            {"id": "b", "text": "Short-lived branches merged daily, unfinished work behind flags"},
+            {"id": "c", "text": "One branch per developer that is merged only at each quarter's end"},
+            {"id": "d", "text": "Everyone edits the production server's files directly, no branches"}
+          ],
+          "correct": ["b"],
+          "explanation": "Trunk-based development keeps branches small and merges them into the main branch at least daily, so conflicts stay tiny and are resolved while fresh. Feature flags let unfinished features be merged and deployed while still switched off for customers.",
+          "why_others_wrong": {
+            "a": "Longer branches drift further apart, so the eventual merge gets worse, not better.",
+            "c": "Quarterly merges create huge, risky integrations, the opposite of what is needed.",
+            "d": "Editing production directly removes review, testing and history."
+          },
+          "key_justification": "Integrate small changes frequently and hide unfinished work behind feature flags.",
+          "points": 10
+        },
+        {
+          "id": "dop-2-q2",
+          "type": "single_choice",
+          "prompt": "Deploys cause 20 minutes of downtime, and rollback takes hours. Which deployment strategy fixes both?",
+          "options": [
+            {"id": "a", "text": "Stop the old version, then start the new one in its place"},
+            {"id": "b", "text": "Deploy only at 3 am so fewer customers notice the downtime"},
+            {"id": "c", "text": "Run the new version alongside the old and switch the traffic"},
+            {"id": "d", "text": "Copy the new files over the old ones while the app is running"}
+          ],
+          "correct": ["c"],
+          "explanation": "In a blue-green deployment the new version is started and checked next to the old one, and traffic is then switched to it at the load balancer, with no downtime. If something goes wrong, switching traffic back to the old version takes seconds.",
+          "why_others_wrong": {
+            "a": "This is the current approach, which causes the downtime.",
+            "b": "Kitchens take orders around the clock, and a 3 am deploy still means downtime and slow rollback.",
+            "d": "Overwriting live files can leave the app half old and half new, and gives no easy way back."
+          },
+          "key_justification": "Blue-green deployment gives zero-downtime switches and near-instant rollback.",
+          "points": 10
+        },
+        {
+          "id": "dop-2-q3",
+          "type": "single_choice",
+          "prompt": "A risky change to the order-pricing logic is ready. How should it be released?",
+          "options": [
+            {"id": "a", "text": "Send 5% of traffic to it, compare errors, and roll back if worse"},
+            {"id": "b", "text": "Release to all 40 kitchens at once to get it over with quickly"},
+            {"id": "c", "text": "Release it without any monitoring, so the dashboards stay quiet"},
+            {"id": "d", "text": "Hold it back until every possible bug has been found in testing"}
+          ],
+          "correct": ["a"],
+          "explanation": "A canary release sends a small share of real traffic to the new version and compares its error rate and key metrics, such as order values, with the old version. If the canary looks worse, it is rolled back automatically before most customers are affected.",
+          "why_others_wrong": {
+            "b": "A pricing bug would then hit every order across every kitchen at the same time.",
+            "c": "Without monitoring, nobody would know the change was hurting orders.",
+            "d": "No amount of testing finds every bug, so waiting for certainty means never releasing."
+          },
+          "key_justification": "Canary releases limit the impact of risky changes and allow evidence-based rollback.",
+          "points": 10
+        },
+        {
+          "id": "dop-2-q4",
+          "type": "multi_select",
+          "prompt": "Staging and production are built separately from different branches, so they behave differently. Which two practices fix this?",
+          "options": [
+            {"id": "a", "text": "Build one image per commit, tagged by SHA, promoted to each env"},
+            {"id": "b", "text": "Rebuild the app separately for each environment from its branch"},
+            {"id": "c", "text": "Inject environment settings at deploy time, not at build time"},
+            {"id": "d", "text": "Edit configuration on the production servers by hand when needed"},
+            {"id": "e", "text": "Use the 'latest' image tag in production so it is always fresh"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "Building once and promoting the identical image through staging to production means production runs exactly what was tested. Settings that differ, such as database addresses, are supplied when the image is deployed, so the image itself never changes between environments.",
+          "why_others_wrong": {
+            "b": "Separate builds can pick up different code or dependencies, so staging no longer proves anything.",
+            "d": "Hand edits are untracked, easily forgotten and cause environments to drift apart.",
+            "e": "'latest' hides which version is running and can change underneath a deployment."
+          },
+          "key_justification": "Build an artifact once and promote it unchanged, with configuration injected per environment.",
+          "points": 10
+        },
+        {
+          "id": "dop-2-q5",
+          "type": "match",
+          "prompt": "Match each release problem to the practice that solves it.",
+          "items": [
+            {"id": "i1", "text": "Only one person knows the deploy steps, and does them by hand"},
+            {"id": "i2", "text": "Production settings drift away from staging without anyone noticing"},
+            {"id": "i3", "text": "Nobody can tell which version is running in production right now"},
+            {"id": "i4", "text": "Rolling back a bad release takes several hours"}
+          ],
+          "targets": [
+            {"id": "t1", "text": "Report the build's commit SHA from a health endpoint"},
+            {"id": "t2", "text": "Keep the previous artifact and roll back with one command"},
+            {"id": "t3", "text": "Store all configuration in version control and review it"},
+            {"id": "t4", "text": "An automated pipeline that anyone on the team can run"}
+          ],
+          "correct": {"i1": "t4", "i2": "t3", "i3": "t1", "i4": "t2"},
+          "explanation": "Automating the deploy removes the dependence on one person. Versioned, reviewed configuration stops silent drift, exposing the build's commit SHA shows exactly what is running, and keeping the previous artifact ready turns rollback into a single quick step.",
+          "why_others_wrong": {
+            "common_mistake": "Fixing the single-person problem with a written checklist: a checklist still needs someone to run every step by hand, while a pipeline makes the deploy repeatable for anyone."
+          },
+          "key_justification": "Automation, versioned config, visible versions and ready rollbacks make releases routine.",
+          "points": 10
+        }
+      ]
+    },
+    {
+      "id": "dop-3",
+      "order": 3,
+      "ladder_stage": "debugging",
+      "title": "Untangling the Pipeline at Rail Yatra Info",
+      "difficulty": 3,
+      "estimated_minutes": 12,
+      "background": "Rail Yatra Info is a fictional train-status service in Lucknow running on Kubernetes. Developers complain that the CI pipeline takes 45 minutes and that one test fails randomly about one run in ten, so they just press 'rerun'. In production, a newly deployed service keeps restarting, another is repeatedly killed for using too much memory, and a deploy that 'succeeded' never received any traffic.",
+      "constraints": [
+        "Train-status data must stay available during festival travel",
+        "Twelve developers wait on the pipeline before each merge",
+        "The cluster runs on a managed Kubernetes service"
+      ],
+      "tests_topics": [
+        "Flaky tests",
+        "Debugging crashing containers",
+        "Pipeline speed",
+        "Kubernetes probes and resource limits"
+      ],
+      "map_node": {"x": 0.5, "y": 0.5, "label": "Railway Control Room"},
+      "questions": [
+        {
+          "id": "dop-3-q1",
+          "type": "single_choice",
+          "prompt": "One test fails randomly about one run in ten, and developers just rerun the pipeline. What should the team do?",
+          "options": [
+            {"id": "a", "text": "Keep rerunning until it passes, since it passes most of the time"},
+            {"id": "b", "text": "Quarantine the test, find what makes it flaky, and fix the cause"},
+            {"id": "c", "text": "Set the pipeline to retry every test ten times before it can fail"},
+            {"id": "d", "text": "Turn off the whole test suite until the flaky test fixes itself"}
+          ],
+          "correct": ["b"],
+          "explanation": "Flaky tests teach people to ignore red builds, so real failures slip through. Moving the test out of the blocking suite while it is investigated keeps the pipeline trustworthy, and its usual causes, such as dependence on time, test order or shared state, can then be found and fixed.",
+          "why_others_wrong": {
+            "a": "Constant reruns waste time and train the team to ignore failures.",
+            "c": "Blanket retries hide flakiness everywhere and can mask real intermittent bugs.",
+            "d": "Disabling all tests removes the safety net completely."
+          },
+          "key_justification": "Quarantine and fix flaky tests instead of normalising reruns.",
+          "points": 10
+        },
+        {
+          "id": "dop-3-q2",
+          "type": "single_choice",
+          "prompt": "A new pod keeps restarting and shows CrashLoopBackOff. What is the best first step?",
+          "options": [
+            {"id": "a", "text": "Delete the cluster and create a new one from scratch right away"},
+            {"id": "b", "text": "Raise the replica count so some pods stay up between the crashes"},
+            {"id": "c", "text": "Read the crashed container's logs and the pod's recent events"},
+            {"id": "d", "text": "Turn off the restart policy so that the pod stops restarting"}
+          ],
+          "correct": ["c"],
+          "explanation": "CrashLoopBackOff means the container starts, exits and is restarted again and again. Its own output, for example from kubectl logs with the --previous flag, plus the pod's events from kubectl describe, usually show the reason, such as a missing environment variable or a failed connection.",
+          "why_others_wrong": {
+            "a": "The cluster is not the problem; rebuilding it loses time and changes nothing about the app.",
+            "b": "More replicas means more crashing copies, not a fix.",
+            "d": "Stopping restarts leaves the service down and still hides why it crashes."
+          },
+          "key_justification": "Diagnose crash loops from the failed container's logs and the pod's events.",
+          "points": 10
+        },
+        {
+          "id": "dop-3-q3",
+          "type": "single_choice",
+          "prompt": "The pipeline takes 45 minutes: 15 to download dependencies and 30 to run tests one after another. What helps most?",
+          "options": [
+            {"id": "a", "text": "Cache dependencies between runs and split tests to run in parallel"},
+            {"id": "b", "text": "Delete half the tests, choosing them at random, to save some time"},
+            {"id": "c", "text": "Run the pipeline only on Fridays, so it runs less often overall"},
+            {"id": "d", "text": "Buy faster laptops for developers and leave the pipeline as it is"}
+          ],
+          "correct": ["a"],
+          "explanation": "Caching dependencies, keyed on the lock file, avoids downloading the same packages on every run. Splitting the test suite across several parallel jobs cuts the 30-minute stage roughly by the number of jobs, so feedback arrives in minutes.",
+          "why_others_wrong": {
+            "b": "Random deletion removes protection without targeting what is slow.",
+            "c": "Running rarely means changes go unchecked and problems pile up.",
+            "d": "The pipeline runs on CI machines, so laptops do not change its duration."
+          },
+          "key_justification": "Speed up pipelines by caching dependencies and parallelising tests.",
+          "points": 10
+        },
+        {
+          "id": "dop-3-q4",
+          "type": "multi_select",
+          "prompt": "A service is repeatedly killed with OOMKilled. Which two steps should the team take?",
+          "options": [
+            {"id": "a", "text": "Compare the container's memory limit with its measured usage"},
+            {"id": "b", "text": "Delete the namespace and redeploy everything in it from scratch"},
+            {"id": "c", "text": "Fix the memory growth, or set a limit that fits real needs"},
+            {"id": "d", "text": "Disable the health checks so Kubernetes stops killing the pods"},
+            {"id": "e", "text": "Remove memory limits from every container in the cluster"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "OOMKilled means the container used more memory than its limit allowed. Comparing usage metrics with the limit shows whether the limit is simply too low for normal load or whether memory grows without end, which points to a leak that must be fixed in the code.",
+          "why_others_wrong": {
+            "b": "Redeploying the same code with the same limit reproduces the same kills.",
+            "d": "The kill comes from the memory limit, not from health checks, so disabling them changes nothing.",
+            "e": "Without limits, one leaking container can starve every other workload on the node."
+          },
+          "key_justification": "Resolve OOM kills by comparing limits with real usage and fixing leaks or sizing correctly.",
+          "points": 10
+        },
+        {
+          "id": "dop-3-q5",
+          "type": "match",
+          "prompt": "Match each symptom to its most likely cause.",
+          "items": [
+            {"id": "i1", "text": "A deploy 'succeeded', but the new pods never receive any traffic"},
+            {"id": "i2", "text": "The service works in staging but fails in production with 'host not found'"},
+            {"id": "i3", "text": "Builds fail with 'no space left on device' on the build agent"},
+            {"id": "i4", "text": "Pods are restarted in the middle of serving slow requests"}
+          ],
+          "targets": [
+            {"id": "t1", "text": "Old images and build caches are never cleaned up"},
+            {"id": "t2", "text": "The liveness probe's timeout is too aggressive"},
+            {"id": "t3", "text": "The readiness probe keeps failing for the new pods"},
+            {"id": "t4", "text": "A production setting or secret is missing or wrong"}
+          ],
+          "correct": {"i1": "t3", "i2": "t4", "i3": "t1", "i4": "t2"},
+          "explanation": "Kubernetes sends traffic only to pods whose readiness probe passes, so pods that never become ready get none. 'Host not found' in only one environment points to that environment's configuration, a full build disk usually comes from images and caches that are never cleaned, and a liveness probe with too short a timeout restarts pods that are merely busy.",
+          "why_others_wrong": {
+            "common_mistake": "Mixing up the two probes: a failing readiness probe removes a pod from traffic, while a failing liveness probe restarts the container."
+          },
+          "key_justification": "Probe types, environment config and agent hygiene explain common deployment symptoms.",
+          "points": 10
+        }
+      ]
+    },
+    {
+      "id": "dop-4",
+      "order": 4,
+      "ladder_stage": "trade_offs",
+      "title": "Reliability Budgets at Sampark Telecom",
+      "difficulty": 4,
+      "estimated_minutes": 14,
+      "background": "Sampark Telecom is a fictional mobile operator in Kolkata whose self-service portal lets 8 million customers recharge and pay bills. Leadership has set an availability target of 99.9% per month for the portal, product teams want to ship weekly, and the on-call engineer receives about 200 alerts a week, most of which need no action. A small new team running two simple services is also asking whether it should adopt Kubernetes.",
+      "constraints": [
+        "The portal's availability target is 99.9% over each 30-day month",
+        "On-call engineers are burning out",
+        "The new team has three engineers and two services"
+      ],
+      "tests_topics": [
+        "SLOs and error budgets",
+        "Balancing speed and stability",
+        "Choosing the right platform",
+        "Alert fatigue"
+      ],
+      "map_node": {"x": 0.7, "y": 0.36, "label": "Switchboard Exchange"},
+      "questions": [
+        {
+          "id": "dop-4-q1",
+          "type": "single_choice",
+          "prompt": "Roughly how much downtime does a 99.9% availability target allow over a 30-day month?",
+          "options": [
+            {"id": "a", "text": "About 4 minutes"},
+            {"id": "b", "text": "About 43 minutes"},
+            {"id": "c", "text": "About 7 hours"},
+            {"id": "d", "text": "About 3 days"}
+          ],
+          "correct": ["b"],
+          "explanation": "A 30-day month has 43,200 minutes, and 0.1% of that is about 43 minutes. That allowance is the error budget: the amount of unreliability the team can 'spend' on incidents and risky releases before missing the target.",
+          "why_others_wrong": {
+            "a": "About 4 minutes a month matches a 99.99% target.",
+            "c": "About 7 hours a month matches a 99% target.",
+            "d": "Three days is roughly 10% downtime, a 90% availability target."
+          },
+          "key_justification": "99.9% of 43,200 minutes leaves about 43 minutes of allowed downtime.",
+          "points": 10
+        },
+        {
+          "id": "dop-4-q2",
+          "type": "single_choice",
+          "prompt": "Halfway through the month, incidents have used the whole error budget. Under a typical error-budget policy, what should happen next?",
+          "options": [
+            {"id": "a", "text": "Keep shipping weekly features, since the budget is only a guideline"},
+            {"id": "b", "text": "Lower the target to 99% so the budget is no longer used up"},
+            {"id": "c", "text": "Pause risky launches and put engineering effort on reliability"},
+            {"id": "d", "text": "Stop all deployments, including urgent fixes, until next month"}
+          ],
+          "correct": ["c"],
+          "explanation": "An error budget makes the speed-versus-stability trade-off explicit. When it is spent, the agreed policy usually shifts effort to reliability work and holds risky feature launches until the service is stable again, while still allowing fixes that improve reliability.",
+          "why_others_wrong": {
+            "a": "Ignoring the budget makes the target meaningless and risks further outages.",
+            "b": "Moving the target to hide the overspend defeats the purpose of having one.",
+            "d": "Blocking urgent fixes can prolong incidents; reliability improvements should still ship."
+          },
+          "key_justification": "When the error budget is spent, shift effort from features to reliability.",
+          "points": 10
+        },
+        {
+          "id": "dop-4-q3",
+          "type": "single_choice",
+          "prompt": "A new team of three engineers runs two simple web services. Should it adopt Kubernetes now?",
+          "options": [
+            {"id": "a", "text": "Yes, because every modern team is expected to run Kubernetes"},
+            {"id": "b", "text": "Yes, and the team should run its own cluster on bare-metal servers"},
+            {"id": "c", "text": "No; run each service on its own manually patched virtual machine"},
+            {"id": "d", "text": "Not yet; a managed container platform gives most benefits for less"}
+          ],
+          "correct": ["d"],
+          "explanation": "Kubernetes is powerful but adds significant operational complexity. For two simple services, a managed container platform or PaaS provides deployment, scaling and health checks with far less to learn and maintain, and the team can move to Kubernetes later if its needs grow.",
+          "why_others_wrong": {
+            "a": "Popularity is not a reason to take on complexity a team does not need.",
+            "b": "Self-hosting on bare metal adds even more operations work for three engineers.",
+            "c": "Manually patched VMs bring back the toil and drift that containers avoid."
+          },
+          "key_justification": "Choose the simplest platform that meets current needs; adopt Kubernetes when it pays off.",
+          "points": 10
+        },
+        {
+          "id": "dop-4-q4",
+          "type": "multi_select",
+          "prompt": "The on-call engineer gets about 200 alerts a week, and most need no action. Which two changes help most?",
+          "options": [
+            {"id": "a", "text": "Delete or tune the alerts that never lead to any action"},
+            {"id": "b", "text": "Add more alerts so that no possible problem is ever missed"},
+            {"id": "c", "text": "Page only for SLO-affecting symptoms; ticket everything else"},
+            {"id": "d", "text": "Mute the pager overnight so that on-call can sleep properly"},
+            {"id": "e", "text": "Rotate on-call less often so engineers get used to the noise"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "Every alert should demand a human action, so alerts that are always ignored should be removed or tuned. Paging only for symptoms that threaten the availability target, and turning lesser issues into tickets for working hours, keeps real pages meaningful.",
+          "why_others_wrong": {
+            "b": "More alerts deepen the fatigue and make real problems easier to miss.",
+            "d": "Muting the pager means real overnight outages go unanswered.",
+            "e": "Longer shifts in a noisy rotation make burnout worse."
+          },
+          "key_justification": "Every page should be actionable and tied to user-facing reliability.",
+          "points": 10
+        }
+      ]
+    },
+    {
+      "id": "dop-5",
+      "order": 5,
+      "ladder_stage": "end_to_end",
+      "title": "Running Delivery and Incidents at Bharat Bima",
+      "difficulty": 5,
+      "estimated_minutes": 16,
+      "background": "Bharat Bima is a fictional insurance company in Mumbai modernising how its 60 engineers build and run the claims platform. Last month a bad release broke claim submissions for two hours, nobody knew who was in charge during the outage, and the review afterwards ended with one engineer being blamed. Leadership wants a delivery process that is fast, secure and measurable, plus a better way to handle incidents.",
+      "constraints": [
+        "Claims data is regulated and must be protected",
+        "Leadership wants measurable improvement within two quarters",
+        "Sixty engineers across eight teams share the platform"
+      ],
+      "tests_topics": [
+        "Incident response",
+        "Blameless postmortems",
+        "Delivery metrics",
+        "Security in the pipeline"
+      ],
+      "map_node": {"x": 0.88, "y": 0.16, "label": "Watch Room Tower"},
+      "questions": [
+        {
+          "id": "dop-5-q1",
+          "type": "order",
+          "prompt": "Put the steps of handling an outage like last month's in order.",
+          "options": [
+            {"id": "a", "text": "Mitigate the impact, for example by rolling back the release"},
+            {"id": "b", "text": "Detect the problem from alerts and declare an incident"},
+            {"id": "c", "text": "Hold a blameless postmortem and assign follow-up actions"},
+            {"id": "d", "text": "Name an incident commander and post regular status updates"},
+            {"id": "e", "text": "Confirm that claim submissions have fully recovered"}
+          ],
+          "correct": ["b", "d", "a", "e", "c"],
+          "explanation": "The incident begins when it is detected and declared, and a named commander then coordinates the response and keeps everyone informed. The team mitigates first, often by rolling back, before digging into the root cause, confirms recovery, and holds the postmortem once the service is stable.",
+          "why_others_wrong": {
+            "common_mistake": "Searching for the root cause before mitigating, which keeps customers unable to submit claims while engineers investigate; restoring service comes first."
+          },
+          "key_justification": "Detect and declare, coordinate, mitigate, verify recovery, then learn in a postmortem.",
+          "points": 10
+        },
+        {
+          "id": "dop-5-q2",
+          "type": "single_choice",
+          "prompt": "Last month's review blamed one engineer. How should future postmortems be run?",
+          "options": [
+            {"id": "a", "text": "Find the person responsible and record the mistake in their review"},
+            {"id": "b", "text": "Skip postmortems for any incident that was resolved fairly quickly"},
+            {"id": "c", "text": "Keep them blameless, find system causes, and assign owned actions"},
+            {"id": "d", "text": "Let the most senior person in the room decide the single root cause"}
+          ],
+          "correct": ["c"],
+          "explanation": "Blameless postmortems assume people acted reasonably with the information and tools they had, so engineers share what really happened. Looking at why the system allowed the failure, such as missing tests or a risky deploy process, produces concrete actions with owners that prevent a repeat.",
+          "why_others_wrong": {
+            "a": "Blame makes people hide information, so the real causes stay unfixed.",
+            "b": "Quick incidents still reveal weaknesses that can cause bigger ones later.",
+            "d": "Incidents usually have several contributing causes, and authority is not evidence."
+          },
+          "key_justification": "Blameless postmortems focus on systemic causes and owned follow-up actions.",
+          "points": 10
+        },
+        {
+          "id": "dop-5-q3",
+          "type": "single_choice",
+          "prompt": "Leadership wants to measure delivery performance. Which set of metrics is widely used for this?",
+          "options": [
+            {"id": "a", "text": "Lines of code, commits per person, tickets closed and hours worked"},
+            {"id": "b", "text": "Number of servers, CPU usage, disk space and network bandwidth"},
+            {"id": "c", "text": "Story points, meetings attended, test count and pull request count"},
+            {"id": "d", "text": "Deploy frequency, lead time, change failure rate and restore time"}
+          ],
+          "correct": ["d"],
+          "explanation": "The four DORA metrics measure both speed and stability: how often the team deploys, how long a change takes to reach production, what share of changes cause failures, and how quickly service is restored after one. Tracked together, they show whether the team is going faster without breaking more.",
+          "why_others_wrong": {
+            "a": "Activity counts reward busyness and are easy to game, not delivery outcomes.",
+            "b": "Infrastructure figures describe machines, not how well software is delivered.",
+            "c": "These measure process activity rather than speed or stability of delivery."
+          },
+          "key_justification": "The DORA metrics balance delivery speed with stability.",
+          "points": 10
+        },
+        {
+          "id": "dop-5-q4",
+          "type": "multi_select",
+          "prompt": "Claims data is regulated. Which two practices build security into the delivery pipeline?",
+          "options": [
+            {"id": "a", "text": "Scan dependencies and images for known vulnerabilities in CI"},
+            {"id": "b", "text": "Turn off the security scans whenever the pipeline runs slowly"},
+            {"id": "c", "text": "Keep secrets in a vault and inject them only at runtime"},
+            {"id": "d", "text": "Share one admin deploy token between all eight of the teams"},
+            {"id": "e", "text": "Commit each service's .env file so deploys have every value"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "Automated scanning in CI catches known vulnerabilities in libraries and base images before they reach production. A secrets vault keeps credentials out of code and images and delivers them only to the services that need them at runtime.",
+          "why_others_wrong": {
+            "b": "Skipping scans to save time lets vulnerable code through exactly when it is easiest to miss.",
+            "d": "One shared admin token cannot be traced to a team and gives every pipeline full power.",
+            "e": "Committed secrets spread to every clone and are very hard to revoke cleanly."
+          },
+          "key_justification": "Shift security left with automated scans and runtime secret injection.",
+          "points": 10
+        },
+        {
+          "id": "dop-5-q5",
+          "type": "match",
+          "prompt": "Match each goal to the practice that achieves it.",
+          "items": [
+            {"id": "i1", "text": "Every change in production has been reviewed by a second person"},
+            {"id": "i2", "text": "Any environment can be recreated from scratch within an hour"},
+            {"id": "i3", "text": "Find which service in a chain of calls makes claims slow"},
+            {"id": "i4", "text": "Lower the risk carried by each release"}
+          ],
+          "targets": [
+            {"id": "t1", "text": "Distributed tracing across the services"},
+            {"id": "t2", "text": "Small, frequent deploys with feature flags"},
+            {"id": "t3", "text": "A protected main branch with required reviews"},
+            {"id": "t4", "text": "Infrastructure defined entirely as code"}
+          ],
+          "correct": {"i1": "t3", "i2": "t4", "i3": "t1", "i4": "t2"},
+          "explanation": "A protected branch that requires approved reviews guarantees nothing unreviewed is merged. Infrastructure as code lets environments be rebuilt quickly, distributed tracing follows one request across services to show where time goes, and small, frequent, flagged releases keep each change easy to understand and reverse.",
+          "why_others_wrong": {
+            "common_mistake": "Thinking that bigger, less frequent releases are safer: each one bundles more changes, which makes failures more likely and harder to trace."
+          },
+          "key_justification": "Reviews, IaC, tracing and small releases each deliver one delivery goal.",
+          "points": 10
+        }
+      ]
+    }
+  ]
+}
