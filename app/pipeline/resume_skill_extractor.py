@@ -38,7 +38,7 @@ def _get_matcher(skill_vocabulary):
 
 def _alias_pattern(alias):
     """
-    The alias as a whole token. \ba plain word-boundary check is not enough: it treats "." and "-" as boundaries, so "js"
+    The alias as a whole token. A plain word-boundary check is not enough: it treats "." and "-" as boundaries, so "js"
     matched inside "Node.js" and "ts" inside "Next.ts". An alias must not touch a word character,
     nor be joined to a word by a dot or hyphen on either side. "JS", "js," and "(JS)" still match.
     """
