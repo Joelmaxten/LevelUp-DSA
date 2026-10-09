@@ -16,7 +16,7 @@ SCHEMA_VERSION = 1
 LADDER_STAGES = ["foundations", "core_decision", "debugging", "trade_offs", "end_to_end"]
 QUESTION_TYPES = ["single_choice", "multi_select", "order", "match"]
 # Id prefix per path (mle-1, mle-1-q2). A path without an entry here cannot have a scenario file yet.
-PATH_ID_PREFIX = {"Machine Learning Engineering": "mle"}
+PATH_ID_PREFIX = {"Machine Learning Engineering": "mle", "Cybersecurity": "cyb"}
 
 NUMBER_WORDS = {"two": 2, "three": 3, "four": 4, "five": 5, "2": 2, "3": 3, "4": 4, "5": 5}
 STATED_NUMBER = re.compile(r"\b(?:which|choose|select|pick)\s+(two|three|four|five|[2-5])\b", re.I)

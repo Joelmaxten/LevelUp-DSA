@@ -234,7 +234,7 @@ def test_route():
 
         # path with no scenario file -> dsa unavailable; with a file but nothing attempted -> dsa 0.0
         with app.app_context():
-            db.session.add(CareerProfile(user_id=empty_id, career_ranking=[{"career_path": "Cybersecurity", "score": 5}], conversation_signals={}))
+            db.session.add(CareerProfile(user_id=empty_id, career_ranking=[{"career_path": "Game Development", "score": 5}], conversation_signals={}))
             db.session.commit()
         check("path without a scenario file: dsa is unavailable, not 0", "dsa" in empty.get("/readiness").get_json()["unavailable"])
         with app.app_context():

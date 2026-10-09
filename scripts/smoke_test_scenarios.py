@@ -343,7 +343,7 @@ def test_store_engine():
     from app.pipeline import scenario_engine as eng
 
     # store
-    check("store lists the pilot path", store.list_paths() == ["Machine Learning Engineering"])
+    check("store lists the available paths", sorted(store.list_paths()) == ["Cybersecurity", "Machine Learning Engineering"])
     check("store: slug lookup works", store.get_by_slug("machine-learning-engineering") is not None
           and store.get_by_slug("nope") is None)
     d, sc = store.find_scenario("mle-3")
@@ -571,7 +571,7 @@ def test_routes():
         resp = alice.get("/scenarios/paths")
         body = resp.get_json()
         check("GET /scenarios/paths lists the pilot and the quiz-ranked path",
-              resp.status_code == 200 and body["paths"][0]["slug"] == "machine-learning-engineering"
+              resp.status_code == 200 and "machine-learning-engineering" in [p["slug"] for p in body["paths"]]
               and body["quiz_path"] == "Machine Learning Engineering")
         check("paths: a user with no quiz result gets quiz_path null", bob.get("/scenarios/paths").get_json()["quiz_path"] is None)
         check("paths: quiz_path_available is true when the top path has a file", body["quiz_path_available"] is True)
@@ -579,19 +579,19 @@ def test_routes():
               bob.get("/scenarios/paths").get_json()["quiz_path_available"] is False)
         carol, carol_id = login("c")
         with app.app_context():
-            db.session.add(CareerProfile(user_id=carol_id, career_ranking=[{"career_path": "Cybersecurity", "score": 7}],
+            db.session.add(CareerProfile(user_id=carol_id, career_ranking=[{"career_path": "Game Development", "score": 7}],
                                          conversation_signals={"goal": "explore"}))
             db.session.commit()
         carol_before = profile_snapshot(carol_id)
         resp = carol.get("/scenarios/paths")
         cbody = resp.get_json()
         check("paths: top quiz path without a file -> quiz_path named, quiz_path_available false, pilot still listed",
-              resp.status_code == 200 and cbody["quiz_path"] == "Cybersecurity" and cbody["quiz_path_available"] is False
-              and [p["name"] for p in cbody["paths"]] == ["Machine Learning Engineering"])
+              resp.status_code == 200 and cbody["quiz_path"] == "Game Development" and cbody["quiz_path_available"] is False
+              and sorted(p["name"] for p in cbody["paths"]) == ["Cybersecurity", "Machine Learning Engineering"])
         check("paths payload for that user leaks no question text",
               not any(q["prompt"] in json.dumps(cbody) for s_ in scenarios for q in s_["questions"]))
         check("a path with no file has no map (404 path_not_found)",
-              carol.get("/scenarios/cybersecurity").status_code == 404)
+              carol.get("/scenarios/game-development").status_code == 404)
         check("quiz-path fallback did not write CareerProfile", profile_snapshot(carol_id) == carol_before)
         js_text = Path("app/static/js/scenarios.js").read_text(encoding="utf-8")
         check("scenarios.js shows the coming-soon message with an explicit button to the pilot",
