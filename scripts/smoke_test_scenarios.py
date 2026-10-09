@@ -10,16 +10,35 @@ Exits non-zero if any check fails.
 """
 import copy
 import json
+import shutil
 import subprocess
 import sys
 import tempfile
+from contextlib import contextmanager
 from pathlib import Path
 
 from dotenv import load_dotenv
 load_dotenv()   # before any app import: the config reads the environment when it is imported
 
 PILOT = Path("data/scenarios/ml-engineering.json")
+SCENARIO_DIR = Path("data/scenarios")
 checks = []
+
+
+@contextmanager
+def scenarios_without(file_name):
+    """Point the scenario store at a copy of data/scenarios/ that lacks one file, so that path has no scenarios.
+    Every career path has a file now, so the 'no scenario file' behaviour can only be tested this way."""
+    from app.pipeline import scenario_store as store
+    with tempfile.TemporaryDirectory() as tmp:
+        for f in SCENARIO_DIR.glob("*.json"):
+            if f.name != file_name:
+                shutil.copy(f, tmp)
+        store.set_directory(tmp)
+        try:
+            yield
+        finally:
+            store.set_directory(None)
 
 
 def check(description, condition):
@@ -343,7 +362,8 @@ def test_store_engine():
     from app.pipeline import scenario_engine as eng
 
     # store
-    check("store lists the available paths", sorted(store.list_paths()) == ["Cybersecurity", "Data Science", "Full-Stack Development", "Machine Learning Engineering"])
+    from app.pipeline.career_path_registry import CAREER_PATHS
+    check("store lists every career path (one scenario file per path)", sorted(store.list_paths()) == sorted(CAREER_PATHS))
     check("store: slug lookup works", store.get_by_slug("machine-learning-engineering") is not None
           and store.get_by_slug("nope") is None)
     d, sc = store.find_scenario("mle-3")
@@ -583,15 +603,19 @@ def test_routes():
                                          conversation_signals={"goal": "explore"}))
             db.session.commit()
         carol_before = profile_snapshot(carol_id)
-        resp = carol.get("/scenarios/paths")
-        cbody = resp.get_json()
-        check("paths: top quiz path without a file -> quiz_path named, quiz_path_available false, pilot still listed",
-              resp.status_code == 200 and cbody["quiz_path"] == "Game Development" and cbody["quiz_path_available"] is False
-              and sorted(p["name"] for p in cbody["paths"]) == ["Cybersecurity", "Data Science", "Full-Stack Development", "Machine Learning Engineering"])
-        check("paths payload for that user leaks no question text",
-              not any(q["prompt"] in json.dumps(cbody) for s_ in scenarios for q in s_["questions"]))
-        check("a path with no file has no map (404 path_not_found)",
-              carol.get("/scenarios/game-development").status_code == 404)
+        from app.pipeline.career_path_registry import CAREER_PATHS
+        with scenarios_without("game-development.json"):   # simulate a path that has no scenario file
+            resp = carol.get("/scenarios/paths")
+            cbody = resp.get_json()
+            check("paths: top quiz path without a file -> quiz_path named, quiz_path_available false, pilot still listed",
+                  resp.status_code == 200 and cbody["quiz_path"] == "Game Development" and cbody["quiz_path_available"] is False
+                  and sorted(p["name"] for p in cbody["paths"]) == sorted(set(CAREER_PATHS) - {"Game Development"}))
+            check("paths payload for that user leaks no question text",
+                  not any(q["prompt"] in json.dumps(cbody) for s_ in scenarios for q in s_["questions"]))
+            check("a path with no file has no map (404 path_not_found)",
+                  carol.get("/scenarios/game-development").status_code == 404)
+        check("with every file present, the same user's top path is available",
+              carol.get("/scenarios/paths").get_json()["quiz_path_available"] is True)
         check("quiz-path fallback did not write CareerProfile", profile_snapshot(carol_id) == carol_before)
         js_text = Path("app/static/js/scenarios.js").read_text(encoding="utf-8")
         check("scenarios.js shows the coming-soon message with an explicit button to the pilot",

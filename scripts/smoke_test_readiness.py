@@ -10,7 +10,10 @@ Exits non-zero if any check fails.
 """
 import json
 import random
+import shutil
 import sys
+import tempfile
+from contextlib import contextmanager
 from datetime import date, datetime, timedelta
 from pathlib import Path
 
@@ -21,6 +24,22 @@ from app.pipeline import readiness as r
 from app.pipeline import scenario_engine as eng
 
 checks = []
+
+
+@contextmanager
+def scenarios_without(file_name):
+    """Point the scenario store at a copy of data/scenarios/ that lacks one file, so that path has no scenarios.
+    Every career path has a file now, so the 'no scenario file' behaviour can only be tested this way."""
+    from app.pipeline import scenario_store as store
+    with tempfile.TemporaryDirectory() as tmp:
+        for f in Path("data/scenarios").glob("*.json"):
+            if f.name != file_name:
+                shutil.copy(f, tmp)
+        store.set_directory(tmp)
+        try:
+            yield
+        finally:
+            store.set_directory(None)
 
 
 def check(description, condition):
@@ -236,7 +255,8 @@ def test_route():
         with app.app_context():
             db.session.add(CareerProfile(user_id=empty_id, career_ranking=[{"career_path": "Game Development", "score": 5}], conversation_signals={}))
             db.session.commit()
-        check("path without a scenario file: dsa is unavailable, not 0", "dsa" in empty.get("/readiness").get_json()["unavailable"])
+        with scenarios_without("game-development.json"):   # simulate a path that has no scenario file
+            check("path without a scenario file: dsa is unavailable, not 0", "dsa" in empty.get("/readiness").get_json()["unavailable"])
         with app.app_context():
             db.session.add(CareerProfile(user_id=empty_id, career_ranking=[{"career_path": "Machine Learning Engineering", "score": 9}], conversation_signals={}))
             db.session.commit()
@@ -302,7 +322,11 @@ def test_dashboard_states():
             check(f"{label}: page has the readiness card markup and loads /readiness",
                   "readinessCard" in html and 'getJson("/readiness")' in html and "Placement readiness" in html and "not available yet" in html)
             check(f"{label}: page has no HTML assignment", not unsafe.search(html))
-            resp = client.get("/readiness")
+            if "no scenario file" in label:   # every path has a file now, so hide Game Development's for this state
+                with scenarios_without("game-development.json"):
+                    resp = client.get("/readiness")
+            else:
+                resp = client.get("/readiness")
             body = resp.get_json()
             check(f"{label}: GET /readiness is valid JSON with the full shape",
                   resp.status_code == 200 and resp.mimetype == "application/json"
