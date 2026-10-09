@@ -1,0 +1,606 @@
+{
+  "schema_version": 1,
+  "path": "UI/UX Design",
+  "map": {
+    "scene_id": "ui-ux-design",
+    "theme": "A garden city of painted courtyards, where a bus shelter covered in hand-drawn maps, a research tea house, a loan office with a winding queue, a bank lobby hung with pattern swatches and a citizens' hall with open doors are connected by tiled paths. The palette is terracotta, leaf green and chalk white, and the mood moves from friendly curiosity at the bus shelter to welcoming clarity at the citizens' hall.",
+    "edges": [["uxd-1", "uxd-2"], ["uxd-2", "uxd-3"], ["uxd-3", "uxd-4"], ["uxd-4", "uxd-5"]]
+  },
+  "scenarios": [
+    {
+      "id": "uxd-1",
+      "order": 1,
+      "ladder_stage": "foundations",
+      "title": "Fixing the Bus Saathi Ticket Screen",
+      "difficulty": 1,
+      "estimated_minutes": 8,
+      "background": "Bus Saathi is a fictional city-bus app in Bhopal used by students, office workers and elderly riders. The home screen shows eight items with equal weight, and 'Buy ticket' is a small grey link among them. The body text is light grey on white. After a rider taps 'Pay', nothing changes on screen for about five seconds, so many riders tap again and are charged twice. The new design intern has been asked to fix the screen using standard design principles.",
+      "constraints": [
+        "Many riders use the app outdoors in bright sunlight",
+        "Riders range from teenagers to people in their seventies",
+        "The app must keep working on small, low-cost phones"
+      ],
+      "tests_topics": [
+        "Visual hierarchy",
+        "Colour contrast",
+        "Feedback and error prevention",
+        "Usability heuristics"
+      ],
+      "map_node": {"x": 0.1, "y": 0.84, "label": "Map-Painted Bus Shelter"},
+      "questions": [
+        {
+          "id": "uxd-1-q1",
+          "type": "single_choice",
+          "prompt": "Most riders open the app to buy a ticket, but they struggle to find the small grey 'Buy ticket' link. What should the intern change?",
+          "options": [
+            {"id": "a", "text": "Add an animated banner that says 'Tickets available here'"},
+            {"id": "b", "text": "Make 'Buy ticket' the largest, highest-contrast button on top"},
+            {"id": "c", "text": "Move 'Buy ticket' into a menu that opens from a hamburger icon"},
+            {"id": "d", "text": "Give all eight home-screen items the same bright orange colour"}
+          ],
+          "correct": ["b"],
+          "explanation": "Visual hierarchy guides attention through size, contrast and position, so the most frequent task should be the most prominent thing on the screen. Making 'Buy ticket' a large, high-contrast primary button near the top lets riders find it at a glance.",
+          "why_others_wrong": {
+            "a": "A banner adds noise and moving distraction while the actual action stays small and hard to tap.",
+            "c": "Hiding the main task in a menu makes it harder to find, not easier.",
+            "d": "When everything is emphasised equally, nothing stands out, which is the current problem."
+          },
+          "key_justification": "Give the primary task the strongest visual weight on the screen.",
+          "points": 10
+        },
+        {
+          "id": "uxd-1-q2",
+          "type": "single_choice",
+          "prompt": "Riders cannot read the light grey body text outdoors. What is the right standard to apply?",
+          "options": [
+            {"id": "a", "text": "A contrast ratio of at least 4.5:1 for normal-size body text"},
+            {"id": "b", "text": "Any grey text is acceptable as long as the font is a modern one"},
+            {"id": "c", "text": "Make the text lighter still, so the whole screen looks cleaner"},
+            {"id": "d", "text": "Use a contrast ratio of about 2:1 to keep a soft, calm feeling"}
+          ],
+          "correct": ["a"],
+          "explanation": "WCAG level AA asks for a contrast ratio of at least 4.5:1 between normal-size text and its background, and 3:1 for large text. Meeting it makes text readable for people with weaker eyesight and in bright sunlight.",
+          "why_others_wrong": {
+            "b": "A typeface does not fix low contrast; the colours still need enough difference.",
+            "c": "Lighter text lowers contrast further and makes the problem worse.",
+            "d": "2:1 is well below the accessibility minimum and is unreadable for many people outdoors."
+          },
+          "key_justification": "Body text needs at least 4.5:1 contrast to meet WCAG AA.",
+          "points": 10
+        },
+        {
+          "id": "uxd-1-q3",
+          "type": "multi_select",
+          "prompt": "After tapping 'Pay', nothing happens for five seconds and riders pay twice. Which two changes fix this?",
+          "options": [
+            {"id": "a", "text": "Show a clear 'Processing payment' state right after the tap"},
+            {"id": "b", "text": "Add a second confirmation pop-up after the payment completes"},
+            {"id": "c", "text": "Disable the Pay button once it is tapped until the result arrives"},
+            {"id": "d", "text": "Hide the ticket price so that riders feel less anxious about it"},
+            {"id": "e", "text": "Change the Pay button's colour every second while riders wait"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "Immediate feedback tells riders their tap worked, which is the heuristic of making system status visible. Disabling the button while the payment is in progress prevents the duplicate tap outright, which is error prevention.",
+          "why_others_wrong": {
+            "b": "A pop-up after completion comes too late; the double tap has already happened.",
+            "d": "Hiding the price removes information riders need and does nothing about the double payment.",
+            "e": "A flashing button looks broken or alarming and invites more taps."
+          },
+          "key_justification": "Show system status immediately and prevent errors by blocking duplicate submissions.",
+          "points": 10
+        },
+        {
+          "id": "uxd-1-q4",
+          "type": "match",
+          "prompt": "Match each design choice to the usability heuristic it follows.",
+          "items": [
+            {"id": "i1", "text": "A back arrow lets riders leave a wrong route screen at once"},
+            {"id": "i2", "text": "Labels say 'bus stop' rather than technical words like 'node'"},
+            {"id": "i3", "text": "The 'Buy' button looks and behaves the same on every screen"},
+            {"id": "i4", "text": "Recent stops are listed so riders do not have to type them again"}
+          ],
+          "targets": [
+            {"id": "t1", "text": "Recognition rather than recall"},
+            {"id": "t2", "text": "Match between the system and the real world"},
+            {"id": "t3", "text": "User control and freedom"},
+            {"id": "t4", "text": "Consistency and standards"}
+          ],
+          "correct": {"i1": "t3", "i2": "t2", "i3": "t4", "i4": "t1"},
+          "explanation": "An easy way out of a wrong screen gives riders control and freedom. Everyday words match how riders think about the real world, a button that behaves the same everywhere follows consistency, and showing recent stops lets riders recognise an option instead of recalling and typing it.",
+          "why_others_wrong": {
+            "common_mistake": "Calling the recent stops list 'consistency': the point is that riders pick from what they see instead of remembering it, which is recognition rather than recall."
+          },
+          "key_justification": "Each choice applies a different one of Nielsen's usability heuristics.",
+          "points": 10
+        }
+      ]
+    },
+    {
+      "id": "uxd-2",
+      "order": 2,
+      "ladder_stage": "core_decision",
+      "title": "Researching Saheli Before Designing It",
+      "difficulty": 2,
+      "estimated_minutes": 10,
+      "background": "Saheli is a fictional health information app for women in smaller towns of Madhya Pradesh and Chhattisgarh. It has 60 articles, a period tracker and paid video consultations with doctors. Many people install it, but most leave during sign-up, and nobody on the team knows why. The founders have strong opinions about what users want, but the team has never spoken to them directly. A new UX designer has six weeks and a small research budget.",
+      "constraints": [
+        "Users are reached mostly through local health workers",
+        "Health topics are sensitive, so research must be private and respectful",
+        "The budget covers sessions with about ten participants"
+      ],
+      "tests_topics": [
+        "Usability testing",
+        "Interview technique",
+        "Information architecture",
+        "Choosing research methods"
+      ],
+      "map_node": {"x": 0.3, "y": 0.66, "label": "Research Tea House"},
+      "questions": [
+        {
+          "id": "uxd-2-q1",
+          "type": "single_choice",
+          "prompt": "The team does not know why most people leave during sign-up. What is the best first research step?",
+          "options": [
+            {"id": "a", "text": "Send a survey to 5,000 users asking them to rate sign-up out of ten"},
+            {"id": "b", "text": "Ask the founders why they think people are leaving at sign-up"},
+            {"id": "c", "text": "Watch five target users try to sign up while thinking aloud"},
+            {"id": "d", "text": "Redesign the sign-up flow with no research and compare numbers"}
+          ],
+          "correct": ["c"],
+          "explanation": "Watching a handful of real users attempt the task while they think aloud shows exactly where and why they get stuck. Around five participants usually uncover most of the major problems in a single flow, which fits the budget.",
+          "why_others_wrong": {
+            "a": "A rating shows that people are unhappy, not what confuses them or where.",
+            "b": "Founders' guesses are exactly the assumptions research is meant to test.",
+            "d": "Redesigning without understanding the cause is likely to repeat or replace the problem."
+          },
+          "key_justification": "Use a small think-aloud usability test to find why users fail a task.",
+          "points": 10
+        },
+        {
+          "id": "uxd-2-q2",
+          "type": "single_choice",
+          "prompt": "Which interview question will give the most honest, useful answer?",
+          "options": [
+            {"id": "a", "text": "'Wouldn't you love an app that tracks every symptom for you?'"},
+            {"id": "b", "text": "'Tell me about the last time you looked for health advice.'"},
+            {"id": "c", "text": "'Do you agree that our period tracker is easy to use?'"},
+            {"id": "d", "text": "'How much would you pay each month for our video consultations?'"}
+          ],
+          "correct": ["b"],
+          "explanation": "An open question about a real past event lets the participant describe what actually happened in her own words, revealing needs and habits the team had not imagined. It avoids suggesting an answer or asking her to predict the future.",
+          "why_others_wrong": {
+            "a": "This leads the participant toward 'yes', so her answer reflects politeness more than need.",
+            "c": "Asking for agreement invites people to say what the interviewer seems to want.",
+            "d": "People are poor at predicting what they would pay, and the question puts them on the spot."
+          },
+          "key_justification": "Ask open, non-leading questions about real past behaviour.",
+          "points": 10
+        },
+        {
+          "id": "uxd-2-q3",
+          "type": "single_choice",
+          "prompt": "The team wants the 60 articles grouped in a way that makes sense to users. Which method fits best?",
+          "options": [
+            {"id": "a", "text": "Group them by the departments the company's doctors work in"},
+            {"id": "b", "text": "Put all 60 articles in alphabetical order on a single long list"},
+            {"id": "c", "text": "Copy the menu structure that a large hospital's website uses"},
+            {"id": "d", "text": "Run a card sort where target users group the article topics"}
+          ],
+          "correct": ["d"],
+          "explanation": "In a card sort, participants group topic cards in the way that makes sense to them and often name the groups, which reveals their mental model. The menu can then be built around the groupings users actually expect.",
+          "why_others_wrong": {
+            "a": "Medical departments reflect the company's structure, not how users think about their health questions.",
+            "b": "A 60-item alphabetical list forces users to know the exact title they want.",
+            "c": "A hospital website serves different users and goals, so its structure may not fit these users."
+          },
+          "key_justification": "Card sorting reveals users' mental models for organising content.",
+          "points": 10
+        },
+        {
+          "id": "uxd-2-q4",
+          "type": "multi_select",
+          "prompt": "The team wants personas to guide design decisions. Which two qualities make a persona useful?",
+          "options": [
+            {"id": "a", "text": "It is based on patterns seen in real interviews and data"},
+            {"id": "b", "text": "It is invented in a brainstorm, with a stock photo and hobbies"},
+            {"id": "c", "text": "It describes her goals, frustrations and the context she lives in"},
+            {"id": "d", "text": "It tries to describe every possible user in one single profile"},
+            {"id": "e", "text": "It reflects the CEO's personal idea of who the ideal user is"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "A persona is only as good as the evidence behind it, so it should summarise patterns seen across real participants. Its goals, frustrations and context, such as sharing one phone with family, are what help the team decide between design options.",
+          "why_others_wrong": {
+            "b": "A made-up persona encodes the team's assumptions instead of real users.",
+            "d": "A persona that describes everyone guides no decision.",
+            "e": "One person's view is an assumption, not research."
+          },
+          "key_justification": "Useful personas are evidence-based and capture goals, pain points and context.",
+          "points": 10
+        },
+        {
+          "id": "uxd-2-q5",
+          "type": "match",
+          "prompt": "Match each research question to the method that answers it best.",
+          "items": [
+            {"id": "i1", "text": "Which of two sign-up button labels gets more completed sign-ups?"},
+            {"id": "i2", "text": "Where in the menu do users expect to find the period tracker?"},
+            {"id": "i3", "text": "How do daily routines shape when women look for health advice?"},
+            {"id": "i4", "text": "Can a first-time user book a video consultation without help?"}
+          ],
+          "targets": [
+            {"id": "t1", "text": "A diary study over two weeks"},
+            {"id": "t2", "text": "A moderated usability test"},
+            {"id": "t3", "text": "An A/B test with live traffic"},
+            {"id": "t4", "text": "A tree test of the menu structure"}
+          ],
+          "correct": {"i1": "t3", "i2": "t4", "i3": "t1", "i4": "t2"},
+          "explanation": "Comparing two labels on real behaviour needs an A/B test with enough traffic. A tree test checks whether people can find items in a proposed menu, a diary study captures habits over time in daily life, and a usability test shows whether a first-time user can complete a task.",
+          "why_others_wrong": {
+            "common_mistake": "Using a usability test to choose between button labels: five participants cannot show which label produces more sign-ups, which needs an A/B test at scale."
+          },
+          "key_justification": "Match the method to whether the question is about behaviour at scale, findability, context or task success.",
+          "points": 10
+        }
+      ]
+    },
+    {
+      "id": "uxd-3",
+      "order": 3,
+      "ladder_stage": "debugging",
+      "title": "Why Farmers Abandon the Kisan Rin Loan Form",
+      "difficulty": 3,
+      "estimated_minutes": 12,
+      "background": "Kisan Rin is a fictional crop-loan app from a co-operative bank in Maharashtra. Analytics show that 60% of applicants abandon the loan form, which has 25 fields on one long screen. Error messages appear only after submitting, in a red banner at the top of the page. 'Submit' and 'Cancel' sit next to each other as small buttons, and the bottom navigation uses icons with no labels. Support calls come mostly from farmers over fifty, and many apply outdoors.",
+      "constraints": [
+        "Some fields are legally required for the loan",
+        "Many applicants have little experience with apps",
+        "The form must work on small phone screens"
+      ],
+      "tests_topics": [
+        "Form design",
+        "Error messages",
+        "Touch targets",
+        "Diagnosing usability problems"
+      ],
+      "map_node": {"x": 0.5, "y": 0.5, "label": "Loan Office Queue"},
+      "questions": [
+        {
+          "id": "uxd-3-q1",
+          "type": "single_choice",
+          "prompt": "Most applicants quit the 25-field form on its single long screen. What should the designer try first?",
+          "options": [
+            {"id": "a", "text": "Make every field smaller so the whole form fits on one phone screen"},
+            {"id": "b", "text": "Split it into short steps with a progress bar, asking only what is needed"},
+            {"id": "c", "text": "Add a pop-up that warns applicants how long the form is going to take"},
+            {"id": "d", "text": "Remove some legally required fields to make the form shorter for all"}
+          ],
+          "correct": ["b"],
+          "explanation": "A long wall of fields looks overwhelming, so grouping them into short, logical steps with a progress indicator makes the task feel manageable. Removing questions that are not truly required, or filling them from data the bank already has, shortens the form further.",
+          "why_others_wrong": {
+            "a": "Tiny fields are harder to read and tap, especially for older applicants outdoors.",
+            "c": "A warning about length makes the form feel even more daunting without changing it.",
+            "d": "Legally required fields must stay, or the loan cannot be processed."
+          },
+          "key_justification": "Break long forms into short steps with progress and ask only for what is needed.",
+          "points": 10
+        },
+        {
+          "id": "uxd-3-q2",
+          "type": "single_choice",
+          "prompt": "Errors appear only after submitting, in a red banner at the top: 'Invalid input in form'. How should errors be shown?",
+          "options": [
+            {"id": "a", "text": "Make the red banner bigger and keep it at the top of the page"},
+            {"id": "b", "text": "Next to each field, saying what is wrong and how to fix it"},
+            {"id": "c", "text": "In a pop-up that lists the code of every error that occurred"},
+            {"id": "d", "text": "Clear all fields after a failed submit so applicants start over"}
+          ],
+          "correct": ["b"],
+          "explanation": "Errors are easiest to fix when they appear beside the field, in plain words that say what is needed, such as 'Enter your date of birth as DD/MM/YYYY'. Checking a field when the applicant leaves it catches mistakes early instead of after a long form is finished.",
+          "why_others_wrong": {
+            "a": "A bigger banner is still far from the field and still does not say which entry is wrong or how to fix it.",
+            "c": "Error codes mean nothing to applicants and do not point to the right field.",
+            "d": "Wiping the form punishes applicants and makes many give up."
+          },
+          "key_justification": "Show specific, inline error messages that explain how to fix the problem.",
+          "points": 10
+        },
+        {
+          "id": "uxd-3-q3",
+          "type": "single_choice",
+          "prompt": "Applicants keep tapping 'Cancel' when they mean 'Submit', because the two small buttons sit side by side. What is the best fix?",
+          "options": [
+            {"id": "a", "text": "Make both buttons smaller so there is more space between them"},
+            {"id": "b", "text": "Give both buttons the same colour so the screen looks balanced"},
+            {"id": "c", "text": "Make Submit a large primary button and Cancel a separate link"},
+            {"id": "d", "text": "Swap the positions of the two buttons in every new release"}
+          ],
+          "correct": ["c"],
+          "explanation": "Large, well-spaced touch targets reduce mis-taps, and clearly different styles for the main action and the escape route stop them being confused. A full-width primary Submit button with a lighter, separated Cancel makes the right choice obvious.",
+          "why_others_wrong": {
+            "a": "Smaller buttons are harder to hit, which increases mis-taps.",
+            "b": "Identical buttons make the two actions even easier to confuse.",
+            "d": "Moving buttons around breaks the habits users have built and causes more errors."
+          },
+          "key_justification": "Use large, separated touch targets with distinct primary and secondary styles.",
+          "points": 10
+        },
+        {
+          "id": "uxd-3-q4",
+          "type": "multi_select",
+          "prompt": "Older applicants do not understand the icon-only bottom navigation. Which two steps should the designer take?",
+          "options": [
+            {"id": "a", "text": "Add short text labels under each of the navigation icons"},
+            {"id": "b", "text": "Add more icons to the navigation bar so that there is more choice"},
+            {"id": "c", "text": "Test the labelled navigation with older applicants before release"},
+            {"id": "d", "text": "Animate each icon so it catches the eye whenever the screen loads"},
+            {"id": "e", "text": "Hide the navigation bar until the applicant scrolls down the page"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "Icons alone are often ambiguous, and labels make each destination clear without guesswork. Testing the change with the people who struggled confirms it works for them before it ships.",
+          "why_others_wrong": {
+            "b": "More unlabelled icons add more guessing.",
+            "d": "Animation distracts and does not explain what an icon means.",
+            "e": "Hidden navigation is harder to find, especially for less experienced users."
+          },
+          "key_justification": "Pair icons with text labels and validate the fix with the affected users.",
+          "points": 10
+        },
+        {
+          "id": "uxd-3-q5",
+          "type": "match",
+          "prompt": "Match each observed behaviour to the design problem behind it.",
+          "items": [
+            {"id": "i1", "text": "Applicants tap underlined text that is not actually a link"},
+            {"id": "i2", "text": "Applicants never notice the error banner at the top of the page"},
+            {"id": "i3", "text": "Applicants keep calling support to ask how to change the language"},
+            {"id": "i4", "text": "Applicants in the field cannot read the screen at all in sunlight"}
+          ],
+          "targets": [
+            {"id": "t1", "text": "The setting is buried and hard to discover"},
+            {"id": "t2", "text": "Text and background have too little contrast"},
+            {"id": "t3", "text": "A false affordance suggests it can be tapped"},
+            {"id": "t4", "text": "The message appears far from where attention is"}
+          ],
+          "correct": {"i1": "t3", "i2": "t4", "i3": "t1", "i4": "t2"},
+          "explanation": "Underlined text signals 'this is a link', so it invites taps that do nothing, which is a false affordance. An error far from where the applicant is looking goes unseen, a setting that generates support calls is hard to discover, and an unreadable screen in sunlight points to low contrast.",
+          "why_others_wrong": {
+            "common_mistake": "Treating the missed banner as a colour problem: the banner is bright red, but it sits at the top while the applicant is looking at the field near the bottom."
+          },
+          "key_justification": "Observed behaviour points to affordance, placement, discoverability or contrast problems.",
+          "points": 10
+        }
+      ]
+    },
+    {
+      "id": "uxd-4",
+      "order": 4,
+      "ladder_stage": "trade_offs",
+      "title": "Business Goals and Users' Trust at Bachat Bank",
+      "difficulty": 4,
+      "estimated_minutes": 14,
+      "background": "Bachat Bank is a fictional digital bank in Kolkata with six product teams, each designing its own screens. The result is three different button styles and two date pickers. Marketing wants a pre-ticked 'Add accident insurance for 99 rupees a month' box on the account-opening screen and fewer visible fee details 'to keep the screen clean'. The app is launching in six Indian languages next quarter, and leadership asks the design lead to balance growth targets with customers' trust.",
+      "constraints": [
+        "Banking regulators expect clear disclosure of fees",
+        "Six teams ship changes every two weeks",
+        "The app must work in six languages, including scripts with taller characters"
+      ],
+      "tests_topics": [
+        "Dark patterns",
+        "Design systems",
+        "Transparency versus minimalism",
+        "Designing for localisation"
+      ],
+      "map_node": {"x": 0.7, "y": 0.36, "label": "Swatch-Hung Bank Lobby"},
+      "questions": [
+        {
+          "id": "uxd-4-q1",
+          "type": "single_choice",
+          "prompt": "Marketing wants the insurance add-on box pre-ticked when customers open an account. What should the design lead recommend?",
+          "options": [
+            {"id": "a", "text": "Pre-tick it, as most people will not notice and revenue goes up"},
+            {"id": "b", "text": "Leave it unticked, explain the cost and benefit, and let them opt in"},
+            {"id": "c", "text": "Pre-tick it but put the monthly price in small grey text below"},
+            {"id": "d", "text": "Pre-tick it and only let customers remove it by calling support"}
+          ],
+          "correct": ["b"],
+          "explanation": "A pre-ticked paid add-on relies on people not noticing, which is a dark pattern that breaks trust and invites complaints. An unticked box with a clear explanation of price and benefit means everyone who buys it chose it, which is fairer to customers and safer for the bank.",
+          "why_others_wrong": {
+            "a": "Revenue from customers who did not notice turns into refunds, complaints and lost trust.",
+            "c": "Hiding the price in faint text makes the dark pattern worse.",
+            "d": "Making removal hard adds a second dark pattern on top of the first."
+          },
+          "key_justification": "Avoid dark patterns; paid add-ons should be clear, unticked opt-ins.",
+          "points": 10
+        },
+        {
+          "id": "uxd-4-q2",
+          "type": "single_choice",
+          "prompt": "Six teams have produced three button styles and two date pickers. What is the best long-term fix?",
+          "options": [
+            {"id": "a", "text": "Let each team keep its own style so it can move as fast as it likes"},
+            {"id": "b", "text": "Have one designer review and redraw every screen from every team"},
+            {"id": "c", "text": "Build a shared design system of tokens and documented components"},
+            {"id": "d", "text": "Freeze all design changes until every screen in the app matches"}
+          ],
+          "correct": ["c"],
+          "explanation": "A design system gives every team the same colours, type, spacing and documented components, so consistency comes from reuse rather than policing. It takes upfront effort, but each team then ships faster because common pieces are already designed and built.",
+          "why_others_wrong": {
+            "a": "Inconsistent controls confuse customers and multiply the work of maintaining the app.",
+            "b": "One reviewer becomes a bottleneck for six teams shipping every two weeks.",
+            "d": "Freezing all changes stops the product from improving."
+          },
+          "key_justification": "Shared, documented components and tokens scale consistency across teams.",
+          "points": 10
+        },
+        {
+          "id": "uxd-4-q3",
+          "type": "single_choice",
+          "prompt": "Marketing wants fee details removed from the transfer confirmation screen to keep it minimal. What should the design lead do?",
+          "options": [
+            {"id": "a", "text": "Remove the fees entirely, as a clean screen converts more customers"},
+            {"id": "b", "text": "Show fees only after the money has already been transferred"},
+            {"id": "c", "text": "Move the fees into a help article that is linked from the footer"},
+            {"id": "d", "text": "Show the fee and total clearly before confirming, styled simply"}
+          ],
+          "correct": ["d"],
+          "explanation": "Customers need to know what a transfer will cost before agreeing to it, and regulators expect fees to be disclosed clearly. Good layout and typography can keep the screen calm while still showing the fee and the total right before the confirm button.",
+          "why_others_wrong": {
+            "a": "Hiding costs damages trust and conflicts with disclosure expectations.",
+            "b": "Showing the fee after the transfer is too late for the customer to decide.",
+            "c": "Few customers read a footer help article before confirming a transfer."
+          },
+          "key_justification": "Clarity about costs outweighs minimalism; disclose fees before confirmation.",
+          "points": 10
+        },
+        {
+          "id": "uxd-4-q4",
+          "type": "multi_select",
+          "prompt": "The app will launch in six Indian languages. Which two design practices prepare it best?",
+          "options": [
+            {"id": "a", "text": "Design layouts that allow for longer and taller translated text"},
+            {"id": "b", "text": "Fix every button's width to fit the English wording exactly"},
+            {"id": "c", "text": "Review translations with native speakers in real screens"},
+            {"id": "d", "text": "Machine-translate every screen and ship it without a review"},
+            {"id": "e", "text": "Put the interface text inside images to keep fonts consistent"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "Translated text is often longer than English, and some scripts need more line height, so flexible layouts prevent clipped or overlapping labels. Native speakers reviewing text in context catch awkward or wrong translations, especially for financial terms.",
+          "why_others_wrong": {
+            "b": "English-sized buttons cut off longer translations.",
+            "d": "Unreviewed machine translation of banking terms can confuse or mislead customers.",
+            "e": "Text in images cannot be translated, resized or read by screen readers."
+          },
+          "key_justification": "Localisation needs flexible layouts and native-speaker review in context.",
+          "points": 10
+        }
+      ]
+    },
+    {
+      "id": "uxd-5",
+      "order": 5,
+      "ladder_stage": "end_to_end",
+      "title": "Redesigning the Jan Suvidha Citizen App",
+      "difficulty": 5,
+      "estimated_minutes": 16,
+      "background": "Jan Suvidha is a fictional citizen-services app for a state government, used to apply for income and caste certificates, pay property tax and track applications. Usage is low, and most people still queue at offices. Users range from college students to elderly people with low literacy, and some rely on screen readers. Every department wants its own link on the home screen, and the deadline is tight. The design lead must run a redesign from research to developer handoff.",
+      "constraints": [
+        "Users include people with low literacy and people using screen readers",
+        "Twelve departments each want visibility on the home screen",
+        "The launch date is fixed by the government"
+      ],
+      "tests_topics": [
+        "The design process",
+        "Measuring design success",
+        "Developer handoff",
+        "Accessibility and stakeholder management"
+      ],
+      "map_node": {"x": 0.88, "y": 0.16, "label": "Citizens' Hall"},
+      "questions": [
+        {
+          "id": "uxd-5-q1",
+          "type": "order",
+          "prompt": "Put the stages of the redesign in order.",
+          "options": [
+            {"id": "a", "text": "Sketch and explore several possible solutions"},
+            {"id": "b", "text": "Research citizens' needs, tasks and context"},
+            {"id": "c", "text": "Test the prototype with citizens and iterate"},
+            {"id": "d", "text": "Define the core problems and success measures"},
+            {"id": "e", "text": "Build an interactive prototype of the best idea"}
+          ],
+          "correct": ["b", "d", "a", "e", "c"],
+          "explanation": "Research comes first so the team understands real needs, and those findings are turned into a clear problem and success measures. The team then explores several ideas, prototypes the most promising, and tests it with citizens, repeating as needed.",
+          "why_others_wrong": {
+            "common_mistake": "Sketching solutions before defining the problem, which leads the team to polish ideas that solve the wrong thing."
+          },
+          "key_justification": "Research, define, ideate, prototype, then test and iterate.",
+          "points": 10
+        },
+        {
+          "id": "uxd-5-q2",
+          "type": "single_choice",
+          "prompt": "How should the team judge whether the redesign succeeded?",
+          "options": [
+            {"id": "a", "text": "Count how many screens the new design has compared with the old"},
+            {"id": "b", "text": "Ask the department heads whether the new design looks modern"},
+            {"id": "c", "text": "Measure task completion and time for top tasks, before and after"},
+            {"id": "d", "text": "Count how many likes the launch announcement gets on social media"}
+          ],
+          "correct": ["c"],
+          "explanation": "The goal is for citizens to finish real tasks such as applying for a certificate. Measuring completion rate and time on those tasks in usability tests and in analytics, before and after the redesign, shows whether it actually helped.",
+          "why_others_wrong": {
+            "a": "Fewer or more screens says nothing about whether citizens can finish their tasks.",
+            "b": "Officials' taste is not evidence of usability for citizens.",
+            "d": "Likes measure the announcement's reach, not whether the app works for people."
+          },
+          "key_justification": "Measure design success by task success for real users.",
+          "points": 10
+        },
+        {
+          "id": "uxd-5-q3",
+          "type": "single_choice",
+          "prompt": "What should the handoff to developers include?",
+          "options": [
+            {"id": "a", "text": "Only the polished main screens, exported as flat PNG images"},
+            {"id": "b", "text": "Design-system components with every state, such as empty and error"},
+            {"id": "c", "text": "A short verbal walkthrough, leaving developers to fill in the rest"},
+            {"id": "d", "text": "The full research notes, so developers can work out the screens"}
+          ],
+          "correct": ["b"],
+          "explanation": "Developers build what is specified, so screens need their loading, empty, error and success states, not just the happy path. Using shared components with annotations on behaviour and accessibility, such as focus order and labels, lets them build it consistently.",
+          "why_others_wrong": {
+            "a": "Flat images miss states, spacing values and interactions, so developers have to guess.",
+            "c": "A verbal walkthrough is quickly forgotten and leaves most decisions undocumented.",
+            "d": "Research explains why, but developers still need the specific designs and states."
+          },
+          "key_justification": "Handoff should cover all states and reuse documented components with annotations.",
+          "points": 10
+        },
+        {
+          "id": "uxd-5-q4",
+          "type": "multi_select",
+          "prompt": "Some users have low literacy and some use screen readers. Which two choices serve them best?",
+          "options": [
+            {"id": "a", "text": "Label every control and keep a logical focus order for screen readers"},
+            {"id": "b", "text": "Show status using colour alone, such as green dots and red dots"},
+            {"id": "c", "text": "Use plain, simple wording supported by clear icons and examples"},
+            {"id": "d", "text": "Add a hard CAPTCHA puzzle to every single form submission screen"},
+            {"id": "e", "text": "Use small text so that more information fits on every screen"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "Proper labels and a logical focus order let screen-reader users understand and move through each screen. Plain language with supporting icons and examples helps people with low literacy understand what each step asks of them.",
+          "why_others_wrong": {
+            "b": "Colour alone fails for colour-blind and screen-reader users.",
+            "d": "Hard CAPTCHAs block many users with disabilities and low literacy.",
+            "e": "Small text is harder for everyone to read, especially older users."
+          },
+          "key_justification": "Accessible services need proper semantics for assistive technology and plain language.",
+          "points": 10
+        },
+        {
+          "id": "uxd-5-q5",
+          "type": "match",
+          "prompt": "Match each stakeholder request to the best response.",
+          "items": [
+            {"id": "i1", "text": "'We have no time for user testing before launch.'"},
+            {"id": "i2", "text": "'Every department needs its own link on the home screen.'"},
+            {"id": "i3", "text": "'Citizens will figure it out on their own eventually.'"},
+            {"id": "i4", "text": "'Just copy the design of a famous shopping app.'"}
+          ],
+          "targets": [
+            {"id": "t1", "text": "Show short recordings of citizens struggling with the app"},
+            {"id": "t2", "text": "Adapt only the patterns that suit these citizens' tasks"},
+            {"id": "t3", "text": "Run a quick one-day test with five citizens instead"},
+            {"id": "t4", "text": "Feature the top tasks from usage data; group the rest"}
+          ],
+          "correct": {"i1": "t3", "i2": "t4", "i3": "t1", "i4": "t2"},
+          "explanation": "A fast, small test fits a tight deadline and still catches the worst problems. Usage data turns a political argument about home-screen links into a decision about top tasks, real recordings are more convincing than opinions, and borrowed patterns only help when they suit these users' tasks.",
+          "why_others_wrong": {
+            "common_mistake": "Giving every department a link to keep the peace, which buries the few tasks most citizens need under a crowded home screen."
+          },
+          "key_justification": "Answer stakeholders with lightweight evidence: quick tests, usage data and real recordings.",
+          "points": 10
+        }
+      ]
+    }
+  ]
+}
