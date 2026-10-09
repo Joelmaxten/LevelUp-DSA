@@ -1,0 +1,582 @@
+{
+  "schema_version": 1,
+  "path": "Mobile App Development",
+  "map": {
+    "scene_id": "mobile-app-development",
+    "theme": "A seaside railway town where a tiffin depot by the tracks, a pharmacy clock tower, a cooking school with steaming windows, a bank built into the cliff and a village health post on the far headland are linked by a toy train line. The palette is coral, mint and sand, and the mood moves from morning hustle at the depot to quiet purpose at the health post.",
+    "edges": [["mob-1", "mob-2"], ["mob-2", "mob-3"], ["mob-3", "mob-4"], ["mob-4", "mob-5"]]
+  },
+  "scenarios": [
+    {
+      "id": "mob-1",
+      "order": 1,
+      "ladder_stage": "foundations",
+      "title": "First Release of the Dabba Express Rider App",
+      "difficulty": 1,
+      "estimated_minutes": 8,
+      "background": "Dabba Express is a fictional tiffin delivery service in Mumbai with 400 riders who carry lunch boxes from homes to offices. Its first Android app shows each rider the day's pickups, the map route and a button to mark each box as delivered. In testing, the screen freezes for several seconds while the pickup list loads, most riders tapped 'Deny' when the app asked for their location the moment it opened, and the app shows a blank screen whenever a rider goes into a building basement with no signal.",
+      "constraints": [
+        "Riders use low-cost Android phones with patchy mobile data",
+        "Delivery updates must not be lost even when there is no signal",
+        "The app is built by two developers"
+      ],
+      "tests_topics": [
+        "Main thread and UI responsiveness",
+        "Runtime permissions",
+        "Offline storage",
+        "App lifecycle"
+      ],
+      "map_node": {"x": 0.1, "y": 0.84, "label": "Tiffin Depot"},
+      "questions": [
+        {
+          "id": "mob-1-q1",
+          "type": "single_choice",
+          "prompt": "The screen freezes for several seconds while the pickup list is fetched from the server. What is the correct fix?",
+          "options": [
+            {"id": "a", "text": "Show a splash screen until the network request has finished"},
+            {"id": "b", "text": "Run the request off the main thread and update the UI after"},
+            {"id": "c", "text": "Require riders to use phones with at least 8 GB of memory"},
+            {"id": "d", "text": "Ask riders to restart the app whenever it starts to freeze"}
+          ],
+          "correct": ["b"],
+          "explanation": "The main thread draws the screen and handles taps, so a slow network call on it blocks everything until it returns. Doing the request in the background, with coroutines, a background executor or async code, and then updating the list on the main thread keeps the app responsive.",
+          "why_others_wrong": {
+            "a": "A splash screen hides the delay but the main thread is still blocked, so the app still cannot respond.",
+            "c": "Memory is not the problem; a slow network call on the main thread freezes any phone.",
+            "d": "Restarting does not change where the network call runs, so the freeze comes back."
+          },
+          "key_justification": "Never do slow work such as network calls on the main thread.",
+          "points": 10
+        },
+        {
+          "id": "mob-1-q2",
+          "type": "single_choice",
+          "prompt": "Most riders denied location access when the app asked as soon as it opened. How should the app request it?",
+          "options": [
+            {"id": "a", "text": "Ask when the rider opens the route map, and explain why it is needed"},
+            {"id": "b", "text": "Ask for every permission the app might ever need on first launch"},
+            {"id": "c", "text": "Close the app immediately whenever a rider denies the permission"},
+            {"id": "d", "text": "Show the permission prompt again every time the app is opened"}
+          ],
+          "correct": ["a"],
+          "explanation": "People grant permissions far more often when the request comes at the moment the feature needs it and the reason is obvious. Asking when the rider opens the map, with a short explanation that location is used to show the route, makes the request make sense.",
+          "why_others_wrong": {
+            "b": "A wall of requests with no context looks suspicious and leads to more denials.",
+            "c": "Punishing a denial makes the whole app unusable when only the map needs location.",
+            "d": "Repeated prompts annoy users, and after repeated denials Android stops showing the prompt at all."
+          },
+          "key_justification": "Request permissions in context, at the moment of need, with a clear reason.",
+          "points": 10
+        },
+        {
+          "id": "mob-1-q3",
+          "type": "multi_select",
+          "prompt": "Riders often lose signal in basements and lifts. Which two changes make the app work in those moments?",
+          "options": [
+            {"id": "a", "text": "Store the day's pickups in a local database on the phone"},
+            {"id": "b", "text": "Block every screen until the phone has a mobile connection"},
+            {"id": "c", "text": "Queue delivered taps on the phone and sync them when online"},
+            {"id": "d", "text": "Keep the pickup list only in memory while the app is open"},
+            {"id": "e", "text": "Show an empty screen with a 'no network' message instead"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "A local database lets the app show the day's pickups whatever the signal. Saving each 'delivered' tap on the phone first and sending it to the server when the connection returns means no update is lost.",
+          "why_others_wrong": {
+            "b": "Riders cannot work at all in exactly the places where they need the app.",
+            "d": "Memory is cleared when Android stops the app in the background, so the list and any changes are lost.",
+            "e": "A blank screen is the current problem, not a fix for it."
+          },
+          "key_justification": "Offline support means persisting data locally and queuing changes for later sync.",
+          "points": 10
+        },
+        {
+          "id": "mob-1-q4",
+          "type": "match",
+          "prompt": "Match each lifecycle event to what the app should do.",
+          "items": [
+            {"id": "i1", "text": "A rider switches to WhatsApp while typing a delivery note"},
+            {"id": "i2", "text": "A rider rotates the phone on the pickup screen"},
+            {"id": "i3", "text": "Android kills the app in the background to free memory"},
+            {"id": "i4", "text": "A rider returns to the app after an hour away from it"}
+          ],
+          "targets": [
+            {"id": "t1", "text": "Keep the screen's state so it survives being rebuilt"},
+            {"id": "t2", "text": "Refresh the pickup list and statuses from the server"},
+            {"id": "t3", "text": "Save the half-written note as the app goes to the background"},
+            {"id": "t4", "text": "Restore the rider's work from saved data when it relaunches"}
+          ],
+          "correct": {"i1": "t3", "i2": "t1", "i3": "t4", "i4": "t2"},
+          "explanation": "Moving to another app is the moment to save unsaved input, because the app may not come back to the foreground. Rotation rebuilds the screen, so its state must be kept, for example in a ViewModel. A process killed for memory relaunches from saved data, and returning after a long gap is the time to fetch fresh statuses.",
+          "why_others_wrong": {
+            "common_mistake": "Assuming the app keeps running in the background: Android can stop it at any time, so anything not saved when the app goes to the background can be lost."
+          },
+          "key_justification": "Save state when leaving, keep it across rebuilds, restore after a kill and refresh after a long absence.",
+          "points": 10
+        }
+      ]
+    },
+    {
+      "id": "mob-2",
+      "order": 2,
+      "ladder_stage": "core_decision",
+      "title": "Building Yaad Dawa, a Pill Reminder for Elders",
+      "difficulty": 2,
+      "estimated_minutes": 10,
+      "background": "Yaad Dawa is a fictional startup in Lucknow building a medicine reminder app for elderly people, often set up by their children who live in other cities. The app must remind users at fixed times, such as 8 am and 9 pm, to take each medicine, and let them tap 'taken'. Many users are over 70, have weak eyesight and use their phone's largest text size. The team is three web developers who know JavaScript and React well and have never built a mobile app. The app must launch on both Android and iPhone in four months.",
+      "constraints": [
+        "Both Android and iOS must launch within four months",
+        "Reminders must fire even when the phone has no internet",
+        "Medicine lists are private health information"
+      ],
+      "tests_topics": [
+        "Native versus cross-platform",
+        "Local and push notifications",
+        "Accessibility",
+        "Secure local storage"
+      ],
+      "map_node": {"x": 0.3, "y": 0.66, "label": "Pharmacy Clock Tower"},
+      "questions": [
+        {
+          "id": "mob-2-q1",
+          "type": "single_choice",
+          "prompt": "Given the team and deadline, which way of building the app fits best?",
+          "options": [
+            {"id": "a", "text": "Two separate native apps, one in Kotlin and one in Swift"},
+            {"id": "b", "text": "A cross-platform framework such as React Native, one codebase"},
+            {"id": "c", "text": "Android only for now, and an iPhone version in a later year"},
+            {"id": "d", "text": "A website that users must keep open in a browser tab all day"}
+          ],
+          "correct": ["b"],
+          "explanation": "The team knows JavaScript and React, needs both platforms in four months and has a simple interface to build. React Native reuses those skills and one codebase for both stores, while still giving access to native features such as local notifications.",
+          "why_others_wrong": {
+            "a": "Two native apps means learning two new languages and building everything twice, which does not fit four months for three web developers.",
+            "c": "The requirement is to launch on both platforms, and many of the children who set up the app use iPhones.",
+            "d": "A browser tab cannot be relied on to deliver timed reminders, especially when the screen is off."
+          },
+          "key_justification": "Cross-platform suits one team, two platforms, a tight deadline and existing JavaScript skills.",
+          "points": 10
+        },
+        {
+          "id": "mob-2-q2",
+          "type": "single_choice",
+          "prompt": "The 8 am reminder must fire even if the phone has no internet. How should reminders be delivered?",
+          "options": [
+            {"id": "a", "text": "Send a push notification from the server at each dose time"},
+            {"id": "b", "text": "Keep the app running in the background and check the time"},
+            {"id": "c", "text": "Text the user an SMS from the server at each dose time"},
+            {"id": "d", "text": "Schedule local notifications on the phone for each dose"}
+          ],
+          "correct": ["d"],
+          "explanation": "Local notifications are scheduled with the phone's operating system and fire at the set time without any network. When the medicine schedule changes, the app reschedules them on the device.",
+          "why_others_wrong": {
+            "a": "A push notification needs the phone to be online at that moment, which the requirement rules out.",
+            "b": "Both Android and iOS stop background apps to save battery, so a self-made timer is unreliable.",
+            "c": "SMS costs money for every dose and depends on the server and the mobile network being available."
+          },
+          "key_justification": "Time-based reminders that must work offline belong in on-device scheduled notifications.",
+          "points": 10
+        },
+        {
+          "id": "mob-2-q3",
+          "type": "single_choice",
+          "prompt": "Many users have weak eyesight and set their phone to its largest text size. What should the app do?",
+          "options": [
+            {"id": "a", "text": "Fix all text at 12 points so the layout always stays neat"},
+            {"id": "b", "text": "Show 'taken' in green and 'missed' in red without any labels"},
+            {"id": "c", "text": "Follow the system text size and use large, labelled tap targets"},
+            {"id": "d", "text": "Use small icons only, so more medicines fit on the screen"}
+          ],
+          "correct": ["c"],
+          "explanation": "Respecting the phone's text size setting lets each user read comfortably, and layouts should grow with the text instead of cutting it off. Large touch targets, roughly 48 dp on Android and 44 points on iOS, and labels that screen readers can announce make the app usable for people with weak eyesight or shaky hands.",
+          "why_others_wrong": {
+            "a": "Fixed small text ignores the setting these users rely on to read at all.",
+            "b": "Colour alone fails for people with colour blindness and for screen-reader users.",
+            "d": "Small unlabelled icons are hard to see, hard to tap and meaningless to a screen reader."
+          },
+          "key_justification": "Support dynamic text sizes, large touch targets and screen-reader labels.",
+          "points": 10
+        },
+        {
+          "id": "mob-2-q4",
+          "type": "multi_select",
+          "prompt": "Medicine lists are private health information. Which two practices protect them properly?",
+          "options": [
+            {"id": "a", "text": "Encrypt local data with keys kept in the Keychain or Keystore"},
+            {"id": "b", "text": "Save the medicine list in a plain text file in shared storage"},
+            {"id": "c", "text": "Keep medicine names out of analytics events and crash logs"},
+            {"id": "d", "text": "Embed the backend's admin API secret in the app's source code"},
+            {"id": "e", "text": "Send each dose and medicine name to the analytics service"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "The iOS Keychain and the Android Keystore protect encryption keys with the operating system and often with hardware, so locally stored data stays protected even if the files are copied. Keeping medicine names out of analytics and logs stops sensitive details from leaking to third-party services.",
+          "why_others_wrong": {
+            "b": "Shared storage can be read by other apps and by anyone with access to the phone's files.",
+            "d": "Anything inside an app can be extracted by decompiling it, so a secret there is not secret.",
+            "e": "This sends health information to an analytics provider that does not need it."
+          },
+          "key_justification": "Encrypt sensitive data with OS-protected keys and keep it out of logs and analytics.",
+          "points": 10
+        }
+      ]
+    },
+    {
+      "id": "mob-3",
+      "order": 3,
+      "ladder_stage": "debugging",
+      "title": "Stabilising the Rasoi Ghar Recipe App",
+      "difficulty": 3,
+      "estimated_minutes": 12,
+      "background": "Rasoi Ghar is a fictional recipe app from Indore with 1.2 million installs and 2,000 recipes, each with step photos. After the latest update, the support inbox is full: the app crashes on launch for some users, scrolling the recipe list stutters, people complain about battery drain, and some crashes happen only on certain phones. The team has crash reporting installed and can see stack traces, phone models and Android versions for each crash.",
+      "constraints": [
+        "Many users have phones with 3 GB of RAM or less",
+        "The app is released to both Android and iOS",
+        "A fix must ship within a week"
+      ],
+      "tests_topics": [
+        "Database migrations",
+        "List and image performance",
+        "Battery and location use",
+        "Diagnosing crashes"
+      ],
+      "map_node": {"x": 0.5, "y": 0.5, "label": "Cooking School"},
+      "questions": [
+        {
+          "id": "mob-3-q1",
+          "type": "single_choice",
+          "prompt": "After the update, the app crashes on launch for users who upgraded from the old version. New installs work fine. The update added a 'cooking_time' column to the local database. What is the most likely cause?",
+          "options": [
+            {"id": "a", "text": "The new version of the app is too large for older phones"},
+            {"id": "b", "text": "The update changed the schema without a migration step"},
+            {"id": "c", "text": "The app store delivered a corrupted copy to those users"},
+            {"id": "d", "text": "The upgraded users' phones are running out of battery"}
+          ],
+          "correct": ["b"],
+          "explanation": "A fresh install creates the database with the new schema, but an upgraded phone still has the old database without the new column, so queries that use it crash. The fix is a migration that alters the existing database to the new schema, plus a test that upgrades from the previous version.",
+          "why_others_wrong": {
+            "a": "Size would affect new installs too, and they work fine.",
+            "c": "A corrupt download would affect new installs as well, and would not single out upgraders.",
+            "d": "Battery level does not make an app crash on launch."
+          },
+          "key_justification": "Crashes only for upgraders after a schema change point to a missing database migration.",
+          "points": 10
+        },
+        {
+          "id": "mob-3-q2",
+          "type": "single_choice",
+          "prompt": "The recipe list stutters when scrolling. Each row loads the full 4,000-pixel step photo. What is the best fix?",
+          "options": [
+            {"id": "a", "text": "Use a recycling list and load small, cached thumbnails per row"},
+            {"id": "b", "text": "Load all 2,000 recipes and their photos when the app first opens"},
+            {"id": "c", "text": "Show a loading spinner over the list for as long as it scrolls"},
+            {"id": "d", "text": "Lower the phone's screen brightness to make drawing cheaper"}
+          ],
+          "correct": ["a"],
+          "explanation": "Decoding a full-size photo for a small row wastes memory and processing on every scroll. A recycling list, such as RecyclerView or LazyColumn, reuses row views, and an image library that loads a small cached thumbnail sized for the row keeps scrolling smooth.",
+          "why_others_wrong": {
+            "b": "Loading everything at once multiplies memory use and makes the app slow to open or crash on low-RAM phones.",
+            "c": "A spinner hides the stutter but does not remove the work causing it.",
+            "d": "Brightness has nothing to do with the cost of decoding images."
+          },
+          "key_justification": "Recycle list rows and load images at the size they are displayed, with caching.",
+          "points": 10
+        },
+        {
+          "id": "mob-3-q3",
+          "type": "single_choice",
+          "prompt": "To show nearby grocery stores, the app requests precise GPS location every second, even in the background. Users report battery drain. What should change?",
+          "options": [
+            {"id": "a", "text": "Keep the same updates, but only while the phone is charging"},
+            {"id": "b", "text": "Raise the GPS update rate so each location fix finishes faster"},
+            {"id": "c", "text": "Remove the nearby-stores feature from the app completely"},
+            {"id": "d", "text": "Get a coarse location only when the user opens the stores screen"}
+          ],
+          "correct": ["d"],
+          "explanation": "Nearby stores only matter while the user is looking at them, and city-block accuracy is enough. Requesting an approximate location once when the screen opens, and never in the background, removes almost all of the battery cost while keeping the feature.",
+          "why_others_wrong": {
+            "a": "Users would still get no stores when not charging, and constant GPS is unnecessary even then.",
+            "b": "More frequent GPS updates use more battery, not less.",
+            "c": "The feature is useful; the problem is how often and how precisely it asks for location."
+          },
+          "key_justification": "Request only the location accuracy and frequency a feature needs, and only while it is in use.",
+          "points": 10
+        },
+        {
+          "id": "mob-3-q4",
+          "type": "multi_select",
+          "prompt": "One crash appears only on certain phone models. Which two steps help the team diagnose it?",
+          "options": [
+            {"id": "a", "text": "Group the crash reports by phone model, OS version and stack trace"},
+            {"id": "b", "text": "Tell affected users to uninstall and reinstall the app"},
+            {"id": "c", "text": "Close the ticket because the app works on the developer's phone"},
+            {"id": "d", "text": "Reproduce it on a device or emulator with the same OS and memory"},
+            {"id": "e", "text": "Wrap the whole app in a try-catch that hides every exception"}
+          ],
+          "correct": ["a", "d"],
+          "explanation": "Grouping crash reports shows what the affected phones have in common, such as one Android version or low memory, and points to the failing line. Reproducing it on matching hardware or an emulator lets the team confirm the cause and test the fix.",
+          "why_others_wrong": {
+            "b": "Reinstalling does not change the phone model or OS version that triggers the crash.",
+            "c": "One working phone says nothing about other models, and the reports show real crashes.",
+            "e": "Hiding every exception leaves the app in an unknown state and removes the information needed to fix it."
+          },
+          "key_justification": "Use crash-report patterns to find the common factor, then reproduce on matching conditions.",
+          "points": 10
+        },
+        {
+          "id": "mob-3-q5",
+          "type": "match",
+          "prompt": "Match each symptom to its most likely cause.",
+          "items": [
+            {"id": "i1", "text": "An 'app not responding' dialog appears when opening a long recipe"},
+            {"id": "i2", "text": "Memory grows each time the recipe screen is opened and closed"},
+            {"id": "i3", "text": "Push notifications arrive on Android but never on iPhones"},
+            {"id": "i4", "text": "Photos look blurry on high-resolution screens"}
+          ],
+          "targets": [
+            {"id": "t1", "text": "The Apple push service key or certificate is not set up"},
+            {"id": "t2", "text": "Images are served at one low resolution for every screen"},
+            {"id": "t3", "text": "A long-lived listener keeps a reference to the closed screen"},
+            {"id": "t4", "text": "The recipe text is parsed on the main thread"}
+          ],
+          "correct": {"i1": "t4", "i2": "t3", "i3": "t1", "i4": "t2"},
+          "explanation": "Android shows 'app not responding' when the main thread is blocked, here by heavy parsing. Memory that grows with every visit means closed screens are never freed, typically because a long-lived object still references them. iPhone pushes need the Apple push service configured, and blurry photos mean the image size does not match the screen's density.",
+          "why_others_wrong": {
+            "common_mistake": "Blaming the growing memory on the photos being large: large photos raise memory once, while memory that grows on every visit points to screens that are never released."
+          },
+          "key_justification": "Each symptom points to a distinct cause: main-thread work, a leak, push setup or image density.",
+          "points": 10
+        }
+      ]
+    },
+    {
+      "id": "mob-4",
+      "order": 4,
+      "ladder_stage": "trade_offs",
+      "title": "Shipping Safely at Paisa Mitra",
+      "difficulty": 4,
+      "estimated_minutes": 14,
+      "background": "Paisa Mitra is a fictional payments app from Chennai with 3 million users. About 40% of them use low-end Android phones with 2 GB of RAM and little free storage, and the app has grown to 180 MB. The next release changes the payment confirmation flow, and a security researcher has just reported that an old version of the app skips a check during transfers. The team must decide how to ship changes without breaking payments for millions of people.",
+      "constraints": [
+        "Payments must keep working during every release",
+        "Many users have little free storage and slow data",
+        "Old app versions stay installed until users update them"
+      ],
+      "tests_topics": [
+        "App size",
+        "Staged rollouts and feature flags",
+        "Biometric authentication",
+        "Supporting old app versions"
+      ],
+      "map_node": {"x": 0.7, "y": 0.36, "label": "Cliffside Bank"},
+      "questions": [
+        {
+          "id": "mob-4-q1",
+          "type": "single_choice",
+          "prompt": "The app is 180 MB, and many users on low-end phones skip updates for lack of space. What should the team do?",
+          "options": [
+            {"id": "a", "text": "Publish an app bundle so each phone downloads only what it needs"},
+            {"id": "b", "text": "Ask users to delete their photos to make room for the update"},
+            {"id": "c", "text": "Bundle every feature's assets so the app never downloads more"},
+            {"id": "d", "text": "Add a second, separate app for each feature the users need"}
+          ],
+          "correct": ["a"],
+          "explanation": "With an Android App Bundle, the Play Store builds a download for each device containing only its screen density, processor type and languages, which often cuts size a lot. Removing unused libraries and compressing images shrinks it further without dropping features.",
+          "why_others_wrong": {
+            "b": "Asking users to delete their photos pushes the problem onto them, and many will simply not update.",
+            "c": "Bundling everything up front is what made the app large in the first place.",
+            "d": "Several separate apps use more total storage and make payments harder to use."
+          },
+          "key_justification": "Reduce app size by delivering per-device builds and removing unused code and assets.",
+          "points": 10
+        },
+        {
+          "id": "mob-4-q2",
+          "type": "single_choice",
+          "prompt": "How should the release that changes the payment confirmation flow go out?",
+          "options": [
+            {"id": "a", "text": "To all 3 million users at once, so everyone has the same version"},
+            {"id": "b", "text": "Staged rollout with the new flow behind a remote feature flag"},
+            {"id": "c", "text": "Only to users who write in asking to try the new payment flow"},
+            {"id": "d", "text": "Hold it back until the team is sure it contains no bugs at all"}
+          ],
+          "correct": ["b"],
+          "explanation": "A staged rollout releases to a small percentage first, for example 1% then 10% then 100%, while the team watches crash and payment success rates. A remote feature flag lets them switch the new flow off instantly without waiting for another app store review if something goes wrong.",
+          "why_others_wrong": {
+            "a": "If the change has a bug, it reaches every user at once and payments break for millions.",
+            "c": "Volunteers are too few and too unusual to reveal problems across the full range of phones.",
+            "d": "No release is ever certain to be bug-free, so waiting for certainty means never shipping."
+          },
+          "key_justification": "Limit the impact of risky changes with staged rollouts and a remote off switch.",
+          "points": 10
+        },
+        {
+          "id": "mob-4-q3",
+          "type": "single_choice",
+          "prompt": "Users want fingerprint login instead of typing a PIN every time. Which design balances convenience and security?",
+          "options": [
+            {"id": "a", "text": "Store the PIN in plain app preferences and fill it in after a match"},
+            {"id": "b", "text": "Allow fingerprint login only, with no PIN fallback when it fails"},
+            {"id": "c", "text": "Let the fingerprint unlock a hardware key, keep a PIN fallback"},
+            {"id": "d", "text": "Stay logged in forever after the first successful app login"}
+          ],
+          "correct": ["c"],
+          "explanation": "Platform biometric APIs can unlock a cryptographic key held in secure hardware, so the app never stores the PIN itself. A PIN fallback covers wet fingers or a damaged sensor, and asking again for large transfers keeps the riskiest actions protected.",
+          "why_others_wrong": {
+            "a": "A PIN in plain preferences can be read from the device, defeating the protection.",
+            "b": "Without a fallback, users are locked out of their money whenever the sensor fails.",
+            "d": "Anyone who picks up an unlocked phone could make payments."
+          },
+          "key_justification": "Use biometrics to unlock hardware-held keys, with a fallback and step-up checks for risky actions.",
+          "points": 10
+        },
+        {
+          "id": "mob-4-q4",
+          "type": "multi_select",
+          "prompt": "An old app version skips a check during transfers, and many users still run it. Which two actions protect users properly?",
+          "options": [
+            {"id": "a", "text": "Have the server block transfers from versions below the fixed one"},
+            {"id": "b", "text": "Wait for users to update over the next few months on their own"},
+            {"id": "c", "text": "Make the server enforce the check so old apps cannot skip it"},
+            {"id": "d", "text": "Remove the old version from the store listing and do nothing else"},
+            {"id": "e", "text": "Post a request to update on social media and stop there"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "The server cannot reach into installed apps, but it decides which requests to accept. Enforcing the check on the server protects every version at once, and refusing transfers from vulnerable versions with a clear 'please update' message closes the gap for anything the server check cannot cover.",
+          "why_others_wrong": {
+            "b": "Many users never update promptly, so the hole stays open for months.",
+            "d": "Delisting stops new downloads but does nothing for apps already installed.",
+            "e": "Most users will never see the post, and the vulnerable app keeps working."
+          },
+          "key_justification": "Fix security on the server and enforce a minimum supported app version.",
+          "points": 10
+        }
+      ]
+    },
+    {
+      "id": "mob-5",
+      "order": 5,
+      "ladder_stage": "end_to_end",
+      "title": "Launching Gaon Sehat for ASHA Workers",
+      "difficulty": 5,
+      "estimated_minutes": 16,
+      "background": "Gaon Sehat is a fictional app for ASHA community health workers in rural Uttar Pradesh. Each worker visits about 150 households, recording pregnancies, child vaccinations and home visits. Many villages have no mobile signal for days, workers share phones that are low-end and nearly full, and some speak Bhojpuri more comfortably than Hindi. A worker and her supervisor sometimes update the same household record. The state health department wants a pilot in one district and then a rollout to 10,000 workers.",
+      "constraints": [
+        "The app must work for days without any network",
+        "Records contain sensitive health information",
+        "Phones are low-end, with almost no free storage"
+      ],
+      "tests_topics": [
+        "Offline-first architecture",
+        "Sync conflict resolution",
+        "Release pipeline",
+        "Production monitoring"
+      ],
+      "map_node": {"x": 0.88, "y": 0.18, "label": "Headland Health Post"},
+      "questions": [
+        {
+          "id": "mob-5-q1",
+          "type": "order",
+          "prompt": "Put the steps for shipping a new vaccination-tracking feature in order.",
+          "options": [
+            {"id": "a", "text": "Release to a small share of workers through a staged rollout"},
+            {"id": "b", "text": "Build the feature behind a remote feature flag that starts off"},
+            {"id": "c", "text": "Expand to all workers once crash and sync numbers stay healthy"},
+            {"id": "d", "text": "Run automated unit and UI tests in the CI pipeline"},
+            {"id": "e", "text": "Test the build on an internal track on low-end phones"}
+          ],
+          "correct": ["b", "d", "e", "a", "c"],
+          "explanation": "The feature is built behind a flag, so unfinished work can ship safely, and automated tests catch regressions before any person sees the build. Internal testers then try it on the same low-end phones the workers use, a staged rollout limits the impact of any remaining problem, and the release only reaches everyone once the numbers stay healthy.",
+          "why_others_wrong": {
+            "common_mistake": "Starting the staged rollout before internal testing on low-end phones, which lets real health workers find problems the team could have caught on matching devices."
+          },
+          "key_justification": "Flag, automated tests, internal testing on target devices, staged rollout, then full release.",
+          "points": 10
+        },
+        {
+          "id": "mob-5-q2",
+          "type": "single_choice",
+          "prompt": "A worker and her supervisor both edit the same household record while offline. When both sync, what should happen?",
+          "options": [
+            {"id": "a", "text": "The last sync to arrive replaces the whole record silently"},
+            {"id": "b", "text": "The first sync to arrive wins and the later edit is discarded"},
+            {"id": "c", "text": "Offline editing is disabled so that conflicts can never happen"},
+            {"id": "d", "text": "Merge changes to different fields; flag same-field clashes"}
+          ],
+          "correct": ["d"],
+          "explanation": "Most offline edits touch different fields, for example the worker adds a visit while the supervisor corrects a phone number, and both changes can be kept. When both changed the same field, the app should keep both values and ask a person to choose, because silently dropping health data is unacceptable.",
+          "why_others_wrong": {
+            "a": "Replacing the whole record throws away the other person's changes without anyone knowing.",
+            "b": "This also silently discards valid health data, just in the other direction.",
+            "c": "Workers are offline for days, so disabling offline edits makes the app unusable."
+          },
+          "key_justification": "Merge non-overlapping changes and surface true conflicts instead of silently losing data.",
+          "points": 10
+        },
+        {
+          "id": "mob-5-q3",
+          "type": "single_choice",
+          "prompt": "Which architecture fits workers who are offline for days at a time?",
+          "options": [
+            {"id": "a", "text": "Every screen loads its data directly from the server's API"},
+            {"id": "b", "text": "The app shows the local database and syncs in the background"},
+            {"id": "c", "text": "The app downloads the whole state database on every launch"},
+            {"id": "d", "text": "Records are kept in memory and uploaded when the app closes"}
+          ],
+          "correct": ["b"],
+          "explanation": "In an offline-first design, every screen reads and writes the local database, so the app behaves the same with or without signal. A background sync job, such as one scheduled with WorkManager, retries uploads and downloads whenever a connection appears.",
+          "why_others_wrong": {
+            "a": "Without a network the screens are empty, which is most of the time in these villages.",
+            "c": "A state-wide download is far too large for nearly full phones and slow data.",
+            "d": "Memory is lost if the phone restarts or the app is killed, and closing the app does not guarantee a connection."
+          },
+          "key_justification": "Offline-first: the local database is the source for the UI, synced in the background with retries.",
+          "points": 10
+        },
+        {
+          "id": "mob-5-q4",
+          "type": "multi_select",
+          "prompt": "After launch, which two signals best show whether the app is working for health workers?",
+          "options": [
+            {"id": "a", "text": "Crash-free session rate, broken down by phone model"},
+            {"id": "b", "text": "Total downloads from the Play Store since launch"},
+            {"id": "c", "text": "How long records have been waiting in the sync queue"},
+            {"id": "d", "text": "The app's average star rating in the Play Store"},
+            {"id": "e", "text": "The number of screens and buttons the app contains"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "The crash-free rate per phone model shows whether workers can use the app on the devices they actually have. The age of records waiting to sync shows whether data is reaching the health department, which is the whole point of the app.",
+          "why_others_wrong": {
+            "b": "Workers are assigned the app, so downloads say little about whether it works.",
+            "d": "Few health workers leave store reviews, so the rating reflects very few people.",
+            "e": "The size of the interface says nothing about whether it works in the field."
+          },
+          "key_justification": "Monitor reliability on real devices and whether data actually syncs.",
+          "points": 10
+        },
+        {
+          "id": "mob-5-q5",
+          "type": "match",
+          "prompt": "Match each field condition to the design choice that addresses it.",
+          "items": [
+            {"id": "i1", "text": "Phones have almost no free storage"},
+            {"id": "i2", "text": "Villages have no signal for days"},
+            {"id": "i3", "text": "Records hold sensitive health information"},
+            {"id": "i4", "text": "Some workers read Hindi slowly and prefer Bhojpuri"}
+          ],
+          "targets": [
+            {"id": "t1", "text": "Encrypt the local database and lock the app with a PIN"},
+            {"id": "t2", "text": "Translated text with clear icons and audio prompts"},
+            {"id": "t3", "text": "Compress photos and clear old cached data regularly"},
+            {"id": "t4", "text": "Store locally and queue changes for later sync"}
+          ],
+          "correct": {"i1": "t3", "i2": "t4", "i3": "t1", "i4": "t2"},
+          "explanation": "Little storage calls for compressed photos and regular cache cleanup. Days without signal require local storage with queued sync, sensitive records on shared phones need an encrypted database and an app lock, and workers who read Hindi slowly benefit from their own language plus icons and audio.",
+          "why_others_wrong": {
+            "common_mistake": "Treating the shared phones as only a storage problem: other people also use the same phone, which is why the health records need an app lock and encryption as well."
+          },
+          "key_justification": "Each field condition drives a specific design choice: size, offline sync, security or language.",
+          "points": 10
+        }
+      ]
+    }
+  ]
+}
