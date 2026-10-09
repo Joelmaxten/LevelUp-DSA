@@ -292,7 +292,7 @@ def test_dashboard_states():
     states = [
         ("brand-new account (nothing saved)", new_user("n"), {"dsa_unavailable": True, "dsa": None}),
         ("quiz result only (top path has scenarios)", new_user("q", "Machine Learning Engineering"), {"dsa_unavailable": False, "dsa": 0.0}),
-        ("quiz result whose top path has no scenario file", new_user("x", "Cybersecurity"), {"dsa_unavailable": True, "dsa": None}),
+        ("quiz result whose top path has no scenario file", new_user("x", "Game Development"), {"dsa_unavailable": True, "dsa": None}),
     ]
     try:
         for label, client, want in states:
