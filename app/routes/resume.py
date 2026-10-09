@@ -11,11 +11,12 @@ from app.models import CareerProfile, Resume, SkillGap
 from app.pipeline.adzuna_listings import get_live_listings
 from app.pipeline.career_path_registry import CAREER_PATHS
 from app.pipeline.resume_analyzer import (
-    analyze_resume, extract_text_from_pdf, get_extended_skill_vocabulary, get_required_skills,
+    analyze_resume, extract_text_from_pdf, get_pdf_page_count, get_extended_skill_vocabulary, get_required_skills,
 )
 from app.pipeline.resume_skill_extractor import extract_skills
 from app.pipeline.resume_feedback import generate_resume_feedback
 from app.pipeline.salary_matching import get_salary_insights, format_salary_range_summary
+from app.pipeline.skill_matching import resolve_required
 from app.pipeline.ats_score import compute_ats_score, compute_ats_structure_score
 from app.pipeline import path_fit
 from app.routes._util import iso_utc, resolve_target_career_path
@@ -57,13 +58,13 @@ def latest_resume_analysis(user_id):
     target_career_path = skill_gap.target_role
     student_skills = set(resume.extracted_skills or [])
     required_skills = get_required_skills(target_career_path)
-    matched_skills = required_skills & student_skills
+    matched_skills, _, partial_skills = resolve_required(required_skills, student_skills)
 
     ats_score = None
     if resume.file_path and os.path.isfile(resume.file_path):
         try:
             text = extract_text_from_pdf(resume.file_path)
-            ats_score = compute_ats_score(text, matched_skills, required_skills)
+            ats_score = compute_ats_score(text, matched_skills, required_skills, get_pdf_page_count(resume.file_path))
         except Exception:
             ats_score = None  # unreadable now - show everything else rather than fail the whole view
 
@@ -77,6 +78,7 @@ def latest_resume_analysis(user_id):
         "student_skills": sorted(student_skills),
         "matched_skills": sorted(matched_skills),
         "missing_skills": sorted(skill_gap.missing_skills or []),
+        "partial_skills": partial_skills,
         "ai_feedback": resume.ai_feedback,
         "salary_insights": get_salary_insights(target_career_path),
         "ats_score": ats_score,
@@ -159,7 +161,7 @@ def upload_resume():
 
     salary_insights = get_salary_insights(target_career_path)
     salary_summary = format_salary_range_summary(salary_insights)
-    ats = compute_ats_score(result["extracted_text"], result["matched_skills"], result["required_skills"])
+    ats = compute_ats_score(result["extracted_text"], result["matched_skills"], result["required_skills"], result["page_count"])
 
     skill_gap = SkillGap(
         user_id=current_user.id,
@@ -185,6 +187,7 @@ def upload_resume():
         "student_skills": sorted(result["student_skills"]),
         "matched_skills": sorted(result["matched_skills"]),
         "missing_skills": sorted(result["missing_skills"]),
+        "partial_skills": result["partial_skills"],
         "ai_feedback": resume.ai_feedback,
         "salary_insights": salary_insights,
         "ats_score": ats,
@@ -244,7 +247,7 @@ def discover_resume():
         by_lower = {name.lower(): name for name in vocabulary}
         found = extract_skills(text, vocabulary, extended_aliases=True)
         skills = sorted({by_lower.get(name.lower(), name) for name in found})
-        ats = compute_ats_structure_score(text)
+        ats = compute_ats_structure_score(text, get_pdf_page_count(file_path))
         fit = path_fit.fit_for_skills(set(skills), index, chunks)
     except Exception:
         current_app.logger.exception("%s failed", request.path)
@@ -295,14 +298,13 @@ def analyze_stored_resume(resume_id):
 
     student_skills = set(resume.extracted_skills or [])
     required_skills = get_required_skills(target_career_path)
-    matched_skills = required_skills & student_skills
-    missing_skills = required_skills - student_skills
+    matched_skills, missing_skills, partial_skills = resolve_required(required_skills, student_skills)
 
     text, ats = None, None
     if resume.file_path and os.path.isfile(resume.file_path):
         try:
             text = extract_text_from_pdf(resume.file_path)
-            ats = compute_ats_score(text, matched_skills, required_skills)
+            ats = compute_ats_score(text, matched_skills, required_skills, get_pdf_page_count(resume.file_path))
         except Exception:
             current_app.logger.exception("%s could not re-read the saved PDF", request.path)
             text, ats = None, None
@@ -338,6 +340,7 @@ def analyze_stored_resume(resume_id):
         "student_skills": sorted(student_skills),
         "matched_skills": sorted(matched_skills),
         "missing_skills": sorted(missing_skills),
+        "partial_skills": partial_skills,
         "ai_feedback": resume.ai_feedback,
         "salary_insights": salary_insights,
         "ats_score": ats,

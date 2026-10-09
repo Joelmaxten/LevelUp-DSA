@@ -18,6 +18,7 @@ import spacy
 from spacy.matcher import PhraseMatcher
 
 from app.pipeline.skill_aliases import EXTENDED_SKILL_ALIASES, SKILL_ALIASES
+from app.pipeline.skill_matching import find_composite_parts
 
 _nlp = None
 _matchers = {}   # frozenset(vocabulary) -> PhraseMatcher: the original and the extended vocabulary each get one
@@ -64,6 +65,7 @@ def extract_skills(text, skill_vocabulary, extended_aliases=False):
         found.add(span.text)
 
     found |= _find_aliases(text)
+    found |= find_composite_parts(text)   # "HTML", "CSS" as separate skills; skill_matching decides what they add up to
     if extended_aliases:
         found |= {c for c in _find_aliases(text, EXTENDED_SKILL_ALIASES) if c in skill_vocabulary}
 

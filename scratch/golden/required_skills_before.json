@@ -1,6 +1,7 @@
 {
  "required_skills": {
   "Full-Stack Development": [
+   "Docker",
    "HTML/CSS",
    "JavaScript",
    "MySQL",
@@ -9,22 +10,22 @@
    "Python",
    "React",
    "SQL",
-   "TypeScript",
-   "npm"
+   "TypeScript"
   ],
   "AI Engineering": [
    "Amazon Web Services (AWS)",
    "Docker",
+   "FastAPI",
    "HTML/CSS",
    "JavaScript",
    "MongoDB",
    "MySQL",
-   "Pip",
    "Python",
    "React",
    "SQL"
   ],
   "Machine Learning Engineering": [
+   "Amazon Web Services (AWS)",
    "Bash/Shell (all shells)",
    "Docker",
    "FastAPI",
@@ -32,18 +33,17 @@
    "JavaScript",
    "MongoDB",
    "MySQL",
-   "Pip",
    "Python",
    "SQL"
   ],
   "Data Science": [
    "Amazon Web Services (AWS)",
+   "Bash/Shell (all shells)",
    "Docker",
    "Google Cloud",
    "HTML/CSS",
    "JavaScript",
    "MySQL",
-   "Pip",
    "PostgreSQL",
    "Python",
    "SQL"
@@ -125,22 +125,22 @@
    "Express",
    "HTML/CSS",
    "JavaScript",
+   "MongoDB",
    "Next.js",
    "Node.js",
    "React",
    "SQL",
-   "TypeScript",
-   "npm"
+   "TypeScript"
   ],
   "Cloud Engineering": [
    "Amazon Web Services (AWS)",
    "Bash/Shell (all shells)",
    "Docker",
+   "HTML/CSS",
    "JavaScript",
    "Microsoft Azure",
    "MySQL",
    "Node.js",
-   "Pip",
    "PostgreSQL",
    "Python"
   ],
@@ -150,10 +150,10 @@
    "Bash/Shell (all shells)",
    "Docker",
    "Kubernetes",
-   "Pip",
    "PostgreSQL",
    "Prometheus",
    "Python",
+   "SQL",
    "Terraform"
   ],
   "QA & Test Automation": [
@@ -173,9 +173,9 @@
    "Bash/Shell (all shells)",
    "Databricks SQL",
    "Docker",
+   "HTML/CSS",
    "Microsoft SQL Server",
    "MySQL",
-   "Pip",
    "PostgreSQL",
    "Python",
    "SQL"
