@@ -479,10 +479,10 @@
       "id": "bke-5",
       "order": 5,
       "ladder_stage": "end_to_end",
-      "title": "Surviving Deadline Day at Pragati Scholarships",
+      "title": "Surviving Deadline Day at Shiksha Sopan Scholarships",
       "difficulty": 5,
       "estimated_minutes": 16,
-      "background": "Pragati Scholarships is a fictional state scholarship portal in Odisha for 2 million students. Students submit applications with PDF documents, officials review them, and a merit list is generated each night. On the last day before the deadline, traffic jumps to about 50 times normal. Every submission must be recorded exactly once and confirmed by SMS. Last year the portal crashed on deadline day, slow requests could not be traced, and a student could view another student's application by changing a number in the URL.",
+      "background": "Shiksha Sopan Scholarships is a fictional state scholarship portal in Odisha for 2 million students. Students submit applications with PDF documents, officials review them, and a merit list is generated each night. On the last day before the deadline, traffic jumps to about 50 times normal. Every submission must be recorded exactly once and confirmed by SMS. Last year the portal crashed on deadline day, slow requests could not be traced, and a student could view another student's application by changing a number in the URL.",
       "constraints": [
         "No submission may be lost or recorded twice",
         "Students may only see their own applications",

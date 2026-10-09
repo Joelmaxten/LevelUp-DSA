@@ -474,10 +474,10 @@
       "id": "aie-5",
       "order": 5,
       "ladder_stage": "end_to_end",
-      "title": "Launching the Kisan Saathi Farm Assistant",
+      "title": "Launching the Mitti Mitra Farm Assistant",
       "difficulty": 5,
       "estimated_minutes": 16,
-      "background": "Kisan Saathi is a fictional agri-tech startup in Mysuru. It is building a WhatsApp assistant that answers farmers' questions about crops, government schemes and today's mandi prices, mostly through voice notes in Kannada. Agronomists have written 600 advisory documents. The assistant will also be able to place fertiliser orders from the startup's shop on a farmer's behalf. The founders want a pilot in two districts in three months and a state-wide launch after that.",
+      "background": "Mitti Mitra is a fictional agri-tech startup in Mysuru. It is building a WhatsApp assistant that answers farmers' questions about crops, government schemes and today's mandi prices, mostly through voice notes in Kannada. Agronomists have written 600 advisory documents. The assistant will also be able to place fertiliser orders from the startup's shop on a farmer's behalf. The founders want a pilot in two districts in three months and a state-wide launch after that.",
       "constraints": [
         "Most farmers send voice notes in Kannada rather than typing",
         "Mandi prices change every day and come from an official price API",
@@ -494,7 +494,7 @@
         {
           "id": "aie-5-q1",
           "type": "order",
-          "prompt": "Put the steps for taking Kisan Saathi from idea to state-wide launch in order.",
+          "prompt": "Put the steps for taking Mitti Mitra from idea to state-wide launch in order.",
           "options": [
             {"id": "a", "text": "Run a pilot in two districts while monitoring real conversations"},
             {"id": "b", "text": "Define the tasks and success measures with the agronomists"},

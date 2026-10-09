@@ -479,10 +479,10 @@
       "id": "uxd-5",
       "order": 5,
       "ladder_stage": "end_to_end",
-      "title": "Redesigning the Jan Suvidha Citizen App",
+      "title": "Redesigning the Sahaj Nagrik Citizen App",
       "difficulty": 5,
       "estimated_minutes": 16,
-      "background": "Jan Suvidha is a fictional citizen-services app for a state government, used to apply for income and caste certificates, pay property tax and track applications. Usage is low, and most people still queue at offices. Users range from college students to elderly people with low literacy, and some rely on screen readers. Every department wants its own link on the home screen, and the deadline is tight. The design lead must run a redesign from research to developer handoff.",
+      "background": "Sahaj Nagrik is a fictional citizen-services app for a state government, used to apply for income and caste certificates, pay property tax and track applications. Usage is low, and most people still queue at offices. Users range from college students to elderly people with low literacy, and some rely on screen readers. Every department wants its own link on the home screen, and the deadline is tight. The design lead must run a redesign from research to developer handoff.",
       "constraints": [
         "Users include people with low literacy and people using screen readers",
         "Twelve departments each want visibility on the home screen",
