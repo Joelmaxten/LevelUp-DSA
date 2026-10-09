@@ -1,0 +1,606 @@
+{
+  "schema_version": 1,
+  "path": "Backend Engineering",
+  "map": {
+    "scene_id": "backend-engineering",
+    "theme": "An underground city of brass pipes and humming engine rooms beneath a market town, where a vegetable cellar, a parcel sorting hall, a community kitchen, a trade exchange with clattering boards and a scholarship archive vault are linked by rail carts and pneumatic tubes. The palette is copper, steel grey and warm amber, and the mood moves from orderly workshop calm in the cellar to steady authority in the vault.",
+    "edges": [["bke-1", "bke-2"], ["bke-2", "bke-3"], ["bke-3", "bke-4"], ["bke-4", "bke-5"]]
+  },
+  "scenarios": [
+    {
+      "id": "bke-1",
+      "order": 1,
+      "ladder_stage": "foundations",
+      "title": "Designing the Data Behind Sabzi Seva",
+      "difficulty": 1,
+      "estimated_minutes": 8,
+      "background": "Sabzi Seva is a fictional vegetable delivery service in Nagpur with 60,000 customers. The first backend developer stored each order's items as one comma-separated text column such as 'tomato:2,onion:1', and finding a customer's orders now takes several seconds because the orders table has grown to 5 million rows. The mobile app's order-history screen also asks the API for every order the customer has ever placed in a single response.",
+      "constraints": [
+        "The database is PostgreSQL",
+        "The app runs on low-cost phones over mobile data",
+        "Order history must load in under a second"
+      ],
+      "tests_topics": [
+        "Relational modelling",
+        "Indexes",
+        "Pagination",
+        "Core database terms"
+      ],
+      "map_node": {"x": 0.1, "y": 0.84, "label": "Vegetable Cellar"},
+      "questions": [
+        {
+          "id": "bke-1-q1",
+          "type": "single_choice",
+          "prompt": "Each order's items are stored as one comma-separated text value. How should the items be modelled instead?",
+          "options": [
+            {"id": "a", "text": "Keep the text column, but use semicolons instead of commas"},
+            {"id": "b", "text": "Add twenty columns to orders, named item1 through item20"},
+            {"id": "c", "text": "An order_items table with one row per item linked to its order"},
+            {"id": "d", "text": "Store each order's items in a separate file on the server's disk"}
+          ],
+          "correct": ["c"],
+          "explanation": "An order has many items, which is a one-to-many relationship. An order_items table with an order_id foreign key, a product id and a quantity lets the database filter, total and validate items with ordinary SQL instead of parsing text.",
+          "why_others_wrong": {
+            "a": "Changing the separator keeps the same problem: the database still cannot query or check individual items.",
+            "b": "Fixed item columns waste space, cap the number of items and make queries across items awkward.",
+            "d": "Files on disk lose the database's querying, transactions and backups."
+          },
+          "key_justification": "Model one-to-many relationships with a child table and a foreign key.",
+          "points": 10
+        },
+        {
+          "id": "bke-1-q2",
+          "type": "single_choice",
+          "prompt": "The query SELECT * FROM orders WHERE customer_id = 812 takes several seconds on 5 million rows. What is the most direct fix?",
+          "options": [
+            {"id": "a", "text": "Create an index on the orders table's customer_id column"},
+            {"id": "b", "text": "Add more CPU cores to the server that runs the PostgreSQL database"},
+            {"id": "c", "text": "Cache the full orders table in the application's memory"},
+            {"id": "d", "text": "Delete every order that is more than six months old"}
+          ],
+          "correct": ["a"],
+          "explanation": "Without an index the database scans all 5 million rows to find one customer's orders. An index on customer_id lets it jump straight to the matching rows, turning a full scan into a fast lookup.",
+          "why_others_wrong": {
+            "b": "More CPU makes the full scan somewhat faster, but it still reads every row and the cost keeps growing with the table.",
+            "c": "Millions of rows in application memory is wasteful and quickly goes out of date.",
+            "d": "Deleting history loses data customers and accountants need, and the scan comes back as orders grow."
+          },
+          "key_justification": "Index columns used to filter large tables.",
+          "points": 10
+        },
+        {
+          "id": "bke-1-q3",
+          "type": "multi_select",
+          "prompt": "The order-history endpoint returns every order a customer has ever placed, sometimes thousands. Which two changes make it fast and light?",
+          "options": [
+            {"id": "a", "text": "Return orders a page at a time, with a cursor for the next page"},
+            {"id": "b", "text": "Raise the server's timeout so that big responses can finish"},
+            {"id": "c", "text": "Send only the fields the history screen actually displays"},
+            {"id": "d", "text": "Tell the app to keep retrying the request until it succeeds"},
+            {"id": "e", "text": "Return the same full results as CSV text instead of JSON"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "Pagination returns, say, 20 orders per request, with a cursor to fetch the next page, so the response size no longer grows with the customer's history. Returning only the displayed fields shrinks each order further.",
+          "why_others_wrong": {
+            "b": "A longer timeout lets a slow, huge response finish, but it is still slow and heavy on mobile data.",
+            "d": "Retrying a request that is too big just repeats the same slow, heavy work.",
+            "e": "CSV changes the format, not how much data is sent."
+          },
+          "key_justification": "Limit response size with pagination and by selecting only needed fields.",
+          "points": 10
+        },
+        {
+          "id": "bke-1-q4",
+          "type": "match",
+          "prompt": "Match each database term to its meaning.",
+          "items": [
+            {"id": "i1", "text": "Primary key"},
+            {"id": "i2", "text": "Foreign key"},
+            {"id": "i3", "text": "Index"},
+            {"id": "i4", "text": "Transaction"}
+          ],
+          "targets": [
+            {"id": "t1", "text": "A group of changes that succeed together or not at all"},
+            {"id": "t2", "text": "A column that must match a row in another table"},
+            {"id": "t3", "text": "A column or set of columns that uniquely identifies a row"},
+            {"id": "t4", "text": "An extra structure that speeds up finding rows by a column"}
+          ],
+          "correct": {"i1": "t3", "i2": "t2", "i3": "t4", "i4": "t1"},
+          "explanation": "A primary key identifies each row uniquely, and a foreign key points to a row in another table, so the database can refuse an order item for an order that does not exist. An index speeds up lookups, and a transaction makes several changes all-or-nothing.",
+          "why_others_wrong": {
+            "common_mistake": "Thinking a foreign key makes lookups fast: it enforces that referenced rows exist, while speed comes from an index, which many databases do not create automatically for foreign keys."
+          },
+          "key_justification": "Keys enforce identity and relationships; indexes add speed; transactions add atomicity.",
+          "points": 10
+        }
+      ]
+    },
+    {
+      "id": "bke-2",
+      "order": 2,
+      "ladder_stage": "core_decision",
+      "title": "Scaling the Tez Parcel Tracking API",
+      "difficulty": 2,
+      "estimated_minutes": 10,
+      "background": "Tez Parcel is a fictional courier company in Ahmedabad that delivers for 3,000 online sellers. Its API lets sellers book pickups, generate invoices and track parcels. The public tracking endpoint gets about 2,000 requests a second during sales, mostly for the same popular parcels, although each parcel's status changes only a few times a day. Generating a PDF invoice takes 20 seconds and ties up the web server. Some sellers' scripts retry failed booking calls, and one large seller recently flooded the API with requests.",
+      "constraints": [
+        "Booking a pickup charges the seller's wallet",
+        "Tracking must reflect a status change within a minute",
+        "The API is shared by all 3,000 sellers"
+      ],
+      "tests_topics": [
+        "Caching",
+        "Background jobs",
+        "Idempotency",
+        "Rate limiting and storage choices"
+      ],
+      "map_node": {"x": 0.3, "y": 0.66, "label": "Sorting Hall"},
+      "questions": [
+        {
+          "id": "bke-2-q1",
+          "type": "single_choice",
+          "prompt": "The tracking endpoint gets 2,000 requests a second, mostly for the same parcels, and each status changes only a few times a day. What should the team do?",
+          "options": [
+            {"id": "a", "text": "Query the main database directly for every single tracking request"},
+            {"id": "b", "text": "Cache each parcel's status, and clear it whenever the status changes"},
+            {"id": "c", "text": "Cache every tracking response for 24 hours and never invalidate it"},
+            {"id": "d", "text": "Turn off the tracking page during big sales to protect the main database"}
+          ],
+          "correct": ["b"],
+          "explanation": "Repeated reads of data that rarely changes are ideal for a cache such as Redis. Removing or updating the cached entry when a parcel's status changes, plus a short expiry as a safety net, keeps tracking within the one-minute freshness requirement while sparing the database.",
+          "why_others_wrong": {
+            "a": "Thousands of identical database queries a second waste capacity on answers that have not changed.",
+            "c": "A day-long cache with no invalidation breaks the one-minute freshness requirement.",
+            "d": "Tracking is most needed during sales, so switching it off fails customers when they care most."
+          },
+          "key_justification": "Cache hot, rarely changing reads and invalidate on change.",
+          "points": 10
+        },
+        {
+          "id": "bke-2-q2",
+          "type": "single_choice",
+          "prompt": "Generating a PDF invoice takes 20 seconds and blocks web server workers. How should the endpoint work?",
+          "options": [
+            {"id": "a", "text": "Increase the request timeout to 60 seconds so that every PDF can finish"},
+            {"id": "b", "text": "Generate every possible invoice in advance, once each night"},
+            {"id": "c", "text": "Queue a background job, return its id, and notify when it is done"},
+            {"id": "d", "text": "Generate a lower-quality PDF inside the same web request"}
+          ],
+          "correct": ["c"],
+          "explanation": "Slow work should not hold a web worker. The endpoint puts a job on a queue and returns immediately, for example with 202 Accepted and a job id, a worker generates the PDF, and the seller polls the job or receives a notification when it is ready.",
+          "why_others_wrong": {
+            "a": "A longer timeout keeps workers blocked even longer, so fewer requests can be served.",
+            "b": "Invoices depend on bookings made during the day, and most of the nightly work would never be used.",
+            "d": "Lower quality may shave seconds, but the request still blocks a worker for a long time."
+          },
+          "key_justification": "Move slow work to background jobs and respond immediately with a job reference.",
+          "points": 10
+        },
+        {
+          "id": "bke-2-q3",
+          "type": "single_choice",
+          "prompt": "A seller's script retries a booking call after a timeout, and the seller's wallet is charged twice. What is the right fix?",
+          "options": [
+            {"id": "a", "text": "Tell every seller to stop retrying any failed API calls"},
+            {"id": "b", "text": "Reject any second booking from a seller within one minute"},
+            {"id": "c", "text": "Refund the duplicate charges by hand at the end of each working day"},
+            {"id": "d", "text": "Accept an idempotency key and return the stored first result"}
+          ],
+          "correct": ["d"],
+          "explanation": "The first request may have succeeded even though the response timed out, so a retry is reasonable. With an idempotency key, the client sends the same unique key on every retry, and the server records the result for that key and returns it again instead of booking twice.",
+          "why_others_wrong": {
+            "a": "Retries are the correct way to handle timeouts; banning them leaves failed bookings unresolved.",
+            "b": "A seller may genuinely book two pickups in a minute, and a time rule cannot tell a retry from a new booking.",
+            "c": "Manual refunds are slow, error-prone and leave sellers short of money meanwhile."
+          },
+          "key_justification": "Make retried operations idempotent with a client-supplied idempotency key.",
+          "points": 10
+        },
+        {
+          "id": "bke-2-q4",
+          "type": "multi_select",
+          "prompt": "One large seller's script flooded the shared API and slowed it down for everyone. Which two measures fix this fairly?",
+          "options": [
+            {"id": "a", "text": "Identify each seller with an API key on every request"},
+            {"id": "b", "text": "Block all API traffic for an hour whenever load is high"},
+            {"id": "c", "text": "Limit each key's request rate and return 429 when it is exceeded"},
+            {"id": "d", "text": "Buy a larger server and change nothing else about the API"},
+            {"id": "e", "text": "Turn off request logging so the API has less work to do"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "Identifying each seller lets the API apply limits per seller rather than to everyone. A per-key rate limit that returns 429 Too Many Requests, with a Retry-After header, stops one heavy client from crowding out the rest.",
+          "why_others_wrong": {
+            "b": "Blocking everyone punishes 2,999 sellers for one seller's script.",
+            "d": "A bigger server raises the ceiling, but one runaway script can still consume it.",
+            "e": "Logging is needed to spot abuse, and removing it saves very little load."
+          },
+          "key_justification": "Identify clients and rate-limit per client to protect a shared API.",
+          "points": 10
+        },
+        {
+          "id": "bke-2-q5",
+          "type": "match",
+          "prompt": "Match each requirement to the storage or messaging tool that fits it best.",
+          "items": [
+            {"id": "i1", "text": "Charge the seller's wallet and save the booking together"},
+            {"id": "i2", "text": "Search parcels by any word in the delivery address"},
+            {"id": "i3", "text": "Send an SMS on each status change without slowing the API"},
+            {"id": "i4", "text": "Look up a parcel's current status in under a millisecond"}
+          ],
+          "targets": [
+            {"id": "t1", "text": "A message queue with a separate consumer worker"},
+            {"id": "t2", "text": "An in-memory key-value store used as a cache"},
+            {"id": "t3", "text": "A relational database transaction"},
+            {"id": "t4", "text": "A full-text search index"}
+          ],
+          "correct": {"i1": "t3", "i2": "t4", "i3": "t1", "i4": "t2"},
+          "explanation": "Changes that must succeed or fail together belong in one relational transaction. Word search across addresses is what a full-text index is built for, sending SMS through a queue keeps the API fast and allows retries, and an in-memory key-value store answers simple lookups in well under a millisecond.",
+          "why_others_wrong": {
+            "common_mistake": "Using the cache for the wallet charge because it is fast: money changes need the durability and atomicity of a database transaction, not a cache."
+          },
+          "key_justification": "Pick storage by guarantee: transactions for money, search indexes for text, queues for async work, caches for fast reads.",
+          "points": 10
+        }
+      ]
+    },
+    {
+      "id": "bke-3",
+      "order": 3,
+      "ladder_stage": "debugging",
+      "title": "Production Fires at Annadaan",
+      "difficulty": 3,
+      "estimated_minutes": 12,
+      "background": "Annadaan is a fictional platform in Chennai that connects restaurants with surplus food to volunteers who collect it for shelters. Usage tripled after a news story, and the backend is struggling: the donations page has become slow, the API hangs under load with database connection errors, two volunteers sometimes claim the same donation, and the whole service freezes when the SMS provider is slow. The on-call engineer has logs, metrics and database query statistics.",
+      "constraints": [
+        "Food must be collected within two hours, so failures are costly",
+        "The team is three engineers sharing on-call",
+        "The database is PostgreSQL behind a Python web API"
+      ],
+      "tests_topics": [
+        "N+1 queries",
+        "Connection pooling",
+        "Race conditions",
+        "Timeouts and failure isolation"
+      ],
+      "map_node": {"x": 0.5, "y": 0.5, "label": "Community Kitchen"},
+      "questions": [
+        {
+          "id": "bke-3-q1",
+          "type": "single_choice",
+          "prompt": "Listing 50 donations triggers 51 database queries: one for the list and one per donation to fetch its restaurant. What is the fix?",
+          "options": [
+            {"id": "a", "text": "Run the 50 restaurant queries in parallel threads"},
+            {"id": "b", "text": "Load the restaurants with a join or one batched query"},
+            {"id": "c", "text": "Cache each restaurant query's result for a whole week or more"},
+            {"id": "d", "text": "Show only 5 donations per page to cut the queries"}
+          ],
+          "correct": ["b"],
+          "explanation": "This is the N+1 query problem: one query for the list plus one per row. Joining the restaurant data in the same query, or fetching all needed restaurants with a single WHERE id IN (...) query, which ORMs call eager loading, brings it down to one or two queries.",
+          "why_others_wrong": {
+            "a": "Parallel queries still make 51 round trips and use 50 database connections at once.",
+            "c": "A week-long cache can show outdated restaurant details and leaves the N+1 pattern in place.",
+            "d": "Smaller pages hide the problem but keep it: there is still one extra query per row."
+          },
+          "key_justification": "Fix N+1 queries by joining or batch-loading related rows.",
+          "points": 10
+        },
+        {
+          "id": "bke-3-q2",
+          "type": "single_choice",
+          "prompt": "Under load, requests hang and logs show 'too many connections' from PostgreSQL. The code opens a new connection in each request and does not close it when an error occurs. What should change?",
+          "options": [
+            {"id": "a", "text": "Raise PostgreSQL's connection limit to 10,000 to make room"},
+            {"id": "b", "text": "Restart the API server every hour to drop leftover connections"},
+            {"id": "c", "text": "Use a connection pool and always release connections on errors"},
+            {"id": "d", "text": "Open two connections per request so one is always free to use"}
+          ],
+          "correct": ["c"],
+          "explanation": "Connections that are never closed after errors pile up until the database refuses new ones. A pool keeps a bounded set of reusable connections, and borrowing them in a with-block or try-finally guarantees each one is returned even when the request fails.",
+          "why_others_wrong": {
+            "a": "Each PostgreSQL connection costs memory, so a huge limit can exhaust the server while the leak keeps growing.",
+            "b": "Restarts hide the leak for a while but drop live requests and never fix the cause.",
+            "d": "Doubling connections doubles the leak."
+          },
+          "key_justification": "Use pooled connections and guarantee their release on every code path.",
+          "points": 10
+        },
+        {
+          "id": "bke-3-q3",
+          "type": "single_choice",
+          "prompt": "Two volunteers tap 'claim' at the same moment, and both are told the donation is theirs. The code reads the row, checks claimed_by is empty, then updates it. What is the correct fix?",
+          "options": [
+            {"id": "a", "text": "Update with WHERE claimed_by IS NULL and check the rows changed"},
+            {"id": "b", "text": "Make the app wait one second before sending a claim request"},
+            {"id": "c", "text": "Check claimed_by twice in a row before running the update"},
+            {"id": "d", "text": "Show a warning that tells volunteers never to tap at the same moment"}
+          ],
+          "correct": ["a"],
+          "explanation": "Between one request's read and its update, the other request can read the same empty value, which is a race condition. A single conditional update, UPDATE ... SET claimed_by = ? WHERE id = ? AND claimed_by IS NULL, is atomic, so only one request changes a row, and the other sees zero rows affected and is told the donation is taken.",
+          "why_others_wrong": {
+            "b": "A delay just moves the race; two delayed requests can still collide.",
+            "c": "Two reads still leave a gap before the update in which the other request can slip in.",
+            "d": "Users cannot coordinate taps, and correctness must not depend on them trying."
+          },
+          "key_justification": "Make check-then-act atomic with a conditional update or a row lock.",
+          "points": 10
+        },
+        {
+          "id": "bke-3-q4",
+          "type": "multi_select",
+          "prompt": "When the SMS provider becomes slow, its calls hang for 60 seconds and every API worker ends up stuck waiting. Which two changes stop this?",
+          "options": [
+            {"id": "a", "text": "Set a short timeout on every call to the SMS provider"},
+            {"id": "b", "text": "Run 1,000 workers so some are always free to serve requests"},
+            {"id": "c", "text": "Send SMS from a background queue that retries failed messages"},
+            {"id": "d", "text": "Retry each failed SMS call immediately in a tight loop"},
+            {"id": "e", "text": "Remove the error logging around the SMS provider call"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "A short timeout stops one slow dependency from holding a worker indefinitely. Moving SMS sending to a background queue means a slow provider delays only the messages, which are retried later, never the API requests that volunteers are waiting on.",
+          "why_others_wrong": {
+            "b": "With a 60-second hang, even 1,000 workers fill up under enough traffic, and they cost memory.",
+            "d": "Immediate tight retries pile more load on a provider that is already struggling.",
+            "e": "Without logs the team cannot see what is failing."
+          },
+          "key_justification": "Isolate slow dependencies with timeouts and asynchronous processing.",
+          "points": 10
+        },
+        {
+          "id": "bke-3-q5",
+          "type": "match",
+          "prompt": "Match each production symptom to its most likely cause.",
+          "items": [
+            {"id": "i1", "text": "Latency spikes every hour, on the hour"},
+            {"id": "i2", "text": "Errors saying a column does not exist, starting right after a deploy"},
+            {"id": "i3", "text": "Memory climbs steadily until the server is restarted each night"},
+            {"id": "i4", "text": "WHERE lower(email) = ? is slow even though email is indexed"}
+          ],
+          "targets": [
+            {"id": "t1", "text": "The new code shipped before its database migration ran"},
+            {"id": "t2", "text": "An in-process cache that has no size limit or expiry"},
+            {"id": "t3", "text": "The function call on the column stops the index being used"},
+            {"id": "t4", "text": "An hourly batch job competing for the same database"}
+          ],
+          "correct": {"i1": "t4", "i2": "t1", "i3": "t2", "i4": "t3"},
+          "explanation": "A spike on a fixed schedule points to a scheduled job. Missing-column errors right after a deploy mean the code expects a schema that is not there yet, steadily growing memory is something that never frees entries, and wrapping an indexed column in a function hides it from a plain index, which needs an expression index on lower(email).",
+          "why_others_wrong": {
+            "common_mistake": "Adding a second plain index on email for the slow lower(email) query: the query compares the function's result, so only an index built on lower(email) itself can be used."
+          },
+          "key_justification": "Timing, error text and growth patterns point to distinct backend causes.",
+          "points": 10
+        }
+      ]
+    },
+    {
+      "id": "bke-4",
+      "order": 4,
+      "ladder_stage": "trade_offs",
+      "title": "Growing Pains at Vyapar Setu",
+      "difficulty": 4,
+      "estimated_minutes": 14,
+      "background": "Vyapar Setu is a fictional B2B marketplace in Surat where textile traders and machine suppliers sell to shops across India. Reads make up 95% of traffic, and the single PostgreSQL primary is running at 85% CPU. Products vary enormously, from sarees with fabric and weave to looms with voltage and warranty, while orders and payments need strict correctness. The company recently split out an inventory service, and when it went down for ten minutes, nobody could place orders.",
+      "constraints": [
+        "Orders and payments must never be lost or double-counted",
+        "The team knows PostgreSQL well and has no NoSQL experience",
+        "Downtime during the wedding season is very costly"
+      ],
+      "tests_topics": [
+        "Read replicas",
+        "Replication lag",
+        "Relational versus document storage",
+        "Resilience between services"
+      ],
+      "map_node": {"x": 0.7, "y": 0.36, "label": "Trade Exchange"},
+      "questions": [
+        {
+          "id": "bke-4-q1",
+          "type": "single_choice",
+          "prompt": "Reads are 95% of traffic and the primary database is at 85% CPU. What is the best next step?",
+          "options": [
+            {"id": "a", "text": "Add read replicas for browsing and search; keep writes on the primary"},
+            {"id": "b", "text": "Split the data across ten database shards right away"},
+            {"id": "c", "text": "Move every table from PostgreSQL to a new NoSQL database this month"},
+            {"id": "d", "text": "Turn off product search until the traffic calms down"}
+          ],
+          "correct": ["a"],
+          "explanation": "With reads dominating, read replicas copy the primary's data and take over browsing and search queries, freeing the primary for writes. It is a well-understood step that needs little code change and suits a team that knows PostgreSQL.",
+          "why_others_wrong": {
+            "b": "Sharding is complex to build and operate, and it solves write scaling, which is not the bottleneck here.",
+            "c": "A full migration to an unfamiliar database is risky, and the team would lose the transactions orders need.",
+            "d": "Search drives sales, so turning it off costs revenue."
+          },
+          "key_justification": "Scale read-heavy workloads with read replicas before reaching for sharding or rewrites.",
+          "points": 10
+        },
+        {
+          "id": "bke-4-q2",
+          "type": "single_choice",
+          "prompt": "After adding replicas, a trader updates a product's price, refreshes the page and sees the old price for a few seconds. What is happening, and what is a good fix?",
+          "options": [
+            {"id": "a", "text": "The price update failed; retry it until the new price sticks"},
+            {"id": "b", "text": "The browser's cache is broken; tell traders to clear it"},
+            {"id": "c", "text": "Replicas lag the primary; send the editor's reads to the primary"},
+            {"id": "d", "text": "The replicas are corrupted; rebuild each of them from the latest backup"}
+          ],
+          "correct": ["c"],
+          "explanation": "Replicas apply the primary's changes slightly later, so a read right after a write can return the old value. Sending a user's reads to the primary for a short time after they write, or for pages they have just edited, gives them read-your-writes consistency while everyone else still reads from the replicas.",
+          "why_others_wrong": {
+            "a": "The update succeeded on the primary; retrying it changes nothing.",
+            "b": "The page is fetched again from the server, which reads from a replica that has not caught up yet.",
+            "d": "The replicas work as designed; brief lag is normal, not corruption."
+          },
+          "key_justification": "Replication lag breaks read-your-writes; route recent writers' reads to the primary.",
+          "points": 10
+        },
+        {
+          "id": "bke-4-q3",
+          "type": "single_choice",
+          "prompt": "Product attributes vary wildly by category, while orders need transactions. Given the team's skills, how should the data be stored?",
+          "options": [
+            {"id": "a", "text": "Move everything to a document database because products vary"},
+            {"id": "b", "text": "Keep PostgreSQL and store the varying attributes in a JSONB column"},
+            {"id": "c", "text": "Make one table per product category, with a hundred or more tables in all"},
+            {"id": "d", "text": "Store every product as a single plain text description field"}
+          ],
+          "correct": ["b"],
+          "explanation": "PostgreSQL's JSONB column holds flexible, category-specific attributes and can still be indexed and queried, while orders and payments keep full relational transactions. It handles both needs with the database the team already knows.",
+          "why_others_wrong": {
+            "a": "The team has no document-database experience, and orders still need strong transactional guarantees.",
+            "c": "Hundreds of near-identical tables make every cross-category feature such as search or listings painful.",
+            "d": "Plain text cannot be filtered reliably by attributes such as voltage or fabric."
+          },
+          "key_justification": "Use flexible JSON columns inside a relational database when only part of the data is schemaless.",
+          "points": 10
+        },
+        {
+          "id": "bke-4-q4",
+          "type": "multi_select",
+          "prompt": "When the inventory service went down, ordering stopped completely because the order service calls it synchronously. Which two changes improve resilience?",
+          "options": [
+            {"id": "a", "text": "Add timeouts and a circuit breaker on calls to inventory"},
+            {"id": "b", "text": "Retry each failed inventory call forever until it succeeds"},
+            {"id": "c", "text": "Record orders and publish an event for inventory to process"},
+            {"id": "d", "text": "Remove every timeout so that slow calls can always finish"},
+            {"id": "e", "text": "Merge both services into one process and keep it unchanged"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "Timeouts and a circuit breaker stop a failing service from tying up the order service, and let it fail fast or fall back. Accepting the order and publishing an event, for example through an outbox table and a queue, lets inventory catch up when it recovers instead of blocking every order.",
+          "why_others_wrong": {
+            "b": "Endless retries pile up requests and hammer the struggling service, slowing its recovery.",
+            "d": "Without timeouts, a hung inventory service hangs every order request with it.",
+            "e": "Merging the services may remove the network call, but making that change in the middle of an outage adds risk and leaves the design question unsolved."
+          },
+          "key_justification": "Contain dependency failures with timeouts, circuit breakers and asynchronous events.",
+          "points": 10
+        }
+      ]
+    },
+    {
+      "id": "bke-5",
+      "order": 5,
+      "ladder_stage": "end_to_end",
+      "title": "Surviving Deadline Day at Pragati Scholarships",
+      "difficulty": 5,
+      "estimated_minutes": 16,
+      "background": "Pragati Scholarships is a fictional state scholarship portal in Odisha for 2 million students. Students submit applications with PDF documents, officials review them, and a merit list is generated each night. On the last day before the deadline, traffic jumps to about 50 times normal. Every submission must be recorded exactly once and confirmed by SMS. Last year the portal crashed on deadline day, slow requests could not be traced, and a student could view another student's application by changing a number in the URL.",
+      "constraints": [
+        "No submission may be lost or recorded twice",
+        "Students may only see their own applications",
+        "The budget allows extra capacity only when it is needed"
+      ],
+      "tests_topics": [
+        "Request handling end to end",
+        "Scaling for spikes",
+        "Observability",
+        "API security and system design"
+      ],
+      "map_node": {"x": 0.88, "y": 0.16, "label": "Archive Vault"},
+      "questions": [
+        {
+          "id": "bke-5-q1",
+          "type": "order",
+          "prompt": "Put the steps for handling a student's submission request in order.",
+          "options": [
+            {"id": "a", "text": "Return 201 Created with the new application id"},
+            {"id": "b", "text": "Authenticate the student from their session token"},
+            {"id": "c", "text": "A background worker sends the confirmation SMS"},
+            {"id": "d", "text": "Validate the request body against the rules"},
+            {"id": "e", "text": "Save the application and an SMS event in one transaction"}
+          ],
+          "correct": ["b", "d", "e", "a", "c"],
+          "explanation": "The server first establishes who is calling, then checks the submission is valid before touching the database. Saving the application together with an outbox event in one transaction guarantees the SMS is never lost or sent for an unsaved application, and the response returns before a worker sends the SMS in the background.",
+          "why_others_wrong": {
+            "common_mistake": "Sending the SMS inside the request before responding, which makes students wait on the SMS provider and can confirm an application whose save then fails."
+          },
+          "key_justification": "Authenticate, validate, persist atomically with an outbox event, respond, then process side effects asynchronously.",
+          "points": 10
+        },
+        {
+          "id": "bke-5-q2",
+          "type": "single_choice",
+          "prompt": "Deadline day brings 50 times normal traffic. Which plan handles it within budget?",
+          "options": [
+            {"id": "a", "text": "Run 50 times the servers all year, so capacity is always ready"},
+            {"id": "b", "text": "Load-test early, autoscale stateless servers and queue slow work"},
+            {"id": "c", "text": "Extend the deadline by a week whenever the portal slows down"},
+            {"id": "d", "text": "Keep the current servers and hope that traffic is lower this year"}
+          ],
+          "correct": ["b"],
+          "explanation": "Stateless app servers behind a load balancer can be added automatically as traffic rises and removed afterwards, so extra capacity is paid for only on peak days. Load testing beforehand finds the real bottlenecks, such as the database, and queuing slow work such as PDF checks keeps request handling fast.",
+          "why_others_wrong": {
+            "a": "Paying for peak capacity all year wastes most of the budget.",
+            "c": "The deadline is a policy decision, and the portal must work under the expected load.",
+            "d": "Last year's crash shows hope is not a plan."
+          },
+          "key_justification": "Handle predictable spikes with load testing, autoscaling stateless servers and queues.",
+          "points": 10
+        },
+        {
+          "id": "bke-5-q3",
+          "type": "single_choice",
+          "prompt": "Last year nobody could trace why some requests took 30 seconds as they passed through several services. What should be added?",
+          "options": [
+            {"id": "a", "text": "A request id carried through every log and service, plus metrics"},
+            {"id": "b", "text": "Print statements that engineers add to the code whenever a problem happens"},
+            {"id": "c", "text": "A weekly email summary of the total number of requests served"},
+            {"id": "d", "text": "Full debug logging of every request body, kept for ten years"}
+          ],
+          "correct": ["a"],
+          "explanation": "A request or correlation id passed between services and written in every structured log line, together with distributed tracing, shows where a slow request spent its time. Per-endpoint metrics for request rate, errors and latency reveal problems before students report them.",
+          "why_others_wrong": {
+            "b": "Ad hoc prints arrive after the incident and cannot reconstruct past requests.",
+            "c": "A weekly total says nothing about which requests were slow or why.",
+            "d": "Logging every body is costly, stores students' personal data for far too long, and still cannot link the services."
+          },
+          "key_justification": "Observability needs correlated logs, traces and per-endpoint metrics.",
+          "points": 10
+        },
+        {
+          "id": "bke-5-q4",
+          "type": "multi_select",
+          "prompt": "Which two measures close the security gaps found last year?",
+          "options": [
+            {"id": "a", "text": "Check on the server that each application belongs to the student"},
+            {"id": "b", "text": "Rely on the website's form to validate everything students send"},
+            {"id": "c", "text": "Validate inputs on the server and use parameterised queries"},
+            {"id": "d", "text": "Return full error stack traces to students to help them debug"},
+            {"id": "e", "text": "Keep the database password in the code repository for easy setup"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "Viewing another student's application by changing the URL is broken object-level authorisation, fixed by checking ownership on the server for every request. Server-side validation and parameterised queries stop malformed or malicious input whatever client sent it.",
+          "why_others_wrong": {
+            "b": "Anyone can send requests directly to the API, so validation in the browser is easily bypassed.",
+            "d": "Stack traces reveal internal details that help attackers.",
+            "e": "Secrets in a repository spread to every clone and backup."
+          },
+          "key_justification": "Enforce authorisation and validation on the server for every request.",
+          "points": 10
+        },
+        {
+          "id": "bke-5-q5",
+          "type": "match",
+          "prompt": "Match each portal requirement to the design choice that fits it best.",
+          "items": [
+            {"id": "i1", "text": "Students upload PDF documents of up to 5 MB each"},
+            {"id": "i2", "text": "Applicants get an SMS whenever their status changes"},
+            {"id": "i3", "text": "A merit list is ranked nightly across 2 million rows"},
+            {"id": "i4", "text": "The eligibility rules page is read millions of times a day"}
+          ],
+          "targets": [
+            {"id": "t1", "text": "A nightly batch job that reads from a replica"},
+            {"id": "t2", "text": "Object storage, with only the file reference in the database"},
+            {"id": "t3", "text": "Cache it at the edge, since it rarely changes"},
+            {"id": "t4", "text": "Status-change events consumed by an SMS worker"}
+          ],
+          "correct": {"i1": "t2", "i2": "t4", "i3": "t1", "i4": "t3"},
+          "explanation": "Large files belong in object storage, with only their location in the database, which keeps the database small and fast. Status changes publish events that a worker turns into SMS, the heavy nightly ranking runs as a batch job on a replica so it does not slow live traffic, and a page that rarely changes is served from an edge cache.",
+          "why_others_wrong": {
+            "common_mistake": "Storing the PDFs inside the database as binary columns, which bloats tables, backups and replicas and slows every query that touches them."
+          },
+          "key_justification": "Put files in object storage, side effects in events, heavy reports in batch jobs and static reads in caches.",
+          "points": 10
+        }
+      ]
+    }
+  ]
+}
