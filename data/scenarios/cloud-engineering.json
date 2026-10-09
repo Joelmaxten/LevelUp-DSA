@@ -1,0 +1,606 @@
+{
+  "schema_version": 1,
+  "path": "Cloud Engineering",
+  "map": {
+    "scene_id": "cloud-engineering",
+    "theme": "A sky city of floating islands tethered by cable cars above the clouds, where a schoolhouse island, a market island with glowing kiosks, a busy railway terminus in the mist, a clinic island inside a protective ring and a festival stage on the highest island are linked by humming cable lines. The palette is sky blue, silver and sunrise orange, and the mood moves from bright first steps at the schoolhouse to soaring confidence at the festival stage.",
+    "edges": [["cle-1", "cle-2"], ["cle-2", "cle-3"], ["cle-3", "cle-4"], ["cle-4", "cle-5"]]
+  },
+  "scenarios": [
+    {
+      "id": "cle-1",
+      "order": 1,
+      "ladder_stage": "foundations",
+      "title": "Moving Pathshala Online to the Cloud",
+      "difficulty": 1,
+      "estimated_minutes": 8,
+      "background": "Pathshala Online is a fictional e-learning company in Ranchi that runs its website, student database and lecture videos on a single server in its office. When the office power failed during exams, 30,000 students could not log in. The company is moving to a public cloud provider. The two-person IT team must decide which cloud services to use and who is responsible for what once the servers are no longer in their office.",
+      "constraints": [
+        "The site must survive the failure of one data centre",
+        "The IT team is two people with no cloud experience yet",
+        "Lecture videos total several terabytes and keep growing"
+      ],
+      "tests_topics": [
+        "Shared responsibility",
+        "Availability zones",
+        "Choosing storage services",
+        "Cloud service models"
+      ],
+      "map_node": {"x": 0.1, "y": 0.84, "label": "Schoolhouse Island"},
+      "questions": [
+        {
+          "id": "cle-1-q1",
+          "type": "single_choice",
+          "prompt": "The team rents a virtual machine and installs the website on it. Who is responsible for installing operating system security patches on that machine?",
+          "options": [
+            {"id": "a", "text": "The cloud provider, because it owns the physical servers"},
+            {"id": "b", "text": "Pathshala's team, because the guest OS is the customer's job"},
+            {"id": "c", "text": "Nobody, because cloud virtual machines never need any patches"},
+            {"id": "d", "text": "The students, because they are the people using the website"}
+          ],
+          "correct": ["b"],
+          "explanation": "Under the shared responsibility model for a rented virtual machine, the provider secures the buildings, hardware and virtualisation layer, while the customer is responsible for the operating system, its patches, the applications and the data. Managed services shift more of that work to the provider.",
+          "why_others_wrong": {
+            "a": "The provider manages the hardware and hypervisor, not the operating system inside a customer's virtual machine.",
+            "c": "Cloud VMs run ordinary operating systems that need patching like any other machine.",
+            "d": "Users of a website have no access to, or responsibility for, its servers."
+          },
+          "key_justification": "On IaaS, the customer patches the guest OS; the provider secures the infrastructure beneath it.",
+          "points": 10
+        },
+        {
+          "id": "cle-1-q2",
+          "type": "single_choice",
+          "prompt": "The site must keep running if one data centre fails. Which setup meets that?",
+          "options": [
+            {"id": "a", "text": "One much larger virtual machine, with twice the CPU and memory"},
+            {"id": "b", "text": "Two virtual machines placed side by side in one availability zone"},
+            {"id": "c", "text": "Machines in two availability zones behind a load balancer"},
+            {"id": "d", "text": "One machine, with a full copy taken to another region monthly"}
+          ],
+          "correct": ["c"],
+          "explanation": "An availability zone is one or more separate data centres within a region, with independent power and networking. Running the site in two zones behind a load balancer means that if one zone fails, traffic goes to the healthy machines in the other.",
+          "why_others_wrong": {
+            "a": "A bigger machine is still a single point of failure.",
+            "b": "Both machines share the same zone, so a zone-wide failure takes down both.",
+            "d": "A monthly copy restores old data slowly and by hand; it does not keep the site running."
+          },
+          "key_justification": "Spread instances across availability zones behind a load balancer for high availability.",
+          "points": 10
+        },
+        {
+          "id": "cle-1-q3",
+          "type": "multi_select",
+          "prompt": "Where should the lecture videos and the student records be stored? Choose the two right services.",
+          "options": [
+            {"id": "a", "text": "Object storage for the lecture videos and other course files"},
+            {"id": "b", "text": "The local disk of one web server for all the lecture videos"},
+            {"id": "c", "text": "A managed relational database service for student records"},
+            {"id": "d", "text": "A spreadsheet file, kept in object storage, as the database"},
+            {"id": "e", "text": "A database running on the IT team leader's office laptop"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "Object storage holds large files cheaply, grows without limit and keeps several copies for durability, which suits terabytes of video. A managed relational database handles backups, patching and failover for structured records such as students and marks.",
+          "why_others_wrong": {
+            "b": "One server's disk is limited and is lost if that server fails.",
+            "d": "A spreadsheet cannot handle many users updating records safely at the same time.",
+            "e": "A laptop is a single point of failure and not reachable reliably from the cloud."
+          },
+          "key_justification": "Use object storage for large files and a managed database for structured records.",
+          "points": 10
+        },
+        {
+          "id": "cle-1-q4",
+          "type": "match",
+          "prompt": "Match each cloud service model to an example of it.",
+          "items": [
+            {"id": "i1", "text": "Infrastructure as a Service (IaaS)"},
+            {"id": "i2", "text": "Platform as a Service (PaaS)"},
+            {"id": "i3", "text": "Software as a Service (SaaS)"},
+            {"id": "i4", "text": "Functions as a Service (serverless)"}
+          ],
+          "targets": [
+            {"id": "t1", "text": "Using a ready-made email and office suite in the browser"},
+            {"id": "t2", "text": "Code that runs on each event and is billed per call"},
+            {"id": "t3", "text": "Renting a virtual machine and installing everything on it"},
+            {"id": "t4", "text": "Uploading app code that the platform runs and scales"}
+          ],
+          "correct": {"i1": "t3", "i2": "t4", "i3": "t1", "i4": "t2"},
+          "explanation": "IaaS gives raw machines that the customer sets up and manages. PaaS runs the customer's application code without them managing servers, SaaS is finished software used directly, and serverless functions run small pieces of code on demand, billed per call.",
+          "why_others_wrong": {
+            "common_mistake": "Confusing PaaS with serverless: both hide servers, but PaaS runs a whole application continuously, while serverless runs individual functions only when an event triggers them."
+          },
+          "key_justification": "Service models differ in how much of the stack the provider manages.",
+          "points": 10
+        }
+      ]
+    },
+    {
+      "id": "cle-2",
+      "order": 2,
+      "ladder_stage": "core_decision",
+      "title": "Setting Up a Safe Network for Kirana Konnect",
+      "difficulty": 2,
+      "estimated_minutes": 10,
+      "background": "Kirana Konnect is a fictional startup in Indore that lets neighbourhood shops take online orders. It is setting up its cloud account from scratch: a web tier, a PostgreSQL database and a storage bucket for product photos. A developer currently uses the account's root credentials for everything, the database password sits in a config file in the Git repository, and a tutorial suggested opening the database port to the whole internet 'to make testing easier'.",
+      "constraints": [
+        "Customer and shop data must not be exposed to the internet",
+        "Five developers need access with different responsibilities",
+        "The team wants simple rules they can follow consistently"
+      ],
+      "tests_topics": [
+        "Public and private subnets",
+        "Least-privilege access",
+        "Secrets management",
+        "Core cloud networking terms"
+      ],
+      "map_node": {"x": 0.3, "y": 0.66, "label": "Kiosk Market Island"},
+      "questions": [
+        {
+          "id": "cle-2-q1",
+          "type": "single_choice",
+          "prompt": "How should the web servers and the database be placed in the virtual network?",
+          "options": [
+            {"id": "a", "text": "Put every server in a public subnet so they are easier to reach"},
+            {"id": "b", "text": "Load balancer public; app servers and database in private subnets"},
+            {"id": "c", "text": "Put the database in a public subnet with a long, strong password"},
+            {"id": "d", "text": "Put the web servers in a private subnet with no route for users"}
+          ],
+          "correct": ["b"],
+          "explanation": "Only the load balancer needs to accept traffic from the internet. App servers and the database sit in private subnets with no public addresses, and the database accepts connections only from the app servers, so it cannot be reached from outside at all.",
+          "why_others_wrong": {
+            "a": "Exposing every server gives attackers many more targets, including the database.",
+            "c": "A strong password helps, but a database reachable from the internet still invites attacks and exploits.",
+            "d": "Customers must be able to reach the site, so something must accept public traffic, here the load balancer."
+          },
+          "key_justification": "Expose only the entry point publicly and keep application and data tiers private.",
+          "points": 10
+        },
+        {
+          "id": "cle-2-q2",
+          "type": "single_choice",
+          "prompt": "A developer only needs to upload product photos to one bucket. What access should they get?",
+          "options": [
+            {"id": "a", "text": "The account's root credentials, since they are already shared"},
+            {"id": "b", "text": "Full administrator access, in case they need more in the future"},
+            {"id": "c", "text": "A role allowing only uploads to that bucket and nothing more"},
+            {"id": "d", "text": "Read and write access to every bucket in the account for ease"}
+          ],
+          "correct": ["c"],
+          "explanation": "The principle of least privilege gives each person or service only the permissions its job needs. A role or policy that allows uploading objects to that single bucket limits the damage if the developer's credentials are leaked or misused.",
+          "why_others_wrong": {
+            "a": "Root credentials can do anything in the account, including deleting it, and should be locked away.",
+            "b": "Granting more 'just in case' turns any mistake or stolen key into a much bigger incident.",
+            "d": "Access to every bucket exposes data the developer has no reason to touch."
+          },
+          "key_justification": "Grant least-privilege permissions scoped to exactly the resources needed.",
+          "points": 10
+        },
+        {
+          "id": "cle-2-q3",
+          "type": "single_choice",
+          "prompt": "The database password is in a config file in the Git repository. What should the team do?",
+          "options": [
+            {"id": "a", "text": "Base64-encode the password and keep it in the same config file"},
+            {"id": "b", "text": "Move the password into the README so that it is easier to find"},
+            {"id": "c", "text": "Make the repository private and keep the same password in the file"},
+            {"id": "d", "text": "Rotate it and load it at runtime from a secrets manager by role"}
+          ],
+          "correct": ["d"],
+          "explanation": "A password that has been in Git must be treated as exposed, so it is changed first. Keeping the new one in a secrets manager, which the app reads at runtime using its machine's role, means no copy lives in the code or its history.",
+          "why_others_wrong": {
+            "a": "Base64 is an encoding that anyone can reverse instantly.",
+            "b": "The README is part of the same repository, so the secret is just as exposed.",
+            "c": "Every clone and fork still holds the password, and private repositories still leak."
+          },
+          "key_justification": "Rotate exposed secrets and serve them at runtime from a secrets manager.",
+          "points": 10
+        },
+        {
+          "id": "cle-2-q4",
+          "type": "multi_select",
+          "prompt": "Which two firewall (security group) rules are correct for the PostgreSQL database?",
+          "options": [
+            {"id": "a", "text": "Allow port 5432 only from the app servers' security group"},
+            {"id": "b", "text": "Allow port 5432 from 0.0.0.0/0 so testing works from anywhere"},
+            {"id": "c", "text": "Allow no other inbound traffic to the database servers at all"},
+            {"id": "d", "text": "Allow SSH on port 22 from the whole internet for maintenance"},
+            {"id": "e", "text": "Allow every port from anywhere inside the virtual network"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "Referencing the app servers' security group lets only those servers reach the database port, even as servers are added or replaced. Allowing nothing else inbound keeps every other path closed by default.",
+          "why_others_wrong": {
+            "b": "0.0.0.0/0 means the whole internet, which is exactly the exposure to avoid.",
+            "d": "SSH open to the internet is constantly attacked; access should go through a bastion host or a managed session service.",
+            "e": "Every port from the whole network lets any compromised machine reach the database."
+          },
+          "key_justification": "Allow only the specific source and port needed; deny everything else.",
+          "points": 10
+        },
+        {
+          "id": "cle-2-q5",
+          "type": "match",
+          "prompt": "Match each cloud networking term to its purpose.",
+          "items": [
+            {"id": "i1", "text": "Region"},
+            {"id": "i2", "text": "Availability zone"},
+            {"id": "i3", "text": "Virtual private cloud (VPC)"},
+            {"id": "i4", "text": "Load balancer"}
+          ],
+          "targets": [
+            {"id": "t1", "text": "An isolated data centre group inside a region"},
+            {"id": "t2", "text": "A private network that holds your cloud resources"},
+            {"id": "t3", "text": "Spreads incoming traffic across healthy servers"},
+            {"id": "t4", "text": "A geographic area, chosen for latency and residency"}
+          ],
+          "correct": {"i1": "t4", "i2": "t1", "i3": "t2", "i4": "t3"},
+          "explanation": "A region is a geographic area such as Mumbai, chosen for latency to users and for where data may legally live. Availability zones are isolated data centres within it, a VPC is the private network the team's resources live in, and a load balancer spreads requests across healthy servers.",
+          "why_others_wrong": {
+            "common_mistake": "Treating regions and availability zones as the same thing: a region contains several zones, and spreading across zones protects against a data centre failure within one region."
+          },
+          "key_justification": "Regions, zones, VPCs and load balancers are the building blocks of cloud network design.",
+          "points": 10
+        }
+      ]
+    },
+    {
+      "id": "cle-3",
+      "order": 3,
+      "ladder_stage": "debugging",
+      "title": "Bills and Breakdowns at Yatri Seva",
+      "difficulty": 3,
+      "estimated_minutes": 12,
+      "background": "Yatri Seva is a fictional railway-booking aggregator in Secunderabad running on a public cloud. In the last month its bill doubled, autoscaling failed to keep up with the morning ticket rush, a new service in a private subnet could not reach the payment gateway, and an audit found a storage bucket of customer ID photos that anyone on the internet could read. The cloud team has billing reports, access logs and the infrastructure configuration.",
+      "constraints": [
+        "Tatkal ticket bookings spike sharply at 10 am every day",
+        "Customer ID documents are sensitive personal data",
+        "Finance wants the cloud bill back to its previous level"
+      ],
+      "tests_topics": [
+        "Cost investigation",
+        "Autoscaling behaviour",
+        "Outbound connectivity",
+        "Storage security incidents"
+      ],
+      "map_node": {"x": 0.5, "y": 0.5, "label": "Misty Railway Terminus"},
+      "questions": [
+        {
+          "id": "cle-3-q1",
+          "type": "single_choice",
+          "prompt": "The billing report shows 40 development machines running nights and weekends, plus many disks not attached to any machine. What should the team do?",
+          "options": [
+            {"id": "a", "text": "Tag resources by owner, stop dev machines off-hours, and delete orphaned disks"},
+            {"id": "b", "text": "Move every one of the development machines over to a bigger instance size"},
+            {"id": "c", "text": "Delete every disk in the account that is more than a single month old"},
+            {"id": "d", "text": "Ask the provider to cancel the bill, because the extra spending was a mistake"}
+          ],
+          "correct": ["a"],
+          "explanation": "Development machines are needed only during working hours, so scheduling them to stop at night and at weekends cuts about two thirds of their cost. Tagging by owner shows who uses what, and disks attached to nothing can be snapshotted if needed and deleted.",
+          "why_others_wrong": {
+            "b": "Bigger instances cost more per hour and still run all night.",
+            "c": "Deleting disks by age destroys live production data along with the waste.",
+            "d": "Usage that was actually consumed is billed, whatever the reason it happened."
+          },
+          "key_justification": "Control cloud cost with ownership tags, scheduled shutdown and removing orphaned resources.",
+          "points": 10
+        },
+        {
+          "id": "cle-3-q2",
+          "type": "single_choice",
+          "prompt": "Autoscaling adds servers when CPU rises at 10 am, but each new server takes 10 minutes to install software and become ready, and the rush peaks in five. What fixes this?",
+          "options": [
+            {"id": "a", "text": "Lower the CPU threshold from 70% to 69% so that scaling starts sooner"},
+            {"id": "b", "text": "Turn autoscaling off and run the minimum number of servers all day"},
+            {"id": "c", "text": "Use pre-built server images and scale out on a schedule before 10 am"},
+            {"id": "d", "text": "Use one large server instead, since it has no time to start new ones"}
+          ],
+          "correct": ["c"],
+          "explanation": "Reactive scaling is too slow when servers take longer to start than the spike takes to arrive. Baking the software into a pre-built machine image cuts start-up time, and because the 10 am rush is predictable, scheduled scaling can add servers just before it.",
+          "why_others_wrong": {
+            "a": "Starting scaling a moment sooner does not fix a 10-minute start-up time.",
+            "b": "Without autoscaling, the minimum servers are overwhelmed every morning.",
+            "d": "One server is a single point of failure and still has a maximum size."
+          },
+          "key_justification": "For predictable spikes, scale ahead of time and shorten instance start-up with pre-built images.",
+          "points": 10
+        },
+        {
+          "id": "cle-3-q3",
+          "type": "single_choice",
+          "prompt": "A new service in a private subnet times out calling the external payment gateway. Its security group allows all outbound traffic. What is missing?",
+          "options": [
+            {"id": "a", "text": "An inbound rule allowing port 443 from the internet to the service"},
+            {"id": "b", "text": "A route sending outbound traffic through a NAT gateway"},
+            {"id": "c", "text": "A public IP address on the database used by the service"},
+            {"id": "d", "text": "A larger server size, so that the call can finish in time"}
+          ],
+          "correct": ["b"],
+          "explanation": "A private subnet has no direct route to the internet. Adding a route through a NAT gateway lets the service make outbound connections, such as calls to the payment gateway, while still blocking anyone on the internet from connecting in.",
+          "why_others_wrong": {
+            "a": "The service starts the connection, so an inbound rule is not what is missing, and opening one would expose it.",
+            "c": "The database is not involved in the call, and making it public adds risk.",
+            "d": "The call never leaves the network; a bigger server cannot fix a missing route."
+          },
+          "key_justification": "Private subnets need a NAT gateway route for outbound internet access.",
+          "points": 10
+        },
+        {
+          "id": "cle-3-q4",
+          "type": "multi_select",
+          "prompt": "An audit finds the bucket of customer ID photos is publicly readable. Which two actions come first?",
+          "options": [
+            {"id": "a", "text": "Block public access and make the bucket private at once"},
+            {"id": "b", "text": "Rename the bucket so that old links break, leaving it public"},
+            {"id": "c", "text": "Check access logs for what was downloaded, and by whom"},
+            {"id": "d", "text": "Delete the access logs to reduce the account's storage bill"},
+            {"id": "e", "text": "Leave it as it is until the next scheduled security review"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "Stopping the exposure comes first, by blocking public access to the bucket. The access logs then show whether outsiders downloaded files and which ones, which decides who must be told and what else must follow, such as notifying affected customers.",
+          "why_others_wrong": {
+            "b": "A new name does not stop anyone from listing or reading a bucket that is still public.",
+            "d": "The logs are the evidence of what leaked; deleting them makes the incident impossible to assess.",
+            "e": "Every hour of delay may expose more people's ID documents."
+          },
+          "key_justification": "Contain the exposure first, then use logs to determine the impact.",
+          "points": 10
+        },
+        {
+          "id": "cle-3-q5",
+          "type": "match",
+          "prompt": "Match each symptom to its most likely cause.",
+          "items": [
+            {"id": "i1", "text": "Servers in one zone go unhealthy while the others stay fine"},
+            {"id": "i2", "text": "The app gets 403 Access Denied writing to a bucket after a role change"},
+            {"id": "i3", "text": "New app servers time out connecting to the database"},
+            {"id": "i4", "text": "Users still see the old stylesheet hours after a deploy"}
+          ],
+          "targets": [
+            {"id": "t1", "text": "The database security group does not allow the new servers"},
+            {"id": "t2", "text": "The CDN is still serving its cached copy of the old file"},
+            {"id": "t3", "text": "A problem limited to that one availability zone"},
+            {"id": "t4", "text": "The new role's policy is missing the write permission"}
+          ],
+          "correct": {"i1": "t3", "i2": "t4", "i3": "t1", "i4": "t2"},
+          "explanation": "Failure confined to one zone points to that zone, which is why spreading across zones matters. A 403 right after a role change means the new policy lacks a permission, timeouts from new servers alone mean a firewall rule does not include them, and an old stylesheet after a deploy is a cached copy at the CDN.",
+          "why_others_wrong": {
+            "common_mistake": "Reading the database timeout as a wrong password: an authentication failure is rejected quickly with an error, while a timeout means the connection never got through the firewall."
+          },
+          "key_justification": "Error type and scope point to zone failures, permissions, firewall rules or caching.",
+          "points": 10
+        }
+      ]
+    },
+    {
+      "id": "cle-4",
+      "order": 4,
+      "ladder_stage": "trade_offs",
+      "title": "Reliability and Cost at Arogya Records",
+      "difficulty": 4,
+      "estimated_minutes": 14,
+      "background": "Arogya Records is a fictional health-records software company in Pune used by 400 clinics. Contracts promise that no more than 15 minutes of data will be lost in a disaster and that service will be back within an hour. Twenty servers run around the clock, and nightly report jobs can run whenever there is capacity. The database currently runs on virtual machines that the two-person operations team patches by hand, and health data must stay in India.",
+      "constraints": [
+        "Contracts allow at most 15 minutes of data loss and one hour of downtime",
+        "Health data must be stored and backed up only in India",
+        "The operations team is two people"
+      ],
+      "tests_topics": [
+        "RPO and RTO",
+        "Cloud pricing models",
+        "Managed versus self-managed services",
+        "Data residency"
+      ],
+      "map_node": {"x": 0.7, "y": 0.36, "label": "Ringed Clinic Island"},
+      "questions": [
+        {
+          "id": "cle-4-q1",
+          "type": "single_choice",
+          "prompt": "Which database setup meets a 15-minute recovery point objective and a one-hour recovery time objective?",
+          "options": [
+            {"id": "a", "text": "A nightly full backup that is copied to object storage each day"},
+            {"id": "b", "text": "A weekly backup that someone restores by hand if disaster strikes"},
+            {"id": "c", "text": "Point-in-time recovery plus a standby replica in a second zone"},
+            {"id": "d", "text": "No backups at all, because cloud disks are said never to fail"}
+          ],
+          "correct": ["c"],
+          "explanation": "The recovery point objective is how much data may be lost, and the recovery time objective is how long recovery may take. Continuous transaction-log backups allow point-in-time recovery to within minutes, and a synchronous standby in another zone can take over automatically, well within an hour.",
+          "why_others_wrong": {
+            "a": "A nightly backup can lose up to 24 hours of data, far beyond 15 minutes.",
+            "b": "A weekly backup restored by hand loses days of data and takes too long to bring back.",
+            "d": "Disks, zones and human errors all fail eventually, and deleted data needs backups to recover."
+          },
+          "key_justification": "Tight RPO needs continuous backups; tight RTO needs a ready standby and automated failover.",
+          "points": 10
+        },
+        {
+          "id": "cle-4-q2",
+          "type": "single_choice",
+          "prompt": "Twenty servers run around the clock, and nightly report jobs can be interrupted and retried. Which pricing approach costs least?",
+          "options": [
+            {"id": "a", "text": "Pay on-demand prices for everything, with no commitment at all"},
+            {"id": "b", "text": "Run all twenty servers and every report job on spot capacity"},
+            {"id": "c", "text": "Buy a three-year commitment sized for double the current load"},
+            {"id": "d", "text": "Commit to discounts for the twenty, and use spot for the reports"}
+          ],
+          "correct": ["d"],
+          "explanation": "Steady, always-on load is cheapest with committed-use discounts such as reserved instances or savings plans. Report jobs that can be interrupted and retried suit spot capacity, which is much cheaper but can be reclaimed at short notice.",
+          "why_others_wrong": {
+            "a": "On-demand prices are the most expensive way to run a steady, predictable load.",
+            "b": "Spot capacity can be taken back at any time, which is unacceptable for the main servers.",
+            "c": "Committing to double the current load means paying for capacity that may never be used."
+          },
+          "key_justification": "Commit for steady baseline load and use spot capacity for interruptible work.",
+          "points": 10
+        },
+        {
+          "id": "cle-4-q3",
+          "type": "single_choice",
+          "prompt": "The two-person ops team patches the self-managed database by hand. Should it move to the provider's managed database service?",
+          "options": [
+            {"id": "a", "text": "No, because managed services can never meet health-data needs"},
+            {"id": "b", "text": "Yes; it costs more per hour but frees time and handles failover"},
+            {"id": "c", "text": "No; hire four more operators to keep patching databases by hand"},
+            {"id": "d", "text": "Yes, and switch off backups too, since managed services never fail"}
+          ],
+          "correct": ["b"],
+          "explanation": "A managed database handles patching, backups, point-in-time recovery and standby failover. Its higher hourly price is usually far less than the cost of a small team's time and the risk of manual mistakes, and it helps meet the recovery objectives.",
+          "why_others_wrong": {
+            "a": "Managed database services are widely used for regulated data when configured properly.",
+            "c": "Hiring four people is expensive and still leaves error-prone manual work.",
+            "d": "Managed services can still fail or have data deleted by mistake, so backups remain essential."
+          },
+          "key_justification": "For small teams, managed services trade a higher unit price for less operational risk.",
+          "points": 10
+        },
+        {
+          "id": "cle-4-q4",
+          "type": "multi_select",
+          "prompt": "Health data must stay in India. Which two steps make sure it does?",
+          "options": [
+            {"id": "a", "text": "Deploy all databases and storage in Indian cloud regions only"},
+            {"id": "b", "text": "Use whichever region in the world is cheapest this month"},
+            {"id": "c", "text": "Keep backups, replicas and logs with data in Indian regions too"},
+            {"id": "d", "text": "Replicate the database to the United States for recovery"},
+            {"id": "e", "text": "Trust the provider's default settings without checking them"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "Data residency covers every copy, not just the main database. Primary systems must run in Indian regions such as Mumbai or Hyderabad, and backups, replicas and logs that contain health data must stay in Indian regions as well.",
+          "why_others_wrong": {
+            "b": "The cheapest region may be outside India, which breaks the requirement.",
+            "d": "A replica in the United States is a copy of the data outside India.",
+            "e": "Defaults may copy data or backups across regions; residency must be checked and enforced."
+          },
+          "key_justification": "Data residency applies to primary data and to every backup, replica and log.",
+          "points": 10
+        }
+      ]
+    },
+    {
+      "id": "cle-5",
+      "order": 5,
+      "ladder_stage": "end_to_end",
+      "title": "Building the Utsav Live Streaming Platform",
+      "difficulty": 5,
+      "estimated_minutes": 16,
+      "background": "Utsav Live is a fictional platform in Mumbai that live-streams festivals and concerts. For Durga Puja it expects up to 2 million viewers across India, and its recordings must be kept for years. The cloud team is building everything fresh. So far, environments were created by clicking in the console, nobody could reproduce staging, and the only alert was an email for every CPU spike. The platform must go from design to launch in three months.",
+      "constraints": [
+        "Up to 2 million viewers during festival peaks",
+        "Recordings must be kept for at least five years at low cost",
+        "Staging must match production so tests are trustworthy"
+      ],
+      "tests_topics": [
+        "Infrastructure as code",
+        "Content delivery",
+        "Alerting",
+        "Choosing cloud services"
+      ],
+      "map_node": {"x": 0.88, "y": 0.16, "label": "Festival Stage Island"},
+      "questions": [
+        {
+          "id": "cle-5-q1",
+          "type": "order",
+          "prompt": "Put the steps for changing the platform's infrastructure in order.",
+          "options": [
+            {"id": "a", "text": "Apply the change to production"},
+            {"id": "b", "text": "Write the change as infrastructure code"},
+            {"id": "c", "text": "Apply it to staging and test it there"},
+            {"id": "d", "text": "Watch dashboards and alarms after release"},
+            {"id": "e", "text": "Get the change reviewed in a pull request"}
+          ],
+          "correct": ["b", "e", "c", "a", "d"],
+          "explanation": "Writing the change as code makes it reviewable, and a pull request lets a teammate catch mistakes before anything changes. It is applied to staging first so it can be tested, then to production, and then watched closely in case something behaves differently under real traffic.",
+          "why_others_wrong": {
+            "common_mistake": "Applying the change to production before staging, which turns production into the test environment and puts viewers at risk."
+          },
+          "key_justification": "Code, review, apply to staging and test, apply to production, then monitor.",
+          "points": 10
+        },
+        {
+          "id": "cle-5-q2",
+          "type": "single_choice",
+          "prompt": "Why should the team define its environments with infrastructure as code, using a tool such as Terraform, instead of clicking in the console?",
+          "options": [
+            {"id": "a", "text": "Environments become reproducible, reviewable and version controlled"},
+            {"id": "b", "text": "Infrastructure code always makes the monthly cloud bill much lower"},
+            {"id": "c", "text": "Console clicks are banned by every cloud provider's terms of use"},
+            {"id": "d", "text": "Infrastructure code removes the need for any testing in staging"}
+          ],
+          "correct": ["a"],
+          "explanation": "With infrastructure as code, staging and production are built from the same reviewed files, so they match, and any change is recorded in version control. Drift between what is written and what exists can also be detected, which manual console changes make impossible.",
+          "why_others_wrong": {
+            "b": "Infrastructure code can help find waste, but it does not lower costs by itself.",
+            "c": "Providers allow console use; the problem is that clicks are hard to reproduce and review.",
+            "d": "Changes still need testing; code only makes them consistent and repeatable."
+          },
+          "key_justification": "IaC makes infrastructure reproducible, reviewable and versioned.",
+          "points": 10
+        },
+        {
+          "id": "cle-5-q3",
+          "type": "single_choice",
+          "prompt": "How should video reach up to 2 million viewers across India?",
+          "options": [
+            {"id": "a", "text": "Every viewer streams straight from a few origin servers in Mumbai"},
+            {"id": "b", "text": "Viewers download the full recording before they start to watch it"},
+            {"id": "c", "text": "One large video server streams to everyone at a single fixed quality"},
+            {"id": "d", "text": "A CDN caches the streams near viewers, with several quality levels"}
+          ],
+          "correct": ["d"],
+          "explanation": "A content delivery network caches video segments on servers close to viewers, so the origin is not overwhelmed and playback starts quickly. Offering several quality levels lets each viewer's player switch to what their connection can handle, which is called adaptive bitrate streaming.",
+          "why_others_wrong": {
+            "a": "A few origin servers cannot serve millions of viewers, and distant viewers buffer.",
+            "b": "Live events cannot be downloaded in advance, and whole files waste data.",
+            "c": "One server is a bottleneck, and one fixed quality buffers on slow connections."
+          },
+          "key_justification": "Deliver video at scale through a CDN with adaptive bitrate streaming.",
+          "points": 10
+        },
+        {
+          "id": "cle-5-q4",
+          "type": "multi_select",
+          "prompt": "The only alert today is an email for every CPU spike. Which two alerts should replace it?",
+          "options": [
+            {"id": "a", "text": "Error rate seen by viewers stays above a set level for 5 minutes"},
+            {"id": "b", "text": "Any single server's CPU goes above 50% for even one second"},
+            {"id": "c", "text": "Stream start-up time at the 95th percentile exceeds its target"},
+            {"id": "d", "text": "An email is sent for every single line that is written to logs"},
+            {"id": "e", "text": "Disk usage on any server rises above 10% of the full capacity"}
+          ],
+          "correct": ["a", "c"],
+          "explanation": "Good alerts fire on symptoms that viewers actually feel, such as sustained errors or slow stream starts, and need a person to act. Waiting for a few minutes of sustained trouble avoids being woken for a brief blip.",
+          "why_others_wrong": {
+            "b": "Brief CPU spikes are normal and do not always affect viewers, so this alert fires constantly.",
+            "d": "An email per log line floods the inbox until every alert is ignored.",
+            "e": "10% disk usage is healthy, so the alert would fire for no reason."
+          },
+          "key_justification": "Alert on sustained, user-facing symptoms, not on every resource fluctuation.",
+          "points": 10
+        },
+        {
+          "id": "cle-5-q5",
+          "type": "match",
+          "prompt": "Match each platform need to the cloud service type that fits it best.",
+          "items": [
+            {"id": "i1", "text": "Resize every event poster as soon as it is uploaded"},
+            {"id": "i2", "text": "Keep years of recorded streams at the lowest cost"},
+            {"id": "i3", "text": "Look up viewer session data in about a millisecond"},
+            {"id": "i4", "text": "Run the main web app so it scales with the traffic"}
+          ],
+          "targets": [
+            {"id": "t1", "text": "A managed in-memory cache service"},
+            {"id": "t2", "text": "Containers in an autoscaling service"},
+            {"id": "t3", "text": "A serverless function run on an upload event"},
+            {"id": "t4", "text": "An archive tier of object storage"}
+          ],
+          "correct": {"i1": "t3", "i2": "t4", "i3": "t1", "i4": "t2"},
+          "explanation": "A short task triggered by each upload is a natural fit for a serverless function. Rarely accessed recordings belong in a low-cost archive storage tier, session lookups need an in-memory cache, and the main web app runs as containers that autoscale with demand.",
+          "why_others_wrong": {
+            "common_mistake": "Keeping old recordings in standard storage: archive tiers cost far less per gigabyte for data that is rarely read, which suits recordings kept for years."
+          },
+          "key_justification": "Match each workload to the service built for its pattern: events, archives, fast lookups or scaling apps.",
+          "points": 10
+        }
+      ]
+    }
+  ]
+}
