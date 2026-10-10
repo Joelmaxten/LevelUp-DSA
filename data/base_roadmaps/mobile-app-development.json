@@ -1,0 +1,4046 @@
+{
+ "metadata": {
+  "schema_version": 1,
+  "career_path": "Mobile App Development",
+  "model_id": "claude-opus-5-5",
+  "built_at": "2026-10-10T17:57:04Z",
+  "generator": {
+   "profile": "neutral",
+   "provider": "claude_authored",
+   "llm_host": null,
+   "authoring": "Every model reply in this run was written by Claude (claude-opus-5-5) in a Claude Code cloud session, answering the generator's own prompts; retrieval, topic-ref validation, duplicate check, more_topics, resources and audit are the unmodified pipeline.",
+   "phase_concurrency": 1,
+   "duplicate_similarity_threshold": 0.8,
+   "reasoning_effort": "",
+   "resources": "kb_only"
+  },
+  "inventory_fingerprint": "038933475687cbee44c11d1b885e4d9c0049185cd7f66995fdfa22d4dae7e3c4"
+ },
+ "roadmap": {
+  "phases": [
+   {
+    "phase_number": 1,
+    "title": "Android",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "Kotlin and Android Tooling",
+      "description": "Android runs on most phones in India, and Kotlin is Google's preferred language for it. Learn Kotlin basics, set up Android Studio and Gradle, ship a hello-world app, and keep your work in Git from day one.",
+      "topic_refs": [
+       "Suws-7f_6Z1ChpfcnxX2M",
+       "qIzUv8-GgQnkqChEdgD50",
+       "jl1FsQ5-WGKeFyaILNt_p",
+       "RBABbkzD_uNFwEO-hssZO",
+       "ZRGsokU313Ky-anWbWK6q",
+       "FVxNjbDBxgf6vkZWw1Awt",
+       "5m_7DvInF8C_4Ml1xVI6L",
+       "HlUUGj3dOZ68t4gIjerXh",
+       "5s1CqsYCOXjNroDHaGKGa",
+       "rqSZ2ATeHbOdIQE9Jlb0B",
+       "H-2eb8fLwz8IKYXbeSVKK",
+       "cNeT1dJDfgn0ndPzSxhSL"
+      ],
+      "projects": [
+       {
+        "title": "Kotlin console exercises",
+        "description": "Solve twenty small problems in Kotlin covering null safety, collections and data classes.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Hello world on a real phone",
+        "description": "Build a one-screen app, run it on your own phone and push the project to GitHub.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Pick a Language",
+       "Kotlin",
+       "Basics of Kotlin",
+       "Java",
+       "Development IDE"
+      ],
+      "more_topics": [
+       {
+        "node_id": "j69erqfosSZMDlmKcnnn0",
+        "title": "Basics of Kotlin"
+       },
+       {
+        "node_id": "Q47BtQphp59NkkZoeNXmP",
+        "title": "GitLab"
+       },
+       {
+        "node_id": "5LFZdUiFYYU_1sYsouyan",
+        "title": "Bitbucket"
+       }
+      ],
+      "global_step_index": 1,
+      "resource": {
+       "title": "Learn Kotlin Programming for Beginners - Free Code Camp",
+       "url": "https://youtube.com/watch?v=EExSSotojVI"
+      },
+      "videos": [
+       {
+        "title": "Learn Kotlin Programming for Beginners - Free Code Camp",
+        "url": "https://youtube.com/watch?v=EExSSotojVI",
+        "video_id": "EExSSotojVI",
+        "source": "roadmap.sh",
+        "topic": "Kotlin"
+       },
+       {
+        "title": "Android Studio Tutorial (2024 Edition) - Part 1",
+        "url": "https://youtube.com/watch?v=saKrGCWlJDs",
+        "video_id": "saKrGCWlJDs",
+        "source": "roadmap.sh",
+        "topic": "Development IDE"
+       },
+       {
+        "title": "Gradle Course for Beginners - 55minutes",
+        "url": "https://youtube.com/watch?v=R6Z-Sxb837I",
+        "video_id": "R6Z-Sxb837I",
+        "source": "roadmap.sh",
+        "topic": "What is and how to use Gradle?"
+       },
+       {
+        "title": "What is Git? Explained in 2 Minutes!",
+        "url": "https://youtube.com/watch?v=2ReR1YJrNOM",
+        "video_id": "2ReR1YJrNOM",
+        "source": "roadmap.sh",
+        "topic": "Learn the Basics"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Pick a Language",
+        "url": "https://developer.android.com/studio/write/java8-support",
+        "topic": "Pick a Language"
+       },
+       {
+        "type": "official",
+        "title": "Kotlin vs Java",
+        "url": "https://developer.android.com/kotlin",
+        "topic": "Pick a Language"
+       },
+       {
+        "type": "official",
+        "title": "Kotlin",
+        "url": "https://kotlinlang.org/",
+        "topic": "Kotlin"
+       },
+       {
+        "type": "official",
+        "title": "Kotlin Documentation",
+        "url": "https://kotlinlang.org/docs/home.html",
+        "topic": "Kotlin"
+       }
+      ]
+     },
+     {
+      "step_number": 2,
+      "title": "App Components, Activities and Intents",
+      "description": "Android apps are assembled from activities, services, broadcast receivers and content providers that the system starts and stops, and lifecycle bugs are a top cause of crashes. Learn each component, the activity lifecycle and back stack, and how intents connect them.",
+      "topic_refs": [
+       "5Li8J5iR_ZuyIlxX0LYei",
+       "nwuVlPmzwJ17mtVQ8Hi9w",
+       "FVg438cVBBzqJFkGWVbQM",
+       "-O-G9bg36ut8NnZcdOaop",
+       "oUjetA2eduvQIeLcQlLcu",
+       "hv_9imIQpthxEaMLXEUHI",
+       "TmIeCF3xVCe5Sy3ITmM31",
+       "gGdz3j33x0gfrFDp_rw8Z",
+       "b-sfh6NoS-APqaNKm5L5S",
+       "PcHmU1c9hqKyzSjwlRPHk",
+       "tFuAToid1Fkmu96BDtW7K",
+       "nkcdjrswv0WCzUs48BAt9"
+      ],
+      "projects": [
+       {
+        "title": "Lifecycle logger",
+        "description": "Log every lifecycle callback while rotating the screen and switching apps, and explain the order.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Share-to-my-app receiver",
+        "description": "Register an intent filter so other apps can share text into your note-taking app.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "App Components",
+       "Activity",
+       "Activity LifeCycle",
+       "Tasks & Backstack",
+       "State Changes"
+      ],
+      "more_topics": [
+       {
+        "node_id": "amTxz7mS98lkhOrNMJXG_",
+        "title": "Drawer"
+       },
+       {
+        "node_id": "xV475jHTlLuHtpHZeXb7P",
+        "title": "App Shortcuts"
+       },
+       {
+        "node_id": "Xn1VQ-xOT67ZfJJTM4r1p",
+        "title": "Animations"
+       }
+      ],
+      "global_step_index": 2,
+      "resource": {
+       "title": "Google developers: Animations",
+       "url": "https://youtube.com/watch?v=N_x7SV3I3P0"
+      },
+      "videos": [
+       {
+        "title": "Google developers: Animations",
+        "url": "https://youtube.com/watch?v=N_x7SV3I3P0",
+        "video_id": "N_x7SV3I3P0",
+        "source": "roadmap.sh",
+        "topic": "Animations"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "App Fundamentals",
+        "url": "https://developer.android.com/guide/components/fundamentals",
+        "topic": "App Components"
+       },
+       {
+        "type": "official",
+        "title": "Android Activity",
+        "url": "https://developer.android.com/reference/android/app/Activity",
+        "topic": "Activity"
+       },
+       {
+        "type": "official",
+        "title": "Activity Lifecycle",
+        "url": "https://developer.android.com/guide/components/activities/activity-lifecycle",
+        "topic": "Activity LifeCycle"
+       },
+       {
+        "type": "official",
+        "title": "Tasks and Backstack",
+        "url": "https://developer.android.com/guide/components/activities/tasks-and-back-stack",
+        "topic": "Tasks & Backstack"
+       }
+      ]
+     },
+     {
+      "step_number": 3,
+      "title": "Views, Layouts, Fragments and Navigation",
+      "description": "Many existing apps still use the View system, so you will maintain XML layouts even if new screens use Compose. Build screens with ConstraintLayout and RecyclerView, split them into fragments, and connect them with the Navigation component.",
+      "topic_refs": [
+       "4_e76QafrB419S2INOeKd",
+       "3fFNMhQIuuh-NRzSXYpXO",
+       "znvZp24L-PcQwkSObtixs",
+       "WhfzFOUpm0DFEj7Oeq21R",
+       "A4rtNULX_MoV93IH1Lgqw",
+       "xIvplWfe-uDr9iHjPT1Mx",
+       "2iDJrxjXOt7o2fPp2HfRl",
+       "Z4Tbd5ClnqCXGPGG09F-G",
+       "mhxUDPHI-6NHwOxsdVn65",
+       "pHxtpvd7U8CbIW6yebcVX",
+       "o5rzmnaQeiSh9ocvfJPpK",
+       "UAerxLQ1ZB6N6LS1IhfNk"
+      ],
+      "projects": [
+       {
+        "title": "Contacts list app",
+        "description": "A RecyclerView list with a detail fragment and a bottom sheet for quick actions.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Drawer-based navigation",
+        "description": "Three fragments reachable from a navigation drawer with animated transitions.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Interface and Navigation",
+       "ConstraintLayout",
+       "TextView",
+       "Button",
+       "ImageView"
+      ],
+      "more_topics": [
+       {
+        "node_id": "qNzC8sQqQaDnG1oy1jiO0",
+        "title": "ConstraintLayout"
+       }
+      ],
+      "global_step_index": 3,
+      "resource": {
+       "title": "Full Guide to Bottom Sheets - UX With Material3",
+       "url": "https://youtube.com/watch?v=VxgWUdOKgtI"
+      },
+      "videos": [
+       {
+        "title": "Full Guide to Bottom Sheets - UX With Material3",
+        "url": "https://youtube.com/watch?v=VxgWUdOKgtI",
+        "video_id": "VxgWUdOKgtI",
+        "source": "roadmap.sh",
+        "topic": "BottomSheet"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Android Developers: Interface",
+        "url": "https://developer.android.com/guide/topics/ui/declaring-layout.html",
+        "topic": "Interface and Navigation"
+       },
+       {
+        "type": "official",
+        "title": "Android Developers: Navigation",
+        "url": "https://developer.android.com/guide/navigation",
+        "topic": "Interface and Navigation"
+       },
+       {
+        "type": "official",
+        "title": "Android: ConstraintLayout in XML",
+        "url": "https://developer.android.com/develop/ui/views/layout/constraint-layout",
+        "topic": "ConstraintLayout"
+       },
+       {
+        "type": "official",
+        "title": "Android: ConstraintLayout in Compose",
+        "url": "https://developer.android.com/develop/ui/compose/layouts/constraintlayout",
+        "topic": "ConstraintLayout"
+       }
+      ]
+     },
+     {
+      "step_number": 4,
+      "title": "Building UIs with Jetpack Compose",
+      "description": "Jetpack Compose is now the default way to build Android UI, and new job postings increasingly ask for it. Learn composable layouts, lazy lists, common components, state with remember and side effects.",
+      "topic_refs": [
+       "60Vm-77rseUqpMiFvp-dA",
+       "yE0qAQZiEC9R8WvCdskpr",
+       "Dp2DOX10u2xJUjB8Okhzh",
+       "mMKN4a8lqo38M0iL1Qwhy",
+       "BVgO9n7tGlVdiS72-hFSd",
+       "boMz0HZlMAsLdCZlpUo-H",
+       "Mtx0bY0drmaTw8sCM5YTl",
+       "pEBpXv3Jf1AzBNHlvVrG8",
+       "U8iMGGOd2EgPxSuwSG39Z",
+       "EzLjX4iRT7AxkAOsJYnSU",
+       "8axL6Fa5fm1xWPP07MUbD",
+       "XTMhA-rYiXP7aVFk2nDLY"
+      ],
+      "projects": [
+       {
+        "title": "Compose recipe browser",
+        "description": "A scrollable list of recipe cards with a search field and a detail screen.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Login form with validation",
+        "description": "A Compose form that validates input as the user types and shows errors inline.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Jetpack Compose",
+       "Column and Row in Compose",
+       "Box Layout",
+       "Lazy Column and Row",
+       "Text in Android Development"
+      ],
+      "more_topics": [],
+      "global_step_index": 4,
+      "resource": {
+       "title": "Jetpack Compose Crash Course",
+       "url": "https://youtube.com/watch?v=6_wK_Ud8--0"
+      },
+      "videos": [
+       {
+        "title": "Jetpack Compose Crash Course",
+        "url": "https://youtube.com/watch?v=6_wK_Ud8--0",
+        "video_id": "6_wK_Ud8--0",
+        "source": "roadmap.sh",
+        "topic": "Jetpack Compose"
+       },
+       {
+        "title": "Lazy layouts in Compose",
+        "url": "https://youtube.com/watch?v=1ANt65eoNhQ",
+        "video_id": "1ANt65eoNhQ",
+        "source": "roadmap.sh",
+        "topic": "Lazy Column and Row"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Jetpack Compose",
+        "url": "https://developer.android.com/jetpack/compose",
+        "topic": "Jetpack Compose"
+       },
+       {
+        "type": "official",
+        "title": "Compose layout basics",
+        "url": "https://developer.android.com/develop/ui/compose/layouts/basics",
+        "topic": "Jetpack Compose"
+       },
+       {
+        "type": "official",
+        "title": "Column",
+        "url": "https://developer.android.com/reference/kotlin/androidx/compose/foundation/layout/Column.composable#Column(androidx.compose.ui.Modifier,androidx.compose.foundation.layout.Arrangement.Vertical,androidx.compose.ui.Alignment.Horizontal,kotlin.Function1)(androidx.compose.ui.Modifier,androidx.compose.foundation.layout.Arrangement.Vertical,androidx.compose.ui.Alignment.Horizontal,kotlin.Function1)",
+        "topic": "Column and Row in Compose"
+       },
+       {
+        "type": "official",
+        "title": "Row",
+        "url": "https://developer.android.com/reference/kotlin/androidx/compose/foundation/layout/Row.composable#Row(androidx.compose.ui.Modifier,androidx.compose.foundation.layout.Arrangement.Horizontal,androidx.compose.ui.Alignment.Vertical,kotlin.Function1)(androidx.compose.ui.Modifier,androidx.compose.foundation.layout.Arrangement.Horizontal,androidx.compose.ui.Alignment.Vertical,kotlin.Function1)",
+        "topic": "Column and Row in Compose"
+       }
+      ]
+     },
+     {
+      "step_number": 5,
+      "title": "App Architecture and Design Patterns",
+      "description": "Apps that keep logic inside activities become impossible to test and change. Learn MVVM and the alternatives, ViewModel and LiveData, the repository pattern, and the classic patterns you will see in Android codebases.",
+      "topic_refs": [
+       "jePGzTejFe4ryA5qFFmjl",
+       "pSU-NZtjBh-u0WKTYfjk_",
+       "w1A6wPKSd3Yh2luuHV-aE",
+       "aF_xFIqTjQbENtC7pkXvJ",
+       "Bz-BkfzsDHAbAw3HD7WCd",
+       "lEdmnJhs-WN-A6glX2DeA",
+       "TiokceMGU9caqiR0lbFYL",
+       "ZF5XgO7I_J9928bD3CVXo",
+       "N_auRfGKkeIIc-qiHLkR_",
+       "784fiIdKrQDlIm3VIiJQN",
+       "DeOxj6RzQBYfEWV-M1Ybm"
+      ],
+      "projects": [
+       {
+        "title": "Refactor to MVVM",
+        "description": "Move the logic of a working app from its activity into a ViewModel and repository.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Pattern comparison",
+        "description": "Implement the same counter screen in MVVM and MVI and compare how state flows.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Architecture and Design Patterns",
+       "MVVM",
+       "MVC",
+       "MVP",
+       "MVI"
+      ],
+      "more_topics": [],
+      "global_step_index": 5,
+      "resource": null,
+      "videos": [],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Android Architecture Components",
+        "url": "https://developer.android.com/topic/libraries/architecture",
+        "topic": "Architecture and Design Patterns"
+       },
+       {
+        "type": "official",
+        "title": "Android Developers: View Model",
+        "url": "https://developer.android.com/topic/libraries/architecture/viewmodel",
+        "topic": "MVVM"
+       },
+       {
+        "type": "official",
+        "title": "ViewModel and State in Compose",
+        "url": "https://developer.android.com/codelabs/basic-android-kotlin-compose-viewmodel-and-state#0",
+        "topic": "ViewModel State"
+       },
+       {
+        "type": "official",
+        "title": "LiveData",
+        "url": "https://developer.android.com/topic/libraries/architecture/livedata",
+        "topic": "LiveData"
+       }
+      ]
+     },
+     {
+      "step_number": 6,
+      "title": "Coroutines, Flow and Background Work",
+      "description": "Network and disk work must stay off the main thread or the app freezes, and background jobs must survive restarts. Use coroutines and Flow for async code, know RxJava for older codebases, and schedule work with WorkManager.",
+      "topic_refs": [
+       "i_cKmTnGAYw8xpHwZHjAd",
+       "W-WTIiQml8dLK6i_V69JK",
+       "BeGrA5BDBMZP1Jy7n-wl-",
+       "cFYZ2C7yNnY6NHKUNP2Z4",
+       "xk0vnWr7uESdzYRxwFjoK",
+       "4h37WBpYxRRyw9oH8ge7o",
+       "OAb_JD64uGm2tPoue7w6t"
+      ],
+      "projects": [
+       {
+        "title": "Live search with Flow",
+        "description": "Debounce search input with Flow and cancel stale requests automatically.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Nightly sync worker",
+        "description": "A WorkManager job that syncs data only on Wi-Fi and while charging.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Coroutines",
+       "Flow",
+       "Threads",
+       "Asynchronism",
+       "RxJava"
+      ],
+      "more_topics": [
+       {
+        "node_id": "zXsNEyRbb8UpEOAUv6FpY",
+        "title": "RxJava"
+       },
+       {
+        "node_id": "7rbsp1o5bzIJP11BRIoeG",
+        "title": "RxKotlin"
+       }
+      ],
+      "global_step_index": 6,
+      "resource": null,
+      "videos": [],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Coroutines",
+        "url": "https://kotlinlang.org/docs/coroutines-overview.html",
+        "topic": "Coroutines"
+       },
+       {
+        "type": "official",
+        "title": "Flow",
+        "url": "https://kotlinlang.org/docs/flow.html",
+        "topic": "Flow"
+       },
+       {
+        "type": "official",
+        "title": "Flow: Coroutines",
+        "url": "https://kotlinlang.org/docs/flow-coroutines.html",
+        "topic": "Flow"
+       },
+       {
+        "type": "official",
+        "title": "Threads",
+        "url": "https://developer.android.com/guide/components/processes-and-threads",
+        "topic": "Threads"
+       }
+      ]
+     },
+     {
+      "step_number": 7,
+      "title": "Networking and APIs",
+      "description": "Almost every app talks to a backend, and handling slow or failing networks well is what users notice. Call REST APIs with Retrofit and OkHttp, try GraphQL with Apollo, inspect traffic, and handle authentication.",
+      "topic_refs": [
+       "Yb6aKJMMCxU1QVltWg3Dr",
+       "dDMRYiqrKyOBnRRQc8zsp",
+       "5pVuwOItAhUxxJX8ysAsn",
+       "ww0fTbdXwVr-QIOClU7ng",
+       "7RKN1FNtRE_BE6QeAQrKb",
+       "Xv0es_z64vh-QzivMeAT3"
+      ],
+      "projects": [
+       {
+        "title": "Weather app with Retrofit",
+        "description": "Fetch and display a forecast with loading, error and offline states.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Token refresh interceptor",
+        "description": "An OkHttp interceptor that refreshes an expired login token and retries the request.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Network",
+       "Retrofit",
+       "OkHttp",
+       "Apollo-Android",
+       "Chucker"
+      ],
+      "more_topics": [],
+      "global_step_index": 7,
+      "resource": {
+       "title": "Retrofit in Android Studio",
+       "url": "https://youtube.com/watch?v=KJSBsRKqNwU"
+      },
+      "videos": [
+       {
+        "title": "Retrofit in Android Studio",
+        "url": "https://youtube.com/watch?v=KJSBsRKqNwU",
+        "video_id": "KJSBsRKqNwU",
+        "source": "roadmap.sh",
+        "topic": "Retrofit"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Network",
+        "url": "https://developer.android.com/guide/topics/connectivity",
+        "topic": "Network"
+       },
+       {
+        "type": "official",
+        "title": "ConnectivityManager",
+        "url": "https://developer.android.com/reference/android/net/ConnectivityManager",
+        "topic": "Network"
+       },
+       {
+        "type": "official",
+        "title": "WifiManager",
+        "url": "https://developer.android.com/reference/android/net/wifi/WifiManager",
+        "topic": "Network"
+       },
+       {
+        "type": "official",
+        "title": "Retrofit Documentation",
+        "url": "https://square.github.io/retrofit/",
+        "topic": "Retrofit"
+       }
+      ]
+     },
+     {
+      "step_number": 8,
+      "title": "Storage and Data Persistence",
+      "description": "Users expect their data to survive restarts and to work offline. Store preferences with DataStore, structured data with Room, files on device, and synced data in Firestore.",
+      "topic_refs": [
+       "0fNQWRxst8xRstIfPaPO6",
+       "PKql1HY0PLMfp50FRELXL",
+       "GWq3s1iTxQOp1BstHscJ9",
+       "Bfg4So5RlI09zFNcburJd",
+       "A4kdaj6AFueUgPI7hwKi5",
+       "3EEfKAd-ppIQpdQSEhbA1"
+      ],
+      "projects": [
+       {
+        "title": "Offline expense tracker",
+        "description": "Store expenses in Room and show monthly totals even with no network.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Settings with DataStore",
+        "description": "Migrate an app's settings from SharedPreferences to DataStore.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Storage",
+       "Shared Preferences",
+       "DataStore",
+       "Room Database",
+       "File System"
+      ],
+      "more_topics": [],
+      "global_step_index": 8,
+      "resource": {
+       "title": "SharedPreferences in Android",
+       "url": "https://youtube.com/watch?v=rJ3uwqko9Ew"
+      },
+      "videos": [
+       {
+        "title": "SharedPreferences in Android",
+        "url": "https://youtube.com/watch?v=rJ3uwqko9Ew",
+        "video_id": "rJ3uwqko9Ew",
+        "source": "roadmap.sh",
+        "topic": "Shared Preferences"
+       },
+       {
+        "title": "Introduction to DataStore",
+        "url": "https://youtube.com/watch?v=9ws-cJzlJkU",
+        "video_id": "9ws-cJzlJkU",
+        "source": "roadmap.sh",
+        "topic": "DataStore"
+       },
+       {
+        "title": "The Full Beginner's Guide for Room in Android",
+        "url": "https://youtube.com/watch?v=bOd3wO0uFr8",
+        "video_id": "bOd3wO0uFr8",
+        "source": "roadmap.sh",
+        "topic": "Room Database"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Storage",
+        "url": "https://developer.android.com/guide/topics/data/data-storage",
+        "topic": "Storage"
+       },
+       {
+        "type": "official",
+        "title": "Shared Preferences Documentation",
+        "url": "https://developer.android.com/training/data-storage/shared-preferences",
+        "topic": "Shared Preferences"
+       },
+       {
+        "type": "official",
+        "title": "Documentation",
+        "url": "https://developer.android.com/topic/libraries/architecture/datastore",
+        "topic": "DataStore"
+       },
+       {
+        "type": "official",
+        "title": "Room Database",
+        "url": "https://developer.android.com/training/data-storage/room",
+        "topic": "Room Database"
+       }
+      ]
+     },
+     {
+      "step_number": 9,
+      "title": "Dependency Injection and Code Quality",
+      "description": "As apps grow, dependency injection keeps components replaceable and testable, and linters catch bugs before review. Use Hilt or Koin, and add linting, logging and memory-leak detection to your workflow.",
+      "topic_refs": [
+       "qtXM9K7wyjOFuEMlZrB3C",
+       "ooo_k2k_vUBR_jQ7Ke6Et",
+       "CK7Ce632fdTgxeFsRUVvd",
+       "UMqZ-jmXKDXKuu8bzqDH_",
+       "dc7k50PjCYZcElHhCk66p",
+       "77F9F3oI5CPgwgM_hxWfa",
+       "zMbXQH17Q52opdbitPzj7",
+       "RUvuCp_JK5MQQT13SSHUV",
+       "VFOD4JrV8kZ2583G3oT95",
+       "6KbSUAoT_jTudFoIbwMpA",
+       "3i4g9ZWgLxKb2UMgRJi4Q"
+      ],
+      "projects": [
+       {
+        "title": "Hilt migration",
+        "description": "Replace manual object creation in an app with Hilt modules and scopes.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Find a memory leak",
+        "description": "Introduce a leaking listener, catch it with LeakCanary and fix it.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Dependency Injection",
+       "Hilt",
+       "Dagger",
+       "Koin",
+       "Kodein"
+      ],
+      "more_topics": [],
+      "global_step_index": 9,
+      "resource": null,
+      "videos": [],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Dependency Injection",
+        "url": "https://developer.android.com/training/dependency-injection",
+        "topic": "Dependency Injection"
+       },
+       {
+        "type": "official",
+        "title": "Hilt",
+        "url": "https://developer.android.com/training/dependency-injection/hilt-android",
+        "topic": "Hilt"
+       },
+       {
+        "type": "official",
+        "title": "Dagger",
+        "url": "https://dagger.dev/",
+        "topic": "Dagger"
+       },
+       {
+        "type": "official",
+        "title": "Koin",
+        "url": "https://insert-koin.io",
+        "topic": "Koin"
+       }
+      ]
+     },
+     {
+      "step_number": 10,
+      "title": "Testing, Security and Crash Reporting",
+      "description": "Play Store ratings drop fast when an app crashes or leaks data. Write unit and UI tests, benchmark slow screens, follow Android security practices and monitor crashes with Crashlytics.",
+      "topic_refs": [
+       "ZOQm5OlzCA-h_yxywwDrW",
+       "gvGAwjk_nhEgxzZ_c3f6b",
+       "-ONSC-ImGSELbamKmjIlH",
+       "ACUJlDDR0jqEohsFzWEoQ",
+       "j5qmSMOdhpGZo1XOUVx1k",
+       "xB4evbD07n1VrHOIpowV4"
+      ],
+      "projects": [
+       {
+        "title": "Test suite for a ViewModel",
+        "description": "Unit-test a ViewModel with fake repositories and add one Espresso UI test.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Crash dashboard",
+        "description": "Integrate Crashlytics, trigger a test crash and read the stack trace in the console.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Testing",
+       "JUnit",
+       "Espresso",
+       "Jetpack Benchmark",
+       "Android Security"
+      ],
+      "more_topics": [],
+      "global_step_index": 10,
+      "resource": {
+       "title": "Junit for android",
+       "url": "https://youtube.com/watch?v=jE1vQGVHaQA"
+      },
+      "videos": [
+       {
+        "title": "Junit for android",
+        "url": "https://youtube.com/watch?v=jE1vQGVHaQA",
+        "video_id": "jE1vQGVHaQA",
+        "source": "roadmap.sh",
+        "topic": "JUnit"
+       },
+       {
+        "title": "Firebase: Crashlytics",
+        "url": "https://youtube.com/watch?v=LhjTAkifr6g",
+        "video_id": "LhjTAkifr6g",
+        "source": "roadmap.sh",
+        "topic": "Crashlytics"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Testing",
+        "url": "https://developer.android.com/training/testing",
+        "topic": "Testing"
+       },
+       {
+        "type": "official",
+        "title": "Documentation",
+        "url": "https://developer.android.com/training/testing/local-tests",
+        "topic": "JUnit"
+       },
+       {
+        "type": "official",
+        "title": "Espresso",
+        "url": "https://developer.android.com/training/testing/espresso",
+        "topic": "Espresso"
+       },
+       {
+        "type": "official",
+        "title": "Jetpack Benchmark",
+        "url": "https://developer.android.com/studio/profile/benchmark",
+        "topic": "Jetpack Benchmark"
+       }
+      ]
+     },
+     {
+      "step_number": 11,
+      "title": "Google Services, Firebase and Play Store Release",
+      "description": "Shipping means integrating platform services such as notifications, maps and ads, then signing and releasing builds. Add Firebase Cloud Messaging, Remote Config, Maps and AdMob, distribute test builds, and publish a signed app on the Play Store.",
+      "topic_refs": [
+       "m5rumeynEbS8T27pelr0-",
+       "ZEdn2yy-IwHN3kOYr2ZbC",
+       "e3vHFaFFMV7kI9q6yf5e9",
+       "1Tz-Shj_Tuz2U8llEAcLr",
+       "S5FVF9rMgVSSDKXJW2GYb",
+       "D4ZXQOKJkyFYNZIy-MJ9Y",
+       "T7q_quNaIAuGi96OdnDT1",
+       "kc6buUsLAeZeUb4Tk0apM",
+       "_FSlD_qTz5Xo0x3pB6sZI",
+       "HgRdgi2Hu4C8YLG5PXfoo"
+      ],
+      "projects": [
+       {
+        "title": "Push notification campaign",
+        "description": "Send targeted notifications with FCM and toggle a feature with Remote Config.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Play Store internal release",
+        "description": "Sign an app bundle and publish it to an internal testing track.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Google Play Services",
+       "Common Services",
+       "Cloud Messaging",
+       "Remote Config",
+       "Google Maps"
+      ],
+      "more_topics": [],
+      "global_step_index": 11,
+      "resource": {
+       "title": "Firebase Cloud Messaging",
+       "url": "https://youtube.com/watch?v=sioEY4tWmLI"
+      },
+      "videos": [
+       {
+        "title": "Firebase Cloud Messaging",
+        "url": "https://youtube.com/watch?v=sioEY4tWmLI",
+        "video_id": "sioEY4tWmLI",
+        "source": "roadmap.sh",
+        "topic": "Cloud Messaging"
+       },
+       {
+        "title": "Getting Started with Remote Config",
+        "url": "https://youtube.com/watch?v=pcnnbjAAIkI",
+        "video_id": "pcnnbjAAIkI",
+        "source": "roadmap.sh",
+        "topic": "Remote Config"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Google Play Services",
+        "url": "https://developer.android.com/google/play-services",
+        "topic": "Google Play Services"
+       },
+       {
+        "type": "official",
+        "title": "Google Play Services Documentation",
+        "url": "https://developers.google.com/android/guides/overview",
+        "topic": "Google Play Services"
+       },
+       {
+        "type": "official",
+        "title": "Common Services",
+        "url": "https://developer.android.com/guide/components/services",
+        "topic": "Common Services"
+       },
+       {
+        "type": "official",
+        "title": "Documentation",
+        "url": "https://firebase.google.com/docs/cloud-messaging/android/client",
+        "topic": "Cloud Messaging"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 2,
+    "title": "iOS",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "Swift Language Basics",
+      "description": "Swift is the language of modern iOS development, and its optionals, closures and value types work differently from Kotlin. Learn why Swift replaced Objective-C, then practise its syntax, error handling, closures and functional style.",
+      "topic_refs": [
+       "MrdIb9F-wSEbUz7KRnH3t",
+       "KJ7fM-V0_azY_lzmhjJAN",
+       "z4-1Gc95JKYAn2RPFc7hw",
+       "ZkNulHQAqhiFTO3CRC_mW",
+       "fboebSmquyJyozsMRJDtK",
+       "mk02yV7_XHkgp2xdNIxaU",
+       "e7qVpQeu2iQL0c9MOMCVe",
+       "N5ojp6bqgH074MPKYjCHV",
+       "M9UlalPL47GoqhcyGsAPV",
+       "5V7nxQKmmHWSMSBCRxkaF",
+       "FoqlB7xBIrV4yUp4ReBkw",
+       "Pj-hqRZUmwx1WhmTbLoFD"
+      ],
+      "projects": [
+       {
+        "title": "Swift playground exercises",
+        "description": "Solve twenty small problems in a playground using optionals, enums, structs and closures.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Kotlin to Swift translation",
+        "description": "Port a small Kotlin utility to Swift and note each language difference you hit.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Pick a Language",
+       "Swift (Recommended)",
+       "History and Why Swift?",
+       "Benefits over Objective-C",
+       "Swift Basics"
+      ],
+      "more_topics": [],
+      "global_step_index": 12,
+      "resource": {
+       "title": "A Brief History",
+       "url": "https://youtube.com/watch?v=4P_ZsOqELBo"
+      },
+      "videos": [
+       {
+        "title": "A Brief History",
+        "url": "https://youtube.com/watch?v=4P_ZsOqELBo",
+        "video_id": "4P_ZsOqELBo",
+        "source": "roadmap.sh",
+        "topic": "History and Why Swift?"
+       },
+       {
+        "title": "Error Handling by Timoth Cain",
+        "url": "https://youtube.com/watch?v=yhJEJKG-aK8",
+        "video_id": "yhJEJKG-aK8",
+        "source": "roadmap.sh",
+        "topic": "Error Handling"
+       },
+       {
+        "title": "Object-oriented Programming in 7 minutes",
+        "url": "https://youtube.com/watch?v=pTB0EiLXUC8",
+        "video_id": "pTB0EiLXUC8",
+        "source": "roadmap.sh",
+        "topic": "OOP"
+       },
+       {
+        "title": "Functional programming - A general introduction",
+        "url": "https://youtube.com/watch?v=8z_bUIl_uPo",
+        "video_id": "8z_bUIl_uPo",
+        "source": "roadmap.sh",
+        "topic": "Functional Programming"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Swift Documentation",
+        "url": "https://www.swift.org/documentation/",
+        "topic": "Swift (Recommended)"
+       },
+       {
+        "type": "official",
+        "title": "About Swift",
+        "url": "https://www.swift.org/about/",
+        "topic": "History and Why Swift?"
+       },
+       {
+        "type": "official",
+        "title": "Tour of Swift",
+        "url": "https://docs.swift.org/swift-book/documentation/the-swift-programming-language/guidedtour",
+        "topic": "Swift Basics"
+       },
+       {
+        "type": "official",
+        "title": "Official Swift Website",
+        "url": "https://www.swift.org/download/",
+        "topic": "Latest Swift Version"
+       }
+      ]
+     },
+     {
+      "step_number": 2,
+      "title": "Swift Memory Management and Objective-C Interop",
+      "description": "Retain cycles are a classic iOS bug, and many company codebases still mix Swift with Objective-C. Learn ARC and closure capture lists, read basic Objective-C, call it from Swift, and use the delegate pattern found across Apple's APIs.",
+      "topic_refs": [
+       "tqbg8mBJfjuXacdMlIB_L",
+       "S-D-PnHA7COd2Dp6U2XO4",
+       "oOaMz9A5DZvrjxovMztXz",
+       "0BSX80W1TJ_Ia_Zh2zKyK",
+       "IAPzuN51xvrZJ5TFB23Q9",
+       "BtPYKd7RedHOLRATDKkpg",
+       "z3AUN9u7EEqeKOqvLxf7D"
+      ],
+      "projects": [
+       {
+        "title": "Retain cycle hunt",
+        "description": "Create a retain cycle with a closure, observe the leak in Instruments and fix it with a weak capture.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Bridging an Objective-C class",
+        "description": "Call an Objective-C helper from a Swift app through a bridging header.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Memory Management",
+       "Capturing Values & Memory Mgmt.",
+       "Objective-C",
+       "Objective-C Basics",
+       "Interoperability with Swift"
+      ],
+      "more_topics": [],
+      "global_step_index": 13,
+      "resource": {
+       "title": "Bridging Swift And Objective C",
+       "url": "https://youtube.com/watch?v=Wp_-8tE85hE"
+      },
+      "videos": [
+       {
+        "title": "Bridging Swift And Objective C",
+        "url": "https://youtube.com/watch?v=Wp_-8tE85hE",
+        "video_id": "Wp_-8tE85hE",
+        "source": "roadmap.sh",
+        "topic": "Interoperability with Swift"
+       },
+       {
+        "title": "Swift Delegate Protocol Pattern Tutorial 2023",
+        "url": "https://youtube.com/watch?v=qiOKO8ta1n4",
+        "video_id": "qiOKO8ta1n4",
+        "source": "roadmap.sh",
+        "topic": "Delegate Pattern"
+       },
+       {
+        "title": "Delegate protocol - Swift example",
+        "url": "https://youtube.com/watch?v=Z9eSUE-lzig",
+        "video_id": "Z9eSUE-lzig",
+        "source": "roadmap.sh",
+        "topic": "Implementing Delegates"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "WWDC2021: ARC in Swift: Basics and beyond",
+        "url": "https://developer.apple.com/videos/play/wwdc2021/10216/",
+        "topic": "Memory Management"
+       },
+       {
+        "type": "official",
+        "title": "ARC(Automatic Reference Counting)",
+        "url": "https://docs.swift.org/swift-book/documentation/the-swift-programming-language/automaticreferencecounting/",
+        "topic": "Memory Management"
+       },
+       {
+        "type": "official",
+        "title": "About Memory Management",
+        "url": "https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/MemoryMgmt/Articles/MemoryMgmt.html",
+        "topic": "Memory Management"
+       },
+       {
+        "type": "official",
+        "title": "Mac Apps That Use Garbage Collection Must Move to ARC",
+        "url": "https://developer.apple.com/news/?id=02202015a",
+        "topic": "Memory Management"
+       }
+      ]
+     },
+     {
+      "step_number": 3,
+      "title": "Xcode and the iOS Platform",
+      "description": "Xcode is where you will build, run, debug and ship every iOS app, and the platform's layers explain which framework to reach for. Install Xcode, learn its project structure and editors, and map the Core OS, Core Services, Media and Cocoa Touch layers.",
+      "topic_refs": [
+       "la5M4VoH79bhnN8qj5Izp",
+       "R8LdFpfyS0MFYJuMLk8RG",
+       "BJgoAgH85U6S3RtXq7hHV",
+       "YytdlQl41yrHSwlV-G3Pd",
+       "42sfiLKrVCcnMMjR7TFn1",
+       "FwwqAchMC6qdnXbqg45he",
+       "-4q7MFXaTmpR_39PTeWD8",
+       "IduGSdUa2Fi7VFMLKgmsS",
+       "IdGdLNgJI3WmONEFsMq-d",
+       "LHM7gNgTtfn_QDW-oQskD",
+       "leozxW-5fAOfkKbQM4FD1",
+       "nGCG74_Xp_Ngt0u7PZnZl"
+      ],
+      "projects": [
+       {
+        "title": "First app on the simulator",
+        "description": "Create a new project, explore every generated file and run it on two simulator devices.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Platform layer cheat sheet",
+        "description": "List three frameworks from each iOS layer with one use case each.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Xcode",
+       "Installing",
+       "New Project",
+       "Project Files",
+       "Groups"
+      ],
+      "more_topics": [
+       {
+        "node_id": "U_xXGSFF5iibQ4VkzPAWf",
+        "title": "GitHub"
+       }
+      ],
+      "global_step_index": 14,
+      "resource": {
+       "title": "Xcode 15 Tutorial for Beginners (2024)",
+       "url": "https://youtube.com/watch?v=8Xcq4yRQ0pU"
+      },
+      "videos": [
+       {
+        "title": "Xcode 15 Tutorial for Beginners (2024)",
+        "url": "https://youtube.com/watch?v=8Xcq4yRQ0pU",
+        "video_id": "8Xcq4yRQ0pU",
+        "source": "roadmap.sh",
+        "topic": "Xcode"
+       },
+       {
+        "title": "How to Install Xcode on Mac",
+        "url": "https://youtube.com/watch?v=F6QZ2atZrDw",
+        "video_id": "F6QZ2atZrDw",
+        "source": "roadmap.sh",
+        "topic": "Installing"
+       },
+       {
+        "title": "Build Your First iOS App For Beginners",
+        "url": "https://youtube.com/watch?v=nqTcAzPS3oc",
+        "video_id": "nqTcAzPS3oc",
+        "source": "roadmap.sh",
+        "topic": "New Project"
+       },
+       {
+        "title": "MVC Design Pattern Explained with Example",
+        "url": "https://youtube.com/watch?v=sbYaWJEAYIY",
+        "video_id": "sbYaWJEAYIY",
+        "source": "roadmap.sh",
+        "topic": "iOS Architecture"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Xcode Documentation",
+        "url": "https://developer.apple.com/xcode/",
+        "topic": "Xcode"
+       },
+       {
+        "type": "official",
+        "title": "WWDC24: What’s new in Xcode 16",
+        "url": "https://www.youtube.com/watch?v=BAQ9EhAm2eM",
+        "topic": "Xcode"
+       },
+       {
+        "type": "official",
+        "title": "WWDC24: Xcode essentials",
+        "url": "https://www.youtube.com/watch?v=EN7-6Oj7cL0",
+        "topic": "Xcode"
+       },
+       {
+        "type": "official",
+        "title": "Creating an Xcode project for an app",
+        "url": "https://developer.apple.com/documentation/xcode/creating-an-xcode-project-for-an-app",
+        "topic": "New Project"
+       }
+      ]
+     },
+     {
+      "step_number": 4,
+      "title": "UIKit and Interface Builder",
+      "description": "UIKit still powers most production iOS apps, so you need to read and build storyboard and code-based screens. Learn view controllers and their lifecycle, Interface Builder with outlets and actions, and Auto Layout for every screen size.",
+      "topic_refs": [
+       "-7OW2IgiMk1eot1PaYd7m",
+       "iMzYd8KUFnk6zqr4KecgX",
+       "a2CqrCJSxGfHq6_Y9f_re",
+       "RwvC4Pi18_1phcrJL-9iu",
+       "tuUuLInq0p-nhehe2AqPg",
+       "FspN4yiBF9aEN7_SlXUe1",
+       "j2BL0sf3WjnJZZWa7cCjy",
+       "mfWdkUm1RhjygtMyInXiD",
+       "DZaY060-5D6PbfryOZH9H",
+       "se9w7mT1XJLGlmWUhH4Uv",
+       "XX5rCd_yTHvOfYif4Kpbl",
+       "A1TFKVjGU5RbeTF_zxJlu"
+      ],
+      "projects": [
+       {
+        "title": "Tip calculator in UIKit",
+        "description": "A storyboard screen with outlets, actions and Auto Layout that works on iPhone SE and Pro Max.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Reusable xib card view",
+        "description": "Design a card view in a xib and reuse it in a table of items.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "UIKit",
+       "Interface Builder",
+       "Storyboards",
+       "Xibs",
+       "IBOutlets"
+      ],
+      "more_topics": [
+       {
+        "node_id": "pNEE5C1E1wAjH_nTlzH6N",
+        "title": "UIKit"
+       },
+       {
+        "node_id": "0dbdUmWvTIJ0fkUuLp9gR",
+        "title": "New Feature Announcements"
+       }
+      ],
+      "global_step_index": 15,
+      "resource": {
+       "title": "Introduction to Programmatic UI - UIKit",
+       "url": "https://youtube.com/watch?v=_U6_l58Cv4E"
+      },
+      "videos": [
+       {
+        "title": "Introduction to Programmatic UI - UIKit",
+        "url": "https://youtube.com/watch?v=_U6_l58Cv4E",
+        "video_id": "_U6_l58Cv4E",
+        "source": "roadmap.sh",
+        "topic": "UIKit"
+       },
+       {
+        "title": "Swift Interface Builder Xcode",
+        "url": "https://youtube.com/watch?v=Wf1MfPdBdNE",
+        "video_id": "Wf1MfPdBdNE",
+        "source": "roadmap.sh",
+        "topic": "Interface Builder"
+       },
+       {
+        "title": "UITableView Tutorial with Custom Cells, XIB",
+        "url": "https://youtube.com/watch?v=OOc-RhNQnLc",
+        "video_id": "OOc-RhNQnLc",
+        "source": "roadmap.sh",
+        "topic": "Xibs"
+       },
+       {
+        "title": "IBOutlet & IBAction",
+        "url": "https://youtube.com/watch?v=ztPpThdBHT0",
+        "video_id": "ztPpThdBHT0",
+        "source": "roadmap.sh",
+        "topic": "IBActions"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "UIKit Documentation",
+        "url": "https://developer.apple.com/documentation/uikit",
+        "topic": "UIKit"
+       },
+       {
+        "type": "official",
+        "title": "Storyboard",
+        "url": "https://developer.apple.com/library/archive/documentation/General/Conceptual/Devpedia-CocoaApp/Storyboard.html",
+        "topic": "Storyboards"
+       },
+       {
+        "type": "official",
+        "title": "Outlets",
+        "url": "https://developer.apple.com/library/archive/documentation/General/Conceptual/CocoaEncyclopedia/Outlets/Outlets.html",
+        "topic": "IBOutlets"
+       },
+       {
+        "type": "official",
+        "title": "View Controllers",
+        "url": "https://developer.apple.com/documentation/uikit/view_controllers",
+        "topic": "View Controllers"
+       }
+      ]
+     },
+     {
+      "step_number": 5,
+      "title": "UIKit Navigation, Modals and Transitions",
+      "description": "Users judge an app by how naturally it moves between screens. Use navigation controllers and segues, present and dismiss modals, add toolbars and custom transitions, and handle user interactions.",
+      "topic_refs": [
+       "tUbMr1pGlw4JwMuW311JJ",
+       "jb89kQxDhZND3vQo0EH7r",
+       "4pmjLa7WvwV7D3RZlM6Hp",
+       "gqd6zjxP_qFj4Ru-6LARo",
+       "2tmR1yE5daz2HB4IV5qwI",
+       "02VAK4GMkN6nDHf1zqwPA",
+       "AxQ5gCjk136kXsbBFTUNp",
+       "GKuxilB0AwjcTgCSk3FeU",
+       "0o3V_zveN1xCIt7rayrCF",
+       "INYUFVZ-_4htveLZ6EvRu"
+      ],
+      "projects": [
+       {
+        "title": "Master-detail notes app",
+        "description": "A list that pushes a detail screen and presents an editor modally.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Custom transition",
+        "description": "Replace the default push with a custom animated transition between two screens.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Navigation Controllers, Segues",
+       "Modals and Navigation",
+       "Presenting / Dismissing views",
+       "Pushing Presenting",
+       "View Transitions"
+      ],
+      "more_topics": [
+       {
+        "node_id": "cwVcNDTBBulBY2m4Wzn4G",
+        "title": "View Transitions"
+       },
+       {
+        "node_id": "FXUrfyvuIIOH7VDnT_E0z",
+        "title": "Navigation"
+       },
+       {
+        "node_id": "_mRs6ctH0IsSSi-cwV2b8",
+        "title": "Core Animation"
+       }
+      ],
+      "global_step_index": 16,
+      "resource": {
+       "title": "How to Nav Bar Programmatically",
+       "url": "https://youtube.com/watch?v=wcN3-E1_ZxU"
+      },
+      "videos": [
+       {
+        "title": "How to Nav Bar Programmatically",
+        "url": "https://youtube.com/watch?v=wcN3-E1_ZxU",
+        "video_id": "wcN3-E1_ZxU",
+        "source": "roadmap.sh",
+        "topic": "Navigation Controllers, Segues"
+       },
+       {
+        "title": "UIKit Programmatic Navigation",
+        "url": "https://youtube.com/watch?v=c0YSGtFmik8",
+        "video_id": "c0YSGtFmik8",
+        "source": "roadmap.sh",
+        "topic": "Modals and Navigation"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "UINavigationController",
+        "url": "https://developer.apple.com/documentation/uikit/uinavigationcontroller",
+        "topic": "Navigation Controllers, Segues"
+       },
+       {
+        "type": "official",
+        "title": "animate(withDuration:animations:completion:)",
+        "url": "https://developer.apple.com/documentation/uikit/uiview/1622515-animate",
+        "topic": "Modals and Navigation"
+       },
+       {
+        "type": "official",
+        "title": "dismiss Documentation",
+        "url": "https://developer.apple.com/documentation/swiftui/environmentvalues/dismiss",
+        "topic": "Presenting / Dismissing views"
+       },
+       {
+        "type": "official",
+        "title": "Apple Tutorials: Navigation and modal presentation - Creating a navigation hierarchy",
+        "url": "https://developer.apple.com/tutorials/app-dev-training/creating-a-navigation-hierarchy",
+        "topic": "Navigation"
+       }
+      ]
+     },
+     {
+      "step_number": 6,
+      "title": "Building Apps with SwiftUI",
+      "description": "Apple's new APIs arrive in SwiftUI first, and many teams now build new features in it. Learn declarative views and modifiers, state and data binding, and SwiftUI navigation stacks.",
+      "topic_refs": [
+       "kAIKsDcDzwI1E0wSnC_uo",
+       "QVg4_8EXeQBJbleryy8c1",
+       "mgUCYztUpKINqIZikT4Bh",
+       "RvyOkQelc-GChQGJyEx72",
+       "yR94uHs0SiSScU4gPBzfr",
+       "mUMDZsgzCB6cs_K6pfUY1",
+       "IBr2P7dknWTnZ2a-fFCqN",
+       "my77jLU2qxU7bQ7_Fx2iH",
+       "YvuYJceeNNfLBpq2-3iiL",
+       "SeGfULWFR7ufdv4U9Db3F"
+      ],
+      "projects": [
+       {
+        "title": "Habit tracker in SwiftUI",
+        "description": "A list of habits with check-offs, a detail view and state that updates the UI automatically.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "UIKit screen to SwiftUI",
+        "description": "Rebuild one UIKit screen in SwiftUI and embed it back into the UIKit app.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "SwiftUI",
+       "Declarative Syntax",
+       "Views and Modifiers",
+       "State Management",
+       "Data binding"
+      ],
+      "more_topics": [
+       {
+        "node_id": "PvFp6aY7EUrYHn87RZAGj",
+        "title": "SwiftUI"
+       },
+       {
+        "node_id": "xkH7Llut6uP2-8iTMw76F",
+        "title": "Components"
+       },
+       {
+        "node_id": "TLm70PlTI0K3Odn1iYxWX",
+        "title": "Navigation Stacks"
+       }
+      ],
+      "global_step_index": 17,
+      "resource": {
+       "title": "Imperative vs Declarative Programming",
+       "url": "https://youtube.com/watch?v=yOBBkIJBEL8"
+      },
+      "videos": [
+       {
+        "title": "Imperative vs Declarative Programming",
+        "url": "https://youtube.com/watch?v=yOBBkIJBEL8",
+        "video_id": "yOBBkIJBEL8",
+        "source": "roadmap.sh",
+        "topic": "Declarative Syntax"
+       },
+       {
+        "title": "How to use @Binding property wrapper in SwiftUI",
+        "url": "https://youtube.com/watch?v=btDMzB5x2Gs",
+        "video_id": "btDMzB5x2Gs",
+        "source": "roadmap.sh",
+        "topic": "Data binding"
+       },
+       {
+        "title": "Displaying a detail screen with NavigationLink",
+        "url": "https://youtube.com/watch?v=yGqmf8hnC8U",
+        "video_id": "yGqmf8hnC8U",
+        "source": "roadmap.sh",
+        "topic": "NavigationLink"
+       },
+       {
+        "title": "NavigationStack",
+        "url": "https://youtube.com/watch?v=DMsALlhObNk",
+        "video_id": "DMsALlhObNk",
+        "source": "roadmap.sh",
+        "topic": "Navigation Stacks"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "SwiftUI Documentation",
+        "url": "https://developer.apple.com/xcode/swiftui/",
+        "topic": "SwiftUI"
+       },
+       {
+        "type": "official",
+        "title": "Apple - SwiftUI Documentation",
+        "url": "https://developer.apple.com/documentation/SwiftUI?changes=latest_minor",
+        "topic": "SwiftUI"
+       },
+       {
+        "type": "official",
+        "title": "Views and modifiers: Documentation",
+        "url": "https://developer.apple.com/documentation/swiftui/viewmodifier",
+        "topic": "Views and Modifiers"
+       },
+       {
+        "type": "official",
+        "title": "Apple Tutorials: Views - Using stacks to arrange views",
+        "url": "https://developer.apple.com/tutorials/app-dev-training/using-stacks-to-arrange-views",
+        "topic": "Views and Modifiers"
+       }
+      ]
+     },
+     {
+      "step_number": 7,
+      "title": "Human Interface Guidelines, Accessibility and Animation",
+      "description": "App Store reviewers and users expect apps to feel native and to work with VoiceOver and larger text. Apply the Human Interface Guidelines, support accessibility features, and add animation with Core Animation and Lottie.",
+      "topic_refs": [
+       "1I5eFKqFVBxWLAXfpgNXO",
+       "4fPgpGwNXmVoZoruBRb_B",
+       "1DZYPqvgY6GtwMCS7N2y-",
+       "trAMZVA4tDB7b_qAgiWNW",
+       "0nei6iwP4Pgi_j4vVi_Qt",
+       "h34LaYQ3JYN2AZPMDqpmO",
+       "w0i5Dxp40XS2HnF5nXeZI",
+       "KpcmuLWX0xAjz6ty4ebtB",
+       "i-T6GTqS0FZ_Llt5v4SvR",
+       "kRE9xT3mT9Si4NwJr9yGi"
+      ],
+      "projects": [
+       {
+        "title": "Accessibility audit",
+        "description": "Navigate your own app with VoiceOver only, fix every unlabeled control and support Dynamic Type.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Animated onboarding",
+        "description": "A three-page onboarding flow with Core Animation and one Lottie illustration.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "HIG",
+       "UI Design",
+       "Accessibility",
+       "Voice Over",
+       "Dynamic Type"
+      ],
+      "more_topics": [],
+      "global_step_index": 18,
+      "resource": {
+       "title": "Introduction to Core Animation",
+       "url": "https://youtube.com/watch?v=93bfh3GK79s"
+      },
+      "videos": [
+       {
+        "title": "Introduction to Core Animation",
+        "url": "https://youtube.com/watch?v=93bfh3GK79s",
+        "video_id": "93bfh3GK79s",
+        "source": "roadmap.sh",
+        "topic": "Core Animation"
+       },
+       {
+        "title": "Introduction to Core Graphics",
+        "url": "https://youtube.com/watch?v=won0gA05ce0",
+        "video_id": "won0gA05ce0",
+        "source": "roadmap.sh",
+        "topic": "Core Graphics"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Human Interface Guidelines",
+        "url": "https://developer.apple.com/design/human-interface-guidelines",
+        "topic": "HIG"
+       },
+       {
+        "type": "official",
+        "title": "Sketch",
+        "url": "https://www.sketch.com/",
+        "topic": "UI Design"
+       },
+       {
+        "type": "official",
+        "title": "Figma",
+        "url": "https://www.figma.com/",
+        "topic": "UI Design"
+       },
+       {
+        "type": "official",
+        "title": "Accessibility",
+        "url": "https://developer.apple.com/accessibility/",
+        "topic": "Accessibility"
+       }
+      ]
+     },
+     {
+      "step_number": 8,
+      "title": "iOS Architecture Patterns: MVVM, VIPER and TCA",
+      "description": "Massive view controllers are the classic iOS code smell, and interviewers ask how you would structure an app. Compare MVC, MVP, MVVM with coordinators, VIPER and The Composable Architecture.",
+      "topic_refs": [
+       "ajPGMwoaFb1UFWTtpi5kd",
+       "a-QDI7Ei-B5BRHbicFcfG",
+       "lVNrnUK6p4eifKRVSnOje",
+       "taTxZw2c3xS18JOwgkNHM",
+       "iLT2jAkQg-Ex0zSLquNfl",
+       "mTdnDPGYSDupM9VBNdXRg",
+       "NhC0SBZgUFGjMLNICvbTI",
+       "odKZx4SUULF1y4gmiJZdu"
+      ],
+      "projects": [
+       {
+        "title": "MVVM-C refactor",
+        "description": "Split a large view controller into a view model and a coordinator that owns navigation.",
+        "difficulty": "advanced",
+        "grounded": false
+       },
+       {
+        "title": "Pattern trade-off note",
+        "description": "Implement one feature in MVVM and in TCA and write up the trade-offs.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Architectural Patterns",
+       "MVC",
+       "MVP",
+       "MVVM",
+       "MVVM-C"
+      ],
+      "more_topics": [],
+      "global_step_index": 19,
+      "resource": {
+       "title": "Discover the MVP architecture in less than 90 seconds",
+       "url": "https://youtube.com/watch?v=DUX0nr5rvnU"
+      },
+      "videos": [
+       {
+        "title": "Discover the MVP architecture in less than 90 seconds",
+        "url": "https://youtube.com/watch?v=DUX0nr5rvnU",
+        "video_id": "DUX0nr5rvnU",
+        "source": "roadmap.sh",
+        "topic": "MVP"
+       },
+       {
+        "title": "Everything you need to know about client arthitecture patterns",
+        "url": "https://youtube.com/watch?v=I5c7fBgvkNY",
+        "video_id": "I5c7fBgvkNY",
+        "source": "roadmap.sh",
+        "topic": "MVVM-C"
+       },
+       {
+        "title": "Swift: VIPER Design Pattern",
+        "url": "https://youtube.com/watch?v=hFLdbWEE3_Y",
+        "video_id": "hFLdbWEE3_Y",
+        "source": "roadmap.sh",
+        "topic": "VIPER"
+       },
+       {
+        "title": "Shai Mishali - A Newbie's Guide to The Composable Architecture",
+        "url": "https://youtube.com/watch?v=XWZmgbylTpc",
+        "video_id": "XWZmgbylTpc",
+        "source": "roadmap.sh",
+        "topic": "TCA"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 9,
+      "title": "Concurrency in Swift: GCD and async/await",
+      "description": "Blocking the main thread freezes the UI, and callback-heavy code is hard to read and easy to break. Learn Grand Central Dispatch and operation queues, then modern async/await that replaces callback chains.",
+      "topic_refs": [
+       "-aLGB3cDXZHIhVU3t-Ve4",
+       "fbloF-u4XwdHLmBS9flZm",
+       "aALIiAxKz4f7B_EYyhBCi",
+       "aROcI1RucAyu-gHn-tVnj",
+       "mdAV4JlF08q-ZQpb5C3q6",
+       "ysaBCl_TtWqelirptQp7P",
+       "qJEd7KU52xL_GRG3IQqhM",
+       "WhOpzFvv21QQV3aS6XbXr"
+      ],
+      "projects": [
+       {
+        "title": "Callback to async/await",
+        "description": "Rewrite a three-level nested callback chain as straight-line async/await code.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Parallel image downloader",
+        "description": "Download images concurrently with a task group and update the UI on the main actor.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Concurrency",
+       "Concurrency and Multithreading",
+       "Concurrency (GCD, async/await)",
+       "GCD",
+       "Operation Queues"
+      ],
+      "more_topics": [],
+      "global_step_index": 20,
+      "resource": {
+       "title": "What is JavaScript Callback Hell?",
+       "url": "https://youtube.com/watch?v=NOlOw03qBfw"
+      },
+      "videos": [
+       {
+        "title": "What is JavaScript Callback Hell?",
+        "url": "https://youtube.com/watch?v=NOlOw03qBfw",
+        "video_id": "NOlOw03qBfw",
+        "source": "roadmap.sh",
+        "topic": "Callback Hell"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Swift Documentation (How to interact)",
+        "url": "https://docs.swift.org/swift-book/documentation/the-swift-programming-language/concurrency/",
+        "topic": "Concurrency"
+       },
+       {
+        "type": "official",
+        "title": "Apple Documentation (Signatures for interaction)",
+        "url": "https://developer.apple.com/documentation/swift/concurrency",
+        "topic": "Concurrency"
+       },
+       {
+        "type": "official",
+        "title": "Dispatch",
+        "url": "https://developer.apple.com/documentation/DISPATCH",
+        "topic": "GCD"
+       },
+       {
+        "type": "official",
+        "title": "OperationQueue",
+        "url": "https://developer.apple.com/documentation/foundation/operationqueue",
+        "topic": "Operation Queues"
+       }
+      ]
+     },
+     {
+      "step_number": 10,
+      "title": "Reactive Programming with Combine and RxSwift",
+      "description": "Reactive streams keep UI in sync with changing data, and both Combine and RxSwift appear in job postings. Learn publishers, subscribers, operators, subjects and schedulers, and use them with MVVM.",
+      "topic_refs": [
+       "28HMXXBJWd3n-ZPgeQRDa",
+       "UzpdLLPs226N00c6weWRv",
+       "noBaDV_PvCTzqPyw9eO4H",
+       "GAn12SsVR_mPxOaOVckdz",
+       "1xYZdnlI6JSJzNvmz4-0v",
+       "UqA01PT86_w_JzN6KZBku",
+       "k232wKg7XCb_ngjZ5Mwsy",
+       "pY_zaMcFpeFDLgVk2W0Vy",
+       "0xwoWj9jek36p1AwU3WkK",
+       "g_1f5a6tIB5V_36NjgtL5"
+      ],
+      "projects": [
+       {
+        "title": "Reactive sign-up form",
+        "description": "Enable the submit button only when a Combine pipeline says every field is valid.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Debounced search",
+        "description": "Search an API as the user types, with debounce and cancellation, in Combine or RxSwift.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Reactive Programming",
+       "Combine",
+       "Publishers / Subscribers",
+       "Operators & Pipelines",
+       "Subjects"
+      ],
+      "more_topics": [
+       {
+        "node_id": "t7IYTY8tVjC_xzM1n8wts",
+        "title": "Operators"
+       }
+      ],
+      "global_step_index": 21,
+      "resource": {
+       "title": "What is reactive programming?",
+       "url": "https://youtube.com/watch?v=X-DeG_uGFUU"
+      },
+      "videos": [
+       {
+        "title": "What is reactive programming?",
+        "url": "https://youtube.com/watch?v=X-DeG_uGFUU",
+        "video_id": "X-DeG_uGFUU",
+        "source": "roadmap.sh",
+        "topic": "Reactive Programming"
+       },
+       {
+        "title": "Understanding Combine",
+        "url": "https://youtube.com/watch?v=rz0yx0Qz2jE",
+        "video_id": "rz0yx0Qz2jE",
+        "source": "roadmap.sh",
+        "topic": "Combine"
+       },
+       {
+        "title": "Combine - Publishers and Subscribers Lifecycles and Error Handling",
+        "url": "https://youtube.com/watch?v=4WQskqNHxhQ",
+        "video_id": "4WQskqNHxhQ",
+        "source": "roadmap.sh",
+        "topic": "Publishers / Subscribers"
+       },
+       {
+        "title": "How to master Combine like a Pro – The Operators",
+        "url": "https://youtube.com/watch?v=-NDFLP7Aqeg",
+        "video_id": "-NDFLP7Aqeg",
+        "source": "roadmap.sh",
+        "topic": "Operators & Pipelines"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Combine",
+        "url": "https://developer.apple.com/documentation/combine",
+        "topic": "Combine"
+       },
+       {
+        "type": "official",
+        "title": "Processing Published Elements with Subscribers",
+        "url": "https://developer.apple.com/documentation/combine/processing-published-elements-with-subscribers",
+        "topic": "Publishers / Subscribers"
+       },
+       {
+        "type": "official",
+        "title": "ReactiveX Subject Documentation",
+        "url": "https://reactivex.io/documentation/subject.html",
+        "topic": "Subjects"
+       },
+       {
+        "type": "official",
+        "title": "ReactiveX Scheduler Documentation",
+        "url": "https://reactivex.io/documentation/scheduler.html",
+        "topic": "Schedulers"
+       }
+      ]
+     },
+     {
+      "step_number": 11,
+      "title": "Networking with URLSession and Alamofire",
+      "description": "iOS apps must fetch and parse data reliably over flaky mobile networks. Use URLSession and Alamofire for REST, try GraphQL, and parse and serialise JSON safely with Codable.",
+      "topic_refs": [
+       "JoNoM-utp8MaL1H0oXDta",
+       "WPJACNeI6jX9GGB1roeTp",
+       "GjY5qCU1rjB0D58qHQtAR",
+       "3Qw-qmy5iAE61mPbIY4Q2",
+       "9o7d3aN0YFfNNUeVoJrhs",
+       "nJeBisdKtN43ntkXnPCVF",
+       "WYV4YG_sLvC4S5ptFFdrF",
+       "UTVh1RHRWb5eA-S7ayLp8",
+       "8rYjSCgRiJMHTNxOU6vgG"
+      ],
+      "projects": [
+       {
+        "title": "News reader",
+        "description": "Fetch headlines with URLSession, decode them with Codable and handle offline errors.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Typed API client",
+        "description": "A small API client with request building, retries and typed errors.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Networking",
+       "URLSession",
+       "HTTP / HTTPs",
+       "REST",
+       "GraphQL"
+      ],
+      "more_topics": [],
+      "global_step_index": 22,
+      "resource": {
+       "title": "Networking in iOS with URLSession",
+       "url": "https://youtube.com/watch?v=zvfViYmETuc"
+      },
+      "videos": [
+       {
+        "title": "Networking in iOS with URLSession",
+        "url": "https://youtube.com/watch?v=zvfViYmETuc",
+        "video_id": "zvfViYmETuc",
+        "source": "roadmap.sh",
+        "topic": "URLSession"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Fetching website data into memory",
+        "url": "https://developer.apple.com/documentation/foundation/url_loading_system/fetching_website_data_into_memory",
+        "topic": "URLSession"
+       },
+       {
+        "type": "official",
+        "title": "URLSession",
+        "url": "https://developer.apple.com/documentation/foundation/urlsession",
+        "topic": "HTTP / HTTPs"
+       },
+       {
+        "type": "official",
+        "title": "GraphQL Website",
+        "url": "https://graphql.org/",
+        "topic": "GraphQL"
+       },
+       {
+        "type": "official",
+        "title": "XMLParser",
+        "url": "https://developer.apple.com/documentation/foundation/xmlparser",
+        "topic": "Parsing"
+       }
+      ]
+     },
+     {
+      "step_number": 12,
+      "title": "Persisting Data with Core Data and Keychain",
+      "description": "Apps need settings, offline data and secrets stored correctly, and storing a token in the wrong place is a security bug. Use UserDefaults, Core Data, SQLite, files and the Keychain for their intended jobs.",
+      "topic_refs": [
+       "6gfqFy3H6SLt06oJ1kt5A",
+       "ImS1FqVicQImMw-y1ze7y",
+       "8v_eP0j85TnB33XyYAzrT",
+       "H4-Dp2WTA6HAZiFRQdLjx",
+       "3qjQbrCUchJn1bJTBWrQF",
+       "_bkRbqVXKNCnRvEFCM6mN"
+      ],
+      "projects": [
+       {
+        "title": "Offline reading list",
+        "description": "Save articles to Core Data and show them without a network connection.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Secure token storage",
+        "description": "Store and retrieve a login token in the Keychain instead of UserDefaults.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Data Persistence",
+       "User Defaults",
+       "Keychain",
+       "Core Data",
+       "SQLite"
+      ],
+      "more_topics": [],
+      "global_step_index": 23,
+      "resource": {
+       "title": "Reading and Writing basics: UserDefaults",
+       "url": "https://youtube.com/watch?v=WHKLXI8baJk"
+      },
+      "videos": [
+       {
+        "title": "Reading and Writing basics: UserDefaults",
+        "url": "https://youtube.com/watch?v=WHKLXI8baJk",
+        "video_id": "WHKLXI8baJk",
+        "source": "roadmap.sh",
+        "topic": "User Defaults"
+       },
+       {
+        "title": "iOS Core Data Quick Start",
+        "url": "https://youtube.com/watch?v=O7u9nYWjvKk",
+        "video_id": "O7u9nYWjvKk",
+        "source": "roadmap.sh",
+        "topic": "Core Data"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Apple Dev Training - Persisting Data",
+        "url": "https://developer.apple.com/tutorials/app-dev-training/persisting-data",
+        "topic": "Data Persistence"
+       },
+       {
+        "type": "official",
+        "title": "UserDefaults",
+        "url": "https://developer.apple.com/documentation/foundation/userdefaults",
+        "topic": "User Defaults"
+       },
+       {
+        "type": "official",
+        "title": "Keychain Services",
+        "url": "https://developer.apple.com/documentation/security/keychain_services",
+        "topic": "Keychain"
+       },
+       {
+        "type": "official",
+        "title": "CoreData",
+        "url": "https://developer.apple.com/documentation/coredata/",
+        "topic": "Core Data"
+       }
+      ]
+     },
+     {
+      "step_number": 13,
+      "title": "Dependencies, Frameworks and Code Quality",
+      "description": "Real iOS projects pull in packages and split code into frameworks, and teams enforce style automatically. Use Swift Package Manager, CocoaPods and Carthage, build static and dynamic frameworks, and add SwiftLint and SwiftFormat.",
+      "topic_refs": [
+       "Tv8-WUcKiZMLHuunQwise",
+       "KFkX8_Hv9SCFeCtZMZIQM",
+       "epr1sOEZIAOwlgb8bre7r",
+       "tIHjjNTXJWcNgkO6TB9ea",
+       "pZVPsgvCpP3zUgBM4i0CF",
+       "RuXuHQhMt2nywk43LgGeJ",
+       "Lrb4HZYrZU7SJlbedZp7U",
+       "MaHtZSIPxDzrnB33_9OdV",
+       "DVe8S6TjKcQ8LT5G-aMVa",
+       "NnTC3R8goZQTXHmfHKHbM",
+       "TMFvfwG45Z00PzrzZIVhT",
+       "F5796wzm5Ar6sQt-1y8vH"
+      ],
+      "projects": [
+       {
+        "title": "Shared Swift package",
+        "description": "Extract networking code into a Swift package used by two apps.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Lint in CI",
+        "description": "Add SwiftLint rules and fail the build on violations.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Dependency Manager",
+       "Swift Package Manager",
+       "CocoaPods",
+       "Carthage",
+       "Frameworks & Library"
+      ],
+      "more_topics": [],
+      "global_step_index": 24,
+      "resource": {
+       "title": "How to install Cocoapods on Mac M1",
+       "url": "https://youtube.com/watch?v=0EbUBgO681w"
+      },
+      "videos": [
+       {
+        "title": "How to install Cocoapods on Mac M1",
+        "url": "https://youtube.com/watch?v=0EbUBgO681w",
+        "video_id": "0EbUBgO681w",
+        "source": "roadmap.sh",
+        "topic": "CocoaPods"
+       },
+       {
+        "title": "How to Create an XCFramework - Frameworks and Static Libraries",
+        "url": "https://youtube.com/watch?v=40EmwraG4-k",
+        "video_id": "40EmwraG4-k",
+        "source": "roadmap.sh",
+        "topic": "Static Library"
+       },
+       {
+        "title": "Mastering SwiftLint for Code Readability",
+        "url": "https://youtube.com/watch?v=4YQ6DJ-xovY",
+        "video_id": "4YQ6DJ-xovY",
+        "source": "roadmap.sh",
+        "topic": "SwiftLint"
+       },
+       {
+        "title": "How to Setup Swift Format on XCode 14",
+        "url": "https://youtube.com/watch?v=S7e_rp_ZRKY",
+        "video_id": "S7e_rp_ZRKY",
+        "source": "roadmap.sh",
+        "topic": "SwiftFormat"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Swift Package Manager",
+        "url": "https://www.swift.org/documentation/package-manager/",
+        "topic": "Swift Package Manager"
+       },
+       {
+        "type": "official",
+        "title": "CocoaPods",
+        "url": "https://cocoapods.org/",
+        "topic": "CocoaPods"
+       },
+       {
+        "type": "official",
+        "title": "Overview of Dynamic Libraries",
+        "url": "https://developer.apple.com/library/archive/documentation/DeveloperTools/Conceptual/DynamicLibraries/100-Articles/OverviewOfDynamicLibraries.html",
+        "topic": "Dynamic Library"
+       },
+       {
+        "type": "official",
+        "title": "Creating a multiplatform binary framework bundle",
+        "url": "https://developer.apple.com/documentation/xcode/creating-a-multi-platform-binary-framework-bundle",
+        "topic": "XCFramework"
+       }
+      ]
+     },
+     {
+      "step_number": 14,
+      "title": "Debugging, Profiling and Testing iOS Apps",
+      "description": "Hard bugs and slow screens are found with the debugger and Instruments, and tests keep them from coming back. Master breakpoints and the Xcode debugger, profile with Instruments, and write XCTest unit and UI tests with coverage.",
+      "topic_refs": [
+       "OZZ3UnWN2gFflbM_WaJ8H",
+       "WxshXCloVDkVkQV0JvI1w",
+       "X0QavvwPVJU6sulafPVUK",
+       "hUHxlNa6iJJbDGdFNhynB",
+       "VuWUsg05WmOoP_RJ5AXJO",
+       "Y24WWPej0C7-FiBeXpvl3",
+       "xZmBJVq5FHNdm1BDuZbbS",
+       "ZQSUKPbXZl5yKra2ap8JR",
+       "5589B1DKaCd-9l9DfKH3o",
+       "uczkyc30K_qqcarZCGTdF"
+      ],
+      "projects": [
+       {
+        "title": "Scroll performance fix",
+        "description": "Profile a janky list with Instruments and fix the main-thread work causing it.",
+        "difficulty": "advanced",
+        "grounded": false
+       },
+       {
+        "title": "View model test suite",
+        "description": "Unit-test a view model with mocks and add a UI test for the login flow.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Debugging Techniques",
+       "Xcode Debugger",
+       "Breakpoints",
+       "Stepping",
+       "Debug Navigator"
+      ],
+      "more_topics": [],
+      "global_step_index": 25,
+      "resource": {
+       "title": "Debugging in Xcode",
+       "url": "https://youtube.com/watch?v=ZAqnJQn7xp4"
+      },
+      "videos": [
+       {
+        "title": "Debugging in Xcode",
+        "url": "https://youtube.com/watch?v=ZAqnJQn7xp4",
+        "video_id": "ZAqnJQn7xp4",
+        "source": "roadmap.sh",
+        "topic": "Xcode Debugger"
+       },
+       {
+        "title": "Debugging Apps with Xcode 15: Debugging with Breakpoints",
+        "url": "https://youtube.com/watch?v=wYldJF-8fWA",
+        "video_id": "wYldJF-8fWA",
+        "source": "roadmap.sh",
+        "topic": "Breakpoints"
+       },
+       {
+        "title": "Debugging Apps with Xcode 15: Stepping through Code With Breakpoints",
+        "url": "https://youtube.com/watch?v=u2GoZl7iotg",
+        "video_id": "u2GoZl7iotg",
+        "source": "roadmap.sh",
+        "topic": "Stepping"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Setting breakpoints to pause your running app",
+        "url": "https://developer.apple.com/documentation/xcode/setting-breakpoints-to-pause-your-running-app",
+        "topic": "Breakpoints"
+       },
+       {
+        "type": "official",
+        "title": "Stepping through code and inspecting variables to isolate bugs",
+        "url": "https://developer.apple.com/documentation/xcode/stepping-through-code-and-inspecting-variables-to-isolate-bugs",
+        "topic": "Stepping"
+       },
+       {
+        "type": "official",
+        "title": "Debugging",
+        "url": "https://developer.apple.com/documentation/xcode/debugging",
+        "topic": "Debug Navigator"
+       },
+       {
+        "type": "official",
+        "title": "XCTest",
+        "url": "https://developer.apple.com/documentation/xctest",
+        "topic": "XCTest"
+       }
+      ]
+     },
+     {
+      "step_number": 15,
+      "title": "Apple Frameworks: Core ML, ARKit, MapKit and Media",
+      "description": "Apple's frameworks let small teams ship features such as on-device ML, AR, maps and media that would be hard elsewhere. Try Core ML, ARKit, MapKit, AVFoundation and Core Image, and know HealthKit, GameKit and Metal.",
+      "topic_refs": [
+       "PdzCQXZIivw3zCYPtokJV",
+       "7s9Elv80TbZX_-NZpyutj",
+       "k3uHcF0CsyHr6PK95UwR1",
+       "XOXsjaQ-YyuAMpVCqH8KG",
+       "UKgiSQvR9cryQT50t7riZ",
+       "4bAABCfTvxchS5C5NlAro",
+       "6zE_M0_oVpwW0B9qFSRgP",
+       "Jsu5f6QASpuvpky_W5q-O",
+       "H5F9P5xeQiHhWhS6jEzp5",
+       "5VguZoP4h40rTWkxWxaxU"
+      ],
+      "projects": [
+       {
+        "title": "On-device image classifier",
+        "description": "Run a Core ML model on camera frames and show the predicted label live.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Nearby places map",
+        "description": "Show points of interest on a MapKit map with custom annotations.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Frameworks",
+       "Core ML",
+       "ARKit",
+       "MapKit",
+       "AVFoundation"
+      ],
+      "more_topics": [],
+      "global_step_index": 26,
+      "resource": null,
+      "videos": [],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Core ML",
+        "url": "https://developer.apple.com/documentation/coreml/",
+        "topic": "Core ML"
+       },
+       {
+        "type": "official",
+        "title": "Create machine learning models for use in your app.",
+        "url": "https://developer.apple.com/machine-learning/create-ml/",
+        "topic": "Core ML"
+       },
+       {
+        "type": "official",
+        "title": "ARKit",
+        "url": "https://developer.apple.com/documentation/arkit",
+        "topic": "ARKit"
+       },
+       {
+        "type": "official",
+        "title": "Setting up access to ARKit data",
+        "url": "https://developer.apple.com/documentation/visionos/setting-up-access-to-arkit-data",
+        "topic": "ARKit"
+       }
+      ]
+     },
+     {
+      "step_number": 16,
+      "title": "CI/CD, TestFlight and App Store Release",
+      "description": "Shipping iOS apps involves signing, beta testing and review, and teams automate it to release often. Automate builds with Fastlane and a CI service, distribute betas on TestFlight, publish to the App Store with good ASO, and keep up with each WWDC.",
+      "topic_refs": [
+       "U4xE1enkZxUME0j0gutae",
+       "_W3vb0b14FrWB2fH7DHC7",
+       "LltERZaHsI-R_3O_3twpk",
+       "TrblGyy81Oep2CBxoZkaf",
+       "tWxuFh0xDugdplnHt_G0e",
+       "KCJgCjMJGxIcf13XSEclO",
+       "iZAXQKLe2LaIIifVFtFOL",
+       "jZpH-T2hW-XBdprVqemGi",
+       "sGnDm2xuJxqfU3pwmlY7H",
+       "QifWR7WSJJTcTK2IfczxG",
+       "fOOQurIL1w3PwH5Mep9x1",
+       "SBlLNfyWzzhdFNtNtkLet"
+      ],
+      "projects": [
+       {
+        "title": "Fastlane beta pipeline",
+        "description": "A GitHub Actions workflow that builds, signs and uploads to TestFlight on every tag.",
+        "difficulty": "advanced",
+        "grounded": false
+       },
+       {
+        "title": "App Store listing",
+        "description": "Write the listing, keywords and screenshots for an app and review them against ASO advice.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "CI / CD",
+       "FastLane",
+       "GitHub Actions",
+       "Jenkins",
+       "CircleCI"
+      ],
+      "more_topics": [
+       {
+        "node_id": "VylaBSDAVFzveVfytI1Fz",
+        "title": "GitLab"
+       },
+       {
+        "node_id": "r3fNx1Hk_TGlQSDtRnXqF",
+        "title": "Azure DevOps"
+       }
+      ],
+      "global_step_index": 27,
+      "resource": {
+       "title": "How to Submit an app to the AppStore using Fastlane",
+       "url": "https://youtube.com/watch?v=zuoQS-ZFXW0"
+      },
+      "videos": [
+       {
+        "title": "How to Submit an app to the AppStore using Fastlane",
+        "url": "https://youtube.com/watch?v=zuoQS-ZFXW0",
+        "video_id": "zuoQS-ZFXW0",
+        "source": "roadmap.sh",
+        "topic": "FastLane"
+       },
+       {
+        "title": "How to build an iOS app with GitHub Actions",
+        "url": "https://youtube.com/watch?v=Sd7YhlxZrJw",
+        "video_id": "Sd7YhlxZrJw",
+        "source": "roadmap.sh",
+        "topic": "GitHub Actions"
+       },
+       {
+        "title": "Automate building and testing your iPhone application with CircleCI Cloud - iOS Conf SG 2023",
+        "url": "https://youtube.com/watch?v=MyQ-e7Ae8y8",
+        "video_id": "MyQ-e7Ae8y8",
+        "source": "roadmap.sh",
+        "topic": "CircleCI"
+       },
+       {
+        "title": "Submit App to App Store (Upload iOS App)",
+        "url": "https://youtube.com/watch?v=bz_KJdXylh0",
+        "video_id": "bz_KJdXylh0",
+        "source": "roadmap.sh",
+        "topic": "App Store Distribution"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "FastLane Website",
+        "url": "https://fastlane.tools",
+        "topic": "FastLane"
+       },
+       {
+        "type": "official",
+        "title": "GitHub Actions Documentation",
+        "url": "https://docs.github.com/en/actions",
+        "topic": "GitHub Actions"
+       },
+       {
+        "type": "official",
+        "title": "Jenkins Website",
+        "url": "https://www.jenkins.io/",
+        "topic": "Jenkins"
+       },
+       {
+        "type": "official",
+        "title": "CircleCI Website",
+        "url": "https://circleci.com",
+        "topic": "CircleCI"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 3,
+    "title": "React Native",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "React Native Prerequisites and Setup",
+      "description": "React Native lets one JavaScript codebase ship to Android and iOS, which is why many Indian startups use it. Check you know enough JavaScript, CSS and JSX, understand where it fits against native and other cross-platform options, and set up the CLI on a real device.",
+      "topic_refs": [
+       "JfXwzkN29UGz17FYHHE3A",
+       "cMfsRtvzvDZZJ0TqeUOxm",
+       "2rlmLn_yQQV-7DpX1qT98",
+       "ODQ8zrHc2rsc8PN-APKvz",
+       "cSXsu17F1Oy34Wp6J-N3C",
+       "1oUJXtHGQ29ZZU9sxwGo2",
+       "SnF3xtzBh-x4Z_qUQUg7H",
+       "s5YKenJY2Xv_PZBSxegEm",
+       "lNmddXrT8IHVtWobh3-oq",
+       "bxWLf0RDAl9Zaczkon9Rl",
+       "KyKMZ8Aa5XUAIWelGTiSt",
+       "wMxTB8WgU6e-oYMtQFCDY"
+      ],
+      "projects": [
+       {
+        "title": "Cross-platform hello app",
+        "description": "Create a CLI project and run the same screen on an Android phone and an iOS simulator.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Native versus cross-platform note",
+        "description": "Compare the Android, iOS and React Native versions of one screen you built for effort and feel.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Introduction",
+       "React Native",
+       "Why use React Native?",
+       "React Native Alternatives",
+       "Learn the Pre-requisites"
+      ],
+      "more_topics": [],
+      "global_step_index": 28,
+      "resource": {
+       "title": "React Native Course for Beginners in 2025 | Build a Full Stack React Native App",
+       "url": "https://youtube.com/watch?v=f8Z9JyB2EIE"
+      },
+      "videos": [
+       {
+        "title": "React Native Course for Beginners in 2025 | Build a Full Stack React Native App",
+        "url": "https://youtube.com/watch?v=f8Z9JyB2EIE",
+        "video_id": "f8Z9JyB2EIE",
+        "source": "roadmap.sh",
+        "topic": "Introduction"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "React Native",
+        "url": "https://reactnative.dev/",
+        "topic": "Introduction"
+       },
+       {
+        "type": "official",
+        "title": "Getting Started with React Native",
+        "url": "https://reactnative.dev/docs/getting-started",
+        "topic": "Introduction"
+       },
+       {
+        "type": "official",
+        "title": "Flutter",
+        "url": "https://flutter.dev/",
+        "topic": "React Native Alternatives"
+       },
+       {
+        "type": "official",
+        "title": "Ionic",
+        "url": "https://ionicframework.com/",
+        "topic": "React Native Alternatives"
+       }
+      ]
+     },
+     {
+      "step_number": 2,
+      "title": "Expo and the React Native Dev Workflow",
+      "description": "Expo removes most native setup and is often the fastest way to ship, but it has trade-offs you should know before choosing it. Create Expo apps, use fast refresh, the dev menu, DevTools and LogBox, and understand Metro and source maps.",
+      "topic_refs": [
+       "yW7nDDJbjmm8XKJI0hq3Q",
+       "uLH9eo2G09wGO80XtFI5x",
+       "9eOwhh2k59nvH-ztuDNjg",
+       "zzOyoDcAQYkNNv07TIKeZ",
+       "T4AhL9Zls2iNZMituGdtl",
+       "VhSEH_RoWFt1z2lial7xZ",
+       "wWwaEdnvBsvj6jD9LJ4Jj",
+       "tOt_vvmnBtOUbgokmVa5P",
+       "HHx3VSfV7xf6RqACrxjBf",
+       "Tz-bRjQVkZedphelhAlWM",
+       "Dq490IqEJXoFZRnBFJI8N",
+       "b-1-JcwLSGMyH3gXS59lY"
+      ],
+      "projects": [
+       {
+        "title": "Expo prototype in a day",
+        "description": "Build a two-screen prototype with Expo and share it to a friend's phone with Expo Go.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Debugging session",
+        "description": "Trace a deliberate bug with DevTools and source maps and fix it with fast refresh running.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Expo",
+       "Create Expo App",
+       "Expo Snack",
+       "Expo Tradeoffs",
+       "Development Workflow"
+      ],
+      "more_topics": [],
+      "global_step_index": 29,
+      "resource": null,
+      "videos": [],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Expo Documentation",
+        "url": "https://docs.expo.dev/",
+        "topic": "Expo"
+       },
+       {
+        "type": "official",
+        "title": "Create Expo App",
+        "url": "https://docs.expo.dev/tutorial/create-your-first-app/",
+        "topic": "Create Expo App"
+       },
+       {
+        "type": "official",
+        "title": "Expo Snack",
+        "url": "https://snack.expo.dev/",
+        "topic": "Expo Snack"
+       },
+       {
+        "type": "official",
+        "title": "Running on Device",
+        "url": "https://reactnative.dev/docs/running-on-device",
+        "topic": "Development Workflow"
+       }
+      ]
+     },
+     {
+      "step_number": 3,
+      "title": "React Native Core Components, Props and State",
+      "description": "React Native screens are built from a small set of core components driven by props and state. Learn View, Text, Image, inputs and buttons, and how state changes re-render the UI.",
+      "topic_refs": [
+       "k9_hVOBd9ZmC4HLuAf46v",
+       "fnujIq6QAFB6bmTisuZ3T",
+       "0gH7vI_Hy7s9hO2TF6hR3",
+       "V7r1Hqk9IXTfjkjAg7-BT",
+       "GrFL32pZ_eOmdJRzSlH8b",
+       "OFhyYyxtrCBy_UUb5YBv5",
+       "E7N8tSg2amZW-vc-X46JU",
+       "GFGhnx5xUer2DdRI-SO4D",
+       "kkH9H9Qh1FD7sLItoWw69",
+       "ouNTekf4VpZv-Vja8_bfM",
+       "Frz1RYp3y9OwRb-3t2e85",
+       "hHFR59RrdMIWxcQe72qCs"
+      ],
+      "projects": [
+       {
+        "title": "Unit converter app",
+        "description": "Inputs, a switch and live results driven by component state.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Profile card component",
+        "description": "A reusable card that takes props and shows a loading indicator while its image loads.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Components",
+       "Core Components",
+       "Props",
+       "State",
+       "View"
+      ],
+      "more_topics": [],
+      "global_step_index": 30,
+      "resource": null,
+      "videos": [],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Components",
+        "url": "https://react.dev/learn/your-first-component",
+        "topic": "Components"
+       },
+       {
+        "type": "official",
+        "title": "Props",
+        "url": "https://react.dev/learn/passing-props-to-a-component",
+        "topic": "Components"
+       },
+       {
+        "type": "official",
+        "title": "Core Components and APIs",
+        "url": "https://reactnative.dev/docs/components-and-apis",
+        "topic": "Core Components"
+       },
+       {
+        "type": "official",
+        "title": "Core Components and Native Components",
+        "url": "https://reactnative.dev/docs/intro-react-native-components",
+        "topic": "Core Components"
+       }
+      ]
+     },
+     {
+      "step_number": 4,
+      "title": "Styling, Layout and Platform-Specific Code",
+      "description": "Cross-platform apps still need to respect notches, keyboards and platform conventions. Style with StyleSheet and Flexbox, handle safe areas and the keyboard, write platform-specific code, and make components accessible.",
+      "topic_refs": [
+       "ervpuL89myBW3oR9r-4lH",
+       "wB0D9koC6jpt1rzX8F07F",
+       "e-r3tuRZ3PzhFegES0oOm",
+       "UqCpoPzYio3ng3RFlbvZ7",
+       "QOOZs9qtz49agfZwi6k1B",
+       "8bn1PFd9h0ek6_T-cl1cS",
+       "KZIrRSYq_I-YzpFaYLuWi",
+       "HiUbRfOv8OttFd85pDUHN",
+       "LLANnVosxOUCPTtuBfNgu",
+       "UQpyXrC2cs_jDXxVTlQOu",
+       "KoXTwQUqPt_ZhOFuaelny"
+      ],
+      "projects": [
+       {
+        "title": "Chat input screen",
+        "description": "A chat screen whose input stays above the keyboard on both platforms.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Platform-adapted settings page",
+        "description": "One settings page that uses iOS-style and Android-style controls on each platform.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Styling in React Native",
+       "Stylesheets in React Native",
+       "Layouts & Flexbox",
+       "SafeAreaView",
+       "StatusBar"
+      ],
+      "more_topics": [],
+      "global_step_index": 31,
+      "resource": null,
+      "videos": [],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Styling",
+        "url": "https://reactnative.dev/docs/style",
+        "topic": "Styling in React Native"
+       },
+       {
+        "type": "official",
+        "title": "Stylesheets",
+        "url": "https://reactnative.dev/docs/stylesheet",
+        "topic": "Stylesheets in React Native"
+       },
+       {
+        "type": "official",
+        "title": "Flexbox",
+        "url": "https://reactnative.dev/docs/flexbox",
+        "topic": "Layouts & Flexbox"
+       },
+       {
+        "type": "official",
+        "title": "Layout Props",
+        "url": "https://reactnative.dev/docs/layout-props",
+        "topic": "Layouts & Flexbox"
+       }
+      ]
+     },
+     {
+      "step_number": 5,
+      "title": "Lists, Gestures and Screen Navigation",
+      "description": "Long, smooth lists and natural gestures are what make a React Native app feel native. Use FlatList and SectionList with pull-to-refresh, handle touches and gestures, and navigate between screens.",
+      "topic_refs": [
+       "x-OZCZcX6uhN3Yr5BAATn",
+       "h3ypxGxeHDCTxURHg6D2d",
+       "CYqLNGyOe9f9hVhbyUnTX",
+       "gLJMD9X7chy8OxdALht8g",
+       "yN283SRWoALOEZh9iTn-L",
+       "m8Nu71Y61Ha_fLxdtWTkn",
+       "GYdz9a1yLiewAeMRSyfLr",
+       "A7ZIe8nlQnHU5g3LM3Eif",
+       "4BgVq-cZYEXgqktvlNnet",
+       "xf7L5J42yQq3LE7lG2plp",
+       "nk6zdVNRz_xE71mVUOFsi",
+       "Jr2iuQqyCbx6CyTJj4Qz2"
+      ],
+      "projects": [
+       {
+        "title": "Product catalogue",
+        "description": "A sectioned product list with pull-to-refresh and a detail screen.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Swipe-to-delete list",
+        "description": "List items that can be swiped away with a gesture and undone.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Listings",
+       "ListViews",
+       "FlatList",
+       "SectionList",
+       "Scroll View"
+      ],
+      "more_topics": [],
+      "global_step_index": 32,
+      "resource": null,
+      "videos": [],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Using List Views",
+        "url": "https://reactnative.dev/docs/using-a-listview",
+        "topic": "Listings"
+       },
+       {
+        "type": "official",
+        "title": "FlatList",
+        "url": "https://reactnative.dev/docs/flatlist",
+        "topic": "Listings"
+       },
+       {
+        "type": "official",
+        "title": "SectionList",
+        "url": "https://reactnative.dev/docs/sectionlist",
+        "topic": "Listings"
+       },
+       {
+        "type": "official",
+        "title": "ScrollView",
+        "url": "https://reactnative.dev/docs/ScrollView",
+        "topic": "Scroll View"
+       }
+      ]
+     },
+     {
+      "step_number": 6,
+      "title": "Networking, Storage and Device Features",
+      "description": "Apps fetch data, cache it for offline use and use device features such as notifications and permissions. Call APIs and websockets, track connectivity, store data with Async Storage, SQLite and the file system, and request permissions properly.",
+      "topic_refs": [
+       "7GBV5sfOaGxHwpkNUvFWE",
+       "f7KFPFS2-EA90pumYHM9T",
+       "aSCgax1M4wlmzkJSZV_fv",
+       "k7uVPyhbPgvO6HxAfxxYZ",
+       "NdjmP1bZNYriV08vb-iRw",
+       "w0WW1kg_0BEMeLa1l2gb5",
+       "WsJGiMjHSQ6MpPd5wuP9h",
+       "oK8z23a_CjcDjBJ843_Jn",
+       "9pvrXH5Drdsa1cr93UBdc",
+       "vZMsm-MtsqmQMD-MG6zJY",
+       "CAQJaGs24wx1SqKOU44aB",
+       "sPITeu8bS7n04NdEiBibY"
+      ],
+      "projects": [
+       {
+        "title": "Offline-first to-do app",
+        "description": "Save tasks in SQLite and sync to an API when the connection returns.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Live score ticker",
+        "description": "Show live updates from a websocket and a banner when the device goes offline.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Networking in React Native",
+       "Fetch",
+       "Websockets",
+       "Connectivity Status",
+       "Storage in React Native"
+      ],
+      "more_topics": [],
+      "global_step_index": 33,
+      "resource": {
+       "title": "Expo Notifications with EAS | Complete Guide",
+       "url": "https://youtube.com/watch?v=BCCjGtKtBjE"
+      },
+      "videos": [
+       {
+        "title": "Expo Notifications with EAS | Complete Guide",
+        "url": "https://youtube.com/watch?v=BCCjGtKtBjE",
+        "video_id": "BCCjGtKtBjE",
+        "source": "roadmap.sh",
+        "topic": "Push Notifications"
+       },
+       {
+        "title": "React Native Permissions Tutorial (react-native-permissions)",
+        "url": "https://youtube.com/watch?v=ZQzcVY3CoFQ",
+        "video_id": "ZQzcVY3CoFQ",
+        "source": "roadmap.sh",
+        "topic": "Permissions"
+       },
+       {
+        "title": "React Native Permissions: A Guide to Implementation",
+        "url": "https://youtube.com/watch?v=cUWGLik3nYQ",
+        "video_id": "cUWGLik3nYQ",
+        "source": "roadmap.sh",
+        "topic": "Permissions"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Networking",
+        "url": "https://reactnative.dev/docs/network",
+        "topic": "Networking in React Native"
+       },
+       {
+        "type": "official",
+        "title": "Fetch API",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API",
+        "topic": "Networking in React Native"
+       },
+       {
+        "type": "official",
+        "title": "Axios",
+        "url": "https://axios-http.com/docs/intro",
+        "topic": "Networking in React Native"
+       },
+       {
+        "type": "official",
+        "title": "expo-sqlite",
+        "url": "https://docs.expo.dev/versions/latest/sdk/sqlite/",
+        "topic": "expo-sqlite"
+       }
+      ]
+     },
+     {
+      "step_number": 7,
+      "title": "Authentication, Security and Native Modules",
+      "description": "Logins, tokens and deep links are common attack points in mobile apps, and some features need native code. Implement authentication, store secrets securely, secure network calls, handle deep links, and write or use native modules.",
+      "topic_refs": [
+       "CGtVwhVGc8Vea5RfzJvQG",
+       "ee4QqFTosXNcTgoQIok8i",
+       "LRBHwYiT0Yyi18PwR49rc",
+       "JgBfwmOgcVi_a96L5NGwr",
+       "dckRzKDKj-mLB3-OxwjPh",
+       "0BMpZDc-1rSvETwX82zON",
+       "V34mZCkpoT49o-74XoATS",
+       "3NLcPO-hqQV1EacoPLVrv"
+      ],
+      "projects": [
+       {
+        "title": "Secure login flow",
+        "description": "Log in, store the token in secure storage and open a deep link straight to a protected screen.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Native battery module",
+        "description": "Expose the device battery level from native code to JavaScript.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Security",
+       "Networking Security in React Native",
+       "Authentication",
+       "expo-secure-store",
+       "Deep Linking"
+      ],
+      "more_topics": [],
+      "global_step_index": 34,
+      "resource": null,
+      "videos": [],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Security",
+        "url": "https://reactnative.dev/docs/security",
+        "topic": "Security"
+       },
+       {
+        "type": "official",
+        "title": "Networking",
+        "url": "https://reactnative.dev/docs/network",
+        "topic": "Networking Security in React Native"
+       },
+       {
+        "type": "official",
+        "title": "Authentication and Deep Linking",
+        "url": "https://reactnative.dev/docs/security#authentication-and-deep-linking",
+        "topic": "Authentication"
+       },
+       {
+        "type": "official",
+        "title": "secure-store",
+        "url": "https://docs.expo.dev/versions/latest/sdk/securestore/",
+        "topic": "expo-secure-store"
+       }
+      ]
+     },
+     {
+      "step_number": 8,
+      "title": "Testing React Native Apps",
+      "description": "Teams rely on automated tests to release cross-platform apps with confidence. Write unit and component tests with Jest and React Native Testing Library, and end-to-end tests with Detox or Appium.",
+      "topic_refs": [
+       "G15Aey-Spax_iUHpm1v38",
+       "06gsRokwjxVa2xyLY4qAb",
+       "-b4LfjCjkSZ6ZsSv3eFm6",
+       "81tmis0km2h1zsjS2HsP5",
+       "3m7ANLJvtx3zie4y86MNU",
+       "spTzJMS7cE0cNa7tVQhVQ"
+      ],
+      "projects": [
+       {
+        "title": "Component test suite",
+        "description": "Test a form component's validation and submit behaviour with React Native Testing Library.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "End-to-end login test",
+        "description": "A Detox test that logs in and checks the home screen on a simulator.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Testing",
+       "Jest",
+       "React Native Testing Library",
+       "React Test Renderer",
+       "Detox"
+      ],
+      "more_topics": [],
+      "global_step_index": 35,
+      "resource": {
+       "title": "Jest Crash Course - Unit Testing in JavaScript",
+       "url": "https://youtube.com/watch?v=7r4xVDI2vho"
+      },
+      "videos": [
+       {
+        "title": "Jest Crash Course - Unit Testing in JavaScript",
+        "url": "https://youtube.com/watch?v=7r4xVDI2vho",
+        "video_id": "7r4xVDI2vho",
+        "source": "roadmap.sh",
+        "topic": "Jest"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Testing Overview",
+        "url": "https://reactnative.dev/docs/testing-overview",
+        "topic": "Testing"
+       },
+       {
+        "type": "official",
+        "title": "Detox",
+        "url": "https://wix.github.io/Detox/",
+        "topic": "Testing"
+       },
+       {
+        "type": "official",
+        "title": "Jest",
+        "url": "https://jestjs.io/",
+        "topic": "Jest"
+       },
+       {
+        "type": "official",
+        "title": "Jest Documentation",
+        "url": "https://jestjs.io/docs/getting-started",
+        "topic": "Jest"
+       }
+      ]
+     },
+     {
+      "step_number": 9,
+      "title": "React Native Performance and Store Publishing",
+      "description": "Dropped frames and slow builds are the common complaints about React Native, and both can be fixed. Profile frame rates, tune FlatList and bundle loading, speed up builds, then publish to the Play Store and App Store.",
+      "topic_refs": [
+       "NIJzKzWlsciAjxUpm4K2v",
+       "1U3AiCDWEVEKsofWtqavi",
+       "afwB90L-q2hIwrA0LtWbG",
+       "PyPjHnKIWpnFHal8RuSmX",
+       "u5I-EOnA_yt6AQsRX-qr0",
+       "apXv-E6LvOuOMj3EpzwuA",
+       "LL2ZkB7BuELyY2mPQhkAj",
+       "4U-HZQGH7kaWCB94Xy8Mh",
+       "1s9Y1dUtjpW9pu74ipX99",
+       "D8T9cZ5zKi_KZDr9tDpCf"
+      ],
+      "projects": [
+       {
+        "title": "Smooth list challenge",
+        "description": "Make a thousand-row list with images scroll at 60 fps by tuning FlatList settings.",
+        "difficulty": "advanced",
+        "grounded": false
+       },
+       {
+        "title": "Dual-store release",
+        "description": "Prepare signed builds and store listings for both the Play Store and the App Store.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Performance",
+       "Understand Frame Rates",
+       "Common Problem Sources in React Native Performance",
+       "Optimizing Flatlist Config",
+       "RAM Bundles + Inline Requires"
+      ],
+      "more_topics": [],
+      "global_step_index": 36,
+      "resource": null,
+      "videos": [],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Performance",
+        "url": "https://reactnative.dev/docs/performance",
+        "topic": "Performance"
+       },
+       {
+        "type": "official",
+        "title": "Performance Problems",
+        "url": "https://reactnative.dev/docs/performance#common-sources-of-performance-problems",
+        "topic": "Common Problem Sources in React Native Performance"
+       },
+       {
+        "type": "official",
+        "title": "Optimizing Flatlist Configuration",
+        "url": "https://reactnative.dev/docs/optimizing-flatlist-configuration",
+        "topic": "Optimizing Flatlist Config"
+       },
+       {
+        "type": "official",
+        "title": "Optimizing JavaScript loading",
+        "url": "https://reactnative.dev/docs/optimizing-javascript-loading",
+        "topic": "RAM Bundles + Inline Requires"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "audit": {
+  "phases": [
+   {
+    "phase_number": 1,
+    "title": "Android",
+    "queries": [
+     "Mobile App Development",
+     "Mobile App Development fundamentals",
+     "Mobile App Development: Android"
+    ],
+    "retrieved": [
+     {
+      "source": "android/create-a-basic-hello-world-app@5m_7DvInF8C_4Ml1xVI6L.md",
+      "score": 0.6695089340209961,
+      "queries": [
+       "Mobile App Development",
+       "Mobile App Development fundamentals",
+       "Mobile App Development: Android"
+      ]
+     },
+     {
+      "source": "android/the-fundamentals@HlUUGj3dOZ68t4gIjerXh.md",
+      "score": 0.6019872426986694,
+      "queries": [
+       "Mobile App Development",
+       "Mobile App Development fundamentals",
+       "Mobile App Development: Android"
+      ]
+     },
+     {
+      "source": "android/development-ide@ZRGsokU313Ky-anWbWK6q.md",
+      "score": 0.5770981311798096,
+      "queries": [
+       "Mobile App Development",
+       "Mobile App Development fundamentals",
+       "Mobile App Development: Android"
+      ]
+     },
+     {
+      "source": "android/pick-a-language@Suws-7f_6Z1ChpfcnxX2M.md",
+      "score": 0.5753051042556763,
+      "queries": [
+       "Mobile App Development",
+       "Mobile App Development: Android"
+      ]
+     },
+     {
+      "source": "android/text@BVgO9n7tGlVdiS72-hFSd.md",
+      "score": 0.5452576279640198,
+      "queries": [
+       "Mobile App Development",
+       "Mobile App Development: Android"
+      ]
+     },
+     {
+      "source": "android/app-components@5Li8J5iR_ZuyIlxX0LYei.md",
+      "score": 0.5305537581443787,
+      "queries": [
+       "Mobile App Development",
+       "Mobile App Development fundamentals",
+       "Mobile App Development: Android"
+      ]
+     },
+     {
+      "source": "so_survey_2025_india/Mobile_App_Development",
+      "score": 0.5180487632751465,
+      "queries": [
+       "Mobile App Development",
+       "Mobile App Development fundamentals",
+       "Mobile App Development: Android"
+      ]
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 1,
+      "topic_refs": [
+       "Suws-7f_6Z1ChpfcnxX2M",
+       "qIzUv8-GgQnkqChEdgD50",
+       "jl1FsQ5-WGKeFyaILNt_p",
+       "RBABbkzD_uNFwEO-hssZO",
+       "ZRGsokU313Ky-anWbWK6q",
+       "FVxNjbDBxgf6vkZWw1Awt",
+       "5m_7DvInF8C_4Ml1xVI6L",
+       "HlUUGj3dOZ68t4gIjerXh",
+       "5s1CqsYCOXjNroDHaGKGa",
+       "rqSZ2ATeHbOdIQE9Jlb0B",
+       "H-2eb8fLwz8IKYXbeSVKK",
+       "cNeT1dJDfgn0ndPzSxhSL"
+      ],
+      "queries": [
+       "Mobile App Development",
+       "Mobile App Development fundamentals",
+       "Mobile App Development: Android"
+      ]
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 2,
+      "topic_refs": [
+       "5Li8J5iR_ZuyIlxX0LYei",
+       "nwuVlPmzwJ17mtVQ8Hi9w",
+       "FVg438cVBBzqJFkGWVbQM",
+       "-O-G9bg36ut8NnZcdOaop",
+       "oUjetA2eduvQIeLcQlLcu",
+       "hv_9imIQpthxEaMLXEUHI",
+       "TmIeCF3xVCe5Sy3ITmM31",
+       "gGdz3j33x0gfrFDp_rw8Z",
+       "b-sfh6NoS-APqaNKm5L5S",
+       "PcHmU1c9hqKyzSjwlRPHk",
+       "tFuAToid1Fkmu96BDtW7K",
+       "nkcdjrswv0WCzUs48BAt9"
+      ],
+      "queries": [
+       "Mobile App Development",
+       "Mobile App Development fundamentals",
+       "Mobile App Development: Android"
+      ]
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 3,
+      "topic_refs": [
+       "4_e76QafrB419S2INOeKd",
+       "3fFNMhQIuuh-NRzSXYpXO",
+       "znvZp24L-PcQwkSObtixs",
+       "WhfzFOUpm0DFEj7Oeq21R",
+       "A4rtNULX_MoV93IH1Lgqw",
+       "xIvplWfe-uDr9iHjPT1Mx",
+       "2iDJrxjXOt7o2fPp2HfRl",
+       "Z4Tbd5ClnqCXGPGG09F-G",
+       "mhxUDPHI-6NHwOxsdVn65",
+       "pHxtpvd7U8CbIW6yebcVX",
+       "o5rzmnaQeiSh9ocvfJPpK",
+       "UAerxLQ1ZB6N6LS1IhfNk"
+      ],
+      "queries": [
+       "Mobile App Development: Android"
+      ]
+     },
+     {
+      "step_number": 4,
+      "global_step_index": 4,
+      "topic_refs": [
+       "60Vm-77rseUqpMiFvp-dA",
+       "yE0qAQZiEC9R8WvCdskpr",
+       "Dp2DOX10u2xJUjB8Okhzh",
+       "mMKN4a8lqo38M0iL1Qwhy",
+       "BVgO9n7tGlVdiS72-hFSd",
+       "boMz0HZlMAsLdCZlpUo-H",
+       "Mtx0bY0drmaTw8sCM5YTl",
+       "pEBpXv3Jf1AzBNHlvVrG8",
+       "U8iMGGOd2EgPxSuwSG39Z",
+       "EzLjX4iRT7AxkAOsJYnSU",
+       "8axL6Fa5fm1xWPP07MUbD",
+       "XTMhA-rYiXP7aVFk2nDLY"
+      ],
+      "queries": [
+       "Mobile App Development",
+       "Mobile App Development: Android"
+      ]
+     },
+     {
+      "step_number": 5,
+      "global_step_index": 5,
+      "topic_refs": [
+       "jePGzTejFe4ryA5qFFmjl",
+       "pSU-NZtjBh-u0WKTYfjk_",
+       "w1A6wPKSd3Yh2luuHV-aE",
+       "aF_xFIqTjQbENtC7pkXvJ",
+       "Bz-BkfzsDHAbAw3HD7WCd",
+       "lEdmnJhs-WN-A6glX2DeA",
+       "TiokceMGU9caqiR0lbFYL",
+       "ZF5XgO7I_J9928bD3CVXo",
+       "N_auRfGKkeIIc-qiHLkR_",
+       "784fiIdKrQDlIm3VIiJQN",
+       "DeOxj6RzQBYfEWV-M1Ybm"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 6,
+      "global_step_index": 6,
+      "topic_refs": [
+       "i_cKmTnGAYw8xpHwZHjAd",
+       "W-WTIiQml8dLK6i_V69JK",
+       "BeGrA5BDBMZP1Jy7n-wl-",
+       "cFYZ2C7yNnY6NHKUNP2Z4",
+       "xk0vnWr7uESdzYRxwFjoK",
+       "4h37WBpYxRRyw9oH8ge7o",
+       "OAb_JD64uGm2tPoue7w6t"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 7,
+      "global_step_index": 7,
+      "topic_refs": [
+       "Yb6aKJMMCxU1QVltWg3Dr",
+       "dDMRYiqrKyOBnRRQc8zsp",
+       "5pVuwOItAhUxxJX8ysAsn",
+       "ww0fTbdXwVr-QIOClU7ng",
+       "7RKN1FNtRE_BE6QeAQrKb",
+       "Xv0es_z64vh-QzivMeAT3"
+      ],
+      "queries": [
+       "Mobile App Development: Android"
+      ]
+     },
+     {
+      "step_number": 8,
+      "global_step_index": 8,
+      "topic_refs": [
+       "0fNQWRxst8xRstIfPaPO6",
+       "PKql1HY0PLMfp50FRELXL",
+       "GWq3s1iTxQOp1BstHscJ9",
+       "Bfg4So5RlI09zFNcburJd",
+       "A4kdaj6AFueUgPI7hwKi5",
+       "3EEfKAd-ppIQpdQSEhbA1"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 9,
+      "global_step_index": 9,
+      "topic_refs": [
+       "qtXM9K7wyjOFuEMlZrB3C",
+       "ooo_k2k_vUBR_jQ7Ke6Et",
+       "CK7Ce632fdTgxeFsRUVvd",
+       "UMqZ-jmXKDXKuu8bzqDH_",
+       "dc7k50PjCYZcElHhCk66p",
+       "77F9F3oI5CPgwgM_hxWfa",
+       "zMbXQH17Q52opdbitPzj7",
+       "RUvuCp_JK5MQQT13SSHUV",
+       "VFOD4JrV8kZ2583G3oT95",
+       "6KbSUAoT_jTudFoIbwMpA",
+       "3i4g9ZWgLxKb2UMgRJi4Q"
+      ],
+      "queries": [
+       "Mobile App Development",
+       "Mobile App Development fundamentals",
+       "Mobile App Development: Android"
+      ]
+     },
+     {
+      "step_number": 10,
+      "global_step_index": 10,
+      "topic_refs": [
+       "ZOQm5OlzCA-h_yxywwDrW",
+       "gvGAwjk_nhEgxzZ_c3f6b",
+       "-ONSC-ImGSELbamKmjIlH",
+       "ACUJlDDR0jqEohsFzWEoQ",
+       "j5qmSMOdhpGZo1XOUVx1k",
+       "xB4evbD07n1VrHOIpowV4"
+      ],
+      "queries": [
+       "Mobile App Development: Android"
+      ]
+     },
+     {
+      "step_number": 11,
+      "global_step_index": 11,
+      "topic_refs": [
+       "m5rumeynEbS8T27pelr0-",
+       "ZEdn2yy-IwHN3kOYr2ZbC",
+       "e3vHFaFFMV7kI9q6yf5e9",
+       "1Tz-Shj_Tuz2U8llEAcLr",
+       "S5FVF9rMgVSSDKXJW2GYb",
+       "D4ZXQOKJkyFYNZIy-MJ9Y",
+       "T7q_quNaIAuGi96OdnDT1",
+       "kc6buUsLAeZeUb4Tk0apM",
+       "_FSlD_qTz5Xo0x3pB6sZI",
+       "HgRdgi2Hu4C8YLG5PXfoo"
+      ],
+      "queries": [
+       "Mobile App Development",
+       "Mobile App Development: Android"
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 2,
+    "title": "iOS",
+    "queries": [
+     "Mobile App Development",
+     "Mobile App Development fundamentals",
+     "Mobile App Development: iOS"
+    ],
+    "retrieved": [
+     {
+      "source": "ios/ios-architecture@IduGSdUa2Fi7VFMLKgmsS.md",
+      "score": 0.6170512437820435,
+      "queries": [
+       "Mobile App Development",
+       "Mobile App Development fundamentals",
+       "Mobile App Development: iOS"
+      ]
+     },
+     {
+      "source": "ios/cocoa-touch@leozxW-5fAOfkKbQM4FD1.md",
+      "score": 0.567534327507019,
+      "queries": [
+       "Mobile App Development",
+       "Mobile App Development fundamentals",
+       "Mobile App Development: iOS"
+      ]
+     },
+     {
+      "source": "ios/networking@JoNoM-utp8MaL1H0oXDta.md",
+      "score": 0.5614954233169556,
+      "queries": [
+       "Mobile App Development: iOS"
+      ]
+     },
+     {
+      "source": "ios/latest-ios-sdk@SBlLNfyWzzhdFNtNtkLet.md",
+      "score": 0.5538814067840576,
+      "queries": [
+       "Mobile App Development fundamentals",
+       "Mobile App Development: iOS"
+      ]
+     },
+     {
+      "source": "ios/new-project@BJgoAgH85U6S3RtXq7hHV.md",
+      "score": 0.5506236553192139,
+      "queries": [
+       "Mobile App Development",
+       "Mobile App Development fundamentals",
+       "Mobile App Development: iOS"
+      ]
+     },
+     {
+      "source": "ios/ui-design@4fPgpGwNXmVoZoruBRb_B.md",
+      "score": 0.5483984351158142,
+      "queries": [
+       "Mobile App Development",
+       "Mobile App Development fundamentals",
+       "Mobile App Development: iOS"
+      ]
+     },
+     {
+      "source": "so_survey_2025_india/Mobile_App_Development",
+      "score": 0.5180487632751465,
+      "queries": [
+       "Mobile App Development",
+       "Mobile App Development fundamentals"
+      ]
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 12,
+      "topic_refs": [
+       "MrdIb9F-wSEbUz7KRnH3t",
+       "KJ7fM-V0_azY_lzmhjJAN",
+       "z4-1Gc95JKYAn2RPFc7hw",
+       "ZkNulHQAqhiFTO3CRC_mW",
+       "fboebSmquyJyozsMRJDtK",
+       "mk02yV7_XHkgp2xdNIxaU",
+       "e7qVpQeu2iQL0c9MOMCVe",
+       "N5ojp6bqgH074MPKYjCHV",
+       "M9UlalPL47GoqhcyGsAPV",
+       "5V7nxQKmmHWSMSBCRxkaF",
+       "FoqlB7xBIrV4yUp4ReBkw",
+       "Pj-hqRZUmwx1WhmTbLoFD"
+      ],
+      "queries": [
+       "Mobile App Development fundamentals",
+       "Mobile App Development: iOS"
+      ]
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 13,
+      "topic_refs": [
+       "tqbg8mBJfjuXacdMlIB_L",
+       "S-D-PnHA7COd2Dp6U2XO4",
+       "oOaMz9A5DZvrjxovMztXz",
+       "0BSX80W1TJ_Ia_Zh2zKyK",
+       "IAPzuN51xvrZJ5TFB23Q9",
+       "BtPYKd7RedHOLRATDKkpg",
+       "z3AUN9u7EEqeKOqvLxf7D"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 14,
+      "topic_refs": [
+       "la5M4VoH79bhnN8qj5Izp",
+       "R8LdFpfyS0MFYJuMLk8RG",
+       "BJgoAgH85U6S3RtXq7hHV",
+       "YytdlQl41yrHSwlV-G3Pd",
+       "42sfiLKrVCcnMMjR7TFn1",
+       "FwwqAchMC6qdnXbqg45he",
+       "-4q7MFXaTmpR_39PTeWD8",
+       "IduGSdUa2Fi7VFMLKgmsS",
+       "IdGdLNgJI3WmONEFsMq-d",
+       "LHM7gNgTtfn_QDW-oQskD",
+       "leozxW-5fAOfkKbQM4FD1",
+       "nGCG74_Xp_Ngt0u7PZnZl"
+      ],
+      "queries": [
+       "Mobile App Development",
+       "Mobile App Development fundamentals",
+       "Mobile App Development: iOS"
+      ]
+     },
+     {
+      "step_number": 4,
+      "global_step_index": 15,
+      "topic_refs": [
+       "-7OW2IgiMk1eot1PaYd7m",
+       "iMzYd8KUFnk6zqr4KecgX",
+       "a2CqrCJSxGfHq6_Y9f_re",
+       "RwvC4Pi18_1phcrJL-9iu",
+       "tuUuLInq0p-nhehe2AqPg",
+       "FspN4yiBF9aEN7_SlXUe1",
+       "j2BL0sf3WjnJZZWa7cCjy",
+       "mfWdkUm1RhjygtMyInXiD",
+       "DZaY060-5D6PbfryOZH9H",
+       "se9w7mT1XJLGlmWUhH4Uv",
+       "XX5rCd_yTHvOfYif4Kpbl",
+       "A1TFKVjGU5RbeTF_zxJlu"
+      ],
+      "queries": [
+       "Mobile App Development: iOS"
+      ]
+     },
+     {
+      "step_number": 5,
+      "global_step_index": 16,
+      "topic_refs": [
+       "tUbMr1pGlw4JwMuW311JJ",
+       "jb89kQxDhZND3vQo0EH7r",
+       "4pmjLa7WvwV7D3RZlM6Hp",
+       "gqd6zjxP_qFj4Ru-6LARo",
+       "2tmR1yE5daz2HB4IV5qwI",
+       "02VAK4GMkN6nDHf1zqwPA",
+       "AxQ5gCjk136kXsbBFTUNp",
+       "GKuxilB0AwjcTgCSk3FeU",
+       "0o3V_zveN1xCIt7rayrCF",
+       "INYUFVZ-_4htveLZ6EvRu"
+      ],
+      "queries": [
+       "Mobile App Development",
+       "Mobile App Development: iOS"
+      ]
+     },
+     {
+      "step_number": 6,
+      "global_step_index": 17,
+      "topic_refs": [
+       "kAIKsDcDzwI1E0wSnC_uo",
+       "QVg4_8EXeQBJbleryy8c1",
+       "mgUCYztUpKINqIZikT4Bh",
+       "RvyOkQelc-GChQGJyEx72",
+       "yR94uHs0SiSScU4gPBzfr",
+       "mUMDZsgzCB6cs_K6pfUY1",
+       "IBr2P7dknWTnZ2a-fFCqN",
+       "my77jLU2qxU7bQ7_Fx2iH",
+       "YvuYJceeNNfLBpq2-3iiL",
+       "SeGfULWFR7ufdv4U9Db3F"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 7,
+      "global_step_index": 18,
+      "topic_refs": [
+       "1I5eFKqFVBxWLAXfpgNXO",
+       "4fPgpGwNXmVoZoruBRb_B",
+       "1DZYPqvgY6GtwMCS7N2y-",
+       "trAMZVA4tDB7b_qAgiWNW",
+       "0nei6iwP4Pgi_j4vVi_Qt",
+       "h34LaYQ3JYN2AZPMDqpmO",
+       "w0i5Dxp40XS2HnF5nXeZI",
+       "KpcmuLWX0xAjz6ty4ebtB",
+       "i-T6GTqS0FZ_Llt5v4SvR",
+       "kRE9xT3mT9Si4NwJr9yGi"
+      ],
+      "queries": [
+       "Mobile App Development",
+       "Mobile App Development fundamentals",
+       "Mobile App Development: iOS"
+      ]
+     },
+     {
+      "step_number": 8,
+      "global_step_index": 19,
+      "topic_refs": [
+       "ajPGMwoaFb1UFWTtpi5kd",
+       "a-QDI7Ei-B5BRHbicFcfG",
+       "lVNrnUK6p4eifKRVSnOje",
+       "taTxZw2c3xS18JOwgkNHM",
+       "iLT2jAkQg-Ex0zSLquNfl",
+       "mTdnDPGYSDupM9VBNdXRg",
+       "NhC0SBZgUFGjMLNICvbTI",
+       "odKZx4SUULF1y4gmiJZdu"
+      ],
+      "queries": [
+       "Mobile App Development fundamentals",
+       "Mobile App Development: iOS"
+      ]
+     },
+     {
+      "step_number": 9,
+      "global_step_index": 20,
+      "topic_refs": [
+       "-aLGB3cDXZHIhVU3t-Ve4",
+       "fbloF-u4XwdHLmBS9flZm",
+       "aALIiAxKz4f7B_EYyhBCi",
+       "aROcI1RucAyu-gHn-tVnj",
+       "mdAV4JlF08q-ZQpb5C3q6",
+       "ysaBCl_TtWqelirptQp7P",
+       "qJEd7KU52xL_GRG3IQqhM",
+       "WhOpzFvv21QQV3aS6XbXr"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 10,
+      "global_step_index": 21,
+      "topic_refs": [
+       "28HMXXBJWd3n-ZPgeQRDa",
+       "UzpdLLPs226N00c6weWRv",
+       "noBaDV_PvCTzqPyw9eO4H",
+       "GAn12SsVR_mPxOaOVckdz",
+       "1xYZdnlI6JSJzNvmz4-0v",
+       "UqA01PT86_w_JzN6KZBku",
+       "k232wKg7XCb_ngjZ5Mwsy",
+       "pY_zaMcFpeFDLgVk2W0Vy",
+       "0xwoWj9jek36p1AwU3WkK",
+       "g_1f5a6tIB5V_36NjgtL5"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 11,
+      "global_step_index": 22,
+      "topic_refs": [
+       "JoNoM-utp8MaL1H0oXDta",
+       "WPJACNeI6jX9GGB1roeTp",
+       "GjY5qCU1rjB0D58qHQtAR",
+       "3Qw-qmy5iAE61mPbIY4Q2",
+       "9o7d3aN0YFfNNUeVoJrhs",
+       "nJeBisdKtN43ntkXnPCVF",
+       "WYV4YG_sLvC4S5ptFFdrF",
+       "UTVh1RHRWb5eA-S7ayLp8",
+       "8rYjSCgRiJMHTNxOU6vgG"
+      ],
+      "queries": [
+       "Mobile App Development: iOS"
+      ]
+     },
+     {
+      "step_number": 12,
+      "global_step_index": 23,
+      "topic_refs": [
+       "6gfqFy3H6SLt06oJ1kt5A",
+       "ImS1FqVicQImMw-y1ze7y",
+       "8v_eP0j85TnB33XyYAzrT",
+       "H4-Dp2WTA6HAZiFRQdLjx",
+       "3qjQbrCUchJn1bJTBWrQF",
+       "_bkRbqVXKNCnRvEFCM6mN"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 13,
+      "global_step_index": 24,
+      "topic_refs": [
+       "Tv8-WUcKiZMLHuunQwise",
+       "KFkX8_Hv9SCFeCtZMZIQM",
+       "epr1sOEZIAOwlgb8bre7r",
+       "tIHjjNTXJWcNgkO6TB9ea",
+       "pZVPsgvCpP3zUgBM4i0CF",
+       "RuXuHQhMt2nywk43LgGeJ",
+       "Lrb4HZYrZU7SJlbedZp7U",
+       "MaHtZSIPxDzrnB33_9OdV",
+       "DVe8S6TjKcQ8LT5G-aMVa",
+       "NnTC3R8goZQTXHmfHKHbM",
+       "TMFvfwG45Z00PzrzZIVhT",
+       "F5796wzm5Ar6sQt-1y8vH"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 14,
+      "global_step_index": 25,
+      "topic_refs": [
+       "OZZ3UnWN2gFflbM_WaJ8H",
+       "WxshXCloVDkVkQV0JvI1w",
+       "X0QavvwPVJU6sulafPVUK",
+       "hUHxlNa6iJJbDGdFNhynB",
+       "VuWUsg05WmOoP_RJ5AXJO",
+       "Y24WWPej0C7-FiBeXpvl3",
+       "xZmBJVq5FHNdm1BDuZbbS",
+       "ZQSUKPbXZl5yKra2ap8JR",
+       "5589B1DKaCd-9l9DfKH3o",
+       "uczkyc30K_qqcarZCGTdF"
+      ],
+      "queries": [
+       "Mobile App Development fundamentals",
+       "Mobile App Development: iOS"
+      ]
+     },
+     {
+      "step_number": 15,
+      "global_step_index": 26,
+      "topic_refs": [
+       "PdzCQXZIivw3zCYPtokJV",
+       "7s9Elv80TbZX_-NZpyutj",
+       "k3uHcF0CsyHr6PK95UwR1",
+       "XOXsjaQ-YyuAMpVCqH8KG",
+       "UKgiSQvR9cryQT50t7riZ",
+       "4bAABCfTvxchS5C5NlAro",
+       "6zE_M0_oVpwW0B9qFSRgP",
+       "Jsu5f6QASpuvpky_W5q-O",
+       "H5F9P5xeQiHhWhS6jEzp5",
+       "5VguZoP4h40rTWkxWxaxU"
+      ],
+      "queries": [
+       "Mobile App Development",
+       "Mobile App Development fundamentals",
+       "Mobile App Development: iOS"
+      ]
+     },
+     {
+      "step_number": 16,
+      "global_step_index": 27,
+      "topic_refs": [
+       "U4xE1enkZxUME0j0gutae",
+       "_W3vb0b14FrWB2fH7DHC7",
+       "LltERZaHsI-R_3O_3twpk",
+       "TrblGyy81Oep2CBxoZkaf",
+       "tWxuFh0xDugdplnHt_G0e",
+       "KCJgCjMJGxIcf13XSEclO",
+       "iZAXQKLe2LaIIifVFtFOL",
+       "jZpH-T2hW-XBdprVqemGi",
+       "sGnDm2xuJxqfU3pwmlY7H",
+       "QifWR7WSJJTcTK2IfczxG",
+       "fOOQurIL1w3PwH5Mep9x1",
+       "SBlLNfyWzzhdFNtNtkLet"
+      ],
+      "queries": [
+       "Mobile App Development",
+       "Mobile App Development fundamentals",
+       "Mobile App Development: iOS"
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 3,
+    "title": "React Native",
+    "queries": [
+     "Mobile App Development",
+     "Mobile App Development fundamentals",
+     "Mobile App Development: React Native"
+    ],
+    "retrieved": [
+     {
+      "source": "react-native/what-is-react-native@cMfsRtvzvDZZJ0TqeUOxm.md",
+      "score": 0.8207074403762817,
+      "queries": [
+       "Mobile App Development",
+       "Mobile App Development fundamentals",
+       "Mobile App Development: React Native"
+      ]
+     },
+     {
+      "source": "react-native/introduction@JfXwzkN29UGz17FYHHE3A.md",
+      "score": 0.7840667963027954,
+      "queries": [
+       "Mobile App Development",
+       "Mobile App Development fundamentals",
+       "Mobile App Development: React Native"
+      ]
+     },
+     {
+      "source": "react-native/why-use-react-native@2rlmLn_yQQV-7DpX1qT98.md",
+      "score": 0.779438316822052,
+      "queries": [
+       "Mobile App Development",
+       "Mobile App Development fundamentals",
+       "Mobile App Development: React Native"
+      ]
+     },
+     {
+      "source": "react-native/using-native-modules@0BMpZDc-1rSvETwX82zON.md",
+      "score": 0.6874968409538269,
+      "queries": [
+       "Mobile App Development",
+       "Mobile App Development fundamentals",
+       "Mobile App Development: React Native"
+      ]
+     },
+     {
+      "source": "react-native/running-on-device@KyKMZ8Aa5XUAIWelGTiSt.md",
+      "score": 0.6868048906326294,
+      "queries": [
+       "Mobile App Development",
+       "Mobile App Development fundamentals",
+       "Mobile App Development: React Native"
+      ]
+     },
+     {
+      "source": "react-native/react-native-web@UQpyXrC2cs_jDXxVTlQOu.md",
+      "score": 0.6791549921035767,
+      "queries": [
+       "Mobile App Development: React Native"
+      ]
+     },
+     {
+      "source": "so_survey_2025_india/Mobile_App_Development",
+      "score": 0.5180487632751465,
+      "queries": [
+       "Mobile App Development",
+       "Mobile App Development fundamentals"
+      ]
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 28,
+      "topic_refs": [
+       "JfXwzkN29UGz17FYHHE3A",
+       "cMfsRtvzvDZZJ0TqeUOxm",
+       "2rlmLn_yQQV-7DpX1qT98",
+       "ODQ8zrHc2rsc8PN-APKvz",
+       "cSXsu17F1Oy34Wp6J-N3C",
+       "1oUJXtHGQ29ZZU9sxwGo2",
+       "SnF3xtzBh-x4Z_qUQUg7H",
+       "s5YKenJY2Xv_PZBSxegEm",
+       "lNmddXrT8IHVtWobh3-oq",
+       "bxWLf0RDAl9Zaczkon9Rl",
+       "KyKMZ8Aa5XUAIWelGTiSt",
+       "wMxTB8WgU6e-oYMtQFCDY"
+      ],
+      "queries": [
+       "Mobile App Development",
+       "Mobile App Development fundamentals",
+       "Mobile App Development: React Native"
+      ]
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 29,
+      "topic_refs": [
+       "yW7nDDJbjmm8XKJI0hq3Q",
+       "uLH9eo2G09wGO80XtFI5x",
+       "9eOwhh2k59nvH-ztuDNjg",
+       "zzOyoDcAQYkNNv07TIKeZ",
+       "T4AhL9Zls2iNZMituGdtl",
+       "VhSEH_RoWFt1z2lial7xZ",
+       "wWwaEdnvBsvj6jD9LJ4Jj",
+       "tOt_vvmnBtOUbgokmVa5P",
+       "HHx3VSfV7xf6RqACrxjBf",
+       "Tz-bRjQVkZedphelhAlWM",
+       "Dq490IqEJXoFZRnBFJI8N",
+       "b-1-JcwLSGMyH3gXS59lY"
+      ],
+      "queries": [
+       "Mobile App Development",
+       "Mobile App Development fundamentals",
+       "Mobile App Development: React Native"
+      ]
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 30,
+      "topic_refs": [
+       "k9_hVOBd9ZmC4HLuAf46v",
+       "fnujIq6QAFB6bmTisuZ3T",
+       "0gH7vI_Hy7s9hO2TF6hR3",
+       "V7r1Hqk9IXTfjkjAg7-BT",
+       "GrFL32pZ_eOmdJRzSlH8b",
+       "OFhyYyxtrCBy_UUb5YBv5",
+       "E7N8tSg2amZW-vc-X46JU",
+       "GFGhnx5xUer2DdRI-SO4D",
+       "kkH9H9Qh1FD7sLItoWw69",
+       "ouNTekf4VpZv-Vja8_bfM",
+       "Frz1RYp3y9OwRb-3t2e85",
+       "hHFR59RrdMIWxcQe72qCs"
+      ],
+      "queries": [
+       "Mobile App Development: React Native"
+      ]
+     },
+     {
+      "step_number": 4,
+      "global_step_index": 31,
+      "topic_refs": [
+       "ervpuL89myBW3oR9r-4lH",
+       "wB0D9koC6jpt1rzX8F07F",
+       "e-r3tuRZ3PzhFegES0oOm",
+       "UqCpoPzYio3ng3RFlbvZ7",
+       "QOOZs9qtz49agfZwi6k1B",
+       "8bn1PFd9h0ek6_T-cl1cS",
+       "KZIrRSYq_I-YzpFaYLuWi",
+       "HiUbRfOv8OttFd85pDUHN",
+       "LLANnVosxOUCPTtuBfNgu",
+       "UQpyXrC2cs_jDXxVTlQOu",
+       "KoXTwQUqPt_ZhOFuaelny"
+      ],
+      "queries": [
+       "Mobile App Development",
+       "Mobile App Development fundamentals",
+       "Mobile App Development: React Native"
+      ]
+     },
+     {
+      "step_number": 5,
+      "global_step_index": 32,
+      "topic_refs": [
+       "x-OZCZcX6uhN3Yr5BAATn",
+       "h3ypxGxeHDCTxURHg6D2d",
+       "CYqLNGyOe9f9hVhbyUnTX",
+       "gLJMD9X7chy8OxdALht8g",
+       "yN283SRWoALOEZh9iTn-L",
+       "m8Nu71Y61Ha_fLxdtWTkn",
+       "GYdz9a1yLiewAeMRSyfLr",
+       "A7ZIe8nlQnHU5g3LM3Eif",
+       "4BgVq-cZYEXgqktvlNnet",
+       "xf7L5J42yQq3LE7lG2plp",
+       "nk6zdVNRz_xE71mVUOFsi",
+       "Jr2iuQqyCbx6CyTJj4Qz2"
+      ],
+      "queries": [
+       "Mobile App Development: React Native"
+      ]
+     },
+     {
+      "step_number": 6,
+      "global_step_index": 33,
+      "topic_refs": [
+       "7GBV5sfOaGxHwpkNUvFWE",
+       "f7KFPFS2-EA90pumYHM9T",
+       "aSCgax1M4wlmzkJSZV_fv",
+       "k7uVPyhbPgvO6HxAfxxYZ",
+       "NdjmP1bZNYriV08vb-iRw",
+       "w0WW1kg_0BEMeLa1l2gb5",
+       "WsJGiMjHSQ6MpPd5wuP9h",
+       "oK8z23a_CjcDjBJ843_Jn",
+       "9pvrXH5Drdsa1cr93UBdc",
+       "vZMsm-MtsqmQMD-MG6zJY",
+       "CAQJaGs24wx1SqKOU44aB",
+       "sPITeu8bS7n04NdEiBibY"
+      ],
+      "queries": [
+       "Mobile App Development: React Native"
+      ]
+     },
+     {
+      "step_number": 7,
+      "global_step_index": 34,
+      "topic_refs": [
+       "CGtVwhVGc8Vea5RfzJvQG",
+       "ee4QqFTosXNcTgoQIok8i",
+       "LRBHwYiT0Yyi18PwR49rc",
+       "JgBfwmOgcVi_a96L5NGwr",
+       "dckRzKDKj-mLB3-OxwjPh",
+       "0BMpZDc-1rSvETwX82zON",
+       "V34mZCkpoT49o-74XoATS",
+       "3NLcPO-hqQV1EacoPLVrv"
+      ],
+      "queries": [
+       "Mobile App Development",
+       "Mobile App Development fundamentals",
+       "Mobile App Development: React Native"
+      ]
+     },
+     {
+      "step_number": 8,
+      "global_step_index": 35,
+      "topic_refs": [
+       "G15Aey-Spax_iUHpm1v38",
+       "06gsRokwjxVa2xyLY4qAb",
+       "-b4LfjCjkSZ6ZsSv3eFm6",
+       "81tmis0km2h1zsjS2HsP5",
+       "3m7ANLJvtx3zie4y86MNU",
+       "spTzJMS7cE0cNa7tVQhVQ"
+      ],
+      "queries": [
+       "Mobile App Development"
+      ]
+     },
+     {
+      "step_number": 9,
+      "global_step_index": 36,
+      "topic_refs": [
+       "NIJzKzWlsciAjxUpm4K2v",
+       "1U3AiCDWEVEKsofWtqavi",
+       "afwB90L-q2hIwrA0LtWbG",
+       "PyPjHnKIWpnFHal8RuSmX",
+       "u5I-EOnA_yt6AQsRX-qr0",
+       "apXv-E6LvOuOMj3EpzwuA",
+       "LL2ZkB7BuELyY2mPQhkAj",
+       "4U-HZQGH7kaWCB94Xy8Mh",
+       "1s9Y1dUtjpW9pu74ipX99",
+       "D8T9cZ5zKi_KZDr9tDpCf"
+      ],
+      "queries": [
+       "Mobile App Development",
+       "Mobile App Development fundamentals",
+       "Mobile App Development: React Native"
+      ]
+     }
+    ]
+   }
+  ]
+ }
+}
