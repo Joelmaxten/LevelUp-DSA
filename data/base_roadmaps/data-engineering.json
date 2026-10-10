@@ -1,0 +1,3241 @@
+{
+ "metadata": {
+  "schema_version": 1,
+  "career_path": "Data Engineering",
+  "model_id": "claude-opus-5-5",
+  "built_at": "2026-10-10T18:17:21Z",
+  "generator": {
+   "profile": "neutral",
+   "provider": "claude_authored",
+   "llm_host": null,
+   "authoring": "Every model reply in this run was written by Claude (claude-opus-5-5) in a Claude Code cloud session, answering the generator's own prompts; retrieval, topic-ref validation, duplicate check, more_topics, resources and audit are the unmodified pipeline.",
+   "phase_concurrency": 1,
+   "duplicate_similarity_threshold": 0.8,
+   "reasoning_effort": "",
+   "resources": "kb_only"
+  },
+  "inventory_fingerprint": "668283fd8ab624aa5189358f9db43c920b1543470958fb06bff20ec4813808cb"
+ },
+ "roadmap": {
+  "phases": [
+   {
+    "phase_number": 1,
+    "title": "Python",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "Python Fundamentals",
+      "description": "Python is the main language for writing pipelines, Airflow DAGs and Spark jobs, so data engineers need fluent core syntax. Practise variables, control flow, functions, built-in collections, strings and exceptions until small scripts come easily.",
+      "topic_refs": [
+       "6xRncUs3_vxVbDur567QA",
+       "dEFLBGpiH6nbSMeR7ecaT",
+       "so95CO6Qw3I0S98ISENS-",
+       "NP1kjSk0ujU0Gx-ajNHlR",
+       "Dvy7BnNzK55qbh_SgOk8m",
+       "-DJgS6l2qngfwurExlmmT",
+       "UT_SR7G-LYtzqooWrEtF1",
+       "bc9CL_HMT-R6nXO1eR-gP",
+       "i7xIGiXU-k5UIKHIhQPjE",
+       "soZFqivM3YBuljeX6PoaX",
+       "Sg5w8zO2Ji-uDJKEoWey9",
+       "fNTb9y3zs1HPYclAmu_Wv"
+      ],
+      "projects": [
+       {
+        "title": "CSV to JSON converter",
+        "description": "Convert a CSV of orders into cleaned JSON records with type conversion and error handling.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Log line parser",
+        "description": "Parse web server log lines into fields and count requests per hour.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Basic Syntax",
+       "Variables",
+       "Operators",
+       "Conditionals",
+       "Loops"
+      ],
+      "more_topics": [
+       {
+        "node_id": "GISOFMKvnBys0O0IMpz2J",
+        "title": "Python"
+       },
+       {
+        "node_id": "o1wi39VnjnFfWIC8XcuAK",
+        "title": "Typing"
+       },
+       {
+        "node_id": "0-ShORjGnQlAdcwjtxdEB",
+        "title": "Python Frameworks"
+       },
+       {
+        "node_id": "1q9HWgu9jDTK757hTNOmE",
+        "title": "pyright"
+       },
+       {
+        "node_id": "0F0ppU_ClIUKZ23Q6BVZp",
+        "title": "Code Formatting"
+       },
+       {
+        "node_id": "HKsGyRzntjh1UbRZSWh_4",
+        "title": "Flask"
+       },
+       {
+        "node_id": "N5VaKMbgQ0V_BC5tadV65",
+        "title": "pyenv"
+       },
+       {
+        "node_id": "aVclygxoA9ePU5IxaORSH",
+        "title": "Doctest"
+       },
+       {
+        "node_id": "jPFOiwbqfaGshaGDBWb5x",
+        "title": "Tox"
+       },
+       {
+        "node_id": "tsh_vbhzKz1-H9Vh69tsK",
+        "title": "yapf"
+       },
+       {
+        "node_id": "DS6nuAUhUYcqiJDmQisKM",
+        "title": "black"
+       },
+       {
+        "node_id": "3RNy7Sp28d-NMx0Yh4bdx",
+        "title": "Variable Scope"
+       },
+       {
+        "node_id": "WQOYjuwKIWB2meea4JnsV",
+        "title": "Testing"
+       },
+       {
+        "node_id": "7zcpXN3krnS3tMRWVNIVe",
+        "title": "Plotly Dash"
+       },
+       {
+        "node_id": "__ndo1gcuUUtzmBnMIAbR",
+        "title": "Docstrings and Comments"
+       },
+       {
+        "node_id": "tbR_h9NpZ5tBTYuCfwkcY",
+        "title": "@ (Matrix Multiplication Operator)"
+       },
+       {
+        "node_id": "1PXApuUpPmJjgi12cmWo4",
+        "title": "Static Typing"
+       },
+       {
+        "node_id": "zey2C6BdzsHJAlb_K3qrP",
+        "title": "Tornado"
+       },
+       {
+        "node_id": "vvTmjcWCVclOPY4f_5uB0",
+        "title": "Sorting Algorithms"
+       },
+       {
+        "node_id": "7t6mJBsaFMWPi7o9fbhhq",
+        "title": "Regular Expressions"
+       },
+       {
+        "node_id": "OPD4WdMO7q4gRZMcRCQh1",
+        "title": "Arrays and Linked lists"
+       }
+      ],
+      "global_step_index": 1,
+      "resource": {
+       "title": "Python for Beginners - Learn Python in 1 Hour",
+       "url": "https://youtube.com/watch?v=kqtD5dpn9C8"
+      },
+      "videos": [
+       {
+        "title": "Python for Beginners - Learn Python in 1 Hour",
+        "url": "https://youtube.com/watch?v=kqtD5dpn9C8",
+        "video_id": "kqtD5dpn9C8",
+        "source": "roadmap.sh",
+        "topic": "Basic Syntax"
+       },
+       {
+        "title": "Python Tutorial for Beginners | Operators in Python",
+        "url": "https://youtube.com/watch?v=v5MR5JnKcZI",
+        "video_id": "v5MR5JnKcZI",
+        "source": "roadmap.sh",
+        "topic": "Operators"
+       },
+       {
+        "title": "Control Flow in Python - If Elif Else Statements",
+        "url": "https://youtube.com/watch?v=Zp5MuPOtsSY",
+        "video_id": "Zp5MuPOtsSY",
+        "source": "roadmap.sh",
+        "topic": "Conditionals"
+       },
+       {
+        "title": "Learn Python for loops in 5 minutes!",
+        "url": "https://youtube.com/watch?v=KWgYha0clzw",
+        "video_id": "KWgYha0clzw",
+        "source": "roadmap.sh",
+        "topic": "Loops"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Built-in Functions in Python",
+        "url": "https://docs.python.org/3/library/functions.html",
+        "topic": "Functions"
+       },
+       {
+        "type": "official",
+        "title": "Python Official Documentation on Listsc",
+        "url": "https://docs.python.org/3/tutorial/introduction.html#lists",
+        "topic": "Lists in Python"
+       },
+       {
+        "type": "official",
+        "title": "Dictionaries in Python",
+        "url": "https://docs.python.org/3/tutorial/datastructures.html#dictionaries",
+        "topic": "Dictionaries"
+       },
+       {
+        "type": "official",
+        "title": "Tuples Documentation",
+        "url": "https://docs.python.org/3/tutorial/datastructures.html#tuples-and-sequences",
+        "topic": "Tuples"
+       }
+      ]
+     },
+     {
+      "step_number": 2,
+      "title": "Idiomatic Python: Classes, Modules and Iteration",
+      "description": "Pipeline code streams records, wraps connections in context managers and reuses transformation functions across jobs. Learn object-oriented Python, modules, comprehensions, generators, decorators and file handling.",
+      "topic_refs": [
+       "AqwzR8dZKLQIoj_6KKZ3t",
+       "P_Di-XPSDITmU3xKQew8G",
+       "S0FLE70szSVUPI0CDEQK7",
+       "zAS4YiEJ6VPsyABrkIG8i",
+       "274uk28wzxn6EKWQzLpHs",
+       "l7k0qTYe42wYBTlT2-1cy",
+       "4gtmtYWYRWqwLdZRL0XMg",
+       "jnLIVRrWxcX3yq3Op91Vr",
+       "aB1LSQjDEQb_BxueOcnxU",
+       "pIluLJkySqn_gI_GykV6G",
+       "KAXF2kUAOvtBZhY8G9rkI",
+       "Nf3kRDSl_vas6QPXG7eVa"
+      ],
+      "projects": [
+       {
+        "title": "Streaming file processor",
+        "description": "Process a multi-gigabyte file line by line with generators while keeping memory flat.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Reusable transform module",
+        "description": "Package cleaning functions in a module with a logging decorator and use them in two scripts.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Classes",
+       "OOP",
+       "Inheritance",
+       "Methods and Dunder Methods",
+       "Modules"
+      ],
+      "more_topics": [
+       {
+        "node_id": "08XifLQ20c4FKI_4AWNBQ",
+        "title": "Builtin Modules"
+       },
+       {
+        "node_id": "_94NrQ3quc4t_PPOsFSN0",
+        "title": "Common Packages and Modules"
+       },
+       {
+        "node_id": "DHtskqATeAVKgaazdhXKD",
+        "title": "Pyramid"
+       },
+       {
+        "node_id": "4GU5HNi3W8yFkImVY9ZpW",
+        "title": "Paradigms"
+       },
+       {
+        "node_id": "XeQSmvAsGSTi8dd7QVHxn",
+        "title": "FastAPI"
+       },
+       {
+        "node_id": "bqnwMKY4R0rirup3q_hb_",
+        "title": "Glob Module in Python"
+       },
+       {
+        "node_id": "aWHgAk959DPUZL46CeRiI",
+        "title": "Lambdas"
+       },
+       {
+        "node_id": "9mFR_ueXbIB2IrkqU2s85",
+        "title": "pyrefly"
+       },
+       {
+        "node_id": "InUJIGmTnf0X4cSoLuCEQ",
+        "title": "gevent"
+       },
+       {
+        "node_id": "IBVAvFtN4mnIPbIuyUvEb",
+        "title": "AIOHTTP"
+       },
+       {
+        "node_id": "x1V8GjdjANTnhP6YXMbgC",
+        "title": "Django"
+       },
+       {
+        "node_id": "3dC2o3WXdx4plFhDP2Vqk",
+        "title": "Encapsulation"
+       },
+       {
+        "node_id": "DG4fi1e5ec2BVckPLsTJS",
+        "title": "HashMaps"
+       },
+       {
+        "node_id": "0NlRczh6ZEaFLlT6LORWz",
+        "title": "Heaps, Stacks, and Queues"
+       },
+       {
+        "node_id": "VJSIbYJcy2MC6MOFBrqXi",
+        "title": "Data Structures and Algorithms"
+       },
+       {
+        "node_id": "maYNuTKYyZndxk1z29-UY",
+        "title": "sphinx"
+       },
+       {
+        "node_id": "kLBgy_nxxjE8SxdVi04bq",
+        "title": "Recursion"
+       },
+       {
+        "node_id": "R9DQNc0AyAQ2HLpP4HOk6",
+        "title": "Typecasting"
+       },
+       {
+        "node_id": "uXd2B01GVBEQNXQE8RATT",
+        "title": "Poetry"
+       },
+       {
+        "node_id": "uJIqgsqUbE62Tyo3K75Qx",
+        "title": "Binary Search Trees"
+       }
+      ],
+      "global_step_index": 2,
+      "resource": {
+       "title": "Python OOP Tutorial",
+       "url": "https://youtube.com/watch?v=ZDa-Z5JzLYM"
+      },
+      "videos": [
+       {
+        "title": "Python OOP Tutorial",
+        "url": "https://youtube.com/watch?v=ZDa-Z5JzLYM",
+        "video_id": "ZDa-Z5JzLYM",
+        "source": "roadmap.sh",
+        "topic": "Classes"
+       },
+       {
+        "title": "OOP in Python One Shot",
+        "url": "https://youtube.com/watch?v=Ej_02ICOIgs",
+        "video_id": "Ej_02ICOIgs",
+        "source": "roadmap.sh",
+        "topic": "OOP"
+       },
+       {
+        "title": "Decorators in Python",
+        "url": "https://youtube.com/watch?v=FXUUSfJO_J4",
+        "video_id": "FXUUSfJO_J4",
+        "source": "roadmap.sh",
+        "topic": "Decorators"
+       },
+       {
+        "title": "Python File Handling for Beginners",
+        "url": "https://youtube.com/watch?v=BRrem1k3904",
+        "video_id": "BRrem1k3904",
+        "source": "roadmap.sh",
+        "topic": "File Handling in Python"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Classes in Python",
+        "url": "https://docs.python.org/3/tutorial/classes.html",
+        "topic": "Classes"
+       },
+       {
+        "type": "official",
+        "title": "Python Official Documentation on Inheritance",
+        "url": "https://docs.python.org/3/tutorial/classes.html#inheritance",
+        "topic": "Inheritance"
+       },
+       {
+        "type": "official",
+        "title": "Python Modules",
+        "url": "https://docs.python.org/3/tutorial/modules.html",
+        "topic": "Modules"
+       },
+       {
+        "type": "official",
+        "title": "Python List Comprehensions",
+        "url": "https://docs.python.org/3/tutorial/datastructures.html#list-comprehensions",
+        "topic": "List Comprehensions"
+       }
+      ]
+     },
+     {
+      "step_number": 3,
+      "title": "Python Tooling, Testing and Concurrency for Pipelines",
+      "description": "Pipelines must be reproducible, tested and fast enough for their schedule. Set up environments and packaging, add type hints and pytest, and use multiprocessing where the GIL limits threads.",
+      "topic_refs": [
+       "qeCMw-sJ2FR4UxvU9DDzv",
+       "iVhQnp6hpgVZDNJ0XoVra",
+       "_IXXTSwQOgYzYIUuKVWNE",
+       "uh67D1u-Iv5cZamRgFEJg",
+       "GHKAY9gOykEbxkEeR30wL",
+       "syV0DT_3ITgIFDbwPts8i",
+       "gIcJ3bUVQXqO1Wx4gUKd5",
+       "3FDwJpesfelEyJrNWtm0V",
+       "6cB0pvUO1-gvCtgqozP-Q",
+       "bS7WeVKm2kEElu3sBKcIC",
+       "HSY5OUc_M5S6OcFXPRtkx",
+       "UIx0XYaOgXXlYbbQtjiPq"
+      ],
+      "projects": [
+       {
+        "title": "Tested transformation package",
+        "description": "An installable package of pipeline transforms with type hints and pytest tests.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Parallel file loader",
+        "description": "Load many files concurrently with a process pool and compare with threads.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Package Managers",
+       "Pip",
+       "virtualenv",
+       "Conda",
+       "pyproject.toml"
+      ],
+      "more_topics": [
+       {
+        "node_id": "u4nRzWQ4zhDFMOrZ2I_uJ",
+        "title": "Concurrency"
+       },
+       {
+        "node_id": "IWq-tfkz-pSC1ztZl60vM",
+        "title": "pipenv"
+       },
+       {
+        "node_id": "9RGpqsj9jHz0_-r7EvRcw",
+        "title": "Sanic"
+       },
+       {
+        "node_id": "W3VALz5evFo1qqkQbMN1R",
+        "title": "Pydantic"
+       },
+       {
+        "node_id": "b4he_RO17C3ScNeUd6v2b",
+        "title": "PyUnit / Unittest"
+       },
+       {
+        "node_id": "p3Frfs6oxpuciUzeCEsvb",
+        "title": "uv"
+       },
+       {
+        "node_id": "xDgXISgVUMRHh9hu4h6Hl",
+        "title": "PDM"
+       },
+       {
+        "node_id": "1dfOTOGsOk5XE3bnZs8Ht",
+        "title": "PyPI"
+       },
+       {
+        "node_id": "Mow7RvropbC4ZGDpcGZmw",
+        "title": "Asynchrony"
+       }
+      ],
+      "global_step_index": 3,
+      "resource": {
+       "title": "Pytest Tutorial – How to Test Python Code",
+       "url": "https://youtube.com/watch?v=cHYq1MRoyI0"
+      },
+      "videos": [
+       {
+        "title": "Pytest Tutorial – How to Test Python Code",
+        "url": "https://youtube.com/watch?v=cHYq1MRoyI0",
+        "video_id": "cHYq1MRoyI0",
+        "source": "roadmap.sh",
+        "topic": "pytest"
+       },
+       {
+        "title": "Sanic Python Framework Tutorial (Tech With Tim)",
+        "url": "https://youtube.com/watch?v=w4UQkgxKuaI",
+        "video_id": "w4UQkgxKuaI",
+        "source": "roadmap.sh",
+        "topic": "Sanic"
+       },
+       {
+        "title": "Pydantic Tutorial – Complete Python Data Validation (ArjanCodes)",
+        "url": "https://youtube.com/watch?v=XIdQ6gO3Anc",
+        "video_id": "XIdQ6gO3Anc",
+        "source": "roadmap.sh",
+        "topic": "Pydantic"
+       },
+       {
+        "title": "Getting Started with Pip and PyPI in Python",
+        "url": "https://youtube.com/watch?v=bPSfNKvhooA",
+        "video_id": "bPSfNKvhooA",
+        "source": "roadmap.sh",
+        "topic": "PyPI"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "pip Documentation",
+        "url": "https://pip.pypa.io/en/stable/installation/",
+        "topic": "Pip"
+       },
+       {
+        "type": "official",
+        "title": "Virtual Environments",
+        "url": "https://virtualenv.pypa.io/en/latest/",
+        "topic": "virtualenv"
+       },
+       {
+        "type": "official",
+        "title": "Conda Documentation",
+        "url": "https://docs.conda.io/en/latest/",
+        "topic": "Conda"
+       },
+       {
+        "type": "official",
+        "title": "Writing pyproject.toml files",
+        "url": "https://packaging.python.org/en/latest/guides/writing-pyproject-toml/",
+        "topic": "pyproject.toml"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 2,
+    "title": "SQL",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "SQL Querying: Selecting, Joining and Aggregating",
+      "description": "SQL is the main language of data engineering interviews and of most transformation work in warehouses. Practise SELECT with filtering and sorting, joins across tables, and grouped aggregates.",
+      "topic_refs": [
+       "nhUKKWyBH80nyKfGT8ErC",
+       "JDDG4KfhtIlw1rkNCzUli",
+       "tBzMDfCMh6MIagNaxCzin",
+       "i8u8E_sne6XiKJo2FXDog",
+       "WhYAy6f7Euk3E49-ot644",
+       "NfCiSPrL4upMssukcw3Kh",
+       "4UQQYbjzwVxZOAxBuXKQS",
+       "aaua13CkTxLOYXr8cAgPm",
+       "X9cJJ8zLZCF2cOoqxwFfY",
+       "6qG0AVYd6Y1B8LOSDoMX9",
+       "14TKE6KhrH1yFtHcSZSXq",
+       "LX9nzJ4uqznHN4SksoDvr"
+      ],
+      "projects": [
+       {
+        "title": "Daily sales rollup",
+        "description": "Join orders, customers and products and aggregate revenue per day and city.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Join correctness check",
+        "description": "Show how a wrong join duplicates rows in a revenue total and fix it.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Learn the Basics",
+       "Basic SQL Syntax",
+       "Data Types",
+       "Select Statement",
+       "WHERE Clause in SELECT Statements"
+      ],
+      "more_topics": [
+       {
+        "node_id": "rmqXH29n1oXtZ8tvmcRFn",
+        "title": "SELECT statement"
+       },
+       {
+        "node_id": "8V6yw7kLaow-VVcv_K_pL",
+        "title": "JOIN Queries"
+       },
+       {
+        "node_id": "UDqbT1y-YzBrljfKSz_RG",
+        "title": "Advanced SQL Concepts"
+       },
+       {
+        "node_id": "N1Racr3ZpU320gS545We8",
+        "title": "FROM Clause in SELECT Statements"
+       },
+       {
+        "node_id": "6yoo7qC6X2jYDIjd3HIm7",
+        "title": "SQL keywords"
+       },
+       {
+        "node_id": "TjgwabhEtaSoYMLNr6q9l",
+        "title": "Recursive Queries"
+       },
+       {
+        "node_id": "ffwniprGJHZzJ7t3lQcXz",
+        "title": "Operators"
+       },
+       {
+        "node_id": "Zw8IHfCCMSxmVjx5Ho5ff",
+        "title": "GROUP BY"
+       },
+       {
+        "node_id": "PcsGK4VBh0zNQIPZvNES4",
+        "title": "Creating Views"
+       },
+       {
+        "node_id": "mPj6BiK5FKKkIQ9WsWEo6",
+        "title": "INSERT Statement"
+       },
+       {
+        "node_id": "xkPJ2MYiXmzC4yqQWyB_7",
+        "title": "Nested Subqueries"
+       },
+       {
+        "node_id": "w53CSY53nAAN0ux-XeJ4c",
+        "title": "Selective Projection"
+       },
+       {
+        "node_id": "WMSXi-eez_hHGDM8kUdWz",
+        "title": "Data Manipulation Language (DML)"
+       },
+       {
+        "node_id": "HhICJpCK5__b-itUoEBES",
+        "title": "HAVING"
+       },
+       {
+        "node_id": "eXQ-TrTlqL5p2AdGnozkL",
+        "title": "Scalar"
+       },
+       {
+        "node_id": "aLDl75i8gtLRA2Ud-fMmQ",
+        "title": "Row"
+       },
+       {
+        "node_id": "W2ePJHdfEiEJ3ZKoRQKt_",
+        "title": "CASE"
+       },
+       {
+        "node_id": "gx4KaFqKgJX9n9_ZGMqlZ",
+        "title": "SQL vs NoSQL"
+       },
+       {
+        "node_id": "88KlrMqSza9_YaD7Dv61p",
+        "title": "TIME"
+       },
+       {
+        "node_id": "wmtt-3auWLdQWuVdwZLPd",
+        "title": "Column"
+       },
+       {
+        "node_id": "zWnvuHJLHr03PWkrW1wZZ",
+        "title": "DELETE Statement in SQL"
+       },
+       {
+        "node_id": "aJJjaGunRrwyh9MjQfJt-",
+        "title": "lead"
+       },
+       {
+        "node_id": "5inpEqafeVCfqsURHzQQg",
+        "title": "CONCAT"
+       },
+       {
+        "node_id": "ytwCkSMTiTuemE0KVfAfy",
+        "title": "HAVING"
+       }
+      ],
+      "global_step_index": 4,
+      "resource": {
+       "title": "MySQL 101 - Data Types",
+       "url": "https://youtube.com/watch?v=vAiBa69YCnk"
+      },
+      "videos": [
+       {
+        "title": "MySQL 101 - Data Types",
+        "url": "https://youtube.com/watch?v=vAiBa69YCnk",
+        "video_id": "vAiBa69YCnk",
+        "source": "roadmap.sh",
+        "topic": "Data Types"
+       },
+       {
+        "title": "How to filter with the WHERE clause in SQL",
+        "url": "https://youtube.com/watch?v=4Uv0o8IBqw0",
+        "video_id": "4Uv0o8IBqw0",
+        "source": "roadmap.sh",
+        "topic": "WHERE Clause in SELECT Statements"
+       },
+       {
+        "title": "SQL ORDER BY Sorting Clause",
+        "url": "https://youtube.com/watch?v=h_HHTNjAgS8",
+        "video_id": "h_HHTNjAgS8",
+        "source": "roadmap.sh",
+        "topic": "ORDER BY"
+       },
+       {
+        "title": "SQL JOINs Tutorial for beginners",
+        "url": "https://youtube.com/watch?v=0OQJDd3QqQM",
+        "video_id": "0OQJDd3QqQM",
+        "source": "roadmap.sh",
+        "topic": "JOINs"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 2,
+      "title": "Table Design, Loading and Constraints",
+      "description": "Data engineers create the tables that pipelines load into, and constraints stop bad records at the door. Create and alter tables, insert, update and delete in bulk, and enforce keys, uniqueness, NOT NULL and CHECK rules.",
+      "topic_refs": [
+       "epEpBxRosLhuAuKwp823r",
+       "WjXlO42WL9saDS7RIGapt",
+       "K5vhqTJrdPK08Txv8zaEj",
+       "-Hew0y53ziZK3epQnGA0O",
+       "eu9dJFi6gBPMBdy08Y5Bb",
+       "ddtVaA4Ls6qRj-7OtTSIH",
+       "Jlwmyq6CUQeDAlL4dazOP",
+       "DHz6sRLYhFeCbAcNJS8hm",
+       "5yGo8i7eplxtXOD_qfzOs",
+       "M4M_-vjM9GNy0NmXZneDA",
+       "Q0h9Wfnl_W9ThOkv7Q17A",
+       "mBQ3Z8GlFcpIena3IB7D_"
+      ],
+      "projects": [
+       {
+        "title": "Staging and final tables",
+        "description": "Load raw rows into a staging table, then insert validated rows into a constrained final table.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Upsert pattern",
+        "description": "Load a daily file that updates existing customers and inserts new ones.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Create Table",
+       "Alter Table",
+       "Truncate Table",
+       "INSERT",
+       "UPDATE Statement"
+      ],
+      "more_topics": [
+       {
+        "node_id": "qBios3sZVhcJMpXmj9f7B",
+        "title": "Data Constraints"
+       },
+       {
+        "node_id": "R9WDMRd-3wxsKH97-sT3n",
+        "title": "Table"
+       },
+       {
+        "node_id": "xPOeXK1EPBNG56vgfG-VV",
+        "title": "Data Definition Language (DDL)"
+       },
+       {
+        "node_id": "YzJ6QmY2arMfRzMAPaI0T",
+        "title": "Drop Table"
+       },
+       {
+        "node_id": "KJJ6PYjTnr_3yU2mNPL9v",
+        "title": "UPDATE Statement"
+       },
+       {
+        "node_id": "nwFaz9i-1s0WVrVaFsoqb",
+        "title": "Pivot / Unpivot Operations"
+       },
+       {
+        "node_id": "igg34gLPl3HYVAmRNFGcV",
+        "title": "ACID"
+       },
+       {
+        "node_id": "3eE-l-P93nOXoWfLr8PSW",
+        "title": "Modifying Views"
+       },
+       {
+        "node_id": "Ivqo2wa-_NhGU3vGd0pUI",
+        "title": "DATE"
+       },
+       {
+        "node_id": "MIOuWWcCjLAmgzog2DBC3",
+        "title": "Dropping Views"
+       },
+       {
+        "node_id": "OUw--8zEq6lk5-6oySVHe",
+        "title": "MOD"
+       },
+       {
+        "node_id": "6vYFb_D1N_-tLWZftL-Az",
+        "title": "ABS"
+       },
+       {
+        "node_id": "7hEqkoxkdAWmakGZsMJx-",
+        "title": "TIMESTAMP"
+       },
+       {
+        "node_id": "o2SH4iQn1Ap2yDZ7cVYLO",
+        "title": "FLOOR"
+       },
+       {
+        "node_id": "Othfo7NvTVzfyL906PLM1",
+        "title": "UPPER"
+       }
+      ],
+      "global_step_index": 5,
+      "resource": {
+       "title": "SQL Tutorial - TRUNCATE TABLE",
+       "url": "https://youtube.com/watch?v=zJidbjOQlJM"
+      },
+      "videos": [
+       {
+        "title": "SQL Tutorial - TRUNCATE TABLE",
+        "url": "https://youtube.com/watch?v=zJidbjOQlJM",
+        "video_id": "zJidbjOQlJM",
+        "source": "roadmap.sh",
+        "topic": "Truncate Table"
+       },
+       {
+        "title": "SQL INSERT Statement",
+        "url": "https://youtube.com/watch?v=Yp1MKeIG-M4",
+        "video_id": "Yp1MKeIG-M4",
+        "source": "roadmap.sh",
+        "topic": "INSERT"
+       },
+       {
+        "title": "Foreign Keys are easy (kind of)",
+        "url": "https://youtube.com/watch?v=rFssfx37UJw",
+        "video_id": "rFssfx37UJw",
+        "source": "roadmap.sh",
+        "topic": "Foreign Key"
+       },
+       {
+        "title": "NOT NULL Constraint",
+        "url": "https://youtube.com/watch?v=unzHhq82mKU",
+        "video_id": "unzHhq82mKU",
+        "source": "roadmap.sh",
+        "topic": "NOT NULL Constraint"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 3,
+      "title": "Transactions, Procedures and Database Permissions",
+      "description": "Loads must either fully succeed or leave the target untouched, and pipeline accounts should have only the access they need. Control transactions and isolation levels, use stored procedures and dynamic SQL, and manage database permissions.",
+      "topic_refs": [
+       "OdaBXz2XBAVLsQ-m7xtAM",
+       "7sTW1vwUhCFOMXYjScVEt",
+       "3cMECz5QPVDOFrk5duObs",
+       "xbD67KVlt3UhHpKh8HLx8",
+       "pJtYvXUo81aZfPuRjIbMq",
+       "ujeq8EIFcrqkBjoFizsJM",
+       "w7FNjdwqjY7X69aJqqBy4",
+       "z5Sf0VU14ZCQ80kL1qOqc",
+       "03qMopxzjx_-dZbYw9b7J",
+       "vhBZqqmUcEon6-Vwvla4q",
+       "R1ktDJpXOz0PTllAcBrdu"
+      ],
+      "projects": [
+       {
+        "title": "All-or-nothing load",
+        "description": "Wrap a multi-table load in one transaction and show a failure leaves no partial data.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Pipeline service account",
+        "description": "Create a database role that can load staging tables but not drop anything.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Transactions",
+       "BEGIN",
+       "COMMIT",
+       "ROLLBACK",
+       "SAVEPOINT"
+      ],
+      "more_topics": [],
+      "global_step_index": 6,
+      "resource": {
+       "title": "How to undo a mistake a in SQL: Rollback and Commit",
+       "url": "https://youtube.com/watch?v=jomsdMLiIZM"
+      },
+      "videos": [
+       {
+        "title": "How to undo a mistake a in SQL: Rollback and Commit",
+        "url": "https://youtube.com/watch?v=jomsdMLiIZM",
+        "video_id": "jomsdMLiIZM",
+        "source": "roadmap.sh",
+        "topic": "ROLLBACK"
+       },
+       {
+        "title": "DBMS - Save Point",
+        "url": "https://youtube.com/watch?v=30ldSUkswGM",
+        "video_id": "30ldSUkswGM",
+        "source": "roadmap.sh",
+        "topic": "SAVEPOINT"
+       },
+       {
+        "title": "Dynamic SQL",
+        "url": "https://youtube.com/watch?v=01LZMCotcpY",
+        "video_id": "01LZMCotcpY",
+        "source": "roadmap.sh",
+        "topic": "Dynamic SQL"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 4,
+      "title": "Window Functions, CTEs and Query Tuning",
+      "description": "Deduplication, sessionisation and slowly changing data are written with CTEs and window functions, and slow queries delay every downstream job. Use CTEs, subqueries and window functions, then read plans, manage indexes and rewrite slow queries.",
+      "topic_refs": [
+       "tedQynR0xicVKhuR1oahw",
+       "86iZ8s8EdhSuYwgwAM_EO",
+       "JZqS3Xapw6mfSPVgFW7av",
+       "tBvXLLp5FKeSSN35Kj1X4",
+       "zW27ZHdLwQY-85iqbBKQZ",
+       "2tyezwOIxV6O84N-Q3Awh",
+       "LcljR70T-OnzSrJJDqOWf",
+       "NtxGd6Vx-REBclry7lZuE",
+       "Ps9Yv2s-bKvEegGAbPsiA",
+       "C6P69YiFdS-ioPXMNfX07",
+       "C0dhS6uLf4TUSfvcWyXhv",
+       "UVTgbZrqpbYl1bQvQejcF"
+      ],
+      "projects": [
+       {
+        "title": "Deduplicate with ROW_NUMBER",
+        "description": "Keep only the latest record per customer from a table full of duplicates.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Plan-driven tuning",
+        "description": "Speed up a slow transformation query using its plan and record the timings.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "CTEs (Common Table Expressions)",
+       "Sub Queries",
+       "Correlated Subqueries",
+       "Window Functions",
+       "Row_number"
+      ],
+      "more_topics": [
+       {
+        "node_id": "vTMd0bqz4eTgLnhfgY61h",
+        "title": "Advanced Functions"
+       },
+       {
+        "node_id": "4rqCPpTb0dAgpheBKshRG",
+        "title": "Performance Optimization"
+       },
+       {
+        "node_id": "9wOgP0i9G4HSeZGn2Gm7r",
+        "title": "Using Indexes"
+       },
+       {
+        "node_id": "BcXdxY6bld5c0YNFSKkh-",
+        "title": "lag"
+       },
+       {
+        "node_id": "k7lZe4QRt9q4InUImFmvx",
+        "title": "COALESCE"
+       },
+       {
+        "node_id": "7ow6tiSSCnTpv_GYQU017",
+        "title": "Cross Join"
+       },
+       {
+        "node_id": "cucCPw3KfetAP2OMFUs0X",
+        "title": "rank"
+       },
+       {
+        "node_id": "QM0ltgPu8lLLYc2MsTLj-",
+        "title": "dense_rank"
+       },
+       {
+        "node_id": "VNbb3YPc0FtrROylRns8h",
+        "title": "REPLACE"
+       },
+       {
+        "node_id": "PnG_5D6q66NAKxXVOwA6N",
+        "title": "SUBSTRING"
+       },
+       {
+        "node_id": "knTG6pAq2mYP24WMa29xI",
+        "title": "LOWER"
+       },
+       {
+        "node_id": "Wou6YXLYUgomvcELh851L",
+        "title": "AVG"
+       },
+       {
+        "node_id": "aS5zCyJRA779yHF0G2pje",
+        "title": "FULL OUTER JOIN"
+       },
+       {
+        "node_id": "9aHYrOQDkA84tlxcVK5aD",
+        "title": "COUNT"
+       },
+       {
+        "node_id": "9DntFiZV1AyaRPhYP5q6u",
+        "title": "ROUND"
+       },
+       {
+        "node_id": "1E1WdWOyqxbbdiIbw26dZ",
+        "title": "DATEADD"
+       },
+       {
+        "node_id": "RH8DLiQpDUWqw3U1522q5",
+        "title": "LENGTH"
+       },
+       {
+        "node_id": "bFEYMlqPZtTUYtDQxqHzT",
+        "title": "MIN"
+       },
+       {
+        "node_id": "YqDJq3fPxUZlwsdq0kJg7",
+        "title": "MAX"
+       },
+       {
+        "node_id": "KI6vngoYcHsnpIk8ErhhS",
+        "title": "NULLIF"
+       },
+       {
+        "node_id": "shpgZkh1CLqUwjOaRtAFy",
+        "title": "RIGHT JOIN"
+       },
+       {
+        "node_id": "BAqJQvcguhIhzyII5LRH6",
+        "title": "CEILING"
+       },
+       {
+        "node_id": "w4T3jFb0ilf1KNw-AvRXG",
+        "title": "SUM"
+       },
+       {
+        "node_id": "BJ4fQvagTO0B5UtXblyx8",
+        "title": "DATEPART"
+       }
+      ],
+      "global_step_index": 7,
+      "resource": {
+       "title": "Advanced SQL Tutorial | Subqueries",
+       "url": "https://youtube.com/watch?v=m1KcNV-Zhmc"
+      },
+      "videos": [
+       {
+        "title": "Advanced SQL Tutorial | Subqueries",
+        "url": "https://youtube.com/watch?v=m1KcNV-Zhmc",
+        "video_id": "m1KcNV-Zhmc",
+        "source": "roadmap.sh",
+        "topic": "Sub Queries"
+       },
+       {
+        "title": "Intro To Subqueries",
+        "url": "https://youtube.com/watch?v=TUxadt94L0M",
+        "video_id": "TUxadt94L0M",
+        "source": "roadmap.sh",
+        "topic": "Correlated Subqueries"
+       },
+       {
+        "title": "SQL Window Functions in 10 Minutes",
+        "url": "https://youtube.com/watch?v=y1KCM8vbYe4",
+        "video_id": "y1KCM8vbYe4",
+        "source": "roadmap.sh",
+        "topic": "Window Functions"
+       },
+       {
+        "title": "SQL Views Tutorial",
+        "url": "https://youtube.com/watch?v=cLSxasHg9WY",
+        "video_id": "cLSxasHg9WY",
+        "source": "roadmap.sh",
+        "topic": "Views"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Correlated Subqueries",
+        "url": "https://dev.mysql.com/doc/refman/8.4/en/correlated-subqueries.html",
+        "topic": "Correlated Subqueries"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 3,
+    "title": "Data Engineering",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "What Data Engineers Do and the Data Lifecycle",
+      "description": "Data engineers build the systems that collect, store and serve data so analysts and ML teams can use it. Learn how the role differs from data science, the stages of the data engineering lifecycle, how to choose technologies, and the programming and Linux skills the job assumes.",
+      "topic_refs": [
+       "WSYIFni7G2C9Jr0pwuami",
+       "WB2PRVI9C6RIbJ6l9zdbd",
+       "jJukG4XxfFcID_VlQKqe-",
+       "3BxbkrBp8veZj38zdwN8s",
+       "Ouph2bHeLQsrHl45ar4Cs",
+       "_MpdVlvvkrsgzigYMZ_P8",
+       "_2Ofq3Df-VRXDgKyveZ0U",
+       "LZ4t8CoCjGWMzE0hScTGZ",
+       "WHJXJ5ukJd-tK_3LFLJBg",
+       "4z2i5NXTo9h3YY0kJvRrz",
+       "FXQ_QsljK59zDULLgTqCB",
+       "fqmn6DPOA5MH7UWYv6ayn"
+      ],
+      "projects": [
+       {
+        "title": "Lifecycle map of a real product",
+        "description": "Map how data flows from generation to dashboards for a food delivery app.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Linux data toolbox",
+        "description": "Use shell tools on a Linux VM to fetch, unzip, filter and count a public dataset.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Introduction",
+       "What is Data Engineering?",
+       "Data Engineering vs Data Science",
+       "Skills and Responsibilities",
+       "Data Engineering Lifecycle"
+      ],
+      "more_topics": [
+       {
+        "node_id": "w3cfuNC-IdUKA7CEXs0fT",
+        "title": "Data Engineering Lifecycle"
+       },
+       {
+        "node_id": "cgkzFMmQils2sYj4NW8VW",
+        "title": "undefined"
+       },
+       {
+        "node_id": "S8XMtFKWlnUqADElFp0Zw",
+        "title": "Machine Learning - A Key Concept for Data Analysts"
+       },
+       {
+        "node_id": "ILs5azr4L_uLK0CDFKVaz",
+        "title": "Python"
+       }
+      ],
+      "global_step_index": 8,
+      "resource": {
+       "title": "What Does a Data Engineer ACTUALLY Do?",
+       "url": "https://youtube.com/watch?v=hTjo-QVWcK0"
+      },
+      "videos": [
+       {
+        "title": "What Does a Data Engineer ACTUALLY Do?",
+        "url": "https://youtube.com/watch?v=hTjo-QVWcK0",
+        "video_id": "hTjo-QVWcK0",
+        "source": "roadmap.sh",
+        "topic": "Introduction"
+       },
+       {
+        "title": "How Data Engineering Works?",
+        "url": "https://youtube.com/watch?v=qWru-b6m030",
+        "video_id": "qWru-b6m030",
+        "source": "roadmap.sh",
+        "topic": "What is Data Engineering?"
+       },
+       {
+        "title": "Derivatives of Composite Functions: The Chain Rule",
+        "url": "https://youtube.com/watch?v=_x1nCg2LfuA",
+        "video_id": "_x1nCg2LfuA",
+        "source": "roadmap.sh",
+        "topic": "Chain Rule of Derivation"
+       },
+       {
+        "title": "Partial Derivatives and the Gradient of a Function",
+        "url": "https://youtube.com/watch?v=AXH9Xm6Rbfc",
+        "video_id": "AXH9Xm6Rbfc",
+        "source": "roadmap.sh",
+        "topic": "Gradient, Jacobian, and Hessian"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "The Scala Programming Language",
+        "url": "https://www.scala-lang.org/",
+        "topic": "Scala"
+       },
+       {
+        "type": "official",
+        "title": "Go Documentation",
+        "url": "https://go.dev/doc/",
+        "topic": "Go"
+       },
+       {
+        "type": "course",
+        "title": "Introduction to Java by Hyperskill (JetBrains Academy)",
+        "url": "https://hyperskill.org/courses/8",
+        "topic": "Java"
+       },
+       {
+        "type": "course",
+        "title": "Coursera - Unix Courses",
+        "url": "https://www.coursera.org/courses?query=unix",
+        "topic": "Linux Basics"
+       }
+      ]
+     },
+     {
+      "step_number": 2,
+      "title": "Data Sources and Collection",
+      "description": "Pipelines start at the source, and source quirks such as rate limits, late events and schema drift cause most failures. Learn where data comes from, including APIs, IoT devices, mobile apps and logs, and what to consider when extracting it.",
+      "topic_refs": [
+       "AWf1y87pd1JFW71cZ_iE1",
+       "zGKTlMUzhrbVbqpLZBsMZ",
+       "wDDWQgMVBYK4WcmHq_d6l",
+       "cxTriSZvrmXP4axKynIZW",
+       "KeGCHoJRHp-mBX-P5to4Y",
+       "dJZqe47kzRqYIG-4AZTlz",
+       "s-wUPMaagyRupT2RdfHks",
+       "ghAbtfB5KtbboNjijL1Zf",
+       "nShDMih1HmubBczxu4cfU",
+       "g4UC0go7OPCJYJlac9w-i"
+      ],
+      "projects": [
+       {
+        "title": "Incremental API extractor",
+        "description": "Pull only new records from an API each run using a saved watermark.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Source inventory",
+        "description": "Document format, volume, freshness and owner for five data sources of a fictional company.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Data Generation",
+       "Sources of Data",
+       "Data Collection Considerations",
+       "APIs",
+       "IoT"
+      ],
+      "more_topics": [],
+      "global_step_index": 9,
+      "resource": {
+       "title": "Analog vs. Digital",
+       "url": "https://youtube.com/watch?v=zzvglgC5ut0"
+      },
+      "videos": [
+       {
+        "title": "Analog vs. Digital",
+        "url": "https://youtube.com/watch?v=zzvglgC5ut0",
+        "video_id": "zzvglgC5ut0",
+        "source": "roadmap.sh",
+        "topic": "Data Generation"
+       },
+       {
+        "title": "What is the IoT",
+        "url": "https://youtube.com/watch?v=4FxU-xpuCww",
+        "video_id": "4FxU-xpuCww",
+        "source": "roadmap.sh",
+        "topic": "IoT Data Sources"
+       },
+       {
+        "title": "What is Relational Database",
+        "url": "https://youtube.com/watch?v=OqjJjpjDRLc",
+        "video_id": "OqjJjpjDRLc",
+        "source": "roadmap.sh",
+        "topic": "Database Fundamentals"
+       },
+       {
+        "title": "How do NoSQL Databases work",
+        "url": "https://youtube.com/watch?v=0buKQHokLK8",
+        "video_id": "0buKQHokLK8",
+        "source": "roadmap.sh",
+        "topic": "Database Fundamentals"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 3,
+      "title": "Relational and NoSQL Databases",
+      "description": "Data engineers read from and write to many kinds of databases, often several in one pipeline. Learn the major relational databases and the main NoSQL stores, and when each is the right source or destination.",
+      "topic_refs": [
+       "qRHeaD2udDaItAxmiIiUg",
+       "cslVSSKBMO7I6CpO7vG1H",
+       "__JFgwxeDLvz8p7DAJnsc",
+       "_bFj6rbLuqeQB5MjJZpd6",
+       "p7S_6O9Qq722r-F4bl6G3",
+       "YxnIQh6Y5ic795-YsajB8",
+       "PJcxM60h85Po0AAkSj7nr",
+       "uZYQ8tqTriXt_JIOjcM9_",
+       "04V0Bcgjusfqdw0b-Aw4W",
+       "QYR8ESN7xhi4ZxcoiZbgn",
+       "BDfpCDOxXZ-Tp0Abj_CVW",
+       "dW_eC4vR8BrvKG9wxmEBc"
+      ],
+      "projects": [
+       {
+        "title": "Postgres to MongoDB sync",
+        "description": "Copy customer records from PostgreSQL into MongoDB documents and keep them in sync.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Store selection exercise",
+        "description": "Pick a database for ten data workloads and justify each choice.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Database",
+       "Relational Databases",
+       "PostgreSQL",
+       "MySQL",
+       "MariaDB"
+      ],
+      "more_topics": [
+       {
+        "node_id": "TG63YRbSKL1F9vlUVF1VY",
+        "title": "Neo4j"
+       },
+       {
+        "node_id": "-IesOBWPSIlbgvTjBqHcb",
+        "title": "CouchDB"
+       }
+      ],
+      "global_step_index": 10,
+      "resource": {
+       "title": "What is Relational Database",
+       "url": "https://youtube.com/watch?v=OqjJjpjDRLc"
+      },
+      "videos": [
+       {
+        "title": "What is Relational Database",
+        "url": "https://youtube.com/watch?v=OqjJjpjDRLc",
+        "video_id": "OqjJjpjDRLc",
+        "source": "roadmap.sh",
+        "topic": "Relational Databases"
+       },
+       {
+        "title": "Postgres tutorial for Beginners",
+        "url": "https://youtube.com/watch?v=SpfIwlAYaKk",
+        "video_id": "SpfIwlAYaKk",
+        "source": "roadmap.sh",
+        "topic": "PostgreSQL"
+       },
+       {
+        "title": "MySQL Complete Course",
+        "url": "https://youtube.com/watch?v=5OdVJbNCSso",
+        "video_id": "5OdVJbNCSso",
+        "source": "roadmap.sh",
+        "topic": "MySQL"
+       },
+       {
+        "title": "MariaDB Tutorial For Beginners in One Hour",
+        "url": "https://youtube.com/watch?v=_AMj02sANpI",
+        "video_id": "_AMj02sANpI",
+        "source": "roadmap.sh",
+        "topic": "MariaDB"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "PostgreSQL Website",
+        "url": "https://www.postgresql.org/",
+        "topic": "PostgreSQL"
+       },
+       {
+        "type": "official",
+        "title": "MySQL",
+        "url": "https://www.mysql.com/",
+        "topic": "MySQL"
+       },
+       {
+        "type": "official",
+        "title": "MariaDB",
+        "url": "https://mariadb.org/",
+        "topic": "MariaDB"
+       },
+       {
+        "type": "official",
+        "title": "MS SQL",
+        "url": "https://www.microsoft.com/en-ca/sql-server/",
+        "topic": "MS SQL"
+       }
+      ]
+     },
+     {
+      "step_number": 4,
+      "title": "OLTP versus OLAP, Data Models and Scaling",
+      "description": "Pipelines move data from systems built for transactions to systems built for analysis, and the trade-offs explain most design choices. Learn transactions, indexing and normalisation, OLTP versus OLAP, CAP and scaling, and document, key-value, graph and columnar models.",
+      "topic_refs": [
+       "1BJGXWax6CONuFkaYR4Jm",
+       "ilbFKqhfYyykjJ7cOngwx",
+       "kVPEoUX-ZAGwstieD20Qa",
+       "-VQQmIUGesnrT1N6kH5et",
+       "AslPFjoakcC44CmPB5nuw",
+       "k_XSLLwb0Jk0Dd1sw-MpR",
+       "c1dadtQgbqXwcsQhI6de0",
+       "sGkAOVl3C-xIIAdtDH9jq",
+       "fSlBjoNVKstJjWO7rS69V",
+       "W6RnhoD7fW2xzVwnyJEDr",
+       "fBD6ZQoMac8w4kMJw_Jrd",
+       "2rRVWPON-o3MvpgZmrU_A"
+      ],
+      "projects": [
+       {
+        "title": "Row versus column benchmark",
+        "description": "Run the same aggregate on a row store and a columnar store and explain the speed gap.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Normalise then denormalise",
+        "description": "Normalise an orders dataset, then build a denormalised table for reporting.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Transactions",
+       "Indexing",
+       "Data Normalization",
+       "OLTP vs OLAP",
+       "CAP Theorem"
+      ],
+      "more_topics": [],
+      "global_step_index": 11,
+      "resource": {
+       "title": "Complete guide to Database Normalization in SQL",
+       "url": "https://youtube.com/watch?v=rBPQ5fg_kiY"
+      },
+      "videos": [
+       {
+        "title": "Complete guide to Database Normalization in SQL",
+        "url": "https://youtube.com/watch?v=rBPQ5fg_kiY",
+        "video_id": "rBPQ5fg_kiY",
+        "source": "roadmap.sh",
+        "topic": "Data Normalization"
+       },
+       {
+        "title": "OLTP vs OLAP",
+        "url": "https://youtube.com/watch?v=iw-5kFzIdgY",
+        "video_id": "iw-5kFzIdgY",
+        "source": "roadmap.sh",
+        "topic": "OLTP vs OLAP"
+       },
+       {
+        "title": "What is CAP Theorem?",
+        "url": "https://youtube.com/watch?v=_RbsFXWRZ10",
+        "video_id": "_RbsFXWRZ10",
+        "source": "roadmap.sh",
+        "topic": "CAP Theorem"
+       },
+       {
+        "title": "Vertical Vs Horizontal Scaling: Key Differences You Should Know",
+        "url": "https://youtube.com/watch?v=dvRFHG2-uYs",
+        "video_id": "dvRFHG2-uYs",
+        "source": "roadmap.sh",
+        "topic": "Horizontal vs Vertical Scaling"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 5,
+      "title": "Data Warehousing and Dimensional Modelling",
+      "description": "Most analytics runs on a warehouse modelled into facts and dimensions, and SCDs are a favourite interview topic. Learn warehouse architectures and data marts, dimensional modelling with star and snowflake schemas and slowly changing dimensions, and cloud warehouses.",
+      "topic_refs": [
+       "ArOoKuf9scAURs8NRjAru",
+       "dc3lJI27hJ3zZ45UCVqM1",
+       "J854xPM1X0BWlhtJw7Hs_",
+       "c6Pf3kFcC4iV4a7mPc-WH",
+       "SlQHO8n97F7-_fc6EUXlj",
+       "OfH_UXnxvGQgwlNQwOEfS",
+       "5KgPfywItqLFQRnIZldZH",
+       "Pf0_CBGkmSEfWDQ2_iFXr",
+       "omrg8QcYmTdQLBKV47b7o",
+       "Je2in1n8bMaknyeH79Zbv",
+       "zA5QqqBMsqymdiPGFdUnt"
+      ],
+      "projects": [
+       {
+        "title": "Sales star schema",
+        "description": "Model sales into a fact table and date, product and store dimensions in a cloud warehouse.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Type 2 SCD for customers",
+        "description": "Track customer address changes with effective dates and a current-row flag.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Data Warehouse",
+       "What is Data Warehouse?",
+       "Data Warehousing Architectures",
+       "Data Mart",
+       "Data Modelling Techniques"
+      ],
+      "more_topics": [],
+      "global_step_index": 12,
+      "resource": {
+       "title": "What is a Data Warehouse?",
+       "url": "https://youtube.com/watch?v=k4tK2ttdSDg"
+      },
+      "videos": [
+       {
+        "title": "What is a Data Warehouse?",
+        "url": "https://youtube.com/watch?v=k4tK2ttdSDg",
+        "video_id": "k4tK2ttdSDg",
+        "source": "roadmap.sh",
+        "topic": "Data Warehouse"
+       },
+       {
+        "title": "Data Lake VS Data Warehouse VS Data Marts",
+        "url": "https://youtube.com/watch?v=w9-WoReNKHk",
+        "video_id": "w9-WoReNKHk",
+        "source": "roadmap.sh",
+        "topic": "Data Mart"
+       },
+       {
+        "title": "Learn Snowflake in 2 Hours",
+        "url": "https://youtube.com/watch?v=mP3QbYURT9k",
+        "video_id": "mP3QbYURT9k",
+        "source": "roadmap.sh",
+        "topic": "Snowflake"
+       },
+       {
+        "title": "Getting Started with Amazon Redshift - AWS Online Tech Talks",
+        "url": "https://youtube.com/watch?v=dfo4J5ZhlKI",
+        "video_id": "dfo4J5ZhlKI",
+        "source": "roadmap.sh",
+        "topic": "Amazon Redshift"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Snowflake Docs",
+        "url": "https://docs.snowflake.com/",
+        "topic": "Snowflake"
+       },
+       {
+        "type": "official",
+        "title": "Snowflake in 20 minutes",
+        "url": "https://docs.snowflake.com/en/user-guide/tutorials/snowflake-in-20minutes",
+        "topic": "Snowflake"
+       },
+       {
+        "type": "official",
+        "title": "Amazon Redshift",
+        "url": "https://aws.amazon.com/redshift/",
+        "topic": "Amazon Redshift"
+       },
+       {
+        "type": "official",
+        "title": "BigQuery overview",
+        "url": "https://cloud.google.com/bigquery/docs/introduction",
+        "topic": "Google BigQuery"
+       }
+      ]
+     },
+     {
+      "step_number": 6,
+      "title": "Data Lakes, Lakehouses and Data Mesh",
+      "description": "Raw and semi-structured data at scale lives in lakes and lakehouses, and large organisations decentralise ownership with data mesh. Learn data lakes, Delta Lake and lakehouse formats, distributed file systems, mesh, fabric and hub patterns, and metadata and lineage.",
+      "topic_refs": [
+       "y0Lxz_wVyQ6lr1hvCsufa",
+       "fhfyoWekmYvEs-jdP2mJo",
+       "senZEYC9k-C_C4EAYDNeU",
+       "wydtifF3ZhMWCbVt8Hd2t",
+       "1LLF4466grFDlT9p_WLsi",
+       "0pH2U4GOj8zK3lgkh_r5M",
+       "D7qtosIbsQuIY3OWl_Hwc",
+       "-x3QLMYhC67VJQ6EW6BrJ",
+       "OiWleAdMbPtisrJpk2eSJ",
+       "14CycunRC1p2qTRn-ncoy",
+       "a5gzM8msXibxD58eVDkM-",
+       "pKewO7Ef3GBXL4MDK62QG"
+      ],
+      "projects": [
+       {
+        "title": "Bronze-silver-gold lake",
+        "description": "Organise raw, cleaned and aggregated layers of a dataset in object storage with Delta tables.",
+        "difficulty": "advanced",
+        "grounded": false
+       },
+       {
+        "title": "Lineage diagram",
+        "description": "Trace one dashboard metric back through every table and job to its source.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Data Lake",
+       "Databricks Delta Lake",
+       "Onehouse",
+       "Data Storage",
+       "Distributed File Systems"
+      ],
+      "more_topics": [
+       {
+        "node_id": "W3l1_66fsIqR3MqgBJUmU",
+        "title": "Snowflake"
+       }
+      ],
+      "global_step_index": 13,
+      "resource": {
+       "title": "What is a Data Lake?",
+       "url": "https://youtube.com/watch?v=LxcH6z8TFpI"
+      },
+      "videos": [
+       {
+        "title": "What is a Data Lake?",
+        "url": "https://youtube.com/watch?v=LxcH6z8TFpI",
+        "video_id": "LxcH6z8TFpI",
+        "source": "roadmap.sh",
+        "topic": "Data Lake"
+       },
+       {
+        "title": "Learn Snowflake in 2 Hours",
+        "url": "https://youtube.com/watch?v=mP3QbYURT9k",
+        "video_id": "mP3QbYURT9k",
+        "source": "roadmap.sh",
+        "topic": "Snowflake"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "What is Delta Lake in Databricks?",
+        "url": "https://docs.databricks.com/aws/en/delta",
+        "topic": "Databricks Delta Lake"
+       },
+       {
+        "type": "official",
+        "title": "Onehouse",
+        "url": "https://www.onehouse.ai/",
+        "topic": "Onehouse"
+       },
+       {
+        "type": "official",
+        "title": "HDFS Architecture Guide",
+        "url": "https://hadoop.apache.org/docs/r1.2.1/hdfs_design.html",
+        "topic": "HDFS"
+       },
+       {
+        "type": "official",
+        "title": "Snowflake Docs",
+        "url": "https://docs.snowflake.com/",
+        "topic": "Snowflake"
+       }
+      ]
+     },
+     {
+      "step_number": 7,
+      "title": "Ingestion, ETL and Transformation with dbt",
+      "description": "Moving and reshaping data reliably is the heart of the job, and reruns must not create duplicates. Learn batch, streaming and hybrid ingestion, ETL versus ELT and reverse ETL, idempotent loads, and SQL transformations with dbt.",
+      "topic_refs": [
+       "CvCOkyWcgzaUJec_v5F4L",
+       "GN1Xh3kA25ge-wTbdiSio",
+       "f-a3Hy1ldnvSv8W2mFiJK",
+       "wwPO5Uc6qnwYgibrbPn7y",
+       "oqxNr0Lj34mgRi5Z5wJt_",
+       "4fugNG5sEDl0kgmN3Mezk",
+       "TjsxMNyWO3YGwg6zEIid4",
+       "y5Aaxe-P68HC5kNsIi88q",
+       "LMFREK9dH_7qzx_s2xCjI",
+       "SgYLIkMtLVPlw8Qo5j0Fb",
+       "9xoBZgKT9uAGsjc1soelY",
+       "GyC2JctG-Gi0R_qx1lTeg"
+      ],
+      "projects": [
+       {
+        "title": "dbt project with tests",
+        "description": "Build staging and mart models in dbt with uniqueness and not-null tests.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Idempotent daily load",
+        "description": "Make a daily load safe to rerun so the same day never doubles.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Data Ingestion",
+       "Types of Data Ingestion",
+       "Batch",
+       "Streaming",
+       "Realtime"
+      ],
+      "more_topics": [],
+      "global_step_index": 14,
+      "resource": null,
+      "videos": [],
+      "resources": [
+       {
+        "type": "official",
+        "title": "dbt Documentation",
+        "url": "https://docs.getdbt.com/docs/build/documentation",
+        "topic": "dbt"
+       },
+       {
+        "type": "course",
+        "title": "dbt Official Courses",
+        "url": "https://learn.getdbt.com/catalog",
+        "topic": "dbt"
+       }
+      ]
+     },
+     {
+      "step_number": 8,
+      "title": "Pipeline Orchestration and Scheduling",
+      "description": "Pipelines have dependencies, retries and schedules that must be managed by an orchestrator rather than cron jobs. Build DAGs in Airflow, compare Prefect, Luigi and cloud services such as Data Factory and Dataflow, and follow pipeline best practices.",
+      "topic_refs": [
+       "fqTPu70MJyXBmqYUgCJ_r",
+       "vfO5Dz6ppsNtbGiQwpUs7",
+       "TAh4__7U58J7fduU9a1Ol",
+       "_IiKTZDF_b57l79X6lsq6",
+       "ccc6_SzDwXpCL1WbFuPNA",
+       "BNGdJSmrNE90rwPa4JoWj",
+       "YWgVUyIvBRW8eTVR5y73P",
+       "Rzk6HlMosx3FN_JD5kELZ",
+       "yyJJGinOv3M21MFuqJs0j"
+      ],
+      "projects": [
+       {
+        "title": "Airflow ELT DAG",
+        "description": "Extract from an API, load to a warehouse and run dbt models on a daily schedule with retries.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Backfill exercise",
+        "description": "Backfill thirty days of a DAG safely and confirm no duplicates.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Data Pipelines",
+       "Apache Airflow",
+       "Prefect",
+       "Luigi",
+       "Job Scheduling"
+      ],
+      "more_topics": [],
+      "global_step_index": 15,
+      "resource": {
+       "title": "What are Data Pipelines?",
+       "url": "https://youtube.com/watch?v=oKixNpz6jNo"
+      },
+      "videos": [
+       {
+        "title": "What are Data Pipelines?",
+        "url": "https://youtube.com/watch?v=oKixNpz6jNo",
+        "video_id": "oKixNpz6jNo",
+        "source": "roadmap.sh",
+        "topic": "Data Pipelines"
+       },
+       {
+        "title": "Getting Started with Prefect",
+        "url": "https://youtube.com/watch?v=D5DhwVNHWeU",
+        "video_id": "D5DhwVNHWeU",
+        "source": "roadmap.sh",
+        "topic": "Prefect"
+       },
+       {
+        "title": "What is Google Dataflow",
+        "url": "https://youtube.com/watch?v=KalJ0VuEM7s",
+        "video_id": "KalJ0VuEM7s",
+        "source": "roadmap.sh",
+        "topic": "Dataflow"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Apache Airflow",
+        "url": "https://airflow.apache.org/",
+        "topic": "Apache Airflow"
+       },
+       {
+        "type": "official",
+        "title": "Prefect Docs",
+        "url": "https://docs.prefect.io/v3/get-started",
+        "topic": "Prefect"
+       },
+       {
+        "type": "official",
+        "title": "Luigi Docs",
+        "url": "https://luigi.readthedocs.io/",
+        "topic": "Luigi"
+       },
+       {
+        "type": "official",
+        "title": "What is Azure Data Factory?",
+        "url": "https://learn.microsoft.com/en-us/azure/data-factory/introduction",
+        "topic": "Data Factory (ETL)"
+       }
+      ]
+     },
+     {
+      "step_number": 9,
+      "title": "Big Data Processing with Spark and Hadoop",
+      "description": "When data no longer fits on one machine, cluster engines such as Spark do the heavy lifting. Learn cluster computing, Hadoop and YARN, MapReduce, Spark, and wide-column stores such as HBase and Bigtable.",
+      "topic_refs": [
+       "03BHmPhYkZrJwRvQdmxxr",
+       "Ad10evrGQuYRl5GaMhQwu",
+       "hB0y8A2U3owpAbTUb7LN5",
+       "wpZfbIFtfiUSLMASk4t7f",
+       "qHMtJFYcGmESiz_VwRwiI",
+       "__tWu5uZYnmnuR-qO9SOR",
+       "pjm_qShAiFk3JsX4Z2d8G",
+       "Uho9OOWSG0bUpyH4P6hKk",
+       "ltZftFsiOo12AkQ-04N3B"
+      ],
+      "projects": [
+       {
+        "title": "PySpark aggregation job",
+        "description": "Aggregate a large public dataset with PySpark and tune partitions for speed.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "MapReduce by hand",
+        "description": "Implement word count as map, shuffle and reduce steps to understand what Spark automates.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Big Data Tools",
+       "What is Cluster Computing",
+       "Cluster Computing Basics",
+       "Cluster Management Tools",
+       "Apache Spark"
+      ],
+      "more_topics": [
+       {
+        "node_id": "KcW4z48pk2x6IjQhZs_Ub",
+        "title": "Apache Hadoop YARN"
+       },
+       {
+        "node_id": "9lSjQBM2hWrkujxZjhQHE",
+        "title": "HDFS"
+       },
+       {
+        "node_id": "_F53cV3ln2yu0ics5BFfx",
+        "title": "Elasticsearch"
+       },
+       {
+        "node_id": "KYUh29Ok1aeOviboGDS_i",
+        "title": "Memcached"
+       }
+      ],
+      "global_step_index": 16,
+      "resource": {
+       "title": "WUnderstand the Basic Cluster Concepts",
+       "url": "https://youtube.com/watch?v=8BBDxzJL6fY"
+      },
+      "videos": [
+       {
+        "title": "WUnderstand the Basic Cluster Concepts",
+        "url": "https://youtube.com/watch?v=8BBDxzJL6fY",
+        "video_id": "8BBDxzJL6fY",
+        "source": "roadmap.sh",
+        "topic": "What is Cluster Computing"
+       },
+       {
+        "title": "Hadoop Yarn Tutorial",
+        "url": "https://youtube.com/watch?v=6bIF9VwRwE0",
+        "video_id": "6bIF9VwRwE0",
+        "source": "roadmap.sh",
+        "topic": "Apache Hadoop YARN"
+       },
+       {
+        "title": "What is Elasticsearch",
+        "url": "https://youtube.com/watch?v=ZP0NmfyfsoM",
+        "video_id": "ZP0NmfyfsoM",
+        "source": "roadmap.sh",
+        "topic": "Elasticsearch"
+       },
+       {
+        "title": "Redis vs Memcached",
+        "url": "https://youtube.com/watch?v=Gyy1SiE8avE",
+        "video_id": "Gyy1SiE8avE",
+        "source": "roadmap.sh",
+        "topic": "Memcached"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "ApacheSpark",
+        "url": "https://spark.apache.org/documentation.html",
+        "topic": "Apache Spark"
+       },
+       {
+        "type": "official",
+        "title": "Apacha HBase?",
+        "url": "https://hbase.apache.org/",
+        "topic": "HBase"
+       },
+       {
+        "type": "official",
+        "title": "Bigtable: Fast, Flexible NoSQL",
+        "url": "https://cloud.google.com/bigtable?hl=en#scale-your-latency-sensitive-applications-with-the-nosql-pioneer",
+        "topic": "BigTable"
+       },
+       {
+        "type": "official",
+        "title": "HDFS Architecture Guide",
+        "url": "https://hadoop.apache.org/docs/r1.2.1/hdfs_design.html",
+        "topic": "HDFS"
+       }
+      ]
+     },
+     {
+      "step_number": 10,
+      "title": "Streaming and Messaging Systems",
+      "description": "Real-time features such as fraud alerts and live dashboards need data as events, not nightly batches. Learn messages versus streams, synchronous versus asynchronous communication, and Kafka, RabbitMQ, SQS and SNS.",
+      "topic_refs": [
+       "dAvizeYvv92KMeAvSDmey",
+       "IZvL-1Xi0R9IuwJ30FDm4",
+       "VefHaP7rIOcZVFzglyn66",
+       "fTpx6m8U0506ZLCdDU5OG",
+       "ERcgPTACqYo9BXoRdLjbd",
+       "uIU5Yncp6hGDcNO1fpjUS",
+       "uFeiTRobSymkvCinhwmZV"
+      ],
+      "projects": [
+       {
+        "title": "Kafka click stream",
+        "description": "Produce click events to Kafka and compute rolling counts per page in a consumer.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Queue-based fan-out",
+        "description": "Publish an order event once and have three consumers process it independently.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Messaging Systems",
+       "Messages vs Streams",
+       "Async vs Sync Communication",
+       "Apache Kafka",
+       "RabbitMQ"
+      ],
+      "more_topics": [
+       {
+        "node_id": "1qju7UlcMo2Ebp4a3BGxH",
+        "title": "What and why use them?"
+       }
+      ],
+      "global_step_index": 17,
+      "resource": {
+       "title": "Apache Kafka Fundamentals",
+       "url": "https://youtube.com/watch?v=B5j3uNBH8X4"
+      },
+      "videos": [
+       {
+        "title": "Apache Kafka Fundamentals",
+        "url": "https://youtube.com/watch?v=B5j3uNBH8X4",
+        "video_id": "B5j3uNBH8X4",
+        "source": "roadmap.sh",
+        "topic": "Apache Kafka"
+       },
+       {
+        "title": "RabbitMQ Tutorial - Message Queues and Distributed Systems",
+        "url": "https://youtube.com/watch?v=nFxjaVmFj5E",
+        "video_id": "nFxjaVmFj5E",
+        "source": "roadmap.sh",
+        "topic": "RabbitMQ"
+       },
+       {
+        "title": "Kafka in 100 Seconds",
+        "url": "https://youtube.com/watch?v=uvb00oaa3k8",
+        "video_id": "uvb00oaa3k8",
+        "source": "roadmap.sh",
+        "topic": "Apache Kafka"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Apache Kafka Docs",
+        "url": "https://kafka.apache.org/43/getting-started/introduction/",
+        "topic": "Apache Kafka"
+       },
+       {
+        "type": "official",
+        "title": "RabbitMQ Tutorials",
+        "url": "https://www.rabbitmq.com/getstarted.html",
+        "topic": "RabbitMQ"
+       },
+       {
+        "type": "official",
+        "title": "Amazon Simple Queue Service",
+        "url": "https://aws.amazon.com/sqs/",
+        "topic": "AWS SQS"
+       },
+       {
+        "type": "official",
+        "title": "What is Amazon Simple Queue Service?",
+        "url": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/welcome.html",
+        "topic": "AWS SQS"
+       }
+      ]
+     },
+     {
+      "step_number": 11,
+      "title": "Cloud Data Services on AWS, Azure and GCP",
+      "description": "Most data platforms in India now run in the cloud, and job postings name specific services. Learn cloud architectures and serverless options, object storage, compute and managed databases on AWS, Azure and GCP.",
+      "topic_refs": [
+       "lDeSL9qvgQgyAMcWXF7Fr",
+       "YLfyb_ycgz1hu0yW8SPNE",
+       "ZnGX8pg4GagdSalg_P0oq",
+       "tbut25IZI2aU7TkI9fFYV",
+       "AHLsBfPfBJOhLlJ-64GcK",
+       "GtFk7phYGfXUhxanicYNQ",
+       "YZ4G1-6VJ7VdsphdcBTf9",
+       "gzbEGCUwMsD1gL4nW668g",
+       "iIZ3g70KRwEJCBNaONd2d",
+       "2lqvArZdwRX0t3P3yovEH",
+       "9-wQWQIdAxQmMaJC9ojPg",
+       "goL_GqVVTVxXQMGBw992b"
+      ],
+      "projects": [
+       {
+        "title": "Serverless file pipeline",
+        "description": "Trigger a function when a file lands in object storage and load it into a managed database.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Cloud cost estimate",
+        "description": "Estimate monthly cost of storing and querying one terabyte on two clouds.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Cloud Computing",
+       "Cloud Architectures",
+       "Serverless Options",
+       "S3",
+       "Amazon EC2 (Compute)"
+      ],
+      "more_topics": [
+       {
+        "node_id": "-cU86vJWJmlmPHXDCo31o",
+        "title": "Compute Engine (Compute)"
+       },
+       {
+        "node_id": "-yi-xk-kv0njW9GdytiAQ",
+        "title": "Azure Virtual Machines"
+       },
+       {
+        "node_id": "8qEgXYZEbDWC73SQSflDY",
+        "title": "Google Cloud GKE"
+       },
+       {
+        "node_id": "atAK4zGXIbxZvfBTzFEIe",
+        "title": "Neptune"
+       },
+       {
+        "node_id": "1A98uTo8l_GQSrFxu5N2X",
+        "title": "Google Deployment  Mgr."
+       }
+      ],
+      "global_step_index": 18,
+      "resource": {
+       "title": "What is Cloud Computing? - Amazon Web Services",
+       "url": "https://youtube.com/watch?v=mxT233EdY5c"
+      },
+      "videos": [
+       {
+        "title": "What is Cloud Computing? - Amazon Web Services",
+        "url": "https://youtube.com/watch?v=mxT233EdY5c",
+        "video_id": "mxT233EdY5c",
+        "source": "roadmap.sh",
+        "topic": "Cloud Computing"
+       },
+       {
+        "title": "WWhat is Cloud Architecture and Common Models?",
+        "url": "https://youtube.com/watch?v=zTP-bx495hU",
+        "video_id": "zTP-bx495hU",
+        "source": "roadmap.sh",
+        "topic": "Cloud Architectures"
+       },
+       {
+        "title": "Introduction to Amazon EC2",
+        "url": "https://youtube.com/watch?v=eaicwmnSdCs",
+        "video_id": "eaicwmnSdCs",
+        "source": "roadmap.sh",
+        "topic": "Amazon EC2 (Compute)"
+       },
+       {
+        "title": "A Beginners Guide to Azure Blob Storage",
+        "url": "https://youtube.com/watch?v=ah1XqItWkuc",
+        "video_id": "ah1XqItWkuc",
+        "source": "roadmap.sh",
+        "topic": "Azure Blob Storage"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "S3",
+        "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html",
+        "topic": "S3"
+       },
+       {
+        "type": "official",
+        "title": "EC2 - User Guide",
+        "url": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html",
+        "topic": "Amazon EC2 (Compute)"
+       },
+       {
+        "type": "official",
+        "title": "Amazon RDS",
+        "url": "https://aws.amazon.com/rds/",
+        "topic": "Amazon RDS (Database)"
+       },
+       {
+        "type": "official",
+        "title": "SAmazon Aurora",
+        "url": "https://aws.amazon.com/rds/aurora/",
+        "topic": "Aurora DB"
+       }
+      ]
+     },
+     {
+      "step_number": 12,
+      "title": "Data Quality, Pipeline Testing and Monitoring",
+      "description": "Bad data that reaches a dashboard destroys trust faster than a late one. Add data quality checks and unit, integration and end-to-end tests to pipelines, and monitor jobs with Prometheus, Datadog and Sentry.",
+      "topic_refs": [
+       "cStrYgFZA2NuYq8TdWWP_",
+       "DZoxLu-j1vq5leoXLRZqt",
+       "8dXD4ddR_USEbAJhUMcB6",
+       "NIG53tyoEiLtwf6LvBZId",
+       "E4ND5XaMDGDLtlV7wTzi6",
+       "mC9sWeC_wYHeJJHJAvxpI",
+       "woa5K4Dt9L6aBzlJMNS31",
+       "qoMRpAITA7R_KOrwGDPAb",
+       "dk5FQl7Pk3-O5eF7dKwmp",
+       "3QsgoKKxAoyj2LWJ8ad-7",
+       "Zoa4JEGrSKjVwUNer4Go1",
+       "i54fx-NV6nWzQVCdi0aKL"
+      ],
+      "projects": [
+       {
+        "title": "Quality gate in a pipeline",
+        "description": "Stop a load when row counts or null rates break thresholds and alert the owner.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Pipeline freshness dashboard",
+        "description": "Track when each table last updated and alert when one is late.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Data Quality",
+       "Testing",
+       "Unit Testing",
+       "Integration Testing",
+       "Functional Testing"
+      ],
+      "more_topics": [
+       {
+        "node_id": "iuNP6W0A2GLTE2PK5y68u",
+        "title": "Data Quality"
+       },
+       {
+        "node_id": "r1KmASWAa_MOqQOC9gvvF",
+        "title": "New Relic"
+       },
+       {
+        "node_id": "5qe0q_llTzzNVudbONMYo",
+        "title": "A/B Testing"
+       }
+      ],
+      "global_step_index": 19,
+      "resource": {
+       "title": "What is Unit Testing?",
+       "url": "https://youtube.com/watch?v=3kzHmaeozDI"
+      },
+      "videos": [
+       {
+        "title": "What is Unit Testing?",
+        "url": "https://youtube.com/watch?v=3kzHmaeozDI",
+        "video_id": "3kzHmaeozDI",
+        "source": "roadmap.sh",
+        "topic": "Unit Testing"
+       },
+       {
+        "title": "A/B Testing for Beginners",
+        "url": "https://youtube.com/watch?v=VpTlNRUcIDo",
+        "video_id": "VpTlNRUcIDo",
+        "source": "roadmap.sh",
+        "topic": "A/B Testing"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Prometheus Documentation",
+        "url": "https://prometheus.io/docs/introduction/overview/",
+        "topic": "Prometheus"
+       },
+       {
+        "type": "official",
+        "title": "Getting Started with Prometheus",
+        "url": "https://prometheus.io/docs/tutorials/getting_started/",
+        "topic": "Prometheus"
+       },
+       {
+        "type": "official",
+        "title": "Datadog Documentation",
+        "url": "https://docs.datadoghq.com/",
+        "topic": "Datadog"
+       },
+       {
+        "type": "official",
+        "title": "Sentry Documentation",
+        "url": "https://docs.sentry.io/",
+        "topic": "Sentry"
+       }
+      ]
+     },
+     {
+      "step_number": 13,
+      "title": "Containers, CI/CD and IaC for Data Platforms",
+      "description": "Data platforms are software, deployed with the same containers, pipelines and infrastructure code as any service. Containerise jobs, run them on Kubernetes, test and deploy with CI/CD, and provision infrastructure with Terraform, OpenTofu or CDK.",
+      "topic_refs": [
+       "OQ3RqVgWEMxpAtrrjOG5U",
+       "eTHitN2erd6z8-MZiXE9s",
+       "I_IueX1DFp-LmBwr1-suX",
+       "k2SJ4ELGa4B2ZERDAk1uj",
+       "N8vpCfSdZCADwO_qceWBK",
+       "IYIO4S3DO5xkLD__XT5Dp",
+       "02TADW_PPVtTU_rWV3jf1",
+       "jgz7L8OSuqRNcf9buuMTj",
+       "N-xRhdOTHijAymcTWPXPJ",
+       "WdlC0HhJ5YESfjXmdMnLU",
+       "OKJ3HTfreitk2JdrfeLIK",
+       "WUfJCLTajyLNK19gAAvoW"
+      ],
+      "projects": [
+       {
+        "title": "Containerised Spark job",
+        "description": "Package a PySpark job in Docker and run it from a CI pipeline.",
+        "difficulty": "advanced",
+        "grounded": false
+       },
+       {
+        "title": "Terraformed data stack",
+        "description": "Provision a bucket, warehouse dataset and service account with Terraform.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Docker",
+       "Containers & Orchestration",
+       "Kubernetes",
+       "CI/CD",
+       "GitHub Actions"
+      ],
+      "more_topics": [
+       {
+        "node_id": "kcgDW6AFW7WXzXMTPE6J-",
+        "title": "Kubernetes"
+       },
+       {
+        "node_id": "PUzHbjwntTSj1REL_dAov",
+        "title": "ArgoCD"
+       },
+       {
+        "node_id": "eVqcYI2Sy2Dldl3SfxB2C",
+        "title": "AWS EKS"
+       },
+       {
+        "node_id": "CewITBPtfVs32LD5Acb2E",
+        "title": "CircleCI"
+       }
+      ],
+      "global_step_index": 20,
+      "resource": {
+       "title": "Docker Tutorial",
+       "url": "https://youtube.com/watch?v=RqTEHSBrYFw"
+      },
+      "videos": [
+       {
+        "title": "Docker Tutorial",
+        "url": "https://youtube.com/watch?v=RqTEHSBrYFw",
+        "video_id": "RqTEHSBrYFw",
+        "source": "roadmap.sh",
+        "topic": "Docker"
+       },
+       {
+        "title": "Why You Need Data Orchestration",
+        "url": "https://youtube.com/watch?v=ZtlS5-G-gng",
+        "video_id": "ZtlS5-G-gng",
+        "source": "roadmap.sh",
+        "topic": "Containers & Orchestration"
+       },
+       {
+        "title": "Kubernetes Crash Course for Absolute Beginners",
+        "url": "https://youtube.com/watch?v=s_o8dwzRlu4",
+        "video_id": "s_o8dwzRlu4",
+        "source": "roadmap.sh",
+        "topic": "Kubernetes"
+       },
+       {
+        "title": "Git & GitHub Crash Course For Beginners",
+        "url": "https://youtube.com/watch?v=SWYqp7iY_Tc",
+        "video_id": "SWYqp7iY_Tc",
+        "source": "roadmap.sh",
+        "topic": "Git and GitHub"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Docker Documentation",
+        "url": "https://docs.docker.com/",
+        "topic": "Docker"
+       },
+       {
+        "type": "official",
+        "title": "Kubernetes Documentation",
+        "url": "https://kubernetes.io/docs/home/",
+        "topic": "Kubernetes"
+       },
+       {
+        "type": "official",
+        "title": "GitHub Actions Documentation",
+        "url": "https://docs.github.com/en/actions",
+        "topic": "GitHub Actions"
+       },
+       {
+        "type": "official",
+        "title": "GitLab Documentation",
+        "url": "https://docs.gitlab.com/",
+        "topic": "GitLab CI"
+       }
+      ]
+     },
+     {
+      "step_number": 14,
+      "title": "Data Security, Privacy and Regulation",
+      "description": "Data engineers handle personal and financial data, and leaks carry legal penalties. Encrypt data, mask, obfuscate and tokenise sensitive fields, separate authentication from authorisation, and know GDPR, ECPA and the EU AI Act.",
+      "topic_refs": [
+       "2PqRgrYuJi_pPhOS0AkoP",
+       "2Wu1Ufm2l1nrytz1mAxmJ",
+       "rUiYUV4ps6NYYYRwUnjuM",
+       "ZAKo9Svb8TQ6KkmOnfB5x",
+       "HDVhttLNMLmIAVEOBCOQ3",
+       "MuPHohc7mJzcH5QdJ-K46",
+       "g1VwuSupohuDAT2O4hTXx",
+       "tdqhFFvQ2dQVeQh1qTHjV"
+      ],
+      "projects": [
+       {
+        "title": "PII masking layer",
+        "description": "Create views that mask phone numbers and emails for analysts while keeping raw data restricted.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Right-to-erasure process",
+        "description": "Design how a user deletion request removes their data from every table and backup.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Encryption",
+       "Data Masking",
+       "Data Obfuscation",
+       "Tokenization",
+       "Authentication vs Authorization"
+      ],
+      "more_topics": [],
+      "global_step_index": 21,
+      "resource": {
+       "title": "What is Encryption?",
+       "url": "https://youtube.com/watch?v=9chKCUQ8_VQ"
+      },
+      "videos": [
+       {
+        "title": "What is Encryption?",
+        "url": "https://youtube.com/watch?v=9chKCUQ8_VQ",
+        "video_id": "9chKCUQ8_VQ",
+        "source": "roadmap.sh",
+        "topic": "Encryption"
+       },
+       {
+        "title": "What is the California Consumer Privacy Act? | CCPA Explained?",
+        "url": "https://youtube.com/watch?v=dpzsAgrDAO4",
+        "video_id": "dpzsAgrDAO4",
+        "source": "roadmap.sh",
+        "topic": "ECPA"
+       },
+       {
+        "title": "The EU AI Act Explained",
+        "url": "https://youtube.com/watch?v=s_rxOnCt3HQ",
+        "video_id": "s_rxOnCt3HQ",
+        "source": "roadmap.sh",
+        "topic": "EU AI Act"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "GDPR",
+        "url": "https://gdpr-info.eu/",
+        "topic": "GDPR"
+       },
+       {
+        "type": "official",
+        "title": "California Consumer Privacy Act (CCPA)",
+        "url": "https://oag.ca.gov/privacy/ccpa",
+        "topic": "ECPA"
+       },
+       {
+        "type": "official",
+        "title": "The EU AI Act Explorer",
+        "url": "https://artificialintelligenceact.eu/ai-act-explorer/",
+        "topic": "EU AI Act"
+       }
+      ]
+     },
+     {
+      "step_number": 15,
+      "title": "Serving Data: BI Tools, Reverse ETL and ML",
+      "description": "Data engineering succeeds only when people and systems use the data. Serve data to BI tools such as Tableau, Looker and Power BI, push it back into business tools with reverse ETL, and support ML teams with MLOps-ready datasets.",
+      "topic_refs": [
+       "RspQLpkICyHUmthLlxQ84",
+       "V30v5RLQrWSMBUIsZQG1o",
+       "gqEAOwHFrQiYSejNUdV7-",
+       "fY0eZzz0aTXm2lelk8l3g",
+       "6Nr5FAGT_oOPZwZWdv7hl",
+       "FfU6Vwf0PXva91FoqxFgp",
+       "JpuiYsipNWBcrjmn2ji6b",
+       "mBOGrJIUaatBe2PnJM2NK",
+       "vZGDtlyt_yj4szcPTw3cv",
+       "8NTe5-XQ5tKAWUyg1rnzb",
+       "8vqjI-uFwJIr_TBEVyM_3",
+       "VQv-c7buU2l-IDzRZBMRo"
+      ],
+      "projects": [
+       {
+        "title": "KPI dashboard on your warehouse",
+        "description": "Connect a BI tool to your mart and build a dashboard of daily KPIs.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Reverse ETL to a CRM",
+        "description": "Sync a computed customer score from the warehouse back into a CRM-like tool.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Data Serving",
+       "Data Analytics",
+       "Tableau",
+       "Looker",
+       "Microsoft Power BI"
+      ],
+      "more_topics": [
+       {
+        "node_id": "nD36-PXHzOXePM7j9u_O_",
+        "title": "Amazon RDS (Database)"
+       }
+      ],
+      "global_step_index": 22,
+      "resource": {
+       "title": "Descriptive vs Diagnostic vs Predictive vs Prescriptive Analytics: What's the Difference?",
+       "url": "https://youtube.com/watch?v=QoEpC7jUb9k"
+      },
+      "videos": [
+       {
+        "title": "Descriptive vs Diagnostic vs Predictive vs Prescriptive Analytics: What's the Difference?",
+        "url": "https://youtube.com/watch?v=QoEpC7jUb9k",
+        "video_id": "QoEpC7jUb9k",
+        "source": "roadmap.sh",
+        "topic": "Data Analytics"
+       },
+       {
+        "title": "What is Tableau?",
+        "url": "https://youtube.com/watch?v=NLCzpPRCc7U",
+        "video_id": "NLCzpPRCc7U",
+        "source": "roadmap.sh",
+        "topic": "Tableau"
+       },
+       {
+        "title": "What is Looker?",
+        "url": "https://youtube.com/watch?v=EmkNPAzla0Y",
+        "video_id": "EmkNPAzla0Y",
+        "source": "roadmap.sh",
+        "topic": "Looker"
+       },
+       {
+        "title": "Power BI for beginners",
+        "url": "https://youtube.com/watch?v=NNSHu0rkew8",
+        "video_id": "NNSHu0rkew8",
+        "source": "roadmap.sh",
+        "topic": "Microsoft Power BI"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Tableau",
+        "url": "https://www.tableau.com/en-gb",
+        "topic": "Tableau"
+       },
+       {
+        "type": "official",
+        "title": "Looker business intelligence platform embedded analytics",
+        "url": "https://cloud.google.com/looker",
+        "topic": "Looker"
+       },
+       {
+        "type": "official",
+        "title": "Power BI",
+        "url": "https://www.microsoft.com/en-us/power-platform/products/power-bi",
+        "topic": "Microsoft Power BI"
+       },
+       {
+        "type": "official",
+        "title": "Streamlit Docs",
+        "url": "https://docs.streamlit.io/",
+        "topic": "Streamlit"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "audit": {
+  "phases": [
+   {
+    "phase_number": 1,
+    "title": "Python",
+    "queries": [
+     "Data Engineering",
+     "Data Engineering fundamentals",
+     "Data Engineering: Python"
+    ],
+    "retrieved": [
+     {
+      "source": "python/pydantic@W3VALz5evFo1qqkQbMN1R.md",
+      "score": 0.5478482246398926,
+      "queries": [
+       "Data Engineering: Python"
+      ]
+     },
+     {
+      "source": "python/file-handling@Nf3kRDSl_vas6QPXG7eVa.md",
+      "score": 0.5436490774154663,
+      "queries": [
+       "Data Engineering: Python"
+      ]
+     },
+     {
+      "source": "python/learn-the-basics@GISOFMKvnBys0O0IMpz2J.md",
+      "score": 0.5204067230224609,
+      "queries": [
+       "Data Engineering: Python"
+      ]
+     },
+     {
+      "source": "python/dictionaries@bc9CL_HMT-R6nXO1eR-gP.md",
+      "score": 0.5047829151153564,
+      "queries": [
+       "Data Engineering: Python"
+      ]
+     },
+     {
+      "source": "python/basic-syntax@6xRncUs3_vxVbDur567QA.md",
+      "score": 0.4963768422603607,
+      "queries": [
+       "Data Engineering: Python"
+      ]
+     },
+     {
+      "source": "python/lists@UT_SR7G-LYtzqooWrEtF1.md",
+      "score": 0.4841718077659607,
+      "queries": [
+       "Data Engineering: Python"
+      ]
+     },
+     {
+      "source": "sql/rdbms-benefits-and-limitations@fNTb9y3zs1HPYclAmu_Wv.md",
+      "score": 0.475405216217041,
+      "queries": [
+       "Data Engineering fundamentals"
+      ]
+     },
+     {
+      "source": "so_survey_2025_india/Data_Engineering",
+      "score": 0.35371655225753784,
+      "queries": []
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 1,
+      "topic_refs": [
+       "6xRncUs3_vxVbDur567QA",
+       "dEFLBGpiH6nbSMeR7ecaT",
+       "so95CO6Qw3I0S98ISENS-",
+       "NP1kjSk0ujU0Gx-ajNHlR",
+       "Dvy7BnNzK55qbh_SgOk8m",
+       "-DJgS6l2qngfwurExlmmT",
+       "UT_SR7G-LYtzqooWrEtF1",
+       "bc9CL_HMT-R6nXO1eR-gP",
+       "i7xIGiXU-k5UIKHIhQPjE",
+       "soZFqivM3YBuljeX6PoaX",
+       "Sg5w8zO2Ji-uDJKEoWey9",
+       "fNTb9y3zs1HPYclAmu_Wv"
+      ],
+      "queries": [
+       "Data Engineering fundamentals",
+       "Data Engineering: Python"
+      ]
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 2,
+      "topic_refs": [
+       "AqwzR8dZKLQIoj_6KKZ3t",
+       "P_Di-XPSDITmU3xKQew8G",
+       "S0FLE70szSVUPI0CDEQK7",
+       "zAS4YiEJ6VPsyABrkIG8i",
+       "274uk28wzxn6EKWQzLpHs",
+       "l7k0qTYe42wYBTlT2-1cy",
+       "4gtmtYWYRWqwLdZRL0XMg",
+       "jnLIVRrWxcX3yq3Op91Vr",
+       "aB1LSQjDEQb_BxueOcnxU",
+       "pIluLJkySqn_gI_GykV6G",
+       "KAXF2kUAOvtBZhY8G9rkI",
+       "Nf3kRDSl_vas6QPXG7eVa"
+      ],
+      "queries": [
+       "Data Engineering: Python"
+      ]
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 3,
+      "topic_refs": [
+       "qeCMw-sJ2FR4UxvU9DDzv",
+       "iVhQnp6hpgVZDNJ0XoVra",
+       "_IXXTSwQOgYzYIUuKVWNE",
+       "uh67D1u-Iv5cZamRgFEJg",
+       "GHKAY9gOykEbxkEeR30wL",
+       "syV0DT_3ITgIFDbwPts8i",
+       "gIcJ3bUVQXqO1Wx4gUKd5",
+       "3FDwJpesfelEyJrNWtm0V",
+       "6cB0pvUO1-gvCtgqozP-Q",
+       "bS7WeVKm2kEElu3sBKcIC",
+       "HSY5OUc_M5S6OcFXPRtkx",
+       "UIx0XYaOgXXlYbbQtjiPq"
+      ],
+      "queries": [
+       "Data Engineering: Python"
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 2,
+    "title": "SQL",
+    "queries": [
+     "Data Engineering",
+     "Data Engineering fundamentals",
+     "Data Engineering: SQL"
+    ],
+    "retrieved": [
+     {
+      "source": "sql/learn-the-basics@nhUKKWyBH80nyKfGT8ErC.md",
+      "score": 0.5657515525817871,
+      "queries": [
+       "Data Engineering: SQL"
+      ]
+     },
+     {
+      "source": "sql/advanced-sql@UDqbT1y-YzBrljfKSz_RG.md",
+      "score": 0.5493415594100952,
+      "queries": [
+       "Data Engineering: SQL"
+      ]
+     },
+     {
+      "source": "sql/basic-sql-syntax@JDDG4KfhtIlw1rkNCzUli.md",
+      "score": 0.5400339365005493,
+      "queries": [
+       "Data Engineering: SQL"
+      ]
+     },
+     {
+      "source": "sql/data-manipulation-language-dml@WMSXi-eez_hHGDM8kUdWz.md",
+      "score": 0.5203841924667358,
+      "queries": [
+       "Data Engineering",
+       "Data Engineering fundamentals",
+       "Data Engineering: SQL"
+      ]
+     },
+     {
+      "source": "sql/data-definition-language-ddl@xPOeXK1EPBNG56vgfG-VV.md",
+      "score": 0.5078760981559753,
+      "queries": [
+       "Data Engineering",
+       "Data Engineering fundamentals",
+       "Data Engineering: SQL"
+      ]
+     },
+     {
+      "source": "sql/data-constraints@qBios3sZVhcJMpXmj9f7B.md",
+      "score": 0.49394306540489197,
+      "queries": [
+       "Data Engineering",
+       "Data Engineering fundamentals",
+       "Data Engineering: SQL"
+      ]
+     },
+     {
+      "source": "so_survey_2025_india/Data_Engineering",
+      "score": 0.35371655225753784,
+      "queries": []
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 4,
+      "topic_refs": [
+       "nhUKKWyBH80nyKfGT8ErC",
+       "JDDG4KfhtIlw1rkNCzUli",
+       "tBzMDfCMh6MIagNaxCzin",
+       "i8u8E_sne6XiKJo2FXDog",
+       "WhYAy6f7Euk3E49-ot644",
+       "NfCiSPrL4upMssukcw3Kh",
+       "4UQQYbjzwVxZOAxBuXKQS",
+       "aaua13CkTxLOYXr8cAgPm",
+       "X9cJJ8zLZCF2cOoqxwFfY",
+       "6qG0AVYd6Y1B8LOSDoMX9",
+       "14TKE6KhrH1yFtHcSZSXq",
+       "LX9nzJ4uqznHN4SksoDvr"
+      ],
+      "queries": [
+       "Data Engineering: SQL"
+      ]
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 5,
+      "topic_refs": [
+       "epEpBxRosLhuAuKwp823r",
+       "WjXlO42WL9saDS7RIGapt",
+       "K5vhqTJrdPK08Txv8zaEj",
+       "-Hew0y53ziZK3epQnGA0O",
+       "eu9dJFi6gBPMBdy08Y5Bb",
+       "ddtVaA4Ls6qRj-7OtTSIH",
+       "Jlwmyq6CUQeDAlL4dazOP",
+       "DHz6sRLYhFeCbAcNJS8hm",
+       "5yGo8i7eplxtXOD_qfzOs",
+       "M4M_-vjM9GNy0NmXZneDA",
+       "Q0h9Wfnl_W9ThOkv7Q17A",
+       "mBQ3Z8GlFcpIena3IB7D_"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 6,
+      "topic_refs": [
+       "OdaBXz2XBAVLsQ-m7xtAM",
+       "7sTW1vwUhCFOMXYjScVEt",
+       "3cMECz5QPVDOFrk5duObs",
+       "xbD67KVlt3UhHpKh8HLx8",
+       "pJtYvXUo81aZfPuRjIbMq",
+       "ujeq8EIFcrqkBjoFizsJM",
+       "w7FNjdwqjY7X69aJqqBy4",
+       "z5Sf0VU14ZCQ80kL1qOqc",
+       "03qMopxzjx_-dZbYw9b7J",
+       "vhBZqqmUcEon6-Vwvla4q",
+       "R1ktDJpXOz0PTllAcBrdu"
+      ],
+      "queries": [
+       "Data Engineering fundamentals"
+      ]
+     },
+     {
+      "step_number": 4,
+      "global_step_index": 7,
+      "topic_refs": [
+       "tedQynR0xicVKhuR1oahw",
+       "86iZ8s8EdhSuYwgwAM_EO",
+       "JZqS3Xapw6mfSPVgFW7av",
+       "tBvXLLp5FKeSSN35Kj1X4",
+       "zW27ZHdLwQY-85iqbBKQZ",
+       "2tyezwOIxV6O84N-Q3Awh",
+       "LcljR70T-OnzSrJJDqOWf",
+       "NtxGd6Vx-REBclry7lZuE",
+       "Ps9Yv2s-bKvEegGAbPsiA",
+       "C6P69YiFdS-ioPXMNfX07",
+       "C0dhS6uLf4TUSfvcWyXhv",
+       "UVTgbZrqpbYl1bQvQejcF"
+      ],
+      "queries": [
+       "Data Engineering: SQL"
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 3,
+    "title": "Data Engineering",
+    "queries": [
+     "Data Engineering",
+     "Data Engineering fundamentals",
+     "Data Engineering: Data Engineering"
+    ],
+    "retrieved": [
+     {
+      "source": "data-engineer/introduction@WSYIFni7G2C9Jr0pwuami.md",
+      "score": 0.7886403799057007,
+      "queries": [
+       "Data Engineering",
+       "Data Engineering fundamentals",
+       "Data Engineering: Data Engineering"
+      ]
+     },
+     {
+      "source": "data-engineer/what-is-data-engineering@WB2PRVI9C6RIbJ6l9zdbd.md",
+      "score": 0.7421414852142334,
+      "queries": [
+       "Data Engineering",
+       "Data Engineering fundamentals",
+       "Data Engineering: Data Engineering"
+      ]
+     },
+     {
+      "source": "data-engineer/data-engineering-vs-data-science@jJukG4XxfFcID_VlQKqe-.md",
+      "score": 0.6463414430618286,
+      "queries": [
+       "Data Engineering",
+       "Data Engineering fundamentals",
+       "Data Engineering: Data Engineering"
+      ]
+     },
+     {
+      "source": "data-engineer/data-engineering-lifecycle@w3cfuNC-IdUKA7CEXs0fT.md",
+      "score": 0.6297249794006348,
+      "queries": [
+       "Data Engineering",
+       "Data Engineering fundamentals",
+       "Data Engineering: Data Engineering"
+      ]
+     },
+     {
+      "source": "data-engineer/data-engineering-lifecycle@Ouph2bHeLQsrHl45ar4Cs.md",
+      "score": 0.6297249794006348,
+      "queries": [
+       "Data Engineering",
+       "Data Engineering fundamentals",
+       "Data Engineering: Data Engineering"
+      ]
+     },
+     {
+      "source": "data-engineer/data-interoperability@ghAbtfB5KtbboNjijL1Zf.md",
+      "score": 0.5993644595146179,
+      "queries": [
+       "Data Engineering",
+       "Data Engineering fundamentals",
+       "Data Engineering: Data Engineering"
+      ]
+     },
+     {
+      "source": "so_survey_2025_india/Data_Engineering",
+      "score": 0.35371655225753784,
+      "queries": []
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 8,
+      "topic_refs": [
+       "WSYIFni7G2C9Jr0pwuami",
+       "WB2PRVI9C6RIbJ6l9zdbd",
+       "jJukG4XxfFcID_VlQKqe-",
+       "3BxbkrBp8veZj38zdwN8s",
+       "Ouph2bHeLQsrHl45ar4Cs",
+       "_MpdVlvvkrsgzigYMZ_P8",
+       "_2Ofq3Df-VRXDgKyveZ0U",
+       "LZ4t8CoCjGWMzE0hScTGZ",
+       "WHJXJ5ukJd-tK_3LFLJBg",
+       "4z2i5NXTo9h3YY0kJvRrz",
+       "FXQ_QsljK59zDULLgTqCB",
+       "fqmn6DPOA5MH7UWYv6ayn"
+      ],
+      "queries": [
+       "Data Engineering",
+       "Data Engineering fundamentals",
+       "Data Engineering: Data Engineering"
+      ]
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 9,
+      "topic_refs": [
+       "AWf1y87pd1JFW71cZ_iE1",
+       "zGKTlMUzhrbVbqpLZBsMZ",
+       "wDDWQgMVBYK4WcmHq_d6l",
+       "cxTriSZvrmXP4axKynIZW",
+       "KeGCHoJRHp-mBX-P5to4Y",
+       "dJZqe47kzRqYIG-4AZTlz",
+       "s-wUPMaagyRupT2RdfHks",
+       "ghAbtfB5KtbboNjijL1Zf",
+       "nShDMih1HmubBczxu4cfU",
+       "g4UC0go7OPCJYJlac9w-i"
+      ],
+      "queries": [
+       "Data Engineering",
+       "Data Engineering fundamentals",
+       "Data Engineering: Data Engineering"
+      ]
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 10,
+      "topic_refs": [
+       "qRHeaD2udDaItAxmiIiUg",
+       "cslVSSKBMO7I6CpO7vG1H",
+       "__JFgwxeDLvz8p7DAJnsc",
+       "_bFj6rbLuqeQB5MjJZpd6",
+       "p7S_6O9Qq722r-F4bl6G3",
+       "YxnIQh6Y5ic795-YsajB8",
+       "PJcxM60h85Po0AAkSj7nr",
+       "uZYQ8tqTriXt_JIOjcM9_",
+       "04V0Bcgjusfqdw0b-Aw4W",
+       "QYR8ESN7xhi4ZxcoiZbgn",
+       "BDfpCDOxXZ-Tp0Abj_CVW",
+       "dW_eC4vR8BrvKG9wxmEBc"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 4,
+      "global_step_index": 11,
+      "topic_refs": [
+       "1BJGXWax6CONuFkaYR4Jm",
+       "ilbFKqhfYyykjJ7cOngwx",
+       "kVPEoUX-ZAGwstieD20Qa",
+       "-VQQmIUGesnrT1N6kH5et",
+       "AslPFjoakcC44CmPB5nuw",
+       "k_XSLLwb0Jk0Dd1sw-MpR",
+       "c1dadtQgbqXwcsQhI6de0",
+       "sGkAOVl3C-xIIAdtDH9jq",
+       "fSlBjoNVKstJjWO7rS69V",
+       "W6RnhoD7fW2xzVwnyJEDr",
+       "fBD6ZQoMac8w4kMJw_Jrd",
+       "2rRVWPON-o3MvpgZmrU_A"
+      ],
+      "queries": [
+       "Data Engineering",
+       "Data Engineering fundamentals",
+       "Data Engineering: Data Engineering"
+      ]
+     },
+     {
+      "step_number": 5,
+      "global_step_index": 12,
+      "topic_refs": [
+       "ArOoKuf9scAURs8NRjAru",
+       "dc3lJI27hJ3zZ45UCVqM1",
+       "J854xPM1X0BWlhtJw7Hs_",
+       "c6Pf3kFcC4iV4a7mPc-WH",
+       "SlQHO8n97F7-_fc6EUXlj",
+       "OfH_UXnxvGQgwlNQwOEfS",
+       "5KgPfywItqLFQRnIZldZH",
+       "Pf0_CBGkmSEfWDQ2_iFXr",
+       "omrg8QcYmTdQLBKV47b7o",
+       "Je2in1n8bMaknyeH79Zbv",
+       "zA5QqqBMsqymdiPGFdUnt"
+      ],
+      "queries": [
+       "Data Engineering",
+       "Data Engineering fundamentals",
+       "Data Engineering: Data Engineering"
+      ]
+     },
+     {
+      "step_number": 6,
+      "global_step_index": 13,
+      "topic_refs": [
+       "y0Lxz_wVyQ6lr1hvCsufa",
+       "fhfyoWekmYvEs-jdP2mJo",
+       "senZEYC9k-C_C4EAYDNeU",
+       "wydtifF3ZhMWCbVt8Hd2t",
+       "1LLF4466grFDlT9p_WLsi",
+       "0pH2U4GOj8zK3lgkh_r5M",
+       "D7qtosIbsQuIY3OWl_Hwc",
+       "-x3QLMYhC67VJQ6EW6BrJ",
+       "OiWleAdMbPtisrJpk2eSJ",
+       "14CycunRC1p2qTRn-ncoy",
+       "a5gzM8msXibxD58eVDkM-",
+       "pKewO7Ef3GBXL4MDK62QG"
+      ],
+      "queries": [
+       "Data Engineering",
+       "Data Engineering fundamentals",
+       "Data Engineering: Data Engineering"
+      ]
+     },
+     {
+      "step_number": 7,
+      "global_step_index": 14,
+      "topic_refs": [
+       "CvCOkyWcgzaUJec_v5F4L",
+       "GN1Xh3kA25ge-wTbdiSio",
+       "f-a3Hy1ldnvSv8W2mFiJK",
+       "wwPO5Uc6qnwYgibrbPn7y",
+       "oqxNr0Lj34mgRi5Z5wJt_",
+       "4fugNG5sEDl0kgmN3Mezk",
+       "TjsxMNyWO3YGwg6zEIid4",
+       "y5Aaxe-P68HC5kNsIi88q",
+       "LMFREK9dH_7qzx_s2xCjI",
+       "SgYLIkMtLVPlw8Qo5j0Fb",
+       "9xoBZgKT9uAGsjc1soelY",
+       "GyC2JctG-Gi0R_qx1lTeg"
+      ],
+      "queries": [
+       "Data Engineering",
+       "Data Engineering fundamentals",
+       "Data Engineering: Data Engineering"
+      ]
+     },
+     {
+      "step_number": 8,
+      "global_step_index": 15,
+      "topic_refs": [
+       "fqTPu70MJyXBmqYUgCJ_r",
+       "vfO5Dz6ppsNtbGiQwpUs7",
+       "TAh4__7U58J7fduU9a1Ol",
+       "_IiKTZDF_b57l79X6lsq6",
+       "ccc6_SzDwXpCL1WbFuPNA",
+       "BNGdJSmrNE90rwPa4JoWj",
+       "YWgVUyIvBRW8eTVR5y73P",
+       "Rzk6HlMosx3FN_JD5kELZ",
+       "yyJJGinOv3M21MFuqJs0j"
+      ],
+      "queries": [
+       "Data Engineering",
+       "Data Engineering fundamentals",
+       "Data Engineering: Data Engineering"
+      ]
+     },
+     {
+      "step_number": 9,
+      "global_step_index": 16,
+      "topic_refs": [
+       "03BHmPhYkZrJwRvQdmxxr",
+       "Ad10evrGQuYRl5GaMhQwu",
+       "hB0y8A2U3owpAbTUb7LN5",
+       "wpZfbIFtfiUSLMASk4t7f",
+       "qHMtJFYcGmESiz_VwRwiI",
+       "__tWu5uZYnmnuR-qO9SOR",
+       "pjm_qShAiFk3JsX4Z2d8G",
+       "Uho9OOWSG0bUpyH4P6hKk",
+       "ltZftFsiOo12AkQ-04N3B"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 10,
+      "global_step_index": 17,
+      "topic_refs": [
+       "dAvizeYvv92KMeAvSDmey",
+       "IZvL-1Xi0R9IuwJ30FDm4",
+       "VefHaP7rIOcZVFzglyn66",
+       "fTpx6m8U0506ZLCdDU5OG",
+       "ERcgPTACqYo9BXoRdLjbd",
+       "uIU5Yncp6hGDcNO1fpjUS",
+       "uFeiTRobSymkvCinhwmZV"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 11,
+      "global_step_index": 18,
+      "topic_refs": [
+       "lDeSL9qvgQgyAMcWXF7Fr",
+       "YLfyb_ycgz1hu0yW8SPNE",
+       "ZnGX8pg4GagdSalg_P0oq",
+       "tbut25IZI2aU7TkI9fFYV",
+       "AHLsBfPfBJOhLlJ-64GcK",
+       "GtFk7phYGfXUhxanicYNQ",
+       "YZ4G1-6VJ7VdsphdcBTf9",
+       "gzbEGCUwMsD1gL4nW668g",
+       "iIZ3g70KRwEJCBNaONd2d",
+       "2lqvArZdwRX0t3P3yovEH",
+       "9-wQWQIdAxQmMaJC9ojPg",
+       "goL_GqVVTVxXQMGBw992b"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 12,
+      "global_step_index": 19,
+      "topic_refs": [
+       "cStrYgFZA2NuYq8TdWWP_",
+       "DZoxLu-j1vq5leoXLRZqt",
+       "8dXD4ddR_USEbAJhUMcB6",
+       "NIG53tyoEiLtwf6LvBZId",
+       "E4ND5XaMDGDLtlV7wTzi6",
+       "mC9sWeC_wYHeJJHJAvxpI",
+       "woa5K4Dt9L6aBzlJMNS31",
+       "qoMRpAITA7R_KOrwGDPAb",
+       "dk5FQl7Pk3-O5eF7dKwmp",
+       "3QsgoKKxAoyj2LWJ8ad-7",
+       "Zoa4JEGrSKjVwUNer4Go1",
+       "i54fx-NV6nWzQVCdi0aKL"
+      ],
+      "queries": [
+       "Data Engineering",
+       "Data Engineering fundamentals",
+       "Data Engineering: Data Engineering"
+      ]
+     },
+     {
+      "step_number": 13,
+      "global_step_index": 20,
+      "topic_refs": [
+       "OQ3RqVgWEMxpAtrrjOG5U",
+       "eTHitN2erd6z8-MZiXE9s",
+       "I_IueX1DFp-LmBwr1-suX",
+       "k2SJ4ELGa4B2ZERDAk1uj",
+       "N8vpCfSdZCADwO_qceWBK",
+       "IYIO4S3DO5xkLD__XT5Dp",
+       "02TADW_PPVtTU_rWV3jf1",
+       "jgz7L8OSuqRNcf9buuMTj",
+       "N-xRhdOTHijAymcTWPXPJ",
+       "WdlC0HhJ5YESfjXmdMnLU",
+       "OKJ3HTfreitk2JdrfeLIK",
+       "WUfJCLTajyLNK19gAAvoW"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 14,
+      "global_step_index": 21,
+      "topic_refs": [
+       "2PqRgrYuJi_pPhOS0AkoP",
+       "2Wu1Ufm2l1nrytz1mAxmJ",
+       "rUiYUV4ps6NYYYRwUnjuM",
+       "ZAKo9Svb8TQ6KkmOnfB5x",
+       "HDVhttLNMLmIAVEOBCOQ3",
+       "MuPHohc7mJzcH5QdJ-K46",
+       "g1VwuSupohuDAT2O4hTXx",
+       "tdqhFFvQ2dQVeQh1qTHjV"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 15,
+      "global_step_index": 22,
+      "topic_refs": [
+       "RspQLpkICyHUmthLlxQ84",
+       "V30v5RLQrWSMBUIsZQG1o",
+       "gqEAOwHFrQiYSejNUdV7-",
+       "fY0eZzz0aTXm2lelk8l3g",
+       "6Nr5FAGT_oOPZwZWdv7hl",
+       "FfU6Vwf0PXva91FoqxFgp",
+       "JpuiYsipNWBcrjmn2ji6b",
+       "mBOGrJIUaatBe2PnJM2NK",
+       "vZGDtlyt_yj4szcPTw3cv",
+       "8NTe5-XQ5tKAWUyg1rnzb",
+       "8vqjI-uFwJIr_TBEVyM_3",
+       "VQv-c7buU2l-IDzRZBMRo"
+      ],
+      "queries": [
+       "Data Engineering",
+       "Data Engineering fundamentals",
+       "Data Engineering: Data Engineering"
+      ]
+     }
+    ]
+   }
+  ]
+ }
+}
