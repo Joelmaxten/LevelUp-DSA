@@ -1,0 +1,2086 @@
+{
+ "metadata": {
+  "schema_version": 1,
+  "career_path": "Game Development",
+  "model_id": "claude-opus-5-5",
+  "built_at": "2026-10-10T17:43:39Z",
+  "generator": {
+   "profile": "neutral",
+   "provider": "claude_authored",
+   "llm_host": null,
+   "authoring": "Every model reply in this run was written by Claude (claude-opus-5-5) in a Claude Code cloud session, answering the generator's own prompts; retrieval, topic-ref validation, duplicate check, more_topics, resources and audit are the unmodified pipeline.",
+   "phase_concurrency": 1,
+   "duplicate_similarity_threshold": 0.8,
+   "reasoning_effort": "",
+   "resources": "kb_only"
+  },
+  "inventory_fingerprint": "12def1dcd19f377ce50692bdb2db1ed7ee81bff3a0c7d3d9ce21015395119313"
+ },
+ "roadmap": {
+  "phases": [
+   {
+    "phase_number": 1,
+    "title": "C++",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "C++ Setup and Core Syntax",
+      "description": "Almost every commercial game engine and its tooling is written in C++, so a working compiler setup and fluent core syntax are the ground everything else in this path stands on. Get a program compiling, then practise types, operators, control flow, functions and pointers until they feel routine.",
+      "topic_refs": [
+       "NvODRFR0DLINB0RlPSsvt",
+       "x_28LiDVshqWns_aIBsdx",
+       "Zc_TTzmM36yWsu3GvOy9x",
+       "0J_ltQEJh2g28OE2ZEYJj",
+       "SEq0D2Zg5WTsIDtd1hW9f",
+       "MwznA4qfpNlv6sqSNjPZi",
+       "8aOSpZLWwZv_BEYiurhyR",
+       "s5Gs4yF9TPh-psYmtPzks",
+       "_IP_e1K9LhNHilYTDh7L5",
+       "oYi3YOc1GC2Nfp71VOkJt",
+       "DWw8NxkLpIpiOSUaZZ1oA",
+       "dKCYmxDNZubCVcR5rf8b-"
+      ],
+      "projects": [
+       {
+        "title": "Console number-guessing game",
+        "description": "A terminal game with a random target, a turn limit and a replay loop, built only from core syntax.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Text-mode tic-tac-toe",
+        "description": "A two-player board game that stores the grid in an array and checks for wins and draws with functions.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Introduction to Language",
+       "What is C++?",
+       "Setting up your Environment",
+       "Installing C++",
+       "Running Your First Program"
+      ],
+      "more_topics": [
+       {
+        "node_id": "tl6VCQ5IEGDVyFcgj7jDm",
+        "title": "Why Use C++"
+       },
+       {
+        "node_id": "Kb2Pbz0Sq7YlO1vCwYxnX",
+        "title": "Language Tools"
+       },
+       {
+        "node_id": "FTMHsUiE8isD_OVZr62Xc",
+        "title": "Compilers"
+       },
+       {
+        "node_id": "2Ag0t3LPryTF8khHLRfy-",
+        "title": "C vs C++"
+       },
+       {
+        "node_id": "-6fwJQOfsorgHkoQGp4T3",
+        "title": "Language Concepts"
+       },
+       {
+        "node_id": "T6rCTv9Dxkm-tEA-l9XEv",
+        "title": "C++11 and C++14"
+       },
+       {
+        "node_id": "sxbbKtg7kMNbkx7fXhjR9",
+        "title": "C++23"
+       },
+       {
+        "node_id": "zKdlfZTRHwjtmRUGW9z9-",
+        "title": "C++ Macros"
+       },
+       {
+        "node_id": "vvE1aUsWbF1OFcmMUHbJa",
+        "title": "C++ Standards"
+       },
+       {
+        "node_id": "PPg0V5EzGBeJsysg1215V",
+        "title": "C++11"
+       },
+       {
+        "node_id": "kl2JI_Wl47c5r8SYzxvCq",
+        "title": "Basic Operations"
+       },
+       {
+        "node_id": "CG01PTVgHtjfKvsJkJLGl",
+        "title": "Auto Type Deduction"
+       },
+       {
+        "node_id": "Y9gq8WkDA_XGe68JkY2UZ",
+        "title": "Logical Operators"
+       },
+       {
+        "node_id": "f1djN0GxoeVPr_0cl6vMq",
+        "title": "Static Typing"
+       },
+       {
+        "node_id": "iIdC7V8sojwyEqK1xMuHn",
+        "title": "Namespaces"
+       },
+       {
+        "node_id": "B2SGBENzUMl0SAjG4j91V",
+        "title": "Exception Handling"
+       },
+       {
+        "node_id": "6hTcmJwNnQstbWWzNCfTe",
+        "title": "Full Template Specialization"
+       },
+       {
+        "node_id": "1CqQgmHDeo1HlPdpUJS7H",
+        "title": "fmt"
+       },
+       {
+        "node_id": "sObOuccY0PDeGG-9GrFDF",
+        "title": "Template Specialization"
+       },
+       {
+        "node_id": "bjpFWxiCKGz28E-ukhZBp",
+        "title": "Conditional Statements and Unconditional Jump"
+       },
+       {
+        "node_id": "PiMhw1oP9-NZEa6I9u4lX",
+        "title": "Type Casting"
+       },
+       {
+        "node_id": "et-dXKPYuyVW6eV2K3CM8",
+        "title": "Ranges v3"
+       },
+       {
+        "node_id": "zE4iPSq2KsrDSByQ0sGK_",
+        "title": "Bitwise Operators"
+       },
+       {
+        "node_id": "oWygnpwHq2poXQMTTSCpl",
+        "title": "Exit Codes"
+       },
+       {
+        "node_id": "jpMCIWQko7p3ndezYHL4D",
+        "title": "Protobuf"
+       },
+       {
+        "node_id": "j_eNHhs0J08Dt7HVbo4Q2",
+        "title": "Tensorflow"
+       }
+      ],
+      "global_step_index": 1,
+      "resource": {
+       "title": "C++ Full Course by freeCodeCamp",
+       "url": "https://youtube.com/watch?v=vLnPwxZdW4Y"
+      },
+      "videos": [
+       {
+        "title": "C++ Full Course by freeCodeCamp",
+        "url": "https://youtube.com/watch?v=vLnPwxZdW4Y",
+        "video_id": "vLnPwxZdW4Y",
+        "source": "roadmap.sh",
+        "topic": "Introduction to Language"
+       },
+       {
+        "title": "How to set up C++ in Visual Studio Code",
+        "url": "https://youtube.com/watch?v=DMWD7wfhgNY",
+        "video_id": "DMWD7wfhgNY",
+        "source": "roadmap.sh",
+        "topic": "Setting up your Environment"
+       },
+       {
+        "title": "Learn C++ With Me #20 - Functions",
+        "url": "https://youtube.com/watch?v=C83tPpvxIJA",
+        "video_id": "C83tPpvxIJA",
+        "source": "roadmap.sh",
+        "topic": "Functions"
+       },
+       {
+        "title": "C++ pointers explained easy 👈",
+        "url": "https://youtube.com/watch?v=slzcWKWCMBg",
+        "video_id": "slzcWKWCMBg",
+        "source": "roadmap.sh",
+        "topic": "Pointers and References"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "The Standard",
+        "url": "https://isocpp.org/std/the-standard",
+        "topic": "C++23"
+       },
+       {
+        "type": "official",
+        "title": "fmt",
+        "url": "https://fmt.dev/12.0/",
+        "topic": "fmt"
+       },
+       {
+        "type": "course",
+        "title": "Modern Cpp Series By Mike Shah",
+        "url": "https://courses.mshah.io/courses/cpp-programming-language",
+        "topic": "Introduction to Language"
+       }
+      ]
+     },
+     {
+      "step_number": 2,
+      "title": "Memory, Ownership and Smart Pointers",
+      "description": "Games allocate and free thousands of objects every frame, and leaks or dangling pointers are among the most common crash causes in shipped titles. Learn how object lifetime works, why RAII and smart pointers exist, and how undefined behaviour shows up.",
+      "topic_refs": [
+       "uEGEmbxegATIrvGfobJb9",
+       "Gld0nRs0sM8kRe8XmYolu",
+       "6w0WExQ4lGIGgok6Thq0s",
+       "OmHDlLxCnH8RDdu5vx9fl",
+       "ulvwm4rRPgkpgaqGgyH5a",
+       "k9c5seRkhgm_yHPpiz2X0",
+       "b5jZIZD_U_CPg-_bdndjz",
+       "vUwSS-uX36OWZouO0wOcy",
+       "9aA_-IfQ9WmbPgwic0mFN",
+       "7sdEzZCIoarzznwO4XcCv",
+       "IDOlquv6jlfecwQoBwkGZ",
+       "y4-P4UNC--rE1vni8HdTn"
+      ],
+      "projects": [
+       {
+        "title": "Leak-hunting exercise",
+        "description": "Write a small entity spawner with raw new/delete, find its leaks with a tool, then rewrite it with unique_ptr.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Resource handle class",
+        "description": "A RAII wrapper that loads and frees a texture-like resource, following the rule of five.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Raw Pointers",
+       "New/Delete Operators",
+       "Memory Leakage",
+       "RAII",
+       "Smart Pointers"
+      ],
+      "more_topics": [
+       {
+        "node_id": "fb3bnfKXjSIjPAk4b95lg",
+        "title": "C++ Idioms"
+       },
+       {
+        "node_id": "NJud5SXBAUZ6Sr78kZ7jx",
+        "title": "Exceptions"
+       },
+       {
+        "node_id": "r0yD1gfn03wTpEBi6zNsu",
+        "title": "Run-Time Type Identification (RTTI)"
+       },
+       {
+        "node_id": "lxAzI42jQdaofzQ5MXebG",
+        "title": "Copy and Swap"
+       },
+       {
+        "node_id": "xjUaIp8gGxkN-cp8emJ2M",
+        "title": "Non-Copyable / Non-Moveable"
+       },
+       {
+        "node_id": "4BdFcuQ5KNW94cu2jz-vE",
+        "title": "Dynamic Cast"
+       },
+       {
+        "node_id": "uUzRKa9wGzdUwwmAg3FWr",
+        "title": "References"
+       },
+       {
+        "node_id": "YvmjrZSAOmjhVPo05MJqN",
+        "title": "Erase-Remove"
+       },
+       {
+        "node_id": "3C5UfejDX-1Z8ZF6C53xD",
+        "title": "SFINAE (Substitution Failure Is Not An Error)"
+       },
+       {
+        "node_id": "ZMyFDJrpCauGrY5NZkOwg",
+        "title": "reinterpret_cast"
+       },
+       {
+        "node_id": "5g22glc97siQOcTkHbwan",
+        "title": "const_cast"
+       },
+       {
+        "node_id": "O2Du5gHHxFxAI2u5uO8wu",
+        "title": "Copy on Write"
+       },
+       {
+        "node_id": "_XB2Imyf23-6AOeoNLhYQ",
+        "title": "static_cast"
+       }
+      ],
+      "global_step_index": 2,
+      "resource": {
+       "title": "What is RAII (Resource Acquisition Is Initialization)?",
+       "url": "https://youtube.com/watch?v=q6dVKMgeEkk"
+      },
+      "videos": [
+       {
+        "title": "What is RAII (Resource Acquisition Is Initialization)?",
+        "url": "https://youtube.com/watch?v=q6dVKMgeEkk",
+        "video_id": "q6dVKMgeEkk",
+        "source": "roadmap.sh",
+        "topic": "RAII"
+       },
+       {
+        "title": "SMART POINTERS in C++ (std::unique_ptr, std::shared_ptr, std::weak_ptr)",
+        "url": "https://youtube.com/watch?v=UOB7-B2MfwA",
+        "video_id": "UOB7-B2MfwA",
+        "source": "roadmap.sh",
+        "topic": "Smart Pointers"
+       },
+       {
+        "title": "Dynamic cast c++ Runtime Type Identification example why we use dynamic cast - RTTI",
+        "url": "https://youtube.com/watch?v=2PXN7Zk9v80",
+        "video_id": "2PXN7Zk9v80",
+        "source": "roadmap.sh",
+        "topic": "Run-Time Type Identification (RTTI)"
+       },
+       {
+        "title": "Copying and Copy Constructors in C++",
+        "url": "https://youtube.com/watch?v=BvR1Pgzzr38",
+        "video_id": "BvR1Pgzzr38",
+        "source": "roadmap.sh",
+        "topic": "Copy and Swap"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "std::unique_ptr - Detailed Reference",
+        "url": "https://en.cppreference.com/w/cpp/memory/unique_ptr",
+        "topic": "unique_ptr"
+       }
+      ]
+     },
+     {
+      "step_number": 3,
+      "title": "Classes, Polymorphism and the STL",
+      "description": "Game objects, components and systems are modelled with classes, virtual functions and templates, and the standard containers and algorithms do most of the bookkeeping. This step covers the object model and the parts of the STL you will use daily.",
+      "topic_refs": [
+       "b3-QYKNcW3LYCNOza3Olf",
+       "CMlWNQwpywNhO9B6Yj6Me",
+       "hNBErGNiegLsUJn_vgcOR",
+       "s99ImazcwCgAESxZd8ksa",
+       "7h1VivjCPDwriL7FirtFv",
+       "obZIxRp0eMWdG7gplNIBc",
+       "llCBeut_uc9IAe2oi4KZ9",
+       "-6AOrbuOE7DJCmxlcgCay",
+       "xjiFBVe-VGqCqWfkPVGKf",
+       "1pydf-SR0QUfVNuBEyvzc",
+       "whyj6Z4RXFsVQYRfYYn7B",
+       "Ebu8gzbyyXEeJryeE0SpG"
+      ],
+      "projects": [
+       {
+        "title": "Shape and collider hierarchy",
+        "description": "A base Collider class with circle and box subclasses, stored in a std::vector and tested polymorphically.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Templated 2D vector maths",
+        "description": "A Vec2<T> type with overloaded operators, used to move sprites in a simple simulation loop.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Inventory system with STL",
+        "description": "An item inventory that sorts, filters and searches with containers, lambdas and algorithms.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Object-Oriented Programming (OOP)",
+       "Structures and Classes",
+       "Virtual Methods",
+       "Virtual Tables",
+       "Dynamic Polymorphism"
+      ],
+      "more_topics": [
+       {
+        "node_id": "DHdNBP7_ixjr6h-dIQ7g6",
+        "title": "C++ Standard Library and STL"
+       },
+       {
+        "node_id": "ttt-yeIi4BPWrgvW324W7",
+        "title": "CRTP"
+       },
+       {
+        "node_id": "nOkniNXfXwPPlOEJHJoGl",
+        "title": "POCO"
+       },
+       {
+        "node_id": "mSFwsTYvmg-GwG4_DEIEf",
+        "title": "Memory Model"
+       },
+       {
+        "node_id": "ofwdZm05AUqCIWmfgGHk8",
+        "title": "Diamond Inheritance"
+       },
+       {
+        "node_id": "WjHpueZDK-d3oDNMVZi9w",
+        "title": "Multiple Inheritance"
+       },
+       {
+        "node_id": "i0EAFEUB-F0wBJWOtrl1A",
+        "title": "Dynamic Typing"
+       },
+       {
+        "node_id": "MEoWt8NKjPLVTeGgYf3cR",
+        "title": "Pimpl Idiom"
+       },
+       {
+        "node_id": "YSWN7nS8vA9nMldSUrZRT",
+        "title": "Argument Dependent Lookup (ADL)"
+       },
+       {
+        "node_id": "w4EIf58KP-Pq-yc0HlGxc",
+        "title": "Variadic Templates"
+       },
+       {
+        "node_id": "Eq3TKSFJ2F2mrTHAaU2J4",
+        "title": "OpenCV"
+       },
+       {
+        "node_id": "GGZJaYpRENaqloJzt0VtY",
+        "title": "OpenCL"
+       }
+      ],
+      "global_step_index": 3,
+      "resource": {
+       "title": "Object Oriented Programming (OOP) in C++ Course",
+       "url": "https://youtube.com/watch?v=wN0x9eZLix4"
+      },
+      "videos": [
+       {
+        "title": "Object Oriented Programming (OOP) in C++ Course",
+        "url": "https://youtube.com/watch?v=wN0x9eZLix4",
+        "video_id": "wN0x9eZLix4",
+        "source": "roadmap.sh",
+        "topic": "Object-Oriented Programming (OOP)"
+       },
+       {
+        "title": "CLASSES vs STRUCTS in C++",
+        "url": "https://youtube.com/watch?v=fLgTtaqqJp0",
+        "video_id": "fLgTtaqqJp0",
+        "source": "roadmap.sh",
+        "topic": "Structures and Classes"
+       },
+       {
+        "title": "Virtual Functions Explained (YouTube)",
+        "url": "https://youtube.com/watch?v=oIV2KchSyGQ",
+        "video_id": "oIV2KchSyGQ",
+        "source": "roadmap.sh",
+        "topic": "Virtual Methods"
+       },
+       {
+        "title": "Classes part 18 - Understanding the vtable (Popular interview question) | Modern Cpp Series Ep. 54",
+        "url": "https://youtube.com/watch?v=hS7kPtVB1vI",
+        "video_id": "hS7kPtVB1vI",
+        "source": "roadmap.sh",
+        "topic": "Virtual Tables"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "C++ Virtual Functions Documentation",
+        "url": "https://en.cppreference.com/w/cpp/language/virtual",
+        "topic": "Virtual Methods"
+       },
+       {
+        "type": "official",
+        "title": "Operator Overloading - Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/cpp/cpp/operator-overloading",
+        "topic": "Operator Overloading in C++"
+       },
+       {
+        "type": "official",
+        "title": "POCO Docs",
+        "url": "https://pocoproject.org/documentation.html",
+        "topic": "POCO"
+       },
+       {
+        "type": "official",
+        "title": "OpenCV",
+        "url": "https://opencv.org/",
+        "topic": "OpenCV"
+       }
+      ]
+     },
+     {
+      "step_number": 4,
+      "title": "Building, Debugging and Profiling C++ Projects",
+      "description": "Real game projects span many files and third-party libraries, and performance problems are found with debuggers and profilers, not guesses. Learn how compilation and linking work, manage builds with CMake and packages, and practise debugging and profiling multithreaded code.",
+      "topic_refs": [
+       "jVXFCo6puMxJ_ifn_uwim",
+       "ysnXvSHGBMMozBJyXpHl5",
+       "CK7yf8Bo7kfbV6x2tZTrh",
+       "DVckzBUMgk_lWThVkLyAT",
+       "qmHs6_BzND_xpMmls5YUH",
+       "BmWsoL9c_Aag5nVlMsKm2",
+       "sR_FxGZHoMCV9Iv7z2_SX",
+       "h29eJG1hWHa7vMhSqtfV2",
+       "PKG5pACLfRS2ogfzBX47_",
+       "4kkX5g_-plX9zVqr0ZoiR",
+       "OXQUPqxzs1-giAACwl3X1",
+       "O0lVEMTAV1pq9sYCKQvh_"
+      ],
+      "projects": [
+       {
+        "title": "CMake project with a library",
+        "description": "Split a small game into headers and source files, build it with CMake and pull one library in through vcpkg.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Profile a slow update loop",
+        "description": "Deliberately write an inefficient particle update, profile it, and measure the speed-up after fixing the hot spot.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Build Systems",
+       "CMake",
+       "Headers / CPP Files",
+       "Compiler Stages",
+       "Debuggers"
+      ],
+      "more_topics": [
+       {
+        "node_id": "hSG6Aux39X0cXi6ADy2al",
+        "title": "Compilers and Features"
+       },
+       {
+        "node_id": "1d7h5P1Q0RVHryKPVogQy",
+        "title": "Boost"
+       },
+       {
+        "node_id": "y8VCbGDUco9bzGRfIBD8R",
+        "title": "WinDbg"
+       },
+       {
+        "node_id": "o3no4a5_iMFzEAGs56-BJ",
+        "title": "C++20"
+       },
+       {
+        "node_id": "VtPb8-AJKzhTB0QbMtoU4",
+        "title": "Understanding Debugger Messages"
+       },
+       {
+        "node_id": "5mNqH_AEiLxUmgurNW1Fq",
+        "title": "Library Inclusion"
+       },
+       {
+        "node_id": "ew0AfyadpXPRO0ZY3Z19k",
+        "title": "Code Editors / IDEs"
+       },
+       {
+        "node_id": "WptReUOwVth3C9-AVmMHF",
+        "title": "Type Traits"
+       },
+       {
+        "node_id": "88pr5aN7cctZfDVVo-2ns",
+        "title": "PyTorch C++"
+       },
+       {
+        "node_id": "Zw2AOTK5uc9BoKEpY7W1C",
+        "title": "Structuring Codebase"
+       },
+       {
+        "node_id": "t6rZLH7l8JQm99ax_fEJ9",
+        "title": "Makefile"
+       },
+       {
+        "node_id": "s13jQuaC6gw0Lab3Cbyy6",
+        "title": "Catch2"
+       },
+       {
+        "node_id": "Lt7ss59KZw9Jwqj234jm2",
+        "title": "Name Mangling"
+       },
+       {
+        "node_id": "R2-qWGUxsTOeSHRuUzhd2",
+        "title": "C++17"
+       },
+       {
+        "node_id": "VeVxZ230xkesQsIDig8zQ",
+        "title": "iostream"
+       },
+       {
+        "node_id": "g0s0F4mLV16eNvMBflN2e",
+        "title": "NuGet"
+       },
+       {
+        "node_id": "yGvE6eHKlPMBB6rde0llR",
+        "title": "Date / Time"
+       },
+       {
+        "node_id": "sgfqb22sdN4VRJYkhAVaf",
+        "title": "Function Overloading"
+       },
+       {
+        "node_id": "q64qFxoCrR38RPsN2lC8x",
+        "title": "spdlog"
+       },
+       {
+        "node_id": "1NYJtbdcdOB4-vIrnq4yX",
+        "title": "Partial Template Specialization"
+       },
+       {
+        "node_id": "HkUCD5A_M9bJxJRElkK0x",
+        "title": "Ninja"
+       },
+       {
+        "node_id": "tEkvlJPAkD5fji-MMODL7",
+        "title": "pybind11"
+       },
+       {
+        "node_id": "gAZ9Dqgj1_UkaLzVgzx1t",
+        "title": "Qt"
+       },
+       {
+        "node_id": "ZHjU60uzJTezADRhDTESG",
+        "title": "Forward Declaration"
+       },
+       {
+        "node_id": "ky_UqizToTZHC_b77qFi2",
+        "title": "Conan"
+       },
+       {
+        "node_id": "3ehBc2sKVlPj7dn4RVZCH",
+        "title": "Spack"
+       },
+       {
+        "node_id": "MrAM-viRaF8DSxB6sVdD9",
+        "title": "Google Test and Google Mock"
+       },
+       {
+        "node_id": "sLVs95EOeHZldoKY0L_dH",
+        "title": "Licensing"
+       },
+       {
+        "node_id": "621J9W4xCofumNZGo4TZT",
+        "title": "gRPC"
+       }
+      ],
+      "global_step_index": 4,
+      "resource": {
+       "title": "CMake, How it Works (At Three Different Levels)",
+       "url": "https://youtube.com/watch?v=SDX0oYqdv_g"
+      },
+      "videos": [
+       {
+        "title": "CMake, How it Works (At Three Different Levels)",
+        "url": "https://youtube.com/watch?v=SDX0oYqdv_g",
+        "video_id": "SDX0oYqdv_g",
+        "source": "roadmap.sh",
+        "topic": "CMake"
+       },
+       {
+        "title": "What are header files in C++ ( PROGRAMMING TUTORIAL for beginners)",
+        "url": "https://youtube.com/watch?v=qaGzc56Rekg",
+        "video_id": "qaGzc56Rekg",
+        "source": "roadmap.sh",
+        "topic": "Headers / CPP Files"
+       },
+       {
+        "title": "GDB is REALLY easy! Find Bugs in Your Code with Only A Few Commands",
+        "url": "https://youtube.com/watch?v=Dq8l1_-QgAc",
+        "video_id": "Dq8l1_-QgAc",
+        "source": "roadmap.sh",
+        "topic": "GDB: GNU Debugger"
+       },
+       {
+        "title": "vcpkg Crash Course | Visual Studio 2022 | C++ libraries simplified!",
+        "url": "https://youtube.com/watch?v=0h1lC3QHLHU",
+        "video_id": "0h1lC3QHLHU",
+        "source": "roadmap.sh",
+        "topic": "vcpkg"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "vcpkg Docs",
+        "url": "https://learn.microsoft.com/en-gb/vcpkg/",
+        "topic": "vcpkg"
+       },
+       {
+        "type": "official",
+        "title": "ORBIT PROFILER",
+        "url": "https://orbitprofiler.com/",
+        "topic": "Orbit Profiler"
+       },
+       {
+        "type": "official",
+        "title": "Boost Libraries",
+        "url": "https://www.boost.org/",
+        "topic": "Boost"
+       },
+       {
+        "type": "official",
+        "title": "PyTorch C++ API",
+        "url": "https://docs.pytorch.org/cppdocs/",
+        "topic": "PyTorch C++"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 2,
+    "title": "Game Development",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "Game Engines and Their Scripting Languages",
+      "description": "Studios in India and abroad mostly ship on Unity, Unreal or Godot, and each engine dictates the language you script in. Learn what an engine provides and try one end to end before going deeper into the maths and systems underneath.",
+      "topic_refs": [
+       "fv5tivGad2P9GRZOodfn2",
+       "rNeOti8DDyWTMP9FB9kJ_",
+       "a6H-cZtp3A_fB8jnfMxBR",
+       "7OffO2mBmfBKqPBTZ9ngI",
+       "AaRZiItRcn8fYb5R62vfT",
+       "Ph3ZqmSnwwzUBUC-6dgf-",
+       "jsq0UXnIIC0Z_nbK2w48f",
+       "4YgbrXLXf5mfaL2tlYkzk",
+       "AJp_QRLgSG5ETXDIjUjmm",
+       "ts9pWxUimvFqfNJYCmNNw",
+       "CeAUEN233L4IoFSZtIvvl"
+      ],
+      "projects": [
+       {
+        "title": "Same mini-game in two engines",
+        "description": "Build a one-screen collect-the-coins game in Godot and again in Unity, and note what each engine makes easy.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Engine feature comparison sheet",
+        "description": "Document scene structure, scripting language, build targets and licensing for three engines from hands-on use.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Game Engine",
+       "Unity 3D",
+       "Unreal Engine",
+       "Godot",
+       "GDScript"
+      ],
+      "more_topics": [],
+      "global_step_index": 5,
+      "resource": {
+       "title": "Choosing a Game Engine is Easy!",
+       "url": "https://youtube.com/watch?v=aMgB018o71U"
+      },
+      "videos": [
+       {
+        "title": "Choosing a Game Engine is Easy!",
+        "url": "https://youtube.com/watch?v=aMgB018o71U",
+        "video_id": "aMgB018o71U",
+        "source": "roadmap.sh",
+        "topic": "Game Engine"
+       },
+       {
+        "title": "Unity in 100 Seconds",
+        "url": "https://youtube.com/watch?v=iqlH4okiQqg",
+        "video_id": "iqlH4okiQqg",
+        "source": "roadmap.sh",
+        "topic": "Unity 3D"
+       },
+       {
+        "title": "Unreal in 100 Seconds",
+        "url": "https://youtube.com/watch?v=DXDe-2BC4cE",
+        "video_id": "DXDe-2BC4cE",
+        "source": "roadmap.sh",
+        "topic": "Unreal Engine"
+       },
+       {
+        "title": "Godot in 100 Seconds",
+        "url": "https://youtube.com/watch?v=QKgTZWbwD1U",
+        "video_id": "QKgTZWbwD1U",
+        "source": "roadmap.sh",
+        "topic": "Godot"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Unity",
+        "url": "https://unity.com/",
+        "topic": "Unity 3D"
+       },
+       {
+        "type": "official",
+        "title": "Unity Engine for Video Games",
+        "url": "https://unity.com/products/unity-engine",
+        "topic": "Unity 3D"
+       },
+       {
+        "type": "official",
+        "title": "Creating a 3D Game",
+        "url": "https://docs.unity3d.com/2021.2/Documentation/Manual/Quickstart3DCreate.html",
+        "topic": "Unity 3D"
+       },
+       {
+        "type": "official",
+        "title": "Unreal Engine Documentation",
+        "url": "https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-5-4-documentation",
+        "topic": "Unreal Engine"
+       }
+      ]
+     },
+     {
+      "step_number": 2,
+      "title": "Vectors, Matrices and Transformations",
+      "description": "Every position, direction and camera in a game is a vector or a matrix, so this maths is used on every frame. Work through vectors, matrices and affine and projective transformations until you can place and move objects by hand.",
+      "topic_refs": [
+       "m1wX27XBWKXZcTMH2U1xp",
+       "grRf-MmaXimDB4iODOV47",
+       "yLEyh5XJ3sl8eHD-PoSvJ",
+       "Kg6Mg9ieUUGXWX9Lai7B0",
+       "XWxW2ZBw3LcQ4DRk4tgAG",
+       "r5TcXQsU9s4NlAQIPvZ3U",
+       "SkCreb6g4i-OFtJWhRYqO",
+       "XABzEU9owCx9-zw1id9xU",
+       "d6C1qFv-Tad3AtMBDLI6r",
+       "5qfoD77wU4ETI7rUSy4Nc",
+       "LEJymJ2EaAW5FM5LgKW38"
+      ],
+      "projects": [
+       {
+        "title": "Software 3D wireframe viewer",
+        "description": "Project a rotating cube onto a 2D canvas using your own matrix multiplication and perspective divide.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Top-down aiming with vectors",
+        "description": "A turret that turns to face the mouse using dot and cross products instead of engine helpers.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Game Mathematics",
+       "Linear Algebra",
+       "Vector",
+       "Matrix",
+       "Geometry"
+      ],
+      "more_topics": [
+       {
+        "node_id": "Wq8siopWTD7sylNi0575X",
+        "title": "2D"
+       }
+      ],
+      "global_step_index": 6,
+      "resource": {
+       "title": "Introduction to Vectors (By Sebastian Lague)",
+       "url": "https://youtube.com/watch?v=m7VY1T6f8Ak"
+      },
+      "videos": [
+       {
+        "title": "Introduction to Vectors (By Sebastian Lague)",
+        "url": "https://youtube.com/watch?v=m7VY1T6f8Ak",
+        "video_id": "m7VY1T6f8Ak",
+        "source": "roadmap.sh",
+        "topic": "Vector"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 3,
+      "title": "Rotations, Orientation and Curves",
+      "description": "Cameras, characters and animated paths need smooth rotation and interpolation, and the wrong representation causes gimbal lock and jerky motion. Compare Euler angles with quaternions, then use splines to move objects along curves.",
+      "topic_refs": [
+       "iIWEjpkNFBj4R5wQ0mcWY",
+       "L0J2kvveJNsmN9ueXhqKf",
+       "zPs_LlDvkfxvvCrk5fXB2",
+       "YTkOF_33oL1ZkA-loc_DP",
+       "nTiHZXRh2j3_FsBotmlGf",
+       "DUEEm9sAaZqSI-W-PFZ8f",
+       "m4AuHjEBnHS0wyATG-I1Z",
+       "N9GoA3YvOaKwYjljj6NZv",
+       "1RdyzTI_TXqmct2bIbNh9"
+      ],
+      "projects": [
+       {
+        "title": "Camera rail with Catmull-Rom splines",
+        "description": "Move a camera smoothly through a set of waypoints and orient it with quaternion slerp.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Gimbal-lock demonstration",
+        "description": "Rotate an object with Euler angles until gimbal lock appears, then fix it with quaternions.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Orientation",
+       "Euler Angle",
+       "Quaternion",
+       "Curve",
+       "Spline"
+      ],
+      "more_topics": [],
+      "global_step_index": 7,
+      "resource": {
+       "title": "Quaternions and 3d rotation,explained interactively",
+       "url": "https://youtube.com/watch?v=zjMuIxRvygQ"
+      },
+      "videos": [
+       {
+        "title": "Quaternions and 3d rotation,explained interactively",
+        "url": "https://youtube.com/watch?v=zjMuIxRvygQ",
+        "video_id": "zjMuIxRvygQ",
+        "source": "roadmap.sh",
+        "topic": "Quaternion"
+       },
+       {
+        "title": "Bezier Curves Explained",
+        "url": "https://youtube.com/watch?v=pnYccz1Ha34",
+        "video_id": "pnYccz1Ha34",
+        "source": "roadmap.sh",
+        "topic": "Bezier"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 4,
+      "title": "Physics: Motion, Forces and Rigid Bodies",
+      "description": "Believable movement comes from applying forces and integrating velocity every frame, and tuning feel is a core gameplay skill. Learn linear and angular motion, mass properties, friction and restitution, and how joints connect bodies.",
+      "topic_refs": [
+       "UTBnrQiZ6Bf96yJYIUf3b",
+       "0D7KQlF-9ylmILTBBVxot",
+       "qduFRhmrzJ2sn0g7L-tza",
+       "ejZMnxZ0QrN-jBqo9Vrj8",
+       "Z_U6abGV_wVkTGZ2LVkFK",
+       "Y7HYY5eq7OG42V9yQz0Q1",
+       "HWtU4q-YPXxSi64t43VNF",
+       "6E2mkXuAzoYnrT1SEIA16",
+       "Hz9R4YGYtD0jAur8rYist",
+       "egOcxFTQP7vPIGrxcieuk",
+       "H3hkafXO9zqEnWuwHa38P",
+       "m2_wUW2VHMCXHnn5B91qr"
+      ],
+      "projects": [
+       {
+        "title": "2D rigid-body sandbox",
+        "description": "Simulate boxes and balls with gravity, friction and bounciness using a fixed-timestep integrator.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Ragdoll with joints",
+        "description": "Connect body parts with joints in an engine and tune constraints until the fall looks natural.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Game Physics",
+       "Dynamics",
+       "Force",
+       "Acceleration",
+       "Linear Velocity"
+      ],
+      "more_topics": [
+       {
+        "node_id": "mUyzX-DXnIKDl-r9o8d38",
+        "title": "Movement"
+       },
+       {
+        "node_id": "WzcmdW_fKHv3gwdBnvI0_",
+        "title": "Buoyancy"
+       }
+      ],
+      "global_step_index": 8,
+      "resource": {
+       "title": "Playing With Unreal Engine Physics: Center of Mass",
+       "url": "https://youtube.com/watch?v=JVX7TA8GkzE"
+      },
+      "videos": [
+       {
+        "title": "Playing With Unreal Engine Physics: Center of Mass",
+        "url": "https://youtube.com/watch?v=JVX7TA8GkzE",
+        "video_id": "JVX7TA8GkzE",
+        "source": "roadmap.sh",
+        "topic": "Center of Mass"
+       },
+       {
+        "title": "Friction",
+        "url": "https://youtube.com/watch?v=t1HWIoDUWXg",
+        "video_id": "t1HWIoDUWXg",
+        "source": "roadmap.sh",
+        "topic": "Friction"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Introduction to joints",
+        "url": "https://docs.unity3d.com/Manual/Joints.html",
+        "topic": "Joints"
+       }
+      ]
+     },
+     {
+      "step_number": 5,
+      "title": "Collision Detection: Broad and Narrow Phase",
+      "description": "Checking every object against every other is far too slow for a real scene, so engines first cull candidate pairs and then test them precisely. Learn bounding volumes, spatial partitioning and continuous detection for fast-moving objects.",
+      "topic_refs": [
+       "AdOfOJtLtNgDwuABb6orE",
+       "AKd2UpITqBZV7cZszSRps",
+       "SuemqQuiePab0Qpm2EGy9",
+       "PLR_4yoRifoTzkOR4c7ym",
+       "aTeYGd4JlPr5txNPyBezn",
+       "7nGtvbxoEAheiF4IPMfPf",
+       "STdvFYM9V0a36IkPXjvrB",
+       "9Fk3XSINBr2NNdbMtwsIK",
+       "FCc5xwb_G3VsDRXOcg3hV",
+       "XHFV4d6Ab4kWQ3-XcZTyT",
+       "1yK8TH4Pn7Ag8VQoug54i",
+       "vmRYaXNVCe0N73xG8bsEK"
+      ],
+      "projects": [
+       {
+        "title": "Uniform grid versus brute force",
+        "description": "Measure pair checks per frame for a thousand moving circles with and without a spatial grid.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Bullet tunnelling fix",
+        "description": "Show a fast projectile passing through a thin wall, then stop it with swept (continuous) collision.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Collision Detection",
+       "Broad Phase",
+       "Narrow Phase",
+       "Bounding Volume",
+       "AABB"
+      ],
+      "more_topics": [],
+      "global_step_index": 9,
+      "resource": null,
+      "videos": [],
+      "resources": []
+     },
+     {
+      "step_number": 6,
+      "title": "Convex Shapes and Collision Algorithms",
+      "description": "Precise collision between arbitrary shapes relies on convexity, and the separating axis theorem and GJK are the algorithms most engines use. Learn how concave meshes are decomposed into convex pieces and how penetration depth is found.",
+      "topic_refs": [
+       "pG_V12qhS4HevoP_KHTvh",
+       "jslk7Gy58VspO1uXGDgBp",
+       "YLusnwCba7BIdKOYUoY6F",
+       "jixffcPBELkhoG0e7Te8g",
+       "bgP9NpD0DJGqN4VCt65xP",
+       "-r15srXTBLnUGokpXKclH",
+       "GHfLMtgmc36OCvjQvW_Su",
+       "kSMz7mZ243qMKtT_YD3AD",
+       "lwd3Gz9bJEKCIwhXD6m-v",
+       "vWLKYK2KUzV1fO-vQunzW"
+      ],
+      "projects": [
+       {
+        "title": "SAT polygon collision demo",
+        "description": "Detect and resolve overlaps between rotating convex polygons with the separating axis theorem.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Convex hull visualiser",
+        "description": "Compute and draw the convex hull of clicked points, then compare it with the original concave shape.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Convex",
+       "Concave",
+       "Convexity",
+       "Convex Hull",
+       "Convex Decomposition"
+      ],
+      "more_topics": [],
+      "global_step_index": 10,
+      "resource": {
+       "title": "GJK Algorithm Explanation & Implementation",
+       "url": "https://youtube.com/watch?v=MDusDn8oTSE"
+      },
+      "videos": [
+       {
+        "title": "GJK Algorithm Explanation & Implementation",
+        "url": "https://youtube.com/watch?v=MDusDn8oTSE",
+        "video_id": "MDusDn8oTSE",
+        "source": "roadmap.sh",
+        "topic": "GJK"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 7,
+      "title": "The Graphics Pipeline and Graphics APIs",
+      "description": "To control what the GPU draws you need to know how vertices become pixels and which API the target platform uses. Study rasterisation and clipping, then compare OpenGL, WebGL, Vulkan and DirectX.",
+      "topic_refs": [
+       "lIb5MeDoqVj6HycveOgTS",
+       "shSRnMf4NONuZ3TGPAoQc",
+       "Kx7O7RLp7aPGtOvK8e314",
+       "vYNj9nzu90e9xlrzHULnP",
+       "xP_VDMu1z9jiVnZaBFKJQ",
+       "ffa5-YxRhE3zhWg7KXQ4r",
+       "EVOiWAeZsIvjLTt3EYu-6",
+       "CeydBMwckqKll-2AgOlyd",
+       "yPfhJSTFS7a72UcqF1ROK",
+       "bgWFV09AtDv1yJS5t0EaB",
+       "DvV32n3NoXNEej8Fsqqs2"
+      ],
+      "projects": [
+       {
+        "title": "Hello triangle in OpenGL",
+        "description": "Open a window, upload vertex data and draw a coloured triangle with the core-profile pipeline.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "WebGL sprite renderer",
+        "description": "A browser renderer that batches textured quads, playable on a phone.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Computer Graphics",
+       "Graphics Pipeline",
+       "Graphics API",
+       "Rasterization",
+       "Clipping"
+      ],
+      "more_topics": [
+       {
+        "node_id": "rmtxybcavWV6A53R4ZWgc",
+        "title": "Sampling"
+       }
+      ],
+      "global_step_index": 11,
+      "resource": {
+       "title": "How do Video Game Graphics Work?",
+       "url": "https://youtube.com/watch?v=C8YtdC8mxTU"
+      },
+      "videos": [
+       {
+        "title": "How do Video Game Graphics Work?",
+        "url": "https://youtube.com/watch?v=C8YtdC8mxTU",
+        "video_id": "C8YtdC8mxTU",
+        "source": "roadmap.sh",
+        "topic": "Computer Graphics"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Open Graphics Library",
+        "url": "https://www.opengl.org/",
+        "topic": "OpenGL"
+       },
+       {
+        "type": "official",
+        "title": "OpenGL Libraries",
+        "url": "https://www.opengl.org/sdk/libs/",
+        "topic": "OpenGL"
+       },
+       {
+        "type": "official",
+        "title": "Vulkan",
+        "url": "https://www.vulkan.org/",
+        "topic": "Vulkan"
+       },
+       {
+        "type": "official",
+        "title": "What is Vulkan?",
+        "url": "https://docs.vulkan.org/guide/latest/what_is_vulkan.html",
+        "topic": "Vulkan"
+       }
+      ]
+     },
+     {
+      "step_number": 8,
+      "title": "Shaders, Textures and Materials",
+      "description": "Shaders decide how every surface looks, and texture and material work is where much of a game's visual identity comes from. Write vertex and fragment shaders and add normal, bump and parallax mapping and specular and metallic responses.",
+      "topic_refs": [
+       "qIrePusMuvcUva9LMDmDx",
+       "j8mWMFMQCEIPUzegDDsm1",
+       "wYUDJb-q1rtM4w2QV3Wr1",
+       "iBZ1JsEWI0xuLgUvfWfl-",
+       "THMmnx8p_P0X-dSPoHvst",
+       "r4UkMd5QURbvJ3Jlr_H9H",
+       "YGeGleEN203nokiZIYJN8",
+       "WK6fLWJq9Vh2ySVrSqd-U",
+       "0g1z5G2dsF4PTIfFAG984",
+       "odfZWKtPbb-lC35oeTCNV",
+       "olY1ibR7kw1yJ58TfU-37",
+       "YrQgfjsdLCIUxrwflpEHO"
+      ],
+      "projects": [
+       {
+        "title": "Material preview sphere",
+        "description": "A shader that switches between diffuse, specular and metallic looks with live sliders.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Brick wall with parallax mapping",
+        "description": "Compare flat, bump-mapped and parallax-mapped versions of the same textured wall.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Shader",
+       "GLSL",
+       "HLSL",
+       "Texture",
+       "Mapping"
+      ],
+      "more_topics": [
+       {
+        "node_id": "RgC9TOc0wbr2QSuvrpIDV",
+        "title": "Tone Reproduction"
+       }
+      ],
+      "global_step_index": 12,
+      "resource": {
+       "title": "How Nintendo Textures Work",
+       "url": "https://youtube.com/watch?v=WrCMzHngLxI"
+      },
+      "videos": [
+       {
+        "title": "How Nintendo Textures Work",
+        "url": "https://youtube.com/watch?v=WrCMzHngLxI",
+        "video_id": "WrCMzHngLxI",
+        "source": "roadmap.sh",
+        "topic": "Texture"
+       },
+       {
+        "title": "Normals, Normal maps and Bump maps",
+        "url": "https://youtube.com/watch?v=l5PYyzsZED8",
+        "video_id": "l5PYyzsZED8",
+        "source": "roadmap.sh",
+        "topic": "Bump"
+       },
+       {
+        "title": "Specular Reflection",
+        "url": "https://youtube.com/watch?v=2cFvJkc4pQk",
+        "video_id": "2cFvJkc4pQk",
+        "source": "roadmap.sh",
+        "topic": "Specular"
+       },
+       {
+        "title": "Types of Subsurface Scattering",
+        "url": "https://youtube.com/watch?v=GkjvYSbGHg4",
+        "video_id": "GkjvYSbGHg4",
+        "source": "roadmap.sh",
+        "topic": "Microsurface Scattering"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 9,
+      "title": "Lighting and Shadows",
+      "description": "Lighting sets the mood of a scene and shadows anchor objects in it, but both are expensive, so games choose their techniques carefully. Implement the main light types and compare shadow mapping, cascaded shadows and stencil shadows.",
+      "topic_refs": [
+       "DDN3mn0LTueBhjRzXFcbU",
+       "_1LkU258hzizSIgXipE0b",
+       "VLrcBE1vb6N5fw5YESCge",
+       "foD8K7V0yIxgeXwl687Bv",
+       "aNhyXWW2b7yKTv8y14zk9",
+       "FetbhcK1RDt4izZ6NEUEP",
+       "lqfW8hkuN3vWtacrqBBtI",
+       "ygtru6fqQ3gpFZRN_I8rP",
+       "Lu38SfZ38y89BffLRMmGk",
+       "AEAVc8Ih4fctSGGVJG0Np",
+       "2ocwC0P1-ZFmjA9EmA1lV"
+      ],
+      "projects": [
+       {
+        "title": "Day-night scene",
+        "description": "A directional sun with shadow mapping that moves across a small level, plus distance fog.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Torch-lit dungeon",
+        "description": "Point and spot lights with a frame-time budget and a toggle for each shadow technique.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Lighting and Shadow",
+       "Light",
+       "Light Source",
+       "Directional",
+       "Point Lights"
+      ],
+      "more_topics": [
+       {
+        "node_id": "1S1qPogijW2SQCiF7KLZe",
+        "title": "Visual Perception"
+       },
+       {
+        "node_id": "eI2jym4AAz3ani-lreSKE",
+        "title": "Reflection"
+       },
+       {
+        "node_id": "cv1-AwewuqJsZDBI3h84G",
+        "title": "Cube"
+       },
+       {
+        "node_id": "rQArtuVKGVgLn_fw9yO3b",
+        "title": "Client Side"
+       },
+       {
+        "node_id": "9cBOfj58I4hBlxlQIyV9g",
+        "title": "Horizon"
+       }
+      ],
+      "global_step_index": 13,
+      "resource": {
+       "title": "How Can We Use Reflection in Game Development?",
+       "url": "https://youtube.com/watch?v=R1A86lZ8myQ"
+      },
+      "videos": [
+       {
+        "title": "How Can We Use Reflection in Game Development?",
+        "url": "https://youtube.com/watch?v=R1A86lZ8myQ",
+        "video_id": "R1A86lZ8myQ",
+        "source": "roadmap.sh",
+        "topic": "Reflection"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 10,
+      "title": "Visibility, Culling and Advanced Rendering",
+      "description": "Frame rate depends on not drawing what the player cannot see, and modern titles add physically based shading and ray tracing on top. Learn frustum and occlusion culling, then the rendering equation, PBR and real-time ray tracing APIs.",
+      "topic_refs": [
+       "OcxesFnB5wO6VXrHYnhz-",
+       "1gdDeUPBRco10LpOxug4k",
+       "UcLGWYu41Ok2NYdLNIY5C",
+       "MlLYqO_8JDNOwKRvaM-bf",
+       "CDYszS1U4v95GozB_drbt",
+       "XvFtMHrYsBREmuerE7CGc",
+       "WVgozaQPFbYthZLWMbNUg",
+       "JW5c_0JEtO-OiBoXUia6A",
+       "_i7BXZq-iLxQc3QZRMees",
+       "qoIkw9o8iMx7MzUyVYoR2",
+       "tDGnV8dGIFr_diz4HcEjr",
+       "GDLysy3__cbYidEaOmFze"
+      ],
+      "projects": [
+       {
+        "title": "Frustum culling counter",
+        "description": "Render a large forest and display how many objects are drawn with culling on and off.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "CPU ray tracer",
+        "description": "A small ray tracer with spheres, reflections and shadows, written from the rendering equation.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Visibility and Occlusion",
+       "Culling",
+       "Frustum Culling",
+       "Occluder",
+       "Advanced Rendering"
+      ],
+      "more_topics": [
+       {
+        "node_id": "PuhXaRZ-Ql5PCqzMyz3en",
+        "title": "Conservation of Energy"
+       },
+       {
+        "node_id": "sC3omOmL2DOyTSvET5cDa",
+        "title": "Infinite"
+       }
+      ],
+      "global_step_index": 14,
+      "resource": {
+       "title": "Frustum Culling - Game Optimization 101 - Unreal Engine",
+       "url": "https://youtube.com/watch?v=Ql56s1erTMI"
+      },
+      "videos": [
+       {
+        "title": "Frustum Culling - Game Optimization 101 - Unreal Engine",
+        "url": "https://youtube.com/watch?v=Ql56s1erTMI",
+        "video_id": "Ql56s1erTMI",
+        "source": "roadmap.sh",
+        "topic": "Frustum Culling"
+       },
+       {
+        "title": "Interactive Graphics 12 - The Rendering Equation",
+        "url": "https://youtube.com/watch?v=wawf7Am6xy0",
+        "video_id": "wawf7Am6xy0",
+        "source": "roadmap.sh",
+        "topic": "Rendering Equation"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Nvidia GeForce RTX",
+        "url": "https://www.nvidia.com/en-us/geforce/rtx/",
+        "topic": "Ray Tracing"
+       },
+       {
+        "type": "official",
+        "title": "Nvidia RTX Real-Time Ray Tracing",
+        "url": "https://blogs.nvidia.com/blog/rtx-real-time-ray-tracing/",
+        "topic": "Real-Time Ray Tracing"
+       },
+       {
+        "type": "official",
+        "title": "DirectX Ray Tracing",
+        "url": "https://developer.nvidia.com/blog/introduction-nvidia-rtx-directx-ray-tracing/",
+        "topic": "DirectX Ray Tracing"
+       },
+       {
+        "type": "official",
+        "title": "DX12 Ray Tracing",
+        "url": "https://developer.nvidia.com/blog/dx12-raytracing-tutorials/",
+        "topic": "DirectX Ray Tracing"
+       }
+      ]
+     },
+     {
+      "step_number": 11,
+      "title": "Game AI: Decision Making and Search",
+      "description": "Enemies and companions need behaviour that reads as intelligent while staying cheap and predictable for designers. Build state machines and behaviour trees, then use minimax, alpha-beta pruning and Monte Carlo tree search for turn-based games.",
+      "topic_refs": [
+       "Hpf_CPmLpCSP8Qo07Kq1X",
+       "Ky-95ipdgyPZGAIdqwMCk",
+       "aJa_2xkZuSjQ5bt6Kj5oe",
+       "ztoW8fBY73Es624A_tjd7",
+       "rwGivalwv2ozdSlVMSc4U",
+       "4ZCVUpYrCT14d_JULulLe",
+       "Cuc0xvCAkVyUtwOxO_Uua",
+       "c6j-30p84vk3MZEF1R2hN",
+       "oOjGqicW3eqRwWyIwJdBA",
+       "KYCi4d475zZfNwlj6HZVD",
+       "QD9TfZn3yhGPVwiyJ6d0V",
+       "eoK70YRCz73GmzbNhh5kg"
+      ],
+      "projects": [
+       {
+        "title": "Guard with a behaviour tree",
+        "description": "An enemy that patrols, investigates noises and chases the player, built as a behaviour tree.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Connect-four opponent",
+        "description": "A board-game AI using minimax with alpha-beta pruning, compared against an MCTS version.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Game AI",
+       "Decision Making",
+       "State Machine",
+       "Behavior Tree",
+       "Decision Tree"
+      ],
+      "more_topics": [
+       {
+        "node_id": "Hpk8eOaOepERMmOvUgkxa",
+        "title": "Game AI"
+       }
+      ],
+      "global_step_index": 15,
+      "resource": {
+       "title": "Unreal Engine 5 Tutorial - AI Part 2: Behavior Tree",
+       "url": "https://youtube.com/watch?v=hbHqv9ov8IM"
+      },
+      "videos": [
+       {
+        "title": "Unreal Engine 5 Tutorial - AI Part 2: Behavior Tree",
+        "url": "https://youtube.com/watch?v=hbHqv9ov8IM",
+        "video_id": "hbHqv9ov8IM",
+        "source": "roadmap.sh",
+        "topic": "Behavior Tree"
+       },
+       {
+        "title": "What is a Decision Tree?",
+        "url": "https://youtube.com/watch?v=bmP4ppe_-cw",
+        "video_id": "bmP4ppe_-cw",
+        "source": "roadmap.sh",
+        "topic": "Decision Tree"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 12,
+      "title": "Learning-Based Game AI",
+      "description": "Machine learning is increasingly used for agents, playtesting bots and content tuning, so knowing where it fits in a game is a useful edge. Survey decision tree learning, Bayesian classifiers, neural networks and reinforcement learning applied to games.",
+      "topic_refs": [
+       "9_OcZ9rzedDFfwEYxAghh",
+       "ul5XnVwQCwr4ZaL4kBNpd",
+       "sz1047M8_kScjth84yPwU",
+       "aw1BAGqrdBBmUwB6vMF_A",
+       "AoH2r4EOHyZd8YaV24rBk",
+       "ltkEyfuDxExs7knqs79ya",
+       "rGEHTfdNeBAX3_XqC-vvI"
+      ],
+      "projects": [
+       {
+        "title": "Reinforcement-learning racer",
+        "description": "Train an agent to drive a simple track and compare it with a hand-written waypoint follower.",
+        "difficulty": "advanced",
+        "grounded": false
+       },
+       {
+        "title": "Player-style classifier",
+        "description": "Classify logged play sessions as aggressive or cautious with a decision tree, then adapt enemy difficulty.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Learning",
+       "Decision Learning",
+       "Decision Tree Learning",
+       "Naive Bayes Classifier",
+       "Artificial Neutral Network"
+      ],
+      "more_topics": [],
+      "global_step_index": 16,
+      "resource": {
+       "title": "Decision Trees - A Friendly Introduction",
+       "url": "https://youtube.com/watch?v=HkyWAhr9v8g"
+      },
+      "videos": [
+       {
+        "title": "Decision Trees - A Friendly Introduction",
+        "url": "https://youtube.com/watch?v=HkyWAhr9v8g",
+        "video_id": "HkyWAhr9v8g",
+        "source": "roadmap.sh",
+        "topic": "Decision Tree Learning"
+       },
+       {
+        "title": "What is a Neural Network?",
+        "url": "https://youtube.com/watch?v=aircAruvnKk",
+        "video_id": "aircAruvnKk",
+        "source": "roadmap.sh",
+        "topic": "Deep Learning"
+       }
+      ],
+      "resources": []
+     }
+    ]
+   }
+  ]
+ },
+ "audit": {
+  "phases": [
+   {
+    "phase_number": 1,
+    "title": "C++",
+    "queries": [
+     "Game Development",
+     "Game Development fundamentals",
+     "Game Development: C++"
+    ],
+    "retrieved": [
+     {
+      "source": "cpp/introduction-to-language@NvODRFR0DLINB0RlPSsvt.md",
+      "score": 0.661379337310791,
+      "queries": [
+       "Game Development: C++"
+      ]
+     },
+     {
+      "source": "cpp/why-use-c@tl6VCQ5IEGDVyFcgj7jDm.md",
+      "score": 0.6551153659820557,
+      "queries": [
+       "Game Development: C++"
+      ]
+     },
+     {
+      "source": "cpp/what-is-c@x_28LiDVshqWns_aIBsdx.md",
+      "score": 0.6185358166694641,
+      "queries": [
+       "Game Development: C++"
+      ]
+     },
+     {
+      "source": "cpp/setting-up-your-environment@Zc_TTzmM36yWsu3GvOy9x.md",
+      "score": 0.6136223673820496,
+      "queries": [
+       "Game Development",
+       "Game Development: C++"
+      ]
+     },
+     {
+      "source": "cpp/c-23@sxbbKtg7kMNbkx7fXhjR9.md",
+      "score": 0.6108874082565308,
+      "queries": [
+       "Game Development: C++"
+      ]
+     },
+     {
+      "source": "cpp/compilers-and-features@hSG6Aux39X0cXi6ADy2al.md",
+      "score": 0.5900207161903381,
+      "queries": [
+       "Game Development: C++"
+      ]
+     },
+     {
+      "source": "so_survey_2025_india/Game_Development",
+      "score": 0.4507209062576294,
+      "queries": [
+       "Game Development",
+       "Game Development fundamentals",
+       "Game Development: C++"
+      ]
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 1,
+      "topic_refs": [
+       "NvODRFR0DLINB0RlPSsvt",
+       "x_28LiDVshqWns_aIBsdx",
+       "Zc_TTzmM36yWsu3GvOy9x",
+       "0J_ltQEJh2g28OE2ZEYJj",
+       "SEq0D2Zg5WTsIDtd1hW9f",
+       "MwznA4qfpNlv6sqSNjPZi",
+       "8aOSpZLWwZv_BEYiurhyR",
+       "s5Gs4yF9TPh-psYmtPzks",
+       "_IP_e1K9LhNHilYTDh7L5",
+       "oYi3YOc1GC2Nfp71VOkJt",
+       "DWw8NxkLpIpiOSUaZZ1oA",
+       "dKCYmxDNZubCVcR5rf8b-"
+      ],
+      "queries": [
+       "Game Development",
+       "Game Development: C++"
+      ]
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 2,
+      "topic_refs": [
+       "uEGEmbxegATIrvGfobJb9",
+       "Gld0nRs0sM8kRe8XmYolu",
+       "6w0WExQ4lGIGgok6Thq0s",
+       "OmHDlLxCnH8RDdu5vx9fl",
+       "ulvwm4rRPgkpgaqGgyH5a",
+       "k9c5seRkhgm_yHPpiz2X0",
+       "b5jZIZD_U_CPg-_bdndjz",
+       "vUwSS-uX36OWZouO0wOcy",
+       "9aA_-IfQ9WmbPgwic0mFN",
+       "7sdEzZCIoarzznwO4XcCv",
+       "IDOlquv6jlfecwQoBwkGZ",
+       "y4-P4UNC--rE1vni8HdTn"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 3,
+      "topic_refs": [
+       "b3-QYKNcW3LYCNOza3Olf",
+       "CMlWNQwpywNhO9B6Yj6Me",
+       "hNBErGNiegLsUJn_vgcOR",
+       "s99ImazcwCgAESxZd8ksa",
+       "7h1VivjCPDwriL7FirtFv",
+       "obZIxRp0eMWdG7gplNIBc",
+       "llCBeut_uc9IAe2oi4KZ9",
+       "-6AOrbuOE7DJCmxlcgCay",
+       "xjiFBVe-VGqCqWfkPVGKf",
+       "1pydf-SR0QUfVNuBEyvzc",
+       "whyj6Z4RXFsVQYRfYYn7B",
+       "Ebu8gzbyyXEeJryeE0SpG"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 4,
+      "global_step_index": 4,
+      "topic_refs": [
+       "jVXFCo6puMxJ_ifn_uwim",
+       "ysnXvSHGBMMozBJyXpHl5",
+       "CK7yf8Bo7kfbV6x2tZTrh",
+       "DVckzBUMgk_lWThVkLyAT",
+       "qmHs6_BzND_xpMmls5YUH",
+       "BmWsoL9c_Aag5nVlMsKm2",
+       "sR_FxGZHoMCV9Iv7z2_SX",
+       "h29eJG1hWHa7vMhSqtfV2",
+       "PKG5pACLfRS2ogfzBX47_",
+       "4kkX5g_-plX9zVqr0ZoiR",
+       "OXQUPqxzs1-giAACwl3X1",
+       "O0lVEMTAV1pq9sYCKQvh_"
+      ],
+      "queries": [
+       "Game Development: C++"
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 2,
+    "title": "Game Development",
+    "queries": [
+     "Game Development",
+     "Game Development fundamentals",
+     "Game Development: Game Development"
+    ],
+    "retrieved": [
+     {
+      "source": "game-developer/game-mathematics@m1wX27XBWKXZcTMH2U1xp.md",
+      "score": 0.579669713973999,
+      "queries": [
+       "Game Development",
+       "Game Development fundamentals",
+       "Game Development: Game Development"
+      ]
+     },
+     {
+      "source": "game-developer/board-game@eoK70YRCz73GmzbNhh5kg.md",
+      "score": 0.5379795432090759,
+      "queries": [
+       "Game Development",
+       "Game Development fundamentals",
+       "Game Development: Game Development"
+      ]
+     },
+     {
+      "source": "game-developer/programming-languages@4YgbrXLXf5mfaL2tlYkzk.md",
+      "score": 0.523970901966095,
+      "queries": [
+       "Game Development",
+       "Game Development fundamentals",
+       "Game Development: Game Development"
+      ]
+     },
+     {
+      "source": "game-developer/goal-oriented-behavior@Cuc0xvCAkVyUtwOxO_Uua.md",
+      "score": 0.507225751876831,
+      "queries": [
+       "Game Development",
+       "Game Development fundamentals",
+       "Game Development: Game Development"
+      ]
+     },
+     {
+      "source": "game-developer/2d@Wq8siopWTD7sylNi0575X.md",
+      "score": 0.5044758915901184,
+      "queries": [
+       "Game Development",
+       "Game Development fundamentals",
+       "Game Development: Game Development"
+      ]
+     },
+     {
+      "source": "game-developer/visual-perception@1S1qPogijW2SQCiF7KLZe.md",
+      "score": 0.49462854862213135,
+      "queries": [
+       "Game Development",
+       "Game Development fundamentals",
+       "Game Development: Game Development"
+      ]
+     },
+     {
+      "source": "so_survey_2025_india/Game_Development",
+      "score": 0.3994677662849426,
+      "queries": [
+       "Game Development",
+       "Game Development fundamentals",
+       "Game Development: Game Development"
+      ]
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 5,
+      "topic_refs": [
+       "fv5tivGad2P9GRZOodfn2",
+       "rNeOti8DDyWTMP9FB9kJ_",
+       "a6H-cZtp3A_fB8jnfMxBR",
+       "7OffO2mBmfBKqPBTZ9ngI",
+       "AaRZiItRcn8fYb5R62vfT",
+       "Ph3ZqmSnwwzUBUC-6dgf-",
+       "jsq0UXnIIC0Z_nbK2w48f",
+       "4YgbrXLXf5mfaL2tlYkzk",
+       "AJp_QRLgSG5ETXDIjUjmm",
+       "ts9pWxUimvFqfNJYCmNNw",
+       "CeAUEN233L4IoFSZtIvvl"
+      ],
+      "queries": [
+       "Game Development",
+       "Game Development fundamentals",
+       "Game Development: Game Development"
+      ]
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 6,
+      "topic_refs": [
+       "m1wX27XBWKXZcTMH2U1xp",
+       "grRf-MmaXimDB4iODOV47",
+       "yLEyh5XJ3sl8eHD-PoSvJ",
+       "Kg6Mg9ieUUGXWX9Lai7B0",
+       "XWxW2ZBw3LcQ4DRk4tgAG",
+       "r5TcXQsU9s4NlAQIPvZ3U",
+       "SkCreb6g4i-OFtJWhRYqO",
+       "XABzEU9owCx9-zw1id9xU",
+       "d6C1qFv-Tad3AtMBDLI6r",
+       "5qfoD77wU4ETI7rUSy4Nc",
+       "LEJymJ2EaAW5FM5LgKW38"
+      ],
+      "queries": [
+       "Game Development",
+       "Game Development fundamentals",
+       "Game Development: Game Development"
+      ]
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 7,
+      "topic_refs": [
+       "iIWEjpkNFBj4R5wQ0mcWY",
+       "L0J2kvveJNsmN9ueXhqKf",
+       "zPs_LlDvkfxvvCrk5fXB2",
+       "YTkOF_33oL1ZkA-loc_DP",
+       "nTiHZXRh2j3_FsBotmlGf",
+       "DUEEm9sAaZqSI-W-PFZ8f",
+       "m4AuHjEBnHS0wyATG-I1Z",
+       "N9GoA3YvOaKwYjljj6NZv",
+       "1RdyzTI_TXqmct2bIbNh9"
+      ],
+      "queries": [
+       "Game Development",
+       "Game Development fundamentals",
+       "Game Development: Game Development"
+      ]
+     },
+     {
+      "step_number": 4,
+      "global_step_index": 8,
+      "topic_refs": [
+       "UTBnrQiZ6Bf96yJYIUf3b",
+       "0D7KQlF-9ylmILTBBVxot",
+       "qduFRhmrzJ2sn0g7L-tza",
+       "ejZMnxZ0QrN-jBqo9Vrj8",
+       "Z_U6abGV_wVkTGZ2LVkFK",
+       "Y7HYY5eq7OG42V9yQz0Q1",
+       "HWtU4q-YPXxSi64t43VNF",
+       "6E2mkXuAzoYnrT1SEIA16",
+       "Hz9R4YGYtD0jAur8rYist",
+       "egOcxFTQP7vPIGrxcieuk",
+       "H3hkafXO9zqEnWuwHa38P",
+       "m2_wUW2VHMCXHnn5B91qr"
+      ],
+      "queries": [
+       "Game Development",
+       "Game Development fundamentals",
+       "Game Development: Game Development"
+      ]
+     },
+     {
+      "step_number": 5,
+      "global_step_index": 9,
+      "topic_refs": [
+       "AdOfOJtLtNgDwuABb6orE",
+       "AKd2UpITqBZV7cZszSRps",
+       "SuemqQuiePab0Qpm2EGy9",
+       "PLR_4yoRifoTzkOR4c7ym",
+       "aTeYGd4JlPr5txNPyBezn",
+       "7nGtvbxoEAheiF4IPMfPf",
+       "STdvFYM9V0a36IkPXjvrB",
+       "9Fk3XSINBr2NNdbMtwsIK",
+       "FCc5xwb_G3VsDRXOcg3hV",
+       "XHFV4d6Ab4kWQ3-XcZTyT",
+       "1yK8TH4Pn7Ag8VQoug54i",
+       "vmRYaXNVCe0N73xG8bsEK"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 6,
+      "global_step_index": 10,
+      "topic_refs": [
+       "pG_V12qhS4HevoP_KHTvh",
+       "jslk7Gy58VspO1uXGDgBp",
+       "YLusnwCba7BIdKOYUoY6F",
+       "jixffcPBELkhoG0e7Te8g",
+       "bgP9NpD0DJGqN4VCt65xP",
+       "-r15srXTBLnUGokpXKclH",
+       "GHfLMtgmc36OCvjQvW_Su",
+       "kSMz7mZ243qMKtT_YD3AD",
+       "lwd3Gz9bJEKCIwhXD6m-v",
+       "vWLKYK2KUzV1fO-vQunzW"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 7,
+      "global_step_index": 11,
+      "topic_refs": [
+       "lIb5MeDoqVj6HycveOgTS",
+       "shSRnMf4NONuZ3TGPAoQc",
+       "Kx7O7RLp7aPGtOvK8e314",
+       "vYNj9nzu90e9xlrzHULnP",
+       "xP_VDMu1z9jiVnZaBFKJQ",
+       "ffa5-YxRhE3zhWg7KXQ4r",
+       "EVOiWAeZsIvjLTt3EYu-6",
+       "CeydBMwckqKll-2AgOlyd",
+       "yPfhJSTFS7a72UcqF1ROK",
+       "bgWFV09AtDv1yJS5t0EaB",
+       "DvV32n3NoXNEej8Fsqqs2"
+      ],
+      "queries": [
+       "Game Development",
+       "Game Development fundamentals",
+       "Game Development: Game Development"
+      ]
+     },
+     {
+      "step_number": 8,
+      "global_step_index": 12,
+      "topic_refs": [
+       "qIrePusMuvcUva9LMDmDx",
+       "j8mWMFMQCEIPUzegDDsm1",
+       "wYUDJb-q1rtM4w2QV3Wr1",
+       "iBZ1JsEWI0xuLgUvfWfl-",
+       "THMmnx8p_P0X-dSPoHvst",
+       "r4UkMd5QURbvJ3Jlr_H9H",
+       "YGeGleEN203nokiZIYJN8",
+       "WK6fLWJq9Vh2ySVrSqd-U",
+       "0g1z5G2dsF4PTIfFAG984",
+       "odfZWKtPbb-lC35oeTCNV",
+       "olY1ibR7kw1yJ58TfU-37",
+       "YrQgfjsdLCIUxrwflpEHO"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 9,
+      "global_step_index": 13,
+      "topic_refs": [
+       "DDN3mn0LTueBhjRzXFcbU",
+       "_1LkU258hzizSIgXipE0b",
+       "VLrcBE1vb6N5fw5YESCge",
+       "foD8K7V0yIxgeXwl687Bv",
+       "aNhyXWW2b7yKTv8y14zk9",
+       "FetbhcK1RDt4izZ6NEUEP",
+       "lqfW8hkuN3vWtacrqBBtI",
+       "ygtru6fqQ3gpFZRN_I8rP",
+       "Lu38SfZ38y89BffLRMmGk",
+       "AEAVc8Ih4fctSGGVJG0Np",
+       "2ocwC0P1-ZFmjA9EmA1lV"
+      ],
+      "queries": [
+       "Game Development",
+       "Game Development fundamentals",
+       "Game Development: Game Development"
+      ]
+     },
+     {
+      "step_number": 10,
+      "global_step_index": 14,
+      "topic_refs": [
+       "OcxesFnB5wO6VXrHYnhz-",
+       "1gdDeUPBRco10LpOxug4k",
+       "UcLGWYu41Ok2NYdLNIY5C",
+       "MlLYqO_8JDNOwKRvaM-bf",
+       "CDYszS1U4v95GozB_drbt",
+       "XvFtMHrYsBREmuerE7CGc",
+       "WVgozaQPFbYthZLWMbNUg",
+       "JW5c_0JEtO-OiBoXUia6A",
+       "_i7BXZq-iLxQc3QZRMees",
+       "qoIkw9o8iMx7MzUyVYoR2",
+       "tDGnV8dGIFr_diz4HcEjr",
+       "GDLysy3__cbYidEaOmFze"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 11,
+      "global_step_index": 15,
+      "topic_refs": [
+       "Hpf_CPmLpCSP8Qo07Kq1X",
+       "Ky-95ipdgyPZGAIdqwMCk",
+       "aJa_2xkZuSjQ5bt6Kj5oe",
+       "ztoW8fBY73Es624A_tjd7",
+       "rwGivalwv2ozdSlVMSc4U",
+       "4ZCVUpYrCT14d_JULulLe",
+       "Cuc0xvCAkVyUtwOxO_Uua",
+       "c6j-30p84vk3MZEF1R2hN",
+       "oOjGqicW3eqRwWyIwJdBA",
+       "KYCi4d475zZfNwlj6HZVD",
+       "QD9TfZn3yhGPVwiyJ6d0V",
+       "eoK70YRCz73GmzbNhh5kg"
+      ],
+      "queries": [
+       "Game Development",
+       "Game Development fundamentals",
+       "Game Development: Game Development"
+      ]
+     },
+     {
+      "step_number": 12,
+      "global_step_index": 16,
+      "topic_refs": [
+       "9_OcZ9rzedDFfwEYxAghh",
+       "ul5XnVwQCwr4ZaL4kBNpd",
+       "sz1047M8_kScjth84yPwU",
+       "aw1BAGqrdBBmUwB6vMF_A",
+       "AoH2r4EOHyZd8YaV24rBk",
+       "ltkEyfuDxExs7knqs79ya",
+       "rGEHTfdNeBAX3_XqC-vvI"
+      ],
+      "queries": [
+       "Game Development",
+       "Game Development fundamentals",
+       "Game Development: Game Development"
+      ]
+     }
+    ]
+   }
+  ]
+ }
+}
