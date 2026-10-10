@@ -1,0 +1,2736 @@
+{
+ "metadata": {
+  "schema_version": 1,
+  "career_path": "UI/UX Design",
+  "model_id": "claude-opus-5-5",
+  "built_at": "2026-10-10T18:04:40Z",
+  "generator": {
+   "profile": "neutral",
+   "provider": "claude_authored",
+   "llm_host": null,
+   "authoring": "Every model reply in this run was written by Claude (claude-opus-5-5) in a Claude Code cloud session, answering the generator's own prompts; retrieval, topic-ref validation, duplicate check, more_topics, resources and audit are the unmodified pipeline.",
+   "phase_concurrency": 1,
+   "duplicate_similarity_threshold": 0.8,
+   "reasoning_effort": "",
+   "resources": "kb_only"
+  },
+  "inventory_fingerprint": "2b572efa155370a606b3ea561f175a8a61d6aa94552cacabb56a6076168b482c"
+ },
+ "roadmap": {
+  "phases": [
+   {
+    "phase_number": 1,
+    "title": "UX Design",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "Human Decision Making and Behavioural Science",
+      "description": "Good UX starts from how people actually decide: fast and intuitive most of the time, and slow and deliberate only when they must. Learn dual process theory, nudges and the behaviour models designers use, such as Fogg's model, the Hook model and the CREATE funnel.",
+      "topic_refs": [
+       "liUKYf7UghuPk25xMPPYj",
+       "D553-nVELaB5gdxtoKSVc",
+       "_lv6GJ0wlMfhJ7PHRGQ_V",
+       "kWA8CvocP1pkom2N7O4gb",
+       "6ffY5wO-XhkiDJJ5YcI0x",
+       "K22gvF9DLt0Ikc80yZLCb",
+       "zYCBEUqZVlvjlAKnh5cPQ",
+       "2NlgbLeLBYwZX2u2rKkIO",
+       "lRBC8VYJPsR65LHDuuIsL",
+       "PLLTcrHkhd1KYaMSRKALp",
+       "X1AroUI8Fge_lRpKab4A9",
+       "kcG4IpneJzA6di0uqTiwb"
+      ],
+      "projects": [
+       {
+        "title": "Behaviour model teardown",
+        "description": "Map a habit-forming app you use onto the Hook model and the CREATE funnel.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Nudge spotting diary",
+        "description": "Collect ten nudges from apps and shops over a week and classify each one.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Human Decision Making",
+       "Behavioral Science",
+       "Behavioral Economics",
+       "Dual Process Theory",
+       "Nudge Theory"
+      ],
+      "more_topics": [],
+      "global_step_index": 1,
+      "resource": {
+       "title": "Types of Cognitive Bias",
+       "url": "https://youtube.com/watch?v=wEwGBIr_RIw"
+      },
+      "videos": [
+       {
+        "title": "Types of Cognitive Bias",
+        "url": "https://youtube.com/watch?v=wEwGBIr_RIw",
+        "video_id": "wEwGBIr_RIw",
+        "source": "roadmap.sh",
+        "topic": "Human Decision Making"
+       },
+       {
+        "title": "Why Your Brain Lies to You: Dual Process Theory Explained",
+        "url": "https://youtube.com/watch?v=Aooj7uijOek",
+        "video_id": "Aooj7uijOek",
+        "source": "roadmap.sh",
+        "topic": "Dual Process Theory"
+       },
+       {
+        "title": "Nudge Theory Explained in less than 10 minutes",
+        "url": "https://youtube.com/watch?v=fA5eGIMZTRQ",
+        "video_id": "fA5eGIMZTRQ",
+        "source": "roadmap.sh",
+        "topic": "Nudge Theory"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Meaning of BJ Fogg's Behavior Model",
+        "url": "https://behaviormodel.org/",
+        "topic": "BJ Fogg's Behavior Model"
+       },
+       {
+        "type": "course",
+        "title": "Behavioral Science Crash Course: Steve Wendel's CREATE Action Funnel",
+        "url": "https://www.prodify.group/blog/behavioral-science-crash-course-steve-wendels-create-action-funnel",
+        "topic": "CREATE Action Funnel"
+       }
+      ]
+     },
+     {
+      "step_number": 2,
+      "title": "Understanding the Product, Business and Users",
+      "description": "Designers who understand the business model and the users make choices that survive stakeholder review. Use business model and lean canvases, SWOT, five forces and competitor analysis, and capture users with personas, journey maps and user stories.",
+      "topic_refs": [
+       "q1WX2Cp4k4-o1T1vgL8FH",
+       "SGO9hHju49_py0n0ASGBe",
+       "sc8jJ_77CrkQuxIJYk28Q",
+       "GI06-DbGyJlQXq5Tyi-aH",
+       "F9gpGTRwXq08jNo5pPKm6",
+       "XiEn1OGFY1bMCoB0Pk8N_",
+       "HUZ5n2MRHzQPyjwX2h6Q4",
+       "0KEqAjHFBjfmGA1bKzXuD",
+       "s2KJ5kNv9UcnsP0QKIKQ7",
+       "tkbkpvHlWQeOnReanR8J7",
+       "FRn2MaR0-ehSD3zmwXcCI",
+       "7J8F9dn1jGaVlhLVVRPrG"
+      ],
+      "projects": [
+       {
+        "title": "Lean canvas for a campus app",
+        "description": "Fill a lean canvas for a canteen pre-order app and list its riskiest assumptions.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Personas and journey map",
+        "description": "Interview three students and turn the notes into two personas and an experience map.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Understanding the Product",
+       "Business Model Canvas",
+       "Lean Canvas",
+       "Business Model Inspirator",
+       "Five Forces Model"
+      ],
+      "more_topics": [],
+      "global_step_index": 2,
+      "resource": null,
+      "videos": [],
+      "resources": []
+     },
+     {
+      "step_number": 3,
+      "title": "Defining the Target Action and Mapping Flows",
+      "description": "A product changes behaviour only if you are precise about the one action you want users to take. Define the target action, sketch the conceptual design, and map the flow with flowcharts, BPMN or EPC diagrams.",
+      "topic_refs": [
+       "AXn-N15U_z4OagClNoXrW",
+       "r6D07cN0Mg4YXsiRSrl1_",
+       "JCP5_jyvh9u7hxp379iW2",
+       "jy5jtSEyNE8iJpad27rPX",
+       "nccToz_0FUvHMJytpDpM0",
+       "0Df110GZcDw5wbAe1eKoA",
+       "PTZROvpPtEvu06szwmt4K",
+       "9vA3ZWMiKG6NiEqGDvcFR"
+      ],
+      "projects": [
+       {
+        "title": "Sign-up flow map",
+        "description": "Flowchart every step and decision in an app's sign-up and mark where users drop off.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "BPMN for a refund process",
+        "description": "Model a customer refund process in BPMN and propose two simplifications.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Target Action",
+       "Conceptual Design",
+       "Simple Flowchart",
+       "Business Process Model & Notation (BPMN)",
+       "Event-driven Process Chain Model (EPC)"
+      ],
+      "more_topics": [],
+      "global_step_index": 3,
+      "resource": null,
+      "videos": [],
+      "resources": []
+     },
+     {
+      "step_number": 4,
+      "title": "Designing for Action: Clarity and Low Friction",
+      "description": "Most conversion problems come from unclear calls to action and too many steps, not from users' lack of interest. Make the action obvious, remove distractions and cognitive load, use smart defaults and automation, and apply sound layout rules.",
+      "topic_refs": [
+       "hDj3HaYAM7K1UJmP_T52n",
+       "FXJpJDIp-JBc0-0z4PIRo",
+       "U4ZEFUcghr9XjSyf-0Np7",
+       "IjqH_Ev2fDWG0QDQ9c9eN",
+       "4AzPOKXUN32CkgchRMrRY",
+       "gf7et64xCqkYBrP9HwWs_",
+       "QNJ-LxfYtR8lbnmuy2Qm9",
+       "vAu2c45c7DgoRydHR2tvD",
+       "wE5gt1vMgbF3csA61VO2-",
+       "IpKCXqf_PkxIllwmiIZsq",
+       "ZufrLRNkMoJ4e2T-vWxCR",
+       "90_M5qABC1vZ1nsXVyqFJ"
+      ],
+      "projects": [
+       {
+        "title": "Checkout friction audit",
+        "description": "Count fields, decisions and taps in a real checkout and redesign it with fewer steps.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Call-to-action redesign",
+        "description": "Redesign a cluttered landing page so its single primary action is obvious.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Make it Clear, Where to Act",
+       "Tell User what the Action is and ask for it",
+       "Call to Action",
+       "Clear the Page of Distractions",
+       "Avoid Cognitive Overhead"
+      ],
+      "more_topics": [
+       {
+        "node_id": "e9n9an1PGxDPGkLCOHIwz",
+        "title": "Help User think about their Action"
+       },
+       {
+        "node_id": "Ix5Fll_dAINWLxVF2DXFI",
+        "title": "Making it Incidental"
+       }
+      ],
+      "global_step_index": 4,
+      "resource": null,
+      "videos": [],
+      "resources": []
+     },
+     {
+      "step_number": 5,
+      "title": "Motivation: Social Proof, Framing and Rewards",
+      "description": "When an action is easy but users still do not act, motivation is the gap. Use social proof, peer comparison and authority, frame choices around loss aversion and the long term, and design rewards and a trustworthy look.",
+      "topic_refs": [
+       "C1NwA0Pivoo73GANoOaPi",
+       "gqOnzmiLQHmIXuEe4jG2e",
+       "iKHU0O0z6gCunCgv_aZye",
+       "C5dKHIIgBzxtBpFgDs-hB",
+       "m30ePaw_qa36m9Rv9NSFf",
+       "zXinWCEH4LlYvXekLK0Ju",
+       "S9rJr8pc-Ln8BxG0suBWa",
+       "jBQtuiHGl3eyCTZG85Vz5",
+       "1pzONoWafLAeX8eWbH-Dz",
+       "D3LVYuCDHD6-kU8GhXokf",
+       "ahhffBkmd-feroleBrhJm",
+       "8wxlu4KA2iu9CJa1UAUll"
+      ],
+      "projects": [
+       {
+        "title": "Savings app copy test",
+        "description": "Write gain-framed and loss-framed versions of a savings prompt and plan how to test them.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Social proof screen",
+        "description": "Design a screen that uses peer comparison ethically to encourage water saving.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Deploy Social Proof",
+       "Deploy Peer Comparisons",
+       "Use Peer Comparisons",
+       "Deploy Strong Authority on Subject",
+       "Be Authentic and Personal"
+      ],
+      "more_topics": [
+       {
+        "node_id": "iQNvKhwhvbis4Yn1ZxQua",
+        "title": "Avoid Direct Payments"
+       }
+      ],
+      "global_step_index": 5,
+      "resource": null,
+      "videos": [],
+      "resources": []
+     },
+     {
+      "step_number": 6,
+      "title": "Habits, Reminders and Commitments",
+      "description": "Products that people use daily are designed around habits, timely reminders and commitments. Learn to build new habits, break old ones by changing the cue or routine, and use reminders, planning prompts and commitment devices.",
+      "topic_refs": [
+       "y6CqgqTvOt-LrvTnPJkQQ",
+       "B0gg7Z5JL9m9Srb89KcN5",
+       "_C-55tciBzc6_Kyk6272k",
+       "S2TgqNDjvmcJTaXncM09u",
+       "d1dXGCHmMF2EFpL5yKVJA",
+       "0MbrHG-VDrdZqQ0jWtiDo",
+       "esWGzYUJwv7_xGjq6kpVE",
+       "wFWidrOZ5EHPgo9uuUclK",
+       "EmDgiwaknBz5lXr1rwalE",
+       "kR-UbUFdELVeiPJqT0GlZ",
+       "dOL2z6ULpmzRD5N3MrYCy",
+       "eYZf67rnhOksfh44hnzHg"
+      ],
+      "projects": [
+       {
+        "title": "Study habit app flow",
+        "description": "Design onboarding that asks students when and where they will study and reminds them at that time.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Screen-time reducer concept",
+        "description": "Design interventions that interrupt the cue for doom-scrolling and test them on two friends.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Make or Change Habits",
+       "Crowd Out Old Habit with New Behavior",
+       "Replace the Routine",
+       "Help user Avoiding the Cue",
+       "Mindfulness to Avoid Acting on the Cue"
+      ],
+      "more_topics": [
+       {
+        "node_id": "w_QWN80zCf1tsVROeyuvo",
+        "title": "Behavior Change Strategies"
+       }
+      ],
+      "global_step_index": 6,
+      "resource": null,
+      "videos": [],
+      "resources": []
+     },
+     {
+      "step_number": 7,
+      "title": "Feedback, Progress and Gamification",
+      "description": "Users keep going when they can see progress and feel competent, and gamification can help or backfire. Show progress and completion clearly, add goal trackers and reports, use games and competition carefully, and teach with tutorials and tips.",
+      "topic_refs": [
+       "8YePym3cQtoVY0DJQLllK",
+       "94V3wUtZ0NMm_0Vb1pBju",
+       "g-bcan_JnjJfg0_fMOb64",
+       "G4Ap91NgZfkV-54EuWe-Z",
+       "fbIur1tEIdNDE6gls4Bru",
+       "JSBiw0C6aq1LhA33y79PM",
+       "6Mvm8SrISyTT99AJ-VFaW",
+       "FoKtBRuTuMD2SZDHLWS-5",
+       "SLXjoYL-lhPef8s9V3jpf",
+       "f0n2JKxpcuP0JW-h4CvwN",
+       "mzWd-xSr7sO2RgfPbKy4T",
+       "zVXJPpqZvUFIxTGVrr0rN"
+      ],
+      "projects": [
+       {
+        "title": "Progress dashboard for a fitness goal",
+        "description": "Design a weekly progress view with streaks, milestones and a clear 'done' state.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Gamification risk review",
+        "description": "Add points and leaderboards to a learning app and list how users could cheat or lose motivation.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Make progress visible to user",
+       "Make successful completion clearly visible",
+       "Goal Trackers",
+       "Status Reports",
+       "Gamification"
+      ],
+      "more_topics": [],
+      "global_step_index": 7,
+      "resource": null,
+      "videos": [],
+      "resources": []
+     },
+     {
+      "step_number": 8,
+      "title": "Prototyping Tools and Measuring Impact",
+      "description": "Ideas only become credible when they are prototyped, tested with users and measured. Prototype in Figma and similar tools, run A/B and multivariate tests, measure impact and feed the lessons into the next iteration.",
+      "topic_refs": [
+       "6yCBFwntQ_KxFmmGTJ8iR",
+       "t46s6Piyd8MoJYzdDTsjr",
+       "nb7Ql1gvxqEucsGnIWTyY",
+       "HI_urBhPqT0m3AeBQJIej",
+       "fZkARg6kPXPemYW1vDMTe",
+       "Q4xBz9f3yyZi2F_aZ5ixL",
+       "-_T2nzp1vV1jUcpsC5DI3",
+       "GgBazWfF2OvOqkuo3DO2L",
+       "Emby09Nsm_j6uNreT58r6",
+       "VUf72i5hYaLR_8ul9EzmM"
+      ],
+      "projects": [
+       {
+        "title": "Clickable Figma prototype",
+        "description": "Turn your redesigned checkout into a clickable Figma prototype and test it with five users.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "A/B test plan",
+        "description": "Write a hypothesis, metric, sample size and decision rule for one design change.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Prototyping",
+       "Figma",
+       "Sketch",
+       "Adobe XD",
+       "Balsamiq"
+      ],
+      "more_topics": [],
+      "global_step_index": 8,
+      "resource": {
+       "title": "Free Figma UX Design UI Essentials Course",
+       "url": "https://youtube.com/watch?v=kbZejnPXyLM"
+      },
+      "videos": [
+       {
+        "title": "Free Figma UX Design UI Essentials Course",
+        "url": "https://youtube.com/watch?v=kbZejnPXyLM",
+        "video_id": "kbZejnPXyLM",
+        "source": "roadmap.sh",
+        "topic": "Figma"
+       },
+       {
+        "title": "Sketch Masterclass: Introduction to the Interface",
+        "url": "https://youtube.com/watch?v=R4VBQDv7ISg",
+        "video_id": "R4VBQDv7ISg",
+        "source": "roadmap.sh",
+        "topic": "Sketch"
+       },
+       {
+        "title": "Rapid Wireframing with Balsamiq",
+        "url": "https://youtube.com/watch?v=dwqHdlXDCBQ",
+        "video_id": "dwqHdlXDCBQ",
+        "source": "roadmap.sh",
+        "topic": "Balsamiq"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Figma",
+        "url": "https://figma.com",
+        "topic": "Figma"
+       },
+       {
+        "type": "official",
+        "title": "Sketch",
+        "url": "https://www.sketch.com/",
+        "topic": "Sketch"
+       },
+       {
+        "type": "official",
+        "title": "Adobe XD Platform",
+        "url": "https://adobexdplatform.com/",
+        "topic": "Adobe XD"
+       },
+       {
+        "type": "official",
+        "title": "Getting Started with Adobe XD",
+        "url": "https://helpx.adobe.com/xd/get-started.html",
+        "topic": "Adobe XD"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 2,
+    "title": "Product Design",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "What Product Designers Do",
+      "description": "Product designers own outcomes, not just screens, so they work from product vision, strategy and business needs. Learn how product design differs from UX and UI and build the product sense that hiring managers look for.",
+      "topic_refs": [
+       "q4yfZZ0MTANpDfx3U7uPP",
+       "zhWj9lOOoxXciAvCeksxm",
+       "q5OzV1_ao0xg66nYyeFjM",
+       "3AMETPxIcRWbjGwkLoFxW",
+       "j_pfvhH-5qquAJXjbu-p8",
+       "2kzDNLEmYJdL0iy9JcRaR",
+       "snUVcr1REPBMrRwuNzDf1",
+       "J_xpmcvqWbI7ZZGEHlc50",
+       "PYX5MBioD6gNUeUdBIUOY",
+       "l6NCN6tGAKFU48I_VRXAg",
+       "_FYOA_bNRxoNeoPs_rMuk",
+       "t8gOYcyit3111blHtJHOT"
+      ],
+      "projects": [
+       {
+        "title": "Product teardown",
+        "description": "Analyse a popular Indian app's value proposition, target users and one design decision you would change.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Vision statement exercise",
+        "description": "Write a one-page product vision and strategy for a college club management app.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Introduction",
+       "Product Design vs UX",
+       "Product Design vs UI",
+       "User-Centered Design",
+       "Product Sense"
+      ],
+      "more_topics": [],
+      "global_step_index": 9,
+      "resource": {
+       "title": "What EXACTLY is Product Design? 🤔",
+       "url": "https://youtube.com/watch?v=LckQ4VVjHDs"
+      },
+      "videos": [
+       {
+        "title": "What EXACTLY is Product Design? 🤔",
+        "url": "https://youtube.com/watch?v=LckQ4VVjHDs",
+        "video_id": "LckQ4VVjHDs",
+        "source": "roadmap.sh",
+        "topic": "Introduction"
+       },
+       {
+        "title": "UI/UX Design vs Product Design",
+        "url": "https://youtube.com/watch?v=S6maF4tICPs",
+        "video_id": "S6maF4tICPs",
+        "source": "roadmap.sh",
+        "topic": "Product Design vs UI"
+       },
+       {
+        "title": "What is user-centred design (UCD)?",
+        "url": "https://youtube.com/watch?v=-f_nXBzaTPw",
+        "video_id": "-f_nXBzaTPw",
+        "source": "roadmap.sh",
+        "topic": "User-Centered Design"
+       },
+       {
+        "title": "Where does Product Sense come from?",
+        "url": "https://youtube.com/watch?v=ZZkT6nF3i64",
+        "video_id": "ZZkT6nF3i64",
+        "source": "roadmap.sh",
+        "topic": "Product Sense"
+       }
+      ],
+      "resources": [
+       {
+        "type": "course",
+        "title": "Intro to UX (User Experience) | Google UX Design Certificate",
+        "url": "https://www.youtube.com/watch?v=2QQQtiFwXjU&list=PLTZYG7bZ1u6oHnGp4Ib3n0y-CmFQdTW6r",
+        "topic": "Product Design vs UX"
+       }
+      ]
+     },
+     {
+      "step_number": 2,
+      "title": "User Research Methods",
+      "description": "Designs built on assumptions fail in testing, while research grounds every decision in real user behaviour. Run interviews, surveys and contextual inquiry, analyse tasks, and synthesise findings into empathy maps, personas, jobs-to-be-done and journey maps.",
+      "topic_refs": [
+       "J4yN0KLUPX2iqI64Hqfgz",
+       "Bairy2nTXWhX098bGJBU9",
+       "jIS-dqSKdsUZPovkgoEhX",
+       "BC_3TgAAehSUlM_oC3aEq",
+       "wYHDGxaqMG8y2oDjKjkzB",
+       "jbuHRX0mjQRO_2h0U6Y2S",
+       "qk_4nCoJeEvRE9q2yC18I",
+       "JJLA3I1wQlE4iJTroTgSf",
+       "Eb-UqSB5b19dgqL8zXixA",
+       "gx9iCEQ27s2cvFeEmZHck",
+       "q9NnyTHujmBii2oiXCNfT",
+       "DlHfLq7nNXqDbwouhPn3V"
+      ],
+      "projects": [
+       {
+        "title": "Interview study",
+        "description": "Interview five commuters about booking buses and synthesise the findings into an affinity map.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Jobs-to-be-done canvas",
+        "description": "Write the main jobs, pains and gains for users of a grocery delivery app.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Gathering Information",
+       "Interviews",
+       "Surveys",
+       "Contextual Inquiry",
+       "Task Analysis"
+      ],
+      "more_topics": [],
+      "global_step_index": 10,
+      "resource": {
+       "title": "How To Conduct User Interviews Like A Pro (UX Design)",
+       "url": "https://youtube.com/watch?v=5tVbFfGDQCk"
+      },
+      "videos": [
+       {
+        "title": "How To Conduct User Interviews Like A Pro (UX Design)",
+        "url": "https://youtube.com/watch?v=5tVbFfGDQCk",
+        "video_id": "5tVbFfGDQCk",
+        "source": "roadmap.sh",
+        "topic": "Interviews"
+       },
+       {
+        "title": "Contextual Enquiry",
+        "url": "https://youtube.com/watch?v=mOWeNnSY5M0",
+        "video_id": "mOWeNnSY5M0",
+        "source": "roadmap.sh",
+        "topic": "Contextual Inquiry"
+       },
+       {
+        "title": "Task Analysis Made Easy with Examples",
+        "url": "https://youtube.com/watch?v=QuVNyuVOBi8",
+        "video_id": "QuVNyuVOBi8",
+        "source": "roadmap.sh",
+        "topic": "Task Analysis"
+       },
+       {
+        "title": "What is an Empathy Map?",
+        "url": "https://youtube.com/watch?v=QwF9a56WFWA",
+        "video_id": "QwF9a56WFWA",
+        "source": "roadmap.sh",
+        "topic": "Empathy Maps"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 3,
+      "title": "Framing Problems and Prioritising Opportunities",
+      "description": "Teams waste months solving the wrong problem, and designers who frame problems clearly earn a voice in roadmap decisions. Write problem statements and how-might-we questions, map assumptions and opportunities, and prioritise with RICE, MoSCoW and Kano.",
+      "topic_refs": [
+       "mN3ZzOH3yo6mIGwA0hqdm",
+       "S2P-SK6LXy82Z5VgBjx2N",
+       "GGMcheQAGyAc8BgXi0oaI",
+       "pWiKXyU5rUxvutXhpgcBD",
+       "HxYpzimPltNch8qbPzfbp",
+       "qJbhaY7aU8PqVQlt2mV4z",
+       "ugdFMO3Zy4Be_GjgMZ9_z",
+       "GtCXJjgEhL2wLSVatu1LX",
+       "d0T6LSBz1Dxfvm9oWnb2V",
+       "IdDdkazWJoZqJLaOwuIN_",
+       "iDc14ni7C6YGpVeze3Cqo",
+       "X4NkbOfNGR89y5x1c3MFo"
+      ],
+      "projects": [
+       {
+        "title": "Opportunity solution tree",
+        "description": "Build a tree from one outcome down to opportunities, solutions and tests for a food app.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "RICE scoring session",
+        "description": "Score ten feature ideas with RICE and defend the top three.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Framing the Problem",
+       "Problem Statements",
+       "How Might We Questions",
+       "Assumption Mapping",
+       "Opportunity Solution Trees"
+      ],
+      "more_topics": [],
+      "global_step_index": 11,
+      "resource": {
+       "title": "How to craft better product problem statements with the SMART framework",
+       "url": "https://youtube.com/watch?v=IKB2KnFmy6I"
+      },
+      "videos": [
+       {
+        "title": "How to craft better product problem statements with the SMART framework",
+        "url": "https://youtube.com/watch?v=IKB2KnFmy6I",
+        "video_id": "IKB2KnFmy6I",
+        "source": "roadmap.sh",
+        "topic": "Problem Statements"
+       },
+       {
+        "title": "How Might We statement builder",
+        "url": "https://youtube.com/watch?v=51SX9CpFBnc",
+        "video_id": "51SX9CpFBnc",
+        "source": "roadmap.sh",
+        "topic": "How Might We Questions"
+       },
+       {
+        "title": "How to Get Started with Assumptions Mapping",
+        "url": "https://youtube.com/watch?v=PyCvsBrKO4w",
+        "video_id": "PyCvsBrKO4w",
+        "source": "roadmap.sh",
+        "topic": "Assumption Mapping"
+       },
+       {
+        "title": "What is an opportunity solution tree?",
+        "url": "https://youtube.com/watch?v=y7hfQ1V1N3M",
+        "video_id": "y7hfQ1V1N3M",
+        "source": "roadmap.sh",
+        "topic": "Opportunity Solution Trees"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 4,
+      "title": "Ideation and Design Workshops",
+      "description": "Strong solutions come from generating many options and critiquing them together, not from the first idea. Run brainstorms, mind maps and sketching sessions, facilitate design sprints, and give and receive useful critique.",
+      "topic_refs": [
+       "ZcdXHB3b5f6b21fTDfYVm",
+       "Ypy2m6Y_-kkqwpfanwbQ3",
+       "eG8L9zdZJ6WWKX5zoCU3F",
+       "l2CI9A_cn9aatKUp3lSfi",
+       "PeC0uue9ZwvAxcN_4NOub",
+       "e6giaRpKxfvKXsfjhBj7G",
+       "lKVVP0ILn8Fywr-P3Lgno",
+       "jAhHs0Ba18emgZBdn77Gd"
+      ],
+      "projects": [
+       {
+        "title": "Crazy eights sprint",
+        "description": "Run a crazy-eights sketching round with three friends and pick one idea through dot voting.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Mini design sprint",
+        "description": "Run a compressed two-day sprint from problem to tested prototype.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Ideation",
+       "Brainstorming",
+       "Mind Maps",
+       "Sketching",
+       "Design Workshops & Sprints"
+      ],
+      "more_topics": [],
+      "global_step_index": 12,
+      "resource": {
+       "title": "ES  Skip navigation mind maps product design     Create   Avatar image Design Any Product with this Mind Map",
+       "url": "https://youtube.com/watch?v=VnIGd7R5zIU"
+      },
+      "videos": [
+       {
+        "title": "ES  Skip navigation mind maps product design     Create   Avatar image Design Any Product with this Mind Map",
+        "url": "https://youtube.com/watch?v=VnIGd7R5zIU",
+        "video_id": "VnIGd7R5zIU",
+        "source": "roadmap.sh",
+        "topic": "Mind Maps"
+       },
+       {
+        "title": "How To Run a Design Thinking Workshop (2-hour Live Training)",
+        "url": "https://youtube.com/watch?v=J64VamE8LdE",
+        "video_id": "J64VamE8LdE",
+        "source": "roadmap.sh",
+        "topic": "Design Workshops & Sprints"
+       },
+       {
+        "title": "What is a Design Sprint? | Google UX Design Certificate",
+        "url": "https://youtube.com/watch?v=xVvVaIWTuck",
+        "video_id": "xVvVaIWTuck",
+        "source": "roadmap.sh",
+        "topic": "Design Workshops & Sprints"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 5,
+      "title": "Information Architecture, User Flows and Wireframes",
+      "description": "Users get lost when content is badly organised, however polished the visuals are. Organise content and navigation with site maps, design user and task flows, and wireframe every screen state, including empty, error and edge cases.",
+      "topic_refs": [
+       "V_AMJYmqBxC6YUT6SJf3J",
+       "ttBrvqyUpCcnrT8ksRggd",
+       "CdWMdC25kExM4Sp59FY4U",
+       "55kM1GxUBxwM-WoRaDDyj",
+       "Nl3xvCKE_4jozlAiweqBJ",
+       "uhilOC2btRa61IoM5c3-C",
+       "k2EyAc_Zs5VDUJ55taOy2",
+       "pAFqw5GHr1O38wEQh3UA4",
+       "OcYNyCYMKQqlsup8ghpZ7"
+      ],
+      "projects": [
+       {
+        "title": "College website IA",
+        "description": "Card-sort a college website's content and propose a new site map and navigation.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Wireframes with every state",
+        "description": "Wireframe a booking flow including loading, empty, error and success states.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Information Architecture",
+       "Content Organization",
+       "Site Maps",
+       "Navigation",
+       "User Flows"
+      ],
+      "more_topics": [],
+      "global_step_index": 13,
+      "resource": {
+       "title": "What Is Information Architecture? (UX Design Guide)",
+       "url": "https://youtube.com/watch?v=OJLfjgVlwDo"
+      },
+      "videos": [
+       {
+        "title": "What Is Information Architecture? (UX Design Guide)",
+        "url": "https://youtube.com/watch?v=OJLfjgVlwDo",
+        "video_id": "OJLfjgVlwDo",
+        "source": "roadmap.sh",
+        "topic": "Information Architecture"
+       },
+       {
+        "title": "What is a Sitemap? Let’s Break it Down Simply",
+        "url": "https://youtube.com/watch?v=GjEIuy9s4is",
+        "video_id": "GjEIuy9s4is",
+        "source": "roadmap.sh",
+        "topic": "Site Maps"
+       },
+       {
+        "title": "Information Architecture: 3 Key Models",
+        "url": "https://youtube.com/watch?v=v39z0JPeIc8",
+        "video_id": "v39z0JPeIc8",
+        "source": "roadmap.sh",
+        "topic": "Navigation"
+       },
+       {
+        "title": "User Flow Diagram Basics",
+        "url": "https://youtube.com/watch?v=cvYhuowazh0",
+        "video_id": "cvYhuowazh0",
+        "source": "roadmap.sh",
+        "topic": "User Flows"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 6,
+      "title": "Visual Design Foundations",
+      "description": "Visual hierarchy, type, colour and grids decide whether users find what matters on a screen. Learn these foundations, common UI patterns and icons, and keep designs consistent across mobile and web.",
+      "topic_refs": [
+       "bwj1QpmHeJth7Z5b1TpfU",
+       "auEN54ontSqWBb-DDD_A9",
+       "_7Lo7JUjJ1iJ0bHrwlz3f",
+       "w_sr4EMZsyOWcWwiHMGCx",
+       "Ss8-G_xPJnuTOjfumjQKc",
+       "cRabi0wAInx3kpLQQbOXx",
+       "Ln8HKsHi-gUeLrrjH8s56",
+       "8HR1zfU5WGMFtf2UrDvmJ",
+       "fzInyQDV_9TqeQf1jLKLT",
+       "9JlXWWRRXGm5tcFl5IDCq",
+       "b958AcoB4_V4t_vYJsN5A"
+      ],
+      "projects": [
+       {
+        "title": "Restyle a dashboard",
+        "description": "Apply a type scale, colour palette and 8-point grid to a cluttered dashboard.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Mobile and web pair",
+        "description": "Design the same profile screen for mobile and desktop with consistent patterns.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Visual Foundations",
+       "Visual Hierarchy",
+       "Typography",
+       "Color",
+       "Layout & Grid"
+      ],
+      "more_topics": [],
+      "global_step_index": 14,
+      "resource": {
+       "title": "Every UI/UX Concept Explained in Under 10 Minutes",
+       "url": "https://youtube.com/watch?v=EcbgbKtOELY"
+      },
+      "videos": [
+       {
+        "title": "Every UI/UX Concept Explained in Under 10 Minutes",
+        "url": "https://youtube.com/watch?v=EcbgbKtOELY",
+        "video_id": "EcbgbKtOELY",
+        "source": "roadmap.sh",
+        "topic": "Visual Foundations"
+       },
+       {
+        "title": "The ONLY Video On Visual Hierarchy ANY Graphic Designer Needs",
+        "url": "https://youtube.com/watch?v=4QNEDhrsRLo",
+        "video_id": "4QNEDhrsRLo",
+        "source": "roadmap.sh",
+        "topic": "Visual Hierarchy"
+       },
+       {
+        "title": "Complete Layout Guide",
+        "url": "https://youtube.com/watch?v=MlsV3hu84as",
+        "video_id": "MlsV3hu84as",
+        "source": "roadmap.sh",
+        "topic": "Layout & Grid"
+       },
+       {
+        "title": "How to Design Better ICON",
+        "url": "https://youtube.com/watch?v=9At1yFg901Y",
+        "video_id": "9At1yFg901Y",
+        "source": "roadmap.sh",
+        "topic": "Icons"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 7,
+      "title": "Motion, Micro-interactions and UX Writing",
+      "description": "Small animations and clear words often decide whether an interface feels helpful or confusing. Apply motion principles to micro-interactions, and write microcopy and content in a consistent voice and tone.",
+      "topic_refs": [
+       "N0_SikPe2t7v1zrwkVNOh",
+       "wgISet-HBQkte12PUPX00",
+       "5mb-glqmSTgyd8VE0BFlH",
+       "k864ijkOZFS1tPSwBXXHC",
+       "zLjTzpEmP1AURO0KsSDgz",
+       "v8g054KMIKVvtpWvOfTVW",
+       "iq1jmcWoLb2BodJBuk7v0"
+      ],
+      "projects": [
+       {
+        "title": "Error message rewrite",
+        "description": "Rewrite twenty error and empty-state messages so they say what happened and what to do next.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Like-button micro-interaction",
+        "description": "Prototype a like button with feedback animation and loading and failure states.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Motion & Interaction",
+       "Motion Principles",
+       "Micro-interactions",
+       "UX Writing",
+       "Microcopy"
+      ],
+      "more_topics": [],
+      "global_step_index": 15,
+      "resource": {
+       "title": "10 Motion Design Principles Every Animator Needs",
+       "url": "https://youtube.com/watch?v=Cz-GcIITNrs"
+      },
+      "videos": [
+       {
+        "title": "10 Motion Design Principles Every Animator Needs",
+        "url": "https://youtube.com/watch?v=Cz-GcIITNrs",
+        "video_id": "Cz-GcIITNrs",
+        "source": "roadmap.sh",
+        "topic": "Motion Principles"
+       },
+       {
+        "title": "Micro-interactions to delight your users: what, when and how",
+        "url": "https://youtube.com/watch?v=jgrkV_hJdJw",
+        "video_id": "jgrkV_hJdJw",
+        "source": "roadmap.sh",
+        "topic": "Micro-interactions"
+       },
+       {
+        "title": "A Day in the Life of a UX Writer | Google UX Design Certificate",
+        "url": "https://youtube.com/watch?v=CxBL_QwyWjA",
+        "video_id": "CxBL_QwyWjA",
+        "source": "roadmap.sh",
+        "topic": "UX Writing"
+       },
+       {
+        "title": "Informative Microcopy: Titles, Headings, Cards, and More | Course Preview",
+        "url": "https://youtube.com/watch?v=nVKF8eS4EZM",
+        "video_id": "nVKF8eS4EZM",
+        "source": "roadmap.sh",
+        "topic": "Microcopy"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 8,
+      "title": "Usability Testing and Experimentation",
+      "description": "Testing early and often is how designers find problems before engineers build them. Prototype for testing, run usability tests and expert reviews, check accessibility, and learn from A/B tests, heatmaps and session recordings.",
+      "topic_refs": [
+       "Wy5D8nEdJf7KJcollezXw",
+       "i2Tg7bH-0ny0RLVmZN5Iw",
+       "W5fsnYf-CKMNUrcZ1HAKh",
+       "xhMXqsbC0qeAkHdMDOxbH",
+       "QOvNo5vsPhIJCSDQu3-Ln",
+       "tI31OEk2oI2CzTLZ3kCQl",
+       "cs068IzvRiFrHtfbj3lxK",
+       "-3y4W63-ERcniQsmR4MIS",
+       "VWmJcie2YkJ6V6DvjSDy3",
+       "9F99swrvYC0zk2NLDw3T8",
+       "KIQRg8ap5Z7IQuMUZc7yC",
+       "FX1Z0YNkxHNl0ozjCn03N"
+      ],
+      "projects": [
+       {
+        "title": "Five-user usability test",
+        "description": "Test a prototype with five users, record task success and propose three fixes.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Heuristic review",
+        "description": "Review an app against usability heuristics and rank the issues by severity.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Prototyping",
+       "Testing Designs",
+       "Usability Testing",
+       "Expert Review",
+       "Accessibility Testing"
+      ],
+      "more_topics": [],
+      "global_step_index": 16,
+      "resource": {
+       "title": "UX Prototyping Tutorial - What is a prototype?",
+       "url": "https://youtube.com/watch?v=zFBa7URT654"
+      },
+      "videos": [
+       {
+        "title": "UX Prototyping Tutorial - What is a prototype?",
+        "url": "https://youtube.com/watch?v=zFBa7URT654",
+        "video_id": "zFBa7URT654",
+        "source": "roadmap.sh",
+        "topic": "Prototyping"
+       },
+       {
+        "title": "Usability Testing Tips and Examples | Google UX Design Certificate",
+        "url": "https://youtube.com/watch?v=nYCJTea1AUQ",
+        "video_id": "nYCJTea1AUQ",
+        "source": "roadmap.sh",
+        "topic": "Usability Testing"
+       },
+       {
+        "title": "If I Started Web Accessibility in 2026, This Is My Plan",
+        "url": "https://youtube.com/watch?v=5MWtL-I-XEc",
+        "video_id": "5MWtL-I-XEc",
+        "source": "roadmap.sh",
+        "topic": "Accessibility Testing"
+       },
+       {
+        "title": "What is A/B Testing in Design & User Experience Research?",
+        "url": "https://youtube.com/watch?v=R1jAoOvWRN0",
+        "video_id": "R1jAoOvWRN0",
+        "source": "roadmap.sh",
+        "topic": "A/B Testing"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 9,
+      "title": "Working with Engineers: Handoff and Constraints",
+      "description": "Designs that ignore technical limits get cut or built badly, so product designers work closely with engineers. Prepare clean handoffs and specs in Figma Dev Mode or Zeplin, understand API, platform and performance constraints, and use feature flags for safe rollouts.",
+      "topic_refs": [
+       "FzFKW32DLjvH6JyYVsfGx",
+       "hIN-rnf-XhZr4LJCtMykg",
+       "2BHujRBCdcaJdIb23Fu6j",
+       "hGIMl_hjYkbtTbYLi9Ijv",
+       "A9QA_XQihVKTfVk-BEUil",
+       "ZUenBZJztKfzobLOj8BdV",
+       "UTIPCn26LOzF5HW7775sE",
+       "l6hgxqruST7xBBypypQFs",
+       "iYGkLplsUjuCEo6YaNk_L",
+       "MMl84Bimru37xW2Kjyd4x",
+       "xocmzj_2tDkWjwBnTM3EN",
+       "VoV8iP-A028UvgutSQb9z"
+      ],
+      "projects": [
+       {
+        "title": "Developer-ready handoff",
+        "description": "Prepare a screen with spacing, tokens, states and behaviour notes that a developer can build without questions.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Constraint interview",
+        "description": "Ask a developer friend what makes a design hard to build and revise your design accordingly.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Developer Collaboration",
+       "Engineering Collaboration",
+       "Design Handoff",
+       "Specs",
+       "Figma Dev Mode"
+      ],
+      "more_topics": [],
+      "global_step_index": 17,
+      "resource": {
+       "title": "How to handoff your designs to Engineering",
+       "url": "https://youtube.com/watch?v=PK8dLpwSqbw"
+      },
+      "videos": [
+       {
+        "title": "How to handoff your designs to Engineering",
+        "url": "https://youtube.com/watch?v=PK8dLpwSqbw",
+        "video_id": "PK8dLpwSqbw",
+        "source": "roadmap.sh",
+        "topic": "Design Handoff"
+       },
+       {
+        "title": "12 Senior Designers Show Their Engineering Handoff Process",
+        "url": "https://youtube.com/watch?v=CYPeIjgIfOE",
+        "video_id": "CYPeIjgIfOE",
+        "source": "roadmap.sh",
+        "topic": "Specs"
+       },
+       {
+        "title": "Figma Tutorial: Master Figma Dev Mode in 8 Minutes",
+        "url": "https://youtube.com/watch?v=HH0ancOHSdc",
+        "video_id": "HH0ancOHSdc",
+        "source": "roadmap.sh",
+        "topic": "Figma Dev Mode"
+       },
+       {
+        "title": "Quick tour of Zeplin",
+        "url": "https://youtube.com/watch?v=qWqWx0dvXHw",
+        "video_id": "qWqWx0dvXHw",
+        "source": "roadmap.sh",
+        "topic": "Zeplin"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Dev Mode",
+        "url": "https://www.figma.com/dev-mode/",
+        "topic": "Figma Dev Mode"
+       },
+       {
+        "type": "official",
+        "title": "Zeplin",
+        "url": "https://zeplin.io/",
+        "topic": "Zeplin"
+       }
+      ]
+     },
+     {
+      "step_number": 10,
+      "title": "Measuring Product Success",
+      "description": "Designers are increasingly judged on the metrics their work moves. Define success metrics with OKRs and the HEART framework, read product analytics, benchmark UX quality, and plan launches with risks identified.",
+      "topic_refs": [
+       "US48-gcagvUHsvEgeahqD",
+       "id54mKpAb7h62n1RyBfzT",
+       "NV0L45IsvUhMkfCFGVdqQ",
+       "03dZOKaQ2TvUC7BGqufQ8",
+       "OzzpfpDWCzK6GYyiljA5x",
+       "-D0SRvKU8sSGd2GJ20ImB",
+       "VMX5mUOBFKhnuPmKdh3zF",
+       "o5060NjFK7EYOGD2nF7Dp",
+       "dgBELpFRvRO_7ir0y0AtX",
+       "l__bw06NFolmlIMOylKJP",
+       "YnOZYh0OgyyzhY_vKqo7f"
+      ],
+      "projects": [
+       {
+        "title": "HEART metrics plan",
+        "description": "Define happiness, engagement, adoption, retention and task-success metrics for a feature.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Launch checklist",
+        "description": "Write a launch readiness checklist with risks, owners and rollback plans.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Success Metrics",
+       "Business Metrics & OKRs",
+       "HEART Framework",
+       "Product Analytics",
+       "Product Performance"
+      ],
+      "more_topics": [],
+      "global_step_index": 18,
+      "resource": {
+       "title": "Product Success Metrics | A Complete Tutorial",
+       "url": "https://youtube.com/watch?v=1nsBdgVlE8w"
+      },
+      "videos": [
+       {
+        "title": "Product Success Metrics | A Complete Tutorial",
+        "url": "https://youtube.com/watch?v=1nsBdgVlE8w",
+        "video_id": "1nsBdgVlE8w",
+        "source": "roadmap.sh",
+        "topic": "Success Metrics"
+       },
+       {
+        "title": "Objectives and Key Results explained (New OKR Crash Course)",
+        "url": "https://youtube.com/watch?v=1nEyzZnSsTg",
+        "video_id": "1nEyzZnSsTg",
+        "source": "roadmap.sh",
+        "topic": "Business Metrics & OKRs"
+       },
+       {
+        "title": "The HEART Framework | Key Business Metrics",
+        "url": "https://youtube.com/watch?v=YugESrDVHuo",
+        "video_id": "YugESrDVHuo",
+        "source": "roadmap.sh",
+        "topic": "HEART Framework"
+       },
+       {
+        "title": "One-Hour Product Analytics Tutorial",
+        "url": "https://youtube.com/watch?v=5O4ST-R5ZVw",
+        "video_id": "5O4ST-R5ZVw",
+        "source": "roadmap.sh",
+        "topic": "Product Analytics"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 11,
+      "title": "Ethical, Inclusive Design and Design at Scale",
+      "description": "As products and teams grow, designers must avoid harm, include everyone and keep work consistent across many teams. Practise ethical and inclusive design, use AI tools responsibly, and learn how design systems, tokens and DesignOps support large teams.",
+      "topic_refs": [
+       "wFbCnmsVaZvR-1W04Y8NB",
+       "C0EkWS2SR3ZVi3-hPyNP_",
+       "6J-GuW42O19Rx4o0Fyspm",
+       "WC7fqDlXZyONf11qzDpdJ",
+       "9_zOlYfK-YSWbXoBalPf3",
+       "rnt2fhRBVd4UI5ANC-YIh",
+       "KrC2p39xUWJjnJh4yUC-6",
+       "UdWsU4kOxSqcHacgTvd7E",
+       "jqDcscSHTUizNmJHA2i-t",
+       "PU-d82UeSi3_MeE2mbcxo",
+       "MjwUcq2Y2J_8gXyLSZvts",
+       "5vPrv890AGAMy3VPl9gwk"
+      ],
+      "projects": [
+       {
+        "title": "Dark-pattern audit",
+        "description": "Find dark patterns in a subscription flow and redesign it to be honest.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Inclusive form redesign",
+        "description": "Redesign a government form for low literacy, screen readers and regional languages.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Ethical Design",
+       "Designing Responsibly",
+       "Inclusive Design",
+       "AI-Assisted Design",
+       "Design Systems"
+      ],
+      "more_topics": [],
+      "global_step_index": 19,
+      "resource": {
+       "title": "What is Ethical Design?",
+       "url": "https://youtube.com/watch?v=HPMqyfOT-l8"
+      },
+      "videos": [
+       {
+        "title": "What is Ethical Design?",
+        "url": "https://youtube.com/watch?v=HPMqyfOT-l8",
+        "video_id": "HPMqyfOT-l8",
+        "source": "roadmap.sh",
+        "topic": "Ethical Design"
+       },
+       {
+        "title": "Accessibility vs. Inclusive Design",
+        "url": "https://youtube.com/watch?v=hE83Qn-PTGA",
+        "video_id": "hE83Qn-PTGA",
+        "source": "roadmap.sh",
+        "topic": "Inclusive Design"
+       },
+       {
+        "title": "Build a Design System - Full Course",
+        "url": "https://youtube.com/watch?v=opTANvl9G1g",
+        "video_id": "opTANvl9G1g",
+        "source": "roadmap.sh",
+        "topic": "Design Systems"
+       },
+       {
+        "title": "Introduction to Design Systems: Design Tokens",
+        "url": "https://youtube.com/watch?v=1O2sROtE3uI",
+        "video_id": "1O2sROtE3uI",
+        "source": "roadmap.sh",
+        "topic": "Design Tokens"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "The Largest Library of Open-Source UI",
+        "url": "https://uiverse.io/",
+        "topic": "Components"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 3,
+    "title": "Design Systems",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "Design System Basics and Atomic Design",
+      "description": "Most product companies run on a design system, and junior designers are expected to use one and contribute to it from week one. Learn what a design system is beyond a component library, study well-known examples, and think in atomic design terms.",
+      "topic_refs": [
+       "4PrkkoZ5fY-oow0O-bVhu",
+       "uvnV1IjE8RV-FKDxHntUU",
+       "2rlmLn_yQQV-7DpX1qT98",
+       "J5mU0v491qrm-mr1W3Msd",
+       "hauTvrBOAHgrUnO_m_kDM",
+       "6r9XbwlBtHmJrhviG2cTD",
+       "de0TKvmFTDmKGZc5X7iFq",
+       "97cpJyKBKNAq1P_pQZH-t",
+       "7xPT8rUX3hjSWbxH_FfQs",
+       "vJ4WytrzY7j10mo8S3O1u",
+       "lUObv2N7eH3Jdnwwd5vmI",
+       "_3_tFOpQisx6DSP4Yc2E2"
+      ],
+      "projects": [
+       {
+        "title": "Design system comparison",
+        "description": "Compare two public design systems on principles, tokens, components and documentation.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Atomic breakdown",
+        "description": "Break a real app screen down into atoms, molecules, organisms and templates.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "What is Design System",
+       "Design System Basics",
+       "Need of design system",
+       "Design System vs Component Library",
+       "Design System Examples"
+      ],
+      "more_topics": [],
+      "global_step_index": 20,
+      "resource": {
+       "title": "What is a Design System? Design Systems 101 for Designers",
+       "url": "https://youtube.com/watch?v=wc5krC28ynQ"
+      },
+      "videos": [
+       {
+        "title": "What is a Design System? Design Systems 101 for Designers",
+        "url": "https://youtube.com/watch?v=wc5krC28ynQ",
+        "video_id": "wc5krC28ynQ",
+        "source": "roadmap.sh",
+        "topic": "Design System Basics"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 2,
+      "title": "Planning a Design System: Audit, Vision and Pilot",
+      "description": "Design systems succeed when they start from an audit of what exists and a clear plan, not from a blank component list. Decide between starting fresh and extracting from existing designs, run a visual audit, and set a vision, roadmap, milestones and pilot.",
+      "topic_refs": [
+       "dUaoMARPabiD4DRqdkaer",
+       "-9I3fTpnQlmcZmIIuQiPe",
+       "z5gBy7BjlBKwbYbxXtoDA",
+       "8eWhvW2zDIxMGHaXl0Y9i",
+       "NKm-gXbt5Y7dDwKVkPHjX",
+       "CnsDoZ3gIaPeNbwHuZXYJ",
+       "cMfsRtvzvDZZJ0TqeUOxm",
+       "gMrX5600JqFDplriq-eU3",
+       "ruPXxVwmD9vSlS7rBZmA-",
+       "4dzoZmkNHPedgLqLy93t8",
+       "JfXwzkN29UGz17FYHHE3A"
+      ],
+      "projects": [
+       {
+        "title": "Button inconsistency audit",
+        "description": "Screenshot every button in a product and document the variations that should be merged.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Design system roadmap",
+        "description": "Write a six-month roadmap with milestones and a pilot team for a startup's first design system.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Making a Design System",
+       "From Scratch",
+       "From Existing Design",
+       "Existing Design Analysis",
+       "Performing a Visual Audit"
+      ],
+      "more_topics": [],
+      "global_step_index": 21,
+      "resource": {
+       "title": "Introducing Design Systems Into Chaos - Diana Mounter, GitHub",
+       "url": "https://youtube.com/watch?v=FZSi1bK-BRM"
+      },
+      "videos": [
+       {
+        "title": "Introducing Design Systems Into Chaos - Diana Mounter, GitHub",
+        "url": "https://youtube.com/watch?v=FZSi1bK-BRM",
+        "video_id": "FZSi1bK-BRM",
+        "source": "roadmap.sh",
+        "topic": "Making a Design System"
+       },
+       {
+        "title": "Create a Design System with Figma - Full Course",
+        "url": "https://youtube.com/watch?v=RYDiDpW2VkM",
+        "video_id": "RYDiDpW2VkM",
+        "source": "roadmap.sh",
+        "topic": "From Scratch"
+       },
+       {
+        "title": "React Native Course for Beginners in 2025 | Build a Full Stack React Native App",
+        "url": "https://youtube.com/watch?v=f8Z9JyB2EIE",
+        "video_id": "f8Z9JyB2EIE",
+        "source": "roadmap.sh",
+        "topic": "Introduction"
+       },
+       {
+        "title": "Design Systems, when and how much?",
+        "url": "https://youtube.com/watch?v=Hx02SaL_IH0",
+        "video_id": "Hx02SaL_IH0",
+        "source": "roadmap.sh",
+        "topic": "Making a Design System"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Getting Started with React Native",
+        "url": "https://reactnative.dev/docs/getting-started",
+        "topic": "React Native"
+       },
+       {
+        "type": "official",
+        "title": "React Native",
+        "url": "https://reactnative.dev/",
+        "topic": "Introduction"
+       }
+      ]
+     },
+     {
+      "step_number": 3,
+      "title": "Design Language, Principles and Writing Guidelines",
+      "description": "A design language gives every team the same answer to 'what should this feel like'. Define principles, tone of voice, writing and microcopy rules, naming conventions, and usage and placement guidance.",
+      "topic_refs": [
+       "JnaNZ9MfMrXQrjW2wABzB",
+       "1RJrMVJf_3clM7E5OML-f",
+       "fnlVIgsmyxj2UVCCjM-8g",
+       "toyNbBB5tbyiJZkzuklIv",
+       "bD-DjUbAA6l2eK1R9ITcK",
+       "wiclAEEYioRgLmXFcKQ4E",
+       "HDf2L4F1f8uUGpVaf7Y7z",
+       "eTxhpC3AQIMcUax6WFU9U",
+       "RmSFwKqL9yXXxGKZusKWX",
+       "7n61402xwhIgJ7dPHg8q7",
+       "FA3JsZgNhKrgNHVtVreol"
+      ],
+      "projects": [
+       {
+        "title": "Principles and voice guide",
+        "description": "Write four design principles and a tone-of-voice guide with do and don't examples.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Naming convention",
+        "description": "Create a naming scheme for components and variants and apply it to a Figma file.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Design Language",
+       "Design Principles",
+       "Tone of Voice",
+       "Writing Guidelines",
+       "Microcopy Guidelines"
+      ],
+      "more_topics": [
+       {
+        "node_id": "mlBzJ2YvBr9QuOthKdj0p",
+        "title": "Guidelines"
+       },
+       {
+        "node_id": "fPUuXrlchna3K00KcY4O6",
+        "title": "Design Language"
+       },
+       {
+        "node_id": "Jab5LO0mGhTy1cU61Catu",
+        "title": "Guidelines"
+       },
+       {
+        "node_id": "Zspu1SsuTE34PVmYePcs4",
+        "title": "Terminology"
+       }
+      ],
+      "global_step_index": 22,
+      "resource": null,
+      "videos": [],
+      "resources": []
+     },
+     {
+      "step_number": 4,
+      "title": "Design Tokens: Colour, Typography, Spacing and Grids",
+      "description": "Tokens turn visual decisions into named values that both designers and developers share, which keeps products consistent and makes dark mode possible. Define colour, functional colour, typography, spacing, sizing and grid tokens.",
+      "topic_refs": [
+       "a53cl6ZKvYXxG25Ii2_zu",
+       "jETJVuS_EczJiQASLqaQr",
+       "2prUeRYbSJTYjo2quJIKs",
+       "__Pv19gRr2SFknVnfm0Mr",
+       "XDfxs5cgjSuTEprZi2Z5b",
+       "kxUnqpydDwB73IwrCPZM0",
+       "ODQ8zrHc2rsc8PN-APKvz",
+       "L2NHddsv5RGR_BW0I3f4T",
+       "GtLYBPJjdZwG0qgA7erk7",
+       "78RsPhsWpl00AbkwKXUxL",
+       "wQbMhC7q3qdKYf_pX5qL4",
+       "8f2V-rM7soorTTvNo5Vcx"
+      ],
+      "projects": [
+       {
+        "title": "Token set with dark mode",
+        "description": "Define primitive and semantic colour tokens and switch a screen between light and dark themes.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Type and spacing scale",
+        "description": "Create a type scale and spacing scale and apply them to three screens.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Design Tokens",
+       "Token",
+       "Color",
+       "Functional Colors",
+       "Color Guidelines"
+      ],
+      "more_topics": [
+       {
+        "node_id": "dXaYOwTAnYSlipNEBSV9l",
+        "title": "Spacing"
+       }
+      ],
+      "global_step_index": 23,
+      "resource": null,
+      "videos": [],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Flutter",
+        "url": "https://flutter.dev/",
+        "topic": "React Native Alternatives"
+       },
+       {
+        "type": "official",
+        "title": "Ionic",
+        "url": "https://ionicframework.com/",
+        "topic": "React Native Alternatives"
+       },
+       {
+        "type": "official",
+        "title": "Xamarin",
+        "url": "https://dotnet.microsoft.com/apps/xamarin",
+        "topic": "React Native Alternatives"
+       }
+      ]
+     },
+     {
+      "step_number": 5,
+      "title": "Responsive Layout, Icons and Brand Assets",
+      "description": "Systems must work across screen sizes and keep brand assets consistent wherever they appear. Define breakpoints and grid relations, size scales, an icon set with reserved icons, and logo formats and variants.",
+      "topic_refs": [
+       "6Hmj_TeQ563jshqAAl__I",
+       "djwnJq9Y_Hx1Ynw01wr_u",
+       "8YVCtgYRHR3VcpUJXMVwP",
+       "w3LS85eFerscaxb2Xp-dP",
+       "aak3227IDDJMh0MquQX6m",
+       "bzY_iXRnotct_WnNRTlbd",
+       "Y0KxHVrcNGHDao-38Oz3w",
+       "-6LPUMRm-SqvRVEWPDFl8",
+       "Wn8CylBz-hyl9-iXcUVTO",
+       "SPK1i0XuHpNEWyi1iIxrV",
+       "pRJ9wEPNfFx_6EYB501vk"
+      ],
+      "projects": [
+       {
+        "title": "Responsive layout spec",
+        "description": "Specify how a product listing page adapts across mobile, tablet and desktop breakpoints.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Icon set guidelines",
+        "description": "Draw or curate twenty icons on a shared grid with size and usage rules.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Grid Relation",
+       "Breakpoints",
+       "Responsiveness",
+       "Sizes",
+       "Icons"
+      ],
+      "more_topics": [
+       {
+        "node_id": "Zl7MVllzJgObruYtlibKf",
+        "title": "Grid Relation"
+       },
+       {
+        "node_id": "_dIMuXWI73ogboGjnLIpT",
+        "title": "Avatar"
+       }
+      ],
+      "global_step_index": 24,
+      "resource": null,
+      "videos": [],
+      "resources": []
+     },
+     {
+      "step_number": 6,
+      "title": "Core Components: Buttons and Form Controls",
+      "description": "Buttons and form inputs appear on almost every screen, so their states and accessibility matter more than any other component. Design buttons, text fields, checkboxes, radios, switches, selects and dropdowns with every state.",
+      "topic_refs": [
+       "Hw_LQInG6OtSwDXch3Lvg",
+       "LWihkf4q5UawjLd84KQxN",
+       "5LCMzBnnS206t5EtgaUx8",
+       "hjiJJg4KNr8lyktFQd868",
+       "iusI39fxcu2rbMXiosaM6",
+       "F5_sxUnnGEdgF6BkA5T5x",
+       "rN-_plAA5FkcQl03wsL18",
+       "NISeaJUlDtQ0kSuyxmrOT",
+       "n1nUkMqGtPobZPJHCvPsk",
+       "MtBSvKoyjdLd6DIdolLRi",
+       "-MrrapoyFWKhSeE2PZ9mb"
+      ],
+      "projects": [
+       {
+        "title": "Button component with variants",
+        "description": "Build a Figma button with size, type and state variants and documented usage.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Form control kit",
+        "description": "Design inputs with default, focus, error and disabled states and a sample form using them.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Core Components",
+       "Button",
+       "Forms",
+       "Input Text",
+       "Textarea"
+      ],
+      "more_topics": [
+       {
+        "node_id": "s6oqvHgwK4Cwyx-JENBbY",
+        "title": "Buttons"
+       },
+       {
+        "node_id": "hzVwLVzAij6TgPTcNHyhv",
+        "title": "Dropdowns"
+       }
+      ],
+      "global_step_index": 25,
+      "resource": null,
+      "videos": [],
+      "resources": []
+     },
+     {
+      "step_number": 7,
+      "title": "Feedback, Navigation and Content Components",
+      "description": "Modals, toasts, tabs and cards shape how users move through and understand a product. Design feedback, navigation and content components with clear rules for when to use each.",
+      "topic_refs": [
+       "IjNitkG25vNo30rB4ckNV",
+       "-T7uL6a3lJ5-IIcDaG6IN",
+       "2oCAzsk_y2Y2oHUi467dp",
+       "kkqRIgdXWaJbX9CjLpwha",
+       "LNsXQI8sE_5kzSD_iMLJA",
+       "JhnHOMIlU6mQcwvIpErUY",
+       "1vYR1EMyZhJA-znxnFBBb",
+       "rZ7d1C9swiqlRTbdJLZ0R",
+       "2T7tiM3Ew3H1U5iJR2TDb",
+       "h3TZY1yBkzLYUK6W7K7xs",
+       "yWEXfjzuzk99dxjZlG4Cq",
+       "Ia1gYzepJOTvTro961eSj"
+      ],
+      "projects": [
+       {
+        "title": "Feedback component guide",
+        "description": "Decide when to use a toast, banner or modal and show one example of each.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Card and list patterns",
+        "description": "Design card and list components for an e-commerce app with loading skeletons.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Modal",
+       "Toast",
+       "Tooltip",
+       "Banner",
+       "Badge"
+      ],
+      "more_topics": [
+       {
+        "node_id": "5DUobzueMZbScyTZTHpCS",
+        "title": "Banners"
+       },
+       {
+        "node_id": "yLLAUGbGUHBTEDkZNK0fm",
+        "title": "Cards"
+       },
+       {
+        "node_id": "UG4AIgJBfZpuhia4Y1K5v",
+        "title": "Badges"
+       }
+      ],
+      "global_step_index": 26,
+      "resource": null,
+      "videos": [],
+      "resources": []
+     },
+     {
+      "step_number": 8,
+      "title": "Design System Tooling, Accessibility and Quality",
+      "description": "A system is only trusted if its components are accessible, performant and tested in both design and code. Check accessibility, use design editors and plugins, and apply code style and unit testing to the component library.",
+      "topic_refs": [
+       "aLtOGjNFxaRzg0PI-ed99",
+       "yhP8EhyCWWRBLkYPyOFeg",
+       "wFL9axjaPcVvI8XWduxgz",
+       "y8No8I0MltA91j4Q2toT0",
+       "zEqFAuH9zmKTLwwgx54pW",
+       "ccpT9MPFbc3Ewjm1tFMsZ",
+       "uO-2O0Jwh_DxrMAB9wxp1",
+       "jggrr5nZOe6FY3ZrZJTOw"
+      ],
+      "projects": [
+       {
+        "title": "Accessibility pass",
+        "description": "Check every component for contrast, focus states and screen-reader labels and fix failures.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Plugin-assisted audit",
+        "description": "Use a Figma plugin to find detached styles and non-token colours in a file.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Accessibility",
+       "Accessibility Testing",
+       "Performance",
+       "Unit Testing",
+       "Code Style"
+      ],
+      "more_topics": [
+       {
+        "node_id": "DhrnZwQODG0P7D-27_3ec",
+        "title": "Accessibility"
+       },
+       {
+        "node_id": "fW0cEy2SB0HDbiF7QA7Ev",
+        "title": "Accessibility"
+       }
+      ],
+      "global_step_index": 27,
+      "resource": null,
+      "videos": [],
+      "resources": []
+     },
+     {
+      "step_number": 9,
+      "title": "Documentation and Team Adoption",
+      "description": "Teams ignore design systems they cannot understand or get help with. Write component documentation and a catalogue, onboard new users, and support them through channels, office hours and community meetings.",
+      "topic_refs": [
+       "-b4GjLpL_ppDMJSiChTef",
+       "VeLiPzbGr22_Mh_8T2Gnf",
+       "cpAeotBxN8BCsU9RqTEue",
+       "PlW8mHnOTyYnbtl0zUSG9",
+       "LWrrKrhwXfMDKgbFW5DuO",
+       "YWoPoO9IW3vLZyxLL2fnT",
+       "eG8ranXuINtcqWfeMH5GW",
+       "i39J0fk4DaPeNFIMbH0ap"
+      ],
+      "projects": [
+       {
+        "title": "Component documentation page",
+        "description": "Document one component with anatomy, variants, usage rules and accessibility notes.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Onboarding guide",
+        "description": "Write a getting-started guide for a new designer joining a team that uses your system.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Documentation",
+       "Component Catalog",
+       "FAQs",
+       "User Onboarding",
+       "Communication Channel"
+      ],
+      "more_topics": [
+       {
+        "node_id": "k1Lwk_b6cLIeyQwc4RUh1",
+        "title": "Documentation"
+       }
+      ],
+      "global_step_index": 28,
+      "resource": {
+       "title": "What is user onboarding?",
+       "url": "https://youtube.com/watch?v=PatIqbGEQe4"
+      },
+      "videos": [
+       {
+        "title": "What is user onboarding?",
+        "url": "https://youtube.com/watch?v=PatIqbGEQe4",
+        "video_id": "PatIqbGEQe4",
+        "source": "roadmap.sh",
+        "topic": "User Onboarding"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 10,
+      "title": "Governance, Releases and Adoption Metrics",
+      "description": "Design systems need clear rules for contributions and releases, and evidence that they are used. Set governance and contribution guidelines, version and release changes, and measure adoption and health with analytics.",
+      "topic_refs": [
+       "kifE3JE2immnU1O3-toZf",
+       "TiCNCRpMPgZUhn7JdaIZA",
+       "IVYe8oh1IWbUbxMZRxVQA",
+       "wd9ZHZmqV7wbLN-9V4EQy",
+       "CYY6nbQiC2pu5ATWmO6wA",
+       "ZLt1yJqinC8OSpqucC2dV",
+       "CfWCQNaCJGL-egRhFhc4B",
+       "G8dOkM_4hP7wPF3QJ8y4g",
+       "qiJGYYWL4naJX-MgZA9Ms",
+       "5znnOkpf9G9tdiMWB6Rut",
+       "ILRDAnpfGHCZq-FBlbfDO",
+       "xYqDmDpjwkShtL86nt-vY"
+      ],
+      "projects": [
+       {
+        "title": "Contribution process",
+        "description": "Define how a team proposes, reviews and ships a new component, with a pull request template.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Adoption dashboard concept",
+        "description": "Design metrics that show which teams use which components and where detached copies exist.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Governance",
+       "Contribution Guidelines",
+       "Commit Guidelines",
+       "PR Templates",
+       "Version Control"
+      ],
+      "more_topics": [
+       {
+        "node_id": "xJ1LAAhiZvbZOLRVc1HZa",
+        "title": "Contribution Guidelines"
+       }
+      ],
+      "global_step_index": 29,
+      "resource": null,
+      "videos": [],
+      "resources": []
+     }
+    ]
+   }
+  ]
+ },
+ "audit": {
+  "phases": [
+   {
+    "phase_number": 1,
+    "title": "UX Design",
+    "queries": [
+     "UI/UX Design",
+     "UI/UX Design fundamentals",
+     "UI/UX Design: UX Design"
+    ],
+    "retrieved": [
+     {
+      "source": "ux-design/be-authentic-and-personal@m30ePaw_qa36m9Rv9NSFf.md",
+      "score": 0.5373166799545288,
+      "queries": [
+       "UI/UX Design",
+       "UI/UX Design fundamentals",
+       "UI/UX Design: UX Design"
+      ]
+     },
+     {
+      "source": "ux-design/make-ui-professional-and-beautiful@ahhffBkmd-feroleBrhJm.md",
+      "score": 0.5185747146606445,
+      "queries": [
+       "UI/UX Design",
+       "UI/UX Design fundamentals",
+       "UI/UX Design: UX Design"
+      ]
+     },
+     {
+      "source": "ux-design/adobe-xd@HI_urBhPqT0m3AeBQJIej.md",
+      "score": 0.5010455846786499,
+      "queries": [
+       "UI/UX Design",
+       "UI/UX Design fundamentals",
+       "UI/UX Design: UX Design"
+      ]
+     },
+     {
+      "source": "ux-design/tutorials@f0n2JKxpcuP0JW-h4CvwN.md",
+      "score": 0.4942645728588104,
+      "queries": [
+       "UI/UX Design",
+       "UI/UX Design fundamentals"
+      ]
+     },
+     {
+      "source": "ux-design/good-layout-rules@90_M5qABC1vZ1nsXVyqFJ.md",
+      "score": 0.4488523006439209,
+      "queries": [
+       "UI/UX Design",
+       "UI/UX Design fundamentals"
+      ]
+     },
+     {
+      "source": "ux-design/ux-best-practices@VUf72i5hYaLR_8ul9EzmM.md",
+      "score": 0.44712287187576294,
+      "queries": [
+       "UI/UX Design fundamentals"
+      ]
+     },
+     {
+      "source": "so_survey_2025_india/UI/UX_Design",
+      "score": 0.31940028071403503,
+      "queries": []
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 1,
+      "topic_refs": [
+       "liUKYf7UghuPk25xMPPYj",
+       "D553-nVELaB5gdxtoKSVc",
+       "_lv6GJ0wlMfhJ7PHRGQ_V",
+       "kWA8CvocP1pkom2N7O4gb",
+       "6ffY5wO-XhkiDJJ5YcI0x",
+       "K22gvF9DLt0Ikc80yZLCb",
+       "zYCBEUqZVlvjlAKnh5cPQ",
+       "2NlgbLeLBYwZX2u2rKkIO",
+       "lRBC8VYJPsR65LHDuuIsL",
+       "PLLTcrHkhd1KYaMSRKALp",
+       "X1AroUI8Fge_lRpKab4A9",
+       "kcG4IpneJzA6di0uqTiwb"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 2,
+      "topic_refs": [
+       "q1WX2Cp4k4-o1T1vgL8FH",
+       "SGO9hHju49_py0n0ASGBe",
+       "sc8jJ_77CrkQuxIJYk28Q",
+       "GI06-DbGyJlQXq5Tyi-aH",
+       "F9gpGTRwXq08jNo5pPKm6",
+       "XiEn1OGFY1bMCoB0Pk8N_",
+       "HUZ5n2MRHzQPyjwX2h6Q4",
+       "0KEqAjHFBjfmGA1bKzXuD",
+       "s2KJ5kNv9UcnsP0QKIKQ7",
+       "tkbkpvHlWQeOnReanR8J7",
+       "FRn2MaR0-ehSD3zmwXcCI",
+       "7J8F9dn1jGaVlhLVVRPrG"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 3,
+      "topic_refs": [
+       "AXn-N15U_z4OagClNoXrW",
+       "r6D07cN0Mg4YXsiRSrl1_",
+       "JCP5_jyvh9u7hxp379iW2",
+       "jy5jtSEyNE8iJpad27rPX",
+       "nccToz_0FUvHMJytpDpM0",
+       "0Df110GZcDw5wbAe1eKoA",
+       "PTZROvpPtEvu06szwmt4K",
+       "9vA3ZWMiKG6NiEqGDvcFR"
+      ],
+      "queries": [
+       "UI/UX Design"
+      ]
+     },
+     {
+      "step_number": 4,
+      "global_step_index": 4,
+      "topic_refs": [
+       "hDj3HaYAM7K1UJmP_T52n",
+       "FXJpJDIp-JBc0-0z4PIRo",
+       "U4ZEFUcghr9XjSyf-0Np7",
+       "IjqH_Ev2fDWG0QDQ9c9eN",
+       "4AzPOKXUN32CkgchRMrRY",
+       "gf7et64xCqkYBrP9HwWs_",
+       "QNJ-LxfYtR8lbnmuy2Qm9",
+       "vAu2c45c7DgoRydHR2tvD",
+       "wE5gt1vMgbF3csA61VO2-",
+       "IpKCXqf_PkxIllwmiIZsq",
+       "ZufrLRNkMoJ4e2T-vWxCR",
+       "90_M5qABC1vZ1nsXVyqFJ"
+      ],
+      "queries": [
+       "UI/UX Design",
+       "UI/UX Design fundamentals"
+      ]
+     },
+     {
+      "step_number": 5,
+      "global_step_index": 5,
+      "topic_refs": [
+       "C1NwA0Pivoo73GANoOaPi",
+       "gqOnzmiLQHmIXuEe4jG2e",
+       "iKHU0O0z6gCunCgv_aZye",
+       "C5dKHIIgBzxtBpFgDs-hB",
+       "m30ePaw_qa36m9Rv9NSFf",
+       "zXinWCEH4LlYvXekLK0Ju",
+       "S9rJr8pc-Ln8BxG0suBWa",
+       "jBQtuiHGl3eyCTZG85Vz5",
+       "1pzONoWafLAeX8eWbH-Dz",
+       "D3LVYuCDHD6-kU8GhXokf",
+       "ahhffBkmd-feroleBrhJm",
+       "8wxlu4KA2iu9CJa1UAUll"
+      ],
+      "queries": [
+       "UI/UX Design",
+       "UI/UX Design fundamentals",
+       "UI/UX Design: UX Design"
+      ]
+     },
+     {
+      "step_number": 6,
+      "global_step_index": 6,
+      "topic_refs": [
+       "y6CqgqTvOt-LrvTnPJkQQ",
+       "B0gg7Z5JL9m9Srb89KcN5",
+       "_C-55tciBzc6_Kyk6272k",
+       "S2TgqNDjvmcJTaXncM09u",
+       "d1dXGCHmMF2EFpL5yKVJA",
+       "0MbrHG-VDrdZqQ0jWtiDo",
+       "esWGzYUJwv7_xGjq6kpVE",
+       "wFWidrOZ5EHPgo9uuUclK",
+       "EmDgiwaknBz5lXr1rwalE",
+       "kR-UbUFdELVeiPJqT0GlZ",
+       "dOL2z6ULpmzRD5N3MrYCy",
+       "eYZf67rnhOksfh44hnzHg"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 7,
+      "global_step_index": 7,
+      "topic_refs": [
+       "8YePym3cQtoVY0DJQLllK",
+       "94V3wUtZ0NMm_0Vb1pBju",
+       "g-bcan_JnjJfg0_fMOb64",
+       "G4Ap91NgZfkV-54EuWe-Z",
+       "fbIur1tEIdNDE6gls4Bru",
+       "JSBiw0C6aq1LhA33y79PM",
+       "6Mvm8SrISyTT99AJ-VFaW",
+       "FoKtBRuTuMD2SZDHLWS-5",
+       "SLXjoYL-lhPef8s9V3jpf",
+       "f0n2JKxpcuP0JW-h4CvwN",
+       "mzWd-xSr7sO2RgfPbKy4T",
+       "zVXJPpqZvUFIxTGVrr0rN"
+      ],
+      "queries": [
+       "UI/UX Design",
+       "UI/UX Design fundamentals"
+      ]
+     },
+     {
+      "step_number": 8,
+      "global_step_index": 8,
+      "topic_refs": [
+       "6yCBFwntQ_KxFmmGTJ8iR",
+       "t46s6Piyd8MoJYzdDTsjr",
+       "nb7Ql1gvxqEucsGnIWTyY",
+       "HI_urBhPqT0m3AeBQJIej",
+       "fZkARg6kPXPemYW1vDMTe",
+       "Q4xBz9f3yyZi2F_aZ5ixL",
+       "-_T2nzp1vV1jUcpsC5DI3",
+       "GgBazWfF2OvOqkuo3DO2L",
+       "Emby09Nsm_j6uNreT58r6",
+       "VUf72i5hYaLR_8ul9EzmM"
+      ],
+      "queries": [
+       "UI/UX Design",
+       "UI/UX Design fundamentals",
+       "UI/UX Design: UX Design"
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 2,
+    "title": "Product Design",
+    "queries": [
+     "UI/UX Design",
+     "UI/UX Design fundamentals",
+     "UI/UX Design: Product Design"
+    ],
+    "retrieved": [
+     {
+      "source": "product-design/product-design-vs-ui@q5OzV1_ao0xg66nYyeFjM.md",
+      "score": 0.6840532422065735,
+      "queries": [
+       "UI/UX Design",
+       "UI/UX Design fundamentals",
+       "UI/UX Design: Product Design"
+      ]
+     },
+     {
+      "source": "product-design/introduction@q4yfZZ0MTANpDfx3U7uPP.md",
+      "score": 0.6710010766983032,
+      "queries": [
+       "UI/UX Design",
+       "UI/UX Design: Product Design"
+      ]
+     },
+     {
+      "source": "product-design/product-design-vs-ux@zhWj9lOOoxXciAvCeksxm.md",
+      "score": 0.6699204444885254,
+      "queries": [
+       "UI/UX Design: Product Design"
+      ]
+     },
+     {
+      "source": "product-design/interface-design@Ln8HKsHi-gUeLrrjH8s56.md",
+      "score": 0.5955052375793457,
+      "queries": [
+       "UI/UX Design",
+       "UI/UX Design fundamentals",
+       "UI/UX Design: Product Design"
+      ]
+     },
+     {
+      "source": "product-design/product-strategy@snUVcr1REPBMrRwuNzDf1.md",
+      "score": 0.5208353996276855,
+      "queries": [
+       "UI/UX Design: Product Design"
+      ]
+     },
+     {
+      "source": "product-design/design-systems@9_zOlYfK-YSWbXoBalPf3.md",
+      "score": 0.5145642757415771,
+      "queries": [
+       "UI/UX Design",
+       "UI/UX Design fundamentals",
+       "UI/UX Design: Product Design"
+      ]
+     },
+     {
+      "source": "so_survey_2025_india/UI/UX_Design",
+      "score": 0.31940028071403503,
+      "queries": []
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 9,
+      "topic_refs": [
+       "q4yfZZ0MTANpDfx3U7uPP",
+       "zhWj9lOOoxXciAvCeksxm",
+       "q5OzV1_ao0xg66nYyeFjM",
+       "3AMETPxIcRWbjGwkLoFxW",
+       "j_pfvhH-5qquAJXjbu-p8",
+       "2kzDNLEmYJdL0iy9JcRaR",
+       "snUVcr1REPBMrRwuNzDf1",
+       "J_xpmcvqWbI7ZZGEHlc50",
+       "PYX5MBioD6gNUeUdBIUOY",
+       "l6NCN6tGAKFU48I_VRXAg",
+       "_FYOA_bNRxoNeoPs_rMuk",
+       "t8gOYcyit3111blHtJHOT"
+      ],
+      "queries": [
+       "UI/UX Design",
+       "UI/UX Design fundamentals",
+       "UI/UX Design: Product Design"
+      ]
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 10,
+      "topic_refs": [
+       "J4yN0KLUPX2iqI64Hqfgz",
+       "Bairy2nTXWhX098bGJBU9",
+       "jIS-dqSKdsUZPovkgoEhX",
+       "BC_3TgAAehSUlM_oC3aEq",
+       "wYHDGxaqMG8y2oDjKjkzB",
+       "jbuHRX0mjQRO_2h0U6Y2S",
+       "qk_4nCoJeEvRE9q2yC18I",
+       "JJLA3I1wQlE4iJTroTgSf",
+       "Eb-UqSB5b19dgqL8zXixA",
+       "gx9iCEQ27s2cvFeEmZHck",
+       "q9NnyTHujmBii2oiXCNfT",
+       "DlHfLq7nNXqDbwouhPn3V"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 11,
+      "topic_refs": [
+       "mN3ZzOH3yo6mIGwA0hqdm",
+       "S2P-SK6LXy82Z5VgBjx2N",
+       "GGMcheQAGyAc8BgXi0oaI",
+       "pWiKXyU5rUxvutXhpgcBD",
+       "HxYpzimPltNch8qbPzfbp",
+       "qJbhaY7aU8PqVQlt2mV4z",
+       "ugdFMO3Zy4Be_GjgMZ9_z",
+       "GtCXJjgEhL2wLSVatu1LX",
+       "d0T6LSBz1Dxfvm9oWnb2V",
+       "IdDdkazWJoZqJLaOwuIN_",
+       "iDc14ni7C6YGpVeze3Cqo",
+       "X4NkbOfNGR89y5x1c3MFo"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 4,
+      "global_step_index": 12,
+      "topic_refs": [
+       "ZcdXHB3b5f6b21fTDfYVm",
+       "Ypy2m6Y_-kkqwpfanwbQ3",
+       "eG8L9zdZJ6WWKX5zoCU3F",
+       "l2CI9A_cn9aatKUp3lSfi",
+       "PeC0uue9ZwvAxcN_4NOub",
+       "e6giaRpKxfvKXsfjhBj7G",
+       "lKVVP0ILn8Fywr-P3Lgno",
+       "jAhHs0Ba18emgZBdn77Gd"
+      ],
+      "queries": [
+       "UI/UX Design",
+       "UI/UX Design: Product Design"
+      ]
+     },
+     {
+      "step_number": 5,
+      "global_step_index": 13,
+      "topic_refs": [
+       "V_AMJYmqBxC6YUT6SJf3J",
+       "ttBrvqyUpCcnrT8ksRggd",
+       "CdWMdC25kExM4Sp59FY4U",
+       "55kM1GxUBxwM-WoRaDDyj",
+       "Nl3xvCKE_4jozlAiweqBJ",
+       "uhilOC2btRa61IoM5c3-C",
+       "k2EyAc_Zs5VDUJ55taOy2",
+       "pAFqw5GHr1O38wEQh3UA4",
+       "OcYNyCYMKQqlsup8ghpZ7"
+      ],
+      "queries": [
+       "UI/UX Design fundamentals"
+      ]
+     },
+     {
+      "step_number": 6,
+      "global_step_index": 14,
+      "topic_refs": [
+       "bwj1QpmHeJth7Z5b1TpfU",
+       "auEN54ontSqWBb-DDD_A9",
+       "_7Lo7JUjJ1iJ0bHrwlz3f",
+       "w_sr4EMZsyOWcWwiHMGCx",
+       "Ss8-G_xPJnuTOjfumjQKc",
+       "cRabi0wAInx3kpLQQbOXx",
+       "Ln8HKsHi-gUeLrrjH8s56",
+       "8HR1zfU5WGMFtf2UrDvmJ",
+       "fzInyQDV_9TqeQf1jLKLT",
+       "9JlXWWRRXGm5tcFl5IDCq",
+       "b958AcoB4_V4t_vYJsN5A"
+      ],
+      "queries": [
+       "UI/UX Design",
+       "UI/UX Design fundamentals",
+       "UI/UX Design: Product Design"
+      ]
+     },
+     {
+      "step_number": 7,
+      "global_step_index": 15,
+      "topic_refs": [
+       "N0_SikPe2t7v1zrwkVNOh",
+       "wgISet-HBQkte12PUPX00",
+       "5mb-glqmSTgyd8VE0BFlH",
+       "k864ijkOZFS1tPSwBXXHC",
+       "zLjTzpEmP1AURO0KsSDgz",
+       "v8g054KMIKVvtpWvOfTVW",
+       "iq1jmcWoLb2BodJBuk7v0"
+      ],
+      "queries": [
+       "UI/UX Design",
+       "UI/UX Design fundamentals",
+       "UI/UX Design: Product Design"
+      ]
+     },
+     {
+      "step_number": 8,
+      "global_step_index": 16,
+      "topic_refs": [
+       "Wy5D8nEdJf7KJcollezXw",
+       "i2Tg7bH-0ny0RLVmZN5Iw",
+       "W5fsnYf-CKMNUrcZ1HAKh",
+       "xhMXqsbC0qeAkHdMDOxbH",
+       "QOvNo5vsPhIJCSDQu3-Ln",
+       "tI31OEk2oI2CzTLZ3kCQl",
+       "cs068IzvRiFrHtfbj3lxK",
+       "-3y4W63-ERcniQsmR4MIS",
+       "VWmJcie2YkJ6V6DvjSDy3",
+       "9F99swrvYC0zk2NLDw3T8",
+       "KIQRg8ap5Z7IQuMUZc7yC",
+       "FX1Z0YNkxHNl0ozjCn03N"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 9,
+      "global_step_index": 17,
+      "topic_refs": [
+       "FzFKW32DLjvH6JyYVsfGx",
+       "hIN-rnf-XhZr4LJCtMykg",
+       "2BHujRBCdcaJdIb23Fu6j",
+       "hGIMl_hjYkbtTbYLi9Ijv",
+       "A9QA_XQihVKTfVk-BEUil",
+       "ZUenBZJztKfzobLOj8BdV",
+       "UTIPCn26LOzF5HW7775sE",
+       "l6hgxqruST7xBBypypQFs",
+       "iYGkLplsUjuCEo6YaNk_L",
+       "MMl84Bimru37xW2Kjyd4x",
+       "xocmzj_2tDkWjwBnTM3EN",
+       "VoV8iP-A028UvgutSQb9z"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 10,
+      "global_step_index": 18,
+      "topic_refs": [
+       "US48-gcagvUHsvEgeahqD",
+       "id54mKpAb7h62n1RyBfzT",
+       "NV0L45IsvUhMkfCFGVdqQ",
+       "03dZOKaQ2TvUC7BGqufQ8",
+       "OzzpfpDWCzK6GYyiljA5x",
+       "-D0SRvKU8sSGd2GJ20ImB",
+       "VMX5mUOBFKhnuPmKdh3zF",
+       "o5060NjFK7EYOGD2nF7Dp",
+       "dgBELpFRvRO_7ir0y0AtX",
+       "l__bw06NFolmlIMOylKJP",
+       "YnOZYh0OgyyzhY_vKqo7f"
+      ],
+      "queries": [
+       "UI/UX Design fundamentals",
+       "UI/UX Design: Product Design"
+      ]
+     },
+     {
+      "step_number": 11,
+      "global_step_index": 19,
+      "topic_refs": [
+       "wFbCnmsVaZvR-1W04Y8NB",
+       "C0EkWS2SR3ZVi3-hPyNP_",
+       "6J-GuW42O19Rx4o0Fyspm",
+       "WC7fqDlXZyONf11qzDpdJ",
+       "9_zOlYfK-YSWbXoBalPf3",
+       "rnt2fhRBVd4UI5ANC-YIh",
+       "KrC2p39xUWJjnJh4yUC-6",
+       "UdWsU4kOxSqcHacgTvd7E",
+       "jqDcscSHTUizNmJHA2i-t",
+       "PU-d82UeSi3_MeE2mbcxo",
+       "MjwUcq2Y2J_8gXyLSZvts",
+       "5vPrv890AGAMy3VPl9gwk"
+      ],
+      "queries": [
+       "UI/UX Design",
+       "UI/UX Design fundamentals",
+       "UI/UX Design: Product Design"
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 3,
+    "title": "Design Systems",
+    "queries": [
+     "UI/UX Design",
+     "UI/UX Design fundamentals",
+     "UI/UX Design: Design Systems"
+    ],
+    "retrieved": [
+     {
+      "source": "design-system/making-a-design-system@dUaoMARPabiD4DRqdkaer.md",
+      "score": 0.7112137079238892,
+      "queries": [
+       "UI/UX Design",
+       "UI/UX Design fundamentals",
+       "UI/UX Design: Design Systems"
+      ]
+     },
+     {
+      "source": "design-system/need-of-design-system@2rlmLn_yQQV-7DpX1qT98.md",
+      "score": 0.6788302659988403,
+      "queries": [
+       "UI/UX Design",
+       "UI/UX Design fundamentals",
+       "UI/UX Design: Design Systems"
+      ]
+     },
+     {
+      "source": "design-system/design-system-examples@hauTvrBOAHgrUnO_m_kDM.md",
+      "score": 0.6458145380020142,
+      "queries": [
+       "UI/UX Design",
+       "UI/UX Design fundamentals",
+       "UI/UX Design: Design Systems"
+      ]
+     },
+     {
+      "source": "design-system/what-is-a-design-system@4PrkkoZ5fY-oow0O-bVhu.md",
+      "score": 0.6263226866722107,
+      "queries": [
+       "UI/UX Design",
+       "UI/UX Design fundamentals",
+       "UI/UX Design: Design Systems"
+      ]
+     },
+     {
+      "source": "design-system/identify-existing-design-process@CnsDoZ3gIaPeNbwHuZXYJ.md",
+      "score": 0.5886243581771851,
+      "queries": [
+       "UI/UX Design",
+       "UI/UX Design fundamentals",
+       "UI/UX Design: Design Systems"
+      ]
+     },
+     {
+      "source": "design-system/existing-design-analysis@8eWhvW2zDIxMGHaXl0Y9i.md",
+      "score": 0.5871866941452026,
+      "queries": [
+       "UI/UX Design",
+       "UI/UX Design fundamentals",
+       "UI/UX Design: Design Systems"
+      ]
+     },
+     {
+      "source": "so_survey_2025_india/UI/UX_Design",
+      "score": 0.31940028071403503,
+      "queries": []
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 20,
+      "topic_refs": [
+       "4PrkkoZ5fY-oow0O-bVhu",
+       "uvnV1IjE8RV-FKDxHntUU",
+       "2rlmLn_yQQV-7DpX1qT98",
+       "J5mU0v491qrm-mr1W3Msd",
+       "hauTvrBOAHgrUnO_m_kDM",
+       "6r9XbwlBtHmJrhviG2cTD",
+       "de0TKvmFTDmKGZc5X7iFq",
+       "97cpJyKBKNAq1P_pQZH-t",
+       "7xPT8rUX3hjSWbxH_FfQs",
+       "vJ4WytrzY7j10mo8S3O1u",
+       "lUObv2N7eH3Jdnwwd5vmI",
+       "_3_tFOpQisx6DSP4Yc2E2"
+      ],
+      "queries": [
+       "UI/UX Design",
+       "UI/UX Design fundamentals",
+       "UI/UX Design: Design Systems"
+      ]
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 21,
+      "topic_refs": [
+       "dUaoMARPabiD4DRqdkaer",
+       "-9I3fTpnQlmcZmIIuQiPe",
+       "z5gBy7BjlBKwbYbxXtoDA",
+       "8eWhvW2zDIxMGHaXl0Y9i",
+       "NKm-gXbt5Y7dDwKVkPHjX",
+       "CnsDoZ3gIaPeNbwHuZXYJ",
+       "cMfsRtvzvDZZJ0TqeUOxm",
+       "gMrX5600JqFDplriq-eU3",
+       "ruPXxVwmD9vSlS7rBZmA-",
+       "4dzoZmkNHPedgLqLy93t8",
+       "JfXwzkN29UGz17FYHHE3A"
+      ],
+      "queries": [
+       "UI/UX Design",
+       "UI/UX Design fundamentals",
+       "UI/UX Design: Design Systems"
+      ]
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 22,
+      "topic_refs": [
+       "JnaNZ9MfMrXQrjW2wABzB",
+       "1RJrMVJf_3clM7E5OML-f",
+       "fnlVIgsmyxj2UVCCjM-8g",
+       "toyNbBB5tbyiJZkzuklIv",
+       "bD-DjUbAA6l2eK1R9ITcK",
+       "wiclAEEYioRgLmXFcKQ4E",
+       "HDf2L4F1f8uUGpVaf7Y7z",
+       "eTxhpC3AQIMcUax6WFU9U",
+       "RmSFwKqL9yXXxGKZusKWX",
+       "7n61402xwhIgJ7dPHg8q7",
+       "FA3JsZgNhKrgNHVtVreol"
+      ],
+      "queries": [
+       "UI/UX Design: Design Systems"
+      ]
+     },
+     {
+      "step_number": 4,
+      "global_step_index": 23,
+      "topic_refs": [
+       "a53cl6ZKvYXxG25Ii2_zu",
+       "jETJVuS_EczJiQASLqaQr",
+       "2prUeRYbSJTYjo2quJIKs",
+       "__Pv19gRr2SFknVnfm0Mr",
+       "XDfxs5cgjSuTEprZi2Z5b",
+       "kxUnqpydDwB73IwrCPZM0",
+       "ODQ8zrHc2rsc8PN-APKvz",
+       "L2NHddsv5RGR_BW0I3f4T",
+       "GtLYBPJjdZwG0qgA7erk7",
+       "78RsPhsWpl00AbkwKXUxL",
+       "wQbMhC7q3qdKYf_pX5qL4",
+       "8f2V-rM7soorTTvNo5Vcx"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 5,
+      "global_step_index": 24,
+      "topic_refs": [
+       "6Hmj_TeQ563jshqAAl__I",
+       "djwnJq9Y_Hx1Ynw01wr_u",
+       "8YVCtgYRHR3VcpUJXMVwP",
+       "w3LS85eFerscaxb2Xp-dP",
+       "aak3227IDDJMh0MquQX6m",
+       "bzY_iXRnotct_WnNRTlbd",
+       "Y0KxHVrcNGHDao-38Oz3w",
+       "-6LPUMRm-SqvRVEWPDFl8",
+       "Wn8CylBz-hyl9-iXcUVTO",
+       "SPK1i0XuHpNEWyi1iIxrV",
+       "pRJ9wEPNfFx_6EYB501vk"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 6,
+      "global_step_index": 25,
+      "topic_refs": [
+       "Hw_LQInG6OtSwDXch3Lvg",
+       "LWihkf4q5UawjLd84KQxN",
+       "5LCMzBnnS206t5EtgaUx8",
+       "hjiJJg4KNr8lyktFQd868",
+       "iusI39fxcu2rbMXiosaM6",
+       "F5_sxUnnGEdgF6BkA5T5x",
+       "rN-_plAA5FkcQl03wsL18",
+       "NISeaJUlDtQ0kSuyxmrOT",
+       "n1nUkMqGtPobZPJHCvPsk",
+       "MtBSvKoyjdLd6DIdolLRi",
+       "-MrrapoyFWKhSeE2PZ9mb"
+      ],
+      "queries": [
+       "UI/UX Design fundamentals"
+      ]
+     },
+     {
+      "step_number": 7,
+      "global_step_index": 26,
+      "topic_refs": [
+       "IjNitkG25vNo30rB4ckNV",
+       "-T7uL6a3lJ5-IIcDaG6IN",
+       "2oCAzsk_y2Y2oHUi467dp",
+       "kkqRIgdXWaJbX9CjLpwha",
+       "LNsXQI8sE_5kzSD_iMLJA",
+       "JhnHOMIlU6mQcwvIpErUY",
+       "1vYR1EMyZhJA-znxnFBBb",
+       "rZ7d1C9swiqlRTbdJLZ0R",
+       "2T7tiM3Ew3H1U5iJR2TDb",
+       "h3TZY1yBkzLYUK6W7K7xs",
+       "yWEXfjzuzk99dxjZlG4Cq",
+       "Ia1gYzepJOTvTro961eSj"
+      ],
+      "queries": [
+       "UI/UX Design",
+       "UI/UX Design fundamentals"
+      ]
+     },
+     {
+      "step_number": 8,
+      "global_step_index": 27,
+      "topic_refs": [
+       "aLtOGjNFxaRzg0PI-ed99",
+       "yhP8EhyCWWRBLkYPyOFeg",
+       "wFL9axjaPcVvI8XWduxgz",
+       "y8No8I0MltA91j4Q2toT0",
+       "zEqFAuH9zmKTLwwgx54pW",
+       "ccpT9MPFbc3Ewjm1tFMsZ",
+       "uO-2O0Jwh_DxrMAB9wxp1",
+       "jggrr5nZOe6FY3ZrZJTOw"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 9,
+      "global_step_index": 28,
+      "topic_refs": [
+       "-b4GjLpL_ppDMJSiChTef",
+       "VeLiPzbGr22_Mh_8T2Gnf",
+       "cpAeotBxN8BCsU9RqTEue",
+       "PlW8mHnOTyYnbtl0zUSG9",
+       "LWrrKrhwXfMDKgbFW5DuO",
+       "YWoPoO9IW3vLZyxLL2fnT",
+       "eG8ranXuINtcqWfeMH5GW",
+       "i39J0fk4DaPeNFIMbH0ap"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 10,
+      "global_step_index": 29,
+      "topic_refs": [
+       "kifE3JE2immnU1O3-toZf",
+       "TiCNCRpMPgZUhn7JdaIZA",
+       "IVYe8oh1IWbUbxMZRxVQA",
+       "wd9ZHZmqV7wbLN-9V4EQy",
+       "CYY6nbQiC2pu5ATWmO6wA",
+       "ZLt1yJqinC8OSpqucC2dV",
+       "CfWCQNaCJGL-egRhFhc4B",
+       "G8dOkM_4hP7wPF3QJ8y4g",
+       "qiJGYYWL4naJX-MgZA9Ms",
+       "5znnOkpf9G9tdiMWB6Rut",
+       "ILRDAnpfGHCZq-FBlbfDO",
+       "xYqDmDpjwkShtL86nt-vY"
+      ],
+      "queries": []
+     }
+    ]
+   }
+  ]
+ }
+}
