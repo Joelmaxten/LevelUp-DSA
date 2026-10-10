@@ -1,0 +1,5114 @@
+{
+ "metadata": {
+  "schema_version": 1,
+  "career_path": "Data Analytics",
+  "model_id": "claude-opus-5-5",
+  "built_at": "2026-10-10T17:54:30Z",
+  "generator": {
+   "profile": "neutral",
+   "provider": "claude_authored",
+   "llm_host": null,
+   "authoring": "Every model reply in this run was written by Claude (claude-opus-5-5) in a Claude Code cloud session, answering the generator's own prompts; retrieval, topic-ref validation, duplicate check, more_topics, resources and audit are the unmodified pipeline.",
+   "phase_concurrency": 1,
+   "duplicate_similarity_threshold": 0.8,
+   "reasoning_effort": "",
+   "resources": "kb_only"
+  },
+  "inventory_fingerprint": "225a88133689268fbff030de3ceefe406296c4be2c51ef88a628a6944686d0b3"
+ },
+ "roadmap": {
+  "phases": [
+   {
+    "phase_number": 1,
+    "title": "Data Analyst",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "What Data Analysts Do and the Four Types of Analytics",
+      "description": "Analysts answer business questions with data, and naming the type of question (what happened, why, what next, what to do) decides the method. Learn the core concepts and the descriptive, diagnostic, predictive and prescriptive kinds of analytics.",
+      "topic_refs": [
+       "3xp2fogAVmwXQhdzhZDWR",
+       "yCnn-NfSxIybUQ2iTuUGq",
+       "R12sArWVpbIs_PHxBqVaR",
+       "Lsapbmg-eMIYJAHpV97nO",
+       "hWDh0ooidbqZb000ENVok",
+       "j7DA2J3speSaBsZAV4M0v",
+       "3WZORRCwme3HsaKew23Z5",
+       "DFMR-0MbmVCCrJu0I9JWG",
+       "il6KQXVPGBza5libN38ib"
+      ],
+      "projects": [
+       {
+        "title": "Question classification exercise",
+        "description": "Sort twenty real business questions into the four analytics types and outline a method for each.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Analyst day-in-the-life notes",
+        "description": "Read three analyst job descriptions and list the recurring tasks, tools and stakeholders.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Introduction",
+       "What is Data Analytics",
+       "Introduction to Key Concepts for Data Analysts",
+       "Types of Data Analytics",
+       "Descriptive Analytics"
+      ],
+      "more_topics": [],
+      "global_step_index": 1,
+      "resource": {
+       "title": "How the Internet Works in 5 Minutes",
+       "url": "https://youtube.com/watch?v=7_LPdttKXPc"
+      },
+      "videos": [
+       {
+        "title": "How the Internet Works in 5 Minutes",
+        "url": "https://youtube.com/watch?v=7_LPdttKXPc",
+        "video_id": "7_LPdttKXPc",
+        "source": "roadmap.sh",
+        "topic": "How Does The Internet Work"
+       },
+       {
+        "title": "Descriptive vs Diagnostic vs Predictive vs Prescriptive Analytics: What's the Difference?",
+        "url": "https://youtube.com/watch?v=QoEpC7jUb9k",
+        "video_id": "QoEpC7jUb9k",
+        "source": "roadmap.sh",
+        "topic": "Types of Data Analytics"
+       },
+       {
+        "title": "What are Descriptive Analytics?",
+        "url": "https://youtube.com/watch?v=DlFqQy10aCs",
+        "video_id": "DlFqQy10aCs",
+        "source": "roadmap.sh",
+        "topic": "Descriptive Analytics"
+       },
+       {
+        "title": "What is Diagnostic Analytics? | Understanding Data-Driven Decision Making",
+        "url": "https://youtube.com/watch?v=ikZjeAC1yJ0",
+        "video_id": "ikZjeAC1yJ0",
+        "source": "roadmap.sh",
+        "topic": "Diagnostic Analytics"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 2,
+      "title": "Excel for Analysis",
+      "description": "Excel is still the first tool in almost every analyst role in India, and interviews often include a spreadsheet task. Master common functions, lookups, text functions, date differences and pivot tables.",
+      "topic_refs": [
+       "sgXIjVTbwdwdYoaxN3XBM",
+       "5GarFKYApjrhxHBLNPVnJ",
+       "FDYunL9KJkR_tHEcUV2iC",
+       "F3-cr5onkWqKKPRdxu8lV",
+       "wME4MSldOWlMB54ekpReS",
+       "9sIP-jpNjtA1JPCBjTf-H",
+       "2DDJUFr0AJTVR2Whj8zub",
+       "yBlJrNo9eO470dLp6OaQZ",
+       "SIiIfcy-jeiRoDlxw385V",
+       "D5Q6o6ydr1j51kB0ASFPE",
+       "YReKRRgE_2dWfGGdBQqbf",
+       "dke_pySrqYZZ7K3rprnIT"
+      ],
+      "projects": [
+       {
+        "title": "Monthly sales workbook",
+        "description": "Build a workbook with lookups to a product sheet, a pivot of sales by region and a summary tab.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Employee tenure report",
+        "description": "Clean names with text functions and compute tenure with DATEDIF for an HR dataset.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Excel",
+       "Learn Common Functions",
+       "Average",
+       "Min / Max Function",
+       "If"
+      ],
+      "more_topics": [
+       {
+        "node_id": "_FO80Cm2iAD_bThmnsEgp",
+        "title": "Sum"
+       },
+       {
+        "node_id": "uAdxP1ZkgzcU8JcWjvw6d",
+        "title": "Count"
+       }
+      ],
+      "global_step_index": 2,
+      "resource": {
+       "title": "How to Create a Pivot Table in Excel",
+       "url": "https://youtube.com/watch?v=PdJzy956wo4"
+      },
+      "videos": [
+       {
+        "title": "How to Create a Pivot Table in Excel",
+        "url": "https://youtube.com/watch?v=PdJzy956wo4",
+        "video_id": "PdJzy956wo4",
+        "source": "roadmap.sh",
+        "topic": "Pivot Tables"
+       },
+       {
+        "title": "How to use the SUM function in excel",
+        "url": "https://youtube.com/watch?v=-u-9f3QrdAQ",
+        "video_id": "-u-9f3QrdAQ",
+        "source": "roadmap.sh",
+        "topic": "Sum"
+       },
+       {
+        "title": "How to Count Cells in Microsoft Excel (COUNT, COUNTA, COUNTIF, COUNTIFS Functions)",
+        "url": "https://youtube.com/watch?v=5RFLncJuMng",
+        "video_id": "5RFLncJuMng",
+        "source": "roadmap.sh",
+        "topic": "Count"
+       }
+      ],
+      "resources": [
+       {
+        "type": "course",
+        "title": "Microsoft Excel Course",
+        "url": "https://support.microsoft.com/en-us/office/excel-video-training-9bc05390-e94c-46af-a5b3-d7c22f6990bb",
+        "topic": "Excel"
+       }
+      ]
+     },
+     {
+      "step_number": 3,
+      "title": "Collecting and Storing Data",
+      "description": "Analysis is only as good as its inputs, and analysts often have to fetch data themselves from files, databases, APIs or websites. Learn the main collection methods and where data is stored.",
+      "topic_refs": [
+       "_sjXCLHHTbZromJYn6fnu",
+       "mDUSpexdq3ITV6qokwSJl",
+       "4DFcXSSHxg5wv0uXLIRij",
+       "qQ64ZhSlbbWu9pP8KTE67",
+       "iWOK0mRY-hAGxMnHYJ0tt",
+       "tYPeLCxbqvMFlTkCGjdHg",
+       "iTmtpXe7dR4XKslgpsk2q"
+      ],
+      "projects": [
+       {
+        "title": "Public data API pull",
+        "description": "Fetch a public dataset through an API and save it as a clean CSV with a data dictionary.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Job listings scraper",
+        "description": "Collect analyst job postings from a site that allows it and count the most requested tools.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Data Collection",
+       "Collection",
+       "APIs and Data Collection",
+       "Web Scraping",
+       "CSV Files"
+      ],
+      "more_topics": [],
+      "global_step_index": 3,
+      "resource": {
+       "title": "What is Web Scraping?",
+       "url": "https://youtube.com/watch?v=dlj_QL-ENJM"
+      },
+      "videos": [
+       {
+        "title": "What is Web Scraping?",
+        "url": "https://youtube.com/watch?v=dlj_QL-ENJM",
+        "video_id": "dlj_QL-ENJM",
+        "source": "roadmap.sh",
+        "topic": "Web Scraping"
+       },
+       {
+        "title": "Understanding CSV Files",
+        "url": "https://youtube.com/watch?v=UofTplCVkYI",
+        "video_id": "UofTplCVkYI",
+        "source": "roadmap.sh",
+        "topic": "CSV Files"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 4,
+      "title": "Cleaning and Transforming Data with Python or R",
+      "description": "Spreadsheets stop scaling at a few hundred thousand rows, so analysts learn a language for repeatable cleaning. Handle missing values, duplicates and outliers, and transform data with pandas or dplyr.",
+      "topic_refs": [
+       "E6cpb6kvluJM8OGuDcFBT",
+       "nC7tViln4UyQFYP_-fyjB",
+       "X9WmfHOks82BIAzs6abqO",
+       "Xltm7B-8TZ1-igLjVJXoR",
+       "-rQ8h_6NFxEOhxXgo7LHo",
+       "t_BRtEharsrOZxoyX0OzV",
+       "M1QtGTLyygIjePoCfvjve",
+       "TucngXKNptbeo3PtdJHX8",
+       "v8TfY-b4W5ygOv7r-syHq",
+       "i2uEcaO4bJhcZ5ayRs2CQ",
+       "g_EBQizZsIe-vn8ir6FTv"
+      ],
+      "projects": [
+       {
+        "title": "Clean a messy survey export",
+        "description": "Remove duplicates, standardise answers and handle blanks in a survey file with pandas.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Same cleaning in pandas and dplyr",
+        "description": "Write the same cleaning script in Python and R and compare readability.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Data Cleanup",
+       "Cleanup",
+       "Handling Missing Data",
+       "Removing Duplicates",
+       "Finding Outliers"
+      ],
+      "more_topics": [],
+      "global_step_index": 4,
+      "resource": {
+       "title": "Master Data Cleaning Essentials on Excel in Just 10 Minutes",
+       "url": "https://youtube.com/watch?v=jxq4-KSB_OA"
+      },
+      "videos": [
+       {
+        "title": "Master Data Cleaning Essentials on Excel in Just 10 Minutes",
+        "url": "https://youtube.com/watch?v=jxq4-KSB_OA",
+        "video_id": "jxq4-KSB_OA",
+        "source": "roadmap.sh",
+        "topic": "Cleanup"
+       },
+       {
+        "title": "How To Remove Duplicates in a Dataset and Find Unique Values",
+        "url": "https://youtube.com/watch?v=KBzYrvjUsps",
+        "video_id": "KBzYrvjUsps",
+        "source": "roadmap.sh",
+        "topic": "Removing Duplicates"
+       },
+       {
+        "title": "NumPy vs Pandas",
+        "url": "https://youtube.com/watch?v=KHoEbRH46Zk",
+        "video_id": "KHoEbRH46Zk",
+        "source": "roadmap.sh",
+        "topic": "Pandas"
+       },
+       {
+        "title": "Dplyr Essentials",
+        "url": "https://youtube.com/watch?v=Gvhkp-Yw65U",
+        "video_id": "Gvhkp-Yw65U",
+        "source": "roadmap.sh",
+        "topic": "Dplyr"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Pandas",
+        "url": "https://pandas.pydata.org/",
+        "topic": "Pandas"
+       },
+       {
+        "type": "official",
+        "title": "dplyr",
+        "url": "https://dplyr.tidyverse.org/",
+        "topic": "Dplyr"
+       },
+       {
+        "type": "official",
+        "title": "R Website",
+        "url": "https://www.r-project.org/about.html",
+        "topic": "R"
+       }
+      ]
+     },
+     {
+      "step_number": 5,
+      "title": "Descriptive Statistics",
+      "description": "Every report starts with summaries of centre and spread, and choosing mean or median wrongly can mislead decision-makers. Learn measures of central tendency, dispersion and the shape of a distribution.",
+      "topic_refs": [
+       "BJTVa4ur_bJB7mMtD2-hQ",
+       "923KGEUG9ofBm7dYkkrxz",
+       "qdXoikVh2xkJkOQNKcyvb",
+       "fY8zVG2tVbmtx5OhY7hj-",
+       "2ldO-_ZnIg364Eo8Jyfgr",
+       "tSxtyJhL5wjU0XJcjsJmm",
+       "ict4JkoVM-AzPbp9bDztg",
+       "MXIP8ekH4YtczODKM_G_l",
+       "VfcCRRqwLxkYpIX0ZKNNX",
+       "PqGO8AU1zE2ZdtqrIrOkZ",
+       "Fyqg3MRcwY7g-Q3gjiqwK",
+       "2pUq-7hu5EjGpowz98YoV"
+      ],
+      "projects": [
+       {
+        "title": "Salary summary report",
+        "description": "Summarise a salary dataset and explain why the median tells a better story than the mean.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Delivery time distribution",
+        "description": "Describe the centre, spread and skew of delivery times per city.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Central Tendency",
+       "Mean",
+       "Median",
+       "Mode",
+       "Dispersion"
+      ],
+      "more_topics": [],
+      "global_step_index": 5,
+      "resource": {
+       "title": "Understanding Central Tendency",
+       "url": "https://youtube.com/watch?v=n_sSVhHBdj4"
+      },
+      "videos": [
+       {
+        "title": "Understanding Central Tendency",
+        "url": "https://youtube.com/watch?v=n_sSVhHBdj4",
+        "video_id": "n_sSVhHBdj4",
+        "source": "roadmap.sh",
+        "topic": "Central Tendency"
+       },
+       {
+        "title": "Statistics 101 - Measures of Dispersion",
+        "url": "https://youtube.com/watch?v=goXdWMZxlqM",
+        "video_id": "goXdWMZxlqM",
+        "source": "roadmap.sh",
+        "topic": "Dispersion"
+       },
+       {
+        "title": "Standard Deviation",
+        "url": "https://youtube.com/watch?v=esskJJF8pCc",
+        "video_id": "esskJJF8pCc",
+        "source": "roadmap.sh",
+        "topic": "Standard Deviation"
+       },
+       {
+        "title": "What is Kurtosis?",
+        "url": "https://youtube.com/watch?v=AsxEDBhESJg",
+        "video_id": "AsxEDBhESJg",
+        "source": "roadmap.sh",
+        "topic": "Kurtosis"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 6,
+      "title": "Exploration, Hypothesis Testing and Correlation",
+      "description": "Diagnostic questions such as whether a campaign really worked need more than averages: they need tests, correlations and simple regressions. Explore distributions visually, test hypotheses and measure relationships between variables.",
+      "topic_refs": [
+       "XFnw4_dQYSzm96-srWa7X",
+       "Xygwu0m5TeYT6S_8FKKXh",
+       "murioZ0NdrTix_lqSGz-8",
+       "lTycWscyFPi-BtkNg9cdm",
+       "mCUW07rx74_dUNi7OGVlj",
+       "FEyBFZLaGJqTC-IUEcOVS"
+      ],
+      "projects": [
+       {
+        "title": "Campaign impact test",
+        "description": "Test whether customers who saw a promotion spent more than those who did not.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Ad spend versus sales",
+        "description": "Measure the correlation and fit a simple regression between monthly ad spend and sales.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Exploration",
+       "Hypothesis Testing",
+       "Correlation Analysis",
+       "Regression",
+       "Visualizing Distributions"
+      ],
+      "more_topics": [
+       {
+        "node_id": "TeewVruErSsD4VLXcaDxp",
+        "title": "Statistical Analysis"
+       }
+      ],
+      "global_step_index": 6,
+      "resource": {
+       "title": "How to do Data Exploration",
+       "url": "https://youtube.com/watch?v=OY4eQrekQvs"
+      },
+      "videos": [
+       {
+        "title": "How to do Data Exploration",
+        "url": "https://youtube.com/watch?v=OY4eQrekQvs",
+        "video_id": "OY4eQrekQvs",
+        "source": "roadmap.sh",
+        "topic": "Exploration"
+       },
+       {
+        "title": "Visualising Distributions in Power BI",
+        "url": "https://youtube.com/watch?v=rOemr3sz2vw",
+        "video_id": "rOemr3sz2vw",
+        "source": "roadmap.sh",
+        "topic": "Visualizing Distributions"
+       },
+       {
+        "title": "Statistical Analysis",
+        "url": "https://youtube.com/watch?v=XjMBZE1DuBY",
+        "video_id": "XjMBZE1DuBY",
+        "source": "roadmap.sh",
+        "topic": "Statistical Analysis"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 7,
+      "title": "Data Visualisation and Chart Selection",
+      "description": "Stakeholders act on charts, not tables, and picking the right chart type is what makes a finding obvious. Practise the main chart types and build them in Tableau or Power BI.",
+      "topic_refs": [
+       "2g19zjEASJw2ve57hxpr0",
+       "jowh4CFLQiFzKaaElyCuQ",
+       "Vk3JErqxpnPY44iyfkLMl",
+       "EVk1H-QLtTlpG7lVEenDt",
+       "v9T0DX56jFNhUz9nzubzS",
+       "K9xwm_Vpdup9ujYqlD9F3",
+       "A5YQv7D4qRcskdZ64XldH",
+       "329BrtmXjXNLfi1SFfdeo",
+       "muFy-C2agCX9vR_NU7UZF",
+       "G8resQXEVEHCaQfDlt3nj",
+       "Sz2Y8HLbSmDjSKAJztDql",
+       "SJLeose5vZU8w_18C8_t0"
+      ],
+      "projects": [
+       {
+        "title": "E-commerce funnel chart",
+        "description": "Visualise drop-off from visit to purchase and highlight the biggest leak.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Chart choice cheat sheet",
+        "description": "Build one example of each chart type from the same dataset and note when to use it.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Data Visualisation",
+       "Visualisation",
+       "Charting",
+       "Bar Charts",
+       "Line Chart"
+      ],
+      "more_topics": [
+       {
+        "node_id": "l1SnPc4EMqGdaIAhIQfrT",
+        "title": "Data Visualisation Libraries"
+       },
+       {
+        "node_id": "n3M49lgNPn28hm7kzki-a",
+        "title": "ggplot2"
+       },
+       {
+        "node_id": "tvDdXwaRPsUSTqJGaLS3P",
+        "title": "Matplotlib"
+       },
+       {
+        "node_id": "-cJb8gEBvdVFf7FlgG3Ud",
+        "title": "Seaborn"
+       }
+      ],
+      "global_step_index": 7,
+      "resource": {
+       "title": "Excel Charts and Graphs Tutorial",
+       "url": "https://youtube.com/watch?v=eHtZrIb0oWY"
+      },
+      "videos": [
+       {
+        "title": "Excel Charts and Graphs Tutorial",
+        "url": "https://youtube.com/watch?v=eHtZrIb0oWY",
+        "video_id": "eHtZrIb0oWY",
+        "source": "roadmap.sh",
+        "topic": "Charting"
+       },
+       {
+        "title": "What is a Bar Chart?",
+        "url": "https://youtube.com/watch?v=WTVdncVCvKo",
+        "video_id": "WTVdncVCvKo",
+        "source": "roadmap.sh",
+        "topic": "Bar Charts"
+       },
+       {
+        "title": "What is a line graph?",
+        "url": "https://youtube.com/watch?v=rw-MxkzymEw",
+        "video_id": "rw-MxkzymEw",
+        "source": "roadmap.sh",
+        "topic": "Line Chart"
+       },
+       {
+        "title": "What is a Pie Chart",
+        "url": "https://youtube.com/watch?v=GjJdZaQrItg",
+        "video_id": "GjJdZaQrItg",
+        "source": "roadmap.sh",
+        "topic": "Pie Charts"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Tableau",
+        "url": "https://www.tableau.com/en-gb",
+        "topic": "Tableau"
+       },
+       {
+        "type": "official",
+        "title": "Power BI",
+        "url": "https://www.microsoft.com/en-us/power-platform/products/power-bi",
+        "topic": "Power BI"
+       },
+       {
+        "type": "official",
+        "title": "Matplotlib",
+        "url": "https://matplotlib.org/",
+        "topic": "Matplotlib"
+       },
+       {
+        "type": "official",
+        "title": "Seaborn",
+        "url": "https://seaborn.pydata.org/",
+        "topic": "Seaborn"
+       }
+      ]
+     },
+     {
+      "step_number": 8,
+      "title": "Machine Learning Basics for Analysts",
+      "description": "Analysts increasingly run simple predictive models and need to understand the ones data scientists hand them. Learn supervised and unsupervised basics, common algorithms and how models are evaluated.",
+      "topic_refs": [
+       "f4GuzeokP9w_gwtOquP0g",
+       "FIYCkGXofKMsXmsqHSMh9",
+       "FntL9E2yVAYwIrlANDNKE",
+       "ofOQKAIu4rezWmgZeE-KT",
+       "vHDm_9Lh4EqvXNYSOBaqZ",
+       "SStzU_iXSvI_9QWbvGNou",
+       "h2xF5bZeUByDgsAi4dga2",
+       "zbUw5PyVsdccbgDTRHg7d",
+       "7ikA373qH88HBx5irCgIH",
+       "XdBwqLoYYiLJNlWPBEDUj",
+       "gGHsKcS92StK5FolzmVvm",
+       "SiYUdtYMDImRPmV2_XPkH"
+      ],
+      "projects": [
+       {
+        "title": "Churn prediction starter",
+        "description": "Predict which telecom customers will leave with logistic regression and a decision tree.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Customer segments with k-means",
+        "description": "Segment customers by recency, frequency and spend and describe each group.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Machine Learning",
+       "Supervised Learning",
+       "Unsupervised Learning",
+       "Logistic Regression",
+       "Decision Trees"
+      ],
+      "more_topics": [
+       {
+        "node_id": "U55hwR0HRCIz2cveVR8FZ",
+        "title": "Machine Learning"
+       },
+       {
+        "node_id": "FJ4Sx477FWxyDsQr0R8rl",
+        "title": "Tensor Flow"
+       },
+       {
+        "node_id": "bHPJ6yOHtUq5EjJBSrJUE",
+        "title": "Image Recognition"
+       },
+       {
+        "node_id": "LJSqfz6aYJbCe_bK8EWI1",
+        "title": "Pytorch"
+       },
+       {
+        "node_id": "DFv-eiYDicF4cA4jgVk9_",
+        "title": "Natural Language Processing"
+       },
+       {
+        "node_id": "Gocm98_tRg5BGxKcP-7zg",
+        "title": "RNN"
+       },
+       {
+        "node_id": "XlCv2OirEfuBFa4ranyyE",
+        "title": "CNNs"
+       }
+      ],
+      "global_step_index": 8,
+      "resource": {
+       "title": "What is Machine Learning?",
+       "url": "https://youtube.com/watch?v=9gGnTQTYNaE"
+      },
+      "videos": [
+       {
+        "title": "What is Machine Learning?",
+        "url": "https://youtube.com/watch?v=9gGnTQTYNaE",
+        "video_id": "9gGnTQTYNaE",
+        "source": "roadmap.sh",
+        "topic": "Machine Learning"
+       },
+       {
+        "title": "Tensorflow in 100 seconds",
+        "url": "https://youtube.com/watch?v=i8NETqtGHms",
+        "video_id": "i8NETqtGHms",
+        "source": "roadmap.sh",
+        "topic": "Tensor Flow"
+       },
+       {
+        "title": "PyTorch in 100 seconds",
+        "url": "https://youtube.com/watch?v=ORMx45xqWkA",
+        "video_id": "ORMx45xqWkA",
+        "source": "roadmap.sh",
+        "topic": "Pytorch"
+       },
+       {
+        "title": "What are Convolutional Neural Networks (CNNs)?",
+        "url": "https://youtube.com/watch?v=QzY57FaENXg",
+        "video_id": "QzY57FaENXg",
+        "source": "roadmap.sh",
+        "topic": "CNNs"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Tensorflow",
+        "url": "https://www.tensorflow.org/",
+        "topic": "Tensor Flow"
+       },
+       {
+        "type": "official",
+        "title": "Tensorflow Documentation",
+        "url": "https://www.tensorflow.org/learn",
+        "topic": "Tensor Flow"
+       },
+       {
+        "type": "official",
+        "title": "PyTorch",
+        "url": "https://pytorch.org/",
+        "topic": "Pytorch"
+       },
+       {
+        "type": "official",
+        "title": "PyTorch Documentation",
+        "url": "https://pytorch.org/docs/stable/index.html",
+        "topic": "Pytorch"
+       }
+      ]
+     },
+     {
+      "step_number": 9,
+      "title": "Big Data Concepts",
+      "description": "At larger companies the data lives in distributed systems, and analysts need to know how those systems process it. Learn the ideas behind Hadoop, MapReduce, Spark and parallel processing.",
+      "topic_refs": [
+       "m1IfG2sEedUxMXrv_B8GW",
+       "_aUQZWUhFRvNu0MZ8CPit",
+       "wECWIRMlWNoTxz5eKwaSf",
+       "vaiigToDh4522rtWamuSM",
+       "eAM9orCNwzqh34uvGBVm8",
+       "Fwwve0j-KDfc605IIgmil",
+       "fqCAH4Enc4AAJHoSkk2Pe"
+      ],
+      "projects": [
+       {
+        "title": "MapReduce word count by hand",
+        "description": "Implement map, shuffle and reduce steps in plain Python to count words across files.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "First Spark aggregation",
+        "description": "Run a group-by on a large CSV with PySpark locally and compare it with pandas.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Big Data Concepts",
+       "Big Data Technologies",
+       "Hadoop",
+       "Spark",
+       "MapReduce"
+      ],
+      "more_topics": [],
+      "global_step_index": 9,
+      "resource": null,
+      "videos": [],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Apache Hadoop",
+        "url": "https://hadoop.apache.org/",
+        "topic": "Hadoop"
+       },
+       {
+        "type": "official",
+        "title": "Apache Spark",
+        "url": "https://spark.apache.org/",
+        "topic": "Spark"
+       },
+       {
+        "type": "official",
+        "title": "Message Passing Interface Forum",
+        "url": "https://www.mpi-forum.org/",
+        "topic": "MPI"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 2,
+    "title": "SQL",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "SQL Basics: Relational Databases and SELECT",
+      "description": "Company data lives in relational databases, and SQL is tested in nearly every analyst interview. Learn why relational databases are organised as they are, then select, filter and sort rows confidently.",
+      "topic_refs": [
+       "R9DQNc0AyAQ2HLpP4HOk6",
+       "fNTb9y3zs1HPYclAmu_Wv",
+       "nhUKKWyBH80nyKfGT8ErC",
+       "JDDG4KfhtIlw1rkNCzUli",
+       "R9WDMRd-3wxsKH97-sT3n",
+       "aLDl75i8gtLRA2Ud-fMmQ",
+       "wmtt-3auWLdQWuVdwZLPd",
+       "tBzMDfCMh6MIagNaxCzin",
+       "i8u8E_sne6XiKJo2FXDog",
+       "WhYAy6f7Euk3E49-ot644",
+       "NfCiSPrL4upMssukcw3Kh",
+       "ffwniprGJHZzJ7t3lQcXz"
+      ],
+      "projects": [
+       {
+        "title": "Retail store queries",
+        "description": "Answer twenty questions about products and stock levels with SELECT, WHERE and ORDER BY.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Spreadsheet to table",
+        "description": "Move an Excel sheet into a database table with the right data types and query it.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Relational Databases",
+       "RDBMS Benefits and Limitations",
+       "Learn the Basics",
+       "Basic SQL Syntax",
+       "Table"
+      ],
+      "more_topics": [
+       {
+        "node_id": "rmqXH29n1oXtZ8tvmcRFn",
+        "title": "SELECT statement"
+       },
+       {
+        "node_id": "gx4KaFqKgJX9n9_ZGMqlZ",
+        "title": "SQL vs NoSQL"
+       },
+       {
+        "node_id": "UDqbT1y-YzBrljfKSz_RG",
+        "title": "Advanced SQL Concepts"
+       },
+       {
+        "node_id": "6yoo7qC6X2jYDIjd3HIm7",
+        "title": "SQL keywords"
+       },
+       {
+        "node_id": "8V6yw7kLaow-VVcv_K_pL",
+        "title": "JOIN Queries"
+       },
+       {
+        "node_id": "N1Racr3ZpU320gS545We8",
+        "title": "FROM Clause in SELECT Statements"
+       },
+       {
+        "node_id": "88KlrMqSza9_YaD7Dv61p",
+        "title": "TIME"
+       },
+       {
+        "node_id": "igg34gLPl3HYVAmRNFGcV",
+        "title": "ACID"
+       },
+       {
+        "node_id": "qBios3sZVhcJMpXmj9f7B",
+        "title": "Data Constraints"
+       },
+       {
+        "node_id": "R1ktDJpXOz0PTllAcBrdu",
+        "title": "Data Integrity & Security"
+       },
+       {
+        "node_id": "vhBZqqmUcEon6-Vwvla4q",
+        "title": "DB Security Best Practices"
+       },
+       {
+        "node_id": "mPj6BiK5FKKkIQ9WsWEo6",
+        "title": "INSERT Statement"
+       },
+       {
+        "node_id": "Ivqo2wa-_NhGU3vGd0pUI",
+        "title": "DATE"
+       },
+       {
+        "node_id": "w7FNjdwqjY7X69aJqqBy4",
+        "title": "Stored Procedures and Functions"
+       },
+       {
+        "node_id": "w53CSY53nAAN0ux-XeJ4c",
+        "title": "Selective Projection"
+       },
+       {
+        "node_id": "z5Sf0VU14ZCQ80kL1qOqc",
+        "title": "Dynamic SQL"
+       },
+       {
+        "node_id": "eXQ-TrTlqL5p2AdGnozkL",
+        "title": "Scalar"
+       },
+       {
+        "node_id": "xPOeXK1EPBNG56vgfG-VV",
+        "title": "Data Definition Language (DDL)"
+       },
+       {
+        "node_id": "zWnvuHJLHr03PWkrW1wZZ",
+        "title": "DELETE Statement in SQL"
+       },
+       {
+        "node_id": "knTG6pAq2mYP24WMa29xI",
+        "title": "LOWER"
+       },
+       {
+        "node_id": "WMSXi-eez_hHGDM8kUdWz",
+        "title": "Data Manipulation Language (DML)"
+       },
+       {
+        "node_id": "RH8DLiQpDUWqw3U1522q5",
+        "title": "LENGTH"
+       },
+       {
+        "node_id": "Q0h9Wfnl_W9ThOkv7Q17A",
+        "title": "CHECK"
+       },
+       {
+        "node_id": "7sTW1vwUhCFOMXYjScVEt",
+        "title": "BEGIN"
+       },
+       {
+        "node_id": "5inpEqafeVCfqsURHzQQg",
+        "title": "CONCAT"
+       }
+      ],
+      "global_step_index": 10,
+      "resource": {
+       "title": "What is a relational database?",
+       "url": "https://youtube.com/watch?v=OqjJjpjDRLc"
+      },
+      "videos": [
+       {
+        "title": "What is a relational database?",
+        "url": "https://youtube.com/watch?v=OqjJjpjDRLc",
+        "video_id": "OqjJjpjDRLc",
+        "source": "roadmap.sh",
+        "topic": "Relational Databases"
+       },
+       {
+        "title": "MySQL 101 - Data Types",
+        "url": "https://youtube.com/watch?v=vAiBa69YCnk",
+        "video_id": "vAiBa69YCnk",
+        "source": "roadmap.sh",
+        "topic": "Data Types"
+       },
+       {
+        "title": "How to filter with the WHERE clause in SQL",
+        "url": "https://youtube.com/watch?v=4Uv0o8IBqw0",
+        "video_id": "4Uv0o8IBqw0",
+        "source": "roadmap.sh",
+        "topic": "WHERE Clause in SELECT Statements"
+       },
+       {
+        "title": "SQL ORDER BY Sorting Clause",
+        "url": "https://youtube.com/watch?v=h_HHTNjAgS8",
+        "video_id": "h_HHTNjAgS8",
+        "source": "roadmap.sh",
+        "topic": "ORDER BY"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 2,
+      "title": "Aggregations, CASE and Joins",
+      "description": "Most dashboards are built on grouped summaries across several joined tables. Practise aggregates with GROUP BY and HAVING, bucketing with CASE, and the joins that combine orders, customers and products correctly.",
+      "topic_refs": [
+       "LX9nzJ4uqznHN4SksoDvr",
+       "9aHYrOQDkA84tlxcVK5aD",
+       "w4T3jFb0ilf1KNw-AvRXG",
+       "Wou6YXLYUgomvcELh851L",
+       "14TKE6KhrH1yFtHcSZSXq",
+       "HhICJpCK5__b-itUoEBES",
+       "W2ePJHdfEiEJ3ZKoRQKt_",
+       "4UQQYbjzwVxZOAxBuXKQS",
+       "aaua13CkTxLOYXr8cAgPm",
+       "X9cJJ8zLZCF2cOoqxwFfY",
+       "aS5zCyJRA779yHF0G2pje",
+       "6qG0AVYd6Y1B8LOSDoMX9"
+      ],
+      "projects": [
+       {
+        "title": "Revenue by category and city",
+        "description": "Join orders, products and customers to report revenue and order counts per category and city.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Inactive customers list",
+        "description": "Use a LEFT JOIN to find customers with no orders in the last ninety days.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Aggregate Queries",
+       "COUNT",
+       "SUM",
+       "AVG",
+       "GROUP BY"
+      ],
+      "more_topics": [
+       {
+        "node_id": "Zw8IHfCCMSxmVjx5Ho5ff",
+        "title": "GROUP BY"
+       },
+       {
+        "node_id": "ytwCkSMTiTuemE0KVfAfy",
+        "title": "HAVING"
+       }
+      ],
+      "global_step_index": 11,
+      "resource": {
+       "title": "Advanced Aggregate Functions in SQL",
+       "url": "https://youtube.com/watch?v=nNrgRVIzeHg"
+      },
+      "videos": [
+       {
+        "title": "Advanced Aggregate Functions in SQL",
+        "url": "https://youtube.com/watch?v=nNrgRVIzeHg",
+        "video_id": "nNrgRVIzeHg",
+        "source": "roadmap.sh",
+        "topic": "GROUP BY"
+       },
+       {
+        "title": "HAVING Clause",
+        "url": "https://youtube.com/watch?v=tYBOMw7Ob8E",
+        "video_id": "tYBOMw7Ob8E",
+        "source": "roadmap.sh",
+        "topic": "HAVING"
+       },
+       {
+        "title": "SQL JOINs Tutorial for beginners",
+        "url": "https://youtube.com/watch?v=0OQJDd3QqQM",
+        "video_id": "0OQJDd3QqQM",
+        "source": "roadmap.sh",
+        "topic": "JOINs"
+       },
+       {
+        "title": "SQL LEFT JOIN - SQL Tutorial",
+        "url": "https://youtube.com/watch?v=giKwmtsz1U8",
+        "video_id": "giKwmtsz1U8",
+        "source": "roadmap.sh",
+        "topic": "LEFT JOIN"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 3,
+      "title": "Subqueries, CTEs and Window Functions",
+      "description": "Rankings, running totals and month-over-month comparisons are the questions analysts are asked every week. Learn subqueries and CTEs, ranking and LAG/LEAD window functions, pivots and null and date handling.",
+      "topic_refs": [
+       "86iZ8s8EdhSuYwgwAM_EO",
+       "JZqS3Xapw6mfSPVgFW7av",
+       "tedQynR0xicVKhuR1oahw",
+       "tBvXLLp5FKeSSN35Kj1X4",
+       "zW27ZHdLwQY-85iqbBKQZ",
+       "cucCPw3KfetAP2OMFUs0X",
+       "QM0ltgPu8lLLYc2MsTLj-",
+       "BcXdxY6bld5c0YNFSKkh-",
+       "aJJjaGunRrwyh9MjQfJt-",
+       "nwFaz9i-1s0WVrVaFsoqb",
+       "k7lZe4QRt9q4InUImFmvx",
+       "BJ4fQvagTO0B5UtXblyx8"
+      ],
+      "projects": [
+       {
+        "title": "Running total of daily sales",
+        "description": "Compute cumulative revenue per month with a window function and chart it.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Repeat-purchase analysis",
+        "description": "Find the gap between each customer's orders with LAG and report the median gap.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Sub Queries",
+       "Correlated Subqueries",
+       "CTEs (Common Table Expressions)",
+       "Window Functions",
+       "Row_number"
+      ],
+      "more_topics": [
+       {
+        "node_id": "xkPJ2MYiXmzC4yqQWyB_7",
+        "title": "Nested Subqueries"
+       },
+       {
+        "node_id": "vTMd0bqz4eTgLnhfgY61h",
+        "title": "Advanced Functions"
+       },
+       {
+        "node_id": "UVTgbZrqpbYl1bQvQejcF",
+        "title": "Reducing Subqueries"
+       },
+       {
+        "node_id": "TjgwabhEtaSoYMLNr6q9l",
+        "title": "Recursive Queries"
+       },
+       {
+        "node_id": "7ow6tiSSCnTpv_GYQU017",
+        "title": "Cross Join"
+       },
+       {
+        "node_id": "PnG_5D6q66NAKxXVOwA6N",
+        "title": "SUBSTRING"
+       },
+       {
+        "node_id": "YqDJq3fPxUZlwsdq0kJg7",
+        "title": "MAX"
+       },
+       {
+        "node_id": "1E1WdWOyqxbbdiIbw26dZ",
+        "title": "DATEADD"
+       },
+       {
+        "node_id": "KI6vngoYcHsnpIk8ErhhS",
+        "title": "NULLIF"
+       },
+       {
+        "node_id": "bFEYMlqPZtTUYtDQxqHzT",
+        "title": "MIN"
+       },
+       {
+        "node_id": "VNbb3YPc0FtrROylRns8h",
+        "title": "REPLACE"
+       },
+       {
+        "node_id": "9DntFiZV1AyaRPhYP5q6u",
+        "title": "ROUND"
+       },
+       {
+        "node_id": "BAqJQvcguhIhzyII5LRH6",
+        "title": "CEILING"
+       },
+       {
+        "node_id": "shpgZkh1CLqUwjOaRtAFy",
+        "title": "RIGHT JOIN"
+       },
+       {
+        "node_id": "6vYFb_D1N_-tLWZftL-Az",
+        "title": "ABS"
+       },
+       {
+        "node_id": "Othfo7NvTVzfyL906PLM1",
+        "title": "UPPER"
+       },
+       {
+        "node_id": "OUw--8zEq6lk5-6oySVHe",
+        "title": "MOD"
+       },
+       {
+        "node_id": "o2SH4iQn1Ap2yDZ7cVYLO",
+        "title": "FLOOR"
+       }
+      ],
+      "global_step_index": 12,
+      "resource": {
+       "title": "Advanced SQL Tutorial | Subqueries",
+       "url": "https://youtube.com/watch?v=m1KcNV-Zhmc"
+      },
+      "videos": [
+       {
+        "title": "Advanced SQL Tutorial | Subqueries",
+        "url": "https://youtube.com/watch?v=m1KcNV-Zhmc",
+        "video_id": "m1KcNV-Zhmc",
+        "source": "roadmap.sh",
+        "topic": "Sub Queries"
+       },
+       {
+        "title": "Intro To Subqueries",
+        "url": "https://youtube.com/watch?v=TUxadt94L0M",
+        "video_id": "TUxadt94L0M",
+        "source": "roadmap.sh",
+        "topic": "Correlated Subqueries"
+       },
+       {
+        "title": "SQL Window Functions in 10 Minutes",
+        "url": "https://youtube.com/watch?v=y1KCM8vbYe4",
+        "video_id": "y1KCM8vbYe4",
+        "source": "roadmap.sh",
+        "topic": "Window Functions"
+       },
+       {
+        "title": "RANK, DENSE_RANK, ROW_NUMBER SQL Analytical Functions Simplified",
+        "url": "https://youtube.com/watch?v=xMWEVFC4FOk",
+        "video_id": "xMWEVFC4FOk",
+        "source": "roadmap.sh",
+        "topic": "rank"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Correlated Subqueries",
+        "url": "https://dev.mysql.com/doc/refman/8.4/en/correlated-subqueries.html",
+        "topic": "Correlated Subqueries"
+       }
+      ]
+     },
+     {
+      "step_number": 4,
+      "title": "Tables, Views and Query Performance",
+      "description": "Analysts often maintain their own reporting tables and views, and slow queries make dashboards unusable. Learn to create and change tables with keys, build views, use transactions safely and speed queries up with indexes.",
+      "topic_refs": [
+       "epEpBxRosLhuAuKwp823r",
+       "-Hew0y53ziZK3epQnGA0O",
+       "eu9dJFi6gBPMBdy08Y5Bb",
+       "ddtVaA4Ls6qRj-7OtTSIH",
+       "Jlwmyq6CUQeDAlL4dazOP",
+       "DHz6sRLYhFeCbAcNJS8hm",
+       "2tyezwOIxV6O84N-Q3Awh",
+       "PcsGK4VBh0zNQIPZvNES4",
+       "OdaBXz2XBAVLsQ-m7xtAM",
+       "LcljR70T-OnzSrJJDqOWf",
+       "Ps9Yv2s-bKvEegGAbPsiA",
+       "C6P69YiFdS-ioPXMNfX07"
+      ],
+      "projects": [
+       {
+        "title": "KPI reporting view",
+        "description": "Create a view that returns weekly KPIs so dashboard tools query one clean object.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Index tuning exercise",
+        "description": "Time a slow filter query, add an index and compare the query plans.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Create Table",
+       "INSERT",
+       "UPDATE Statement",
+       "DELETE Statement",
+       "Primary Key"
+      ],
+      "more_topics": [
+       {
+        "node_id": "9wOgP0i9G4HSeZGn2Gm7r",
+        "title": "Using Indexes"
+       },
+       {
+        "node_id": "NtxGd6Vx-REBclry7lZuE",
+        "title": "Managing Indexes"
+       },
+       {
+        "node_id": "4rqCPpTb0dAgpheBKshRG",
+        "title": "Performance Optimization"
+       },
+       {
+        "node_id": "C0dhS6uLf4TUSfvcWyXhv",
+        "title": "Optimizing Joins"
+       },
+       {
+        "node_id": "3eE-l-P93nOXoWfLr8PSW",
+        "title": "Modifying Views"
+       },
+       {
+        "node_id": "KJJ6PYjTnr_3yU2mNPL9v",
+        "title": "UPDATE Statement"
+       },
+       {
+        "node_id": "WjXlO42WL9saDS7RIGapt",
+        "title": "Alter Table"
+       },
+       {
+        "node_id": "MIOuWWcCjLAmgzog2DBC3",
+        "title": "Dropping Views"
+       },
+       {
+        "node_id": "YzJ6QmY2arMfRzMAPaI0T",
+        "title": "Drop Table"
+       },
+       {
+        "node_id": "K5vhqTJrdPK08Txv8zaEj",
+        "title": "Truncate Table"
+       },
+       {
+        "node_id": "3cMECz5QPVDOFrk5duObs",
+        "title": "COMMIT"
+       },
+       {
+        "node_id": "pJtYvXUo81aZfPuRjIbMq",
+        "title": "SAVEPOINT"
+       },
+       {
+        "node_id": "03qMopxzjx_-dZbYw9b7J",
+        "title": "GRANT and REVOKE"
+       },
+       {
+        "node_id": "ujeq8EIFcrqkBjoFizsJM",
+        "title": "Transaction Isolation Levels"
+       },
+       {
+        "node_id": "xbD67KVlt3UhHpKh8HLx8",
+        "title": "ROLLBACK"
+       },
+       {
+        "node_id": "mBQ3Z8GlFcpIena3IB7D_",
+        "title": "Data Integrity Constraints"
+       },
+       {
+        "node_id": "5yGo8i7eplxtXOD_qfzOs",
+        "title": "Unique Constraint"
+       },
+       {
+        "node_id": "7hEqkoxkdAWmakGZsMJx-",
+        "title": "TIMESTAMP"
+       },
+       {
+        "node_id": "M4M_-vjM9GNy0NmXZneDA",
+        "title": "NOT NULL Constraint"
+       }
+      ],
+      "global_step_index": 13,
+      "resource": {
+       "title": "SQL INSERT Statement",
+       "url": "https://youtube.com/watch?v=Yp1MKeIG-M4"
+      },
+      "videos": [
+       {
+        "title": "SQL INSERT Statement",
+        "url": "https://youtube.com/watch?v=Yp1MKeIG-M4",
+        "video_id": "Yp1MKeIG-M4",
+        "source": "roadmap.sh",
+        "topic": "INSERT"
+       },
+       {
+        "title": "Foreign Keys are easy (kind of)",
+        "url": "https://youtube.com/watch?v=rFssfx37UJw",
+        "video_id": "rFssfx37UJw",
+        "source": "roadmap.sh",
+        "topic": "Foreign Key"
+       },
+       {
+        "title": "SQL Views Tutorial",
+        "url": "https://youtube.com/watch?v=cLSxasHg9WY",
+        "video_id": "cLSxasHg9WY",
+        "source": "roadmap.sh",
+        "topic": "Views"
+       },
+       {
+        "title": "SQL Views in 4 minutes",
+        "url": "https://youtube.com/watch?v=vLLkNI-vkV8",
+        "video_id": "vLLkNI-vkV8",
+        "source": "roadmap.sh",
+        "topic": "Creating Views"
+       }
+      ],
+      "resources": []
+     }
+    ]
+   },
+   {
+    "phase_number": 3,
+    "title": "Power BI",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "Power BI Fundamentals and the Ecosystem",
+      "description": "Power BI is the BI tool most Indian employers list for analyst roles, and knowing how Desktop, Service and mobile fit together avoids confusion later. Install it, learn how data flows from source to report, and understand licensing and Microsoft Fabric.",
+      "topic_refs": [
+       "2QB2qNbr8IHv4YbB-hYqf",
+       "cGLTxw45dWZbKwJ_L7v2z",
+       "n2m-xo1wfcluM5iF54tmu",
+       "4S5zKmpa29_re_rOZD9mt",
+       "aItdGZ817gzRevj1bZnQz",
+       "-i6X0KZW6CZfgzgQ2QMvH",
+       "6Evp-E8U-n3EutKt2cqnX",
+       "y9CTbobwkPNDUDDkJLdQX",
+       "ls626i2TukzHY0Q_LnlVs",
+       "Hk1qf_oY4SxVsjuoOd9nL",
+       "u1-WPMNoMpouC5EuKDgk6",
+       "CkG-llpmpyF9jIe5G6zrq"
+      ],
+      "projects": [
+       {
+        "title": "First report from Excel",
+        "description": "Load an Excel sales file into Power BI Desktop and publish a one-page report to the Service.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Ecosystem map",
+        "description": "Draw how data moves through Desktop, Service, gateways and apps in a small company.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Introduction",
+       "Fundamentals",
+       "Power BI Ecosystem",
+       "Installing Power BI",
+       "Desktop"
+      ],
+      "more_topics": [],
+      "global_step_index": 14,
+      "resource": {
+       "title": "Learn Power BI in Under 3 Hours",
+       "url": "https://youtube.com/watch?v=I0vQ_VLZTWg"
+      },
+      "videos": [
+       {
+        "title": "Learn Power BI in Under 3 Hours",
+        "url": "https://youtube.com/watch?v=I0vQ_VLZTWg",
+        "video_id": "I0vQ_VLZTWg",
+        "source": "roadmap.sh",
+        "topic": "Introduction"
+       },
+       {
+        "title": "Power BI DAX Tutorial for Beginners (2025): Master DAX in ONE Course!",
+        "url": "https://youtube.com/watch?v=b0yWfnb2Vbw",
+        "video_id": "b0yWfnb2Vbw",
+        "source": "roadmap.sh",
+        "topic": "Fundamentals"
+       },
+       {
+        "title": "Install Power BI Desktop the RIGHT WAY!",
+        "url": "https://youtube.com/watch?v=qIt2n46Qa7s",
+        "video_id": "qIt2n46Qa7s",
+        "source": "roadmap.sh",
+        "topic": "Installing Power BI"
+       },
+       {
+        "title": "Microsoft Power BI Desktop for Beginners: In 4 Steps!",
+        "url": "https://youtube.com/watch?v=wM0Vpq5Vu_I",
+        "video_id": "wM0Vpq5Vu_I",
+        "source": "roadmap.sh",
+        "topic": "Desktop"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "What is Power BI?",
+        "url": "https://learn.microsoft.com/en-us/power-bi/fundamentals/power-bi-overview",
+        "topic": "Introduction"
+       },
+       {
+        "type": "official",
+        "title": "Get started with Power BI Desktop",
+        "url": "https://learn.microsoft.com/en-us/power-bi/fundamentals/desktop-getting-started",
+        "topic": "Introduction"
+       },
+       {
+        "type": "official",
+        "title": "Training for Power BI",
+        "url": "https://learn.microsoft.com/en-us/training/powerplatform/power-bi",
+        "topic": "Introduction"
+       },
+       {
+        "type": "official",
+        "title": "Learn DAX basics in Power BI Desktop",
+        "url": "https://learn.microsoft.com/en-gb/power-bi/transform-model/desktop-quickstart-learn-dax-basics",
+        "topic": "Fundamentals"
+       }
+      ]
+     },
+     {
+      "step_number": 2,
+      "title": "Connecting to Data and Choosing Storage Modes",
+      "description": "Whether a report imports data or queries the source live decides its speed, freshness and limits. Connect to files, databases, web and cloud sources, and compare Import, DirectQuery, Dual and Direct Lake modes and gateways.",
+      "topic_refs": [
+       "M5B4mq5vv5PcGaBdQmNdf",
+       "fMGZRXVaryZ25kjE-4e5x",
+       "0a0caDbMmm71t9h9l1boP",
+       "COxqpY6LmJI6S6saCFZEw",
+       "HWj-k3pc5_80dk793CVnX",
+       "FdE4ix0XyZq_yhv8HRELs",
+       "4gaa2THeYhi2Z45kSX42t",
+       "4UXIwHGpILCTfs7lLoxou",
+       "GHE4CuN9ajm08_RZ1Fy7p",
+       "8DKQH0CbRmtuAW3tE_ke6",
+       "80ujylMVAMN9Tn0qPR7uf",
+       "7CyF7zG9yRiJWq2XmEKVG"
+      ],
+      "projects": [
+       {
+        "title": "Import versus DirectQuery test",
+        "description": "Build the same report both ways on a database table and compare refresh and visual load times.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Open data connector",
+        "description": "Pull a government open-data CSV from the web and schedule its refresh.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Data Source Types",
+       "Files",
+       "Databases",
+       "Web & Open Data",
+       "APIs"
+      ],
+      "more_topics": [],
+      "global_step_index": 15,
+      "resource": {
+       "title": "How To Connect Data Sources In Power BI?",
+       "url": "https://youtube.com/watch?v=ZDuQvyZ8stM"
+      },
+      "videos": [
+       {
+        "title": "How To Connect Data Sources In Power BI?",
+        "url": "https://youtube.com/watch?v=ZDuQvyZ8stM",
+        "video_id": "ZDuQvyZ8stM",
+        "source": "roadmap.sh",
+        "topic": "Data Source Types"
+       },
+       {
+        "title": "ES  Skip navigation databases powerbi     Create   Avatar image Microsoft Power BI | How to get data from SQL server?",
+        "url": "https://youtube.com/watch?v=K690u_FkL4A",
+        "video_id": "K690u_FkL4A",
+        "source": "roadmap.sh",
+        "topic": "Databases"
+       },
+       {
+        "title": "3 Ways to Connect API to Power BI with Pros & Cons 🔥3 Ways to Connect API to Power BI with Pros & Cons 🔥",
+        "url": "https://youtube.com/watch?v=O5DiEDJAhgk",
+        "video_id": "O5DiEDJAhgk",
+        "source": "roadmap.sh",
+        "topic": "APIs"
+       },
+       {
+        "title": "Connect Power BI to Cloud Databases using MySQL",
+        "url": "https://youtube.com/watch?v=ISdyFhGQV4g",
+        "video_id": "ISdyFhGQV4g",
+        "source": "roadmap.sh",
+        "topic": "Clouds"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Get data in Power BI Desktop",
+        "url": "https://learn.microsoft.com/en-us/power-bi/connect-data/desktop-data-sources?tabs=new-experience",
+        "topic": "Data Source Types"
+       },
+       {
+        "type": "official",
+        "title": "Get data from files for Power BI",
+        "url": "https://learn.microsoft.com/en-us/power-bi/connect-data/service-get-data-from-files",
+        "topic": "Files"
+       },
+       {
+        "type": "official",
+        "title": "Get data from comma separated value (CSV) files",
+        "url": "https://learn.microsoft.com/en-us/power-bi/connect-data/service-comma-separated-value-files",
+        "topic": "Files"
+       },
+       {
+        "type": "official",
+        "title": "Import Excel workbooks into Power BI Desktop",
+        "url": "https://learn.microsoft.com/en-us/power-bi/connect-data/desktop-import-excel-workbooks",
+        "topic": "Files"
+       }
+      ]
+     },
+     {
+      "step_number": 3,
+      "title": "Shaping Data in Power Query",
+      "description": "Clean, typed data is what makes later DAX simple and reports trustworthy. Profile data, fix types, clean text, numbers and dates, split and derive columns, and handle errors with recorded applied steps.",
+      "topic_refs": [
+       "P1t4cTjmCHILyc6jkAHWH",
+       "Jys8-vqPreAJwjDUWqqNF",
+       "_tWAz0_PV6Pr5Ey2ZXYL1",
+       "y-FeyeZ6tqZmF_8wzrTuX",
+       "OpTzX9_MCnMIf3nwDrCO9",
+       "jji5jm1oT6SImHaBXwOJI",
+       "vZQjiMqgSc2HtWCPYHvnb",
+       "kKbKZ1sMBNaQUoX4Vf95j",
+       "jY6JPvP0QPjmnPL2tBUus",
+       "X3j-XFMXKLjwvEMgDGbPQ",
+       "UPQ6Y-jT39MkrM1Rg3Dip",
+       "cqLk4gpK_Ex7SvpcR-EyX"
+      ],
+      "projects": [
+       {
+        "title": "Clean a bank statement export",
+        "description": "Split descriptions, fix dates and categorise transactions with conditional columns.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Error-tolerant import",
+        "description": "Load a file with bad rows and route the errors to a separate table for review.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Power Query",
+       "Applied Steps",
+       "Data Profiling",
+       "Data Types & Casting",
+       "Changing Text"
+      ],
+      "more_topics": [],
+      "global_step_index": 16,
+      "resource": {
+       "title": "How to use Power Query in Power BI",
+       "url": "https://youtube.com/watch?v=gP-AxNi6uxo"
+      },
+      "videos": [
+       {
+        "title": "How to use Power Query in Power BI",
+        "url": "https://youtube.com/watch?v=gP-AxNi6uxo",
+        "video_id": "gP-AxNi6uxo",
+        "source": "roadmap.sh",
+        "topic": "Power Query"
+       },
+       {
+        "title": "Understanding Applied Steps in Power Query",
+        "url": "https://youtube.com/watch?v=OlDfVnrmnLg",
+        "video_id": "OlDfVnrmnLg",
+        "source": "roadmap.sh",
+        "topic": "Applied Steps"
+       },
+       {
+        "title": "Data Profiling in Power BI",
+        "url": "https://youtube.com/watch?v=pSCc_T7k328",
+        "video_id": "pSCc_T7k328",
+        "source": "roadmap.sh",
+        "topic": "Data Profiling"
+       },
+       {
+        "title": "Preparing data in Power Query | POWER BI Course",
+        "url": "https://youtube.com/watch?v=C47X8Vr74lo",
+        "video_id": "C47X8Vr74lo",
+        "source": "roadmap.sh",
+        "topic": "Data Types & Casting"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "What is Power Query?",
+        "url": "https://learn.microsoft.com/en-us/power-query/power-query-what-is-power-query",
+        "topic": "Power Query"
+       },
+       {
+        "type": "official",
+        "title": "Using the Applied Steps list",
+        "url": "https://learn.microsoft.com/en-us/power-query/applied-steps",
+        "topic": "Applied Steps"
+       },
+       {
+        "type": "official",
+        "title": "Using the data profiling tools",
+        "url": "https://learn.microsoft.com/en-us/power-query/data-profiling-tools",
+        "topic": "Data Profiling"
+       },
+       {
+        "type": "official",
+        "title": "Data types in Power Query",
+        "url": "https://learn.microsoft.com/en-us/power-query/data-types",
+        "topic": "Data Types & Casting"
+       }
+      ]
+     },
+     {
+      "step_number": 4,
+      "title": "Combining Tables and the M Language",
+      "description": "Real reports merge several sources, and the M language behind Power Query lets you reuse and parameterise that work. Append and merge tables, pivot and reshape, write M in the Advanced Editor, and keep queries folding back to the source.",
+      "topic_refs": [
+       "w0p5SoSn4_YGeARz7Ll0O",
+       "OUo1KyRG-Qc5I6GWZR2pp",
+       "zRLfg-lJsWkNsZoY-Lqid",
+       "D-LFpO99i1MttUa1MTmCa",
+       "a30f0oSq96dKAjTSQChcC",
+       "7JeXBAYhv_3ZZr3niaIhd",
+       "U8ZpXzVc0xFZ-A74a_yuZ",
+       "_vIHVUkhy9Cu-WGdg59fi",
+       "hsM7w-le7b_JXnAMB419W",
+       "8OG0BC-13asJ6Faxej27_",
+       "KPv8ilVsBsxnyLzhu3yxy",
+       "v6n_uRreDYk3NnwD4GLKN"
+      ],
+      "projects": [
+       {
+        "title": "Monthly files combiner",
+        "description": "Append twelve monthly CSVs from a folder with one parameterised query.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Reusable M function",
+        "description": "Write an M function that cleans a phone-number column and apply it across queries.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Appending Tables",
+       "Joins",
+       "Pivot & Transpose",
+       "Table Manipulation",
+       "Sorting Data"
+      ],
+      "more_topics": [],
+      "global_step_index": 17,
+      "resource": {
+       "title": "MERGE and APPEND inside POWER QUERY in Power BI",
+       "url": "https://youtube.com/watch?v=77POcNaCrcI"
+      },
+      "videos": [
+       {
+        "title": "MERGE and APPEND inside POWER QUERY in Power BI",
+        "url": "https://youtube.com/watch?v=77POcNaCrcI",
+        "video_id": "77POcNaCrcI",
+        "source": "roadmap.sh",
+        "topic": "Appending Tables"
+       },
+       {
+        "title": "Power Query Secrets: How to Merge Tables Like a Pro!",
+        "url": "https://youtube.com/watch?v=m4feUpoDpVI",
+        "video_id": "m4feUpoDpVI",
+        "source": "roadmap.sh",
+        "topic": "Joins"
+       },
+       {
+        "title": "Transpose, pivot or unpivot in Power Query?",
+        "url": "https://youtube.com/watch?v=hGj2axffxHo",
+        "video_id": "hGj2axffxHo",
+        "source": "roadmap.sh",
+        "topic": "Pivot & Transpose"
+       },
+       {
+        "title": "Custom Sorting in 3 Easy Steps!",
+        "url": "https://youtube.com/watch?v=4xapOrfLvbg",
+        "video_id": "4xapOrfLvbg",
+        "source": "roadmap.sh",
+        "topic": "Sorting Data"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Append queries",
+        "url": "https://learn.microsoft.com/en-us/power-query/append-queries",
+        "topic": "Appending Tables"
+       },
+       {
+        "type": "official",
+        "title": "Shape and combine data in Power BI Desktop",
+        "url": "https://learn.microsoft.com/en-us/power-bi/connect-data/desktop-shape-and-combine-data",
+        "topic": "Joins"
+       },
+       {
+        "type": "official",
+        "title": "Pivot columns",
+        "url": "https://learn.microsoft.com/en-gb/power-query/pivot-columns",
+        "topic": "Pivot & Transpose"
+       },
+       {
+        "type": "official",
+        "title": "Transpose a table",
+        "url": "https://learn.microsoft.com/en-us/power-query/transpose-table",
+        "topic": "Pivot & Transpose"
+       }
+      ]
+     },
+     {
+      "step_number": 5,
+      "title": "Data Modelling: Star Schemas and Relationships",
+      "description": "A good model makes every measure easier and every visual faster, while a bad one produces wrong totals. Design star schemas with facts and dimensions at the right grain, set relationships and cardinality, and organise the model.",
+      "topic_refs": [
+       "oYreeOD0hUcg-P_edX7CX",
+       "UsiTXTUkAS5w6IeJ0nBJ-",
+       "DZuLutU2cYCJZwR39xD8c",
+       "hGinFciFMdIiFv7VQle_e",
+       "m5Kh5qQtFZ7Xh-3BXeBY6",
+       "hcCWf3YQqD6YeF_aBa2zI",
+       "bLEolh1ucu3NzdYcB8gei",
+       "v0_8BKYjUiEmQyb71ntr3",
+       "_pT_-I07MtFVEN3uvkl2w",
+       "teGp4rdsa8O-Au8mHbrkH",
+       "vMqaPgnbF_ouOvBBgrRpk",
+       "xeJEDCBsv3XyfOC_SClR7"
+      ],
+      "projects": [
+       {
+        "title": "Star schema from a flat file",
+        "description": "Split a flat sales export into a fact table and date, product and store dimensions.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Order date versus ship date",
+        "description": "Model a role-playing date dimension so the same report can slice by either date.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Schema Design",
+       "Facts & Dimensions",
+       "Star vs Snowflake Schema",
+       "Granularity",
+       "Relationships"
+      ],
+      "more_topics": [
+       {
+        "node_id": "wbhSoBY2VjAUcnAYT8wm4",
+        "title": "Hierarchies"
+       }
+      ],
+      "global_step_index": 18,
+      "resource": {
+       "title": "Fact & Dimension tables in Power BI | Data Modelling",
+       "url": "https://youtube.com/watch?v=PMSN7evZFFE"
+      },
+      "videos": [
+       {
+        "title": "Fact & Dimension tables in Power BI | Data Modelling",
+        "url": "https://youtube.com/watch?v=PMSN7evZFFE",
+        "video_id": "PMSN7evZFFE",
+        "source": "roadmap.sh",
+        "topic": "Facts & Dimensions"
+       },
+       {
+        "title": "Why Power BI loves a Star Schema",
+        "url": "https://youtube.com/watch?v=vZndrBBPiQc",
+        "video_id": "vZndrBBPiQc",
+        "source": "roadmap.sh",
+        "topic": "Star vs Snowflake Schema"
+       },
+       {
+        "title": "What is Data Granularity? | BI For Beginners",
+        "url": "https://youtube.com/watch?v=hiSHHTcA8Os",
+        "video_id": "hiSHHTcA8Os",
+        "source": "roadmap.sh",
+        "topic": "Granularity"
+       },
+       {
+        "title": "How to Create and Manage Relationships in Power BI",
+        "url": "https://youtube.com/watch?v=sW5LoDA1ssM",
+        "video_id": "sW5LoDA1ssM",
+        "source": "roadmap.sh",
+        "topic": "Relationships"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Understand star schema and the importance for Power BI",
+        "url": "https://learn.microsoft.com/en-us/power-bi/guidance/star-schema",
+        "topic": "Star vs Snowflake Schema"
+       },
+       {
+        "type": "official",
+        "title": "Create and manage relationships in Power BI Desktop",
+        "url": "https://learn.microsoft.com/en-us/power-bi/transform-model/desktop-create-and-manage-relationships",
+        "topic": "Relationships"
+       },
+       {
+        "type": "official",
+        "title": "Model relationships in Power BI Desktop",
+        "url": "https://learn.microsoft.com/en-us/power-bi/transform-model/desktop-relationships-understand",
+        "topic": "Relationships"
+       },
+       {
+        "type": "official",
+        "title": "Enable bidirectional cross-filtering for DirectQuery in Power BI Desktop",
+        "url": "https://learn.microsoft.com/en-us/power-bi/transform-model/desktop-bidirectional-filtering",
+        "topic": "Cross Filter Direction"
+       }
+      ]
+     },
+     {
+      "step_number": 6,
+      "title": "DAX Fundamentals: Columns, Measures and Functions",
+      "description": "DAX measures are how analysts turn a model into business numbers such as margin, growth and conversion. Learn DAX syntax, the difference between columns and measures, aggregation, logical and iterator functions, and variables.",
+      "topic_refs": [
+       "Qu-C8yEqb30gZ0Po8Vmbt",
+       "5p5jlratghZBaZUe0zfgi",
+       "dKb9XtExyQqapcR9ccafy",
+       "wZlFN13uuS1MxAoLVoDZU",
+       "GXZhNdoiWoKZW9RstuxW1",
+       "LCVPHuTjQ4zTi0tT77h9y",
+       "KVOe7N9mpfqbAvF_bQxYB",
+       "GdcUdMG8C62PeVe0hJaJZ",
+       "_wnNd9mVmSFRgeODlkwX0",
+       "vBimOM-ayzWiwGFPRZqW4",
+       "2tXtiVyl0LiUDldc-dYOL",
+       "UfdiQrzMT5uQ7AGEa1gMH"
+      ],
+      "projects": [
+       {
+        "title": "Core KPI measures",
+        "description": "Write measures for revenue, margin percentage and average order value with variables.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Column versus measure demo",
+        "description": "Show a case where a calculated column gives a wrong total and fix it with a measure.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "DAX Syntax",
+       "DAX vs. M Language",
+       "Columns vs Measures",
+       "Calculated Tables & Columns",
+       "Quick Measures"
+      ],
+      "more_topics": [],
+      "global_step_index": 19,
+      "resource": {
+       "title": "Learn DAX Fundamentals in 10 Minutes | Step-by-Step Guide",
+       "url": "https://youtube.com/watch?v=-QOtL_LOc40"
+      },
+      "videos": [
+       {
+        "title": "Learn DAX Fundamentals in 10 Minutes | Step-by-Step Guide",
+        "url": "https://youtube.com/watch?v=-QOtL_LOc40",
+        "video_id": "-QOtL_LOc40",
+        "source": "roadmap.sh",
+        "topic": "DAX Syntax"
+       },
+       {
+        "title": "DAX vs M Language in Power BI:",
+        "url": "https://youtube.com/watch?v=UuMX_RAIZXE",
+        "video_id": "UuMX_RAIZXE",
+        "source": "roadmap.sh",
+        "topic": "DAX vs. M Language"
+       },
+       {
+        "title": "Measures vs. calculated columns in DAX and Power BI",
+        "url": "https://youtube.com/watch?v=ePPi1LLX0sA",
+        "video_id": "ePPi1LLX0sA",
+        "source": "roadmap.sh",
+        "topic": "Columns vs Measures"
+       },
+       {
+        "title": "Creating calculated tables in Power BI",
+        "url": "https://youtube.com/watch?v=RMXYXpZOKTM",
+        "video_id": "RMXYXpZOKTM",
+        "source": "roadmap.sh",
+        "topic": "Calculated Tables & Columns"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "DAX syntax",
+        "url": "https://learn.microsoft.com/en-us/dax/dax-syntax-reference",
+        "topic": "DAX Syntax"
+       },
+       {
+        "type": "official",
+        "title": "Create calculated tables in Power BI Desktop",
+        "url": "https://learn.microsoft.com/en-us/power-bi/transform-model/desktop-calculated-tables",
+        "topic": "Calculated Tables & Columns"
+       },
+       {
+        "type": "official",
+        "title": "Create calculated columns in Power BI Desktop",
+        "url": "https://learn.microsoft.com/en-us/power-bi/transform-model/desktop-calculated-columns",
+        "topic": "Calculated Tables & Columns"
+       },
+       {
+        "type": "official",
+        "title": "Use quick measures for common calculations",
+        "url": "https://learn.microsoft.com/en-us/power-bi/transform-model/desktop-quick-measures",
+        "topic": "Quick Measures"
+       }
+      ]
+     },
+     {
+      "step_number": 7,
+      "title": "Filter Context, CALCULATE and Time Intelligence",
+      "description": "Understanding filter context is what separates analysts who can write any measure from those who copy them. Learn row and filter context, context transition, CALCULATE, time-intelligence functions, and calculation groups and field parameters.",
+      "topic_refs": [
+       "-d1bS8y-wYnVO8z-Ogb4M",
+       "l-vk3xwURU8AOHoGlu0iT",
+       "62ecBOZmKPo56zRGd6GIQ",
+       "BAeCGnhY7PBsazIY5ywf4",
+       "AAob1TBlOoIoEELilx3Mc",
+       "M8BbSZ4EqJSHN_2CMUIlG",
+       "Dh8pL5URdr-Fv6sVW3HfB",
+       "6oh5sxYqEqm-jSBNmCnmF",
+       "-dhGA5wUkvycHl30ZZELE",
+       "4j2CBBcLxNnE060LMnDTc"
+      ],
+      "projects": [
+       {
+        "title": "Year-over-year dashboard",
+        "description": "Build YTD, previous-year and growth measures and show them by month.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Metric switcher",
+        "description": "Let users switch a chart between revenue, units and margin with a field parameter.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Row vs Filter Context",
+       "Context and Filtering",
+       "Context Transition",
+       "CALCULATE Function",
+       "Time Intelligence"
+      ],
+      "more_topics": [],
+      "global_step_index": 20,
+      "resource": {
+       "title": "Row Context vs Filter Context in Power BI | BI Tricks",
+       "url": "https://youtube.com/watch?v=eWJ9S7jUDjQ"
+      },
+      "videos": [
+       {
+        "title": "Row Context vs Filter Context in Power BI | BI Tricks",
+        "url": "https://youtube.com/watch?v=eWJ9S7jUDjQ",
+        "video_id": "eWJ9S7jUDjQ",
+        "source": "roadmap.sh",
+        "topic": "Row vs Filter Context"
+       },
+       {
+        "title": "Understanding context transition",
+        "url": "https://youtube.com/watch?v=lMuDz6ViU1w",
+        "video_id": "lMuDz6ViU1w",
+        "source": "roadmap.sh",
+        "topic": "Context Transition"
+       },
+       {
+        "title": "DAX CALCULATE Function Made Easy to Understand",
+        "url": "https://youtube.com/watch?v=40xO1MD_CCs",
+        "video_id": "40xO1MD_CCs",
+        "source": "roadmap.sh",
+        "topic": "CALCULATE Function"
+       },
+       {
+        "title": "WINDOW Function in ACTION I Examples in Power BI",
+        "url": "https://youtube.com/watch?v=eib5X5xRlz8",
+        "video_id": "eib5X5xRlz8",
+        "source": "roadmap.sh",
+        "topic": "Window Functions"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "CALCULATE Function",
+        "url": "https://learn.microsoft.com/en-us/dax/calculate-function-dax",
+        "topic": "CALCULATE Function"
+       },
+       {
+        "type": "official",
+        "title": "Time intelligence functions in DAX",
+        "url": "https://learn.microsoft.com/en-us/dax/time-intelligence-functions-dax",
+        "topic": "Time Intelligence"
+       },
+       {
+        "type": "official",
+        "title": "WINDOW function",
+        "url": "https://learn.microsoft.com/dax/window-function-dax",
+        "topic": "Window Functions"
+       },
+       {
+        "type": "official",
+        "title": "Visual calculations",
+        "url": "https://learn.microsoft.com/en-us/power-bi/transform-model/desktop-visual-calculations-overview",
+        "topic": "Visual Calculations"
+       }
+      ]
+     },
+     {
+      "step_number": 8,
+      "title": "Building Report Visuals",
+      "description": "Each visual should answer one question at a glance, so knowing the strengths of each type and how to format it matters. Build bar, line, pie, combination, scatter, matrix, KPI and map visuals with clear formatting and conditional highlights.",
+      "topic_refs": [
+       "HUB5LvEuE_qxOjfxu-_mE",
+       "WXIP35S-K0YPPrArosikv",
+       "JEudXkog9r0szwd6RMw1L",
+       "EJKYzHDG2YQawVpiqL-jU",
+       "_3_v4fesS5FZTj-KAeSDq",
+       "urDcAE6II1QzHBydBQ0o9",
+       "fwUzkj_cd8tQWM_du19i1",
+       "P0XqGgwc6zKGRyXwnvMwD",
+       "VWVF938IZeNS2E1SrS29l",
+       "7EqmxQwupr7b3Op_tovNz",
+       "OSDmzLdt4rdVU2TFKazh1",
+       "Q39QDWBQlZ0CXJby4-nBw"
+      ],
+      "projects": [
+       {
+        "title": "Sales overview page",
+        "description": "A one-page report with KPI cards, a trend line, a category bar chart and a state map.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Exception highlighting",
+        "description": "Use conditional formatting to flag stores below target in a matrix visual.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Visualization Basics",
+       "Bar & Column Charts",
+       "Line & Area Charts",
+       "Pie & Donut Charts",
+       "Combination Charts"
+      ],
+      "more_topics": [],
+      "global_step_index": 21,
+      "resource": {
+       "title": "Popular Visualizations in Power BI | Microsoft Power BI for Beginners",
+       "url": "https://youtube.com/watch?v=3NV5Jtbhfcw"
+      },
+      "videos": [
+       {
+        "title": "Popular Visualizations in Power BI | Microsoft Power BI for Beginners",
+        "url": "https://youtube.com/watch?v=3NV5Jtbhfcw",
+        "video_id": "3NV5Jtbhfcw",
+        "source": "roadmap.sh",
+        "topic": "Visualization Basics"
+       },
+       {
+        "title": "Power BI Bar Charts: From A - Z in 1 Hour | Step by Step Tutorial",
+        "url": "https://youtube.com/watch?v=Z8D60cn-ecE",
+        "video_id": "Z8D60cn-ecE",
+        "source": "roadmap.sh",
+        "topic": "Bar & Column Charts"
+       },
+       {
+        "title": "Your Power BI Line Chart Is Missing This (Most People Don't Know It)",
+        "url": "https://youtube.com/watch?v=nAopHkQDH2w",
+        "video_id": "nAopHkQDH2w",
+        "source": "roadmap.sh",
+        "topic": "Line & Area Charts"
+       },
+       {
+        "title": "How to make Pie Charts",
+        "url": "https://youtube.com/watch?v=oxz4IRELtJ4",
+        "video_id": "oxz4IRELtJ4",
+        "source": "roadmap.sh",
+        "topic": "Pie & Donut Charts"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Visualizations overview in Power BI",
+        "url": "https://learn.microsoft.com/en-us/power-bi/visuals/power-bi-visualizations-overview",
+        "topic": "Visualization Basics"
+       },
+       {
+        "type": "official",
+        "title": "Create and use column charts in Power BI",
+        "url": "https://learn.microsoft.com/en-us/power-bi/visuals/power-bi-visualization-column-charts?tabs=powerbi-desktop",
+        "topic": "Bar & Column Charts"
+       },
+       {
+        "type": "official",
+        "title": "Line charts in Power BI",
+        "url": "https://learn.microsoft.com/en-us/power-bi/visuals/power-bi-line-chart",
+        "topic": "Line & Area Charts"
+       },
+       {
+        "type": "official",
+        "title": "Create and use basic area charts",
+        "url": "https://learn.microsoft.com/en-us/power-bi/visuals/power-bi-visualization-basic-area-chart",
+        "topic": "Line & Area Charts"
+       }
+      ]
+     },
+     {
+      "step_number": 9,
+      "title": "Interactive Report Design",
+      "description": "Good reports let managers explore on their own, on desktop and on phone, without getting lost. Add slicers, cross-filtering, drill-through, bookmarks and navigation, and apply layout, theme and accessibility principles.",
+      "topic_refs": [
+       "Ts5wEmq3U761ObsaLVCsE",
+       "YyJm9VI23xGcYgICxkoO0",
+       "vTsD-oWa4vwEhfC5-Ax5Y",
+       "o65MsjBczUD_m7DYBFr_y",
+       "Tu0lUGB1a-b89x1qnM7Qc",
+       "bBLfNjB3IC2oNgQN4SSoE",
+       "SIMaqZRxACO-f25KPPbFl",
+       "8-t2HOH7KFWV79gpfhjXn",
+       "UEO1KVLCqK4NbhnYa7mS6",
+       "PzH_pS8MZsfWNia-6LHYv",
+       "Qido2kFzf3UoW3LLu3QT-",
+       "H8vRATlg1hX8iPwLJdeOR"
+      ],
+      "projects": [
+       {
+        "title": "Drill-through store report",
+        "description": "Click a store on the overview page to open a detail page filtered to that store.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Mobile layout",
+        "description": "Design a phone layout for an existing report and test it in the mobile app.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Interactivity",
+       "Slicers and Filters",
+       "Cross-filtering",
+       "Drill-through & Drill-down",
+       "Bookmarks"
+      ],
+      "more_topics": [],
+      "global_step_index": 22,
+      "resource": {
+       "title": "Power BI Slicers - A Step-by-Step Tutorial",
+       "url": "https://youtube.com/watch?v=kQ-yUKE_KHE"
+      },
+      "videos": [
+       {
+        "title": "Power BI Slicers - A Step-by-Step Tutorial",
+        "url": "https://youtube.com/watch?v=kQ-yUKE_KHE",
+        "video_id": "kQ-yUKE_KHE",
+        "source": "roadmap.sh",
+        "topic": "Slicers and Filters"
+       },
+       {
+        "title": "How to use the CROSSHIGHLIGHT and CROSSFILTER",
+        "url": "https://youtube.com/watch?v=-fwjqEWbr1c",
+        "video_id": "-fwjqEWbr1c",
+        "source": "roadmap.sh",
+        "topic": "Cross-filtering"
+       },
+       {
+        "title": "DRILLDOWN and DRILLTHROUGH in Power BI",
+        "url": "https://youtube.com/watch?v=O7aL5v1r6Q4",
+        "video_id": "O7aL5v1r6Q4",
+        "source": "roadmap.sh",
+        "topic": "Drill-through & Drill-down"
+       },
+       {
+        "title": "5 WAYS to use BOOKMARKS in Power BI",
+        "url": "https://youtube.com/watch?v=_HTF7Ph7Eqc",
+        "video_id": "_HTF7Ph7Eqc",
+        "source": "roadmap.sh",
+        "topic": "Bookmarks"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Change how visuals interact in a Power BI report",
+        "url": "https://learn.microsoft.com/en-us/power-bi/create-reports/service-reports-visual-interactions?tabs=powerbi-desktop",
+        "topic": "Interactivity"
+       },
+       {
+        "type": "official",
+        "title": "https://learn.microsoft.com/en-us/power-bi/visuals/power-bi-visualization-slicers?tabs=powerbi-desktop",
+        "url": "https://learn.microsoft.com/en-us/power-bi/visuals/power-bi-visualization-slicers?tabs=powerbi-desktop",
+        "topic": "Slicers and Filters"
+       },
+       {
+        "type": "official",
+        "title": "How visuals cross-filter each other in a Power BI report",
+        "url": "https://learn.microsoft.com/en-us/power-bi/explore-reports/end-user-interactions",
+        "topic": "Cross-filtering"
+       },
+       {
+        "type": "official",
+        "title": "Enable bidirectional cross-filtering for DirectQuery in Power BI Desktop",
+        "url": "https://learn.microsoft.com/en-us/power-bi/transform-model/desktop-bidirectional-filtering",
+        "topic": "Cross-filtering"
+       }
+      ]
+     },
+     {
+      "step_number": 10,
+      "title": "AI Visuals, Custom Visuals and Paginated Reports",
+      "description": "Built-in AI visuals help answer why a metric moved, and paginated reports cover the printable formats finance teams still need. Use the decomposition tree, key influencers and Q&A, add custom and Python or R visuals, and build a paginated report.",
+      "topic_refs": [
+       "js9MnMCVPoWWb9wLf_csS",
+       "CJnGG-Q_I_pfS7YsoCR0a",
+       "Ru7LLosG6dqriZjqf_eIs",
+       "uoFvTcMDDIkYHz_d7ZeX-",
+       "y4hjUDSyg1ewVtU9_IsU4",
+       "M8o5vABTrb0yRSctPX7oG",
+       "NCo_m2VAuWFxyMgscH5TN",
+       "ryiwhhGAviD-QFlD-c5If"
+      ],
+      "projects": [
+       {
+        "title": "Why did churn rise?",
+        "description": "Use key influencers and a decomposition tree to explain a rise in customer churn.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Printable invoice report",
+        "description": "A paginated report that prints one formatted invoice per customer.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Advanced Visuals",
+       "Custom Visuals",
+       "Decomposition Tree",
+       "Key Influencers",
+       "Q&A Visual"
+      ],
+      "more_topics": [],
+      "global_step_index": 23,
+      "resource": {
+       "title": "Top 5 FREE Custom Power BI Visuals Try Now! Game Changer",
+       "url": "https://youtube.com/watch?v=h9HDQaGwWtk"
+      },
+      "videos": [
+       {
+        "title": "Top 5 FREE Custom Power BI Visuals Try Now! Game Changer",
+        "url": "https://youtube.com/watch?v=h9HDQaGwWtk",
+        "video_id": "h9HDQaGwWtk",
+        "source": "roadmap.sh",
+        "topic": "Custom Visuals"
+       },
+       {
+        "title": "Use the Power BI Decomposition Tree to Explore and Analyze Your Data",
+        "url": "https://youtube.com/watch?v=5_wN-kUIcGs",
+        "video_id": "5_wN-kUIcGs",
+        "source": "roadmap.sh",
+        "topic": "Decomposition Tree"
+       },
+       {
+        "title": "Find Hidden Insights Fast with Power BI Key Influencers Visual",
+        "url": "https://youtube.com/watch?v=jTB3ror4QF8",
+        "video_id": "jTB3ror4QF8",
+        "source": "roadmap.sh",
+        "topic": "Key Influencers"
+       },
+       {
+        "title": "Q&A Visual Full Tutorial",
+        "url": "https://youtube.com/watch?v=2YT5X3-nfMA",
+        "video_id": "2YT5X3-nfMA",
+        "source": "roadmap.sh",
+        "topic": "Q&A Visual"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Power BI custom visuals",
+        "url": "https://learn.microsoft.com/en-us/power-bi/developer/visuals/develop-power-bi-visuals",
+        "topic": "Custom Visuals"
+       },
+       {
+        "type": "official",
+        "title": "What are custom visuals in Power BI and where can I get them?",
+        "url": "https://learn.microsoft.com/en-us/power-bi/developer/visuals/power-bi-custom-visuals",
+        "topic": "Custom Visuals"
+       },
+       {
+        "type": "official",
+        "title": "Create and view decomposition tree visuals in Power BI",
+        "url": "https://learn.microsoft.com/en-us/power-bi/visuals/power-bi-visualization-decomposition-tree",
+        "topic": "Decomposition Tree"
+       },
+       {
+        "type": "official",
+        "title": "Tutorial: Create a decomposition tree with a Power BI sample",
+        "url": "https://learn.microsoft.com/en-us/power-bi/create-reports/sample-tutorial-decomp-tree",
+        "topic": "Decomposition Tree"
+       }
+      ]
+     },
+     {
+      "step_number": 11,
+      "title": "Model Performance and Data Refresh",
+      "description": "Slow reports and failed refreshes are the most common complaints analysts handle after launch. Find slow visuals and measures, optimise the model with aggregations, and set up incremental refresh and dataflows.",
+      "topic_refs": [
+       "c4Ca3HejJsCRvu2BgHzlP",
+       "mNUrtl-18tZnFSaMSnJm3",
+       "jAkxBHWrRTFnhs9deON6b",
+       "KeyKztPuGQrZpG4WR3VOX",
+       "qABASsA3GLMJITuKqH0Te",
+       "SdJi9eYWA9khpKam53Qgk",
+       "hEx3FLGHzXOmGcZ-js24r",
+       "uX7eakwKpWUhQwV8j8JaT"
+      ],
+      "projects": [
+       {
+        "title": "Slow report rescue",
+        "description": "Use Performance Analyzer to find the slowest visual and cut its load time.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Incremental refresh setup",
+        "description": "Configure incremental refresh on a large fact table so only recent days reload.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Performance Analyzer",
+       "DAX Performance",
+       "Model Optimization",
+       "Aggregations",
+       "Incremental Refresh"
+      ],
+      "more_topics": [],
+      "global_step_index": 24,
+      "resource": {
+       "title": "Use PERFORMANCE ANALYZER to look for bottlenecks",
+       "url": "https://youtube.com/watch?v=VFcDCls0la4"
+      },
+      "videos": [
+       {
+        "title": "Use PERFORMANCE ANALYZER to look for bottlenecks",
+        "url": "https://youtube.com/watch?v=VFcDCls0la4",
+        "video_id": "VFcDCls0la4",
+        "source": "roadmap.sh",
+        "topic": "Performance Analyzer"
+       },
+       {
+        "title": "DAX Performance Optimization",
+        "url": "https://youtube.com/watch?v=MGkCCbK86qw",
+        "video_id": "MGkCCbK86qw",
+        "source": "roadmap.sh",
+        "topic": "DAX Performance"
+       },
+       {
+        "title": "The How and Why of Power BI Aggregations",
+        "url": "https://youtube.com/watch?v=EhGF372t0sU",
+        "video_id": "EhGF372t0sU",
+        "source": "roadmap.sh",
+        "topic": "Aggregations"
+       },
+       {
+        "title": "Configuring Incremental Refresh in Power BI",
+        "url": "https://youtube.com/watch?v=Kui_1G6kQIQ",
+        "video_id": "Kui_1G6kQIQ",
+        "source": "roadmap.sh",
+        "topic": "Incremental Refresh"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Use Performance Analyzer to examine report performance",
+        "url": "https://learn.microsoft.com/en-us/power-bi/create-reports/performance-analyzer",
+        "topic": "Performance Analyzer"
+       },
+       {
+        "type": "official",
+        "title": "Optimization guide for Power BI",
+        "url": "https://learn.microsoft.com/en-us/power-bi/guidance/power-bi-optimization",
+        "topic": "Model Optimization"
+       },
+       {
+        "type": "official",
+        "title": "User-defined aggregations",
+        "url": "https://learn.microsoft.com/en-us/power-bi/transform-model/aggregations-advanced",
+        "topic": "Aggregations"
+       },
+       {
+        "type": "official",
+        "title": "Configure incremental refresh and real-time data for Power BI",
+        "url": "https://learn.microsoft.com/en-us/power-bi/connect-data/incremental-refresh-overview",
+        "topic": "Incremental Refresh"
+       }
+      ]
+     },
+     {
+      "step_number": 12,
+      "title": "Publishing, Sharing and Collaboration",
+      "description": "A report only creates value when the right people can find and trust it. Publish to workspaces, share through apps with the right roles, set subscriptions and alerts, and move content through deployment pipelines.",
+      "topic_refs": [
+       "rVwlH4DTClyXbTewOdmn3",
+       "rNxp8buIqSZNd6_FDKWmf",
+       "wmtOYjTkzKhIRlh9n__PZ",
+       "vYaqmbNLFmP-CNRs6rGav",
+       "Y2k8hmM3HVhNx-_UB9fOz",
+       "-EIV_JN7sgNvZ0ycoEq-q",
+       "PSmaLgRiqwFKnQ3pUuZrm",
+       "oeN3BijT2OCGbv4hk7tz_",
+       "gWj5LnHcNZBNu-nMnzi5Y",
+       "vdUmB0z9O3ucYpvaHIAno",
+       "X5zgzF1ld5zGUnf4fMHLF",
+       "AX-mV_fge1qcDOjeREIvJ"
+      ],
+      "projects": [
+       {
+        "title": "Team workspace and app",
+        "description": "Publish a report to a workspace, package it as an app and give viewers read-only access.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "KPI alert flow",
+        "description": "Trigger a Power Automate notification when a dashboard KPI crosses a threshold.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Publishing and Sharing",
+       "Publishing Reports",
+       "Workspaces",
+       "Workspace Roles",
+       "Apps"
+      ],
+      "more_topics": [],
+      "global_step_index": 25,
+      "resource": {
+       "title": "How to Publish Report to Power BI Service",
+       "url": "https://youtube.com/watch?v=_3YAB6dNQ18"
+      },
+      "videos": [
+       {
+        "title": "How to Publish Report to Power BI Service",
+        "url": "https://youtube.com/watch?v=_3YAB6dNQ18",
+        "video_id": "_3YAB6dNQ18",
+        "source": "roadmap.sh",
+        "topic": "Publishing Reports"
+       },
+       {
+        "title": "Power BI Workspaces Explained:",
+        "url": "https://youtube.com/watch?v=1fS8MvcaBGE",
+        "video_id": "1fS8MvcaBGE",
+        "source": "roadmap.sh",
+        "topic": "Workspaces"
+       },
+       {
+        "title": "How to Create an app in Power BI service",
+        "url": "https://youtube.com/watch?v=ZhOOUi3PPMM",
+        "video_id": "ZhOOUi3PPMM",
+        "source": "roadmap.sh",
+        "topic": "Apps"
+       },
+       {
+        "title": "BEGINNERS GUIDE to SHARING REPORTS in Power BI",
+        "url": "https://youtube.com/watch?v=d2b2btjoMhQ",
+        "video_id": "d2b2btjoMhQ",
+        "source": "roadmap.sh",
+        "topic": "Sharing & Permissions"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Share and collaborate on Power BI reports and dashboards",
+        "url": "https://learn.microsoft.com/en-us/power-bi/collaborate-share/service-share-dashboards",
+        "topic": "Publishing Reports"
+       },
+       {
+        "type": "official",
+        "title": "Publish semantic models and reports from Power BI Desktop",
+        "url": "https://learn.microsoft.com/en-us/power-bi/create-reports/desktop-upload-desktop-files",
+        "topic": "Publishing Reports"
+       },
+       {
+        "type": "official",
+        "title": "Workspaces in Power BI",
+        "url": "https://learn.microsoft.com/en-us/power-bi/collaborate-share/service-new-workspaces",
+        "topic": "Workspaces"
+       },
+       {
+        "type": "official",
+        "title": "Apps in Power BI",
+        "url": "https://learn.microsoft.com/en-us/power-bi/explore-reports/end-user-apps",
+        "topic": "Apps"
+       }
+      ]
+     },
+     {
+      "step_number": 13,
+      "title": "Security and Governance",
+      "description": "Analysts handle sensitive sales and HR data, so controlling who sees which rows and keeping datasets trusted is part of the job. Implement row- and object-level security, and learn tenant settings, sensitivity labels, auditing and certified datasets.",
+      "topic_refs": [
+       "hbnBEikjm_fsQjhjZDJJm",
+       "l7_l2lM0A0Z6jNt-ypRR-",
+       "TB7tcRXwbvJ16fV6BHXPt",
+       "d3-VRo0ZX_inzVEnUtFDl",
+       "A899eeb9R_z5uLgkJpHr1",
+       "MYHrkcRDnawWI7aK33GlF",
+       "AAIDmBDueCTKYnuJugDEf",
+       "JnFJK_sqz710ANX_gwzjZ",
+       "dWu0GbXzXaYYgmWTOL1di",
+       "Tg7TuqzUQrGpWm2LJej2-",
+       "rc3kmU1DvTbkqFW39BkpT"
+      ],
+      "projects": [
+       {
+        "title": "Region-level security",
+        "description": "Restrict each regional manager to their own region's rows and test with 'view as'.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Governance checklist",
+        "description": "Write a checklist for certifying a dataset, including owner, refresh, labels and access.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Row-Level Security",
+       "Object-Level Security",
+       "Access Control",
+       "Governance",
+       "Tenant Settings"
+      ],
+      "more_topics": [],
+      "global_step_index": 26,
+      "resource": null,
+      "videos": [],
+      "resources": []
+     }
+    ]
+   },
+   {
+    "phase_number": 4,
+    "title": "BI Analyst",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "The BI Analyst Role and Business Context",
+      "description": "BI analysts are hired to improve business decisions, so understanding how a company runs matters as much as tools. Learn what BI is, how the role differs from data analyst and data scientist roles, and how operational, tactical and strategic BI serve different managers.",
+      "topic_refs": [
+       "jVXwlHRGgVpcoWCYzSB5W",
+       "NX-YaB_FVjoHYsR6z9QIL",
+       "PxOEfMSQYA2jy3zrMZXjZ",
+       "Q-GmBJiRdBS_xLeOjef2R",
+       "JFNCITtE1YtcYmLfGfF5T",
+       "iRgtog5A13CTNDxnbGN9x",
+       "LjeipkY01Hlkp22kmlAMh",
+       "GN6SnI7RXIeW8JeD-qORW",
+       "jJukG4XxfFcID_VlQKqe-",
+       "3BxbkrBp8veZj38zdwN8s",
+       "PkzUqwT21Owk_TfepFPDm",
+       "OmhvVSTtzH5sxOIZRVYfQ"
+      ],
+      "projects": [
+       {
+        "title": "Company decision map",
+        "description": "Pick a listed Indian company and list one operational, tactical and strategic decision BI could support.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Role comparison table",
+        "description": "Compare BI analyst, data analyst and data scientist roles by tasks, tools and stakeholders.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Business Intelligence (BI)",
+       "Why BI Matters",
+       "BI Analyst",
+       "BI Analyst Responsibilities",
+       "BI Analyst vs. Other Roles"
+      ],
+      "more_topics": [],
+      "global_step_index": 27,
+      "resource": {
+       "title": "What is a Derivative? Deriving the Power Rule",
+       "url": "https://youtube.com/watch?v=x3iEEDxrhyE"
+      },
+      "videos": [
+       {
+        "title": "What is a Derivative? Deriving the Power Rule",
+        "url": "https://youtube.com/watch?v=x3iEEDxrhyE",
+        "video_id": "x3iEEDxrhyE",
+        "source": "roadmap.sh",
+        "topic": "Derivatives and Partial Derivatives"
+       },
+       {
+        "title": "Derivatives of Composite Functions: The Chain Rule",
+        "url": "https://youtube.com/watch?v=_x1nCg2LfuA",
+        "video_id": "_x1nCg2LfuA",
+        "source": "roadmap.sh",
+        "topic": "Chain Rule of Derivation"
+       },
+       {
+        "title": "Partial Derivatives and the Gradient of a Function",
+        "url": "https://youtube.com/watch?v=AXH9Xm6Rbfc",
+        "video_id": "AXH9Xm6Rbfc",
+        "source": "roadmap.sh",
+        "topic": "Gradient, Jacobian, and Hessian"
+       },
+       {
+        "title": "Business Acumen 101",
+        "url": "https://youtube.com/watch?v=JwhPhS26Mos",
+        "video_id": "JwhPhS26Mos",
+        "source": "roadmap.sh",
+        "topic": "Business Acumen"
+       }
+      ],
+      "resources": [
+       {
+        "type": "course",
+        "title": "Business Intelligence Fundamentals",
+        "url": "https://www.simplilearn.com/free-business-intelligence-course-online-skillup",
+        "topic": "Business Intelligence (BI)"
+       }
+      ]
+     },
+     {
+      "step_number": 2,
+      "title": "KPIs, Stakeholders and Framing Questions",
+      "description": "Most failed dashboards measured the wrong thing for the wrong audience. Identify stakeholders, agree on metrics and KPIs, frame each request as a descriptive, diagnostic, predictive or prescriptive question, and manage the project and the change it brings.",
+      "topic_refs": [
+       "c0ywBrs9u7MciWAXSgVVg",
+       "e3SdmNpVcvy3k_-JIO6OK",
+       "r-m88g8xrUnuEpV2lHJfN",
+       "NFKiPXrkjRre1yUZc27gl",
+       "r8NoX426-ngu6ZQZe06oK",
+       "vDQF2oaybSewNu3EMs6zG",
+       "3DVF8zo-_WM_9GTuzQFO8",
+       "vTW3jSZ1bvc0OrP_bl22t",
+       "m5aC9aNy9mwLXz0xXBp40",
+       "4zpVE3R0lLyWpHePdBVpl",
+       "NnbtaO2MiqsHeJ-ds0Q5m"
+      ],
+      "projects": [
+       {
+        "title": "KPI tree for a food delivery app",
+        "description": "Break 'grow profit' into measurable KPIs with an owner and a data source for each.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Stakeholder requirements doc",
+        "description": "Interview two mock stakeholders and write the questions, metrics and refresh needs for their dashboard.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Metrics and KPIs",
+       "Stakeholder Identification",
+       "Stakeholder Management",
+       "Critical Thinking",
+       "Project Management"
+      ],
+      "more_topics": [],
+      "global_step_index": 28,
+      "resource": {
+       "title": "What are KPIs and Metrics? | Data Fundamental for Beginners",
+       "url": "https://youtube.com/watch?v=ItZlTixh6Bs"
+      },
+      "videos": [
+       {
+        "title": "What are KPIs and Metrics? | Data Fundamental for Beginners",
+        "url": "https://youtube.com/watch?v=ItZlTixh6Bs",
+        "video_id": "ItZlTixh6Bs",
+        "source": "roadmap.sh",
+        "topic": "Metrics and KPIs"
+       },
+       {
+        "title": "4 Most Common Stakeholders in Business Intelligence",
+        "url": "https://youtube.com/watch?v=iPfwEjRhm7w",
+        "video_id": "iPfwEjRhm7w",
+        "source": "roadmap.sh",
+        "topic": "Stakeholder Identification"
+       },
+       {
+        "title": "Descriptive vs Diagnostic vs Predictive vs Prescriptive Analytics: What's the Difference?",
+        "url": "https://youtube.com/watch?v=QoEpC7jUb9k",
+        "video_id": "QoEpC7jUb9k",
+        "source": "roadmap.sh",
+        "topic": "Types of Data Analysis"
+       },
+       {
+        "title": "What is Diagnostic Analytics? | Understanding Data-Driven Decision Making",
+        "url": "https://youtube.com/watch?v=ikZjeAC1yJ0",
+        "video_id": "ikZjeAC1yJ0",
+        "source": "roadmap.sh",
+        "topic": "Diagnostic Analytics"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 3,
+      "title": "Kinds of Data and Where BI Data Comes From",
+      "description": "The type of data determines which charts, summaries and storage make sense, and BI teams pull from many sources at once. Distinguish structured, semi-structured and unstructured data and variable types, and learn API, web, cloud, IoT and app sources.",
+      "topic_refs": [
+       "g5j_mbjx2yZUIK5lfN3eT",
+       "H1s1PQj8CHQ_VBQIy1VtJ",
+       "jnIn3_2fI2k97oALPZkt7",
+       "qHcRrxenhogymMQ6EPiMa",
+       "DJKXgelIxuahxJiqvwP6I",
+       "kb216tShKrRPWv7mE9sVa",
+       "yXz6MkU3-HnlkmRmYh-Ev",
+       "YSxvg2HrfGoGtpkwY0kGc",
+       "VUgxDDkoxkOcLxqpTDXzt",
+       "xQDGmVwUkrmGdviOdG8Hu",
+       "xQLsuJ3uohVzOxGfFLyFw",
+       "WXk0-vebMUQC25he2lmbh"
+      ],
+      "projects": [
+       {
+        "title": "Data inventory",
+        "description": "List every data source a small retail chain would use and classify each by type and format.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "JSON to table",
+        "description": "Flatten nested JSON from an API into tidy tables ready for analysis.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "What is Data?",
+       "Types of data",
+       "Structured Data",
+       "Semistructured Data",
+       "Unstructured Data"
+      ],
+      "more_topics": [
+       {
+        "node_id": "HM1w6JJquaV6Vq4mjxM7p",
+        "title": "Variables and Data Types"
+       },
+       {
+        "node_id": "k80q5FPNiIUdxn5A8R3Hu",
+        "title": "Other Data Formats"
+       },
+       {
+        "node_id": "GsZWvJPNzN6XLDp2G1db4",
+        "title": "Data Formats"
+       },
+       {
+        "node_id": "g44bQY90HOeI_dZ8gK2Uj",
+        "title": "Databases"
+       },
+       {
+        "node_id": "GrwdQldCWu2zWAaNj6LFk",
+        "title": "IoT Data Sources"
+       },
+       {
+        "node_id": "dJZqe47kzRqYIG-4AZTlz",
+        "title": "Operations"
+       },
+       {
+        "node_id": "TuBJ2yUz1c5KMRGVHdvU5",
+        "title": "Basic Queries"
+       },
+       {
+        "node_id": "LcLfC6BiOxJAkk2p424wL",
+        "title": "CSV"
+       },
+       {
+        "node_id": "eZN_ty8VDX9mi5KtCWTFL",
+        "title": "Supervised Learning"
+       },
+       {
+        "node_id": "eqnAEp2VT7FD2VDy5WVDP",
+        "title": "MySQL"
+       },
+       {
+        "node_id": "DQtznxvW5x4s-zGLpUpNY",
+        "title": "Mode"
+       },
+       {
+        "node_id": "p21d2mEUnTQgWhKFTGS9F",
+        "title": "JSON"
+       },
+       {
+        "node_id": "6l_tHC1R5zgABHMc_G6RD",
+        "title": "Unsupervised Learning"
+       },
+       {
+        "node_id": "S4XEOd2-PHIHOiiGgKVLJ",
+        "title": "Mean"
+       },
+       {
+        "node_id": "X0DBG0mEWk25PEbLHhs7v",
+        "title": "Skewness"
+       },
+       {
+        "node_id": "KFONHuJNnCuSOH7-8Ndvm",
+        "title": "Reinforcement Learning"
+       },
+       {
+        "node_id": "ZmSwDn0sP7HvLKYVzRwPJ",
+        "title": "Variance"
+       },
+       {
+        "node_id": "vqtzg9bydAqHMwZhPHo1a",
+        "title": "Standard Deviation (STD)"
+       }
+      ],
+      "global_step_index": 29,
+      "resource": {
+       "title": "Supervised Machine Learning Explained For Beginners",
+       "url": "https://youtube.com/watch?v=Mu3POlNoLdc"
+      },
+      "videos": [
+       {
+        "title": "Supervised Machine Learning Explained For Beginners",
+        "url": "https://youtube.com/watch?v=Mu3POlNoLdc",
+        "video_id": "Mu3POlNoLdc",
+        "source": "roadmap.sh",
+        "topic": "Supervised Learning"
+       },
+       {
+        "title": "MySQL Full Course",
+        "url": "https://youtube.com/watch?v=5OdVJbNCSso",
+        "video_id": "5OdVJbNCSso",
+        "source": "roadmap.sh",
+        "topic": "MySQL"
+       },
+       {
+        "title": "Unsupervised Machine Learning Explained For Beginners",
+        "url": "https://youtube.com/watch?v=yteYU_QpUxs",
+        "video_id": "yteYU_QpUxs",
+        "source": "roadmap.sh",
+        "topic": "Unsupervised Learning"
+       },
+       {
+        "title": "Reinforcement Learning in 3 Hours | Full Course using Python",
+        "url": "https://youtube.com/watch?v=Mut_u40Sqz4",
+        "video_id": "Mut_u40Sqz4",
+        "source": "roadmap.sh",
+        "topic": "Reinforcement Learning"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "SQL Roadmap",
+        "url": "https://roadmap.sh/sql",
+        "topic": "Basic Queries"
+       },
+       {
+        "type": "official",
+        "title": "MySQL",
+        "url": "https://www.mysql.com/",
+        "topic": "MySQL"
+       },
+       {
+        "type": "course",
+        "title": "Deep Reinforcement Learning Course by HuggingFace",
+        "url": "https://huggingface.co/learn/deep-rl-course/unit0/introduction",
+        "topic": "Reinforcement Learning"
+       }
+      ]
+     },
+     {
+      "step_number": 4,
+      "title": "Data Quality Dimensions and Preparation",
+      "description": "Executives stop using dashboards the moment one number is wrong, so data quality checks are a BI analyst's daily work. Measure accuracy, coherence, timeliness and relevance, and fix missing, duplicate and inconsistent data.",
+      "topic_refs": [
+       "bGCMAgaenZ0t3WeO5joyP",
+       "M1H3Fh09v8udCJIPSJPic",
+       "4U66ZrBZqg7-ckOTmxAQj",
+       "5USjYdAVJs0gSXxE1j8Xu",
+       "UhcniUDKmi7KNuXlolf5O",
+       "BiyrAHB34evej_0cnDzOa",
+       "fhreEuoT8ZBRwJqbSGrEZ",
+       "xjgqmJmetKpWXSWZHPwaL",
+       "TCYG6vmFqq1zAPNQWoOH8",
+       "Vo7LJ_W-DBvxvVrnz33BM",
+       "hrkMVMYWCedRxhNd2N9wE",
+       "SosOXxErMn0t2KCoHoxvS"
+      ],
+      "projects": [
+       {
+        "title": "Data quality scorecard",
+        "description": "Score a dataset on accuracy, completeness and timeliness and track the score weekly.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Customer master clean-up",
+        "description": "Deduplicate and standardise a customer list where names and phone numbers vary.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Data Quality",
+       "Accuracy",
+       "Coherence in Data Quality",
+       "Timeliness",
+       "Relevance"
+      ],
+      "more_topics": [
+       {
+        "node_id": "OqolfBQRQvwg6PI_t8Mrt",
+        "title": "undefined"
+       },
+       {
+        "node_id": "Xe9zK8xhkkr4fsh3HOzAY",
+        "title": "Quality Control"
+       },
+       {
+        "node_id": "1D98k1HNCaaiaI20euVwA",
+        "title": "undefined"
+       },
+       {
+        "node_id": "1cC6LKxcncaKg4Jm53pUy",
+        "title": "Mobile App Data Sources"
+       },
+       {
+        "node_id": "L50rpcgGjsQU3S0zRn6xh",
+        "title": "Production Efficiency"
+       },
+       {
+        "node_id": "mfLRVcxvAjqmSG-KBpJ4J",
+        "title": "Median"
+       },
+       {
+        "node_id": "jvU1iu2M_y1IH62oUpAeU",
+        "title": "Kurtosis"
+       }
+      ],
+      "global_step_index": 30,
+      "resource": {
+       "title": "What is Data Transformation? (Types of Data Transformations and Examples!)",
+       "url": "https://youtube.com/watch?v=TY0NAPAWR3M"
+      },
+      "videos": [
+       {
+        "title": "What is Data Transformation? (Types of Data Transformations and Examples!)",
+        "url": "https://youtube.com/watch?v=TY0NAPAWR3M",
+        "video_id": "TY0NAPAWR3M",
+        "source": "roadmap.sh",
+        "topic": "Data Transformation Techniques"
+       },
+       {
+        "title": "Statistics 101 - Measures of Dispersion",
+        "url": "https://youtube.com/watch?v=goXdWMZxlqM",
+        "video_id": "goXdWMZxlqM",
+        "source": "roadmap.sh",
+        "topic": "undefined"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 5,
+      "title": "Statistics for Business Decisions: Inference and A/B Tests",
+      "description": "Deciding whether a change really moved a metric needs sampling, confidence intervals and proper tests, not eyeballing. Learn inference, p-values, A/B testing, correlation versus causation and regression beyond the straight line.",
+      "topic_refs": [
+       "7VDxA9bQ1P1fym4eQVKkN",
+       "7DNtRMBZ_F0K1FQk-UCM4",
+       "xgP3zIiSEr9dtYcCQikPb",
+       "6xfQic8dMwUsMQa7VtS8_",
+       "rkEdx_mZBoDjMhiluJl7O",
+       "01k_mfsp0eW6TX9yp8PDE",
+       "JXYmXAYuA-zxrkl4PRLQd",
+       "qKlo90-Cy8t_off5Qv8-6",
+       "JSqwWsfojjZTe8ynmA7fc",
+       "LEHK7ohKIzKhlGebd0k_j",
+       "m9ejACzRBJza0v-fpdfkn",
+       "_QyIZ2_vH3e3yic5NTuak"
+      ],
+      "projects": [
+       {
+        "title": "Checkout page A/B test",
+        "description": "Analyse an A/B test on conversion, report the confidence interval and recommend a decision.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Causation pitfalls write-up",
+        "description": "Find three news claims that confuse correlation with causation and explain what data would settle each.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Population & Sample",
+       "Inferential Statistics",
+       "Confidence Intervals",
+       "Hypothesis Testing",
+       "P-Value"
+      ],
+      "more_topics": [
+       {
+        "node_id": "F-fC2JWOuEeDbOHH1O6EB",
+        "title": "Central Tendency"
+       },
+       {
+        "node_id": "jll2iRbjdx7iiNwY13KYD",
+        "title": "Range"
+       },
+       {
+        "node_id": "4-fpZx8p5iSNI3n4Qtacl",
+        "title": "Linear Regression"
+       }
+      ],
+      "global_step_index": 31,
+      "resource": {
+       "title": "Inferential Statistics FULL Tutorial",
+       "url": "https://youtube.com/watch?v=6E6pB5JFLgM"
+      },
+      "videos": [
+       {
+        "title": "Inferential Statistics FULL Tutorial",
+        "url": "https://youtube.com/watch?v=6E6pB5JFLgM",
+        "video_id": "6E6pB5JFLgM",
+        "source": "roadmap.sh",
+        "topic": "Inferential Statistics"
+       },
+       {
+        "title": "What Is A P-Value? - Clearly Explained",
+        "url": "https://youtube.com/watch?v=ukcFrzt6cHk",
+        "video_id": "ukcFrzt6cHk",
+        "source": "roadmap.sh",
+        "topic": "P-Value"
+       },
+       {
+        "title": "How to Do A/B Testing: 15 Steps for the Perfect Split Test",
+        "url": "https://youtube.com/watch?v=vV3g5VuSrIQ",
+        "video_id": "vV3g5VuSrIQ",
+        "source": "roadmap.sh",
+        "topic": "A/B Testing"
+       },
+       {
+        "title": "Nonlinear regression - the basics",
+        "url": "https://youtube.com/watch?v=4hYGiG4qVf4",
+        "video_id": "4hYGiG4qVf4",
+        "source": "roadmap.sh",
+        "topic": "Beyond Linear Regression"
+       }
+      ],
+      "resources": [
+       {
+        "type": "course",
+        "title": "Intro to Inferential Statistics",
+        "url": "https://www.udacity.com/course/intro-to-inferential-statistics--ud201",
+        "topic": "Inferential Statistics"
+       }
+      ]
+     },
+     {
+      "step_number": 6,
+      "title": "Exploratory Analysis with SQL, Excel, Python and R",
+      "description": "BI analysts explore data in whichever tool the data lives in, and advanced SQL is often the fastest route. Practise EDA in SQL, Excel, pandas and dplyr, and use window functions and tuning for heavier queries.",
+      "topic_refs": [
+       "ETT9eATuyLHQe2jPqaF5I",
+       "_iV_5O5Rq07P9qRGrraTM",
+       "9BWyA0b4WrmQetSMph_mY",
+       "25f76eB9-vy3Usta-Pbsi",
+       "ZAhjB_ghHukD4RPAtNDxh",
+       "vQQSYPpcGO7ri0RFSWi0h",
+       "0OTmTRHlR3ImNU0zyLt8G",
+       "KSxjcWV6C325kZITzAhWs",
+       "-gbb16Wl--Rjx5aoM0krL",
+       "1toMuRZResgse1AtwEck6",
+       "y9Fnjnbiqt7WkrhjPITpW",
+       "gJBaVERU3prru-qRksxN4"
+      ],
+      "projects": [
+       {
+        "title": "Same EDA, three tools",
+        "description": "Answer five questions about one dataset in SQL, Excel and pandas and compare the effort.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Query tuning log",
+        "description": "Tune three slow analytical queries and record the plan and timing changes.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Exploratory Data Analysis (EDA)",
+       "SQL for Exploratory Data Analysis",
+       "Excel for Exploratory Data Analysis",
+       "Pandas for Exploratory Data Analysis",
+       "dplyr for Exploratory Data Analysis"
+      ],
+      "more_topics": [
+       {
+        "node_id": "LLK3_hudKDX5d-fd98vlx",
+        "title": "Excel"
+       },
+       {
+        "node_id": "s8LZgRwrlm1V4meGM7gj0",
+        "title": "SQL Fundamentals"
+       },
+       {
+        "node_id": "Dh62zxyyUHh0galD472p8",
+        "title": "Excel Files"
+       }
+      ],
+      "global_step_index": 32,
+      "resource": {
+       "title": "Exploratory Data Analysis",
+       "url": "https://youtube.com/watch?v=QiqZliDXCCg"
+      },
+      "videos": [
+       {
+        "title": "Exploratory Data Analysis",
+        "url": "https://youtube.com/watch?v=QiqZliDXCCg",
+        "video_id": "QiqZliDXCCg",
+        "source": "roadmap.sh",
+        "topic": "Exploratory Data Analysis (EDA)"
+       },
+       {
+        "title": "51:14 YouTube · Data with Baraa SQL Exploratory Data Analysis (EDA) Project",
+        "url": "https://youtube.com/watch?v=6cJ5Ji8zSDg",
+        "video_id": "6cJ5Ji8zSDg",
+        "source": "roadmap.sh",
+        "topic": "SQL for Exploratory Data Analysis"
+       },
+       {
+        "title": "Exploratory Data Analysis With Excel",
+        "url": "https://youtube.com/watch?v=1zEFJHbG0aE",
+        "video_id": "1zEFJHbG0aE",
+        "source": "roadmap.sh",
+        "topic": "Excel for Exploratory Data Analysis"
+       },
+       {
+        "title": "Exploratory Data Analysis in Pandas | Python Pandas Tutorials",
+        "url": "https://youtube.com/watch?v=Liv6eeb1VfE",
+        "video_id": "Liv6eeb1VfE",
+        "source": "roadmap.sh",
+        "topic": "Pandas for Exploratory Data Analysis"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Pandas Docs",
+        "url": "https://pandas.pydata.org/docs/index.html",
+        "topic": "Pandas for Exploratory Data Analysis"
+       },
+       {
+        "type": "official",
+        "title": "dplyr",
+        "url": "https://dplyr.tidyverse.org/",
+        "topic": "dplyr for Exploratory Data Analysis"
+       },
+       {
+        "type": "official",
+        "title": "Python",
+        "url": "https://www.python.org/",
+        "topic": "Python for BI Analysts"
+       },
+       {
+        "type": "official",
+        "title": "R",
+        "url": "https://www.r-project.org/",
+        "topic": "R Programming for Business Intelligence"
+       }
+      ]
+     },
+     {
+      "step_number": 7,
+      "title": "Warehouses, Data Marts and Lakes",
+      "description": "BI runs on warehouses modelled for reporting, and the architecture decides how fast and trustworthy answers are. Learn warehouses, marts and lakes, dimensional modelling, normalisation trade-offs, cloud warehouses and data lineage.",
+      "topic_refs": [
+       "wJiKBbTMLhIzelUtKn7jl",
+       "5x4NfuP6dAgjISlB-esIW",
+       "iqpVtvoebAaoB_Dj9-gdw",
+       "Zxuvc9F3bINLTdfbsx_S_",
+       "Dk31XtS7wWRzO31sdsEDo",
+       "hcbS18cpVxd55hVlUeLLT",
+       "iYe42G31fhkAO0MBaHutF",
+       "Prfa0LUmgxcp52IEObFom",
+       "D94743lQ1fAerVSpJWXfP",
+       "zGU6DyEm6xEYf1_73cbjL",
+       "Z4pAe4FpnCkUJt8RuOhC6",
+       "F21ypKzpziLCXkiKG1S5Z"
+      ],
+      "projects": [
+       {
+        "title": "Sales data mart design",
+        "description": "Design fact and dimension tables for a sales mart and document the grain of each table.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Lineage diagram",
+        "description": "Trace one dashboard KPI back through every table and transformation to its source system.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Data Warehouse",
+       "Data Mart",
+       "Data lakes",
+       "Data Architectures",
+       "Data Modeling for BI"
+      ],
+      "more_topics": [
+       {
+        "node_id": "s-wUPMaagyRupT2RdfHks",
+        "title": "Marketing"
+       },
+       {
+        "node_id": "nhl9FM79femgqENNR0HbE",
+        "title": "PostgreSQL"
+       },
+       {
+        "node_id": "uoQS4g-c6QndacUeiaWrq",
+        "title": "Oracle"
+       },
+       {
+        "node_id": "ytgK7van84j5DsfD0JyZ3",
+        "title": "XML"
+       }
+      ],
+      "global_step_index": 33,
+      "resource": {
+       "title": "What is a Data Warehouse?",
+       "url": "https://youtube.com/watch?v=k4tK2ttdSDg"
+      },
+      "videos": [
+       {
+        "title": "What is a Data Warehouse?",
+        "url": "https://youtube.com/watch?v=k4tK2ttdSDg",
+        "video_id": "k4tK2ttdSDg",
+        "source": "roadmap.sh",
+        "topic": "Data Warehouse"
+       },
+       {
+        "title": "What is a Data Lake?",
+        "url": "https://youtube.com/watch?v=LxcH6z8TFpI",
+        "video_id": "LxcH6z8TFpI",
+        "source": "roadmap.sh",
+        "topic": "Data lakes"
+       },
+       {
+        "title": "Normalization vs. Denormalization | Events and Event Streaming",
+        "url": "https://youtube.com/watch?v=sDU94hraq8g",
+        "video_id": "sDU94hraq8g",
+        "source": "roadmap.sh",
+        "topic": "Normalization vs Denormalization"
+       },
+       {
+        "title": "The Basics You Need to Know about AWS, Azure, and Google Cloud",
+        "url": "https://youtube.com/watch?v=wFsOjHgvUfM",
+        "video_id": "wFsOjHgvUfM",
+        "source": "roadmap.sh",
+        "topic": "Cloud Providers: AWS, GCP, and Azure"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Amazon Web Services",
+        "url": "https://aws.amazon.com/",
+        "topic": "Cloud Providers: AWS, GCP, and Azure"
+       },
+       {
+        "type": "official",
+        "title": "PostgreSQL Website",
+        "url": "https://www.postgresql.org/",
+        "topic": "PostgreSQL"
+       },
+       {
+        "type": "official",
+        "title": "Oracle",
+        "url": "https://www.oracle.com/database/",
+        "topic": "Oracle"
+       },
+       {
+        "type": "official",
+        "title": "Oracle Docs",
+        "url": "https://docs.oracle.com/en/database/index.html",
+        "topic": "Oracle"
+       }
+      ]
+     },
+     {
+      "step_number": 8,
+      "title": "ETL, dbt and Pipeline Scheduling",
+      "description": "Dashboards need data refreshed reliably without manual steps. Learn ETL concepts and tools, model transformations in dbt, and schedule pipelines with Airflow in the cloud.",
+      "topic_refs": [
+       "Du4GD-6pxbWYl4uSJRnOE",
+       "lAK9QVs97hL3ysjz2blp8",
+       "yvSf7sGEd7QiaVoetalHc",
+       "-KzusmyDQ1NgqOADpqmEX",
+       "qnUHw2f2VmTPU3-NMnoLl",
+       "_KYKLd-RNhVy-Sn1A-G5j"
+      ],
+      "projects": [
+       {
+        "title": "dbt sales models",
+        "description": "Build staging and mart models in dbt with tests for nulls and unique keys.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Scheduled refresh pipeline",
+        "description": "An Airflow DAG that loads yesterday's orders and rebuilds the reporting tables.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "ETL Basics",
+       "ETL Tools",
+       "Data Pipeline Design",
+       "dbt",
+       "Airflow"
+      ],
+      "more_topics": [
+       {
+        "node_id": "ZGazuCNruu09bd7C-aSFC",
+        "title": "Basic Machine Learning"
+       }
+      ],
+      "global_step_index": 34,
+      "resource": {
+       "title": "ETL Explained",
+       "url": "https://youtube.com/watch?v=OW5OgsLpDCQ"
+      },
+      "videos": [
+       {
+        "title": "ETL Explained",
+        "url": "https://youtube.com/watch?v=OW5OgsLpDCQ",
+        "video_id": "OW5OgsLpDCQ",
+        "source": "roadmap.sh",
+        "topic": "ETL Basics"
+       },
+       {
+        "title": "Data Engineering Project: Quickly Build a Complex Data Pipeline",
+        "url": "https://youtube.com/watch?v=IQxhutCbN7A",
+        "video_id": "IQxhutCbN7A",
+        "source": "roadmap.sh",
+        "topic": "Data Pipeline Design"
+       },
+       {
+        "title": "Apache Airflow Tutorial for Data Engineers",
+        "url": "https://youtube.com/watch?v=y5rYZLBZ_Fw",
+        "video_id": "y5rYZLBZ_Fw",
+        "source": "roadmap.sh",
+        "topic": "Airflow"
+       },
+       {
+        "title": "hat is Cloud Computing?",
+        "url": "https://youtube.com/watch?v=mxT233EdY5c",
+        "video_id": "mxT233EdY5c",
+        "source": "roadmap.sh",
+        "topic": "Cloud Computing"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "dbt",
+        "url": "https://www.getdbt.com/product/what-is-dbt",
+        "topic": "dbt"
+       },
+       {
+        "type": "official",
+        "title": "dbt Docs",
+        "url": "https://docs.getdbt.com/docs/build/documentation",
+        "topic": "dbt"
+       },
+       {
+        "type": "official",
+        "title": "Airflow",
+        "url": "https://airflow.apache.org/",
+        "topic": "Airflow"
+       },
+       {
+        "type": "official",
+        "title": "Airflow Documentation",
+        "url": "https://airflow.apache.org/docs",
+        "topic": "Airflow"
+       }
+      ]
+     },
+     {
+      "step_number": 9,
+      "title": "BI Platforms: Tableau, Looker and Qlik",
+      "description": "Employers use different BI tools, and being productive in more than one widens your options. Compare the major platforms and build calculated fields and measures in each.",
+      "topic_refs": [
+       "kpRqKLtAd3IO3nbs8Yxrh",
+       "WzPj94lYxQCjFx5YW4X9x",
+       "eqGsO6ZGk2jdG0z9-cHzz",
+       "f4MDT1RUfaICAWzyG2E6T",
+       "GoMIAQwusbT7fqJ-VnCrq",
+       "fFzCnLfZ_vSbhQjdAKLlJ"
+      ],
+      "projects": [
+       {
+        "title": "Same dashboard in two tools",
+        "description": "Rebuild a Power BI dashboard in Tableau Public and note the differences.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Calculated-field library",
+        "description": "Write margin, growth and share-of-total calculations in Tableau and Power BI syntax.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "BI Platforms",
+       "Tableau",
+       "Power BI",
+       "Looker",
+       "Qlik"
+      ],
+      "more_topics": [
+       {
+        "node_id": "UDF8wyYT8127wfFHcq37P",
+        "title": "BI Conferences and Webinars"
+       },
+       {
+        "node_id": "YovS5Dbcr6g_8PMr8jp5t",
+        "title": "Open-Source Projects"
+       },
+       {
+        "node_id": "lrksz861rE5m2XzOQPwgh",
+        "title": "SQLite"
+       }
+      ],
+      "global_step_index": 35,
+      "resource": {
+       "title": "What is Tableau?",
+       "url": "https://youtube.com/watch?v=NLCzpPRCc7U"
+      },
+      "videos": [
+       {
+        "title": "What is Tableau?",
+        "url": "https://youtube.com/watch?v=NLCzpPRCc7U",
+        "video_id": "NLCzpPRCc7U",
+        "source": "roadmap.sh",
+        "topic": "Tableau"
+       },
+       {
+        "title": "Power BI for beginners",
+        "url": "https://youtube.com/watch?v=NNSHu0rkew8",
+        "video_id": "NNSHu0rkew8",
+        "source": "roadmap.sh",
+        "topic": "Power BI"
+       },
+       {
+        "title": "Qlik Sense Tutorial: 3.5 Hours of Beginner to Advanced Qlik Sense Training",
+        "url": "https://youtube.com/watch?v=ny8d2XlTWsQ",
+        "video_id": "ny8d2XlTWsQ",
+        "source": "roadmap.sh",
+        "topic": "Qlik"
+       },
+       {
+        "title": "SQLite Introduction - Beginners Guide to SQL and Databases",
+        "url": "https://youtube.com/watch?v=8Xyn8R9eKB8",
+        "video_id": "8Xyn8R9eKB8",
+        "source": "roadmap.sh",
+        "topic": "SQLite"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Tableau",
+        "url": "https://www.tableau.com/en-gb",
+        "topic": "Tableau"
+       },
+       {
+        "type": "official",
+        "title": "Power BI",
+        "url": "https://www.microsoft.com/en-us/power-platform/products/power-bi",
+        "topic": "Power BI"
+       },
+       {
+        "type": "official",
+        "title": "ooker business intelligence platform embedded analytics",
+        "url": "https://cloud.google.com/looker",
+        "topic": "Looker"
+       },
+       {
+        "type": "official",
+        "title": "Qlik",
+        "url": "https://www.qlik.com/",
+        "topic": "Qlik"
+       }
+      ]
+     },
+     {
+      "step_number": 10,
+      "title": "Dashboard Design and Honest Visuals",
+      "description": "A dashboard should let a busy manager see the state of the business in seconds without being misled. Apply design principles, colour theory and accessibility, avoid misleading charts, and design for mobile and maps.",
+      "topic_refs": [
+       "KXhNou5nlekbSTfLYPs_8",
+       "EDQjtoTd01ftwXxYkV9it",
+       "eKBORkRU6HCH-D4GWHyKR",
+       "sltVKaKKjmzu17jDv9OFF",
+       "GVgfPajmSqIgFZ6u2I1tK",
+       "SJGEkoTSPK2ck4IvaK6Gz",
+       "qGVDuU9RA9Y5g5vlPd-xq",
+       "wtEzdO_ZNu9jHJrFS3CrG",
+       "7t0WfLLqrD5VJQwIAmXMo",
+       "7_5PBCrsukv81mm7yTpDf"
+      ],
+      "projects": [
+       {
+        "title": "Executive one-pager",
+        "description": "Design a single-screen dashboard with five KPIs, one trend and one breakdown, then test it on a colleague.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Fix a misleading chart",
+        "description": "Redesign a truncated-axis or 3D chart so it shows the comparison honestly.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Dashboard Design",
+       "Design Principles for Data Visualization",
+       "Visualization Best Practices",
+       "Visualization Fundamentals",
+       "Chart Categories"
+      ],
+      "more_topics": [
+       {
+        "node_id": "qvPTiDbsY5ol_K-BNLmzk",
+        "title": "Dashboard Design"
+       },
+       {
+        "node_id": "BVDaFmDat48nN3hj5NE71",
+        "title": "Line Plots"
+       },
+       {
+        "node_id": "hCSZo7jT9arBLUbtCVFfD",
+        "title": "Scatterplot"
+       },
+       {
+        "node_id": "BUizLtQ7vpdyBRjS8KyIl",
+        "title": "Barplots"
+       },
+       {
+        "node_id": "SNkYi2VZsCRG31v63v8_x",
+        "title": "Heatmaps"
+       },
+       {
+        "node_id": "wqLcUFVsLa_l9yQIee9MG",
+        "title": "Histogram"
+       }
+      ],
+      "global_step_index": 36,
+      "resource": {
+       "title": "Why Colors Matter in Data Visualization? What is Color Theory?",
+       "url": "https://youtube.com/watch?v=Zs-Rbkr9LVI"
+      },
+      "videos": [
+       {
+        "title": "Why Colors Matter in Data Visualization? What is Color Theory?",
+        "url": "https://youtube.com/watch?v=Zs-Rbkr9LVI",
+        "video_id": "Zs-Rbkr9LVI",
+        "source": "roadmap.sh",
+        "topic": "Color Theory"
+       },
+       {
+        "title": "Accessibility in Data Visualisation",
+        "url": "https://youtube.com/watch?v=OOPeS_xWoKQ",
+        "video_id": "OOPeS_xWoKQ",
+        "source": "roadmap.sh",
+        "topic": "Accessibility in Data Visualization"
+       },
+       {
+        "title": "ES  Saltar navegación power bi dashboard design project     Crear   Imagen del avatar POWER BI Tutorial From BEGINNER to Pro Level",
+        "url": "https://youtube.com/watch?v=0BKlUySopU4",
+        "video_id": "0BKlUySopU4",
+        "source": "roadmap.sh",
+        "topic": "Dashboard Design"
+       }
+      ],
+      "resources": [
+       {
+        "type": "course",
+        "title": "Business Intelligence Fundamentals",
+        "url": "https://www.simplilearn.com/free-business-intelligence-course-online-skillup",
+        "topic": "Visualization Fundamentals"
+       }
+      ]
+     },
+     {
+      "step_number": 11,
+      "title": "Data Storytelling and Executive Communication",
+      "description": "Insights only matter if decision-makers understand and act on them. Use a storytelling framework, write tight executive summaries, design clear presentations, and explain model results in plain language.",
+      "topic_refs": [
+       "TBcLXYtKs7_j_h_m2pAyh",
+       "t_J0MZTMWMnrImGHjXYov",
+       "Slg3fXGPTa-Z4sdZY86XK",
+       "9G-pI5NsRCq4p0FLfaMR_",
+       "mi88uLdJBXaxJ2yVOSqqo",
+       "uP8MWZqM9Z0i3eDF4Ldxv"
+      ],
+      "projects": [
+       {
+        "title": "Five-slide insight deck",
+        "description": "Present one analysis as context, finding, evidence, recommendation and next step.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "One-paragraph summary drill",
+        "description": "Rewrite three long analysis reports as one-paragraph executive summaries.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Communication & Storytelling",
+       "Storytelling Framework",
+       "Writing Executive Summaries",
+       "Presentation Design",
+       "Soft Skills"
+      ],
+      "more_topics": [
+       {
+        "node_id": "xc1hm_XTyiMUVtWiTKXWG",
+        "title": "Descriptive Statistics"
+       }
+      ],
+      "global_step_index": 37,
+      "resource": {
+       "title": "Telling Stories with Data in 3 Steps (Quick Study)",
+       "url": "https://youtube.com/watch?v=r5_34YnCmMY"
+      },
+      "videos": [
+       {
+        "title": "Telling Stories with Data in 3 Steps (Quick Study)",
+        "url": "https://youtube.com/watch?v=r5_34YnCmMY",
+        "video_id": "r5_34YnCmMY",
+        "source": "roadmap.sh",
+        "topic": "Communication & Storytelling"
+       },
+       {
+        "title": "Visual storytelling 101: elevating presentations with data visualization",
+        "url": "https://youtube.com/watch?v=NXx0xQn7OXI",
+        "video_id": "NXx0xQn7OXI",
+        "source": "roadmap.sh",
+        "topic": "Storytelling Framework"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 12,
+      "title": "Core Business Analyses: Cohorts, CLV and Forecasting",
+      "description": "A handful of analyses come up again and again: cohort retention, customer value, sales and marketing performance, risk and fraud, and forecasts with seasonality. Practise each on realistic data.",
+      "topic_refs": [
+       "R2zg0Ql-RsnIkV5Gmc1vN",
+       "OqHNW0PzIRsw7IBgh5U5Q",
+       "ExHCSUDxDBwsJtTelvxjP",
+       "yseEaLsEzIcqJ0YIoGujl",
+       "On6kznZxLTCpBPskdZtgT",
+       "moWrEfuKE06QwbznsH3V-",
+       "VPu8vn7-baZQ5ORJ6ViW0",
+       "0qRm81lJX_Eb6aJkJMjeL",
+       "1T2PyytlmndHreWgueD55",
+       "JHGV0V78GXubiSY9P3nTw",
+       "aJLGan5dkMefvkspFlcYo",
+       "LkbB0rpS3Du2K7_ogoc34"
+      ],
+      "projects": [
+       {
+        "title": "Retention cohort heatmap",
+        "description": "Build monthly signup cohorts and show retention over twelve months as a heatmap.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Festive-season sales forecast",
+        "description": "Forecast next quarter's sales with seasonality around Diwali and compare with a naive forecast.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Cohort Analysis",
+       "Customer Lifetime Value (CLV)",
+       "Forecasting",
+       "Time Series Analysis",
+       "Trends in Time Series Analysis"
+      ],
+      "more_topics": [],
+      "global_step_index": 38,
+      "resource": {
+       "title": "Complete Time Series Analysis and Forecasting with Python",
+       "url": "https://youtube.com/watch?v=eKiXtGzEjos"
+      },
+      "videos": [
+       {
+        "title": "Complete Time Series Analysis and Forecasting with Python",
+        "url": "https://youtube.com/watch?v=eKiXtGzEjos",
+        "video_id": "eKiXtGzEjos",
+        "source": "roadmap.sh",
+        "topic": "Forecasting"
+       },
+       {
+        "title": "What is Time Series Analysis?",
+        "url": "https://youtube.com/watch?v=GE3JOFwTWVM",
+        "video_id": "GE3JOFwTWVM",
+        "source": "roadmap.sh",
+        "topic": "Time Series Analysis"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 13,
+      "title": "BI Across Industries",
+      "description": "The same skills apply differently in finance, healthcare, retail, manufacturing, supply chain and HR, and interviewers expect domain examples. Study typical BI use cases in each industry.",
+      "topic_refs": [
+       "cxTriSZvrmXP4axKynIZW",
+       "xftv5BiyoVrFjpSN0tjsw",
+       "VpGVezYr9O6puhAF12PN2",
+       "ku3m0ZmNg23F0Z5CEb4JI",
+       "LI09SvvUUCQxLZZee_j0n",
+       "Cydlrtg_FClBUkjezqGie",
+       "7LbhfkmS7oFoSF1k5ZR1U",
+       "zEGmDHaFa-F81tWqa3i9E",
+       "7jrzQogTOc6lHXfpYLCsx",
+       "-hNguvT6SQCqAgVpoQByr",
+       "yimCxOdNtyGcbd6ZxHsBQ",
+       "KeGCHoJRHp-mBX-P5to4Y"
+      ],
+      "projects": [
+       {
+        "title": "Hospital bed occupancy dashboard",
+        "description": "Track admissions, length of stay and bed occupancy by ward.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Attrition analysis for HR",
+        "description": "Find which departments and tenure bands lose staff fastest.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Finance",
+       "BI Applications in Finance",
+       "Healthcare",
+       "Improving Hospital Efficiency with Data Analytics",
+       "Patient Management"
+      ],
+      "more_topics": [],
+      "global_step_index": 39,
+      "resource": {
+       "title": "Predictive Maintenance Explained",
+       "url": "https://youtube.com/watch?v=2_o1SDy6__U"
+      },
+      "videos": [
+       {
+        "title": "Predictive Maintenance Explained",
+        "url": "https://youtube.com/watch?v=2_o1SDy6__U",
+        "video_id": "2_o1SDy6__U",
+        "source": "roadmap.sh",
+        "topic": "Predictive Maintenance"
+       },
+       {
+        "title": "What is the IoT",
+        "url": "https://youtube.com/watch?v=4FxU-xpuCww",
+        "video_id": "4FxU-xpuCww",
+        "source": "roadmap.sh",
+        "topic": "IoT Data Sources"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 14,
+      "title": "Data Ethics, Privacy and Compliance",
+      "description": "BI analysts handle personal and regulated data, and biased or careless reporting can harm people and the company. Learn ethical data use, privacy laws such as GDPR and CCPA, compliance reporting, and how to recognise and reduce bias.",
+      "topic_refs": [
+       "Vb06K0D2vWAlSe95QJrth",
+       "fuxGZx3WGjP2TzzVV29ux",
+       "CWf_vL78f8-mSUQbPnU8e",
+       "IwnXDA-f3FHK4EEeFuToC",
+       "j-GXKpMnsVuUUUdRxAXLe",
+       "omvGuhou7_63k-Fwcc7Mu",
+       "_uLtsnyNNNRcz5A29Zpjl",
+       "9aNVqEyygNGeicdce5X8b",
+       "5MUwKGfSTKlam8KCG0A1U"
+      ],
+      "projects": [
+       {
+        "title": "Privacy review of a dashboard",
+        "description": "Audit a dashboard for personal data exposure and propose masking or aggregation.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Bias check on a scoring rule",
+        "description": "Test whether a loan-approval rule treats groups differently and suggest a mitigation.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Ethical Data Use",
+       "Privacy",
+       "GDPR",
+       "CCPA",
+       "Compliance Reporting"
+      ],
+      "more_topics": [
+       {
+        "node_id": "ASHk2LOjlhwpwpWSRs_Bi",
+        "title": "Correlation Analysis"
+       }
+      ],
+      "global_step_index": 40,
+      "resource": {
+       "title": "AI: Training Data & Bias",
+       "url": "https://youtube.com/watch?v=x2mRoFNm22g"
+      },
+      "videos": [
+       {
+        "title": "AI: Training Data & Bias",
+        "url": "https://youtube.com/watch?v=x2mRoFNm22g",
+        "video_id": "x2mRoFNm22g",
+        "source": "roadmap.sh",
+        "topic": "Algorithmic Bias"
+       },
+       {
+        "title": "Supervised Machine Learning Explained For Beginners",
+        "url": "https://youtube.com/watch?v=Mu3POlNoLdc",
+        "video_id": "Mu3POlNoLdc",
+        "source": "roadmap.sh",
+        "topic": "Supervised Learning"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "GPDR",
+        "url": "https://gdpr-info.eu/",
+        "topic": "GDPR"
+       },
+       {
+        "type": "official",
+        "title": "California Consumer Privacy Act (CCPA)",
+        "url": "https://oag.ca.gov/privacy/ccpa",
+        "topic": "CCPA"
+       },
+       {
+        "type": "course",
+        "title": "Intro to Inferential Statistics",
+        "url": "https://www.udacity.com/course/intro-to-inferential-statistics--ud201",
+        "topic": "Correlation Analysis"
+       }
+      ]
+     },
+     {
+      "step_number": 15,
+      "title": "Building a BI Career: Portfolio and Job Search",
+      "description": "Entry-level BI hiring rewards a visible portfolio and strong interview preparation. Complete an end-to-end project, present it well, optimise your resume, prepare for interviews and keep learning through communities and certifications.",
+      "topic_refs": [
+       "3xDVJwdl3uu5EcjlZ1ytA",
+       "UIdwl_KLELI8xL2VxYJmX",
+       "qsCWo1CmR4mvy7E7qlPv5",
+       "m9EwcekZ_l0XHiKeQ8emr",
+       "4XM5ikPiHVehEtT4AB-Ea",
+       "TojDB4o0i2rs7Qcb10k1r",
+       "hqpFbDhAvyT9_4hcoSLhC",
+       "Q98GaitxocEha4zZ9d254",
+       "X8U-NQD0rYqFr_xgDWL2s",
+       "aTGsJj7Ntv5BWIzjaqvu_",
+       "k3F9Tdqo3XYgMLOKGjpxA",
+       "tUxwKTml2Go8zR9tR3cjn"
+      ],
+      "projects": [
+       {
+        "title": "End-to-end portfolio project",
+        "description": "Take a public dataset from raw files to a published dashboard with a written case study.",
+        "difficulty": "advanced",
+        "grounded": false
+       },
+       {
+        "title": "Mock interview set",
+        "description": "Record answers to ten common BI interview questions including a live SQL task.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "End-to-End Analytics Project",
+       "Building Your Portfolio",
+       "Portfolio Presentation",
+       "Resume Optimization",
+       "Interview Preparation"
+      ],
+      "more_topics": [],
+      "global_step_index": 41,
+      "resource": {
+       "title": "End to End Data Analytics Project (Python + SQL)",
+       "url": "https://youtube.com/watch?v=uL0-6kfiH3g"
+      },
+      "videos": [
+       {
+        "title": "End to End Data Analytics Project (Python + SQL)",
+        "url": "https://youtube.com/watch?v=uL0-6kfiH3g",
+        "video_id": "uL0-6kfiH3g",
+        "source": "roadmap.sh",
+        "topic": "End-to-End Analytics Project"
+       },
+       {
+        "title": "2 Hour Data Analyst Interview Masterclass",
+        "url": "https://youtube.com/watch?v=F5v2dRYU5IA",
+        "video_id": "F5v2dRYU5IA",
+        "source": "roadmap.sh",
+        "topic": "Interview Preparation"
+       }
+      ],
+      "resources": []
+     }
+    ]
+   }
+  ]
+ },
+ "audit": {
+  "phases": [
+   {
+    "phase_number": 1,
+    "title": "Data Analyst",
+    "queries": [
+     "Data Analytics",
+     "Data Analytics fundamentals",
+     "Data Analytics: Data Analyst"
+    ],
+    "retrieved": [
+     {
+      "source": "data-analyst/introduction@3xp2fogAVmwXQhdzhZDWR.md",
+      "score": 0.7180880904197693,
+      "queries": [
+       "Data Analytics",
+       "Data Analytics fundamentals",
+       "Data Analytics: Data Analyst"
+      ]
+     },
+     {
+      "source": "data-analyst/what-is-data-analytics@yCnn-NfSxIybUQ2iTuUGq.md",
+      "score": 0.6430603265762329,
+      "queries": [
+       "Data Analytics",
+       "Data Analytics fundamentals",
+       "Data Analytics: Data Analyst"
+      ]
+     },
+     {
+      "source": "data-analyst/key-concepts-of-data@R12sArWVpbIs_PHxBqVaR.md",
+      "score": 0.6075646877288818,
+      "queries": [
+       "Data Analytics",
+       "Data Analytics fundamentals",
+       "Data Analytics: Data Analyst"
+      ]
+     },
+     {
+      "source": "data-analyst/types-of-data-analytics@Lsapbmg-eMIYJAHpV97nO.md",
+      "score": 0.5315320491790771,
+      "queries": [
+       "Data Analytics",
+       "Data Analytics fundamentals",
+       "Data Analytics: Data Analyst"
+      ]
+     },
+     {
+      "source": "data-analyst/data-transformation@t_BRtEharsrOZxoyX0OzV.md",
+      "score": 0.5208829641342163,
+      "queries": [
+       "Data Analytics",
+       "Data Analytics fundamentals",
+       "Data Analytics: Data Analyst"
+      ]
+     },
+     {
+      "source": "data-analyst/diagnostic-analytics@j7DA2J3speSaBsZAV4M0v.md",
+      "score": 0.50870680809021,
+      "queries": [
+       "Data Analytics",
+       "Data Analytics fundamentals",
+       "Data Analytics: Data Analyst"
+      ]
+     },
+     {
+      "source": "so_survey_2025_india/Data_Analytics",
+      "score": 0.37461423873901367,
+      "queries": []
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 1,
+      "topic_refs": [
+       "3xp2fogAVmwXQhdzhZDWR",
+       "yCnn-NfSxIybUQ2iTuUGq",
+       "R12sArWVpbIs_PHxBqVaR",
+       "Lsapbmg-eMIYJAHpV97nO",
+       "hWDh0ooidbqZb000ENVok",
+       "j7DA2J3speSaBsZAV4M0v",
+       "3WZORRCwme3HsaKew23Z5",
+       "DFMR-0MbmVCCrJu0I9JWG",
+       "il6KQXVPGBza5libN38ib"
+      ],
+      "queries": [
+       "Data Analytics",
+       "Data Analytics fundamentals",
+       "Data Analytics: Data Analyst"
+      ]
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 2,
+      "topic_refs": [
+       "sgXIjVTbwdwdYoaxN3XBM",
+       "5GarFKYApjrhxHBLNPVnJ",
+       "FDYunL9KJkR_tHEcUV2iC",
+       "F3-cr5onkWqKKPRdxu8lV",
+       "wME4MSldOWlMB54ekpReS",
+       "9sIP-jpNjtA1JPCBjTf-H",
+       "2DDJUFr0AJTVR2Whj8zub",
+       "yBlJrNo9eO470dLp6OaQZ",
+       "SIiIfcy-jeiRoDlxw385V",
+       "D5Q6o6ydr1j51kB0ASFPE",
+       "YReKRRgE_2dWfGGdBQqbf",
+       "dke_pySrqYZZ7K3rprnIT"
+      ],
+      "queries": [
+       "Data Analytics: Data Analyst"
+      ]
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 3,
+      "topic_refs": [
+       "_sjXCLHHTbZromJYn6fnu",
+       "mDUSpexdq3ITV6qokwSJl",
+       "4DFcXSSHxg5wv0uXLIRij",
+       "qQ64ZhSlbbWu9pP8KTE67",
+       "iWOK0mRY-hAGxMnHYJ0tt",
+       "tYPeLCxbqvMFlTkCGjdHg",
+       "iTmtpXe7dR4XKslgpsk2q"
+      ],
+      "queries": [
+       "Data Analytics",
+       "Data Analytics fundamentals",
+       "Data Analytics: Data Analyst"
+      ]
+     },
+     {
+      "step_number": 4,
+      "global_step_index": 4,
+      "topic_refs": [
+       "E6cpb6kvluJM8OGuDcFBT",
+       "nC7tViln4UyQFYP_-fyjB",
+       "X9WmfHOks82BIAzs6abqO",
+       "Xltm7B-8TZ1-igLjVJXoR",
+       "-rQ8h_6NFxEOhxXgo7LHo",
+       "t_BRtEharsrOZxoyX0OzV",
+       "M1QtGTLyygIjePoCfvjve",
+       "TucngXKNptbeo3PtdJHX8",
+       "v8TfY-b4W5ygOv7r-syHq",
+       "i2uEcaO4bJhcZ5ayRs2CQ",
+       "g_EBQizZsIe-vn8ir6FTv"
+      ],
+      "queries": [
+       "Data Analytics",
+       "Data Analytics fundamentals",
+       "Data Analytics: Data Analyst"
+      ]
+     },
+     {
+      "step_number": 5,
+      "global_step_index": 5,
+      "topic_refs": [
+       "BJTVa4ur_bJB7mMtD2-hQ",
+       "923KGEUG9ofBm7dYkkrxz",
+       "qdXoikVh2xkJkOQNKcyvb",
+       "fY8zVG2tVbmtx5OhY7hj-",
+       "2ldO-_ZnIg364Eo8Jyfgr",
+       "tSxtyJhL5wjU0XJcjsJmm",
+       "ict4JkoVM-AzPbp9bDztg",
+       "MXIP8ekH4YtczODKM_G_l",
+       "VfcCRRqwLxkYpIX0ZKNNX",
+       "PqGO8AU1zE2ZdtqrIrOkZ",
+       "Fyqg3MRcwY7g-Q3gjiqwK",
+       "2pUq-7hu5EjGpowz98YoV"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 6,
+      "global_step_index": 6,
+      "topic_refs": [
+       "XFnw4_dQYSzm96-srWa7X",
+       "Xygwu0m5TeYT6S_8FKKXh",
+       "murioZ0NdrTix_lqSGz-8",
+       "lTycWscyFPi-BtkNg9cdm",
+       "mCUW07rx74_dUNi7OGVlj",
+       "FEyBFZLaGJqTC-IUEcOVS"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 7,
+      "global_step_index": 7,
+      "topic_refs": [
+       "2g19zjEASJw2ve57hxpr0",
+       "jowh4CFLQiFzKaaElyCuQ",
+       "Vk3JErqxpnPY44iyfkLMl",
+       "EVk1H-QLtTlpG7lVEenDt",
+       "v9T0DX56jFNhUz9nzubzS",
+       "K9xwm_Vpdup9ujYqlD9F3",
+       "A5YQv7D4qRcskdZ64XldH",
+       "329BrtmXjXNLfi1SFfdeo",
+       "muFy-C2agCX9vR_NU7UZF",
+       "G8resQXEVEHCaQfDlt3nj",
+       "Sz2Y8HLbSmDjSKAJztDql",
+       "SJLeose5vZU8w_18C8_t0"
+      ],
+      "queries": [
+       "Data Analytics fundamentals"
+      ]
+     },
+     {
+      "step_number": 8,
+      "global_step_index": 8,
+      "topic_refs": [
+       "f4GuzeokP9w_gwtOquP0g",
+       "FIYCkGXofKMsXmsqHSMh9",
+       "FntL9E2yVAYwIrlANDNKE",
+       "ofOQKAIu4rezWmgZeE-KT",
+       "vHDm_9Lh4EqvXNYSOBaqZ",
+       "SStzU_iXSvI_9QWbvGNou",
+       "h2xF5bZeUByDgsAi4dga2",
+       "zbUw5PyVsdccbgDTRHg7d",
+       "7ikA373qH88HBx5irCgIH",
+       "XdBwqLoYYiLJNlWPBEDUj",
+       "gGHsKcS92StK5FolzmVvm",
+       "SiYUdtYMDImRPmV2_XPkH"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 9,
+      "global_step_index": 9,
+      "topic_refs": [
+       "m1IfG2sEedUxMXrv_B8GW",
+       "_aUQZWUhFRvNu0MZ8CPit",
+       "wECWIRMlWNoTxz5eKwaSf",
+       "vaiigToDh4522rtWamuSM",
+       "eAM9orCNwzqh34uvGBVm8",
+       "Fwwve0j-KDfc605IIgmil",
+       "fqCAH4Enc4AAJHoSkk2Pe"
+      ],
+      "queries": []
+     }
+    ]
+   },
+   {
+    "phase_number": 2,
+    "title": "SQL",
+    "queries": [
+     "Data Analytics",
+     "Data Analytics fundamentals",
+     "Data Analytics: SQL"
+    ],
+    "retrieved": [
+     {
+      "source": "sql/query-analysis-techniques@C6P69YiFdS-ioPXMNfX07.md",
+      "score": 0.5290570855140686,
+      "queries": [
+       "Data Analytics",
+       "Data Analytics fundamentals",
+       "Data Analytics: SQL"
+      ]
+     },
+     {
+      "source": "sql/aggregate-queries@LX9nzJ4uqznHN4SksoDvr.md",
+      "score": 0.48792558908462524,
+      "queries": [
+       "Data Analytics: SQL"
+      ]
+     },
+     {
+      "source": "sql/advanced-sql@UDqbT1y-YzBrljfKSz_RG.md",
+      "score": 0.4760700762271881,
+      "queries": [
+       "Data Analytics: SQL"
+      ]
+     },
+     {
+      "source": "sql/group-by@Zw8IHfCCMSxmVjx5Ho5ff.md",
+      "score": 0.43443840742111206,
+      "queries": [
+       "Data Analytics: SQL"
+      ]
+     },
+     {
+      "source": "sql/group-by@14TKE6KhrH1yFtHcSZSXq.md",
+      "score": 0.43443840742111206,
+      "queries": [
+       "Data Analytics: SQL"
+      ]
+     },
+     {
+      "source": "sql/what-are-relational-databases@R9DQNc0AyAQ2HLpP4HOk6.md",
+      "score": 0.4146660268306732,
+      "queries": []
+     },
+     {
+      "source": "so_survey_2025_india/Data_Analytics",
+      "score": 0.38451290130615234,
+      "queries": []
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 10,
+      "topic_refs": [
+       "R9DQNc0AyAQ2HLpP4HOk6",
+       "fNTb9y3zs1HPYclAmu_Wv",
+       "nhUKKWyBH80nyKfGT8ErC",
+       "JDDG4KfhtIlw1rkNCzUli",
+       "R9WDMRd-3wxsKH97-sT3n",
+       "aLDl75i8gtLRA2Ud-fMmQ",
+       "wmtt-3auWLdQWuVdwZLPd",
+       "tBzMDfCMh6MIagNaxCzin",
+       "i8u8E_sne6XiKJo2FXDog",
+       "WhYAy6f7Euk3E49-ot644",
+       "NfCiSPrL4upMssukcw3Kh",
+       "ffwniprGJHZzJ7t3lQcXz"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 11,
+      "topic_refs": [
+       "LX9nzJ4uqznHN4SksoDvr",
+       "9aHYrOQDkA84tlxcVK5aD",
+       "w4T3jFb0ilf1KNw-AvRXG",
+       "Wou6YXLYUgomvcELh851L",
+       "14TKE6KhrH1yFtHcSZSXq",
+       "HhICJpCK5__b-itUoEBES",
+       "W2ePJHdfEiEJ3ZKoRQKt_",
+       "4UQQYbjzwVxZOAxBuXKQS",
+       "aaua13CkTxLOYXr8cAgPm",
+       "X9cJJ8zLZCF2cOoqxwFfY",
+       "aS5zCyJRA779yHF0G2pje",
+       "6qG0AVYd6Y1B8LOSDoMX9"
+      ],
+      "queries": [
+       "Data Analytics: SQL"
+      ]
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 12,
+      "topic_refs": [
+       "86iZ8s8EdhSuYwgwAM_EO",
+       "JZqS3Xapw6mfSPVgFW7av",
+       "tedQynR0xicVKhuR1oahw",
+       "tBvXLLp5FKeSSN35Kj1X4",
+       "zW27ZHdLwQY-85iqbBKQZ",
+       "cucCPw3KfetAP2OMFUs0X",
+       "QM0ltgPu8lLLYc2MsTLj-",
+       "BcXdxY6bld5c0YNFSKkh-",
+       "aJJjaGunRrwyh9MjQfJt-",
+       "nwFaz9i-1s0WVrVaFsoqb",
+       "k7lZe4QRt9q4InUImFmvx",
+       "BJ4fQvagTO0B5UtXblyx8"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 4,
+      "global_step_index": 13,
+      "topic_refs": [
+       "epEpBxRosLhuAuKwp823r",
+       "-Hew0y53ziZK3epQnGA0O",
+       "eu9dJFi6gBPMBdy08Y5Bb",
+       "ddtVaA4Ls6qRj-7OtTSIH",
+       "Jlwmyq6CUQeDAlL4dazOP",
+       "DHz6sRLYhFeCbAcNJS8hm",
+       "2tyezwOIxV6O84N-Q3Awh",
+       "PcsGK4VBh0zNQIPZvNES4",
+       "OdaBXz2XBAVLsQ-m7xtAM",
+       "LcljR70T-OnzSrJJDqOWf",
+       "Ps9Yv2s-bKvEegGAbPsiA",
+       "C6P69YiFdS-ioPXMNfX07"
+      ],
+      "queries": [
+       "Data Analytics",
+       "Data Analytics fundamentals",
+       "Data Analytics: SQL"
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 3,
+    "title": "Power BI",
+    "queries": [
+     "Data Analytics",
+     "Data Analytics fundamentals",
+     "Data Analytics: Power BI"
+    ],
+    "retrieved": [
+     {
+      "source": "power-bi/introduction@2QB2qNbr8IHv4YbB-hYqf.md",
+      "score": 0.7985896468162537,
+      "queries": [
+       "Data Analytics: Power BI"
+      ]
+     },
+     {
+      "source": "power-bi/power-bi-with-excel@CkG-llpmpyF9jIe5G6zrq.md",
+      "score": 0.7347914576530457,
+      "queries": [
+       "Data Analytics: Power BI"
+      ]
+     },
+     {
+      "source": "power-bi/hierarchies@teGp4rdsa8O-Au8mHbrkH.md",
+      "score": 0.6990170478820801,
+      "queries": [
+       "Data Analytics: Power BI"
+      ]
+     },
+     {
+      "source": "power-bi/aggregations@KeyKztPuGQrZpG4WR3VOX.md",
+      "score": 0.6932534575462341,
+      "queries": [
+       "Data Analytics: Power BI"
+      ]
+     },
+     {
+      "source": "power-bi/power-query@P1t4cTjmCHILyc6jkAHWH.md",
+      "score": 0.6740102171897888,
+      "queries": [
+       "Data Analytics: Power BI"
+      ]
+     },
+     {
+      "source": "power-bi/power-bi-embedded@AX-mV_fge1qcDOjeREIvJ.md",
+      "score": 0.6703459024429321,
+      "queries": [
+       "Data Analytics: Power BI"
+      ]
+     },
+     {
+      "source": "so_survey_2025_india/Data_Analytics",
+      "score": 0.37461423873901367,
+      "queries": []
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 14,
+      "topic_refs": [
+       "2QB2qNbr8IHv4YbB-hYqf",
+       "cGLTxw45dWZbKwJ_L7v2z",
+       "n2m-xo1wfcluM5iF54tmu",
+       "4S5zKmpa29_re_rOZD9mt",
+       "aItdGZ817gzRevj1bZnQz",
+       "-i6X0KZW6CZfgzgQ2QMvH",
+       "6Evp-E8U-n3EutKt2cqnX",
+       "y9CTbobwkPNDUDDkJLdQX",
+       "ls626i2TukzHY0Q_LnlVs",
+       "Hk1qf_oY4SxVsjuoOd9nL",
+       "u1-WPMNoMpouC5EuKDgk6",
+       "CkG-llpmpyF9jIe5G6zrq"
+      ],
+      "queries": [
+       "Data Analytics: Power BI"
+      ]
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 15,
+      "topic_refs": [
+       "M5B4mq5vv5PcGaBdQmNdf",
+       "fMGZRXVaryZ25kjE-4e5x",
+       "0a0caDbMmm71t9h9l1boP",
+       "COxqpY6LmJI6S6saCFZEw",
+       "HWj-k3pc5_80dk793CVnX",
+       "FdE4ix0XyZq_yhv8HRELs",
+       "4gaa2THeYhi2Z45kSX42t",
+       "4UXIwHGpILCTfs7lLoxou",
+       "GHE4CuN9ajm08_RZ1Fy7p",
+       "8DKQH0CbRmtuAW3tE_ke6",
+       "80ujylMVAMN9Tn0qPR7uf",
+       "7CyF7zG9yRiJWq2XmEKVG"
+      ],
+      "queries": [
+       "Data Analytics: Power BI"
+      ]
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 16,
+      "topic_refs": [
+       "P1t4cTjmCHILyc6jkAHWH",
+       "Jys8-vqPreAJwjDUWqqNF",
+       "_tWAz0_PV6Pr5Ey2ZXYL1",
+       "y-FeyeZ6tqZmF_8wzrTuX",
+       "OpTzX9_MCnMIf3nwDrCO9",
+       "jji5jm1oT6SImHaBXwOJI",
+       "vZQjiMqgSc2HtWCPYHvnb",
+       "kKbKZ1sMBNaQUoX4Vf95j",
+       "jY6JPvP0QPjmnPL2tBUus",
+       "X3j-XFMXKLjwvEMgDGbPQ",
+       "UPQ6Y-jT39MkrM1Rg3Dip",
+       "cqLk4gpK_Ex7SvpcR-EyX"
+      ],
+      "queries": [
+       "Data Analytics fundamentals",
+       "Data Analytics: Power BI"
+      ]
+     },
+     {
+      "step_number": 4,
+      "global_step_index": 17,
+      "topic_refs": [
+       "w0p5SoSn4_YGeARz7Ll0O",
+       "OUo1KyRG-Qc5I6GWZR2pp",
+       "zRLfg-lJsWkNsZoY-Lqid",
+       "D-LFpO99i1MttUa1MTmCa",
+       "a30f0oSq96dKAjTSQChcC",
+       "7JeXBAYhv_3ZZr3niaIhd",
+       "U8ZpXzVc0xFZ-A74a_yuZ",
+       "_vIHVUkhy9Cu-WGdg59fi",
+       "hsM7w-le7b_JXnAMB419W",
+       "8OG0BC-13asJ6Faxej27_",
+       "KPv8ilVsBsxnyLzhu3yxy",
+       "v6n_uRreDYk3NnwD4GLKN"
+      ],
+      "queries": [
+       "Data Analytics: Power BI"
+      ]
+     },
+     {
+      "step_number": 5,
+      "global_step_index": 18,
+      "topic_refs": [
+       "oYreeOD0hUcg-P_edX7CX",
+       "UsiTXTUkAS5w6IeJ0nBJ-",
+       "DZuLutU2cYCJZwR39xD8c",
+       "hGinFciFMdIiFv7VQle_e",
+       "m5Kh5qQtFZ7Xh-3BXeBY6",
+       "hcCWf3YQqD6YeF_aBa2zI",
+       "bLEolh1ucu3NzdYcB8gei",
+       "v0_8BKYjUiEmQyb71ntr3",
+       "_pT_-I07MtFVEN3uvkl2w",
+       "teGp4rdsa8O-Au8mHbrkH",
+       "vMqaPgnbF_ouOvBBgrRpk",
+       "xeJEDCBsv3XyfOC_SClR7"
+      ],
+      "queries": [
+       "Data Analytics: Power BI"
+      ]
+     },
+     {
+      "step_number": 6,
+      "global_step_index": 19,
+      "topic_refs": [
+       "Qu-C8yEqb30gZ0Po8Vmbt",
+       "5p5jlratghZBaZUe0zfgi",
+       "dKb9XtExyQqapcR9ccafy",
+       "wZlFN13uuS1MxAoLVoDZU",
+       "GXZhNdoiWoKZW9RstuxW1",
+       "LCVPHuTjQ4zTi0tT77h9y",
+       "KVOe7N9mpfqbAvF_bQxYB",
+       "GdcUdMG8C62PeVe0hJaJZ",
+       "_wnNd9mVmSFRgeODlkwX0",
+       "vBimOM-ayzWiwGFPRZqW4",
+       "2tXtiVyl0LiUDldc-dYOL",
+       "UfdiQrzMT5uQ7AGEa1gMH"
+      ],
+      "queries": [
+       "Data Analytics: Power BI"
+      ]
+     },
+     {
+      "step_number": 7,
+      "global_step_index": 20,
+      "topic_refs": [
+       "-d1bS8y-wYnVO8z-Ogb4M",
+       "l-vk3xwURU8AOHoGlu0iT",
+       "62ecBOZmKPo56zRGd6GIQ",
+       "BAeCGnhY7PBsazIY5ywf4",
+       "AAob1TBlOoIoEELilx3Mc",
+       "M8BbSZ4EqJSHN_2CMUIlG",
+       "Dh8pL5URdr-Fv6sVW3HfB",
+       "6oh5sxYqEqm-jSBNmCnmF",
+       "-dhGA5wUkvycHl30ZZELE",
+       "4j2CBBcLxNnE060LMnDTc"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 8,
+      "global_step_index": 21,
+      "topic_refs": [
+       "HUB5LvEuE_qxOjfxu-_mE",
+       "WXIP35S-K0YPPrArosikv",
+       "JEudXkog9r0szwd6RMw1L",
+       "EJKYzHDG2YQawVpiqL-jU",
+       "_3_v4fesS5FZTj-KAeSDq",
+       "urDcAE6II1QzHBydBQ0o9",
+       "fwUzkj_cd8tQWM_du19i1",
+       "P0XqGgwc6zKGRyXwnvMwD",
+       "VWVF938IZeNS2E1SrS29l",
+       "7EqmxQwupr7b3Op_tovNz",
+       "OSDmzLdt4rdVU2TFKazh1",
+       "Q39QDWBQlZ0CXJby4-nBw"
+      ],
+      "queries": [
+       "Data Analytics: Power BI"
+      ]
+     },
+     {
+      "step_number": 9,
+      "global_step_index": 22,
+      "topic_refs": [
+       "Ts5wEmq3U761ObsaLVCsE",
+       "YyJm9VI23xGcYgICxkoO0",
+       "vTsD-oWa4vwEhfC5-Ax5Y",
+       "o65MsjBczUD_m7DYBFr_y",
+       "Tu0lUGB1a-b89x1qnM7Qc",
+       "bBLfNjB3IC2oNgQN4SSoE",
+       "SIMaqZRxACO-f25KPPbFl",
+       "8-t2HOH7KFWV79gpfhjXn",
+       "UEO1KVLCqK4NbhnYa7mS6",
+       "PzH_pS8MZsfWNia-6LHYv",
+       "Qido2kFzf3UoW3LLu3QT-",
+       "H8vRATlg1hX8iPwLJdeOR"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 10,
+      "global_step_index": 23,
+      "topic_refs": [
+       "js9MnMCVPoWWb9wLf_csS",
+       "CJnGG-Q_I_pfS7YsoCR0a",
+       "Ru7LLosG6dqriZjqf_eIs",
+       "uoFvTcMDDIkYHz_d7ZeX-",
+       "y4hjUDSyg1ewVtU9_IsU4",
+       "M8o5vABTrb0yRSctPX7oG",
+       "NCo_m2VAuWFxyMgscH5TN",
+       "ryiwhhGAviD-QFlD-c5If"
+      ],
+      "queries": [
+       "Data Analytics: Power BI"
+      ]
+     },
+     {
+      "step_number": 11,
+      "global_step_index": 24,
+      "topic_refs": [
+       "c4Ca3HejJsCRvu2BgHzlP",
+       "mNUrtl-18tZnFSaMSnJm3",
+       "jAkxBHWrRTFnhs9deON6b",
+       "KeyKztPuGQrZpG4WR3VOX",
+       "qABASsA3GLMJITuKqH0Te",
+       "SdJi9eYWA9khpKam53Qgk",
+       "hEx3FLGHzXOmGcZ-js24r",
+       "uX7eakwKpWUhQwV8j8JaT"
+      ],
+      "queries": [
+       "Data Analytics fundamentals",
+       "Data Analytics: Power BI"
+      ]
+     },
+     {
+      "step_number": 12,
+      "global_step_index": 25,
+      "topic_refs": [
+       "rVwlH4DTClyXbTewOdmn3",
+       "rNxp8buIqSZNd6_FDKWmf",
+       "wmtOYjTkzKhIRlh9n__PZ",
+       "vYaqmbNLFmP-CNRs6rGav",
+       "Y2k8hmM3HVhNx-_UB9fOz",
+       "-EIV_JN7sgNvZ0ycoEq-q",
+       "PSmaLgRiqwFKnQ3pUuZrm",
+       "oeN3BijT2OCGbv4hk7tz_",
+       "gWj5LnHcNZBNu-nMnzi5Y",
+       "vdUmB0z9O3ucYpvaHIAno",
+       "X5zgzF1ld5zGUnf4fMHLF",
+       "AX-mV_fge1qcDOjeREIvJ"
+      ],
+      "queries": [
+       "Data Analytics: Power BI"
+      ]
+     },
+     {
+      "step_number": 13,
+      "global_step_index": 26,
+      "topic_refs": [
+       "hbnBEikjm_fsQjhjZDJJm",
+       "l7_l2lM0A0Z6jNt-ypRR-",
+       "TB7tcRXwbvJ16fV6BHXPt",
+       "d3-VRo0ZX_inzVEnUtFDl",
+       "A899eeb9R_z5uLgkJpHr1",
+       "MYHrkcRDnawWI7aK33GlF",
+       "AAIDmBDueCTKYnuJugDEf",
+       "JnFJK_sqz710ANX_gwzjZ",
+       "dWu0GbXzXaYYgmWTOL1di",
+       "Tg7TuqzUQrGpWm2LJej2-",
+       "rc3kmU1DvTbkqFW39BkpT"
+      ],
+      "queries": [
+       "Data Analytics: Power BI"
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 4,
+    "title": "BI Analyst",
+    "queries": [
+     "Data Analytics",
+     "Data Analytics fundamentals",
+     "Data Analytics: BI Analyst"
+    ],
+    "retrieved": [
+     {
+      "source": "bi-analyst/introduction@PxOEfMSQYA2jy3zrMZXjZ.md",
+      "score": 0.8148938417434692,
+      "queries": [
+       "Data Analytics",
+       "Data Analytics: BI Analyst"
+      ]
+     },
+     {
+      "source": "bi-analyst/why-bi-matters@NX-YaB_FVjoHYsR6z9QIL.md",
+      "score": 0.7490402460098267,
+      "queries": [
+       "Data Analytics: BI Analyst"
+      ]
+     },
+     {
+      "source": "bi-analyst/what-is-bi@jVXwlHRGgVpcoWCYzSB5W.md",
+      "score": 0.7201976776123047,
+      "queries": [
+       "Data Analytics",
+       "Data Analytics: BI Analyst"
+      ]
+     },
+     {
+      "source": "bi-analyst/responsibilities@Q-GmBJiRdBS_xLeOjef2R.md",
+      "score": 0.7021116018295288,
+      "queries": [
+       "Data Analytics: BI Analyst"
+      ]
+     },
+     {
+      "source": "bi-analyst/skills@iRgtog5A13CTNDxnbGN9x.md",
+      "score": 0.6968715190887451,
+      "queries": [
+       "Data Analytics: BI Analyst"
+      ]
+     },
+     {
+      "source": "bi-analyst/types-of-data-analysis@3DVF8zo-_WM_9GTuzQFO8.md",
+      "score": 0.6873451471328735,
+      "queries": [
+       "Data Analytics",
+       "Data Analytics fundamentals",
+       "Data Analytics: BI Analyst"
+      ]
+     },
+     {
+      "source": "so_survey_2025_india/Data_Analytics",
+      "score": 0.37461423873901367,
+      "queries": []
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 27,
+      "topic_refs": [
+       "jVXwlHRGgVpcoWCYzSB5W",
+       "NX-YaB_FVjoHYsR6z9QIL",
+       "PxOEfMSQYA2jy3zrMZXjZ",
+       "Q-GmBJiRdBS_xLeOjef2R",
+       "JFNCITtE1YtcYmLfGfF5T",
+       "iRgtog5A13CTNDxnbGN9x",
+       "LjeipkY01Hlkp22kmlAMh",
+       "GN6SnI7RXIeW8JeD-qORW",
+       "jJukG4XxfFcID_VlQKqe-",
+       "3BxbkrBp8veZj38zdwN8s",
+       "PkzUqwT21Owk_TfepFPDm",
+       "OmhvVSTtzH5sxOIZRVYfQ"
+      ],
+      "queries": [
+       "Data Analytics",
+       "Data Analytics: BI Analyst"
+      ]
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 28,
+      "topic_refs": [
+       "c0ywBrs9u7MciWAXSgVVg",
+       "e3SdmNpVcvy3k_-JIO6OK",
+       "r-m88g8xrUnuEpV2lHJfN",
+       "NFKiPXrkjRre1yUZc27gl",
+       "r8NoX426-ngu6ZQZe06oK",
+       "vDQF2oaybSewNu3EMs6zG",
+       "3DVF8zo-_WM_9GTuzQFO8",
+       "vTW3jSZ1bvc0OrP_bl22t",
+       "m5aC9aNy9mwLXz0xXBp40",
+       "4zpVE3R0lLyWpHePdBVpl",
+       "NnbtaO2MiqsHeJ-ds0Q5m"
+      ],
+      "queries": [
+       "Data Analytics",
+       "Data Analytics fundamentals",
+       "Data Analytics: BI Analyst"
+      ]
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 29,
+      "topic_refs": [
+       "g5j_mbjx2yZUIK5lfN3eT",
+       "H1s1PQj8CHQ_VBQIy1VtJ",
+       "jnIn3_2fI2k97oALPZkt7",
+       "qHcRrxenhogymMQ6EPiMa",
+       "DJKXgelIxuahxJiqvwP6I",
+       "kb216tShKrRPWv7mE9sVa",
+       "yXz6MkU3-HnlkmRmYh-Ev",
+       "YSxvg2HrfGoGtpkwY0kGc",
+       "VUgxDDkoxkOcLxqpTDXzt",
+       "xQDGmVwUkrmGdviOdG8Hu",
+       "xQLsuJ3uohVzOxGfFLyFw",
+       "WXk0-vebMUQC25he2lmbh"
+      ],
+      "queries": [
+       "Data Analytics fundamentals"
+      ]
+     },
+     {
+      "step_number": 4,
+      "global_step_index": 30,
+      "topic_refs": [
+       "bGCMAgaenZ0t3WeO5joyP",
+       "M1H3Fh09v8udCJIPSJPic",
+       "4U66ZrBZqg7-ckOTmxAQj",
+       "5USjYdAVJs0gSXxE1j8Xu",
+       "UhcniUDKmi7KNuXlolf5O",
+       "BiyrAHB34evej_0cnDzOa",
+       "fhreEuoT8ZBRwJqbSGrEZ",
+       "xjgqmJmetKpWXSWZHPwaL",
+       "TCYG6vmFqq1zAPNQWoOH8",
+       "Vo7LJ_W-DBvxvVrnz33BM",
+       "hrkMVMYWCedRxhNd2N9wE",
+       "SosOXxErMn0t2KCoHoxvS"
+      ],
+      "queries": [
+       "Data Analytics fundamentals"
+      ]
+     },
+     {
+      "step_number": 5,
+      "global_step_index": 31,
+      "topic_refs": [
+       "7VDxA9bQ1P1fym4eQVKkN",
+       "7DNtRMBZ_F0K1FQk-UCM4",
+       "xgP3zIiSEr9dtYcCQikPb",
+       "6xfQic8dMwUsMQa7VtS8_",
+       "rkEdx_mZBoDjMhiluJl7O",
+       "01k_mfsp0eW6TX9yp8PDE",
+       "JXYmXAYuA-zxrkl4PRLQd",
+       "qKlo90-Cy8t_off5Qv8-6",
+       "JSqwWsfojjZTe8ynmA7fc",
+       "LEHK7ohKIzKhlGebd0k_j",
+       "m9ejACzRBJza0v-fpdfkn",
+       "_QyIZ2_vH3e3yic5NTuak"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 6,
+      "global_step_index": 32,
+      "topic_refs": [
+       "ETT9eATuyLHQe2jPqaF5I",
+       "_iV_5O5Rq07P9qRGrraTM",
+       "9BWyA0b4WrmQetSMph_mY",
+       "25f76eB9-vy3Usta-Pbsi",
+       "ZAhjB_ghHukD4RPAtNDxh",
+       "vQQSYPpcGO7ri0RFSWi0h",
+       "0OTmTRHlR3ImNU0zyLt8G",
+       "KSxjcWV6C325kZITzAhWs",
+       "-gbb16Wl--Rjx5aoM0krL",
+       "1toMuRZResgse1AtwEck6",
+       "y9Fnjnbiqt7WkrhjPITpW",
+       "gJBaVERU3prru-qRksxN4"
+      ],
+      "queries": [
+       "Data Analytics",
+       "Data Analytics fundamentals",
+       "Data Analytics: BI Analyst"
+      ]
+     },
+     {
+      "step_number": 7,
+      "global_step_index": 33,
+      "topic_refs": [
+       "wJiKBbTMLhIzelUtKn7jl",
+       "5x4NfuP6dAgjISlB-esIW",
+       "iqpVtvoebAaoB_Dj9-gdw",
+       "Zxuvc9F3bINLTdfbsx_S_",
+       "Dk31XtS7wWRzO31sdsEDo",
+       "hcbS18cpVxd55hVlUeLLT",
+       "iYe42G31fhkAO0MBaHutF",
+       "Prfa0LUmgxcp52IEObFom",
+       "D94743lQ1fAerVSpJWXfP",
+       "zGU6DyEm6xEYf1_73cbjL",
+       "Z4pAe4FpnCkUJt8RuOhC6",
+       "F21ypKzpziLCXkiKG1S5Z"
+      ],
+      "queries": [
+       "Data Analytics: BI Analyst"
+      ]
+     },
+     {
+      "step_number": 8,
+      "global_step_index": 34,
+      "topic_refs": [
+       "Du4GD-6pxbWYl4uSJRnOE",
+       "lAK9QVs97hL3ysjz2blp8",
+       "yvSf7sGEd7QiaVoetalHc",
+       "-KzusmyDQ1NgqOADpqmEX",
+       "qnUHw2f2VmTPU3-NMnoLl",
+       "_KYKLd-RNhVy-Sn1A-G5j"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 9,
+      "global_step_index": 35,
+      "topic_refs": [
+       "kpRqKLtAd3IO3nbs8Yxrh",
+       "WzPj94lYxQCjFx5YW4X9x",
+       "eqGsO6ZGk2jdG0z9-cHzz",
+       "f4MDT1RUfaICAWzyG2E6T",
+       "GoMIAQwusbT7fqJ-VnCrq",
+       "fFzCnLfZ_vSbhQjdAKLlJ"
+      ],
+      "queries": [
+       "Data Analytics",
+       "Data Analytics fundamentals",
+       "Data Analytics: BI Analyst"
+      ]
+     },
+     {
+      "step_number": 10,
+      "global_step_index": 36,
+      "topic_refs": [
+       "KXhNou5nlekbSTfLYPs_8",
+       "EDQjtoTd01ftwXxYkV9it",
+       "eKBORkRU6HCH-D4GWHyKR",
+       "sltVKaKKjmzu17jDv9OFF",
+       "GVgfPajmSqIgFZ6u2I1tK",
+       "SJGEkoTSPK2ck4IvaK6Gz",
+       "qGVDuU9RA9Y5g5vlPd-xq",
+       "wtEzdO_ZNu9jHJrFS3CrG",
+       "7t0WfLLqrD5VJQwIAmXMo",
+       "7_5PBCrsukv81mm7yTpDf"
+      ],
+      "queries": [
+       "Data Analytics fundamentals"
+      ]
+     },
+     {
+      "step_number": 11,
+      "global_step_index": 37,
+      "topic_refs": [
+       "TBcLXYtKs7_j_h_m2pAyh",
+       "t_J0MZTMWMnrImGHjXYov",
+       "Slg3fXGPTa-Z4sdZY86XK",
+       "9G-pI5NsRCq4p0FLfaMR_",
+       "mi88uLdJBXaxJ2yVOSqqo",
+       "uP8MWZqM9Z0i3eDF4Ldxv"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 12,
+      "global_step_index": 38,
+      "topic_refs": [
+       "R2zg0Ql-RsnIkV5Gmc1vN",
+       "OqHNW0PzIRsw7IBgh5U5Q",
+       "ExHCSUDxDBwsJtTelvxjP",
+       "yseEaLsEzIcqJ0YIoGujl",
+       "On6kznZxLTCpBPskdZtgT",
+       "moWrEfuKE06QwbznsH3V-",
+       "VPu8vn7-baZQ5ORJ6ViW0",
+       "0qRm81lJX_Eb6aJkJMjeL",
+       "1T2PyytlmndHreWgueD55",
+       "JHGV0V78GXubiSY9P3nTw",
+       "aJLGan5dkMefvkspFlcYo",
+       "LkbB0rpS3Du2K7_ogoc34"
+      ],
+      "queries": [
+       "Data Analytics",
+       "Data Analytics fundamentals"
+      ]
+     },
+     {
+      "step_number": 13,
+      "global_step_index": 39,
+      "topic_refs": [
+       "cxTriSZvrmXP4axKynIZW",
+       "xftv5BiyoVrFjpSN0tjsw",
+       "VpGVezYr9O6puhAF12PN2",
+       "ku3m0ZmNg23F0Z5CEb4JI",
+       "LI09SvvUUCQxLZZee_j0n",
+       "Cydlrtg_FClBUkjezqGie",
+       "7LbhfkmS7oFoSF1k5ZR1U",
+       "zEGmDHaFa-F81tWqa3i9E",
+       "7jrzQogTOc6lHXfpYLCsx",
+       "-hNguvT6SQCqAgVpoQByr",
+       "yimCxOdNtyGcbd6ZxHsBQ",
+       "KeGCHoJRHp-mBX-P5to4Y"
+      ],
+      "queries": [
+       "Data Analytics",
+       "Data Analytics fundamentals",
+       "Data Analytics: BI Analyst"
+      ]
+     },
+     {
+      "step_number": 14,
+      "global_step_index": 40,
+      "topic_refs": [
+       "Vb06K0D2vWAlSe95QJrth",
+       "fuxGZx3WGjP2TzzVV29ux",
+       "CWf_vL78f8-mSUQbPnU8e",
+       "IwnXDA-f3FHK4EEeFuToC",
+       "j-GXKpMnsVuUUUdRxAXLe",
+       "omvGuhou7_63k-Fwcc7Mu",
+       "_uLtsnyNNNRcz5A29Zpjl",
+       "9aNVqEyygNGeicdce5X8b",
+       "5MUwKGfSTKlam8KCG0A1U"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 15,
+      "global_step_index": 41,
+      "topic_refs": [
+       "3xDVJwdl3uu5EcjlZ1ytA",
+       "UIdwl_KLELI8xL2VxYJmX",
+       "qsCWo1CmR4mvy7E7qlPv5",
+       "m9EwcekZ_l0XHiKeQ8emr",
+       "4XM5ikPiHVehEtT4AB-Ea",
+       "TojDB4o0i2rs7Qcb10k1r",
+       "hqpFbDhAvyT9_4hcoSLhC",
+       "Q98GaitxocEha4zZ9d254",
+       "X8U-NQD0rYqFr_xgDWL2s",
+       "aTGsJj7Ntv5BWIzjaqvu_",
+       "k3F9Tdqo3XYgMLOKGjpxA",
+       "tUxwKTml2Go8zR9tR3cjn"
+      ],
+      "queries": [
+       "Data Analytics",
+       "Data Analytics fundamentals",
+       "Data Analytics: BI Analyst"
+      ]
+     }
+    ]
+   }
+  ]
+ }
+}
