@@ -115,6 +115,11 @@ class Config:
     # server starts (run.py), so the first roadmap request doesn't pay ~20 s for it.
     WARMUP_ON_START = _env_flag("WARMUP_ON_START", True)
 
+    # Graded code questions (app/pipeline/code_runner.py). CODE_RUNNER is "onecompiler" (default) or "fake"
+    # (runs nothing; tests and offline demos). The key is only ever sent as a request header by code_runner.
+    CODE_RUNNER = os.environ.get("CODE_RUNNER", "onecompiler").strip().lower() or "onecompiler"
+    ONECOMPILER_API_KEY = os.environ.get("ONECOMPILER_API_KEY", "").strip()
+
     # Piston (self-hosted code execution)
     PISTON_API_URL = os.environ.get("PISTON_API_URL", "http://localhost:2000/api/v2/execute")
 
