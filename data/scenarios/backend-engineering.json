@@ -4,7 +4,24 @@
   "map": {
     "scene_id": "backend-engineering",
     "theme": "An underground city of brass pipes and humming engine rooms beneath a market town, where a vegetable cellar, a parcel sorting hall, a community kitchen, a trade exchange with clattering boards and a scholarship archive vault are linked by rail carts and pneumatic tubes. The palette is copper, steel grey and warm amber, and the mood moves from orderly workshop calm in the cellar to steady authority in the vault.",
-    "edges": [["bke-1", "bke-2"], ["bke-2", "bke-3"], ["bke-3", "bke-4"], ["bke-4", "bke-5"]]
+    "edges": [
+      [
+        "bke-1",
+        "bke-2"
+      ],
+      [
+        "bke-2",
+        "bke-3"
+      ],
+      [
+        "bke-3",
+        "bke-4"
+      ],
+      [
+        "bke-4",
+        "bke-5"
+      ]
+    ]
   },
   "scenarios": [
     {
@@ -26,19 +43,37 @@
         "Pagination",
         "Core database terms"
       ],
-      "map_node": {"x": 0.1, "y": 0.84, "label": "Vegetable Cellar"},
+      "map_node": {
+        "x": 0.1,
+        "y": 0.84,
+        "label": "Vegetable Cellar"
+      },
       "questions": [
         {
           "id": "bke-1-q1",
           "type": "single_choice",
           "prompt": "Each order's items are stored as one comma-separated text value. How should the items be modelled instead?",
           "options": [
-            {"id": "a", "text": "Keep the text column, but use semicolons instead of commas"},
-            {"id": "b", "text": "Add twenty columns to orders, named item1 through item20"},
-            {"id": "c", "text": "An order_items table with one row per item linked to its order"},
-            {"id": "d", "text": "Store each order's items in a separate file on the server's disk"}
+            {
+              "id": "a",
+              "text": "Keep the text column, but use semicolons instead of commas"
+            },
+            {
+              "id": "b",
+              "text": "Add twenty columns to orders, named item1 through item20"
+            },
+            {
+              "id": "c",
+              "text": "An order_items table with one row per item linked to its order"
+            },
+            {
+              "id": "d",
+              "text": "Store each order's items in a separate file on the server's disk"
+            }
           ],
-          "correct": ["c"],
+          "correct": [
+            "c"
+          ],
           "explanation": "An order has many items, which is a one-to-many relationship. An order_items table with an order_id foreign key, a product id and a quantity lets the database filter, total and validate items with ordinary SQL instead of parsing text.",
           "why_others_wrong": {
             "a": "Changing the separator keeps the same problem: the database still cannot query or check individual items.",
@@ -53,12 +88,26 @@
           "type": "single_choice",
           "prompt": "The query SELECT * FROM orders WHERE customer_id = 812 takes several seconds on 5 million rows. What is the most direct fix?",
           "options": [
-            {"id": "a", "text": "Create an index on the orders table's customer_id column"},
-            {"id": "b", "text": "Add more CPU cores to the server that runs the PostgreSQL database"},
-            {"id": "c", "text": "Cache the full orders table in the application's memory"},
-            {"id": "d", "text": "Delete every order that is more than six months old"}
+            {
+              "id": "a",
+              "text": "Create an index on the orders table's customer_id column"
+            },
+            {
+              "id": "b",
+              "text": "Add more CPU cores to the server that runs the PostgreSQL database"
+            },
+            {
+              "id": "c",
+              "text": "Cache the full orders table in the application's memory"
+            },
+            {
+              "id": "d",
+              "text": "Delete every order that is more than six months old"
+            }
           ],
-          "correct": ["a"],
+          "correct": [
+            "a"
+          ],
           "explanation": "Without an index the database scans all 5 million rows to find one customer's orders. An index on customer_id lets it jump straight to the matching rows, turning a full scan into a fast lookup.",
           "why_others_wrong": {
             "b": "More CPU makes the full scan somewhat faster, but it still reads every row and the cost keeps growing with the table.",
@@ -73,13 +122,31 @@
           "type": "multi_select",
           "prompt": "The order-history endpoint returns every order a customer has ever placed, sometimes thousands. Which two changes make it fast and light?",
           "options": [
-            {"id": "a", "text": "Return orders a page at a time, with a cursor for the next page"},
-            {"id": "b", "text": "Raise the server's timeout so that big responses can finish"},
-            {"id": "c", "text": "Send only the fields the history screen actually displays"},
-            {"id": "d", "text": "Tell the app to keep retrying the request until it succeeds"},
-            {"id": "e", "text": "Return the same full results as CSV text instead of JSON"}
+            {
+              "id": "a",
+              "text": "Return orders a page at a time, with a cursor for the next page"
+            },
+            {
+              "id": "b",
+              "text": "Raise the server's timeout so that big responses can finish"
+            },
+            {
+              "id": "c",
+              "text": "Send only the fields the history screen actually displays"
+            },
+            {
+              "id": "d",
+              "text": "Tell the app to keep retrying the request until it succeeds"
+            },
+            {
+              "id": "e",
+              "text": "Return the same full results as CSV text instead of JSON"
+            }
           ],
-          "correct": ["a", "c"],
+          "correct": [
+            "a",
+            "c"
+          ],
           "explanation": "Pagination returns, say, 20 orders per request, with a cursor to fetch the next page, so the response size no longer grows with the customer's history. Returning only the displayed fields shrinks each order further.",
           "why_others_wrong": {
             "b": "A longer timeout lets a slow, huge response finish, but it is still slow and heavy on mobile data.",
@@ -94,18 +161,47 @@
           "type": "match",
           "prompt": "Match each database term to its meaning.",
           "items": [
-            {"id": "i1", "text": "Primary key"},
-            {"id": "i2", "text": "Foreign key"},
-            {"id": "i3", "text": "Index"},
-            {"id": "i4", "text": "Transaction"}
+            {
+              "id": "i1",
+              "text": "Primary key"
+            },
+            {
+              "id": "i2",
+              "text": "Foreign key"
+            },
+            {
+              "id": "i3",
+              "text": "Index"
+            },
+            {
+              "id": "i4",
+              "text": "Transaction"
+            }
           ],
           "targets": [
-            {"id": "t1", "text": "A group of changes that succeed together or not at all"},
-            {"id": "t2", "text": "A column that must match a row in another table"},
-            {"id": "t3", "text": "A column or set of columns that uniquely identifies a row"},
-            {"id": "t4", "text": "An extra structure that speeds up finding rows by a column"}
+            {
+              "id": "t1",
+              "text": "A group of changes that succeed together or not at all"
+            },
+            {
+              "id": "t2",
+              "text": "A column that must match a row in another table"
+            },
+            {
+              "id": "t3",
+              "text": "A column or set of columns that uniquely identifies a row"
+            },
+            {
+              "id": "t4",
+              "text": "An extra structure that speeds up finding rows by a column"
+            }
           ],
-          "correct": {"i1": "t3", "i2": "t2", "i3": "t4", "i4": "t1"},
+          "correct": {
+            "i1": "t3",
+            "i2": "t2",
+            "i3": "t4",
+            "i4": "t1"
+          },
           "explanation": "A primary key identifies each row uniquely, and a foreign key points to a row in another table, so the database can refuse an order item for an order that does not exist. An index speeds up lookups, and a transaction makes several changes all-or-nothing.",
           "why_others_wrong": {
             "common_mistake": "Thinking a foreign key makes lookups fast: it enforces that referenced rows exist, while speed comes from an index, which many databases do not create automatically for foreign keys."
@@ -134,19 +230,37 @@
         "Idempotency",
         "Rate limiting and storage choices"
       ],
-      "map_node": {"x": 0.3, "y": 0.66, "label": "Sorting Hall"},
+      "map_node": {
+        "x": 0.3,
+        "y": 0.66,
+        "label": "Sorting Hall"
+      },
       "questions": [
         {
           "id": "bke-2-q1",
           "type": "single_choice",
           "prompt": "The tracking endpoint gets 2,000 requests a second, mostly for the same parcels, and each status changes only a few times a day. What should the team do?",
           "options": [
-            {"id": "a", "text": "Query the main database directly for every single tracking request"},
-            {"id": "b", "text": "Cache each parcel's status, and clear it whenever the status changes"},
-            {"id": "c", "text": "Cache every tracking response for 24 hours and never invalidate it"},
-            {"id": "d", "text": "Turn off the tracking page during big sales to protect the main database"}
+            {
+              "id": "a",
+              "text": "Query the main database directly for every single tracking request"
+            },
+            {
+              "id": "b",
+              "text": "Cache each parcel's status, and clear it whenever the status changes"
+            },
+            {
+              "id": "c",
+              "text": "Cache every tracking response for 24 hours and never invalidate it"
+            },
+            {
+              "id": "d",
+              "text": "Turn off the tracking page during big sales to protect the main database"
+            }
           ],
-          "correct": ["b"],
+          "correct": [
+            "b"
+          ],
           "explanation": "Repeated reads of data that rarely changes are ideal for a cache such as Redis. Removing or updating the cached entry when a parcel's status changes, plus a short expiry as a safety net, keeps tracking within the one-minute freshness requirement while sparing the database.",
           "why_others_wrong": {
             "a": "Thousands of identical database queries a second waste capacity on answers that have not changed.",
@@ -161,12 +275,26 @@
           "type": "single_choice",
           "prompt": "Generating a PDF invoice takes 20 seconds and blocks web server workers. How should the endpoint work?",
           "options": [
-            {"id": "a", "text": "Increase the request timeout to 60 seconds so that every PDF can finish"},
-            {"id": "b", "text": "Generate every possible invoice in advance, once each night"},
-            {"id": "c", "text": "Queue a background job, return its id, and notify when it is done"},
-            {"id": "d", "text": "Generate a lower-quality PDF inside the same web request"}
+            {
+              "id": "a",
+              "text": "Increase the request timeout to 60 seconds so that every PDF can finish"
+            },
+            {
+              "id": "b",
+              "text": "Generate every possible invoice in advance, once each night"
+            },
+            {
+              "id": "c",
+              "text": "Queue a background job, return its id, and notify when it is done"
+            },
+            {
+              "id": "d",
+              "text": "Generate a lower-quality PDF inside the same web request"
+            }
           ],
-          "correct": ["c"],
+          "correct": [
+            "c"
+          ],
           "explanation": "Slow work should not hold a web worker. The endpoint puts a job on a queue and returns immediately, for example with 202 Accepted and a job id, a worker generates the PDF, and the seller polls the job or receives a notification when it is ready.",
           "why_others_wrong": {
             "a": "A longer timeout keeps workers blocked even longer, so fewer requests can be served.",
@@ -181,12 +309,26 @@
           "type": "single_choice",
           "prompt": "A seller's script retries a booking call after a timeout, and the seller's wallet is charged twice. What is the right fix?",
           "options": [
-            {"id": "a", "text": "Tell every seller to stop retrying any failed API calls"},
-            {"id": "b", "text": "Reject any second booking from a seller within one minute"},
-            {"id": "c", "text": "Refund the duplicate charges by hand at the end of each working day"},
-            {"id": "d", "text": "Accept an idempotency key and return the stored first result"}
+            {
+              "id": "a",
+              "text": "Tell every seller to stop retrying any failed API calls"
+            },
+            {
+              "id": "b",
+              "text": "Reject any second booking from a seller within one minute"
+            },
+            {
+              "id": "c",
+              "text": "Refund the duplicate charges by hand at the end of each working day"
+            },
+            {
+              "id": "d",
+              "text": "Accept an idempotency key and return the stored first result"
+            }
           ],
-          "correct": ["d"],
+          "correct": [
+            "d"
+          ],
           "explanation": "The first request may have succeeded even though the response timed out, so a retry is reasonable. With an idempotency key, the client sends the same unique key on every retry, and the server records the result for that key and returns it again instead of booking twice.",
           "why_others_wrong": {
             "a": "Retries are the correct way to handle timeouts; banning them leaves failed bookings unresolved.",
@@ -201,13 +343,31 @@
           "type": "multi_select",
           "prompt": "One large seller's script flooded the shared API and slowed it down for everyone. Which two measures fix this fairly?",
           "options": [
-            {"id": "a", "text": "Identify each seller with an API key on every request"},
-            {"id": "b", "text": "Block all API traffic for an hour whenever load is high"},
-            {"id": "c", "text": "Limit each key's request rate and return 429 when it is exceeded"},
-            {"id": "d", "text": "Buy a larger server and change nothing else about the API"},
-            {"id": "e", "text": "Turn off request logging so the API has less work to do"}
+            {
+              "id": "a",
+              "text": "Identify each seller with an API key on every request"
+            },
+            {
+              "id": "b",
+              "text": "Block all API traffic for an hour whenever load is high"
+            },
+            {
+              "id": "c",
+              "text": "Limit each key's request rate and return 429 when it is exceeded"
+            },
+            {
+              "id": "d",
+              "text": "Buy a larger server and change nothing else about the API"
+            },
+            {
+              "id": "e",
+              "text": "Turn off request logging so the API has less work to do"
+            }
           ],
-          "correct": ["a", "c"],
+          "correct": [
+            "a",
+            "c"
+          ],
           "explanation": "Identifying each seller lets the API apply limits per seller rather than to everyone. A per-key rate limit that returns 429 Too Many Requests, with a Retry-After header, stops one heavy client from crowding out the rest.",
           "why_others_wrong": {
             "b": "Blocking everyone punishes 2,999 sellers for one seller's script.",
@@ -222,24 +382,269 @@
           "type": "match",
           "prompt": "Match each requirement to the storage or messaging tool that fits it best.",
           "items": [
-            {"id": "i1", "text": "Charge the seller's wallet and save the booking together"},
-            {"id": "i2", "text": "Search parcels by any word in the delivery address"},
-            {"id": "i3", "text": "Send an SMS on each status change without slowing the API"},
-            {"id": "i4", "text": "Look up a parcel's current status in under a millisecond"}
+            {
+              "id": "i1",
+              "text": "Charge the seller's wallet and save the booking together"
+            },
+            {
+              "id": "i2",
+              "text": "Search parcels by any word in the delivery address"
+            },
+            {
+              "id": "i3",
+              "text": "Send an SMS on each status change without slowing the API"
+            },
+            {
+              "id": "i4",
+              "text": "Look up a parcel's current status in under a millisecond"
+            }
           ],
           "targets": [
-            {"id": "t1", "text": "A message queue with a separate consumer worker"},
-            {"id": "t2", "text": "An in-memory key-value store used as a cache"},
-            {"id": "t3", "text": "A relational database transaction"},
-            {"id": "t4", "text": "A full-text search index"}
+            {
+              "id": "t1",
+              "text": "A message queue with a separate consumer worker"
+            },
+            {
+              "id": "t2",
+              "text": "An in-memory key-value store used as a cache"
+            },
+            {
+              "id": "t3",
+              "text": "A relational database transaction"
+            },
+            {
+              "id": "t4",
+              "text": "A full-text search index"
+            }
           ],
-          "correct": {"i1": "t3", "i2": "t4", "i3": "t1", "i4": "t2"},
+          "correct": {
+            "i1": "t3",
+            "i2": "t4",
+            "i3": "t1",
+            "i4": "t2"
+          },
           "explanation": "Changes that must succeed or fail together belong in one relational transaction. Word search across addresses is what a full-text index is built for, sending SMS through a queue keeps the API fast and allows retries, and an in-memory key-value store answers simple lookups in well under a millisecond.",
           "why_others_wrong": {
             "common_mistake": "Using the cache for the wallet charge because it is fast: money changes need the durability and atomicity of a database transaction, not a cache."
           },
           "key_justification": "Pick storage by guarantee: transactions for money, search indexes for text, queues for async work, caches for fast reads.",
           "points": 10
+        }
+      ],
+      "code_pool": [
+        {
+          "id": "bke-2-c1",
+          "prompt": "Tez Parcel's public API needs a per-seller rate limit so one seller's script cannot flood it. Use fixed windows: a call at second t falls in window t // W, and a seller may make at most L calls per window. The first line is `L W`, the second is n, then n lines `seller second` in time order. Complete `rate_limit`; the program prints `allowed`, `rejected`, then `limited` followed by the sellers who had any call rejected, sorted, or NONE.",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef rate_limit(calls, limit, window):\n    \"\"\"calls: list of (seller, second) in time order. Fixed windows: second // window. A seller may make at most `limit` calls per window. Return (allowed count, rejected count, sellers with any rejection sorted).\"\"\"\n    # Write your code here.\n    return 0, 0, []\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    limit, window = map(int, data[0].split())\n    n = int(data[1])\n    calls = []\n    for i in range(n):\n        seller, second = data[2 + i].split()\n        calls.append((seller, int(second)))\n    allowed, rejected, limited = rate_limit(calls, limit, window)\n    print(\"allowed\", allowed)\n    print(\"rejected\", rejected)\n    print(\"limited\", \" \".join(limited) if limited else \"NONE\")\n\n\nmain()\n",
+          "reference_solution": "import sys\n\n\ndef rate_limit(calls, limit, window):\n    \"\"\"calls: list of (seller, second) in time order. Fixed windows: second // window. A seller may make at most `limit` calls per window. Return (allowed count, rejected count, sellers with any rejection sorted).\"\"\"\n    used = {}\n    allowed = rejected = 0\n    limited = set()\n    for seller, second in calls:\n        key = (seller, second // window)\n        if used.get(key, 0) < limit:\n            used[key] = used.get(key, 0) + 1\n            allowed += 1\n        else:\n            rejected += 1\n            limited.add(seller)\n    return allowed, rejected, sorted(limited)\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    limit, window = map(int, data[0].split())\n    n = int(data[1])\n    calls = []\n    for i in range(n):\n        seller, second = data[2 + i].split()\n        calls.append((seller, int(second)))\n    allowed, rejected, limited = rate_limit(calls, limit, window)\n    print(\"allowed\", allowed)\n    print(\"rejected\", rejected)\n    print(\"limited\", \" \".join(limited) if limited else \"NONE\")\n\n\nmain()\n",
+          "ds_topic": "hash_map",
+          "difficulty": 1,
+          "skills": [
+            "Python"
+          ],
+          "explanation": "A counter per (seller, window) in a hash map is the whole algorithm; in production it is an INCR on a Redis key that expires with the window, shared by every API server. Fixed windows allow a burst at a window edge, which sliding windows or token buckets smooth out.",
+          "key_justification": "Fixed-window rate limiting = a counter per (client, window).",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "2 10\n5\ns1 0\ns1 3\ns1 9\ns2 9\ns1 10\n",
+                  "expected_stdout": "allowed 4\nrejected 1\nlimited s1\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "4 60\n8\ns2 22\ns1 31\ns1 69\ns1 79\ns1 157\ns1 169\ns2 174\ns1 233\n",
+                  "expected_stdout": "allowed 8\nrejected 0\nlimited NONE\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "4 10\n30\ns2 0\ns1 0\ns2 3\ns3 4\ns1 5\ns2 5\ns3 5\ns4 8\ns1 10\ns3 14\ns2 14\ns3 17\ns1 18\ns1 18\ns1 19\ns4 19\ns3 21\ns4 21\ns2 21\ns4 22\ns3 22\ns4 24\ns1 24\ns4 27\ns1 34\ns2 36\ns4 36\ns1 37\ns3 38\ns4 39\n",
+                  "expected_stdout": "allowed 30\nrejected 0\nlimited NONE\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "2 5\n80\ns1 0\ns1 1\ns7 1\ns1 1\ns8 1\ns1 1\ns2 1\ns4 1\ns1 2\ns2 2\ns8 2\ns8 3\ns1 3\ns5 3\ns7 4\ns6 4\ns5 4\ns6 5\ns2 5\ns6 5\ns6 6\ns2 6\ns4 7\ns5 7\ns7 7\ns4 8\ns5 8\ns7 8\ns3 8\ns8 8\ns2 8\ns3 9\ns6 10\ns3 10\ns3 10\ns6 10\ns4 10\ns8 10\ns5 11\ns5 11\ns5 11\ns8 11\ns6 11\ns5 11\ns1 12\ns8 12\ns3 12\ns6 12\ns4 12\ns6 13\ns6 13\ns6 14\ns2 14\ns1 14\ns3 14\ns3 15\ns8 15\ns3 15\ns3 15\ns8 16\ns5 16\ns2 17\ns2 17\ns5 17\ns6 17\ns7 18\ns8 19\ns2 19\ns1 19\ns4 19\ns4 19\ns5 19\ns6 20\ns2 20\ns8 20\ns5 20\ns5 20\ns4 20\ns1 20\ns6 20\n",
+                  "expected_stdout": "allowed 59\nrejected 21\nlimited s1 s2 s3 s5 s6 s8\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1 1\n2\ns1 0\ns1 0\n",
+                  "expected_stdout": "allowed 1\nrejected 1\nlimited s1\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "1 60\n4\ns2 0\ns1 0\ns2 59\ns1 61\n",
+                  "expected_stdout": "allowed 3\nrejected 1\nlimited s2\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "4 10\n8\ns2 4\ns1 8\ns1 8\ns1 11\ns2 14\ns1 25\ns1 31\ns2 33\n",
+                  "expected_stdout": "allowed 8\nrejected 0\nlimited NONE\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "3 10\n30\ns4 3\ns3 4\ns2 4\ns4 9\ns1 9\ns2 10\ns4 11\ns3 11\ns1 13\ns3 14\ns4 15\ns4 16\ns4 17\ns3 18\ns4 18\ns2 20\ns1 21\ns2 22\ns3 25\ns2 25\ns2 26\ns4 28\ns4 28\ns1 29\ns1 30\ns3 30\ns2 33\ns1 35\ns3 36\ns1 38\n",
+                  "expected_stdout": "allowed 27\nrejected 3\nlimited s2 s4\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1 10\n80\ns6 1\ns8 2\ns1 3\ns1 4\ns4 4\ns2 5\ns3 5\ns5 5\ns5 6\ns4 7\ns8 7\ns8 8\ns6 8\ns7 8\ns7 9\ns6 9\ns4 10\ns3 11\ns2 13\ns2 13\ns5 14\ns1 14\ns1 14\ns4 15\ns8 15\ns7 16\ns7 16\ns1 17\ns6 17\ns2 17\ns6 17\ns8 17\ns3 18\ns7 18\ns4 19\ns3 19\ns7 20\ns1 20\ns4 21\ns2 21\ns4 21\ns2 23\ns7 23\ns1 23\ns8 24\ns4 24\ns3 24\ns7 25\ns7 25\ns2 25\ns6 26\ns1 26\ns3 26\ns2 26\ns6 27\ns1 27\ns3 27\ns7 28\ns6 28\ns7 30\ns1 30\ns2 32\ns1 32\ns8 33\ns6 34\ns4 34\ns5 34\ns4 35\ns3 35\ns7 35\ns7 36\ns1 36\ns6 37\ns8 38\ns7 38\ns1 38\ns4 39\ns7 40\ns7 40\ns2 40\n",
+                  "expected_stdout": "allowed 33\nrejected 47\nlimited s1 s2 s3 s4 s5 s6 s7 s8\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1 10\n2\ns10 5\ns2 5\n",
+                  "expected_stdout": "allowed 2\nrejected 0\nlimited NONE\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "3 5\n3\ns9 1\ns9 2\ns9 3\n",
+                  "expected_stdout": "allowed 3\nrejected 0\nlimited NONE\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "3 5\n8\ns1 0\ns1 1\ns2 5\ns2 11\ns1 13\ns1 17\ns1 17\ns1 20\n",
+                  "expected_stdout": "allowed 8\nrejected 0\nlimited NONE\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "4 5\n30\ns3 0\ns1 0\ns4 1\ns2 1\ns2 1\ns4 2\ns4 3\ns4 3\ns3 3\ns2 4\ns2 4\ns3 4\ns2 5\ns1 8\ns2 8\ns1 9\ns2 10\ns2 10\ns2 11\ns4 11\ns2 14\ns3 14\ns4 14\ns4 15\ns4 17\ns3 17\ns2 19\ns1 19\ns4 20\ns3 20\n",
+                  "expected_stdout": "allowed 30\nrejected 0\nlimited NONE\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "4 10\n80\ns3 0\ns6 0\ns3 0\ns2 1\ns7 2\ns1 3\ns3 3\ns7 3\ns7 4\ns6 6\ns8 6\ns2 6\ns6 7\ns3 8\ns2 9\ns5 9\ns6 10\ns1 11\ns3 12\ns8 14\ns2 14\ns8 14\ns3 14\ns2 15\ns3 16\ns1 16\ns1 16\ns7 16\ns7 16\ns1 17\ns4 18\ns3 18\ns2 18\ns6 19\ns3 19\ns4 19\ns6 19\ns7 20\ns2 21\ns7 21\ns4 21\ns7 22\ns3 22\ns8 23\ns5 23\ns7 26\ns6 26\ns5 26\ns7 26\ns6 27\ns1 27\ns3 27\ns4 27\ns4 28\ns1 29\ns7 30\ns3 30\ns2 31\ns6 31\ns3 31\ns2 32\ns4 32\ns2 32\ns7 33\ns6 33\ns4 33\ns3 34\ns6 34\ns3 35\ns2 36\ns1 37\ns2 37\ns1 37\ns6 37\ns7 37\ns4 38\ns5 39\ns1 39\ns1 40\ns5 40\n",
+                  "expected_stdout": "allowed 77\nrejected 3\nlimited s2 s3 s7\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "2 5\n4\ns1 4\ns1 4\ns1 5\ns1 9\n",
+                  "expected_stdout": "allowed 4\nrejected 0\nlimited NONE\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "bke-2-c2",
+          "prompt": "Invoice PDFs take seconds to generate, so Tez Parcel moves them to background workers. The first line is `workers n`, then n jobs `job_id arrival duration` sorted by arrival time. Jobs are taken in that order; each starts at its arrival time or as soon as any worker is free, whichever is later, and runs for its duration. Complete `finish_times` so it always knows which worker frees up first without scanning every worker. The program prints `job_id finish_time` for each job in input order.",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef finish_times(jobs, workers):\n    \"\"\"jobs: list of (job_id, arrival, duration) sorted by arrival. Each job starts at its arrival or when a worker next becomes free, whichever is later, in this order. Return (job_id, finish time) for every job, in the input order.\"\"\"\n    # Write your code here.\n    return []\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    workers, n = map(int, data[0].split())\n    jobs = []\n    for i in range(n):\n        job_id, arrival, duration = data[1 + i].split()\n        jobs.append((job_id, int(arrival), int(duration)))\n    for job_id, finish in finish_times(jobs, workers):\n        print(job_id, finish)\n\n\nmain()\n",
+          "reference_solution": "import heapq\nimport sys\n\n\ndef finish_times(jobs, workers):\n    \"\"\"jobs: list of (job_id, arrival, duration) sorted by arrival. Each job starts at its arrival or when a worker next becomes free, whichever is later, in this order. Return (job_id, finish time) for every job, in the input order.\"\"\"\n    free_at = [0] * workers          # a min-heap of the times each worker becomes free\n    out = []\n    for job_id, arrival, duration in jobs:\n        earliest = heapq.heappop(free_at)\n        finish = max(arrival, earliest) + duration\n        heapq.heappush(free_at, finish)\n        out.append((job_id, finish))\n    return out\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    workers, n = map(int, data[0].split())\n    jobs = []\n    for i in range(n):\n        job_id, arrival, duration = data[1 + i].split()\n        jobs.append((job_id, int(arrival), int(duration)))\n    for job_id, finish in finish_times(jobs, workers):\n        print(job_id, finish)\n\n\nmain()\n",
+          "ds_topic": "heap",
+          "difficulty": 2,
+          "skills": [
+            "Python"
+          ],
+          "explanation": "A min-heap of 'free at' times gives the worker that frees up first in O(log w); the job starts at the later of its arrival and that time. This is how a job queue keeps the API fast: the request returns at once and workers drain the queue at their own pace.",
+          "key_justification": "A min-heap of worker free times schedules FIFO jobs.",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "2 4\nj1 0 5\nj2 0 3\nj3 1 2\nj4 6 1\n",
+                  "expected_stdout": "j1 5\nj2 3\nj3 5\nj4 7\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "3 6\nj1 0 5\nj2 4 20\nj3 5 30\nj4 10 20\nj5 13 2\nj6 16 30\n",
+                  "expected_stdout": "j1 5\nj2 24\nj3 35\nj4 30\nj5 26\nj6 56\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1 20\nj1 2 20\nj2 9 20\nj3 10 2\nj4 12 2\nj5 13 30\nj6 15 2\nj7 18 30\nj8 18 2\nj9 19 2\nj10 20 5\nj11 24 20\nj12 24 20\nj13 27 30\nj14 28 5\nj15 35 30\nj16 37 20\nj17 41 20\nj18 42 2\nj19 48 5\nj20 55 20\n",
+                  "expected_stdout": "j1 22\nj2 42\nj3 44\nj4 46\nj5 76\nj6 78\nj7 108\nj8 110\nj9 112\nj10 117\nj11 137\nj12 157\nj13 187\nj14 192\nj15 222\nj16 242\nj17 262\nj18 264\nj19 269\nj20 289\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "4 60\nj1 0 2\nj2 2 20\nj3 5 30\nj4 6 5\nj5 7 5\nj6 7 20\nj7 8 5\nj8 9 2\nj9 19 30\nj10 20 30\nj11 21 2\nj12 21 20\nj13 26 2\nj14 32 5\nj15 40 30\nj16 40 20\nj17 42 2\nj18 49 5\nj19 52 5\nj20 52 5\nj21 52 20\nj22 53 20\nj23 58 20\nj24 62 20\nj25 66 20\nj26 72 20\nj27 72 5\nj28 74 5\nj29 80 2\nj30 82 30\nj31 85 20\nj32 86 5\nj33 89 30\nj34 94 5\nj35 101 5\nj36 104 20\nj37 107 2\nj38 110 2\nj39 113 30\nj40 120 20\nj41 122 20\nj42 130 2\nj43 130 20\nj44 134 5\nj45 148 2\nj46 151 20\nj47 152 30\nj48 152 20\nj49 153 20\nj50 153 2\nj51 159 5\nj52 159 2\nj53 160 30\nj54 160 20\nj55 163 20\nj56 166 5\nj57 170 2\nj58 171 20\nj59 172 2\nj60 179 20\n",
+                  "expected_stdout": "j1 2\nj2 22\nj3 35\nj4 11\nj5 12\nj6 31\nj7 17\nj8 19\nj9 49\nj10 52\nj11 33\nj12 53\nj13 37\nj14 42\nj15 72\nj16 69\nj17 54\nj18 58\nj19 59\nj20 63\nj21 79\nj22 83\nj23 89\nj24 92\nj25 99\nj26 103\nj27 94\nj28 97\nj29 96\nj30 126\nj31 117\nj32 104\nj33 133\nj34 109\nj35 114\nj36 134\nj37 119\nj38 121\nj39 151\nj40 146\nj41 153\nj42 136\nj43 156\nj44 151\nj45 153\nj46 171\nj47 183\nj48 173\nj49 176\nj50 173\nj51 178\nj52 175\nj53 205\nj54 196\nj55 198\nj56 188\nj57 190\nj58 210\nj59 198\nj60 218\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1 1\nsolo 5 5\n",
+                  "expected_stdout": "solo 10\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "1 3\na 0 4\nb 1 1\nc 10 2\n",
+                  "expected_stdout": "a 4\nb 5\nc 12\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "3 6\nj1 0 5\nj2 2 20\nj3 5 2\nj4 7 30\nj5 11 20\nj6 12 5\n",
+                  "expected_stdout": "j1 5\nj2 22\nj3 7\nj4 37\nj5 31\nj6 27\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "3 20\nj1 5 20\nj2 5 20\nj3 5 20\nj4 6 5\nj5 7 20\nj6 16 30\nj7 26 20\nj8 27 30\nj9 33 2\nj10 35 2\nj11 36 20\nj12 41 20\nj13 43 5\nj14 45 20\nj15 46 20\nj16 48 20\nj17 49 20\nj18 50 5\nj19 52 30\nj20 53 2\n",
+                  "expected_stdout": "j1 25\nj2 25\nj3 25\nj4 30\nj5 45\nj6 55\nj7 50\nj8 75\nj9 52\nj10 54\nj11 74\nj12 75\nj13 79\nj14 95\nj15 95\nj16 99\nj17 115\nj18 100\nj19 129\nj20 102\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "4 60\nj1 1 20\nj2 4 30\nj3 4 20\nj4 6 5\nj5 7 20\nj6 12 20\nj7 13 20\nj8 17 2\nj9 20 30\nj10 21 20\nj11 26 30\nj12 27 2\nj13 27 20\nj14 29 20\nj15 30 20\nj16 38 30\nj17 38 30\nj18 42 30\nj19 49 20\nj20 50 2\nj21 50 20\nj22 52 20\nj23 52 30\nj24 55 30\nj25 61 30\nj26 64 20\nj27 67 2\nj28 71 20\nj29 78 20\nj30 78 20\nj31 81 30\nj32 84 2\nj33 88 20\nj34 98 20\nj35 104 5\nj36 106 20\nj37 108 5\nj38 109 2\nj39 110 5\nj40 111 20\nj41 116 20\nj42 117 20\nj43 128 5\nj44 131 20\nj45 135 20\nj46 135 20\nj47 136 30\nj48 136 20\nj49 139 20\nj50 144 20\nj51 145 20\nj52 145 30\nj53 146 20\nj54 147 5\nj55 152 5\nj56 156 20\nj57 158 20\nj58 163 2\nj59 172 20\nj60 175 20\n",
+                  "expected_stdout": "j1 21\nj2 34\nj3 24\nj4 11\nj5 31\nj6 41\nj7 44\nj8 33\nj9 63\nj10 54\nj11 71\nj12 46\nj13 66\nj14 74\nj15 83\nj16 96\nj17 101\nj18 104\nj19 103\nj20 98\nj21 118\nj22 121\nj23 133\nj24 134\nj25 148\nj26 141\nj27 135\nj28 154\nj29 155\nj30 161\nj31 178\nj32 156\nj33 175\nj34 176\nj35 166\nj36 186\nj37 180\nj38 178\nj39 183\nj40 198\nj41 200\nj42 203\nj43 191\nj44 211\nj45 218\nj46 220\nj47 233\nj48 231\nj49 238\nj50 240\nj51 251\nj52 263\nj53 258\nj54 245\nj55 250\nj56 270\nj57 271\nj58 260\nj59 280\nj60 283\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "2 3\na 0 10\nb 0 10\nc 0 1\n",
+                  "expected_stdout": "a 10\nb 10\nc 11\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "3 3\nx 2 9\ny 2 1\nz 2 1\n",
+                  "expected_stdout": "x 11\ny 3\nz 3\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "1 6\nj1 2 20\nj2 6 20\nj3 6 2\nj4 7 30\nj5 15 5\nj6 16 20\n",
+                  "expected_stdout": "j1 22\nj2 42\nj3 44\nj4 74\nj5 79\nj6 99\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "3 20\nj1 9 30\nj2 9 5\nj3 14 5\nj4 14 20\nj5 16 5\nj6 20 20\nj7 27 20\nj8 27 30\nj9 40 2\nj10 44 20\nj11 46 30\nj12 46 20\nj13 47 5\nj14 48 20\nj15 54 20\nj16 55 30\nj17 56 30\nj18 56 2\nj19 57 5\nj20 60 20\n",
+                  "expected_stdout": "j1 39\nj2 14\nj3 19\nj4 34\nj5 24\nj6 44\nj7 54\nj8 69\nj9 46\nj10 66\nj11 84\nj12 86\nj13 74\nj14 94\nj15 104\nj16 116\nj17 124\nj18 106\nj19 111\nj20 131\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "2 60\nj1 0 20\nj2 3 5\nj3 5 20\nj4 8 20\nj5 9 20\nj6 10 5\nj7 13 5\nj8 19 30\nj9 21 20\nj10 24 20\nj11 26 20\nj12 32 20\nj13 34 30\nj14 35 20\nj15 37 2\nj16 38 5\nj17 42 5\nj18 46 20\nj19 47 20\nj20 55 2\nj21 60 20\nj22 65 20\nj23 67 30\nj24 72 30\nj25 76 20\nj26 82 30\nj27 82 30\nj28 84 2\nj29 92 20\nj30 94 20\nj31 104 20\nj32 105 20\nj33 110 20\nj34 110 20\nj35 110 5\nj36 113 2\nj37 121 20\nj38 123 30\nj39 123 20\nj40 127 5\nj41 132 20\nj42 136 20\nj43 137 30\nj44 143 20\nj45 145 5\nj46 149 5\nj47 150 30\nj48 156 2\nj49 156 5\nj50 162 5\nj51 164 5\nj52 164 2\nj53 168 5\nj54 169 2\nj55 172 5\nj56 172 5\nj57 175 20\nj58 175 2\nj59 176 2\nj60 177 20\n",
+                  "expected_stdout": "j1 20\nj2 8\nj3 28\nj4 40\nj5 48\nj6 45\nj7 50\nj8 78\nj9 70\nj10 90\nj11 98\nj12 110\nj13 128\nj14 130\nj15 130\nj16 135\nj17 135\nj18 155\nj19 155\nj20 157\nj21 175\nj22 177\nj23 205\nj24 207\nj25 225\nj26 237\nj27 255\nj28 239\nj29 259\nj30 275\nj31 279\nj32 295\nj33 299\nj34 315\nj35 304\nj36 306\nj37 326\nj38 345\nj39 346\nj40 350\nj41 366\nj42 370\nj43 396\nj44 390\nj45 395\nj46 400\nj47 426\nj48 402\nj49 407\nj50 412\nj51 417\nj52 419\nj53 424\nj54 426\nj55 431\nj56 431\nj57 451\nj58 433\nj59 435\nj60 455\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "4 2\np 0 1\nq 100 1\n",
+                  "expected_stdout": "p 1\nq 101\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -262,19 +667,37 @@
         "Race conditions",
         "Timeouts and failure isolation"
       ],
-      "map_node": {"x": 0.5, "y": 0.5, "label": "Community Kitchen"},
+      "map_node": {
+        "x": 0.5,
+        "y": 0.5,
+        "label": "Community Kitchen"
+      },
       "questions": [
         {
           "id": "bke-3-q1",
           "type": "single_choice",
           "prompt": "Listing 50 donations triggers 51 database queries: one for the list and one per donation to fetch its restaurant. What is the fix?",
           "options": [
-            {"id": "a", "text": "Run the 50 restaurant queries in parallel threads"},
-            {"id": "b", "text": "Load the restaurants with a join or one batched query"},
-            {"id": "c", "text": "Cache each restaurant query's result for a whole week or more"},
-            {"id": "d", "text": "Show only 5 donations per page to cut the queries"}
+            {
+              "id": "a",
+              "text": "Run the 50 restaurant queries in parallel threads"
+            },
+            {
+              "id": "b",
+              "text": "Load the restaurants with a join or one batched query"
+            },
+            {
+              "id": "c",
+              "text": "Cache each restaurant query's result for a whole week or more"
+            },
+            {
+              "id": "d",
+              "text": "Show only 5 donations per page to cut the queries"
+            }
           ],
-          "correct": ["b"],
+          "correct": [
+            "b"
+          ],
           "explanation": "This is the N+1 query problem: one query for the list plus one per row. Joining the restaurant data in the same query, or fetching all needed restaurants with a single WHERE id IN (...) query, which ORMs call eager loading, brings it down to one or two queries.",
           "why_others_wrong": {
             "a": "Parallel queries still make 51 round trips and use 50 database connections at once.",
@@ -289,12 +712,26 @@
           "type": "single_choice",
           "prompt": "Under load, requests hang and logs show 'too many connections' from PostgreSQL. The code opens a new connection in each request and does not close it when an error occurs. What should change?",
           "options": [
-            {"id": "a", "text": "Raise PostgreSQL's connection limit to 10,000 to make room"},
-            {"id": "b", "text": "Restart the API server every hour to drop leftover connections"},
-            {"id": "c", "text": "Use a connection pool and always release connections on errors"},
-            {"id": "d", "text": "Open two connections per request so one is always free to use"}
+            {
+              "id": "a",
+              "text": "Raise PostgreSQL's connection limit to 10,000 to make room"
+            },
+            {
+              "id": "b",
+              "text": "Restart the API server every hour to drop leftover connections"
+            },
+            {
+              "id": "c",
+              "text": "Use a connection pool and always release connections on errors"
+            },
+            {
+              "id": "d",
+              "text": "Open two connections per request so one is always free to use"
+            }
           ],
-          "correct": ["c"],
+          "correct": [
+            "c"
+          ],
           "explanation": "Connections that are never closed after errors pile up until the database refuses new ones. A pool keeps a bounded set of reusable connections, and borrowing them in a with-block or try-finally guarantees each one is returned even when the request fails.",
           "why_others_wrong": {
             "a": "Each PostgreSQL connection costs memory, so a huge limit can exhaust the server while the leak keeps growing.",
@@ -309,12 +746,26 @@
           "type": "single_choice",
           "prompt": "Two volunteers tap 'claim' at the same moment, and both are told the donation is theirs. The code reads the row, checks claimed_by is empty, then updates it. What is the correct fix?",
           "options": [
-            {"id": "a", "text": "Update with WHERE claimed_by IS NULL and check the rows changed"},
-            {"id": "b", "text": "Make the app wait one second before sending a claim request"},
-            {"id": "c", "text": "Check claimed_by twice in a row before running the update"},
-            {"id": "d", "text": "Show a warning that tells volunteers never to tap at the same moment"}
+            {
+              "id": "a",
+              "text": "Update with WHERE claimed_by IS NULL and check the rows changed"
+            },
+            {
+              "id": "b",
+              "text": "Make the app wait one second before sending a claim request"
+            },
+            {
+              "id": "c",
+              "text": "Check claimed_by twice in a row before running the update"
+            },
+            {
+              "id": "d",
+              "text": "Show a warning that tells volunteers never to tap at the same moment"
+            }
           ],
-          "correct": ["a"],
+          "correct": [
+            "a"
+          ],
           "explanation": "Between one request's read and its update, the other request can read the same empty value, which is a race condition. A single conditional update, UPDATE ... SET claimed_by = ? WHERE id = ? AND claimed_by IS NULL, is atomic, so only one request changes a row, and the other sees zero rows affected and is told the donation is taken.",
           "why_others_wrong": {
             "b": "A delay just moves the race; two delayed requests can still collide.",
@@ -329,13 +780,31 @@
           "type": "multi_select",
           "prompt": "When the SMS provider becomes slow, its calls hang for 60 seconds and every API worker ends up stuck waiting. Which two changes stop this?",
           "options": [
-            {"id": "a", "text": "Set a short timeout on every call to the SMS provider"},
-            {"id": "b", "text": "Run 1,000 workers so some are always free to serve requests"},
-            {"id": "c", "text": "Send SMS from a background queue that retries failed messages"},
-            {"id": "d", "text": "Retry each failed SMS call immediately in a tight loop"},
-            {"id": "e", "text": "Remove the error logging around the SMS provider call"}
+            {
+              "id": "a",
+              "text": "Set a short timeout on every call to the SMS provider"
+            },
+            {
+              "id": "b",
+              "text": "Run 1,000 workers so some are always free to serve requests"
+            },
+            {
+              "id": "c",
+              "text": "Send SMS from a background queue that retries failed messages"
+            },
+            {
+              "id": "d",
+              "text": "Retry each failed SMS call immediately in a tight loop"
+            },
+            {
+              "id": "e",
+              "text": "Remove the error logging around the SMS provider call"
+            }
           ],
-          "correct": ["a", "c"],
+          "correct": [
+            "a",
+            "c"
+          ],
           "explanation": "A short timeout stops one slow dependency from holding a worker indefinitely. Moving SMS sending to a background queue means a slow provider delays only the messages, which are retried later, never the API requests that volunteers are waiting on.",
           "why_others_wrong": {
             "b": "With a 60-second hang, even 1,000 workers fill up under enough traffic, and they cost memory.",
@@ -350,24 +819,270 @@
           "type": "match",
           "prompt": "Match each production symptom to its most likely cause.",
           "items": [
-            {"id": "i1", "text": "Latency spikes every hour, on the hour"},
-            {"id": "i2", "text": "Errors saying a column does not exist, starting right after a deploy"},
-            {"id": "i3", "text": "Memory climbs steadily until the server is restarted each night"},
-            {"id": "i4", "text": "WHERE lower(email) = ? is slow even though email is indexed"}
+            {
+              "id": "i1",
+              "text": "Latency spikes every hour, on the hour"
+            },
+            {
+              "id": "i2",
+              "text": "Errors saying a column does not exist, starting right after a deploy"
+            },
+            {
+              "id": "i3",
+              "text": "Memory climbs steadily until the server is restarted each night"
+            },
+            {
+              "id": "i4",
+              "text": "WHERE lower(email) = ? is slow even though email is indexed"
+            }
           ],
           "targets": [
-            {"id": "t1", "text": "The new code shipped before its database migration ran"},
-            {"id": "t2", "text": "An in-process cache that has no size limit or expiry"},
-            {"id": "t3", "text": "The function call on the column stops the index being used"},
-            {"id": "t4", "text": "An hourly batch job competing for the same database"}
+            {
+              "id": "t1",
+              "text": "The new code shipped before its database migration ran"
+            },
+            {
+              "id": "t2",
+              "text": "An in-process cache that has no size limit or expiry"
+            },
+            {
+              "id": "t3",
+              "text": "The function call on the column stops the index being used"
+            },
+            {
+              "id": "t4",
+              "text": "An hourly batch job competing for the same database"
+            }
           ],
-          "correct": {"i1": "t4", "i2": "t1", "i3": "t2", "i4": "t3"},
+          "correct": {
+            "i1": "t4",
+            "i2": "t1",
+            "i3": "t2",
+            "i4": "t3"
+          },
           "explanation": "A spike on a fixed schedule points to a scheduled job. Missing-column errors right after a deploy mean the code expects a schema that is not there yet, steadily growing memory is something that never frees entries, and wrapping an indexed column in a function hides it from a plain index, which needs an expression index on lower(email).",
           "why_others_wrong": {
             "common_mistake": "Adding a second plain index on email for the slow lower(email) query: the query compares the function's result, so only an index built on lower(email) itself can be used."
           },
           "key_justification": "Timing, error text and growth patterns point to distinct backend causes.",
           "points": 10
+        }
+      ],
+      "code_pool": [
+        {
+          "id": "bke-3-c1",
+          "prompt": "Two volunteers sometimes claim the same donation. The fix is to let the database decide: the first committed claim wins and later ones are rejected (for example UPDATE ... WHERE claimed_by IS NULL). Model the outcome. The first line is n, then n lines `volunteer donation` in commit order. Complete `settle_claims`; the program prints `donation volunteer` for each claimed donation, sorted by donation id in string order, then `rejected k`.",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef settle_claims(claims):\n    \"\"\"claims: list of (volunteer, donation) in the order the database committed them. The first claim on a donation wins. Return ([(donation, winning volunteer)] sorted by donation id, number of rejected claims).\"\"\"\n    # Write your code here.\n    return [], 0\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    claims = [tuple(data[1 + i].split()) for i in range(n)]\n    winners, rejected = settle_claims(claims)\n    for donation, volunteer in winners:\n        print(donation, volunteer)\n    print(\"rejected\", rejected)\n\n\nmain()\n",
+          "reference_solution": "import sys\n\n\ndef settle_claims(claims):\n    \"\"\"claims: list of (volunteer, donation) in the order the database committed them. The first claim on a donation wins. Return ([(donation, winning volunteer)] sorted by donation id, number of rejected claims).\"\"\"\n    owner = {}\n    rejected = 0\n    for volunteer, donation in claims:\n        if donation in owner:\n            rejected += 1\n        else:\n            owner[donation] = volunteer\n    return sorted(owner.items()), rejected\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    claims = [tuple(data[1 + i].split()) for i in range(n)]\n    winners, rejected = settle_claims(claims)\n    for donation, volunteer in winners:\n        print(donation, volunteer)\n    print(\"rejected\", rejected)\n\n\nmain()\n",
+          "ds_topic": "hash_map",
+          "difficulty": 1,
+          "skills": [
+            "Python",
+            "SQL"
+          ],
+          "explanation": "'Check then set' in application code races; making the check and the set one atomic step (a conditional UPDATE, or a unique constraint) means only the first commit succeeds. Here a dictionary plays the database row: a donation is set once and later claims are rejected.",
+          "key_justification": "First-writer-wins with an atomic conditional update.",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "4\nv1 d2\nv2 d2\nv3 d1\nv1 d1\n",
+                  "expected_stdout": "d1 v3\nd2 v1\nrejected 2\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "6\nv9 d1\nv8 d3\nv10 d3\nv10 d4\nv4 d3\nv8 d2\n",
+                  "expected_stdout": "d1 v9\nd2 v8\nd3 v8\nd4 v10\nrejected 2\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "25\nv3 d11\nv7 d10\nv8 d13\nv5 d10\nv2 d2\nv5 d6\nv12 d10\nv2 d13\nv4 d5\nv6 d6\nv6 d10\nv3 d11\nv11 d12\nv12 d8\nv3 d4\nv9 d7\nv7 d4\nv5 d12\nv3 d3\nv1 d11\nv3 d9\nv8 d9\nv8 d12\nv6 d4\nv1 d2\n",
+                  "expected_stdout": "d10 v7\nd11 v3\nd12 v11\nd13 v8\nd2 v2\nd3 v3\nd4 v3\nd5 v4\nd6 v5\nd7 v9\nd8 v12\nd9 v3\nrejected 13\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "70\nv11 d33\nv4 d6\nv4 d29\nv11 d8\nv6 d25\nv12 d31\nv5 d12\nv8 d35\nv1 d12\nv3 d21\nv10 d26\nv5 d33\nv9 d36\nv8 d30\nv1 d7\nv9 d35\nv11 d13\nv7 d12\nv6 d20\nv6 d31\nv5 d14\nv5 d23\nv3 d19\nv8 d20\nv8 d8\nv11 d18\nv7 d9\nv9 d15\nv8 d17\nv6 d13\nv7 d17\nv6 d13\nv6 d18\nv6 d1\nv11 d22\nv11 d23\nv8 d35\nv5 d22\nv2 d23\nv8 d8\nv1 d22\nv2 d35\nv2 d28\nv5 d18\nv3 d8\nv1 d27\nv3 d22\nv3 d7\nv10 d20\nv9 d26\nv8 d34\nv5 d16\nv1 d1\nv1 d34\nv1 d15\nv6 d5\nv4 d23\nv1 d35\nv12 d24\nv8 d21\nv7 d9\nv2 d26\nv12 d10\nv6 d27\nv8 d10\nv7 d1\nv11 d25\nv9 d22\nv6 d15\nv1 d33\n",
+                  "expected_stdout": "d1 v6\nd10 v12\nd12 v5\nd13 v11\nd14 v5\nd15 v9\nd16 v5\nd17 v8\nd18 v11\nd19 v3\nd20 v6\nd21 v3\nd22 v11\nd23 v5\nd24 v12\nd25 v6\nd26 v10\nd27 v1\nd28 v2\nd29 v4\nd30 v8\nd31 v12\nd33 v11\nd34 v8\nd35 v8\nd36 v9\nd5 v6\nd6 v4\nd7 v1\nd8 v11\nd9 v7\nrejected 39\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1\nv9 d9\n",
+                  "expected_stdout": "d9 v9\nrejected 0\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "2\nv5 d10\nv6 d9\n",
+                  "expected_stdout": "d10 v5\nd9 v6\nrejected 0\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "6\nv7 d4\nv11 d4\nv4 d3\nv7 d2\nv9 d3\nv4 d3\n",
+                  "expected_stdout": "d2 v7\nd3 v4\nd4 v7\nrejected 3\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "25\nv6 d7\nv12 d12\nv7 d2\nv12 d7\nv3 d8\nv11 d13\nv10 d2\nv10 d4\nv8 d8\nv11 d8\nv6 d10\nv12 d10\nv3 d11\nv4 d9\nv7 d5\nv4 d5\nv11 d1\nv6 d9\nv4 d8\nv9 d4\nv10 d13\nv6 d1\nv10 d7\nv9 d8\nv7 d8\n",
+                  "expected_stdout": "d1 v11\nd10 v6\nd11 v3\nd12 v12\nd13 v11\nd2 v7\nd4 v10\nd5 v7\nd7 v6\nd8 v3\nd9 v4\nrejected 14\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "70\nv5 d35\nv3 d29\nv5 d12\nv7 d10\nv12 d32\nv5 d16\nv1 d27\nv8 d19\nv8 d4\nv10 d36\nv3 d23\nv6 d10\nv4 d16\nv5 d25\nv2 d36\nv10 d9\nv3 d13\nv10 d9\nv2 d14\nv9 d27\nv8 d14\nv9 d26\nv6 d17\nv11 d13\nv4 d8\nv1 d25\nv3 d34\nv7 d29\nv11 d6\nv3 d4\nv10 d26\nv8 d23\nv12 d27\nv12 d12\nv2 d17\nv5 d8\nv1 d22\nv9 d17\nv12 d36\nv1 d24\nv4 d18\nv9 d6\nv5 d34\nv1 d1\nv12 d8\nv5 d26\nv3 d3\nv4 d26\nv8 d3\nv8 d25\nv5 d20\nv1 d15\nv9 d12\nv10 d2\nv7 d34\nv2 d36\nv12 d14\nv12 d19\nv10 d36\nv6 d14\nv11 d12\nv3 d11\nv10 d12\nv12 d13\nv11 d30\nv2 d19\nv8 d2\nv4 d32\nv8 d5\nv10 d17\n",
+                  "expected_stdout": "d1 v1\nd10 v7\nd11 v3\nd12 v5\nd13 v3\nd14 v2\nd15 v1\nd16 v5\nd17 v6\nd18 v4\nd19 v8\nd2 v10\nd20 v5\nd22 v1\nd23 v3\nd24 v1\nd25 v5\nd26 v9\nd27 v1\nd29 v3\nd3 v3\nd30 v11\nd32 v12\nd34 v3\nd35 v5\nd36 v10\nd4 v8\nd5 v8\nd6 v11\nd8 v4\nd9 v10\nrejected 39\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "3\nv2 dx\nv3 dy\nv2 dx\n",
+                  "expected_stdout": "dx v2\ndy v3\nrejected 1\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "3\nv1 d1\nv1 d1\nv2 d1\n",
+                  "expected_stdout": "d1 v1\nrejected 2\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "6\nv9 d1\nv11 d4\nv3 d1\nv1 d2\nv1 d1\nv3 d1\n",
+                  "expected_stdout": "d1 v9\nd2 v1\nd4 v11\nrejected 3\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "25\nv4 d13\nv5 d4\nv6 d4\nv9 d2\nv7 d6\nv4 d10\nv1 d6\nv8 d10\nv7 d6\nv5 d4\nv2 d8\nv11 d12\nv1 d5\nv1 d13\nv5 d7\nv8 d8\nv9 d2\nv2 d11\nv5 d9\nv2 d1\nv11 d5\nv6 d6\nv11 d13\nv11 d9\nv8 d8\n",
+                  "expected_stdout": "d1 v2\nd10 v4\nd11 v2\nd12 v11\nd13 v4\nd2 v9\nd4 v5\nd5 v1\nd6 v7\nd7 v5\nd8 v2\nd9 v5\nrejected 13\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "70\nv12 d4\nv10 d19\nv1 d25\nv12 d20\nv10 d27\nv1 d1\nv10 d7\nv9 d23\nv5 d24\nv11 d18\nv5 d30\nv9 d18\nv9 d15\nv6 d31\nv7 d25\nv2 d30\nv7 d1\nv5 d21\nv7 d21\nv5 d24\nv10 d33\nv7 d20\nv12 d4\nv10 d18\nv3 d34\nv4 d14\nv1 d29\nv1 d35\nv2 d6\nv3 d15\nv5 d15\nv8 d13\nv12 d22\nv1 d20\nv5 d36\nv1 d8\nv6 d10\nv8 d29\nv2 d32\nv2 d6\nv7 d7\nv10 d26\nv10 d12\nv8 d13\nv10 d12\nv8 d32\nv3 d25\nv1 d10\nv2 d31\nv7 d11\nv3 d14\nv10 d33\nv5 d22\nv4 d23\nv8 d17\nv1 d25\nv2 d4\nv4 d1\nv8 d14\nv5 d35\nv9 d14\nv10 d26\nv3 d16\nv3 d13\nv11 d7\nv7 d30\nv4 d7\nv3 d4\nv9 d27\nv2 d3\n",
+                  "expected_stdout": "d1 v1\nd10 v6\nd11 v7\nd12 v10\nd13 v8\nd14 v4\nd15 v9\nd16 v3\nd17 v8\nd18 v11\nd19 v10\nd20 v12\nd21 v5\nd22 v12\nd23 v9\nd24 v5\nd25 v1\nd26 v10\nd27 v10\nd29 v1\nd3 v2\nd30 v5\nd31 v6\nd32 v2\nd33 v10\nd34 v3\nd35 v1\nd36 v5\nd4 v12\nd6 v2\nd7 v10\nd8 v1\nrejected 38\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "2\nv1 d1\nv2 d2\n",
+                  "expected_stdout": "d1 v1\nd2 v2\nrejected 0\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "bke-3-c2",
+          "prompt": "Under load, Annadaan's API threw 'connection pool exhausted' errors. Simulate the pool to see which requests give up. The first line is `size max_wait n`, then n requests `id start duration` sorted by start. Each request, in order, takes the connection that becomes free soonest, at max(start, that free time); if it would have to wait more than max_wait it times out and takes no connection. Complete `timed_out`; the program prints the ids that timed out, space-separated, or NONE.",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef timed_out(requests, size, max_wait):\n    \"\"\"requests: list of (id, start, duration) sorted by start. A pool has `size` connections. Each request takes the connection that frees up first, at max(start, free time); if that means waiting more than max_wait it gives up (and uses no connection). Return the ids that gave up, in input order.\"\"\"\n    # Write your code here.\n    return []\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    size, max_wait, n = map(int, data[0].split())\n    requests = []\n    for i in range(n):\n        request_id, start, duration = data[1 + i].split()\n        requests.append((request_id, int(start), int(duration)))\n    lost = timed_out(requests, size, max_wait)\n    print(\" \".join(lost) if lost else \"NONE\")\n\n\nmain()\n",
+          "reference_solution": "import heapq\nimport sys\n\n\ndef timed_out(requests, size, max_wait):\n    \"\"\"requests: list of (id, start, duration) sorted by start. A pool has `size` connections. Each request takes the connection that frees up first, at max(start, free time); if that means waiting more than max_wait it gives up (and uses no connection). Return the ids that gave up, in input order.\"\"\"\n    free_at = [0] * size             # min-heap of connection free times\n    lost = []\n    for request_id, start, duration in requests:\n        got = max(start, free_at[0])\n        if got - start > max_wait:\n            lost.append(request_id)  # gives up without taking a connection\n            continue\n        heapq.heapreplace(free_at, got + duration)\n    return lost\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    size, max_wait, n = map(int, data[0].split())\n    requests = []\n    for i in range(n):\n        request_id, start, duration = data[1 + i].split()\n        requests.append((request_id, int(start), int(duration)))\n    lost = timed_out(requests, size, max_wait)\n    print(\" \".join(lost) if lost else \"NONE\")\n\n\nmain()\n",
+          "ds_topic": "heap",
+          "difficulty": 2,
+          "skills": [
+            "Python"
+          ],
+          "explanation": "The pool is a min-heap of the times each connection frees up; the top of the heap is the next free connection. A request that would wait longer than the timeout fails fast instead of piling up. Long-held connections (slow queries, slow SMS calls inside a transaction) are what drain it.",
+          "key_justification": "Model a resource pool as a min-heap of free times.",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "1 2 3\nr1 0 5\nr2 1 2\nr3 5 1\n",
+                  "expected_stdout": "r2\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "3 2 6\nr1 0 15\nr2 1 1\nr3 4 15\nr4 9 1\nr5 10 1\nr6 11 15\n",
+                  "expected_stdout": "NONE\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "4 0 25\nr1 2 3\nr2 3 3\nr3 3 1\nr4 3 3\nr5 3 3\nr6 4 2\nr7 9 3\nr8 10 8\nr9 14 15\nr10 16 8\nr11 24 8\nr12 25 2\nr13 32 1\nr14 33 2\nr15 35 3\nr16 35 15\nr17 36 15\nr18 40 8\nr19 40 8\nr20 41 1\nr21 43 2\nr22 45 3\nr23 47 1\nr24 48 15\nr25 48 15\n",
+                  "expected_stdout": "r5 r20 r21 r22 r23\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "3 5 60\nr1 1 8\nr2 5 2\nr3 6 1\nr4 8 2\nr5 9 1\nr6 10 2\nr7 11 2\nr8 13 15\nr9 17 3\nr10 23 15\nr11 25 1\nr12 27 8\nr13 28 1\nr14 30 1\nr15 30 2\nr16 32 3\nr17 32 3\nr18 35 2\nr19 37 2\nr20 39 3\nr21 43 8\nr22 44 2\nr23 44 2\nr24 46 3\nr25 47 8\nr26 52 2\nr27 53 15\nr28 53 8\nr29 53 1\nr30 54 15\nr31 56 15\nr32 56 3\nr33 59 15\nr34 60 1\nr35 61 1\nr36 61 2\nr37 62 15\nr38 63 15\nr39 64 15\nr40 70 15\nr41 72 8\nr42 75 2\nr43 79 15\nr44 81 1\nr45 83 15\nr46 84 2\nr47 85 1\nr48 85 15\nr49 88 8\nr50 92 2\nr51 97 2\nr52 98 1\nr53 98 15\nr54 99 3\nr55 108 8\nr56 111 2\nr57 112 3\nr58 112 1\nr59 113 3\nr60 113 8\n",
+                  "expected_stdout": "r31 r32 r34 r35 r36 r37 r39 r42 r49 r50\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1 0 2\nr1 0 1\nr2 1 1\n",
+                  "expected_stdout": "NONE\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "2 0 3\na 0 3\nb 0 3\nc 1 1\n",
+                  "expected_stdout": "c\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "3 5 6\nr1 6 8\nr2 8 15\nr3 10 3\nr4 10 1\nr5 11 3\nr6 11 3\n",
+                  "expected_stdout": "NONE\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "2 5 25\nr1 0 1\nr2 4 15\nr3 4 15\nr4 5 15\nr5 6 2\nr6 6 3\nr7 6 1\nr8 7 2\nr9 8 15\nr10 12 15\nr11 13 1\nr12 14 15\nr13 17 2\nr14 19 2\nr15 25 15\nr16 30 1\nr17 31 15\nr18 34 3\nr19 36 1\nr20 36 8\nr21 38 8\nr22 38 3\nr23 38 3\nr24 42 2\nr25 45 8\n",
+                  "expected_stdout": "r4 r5 r6 r7 r8 r9 r10 r11 r18 r21 r22 r23 r24\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "2 5 60\nr1 0 3\nr2 3 8\nr3 3 1\nr4 4 3\nr5 4 8\nr6 7 1\nr7 8 8\nr8 9 3\nr9 9 15\nr10 10 1\nr11 13 2\nr12 13 3\nr13 19 3\nr14 20 2\nr15 21 8\nr16 22 1\nr17 23 15\nr18 28 15\nr19 29 1\nr20 31 2\nr21 32 15\nr22 33 8\nr23 33 15\nr24 35 1\nr25 36 15\nr26 37 15\nr27 39 1\nr28 40 2\nr29 44 1\nr30 47 15\nr31 48 3\nr32 50 1\nr33 52 8\nr34 53 8\nr35 54 8\nr36 56 15\nr37 63 15\nr38 66 2\nr39 68 2\nr40 69 15\nr41 71 15\nr42 76 3\nr43 82 8\nr44 86 8\nr45 86 8\nr46 87 3\nr47 88 8\nr48 88 2\nr49 88 1\nr50 90 1\nr51 92 15\nr52 93 8\nr53 95 15\nr54 104 8\nr55 106 1\nr56 109 3\nr57 109 15\nr58 115 8\nr59 118 3\nr60 120 8\n",
+                  "expected_stdout": "r8 r9 r19 r20 r21 r22 r23 r26 r27 r28 r31 r34 r35 r36 r41 r46 r47 r48 r49 r53 r60\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1 0 3\nr1 0 9\nr2 1 1\nr3 2 1\n",
+                  "expected_stdout": "r2 r3\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "2 5 3\nx 0 4\ny 0 4\nz 2 1\n",
+                  "expected_stdout": "NONE\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "4 0 6\nr1 3 15\nr2 4 1\nr3 7 8\nr4 9 15\nr5 11 3\nr6 11 15\n",
+                  "expected_stdout": "r6\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "4 5 25\nr1 0 2\nr2 1 8\nr3 3 3\nr4 9 15\nr5 9 8\nr6 10 3\nr7 18 15\nr8 19 15\nr9 19 8\nr10 21 15\nr11 21 15\nr12 24 15\nr13 30 15\nr14 32 1\nr15 32 2\nr16 34 1\nr17 34 2\nr18 38 15\nr19 40 2\nr20 40 1\nr21 41 2\nr22 42 3\nr23 42 3\nr24 48 2\nr25 49 8\n",
+                  "expected_stdout": "r11\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1 5 60\nr1 7 3\nr2 8 8\nr3 8 8\nr4 10 8\nr5 12 2\nr6 13 15\nr7 13 15\nr8 14 1\nr9 16 8\nr10 16 3\nr11 17 15\nr12 22 8\nr13 25 2\nr14 28 8\nr15 30 8\nr16 30 3\nr17 31 2\nr18 32 3\nr19 32 2\nr20 34 3\nr21 34 15\nr22 35 15\nr23 36 3\nr24 37 3\nr25 46 2\nr26 46 2\nr27 47 15\nr28 51 1\nr29 51 3\nr30 52 3\nr31 55 3\nr32 59 3\nr33 60 1\nr34 63 1\nr35 65 1\nr36 65 15\nr37 69 2\nr38 76 2\nr39 77 3\nr40 86 1\nr41 86 2\nr42 90 8\nr43 92 1\nr44 93 15\nr45 95 1\nr46 100 2\nr47 101 3\nr48 105 3\nr49 107 3\nr50 107 8\nr51 108 3\nr52 108 15\nr53 110 1\nr54 114 1\nr55 115 8\nr56 116 3\nr57 116 2\nr58 117 15\nr59 118 15\nr60 120 2\n",
+                  "expected_stdout": "r3 r4 r5 r7 r8 r9 r10 r11 r12 r13 r15 r16 r17 r18 r19 r20 r21 r22 r24 r28 r29 r30 r31 r32 r37 r38 r39 r43 r45 r46 r47 r48 r49 r50 r52 r53 r56 r57 r58 r59\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "3 1 1\nonly 0 1\n",
+                  "expected_stdout": "NONE\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -390,19 +1105,37 @@
         "Relational versus document storage",
         "Resilience between services"
       ],
-      "map_node": {"x": 0.7, "y": 0.36, "label": "Trade Exchange"},
+      "map_node": {
+        "x": 0.7,
+        "y": 0.36,
+        "label": "Trade Exchange"
+      },
       "questions": [
         {
           "id": "bke-4-q1",
           "type": "single_choice",
           "prompt": "Reads are 95% of traffic and the primary database is at 85% CPU. What is the best next step?",
           "options": [
-            {"id": "a", "text": "Add read replicas for browsing and search; keep writes on the primary"},
-            {"id": "b", "text": "Split the data across ten database shards right away"},
-            {"id": "c", "text": "Move every table from PostgreSQL to a new NoSQL database this month"},
-            {"id": "d", "text": "Turn off product search until the traffic calms down"}
+            {
+              "id": "a",
+              "text": "Add read replicas for browsing and search; keep writes on the primary"
+            },
+            {
+              "id": "b",
+              "text": "Split the data across ten database shards right away"
+            },
+            {
+              "id": "c",
+              "text": "Move every table from PostgreSQL to a new NoSQL database this month"
+            },
+            {
+              "id": "d",
+              "text": "Turn off product search until the traffic calms down"
+            }
           ],
-          "correct": ["a"],
+          "correct": [
+            "a"
+          ],
           "explanation": "With reads dominating, read replicas copy the primary's data and take over browsing and search queries, freeing the primary for writes. It is a well-understood step that needs little code change and suits a team that knows PostgreSQL.",
           "why_others_wrong": {
             "b": "Sharding is complex to build and operate, and it solves write scaling, which is not the bottleneck here.",
@@ -417,12 +1150,26 @@
           "type": "single_choice",
           "prompt": "After adding replicas, a trader updates a product's price, refreshes the page and sees the old price for a few seconds. What is happening, and what is a good fix?",
           "options": [
-            {"id": "a", "text": "The price update failed; retry it until the new price sticks"},
-            {"id": "b", "text": "The browser's cache is broken; tell traders to clear it"},
-            {"id": "c", "text": "Replicas lag the primary; send the editor's reads to the primary"},
-            {"id": "d", "text": "The replicas are corrupted; rebuild each of them from the latest backup"}
+            {
+              "id": "a",
+              "text": "The price update failed; retry it until the new price sticks"
+            },
+            {
+              "id": "b",
+              "text": "The browser's cache is broken; tell traders to clear it"
+            },
+            {
+              "id": "c",
+              "text": "Replicas lag the primary; send the editor's reads to the primary"
+            },
+            {
+              "id": "d",
+              "text": "The replicas are corrupted; rebuild each of them from the latest backup"
+            }
           ],
-          "correct": ["c"],
+          "correct": [
+            "c"
+          ],
           "explanation": "Replicas apply the primary's changes slightly later, so a read right after a write can return the old value. Sending a user's reads to the primary for a short time after they write, or for pages they have just edited, gives them read-your-writes consistency while everyone else still reads from the replicas.",
           "why_others_wrong": {
             "a": "The update succeeded on the primary; retrying it changes nothing.",
@@ -437,12 +1184,26 @@
           "type": "single_choice",
           "prompt": "Product attributes vary wildly by category, while orders need transactions. Given the team's skills, how should the data be stored?",
           "options": [
-            {"id": "a", "text": "Move everything to a document database because products vary"},
-            {"id": "b", "text": "Keep PostgreSQL and store the varying attributes in a JSONB column"},
-            {"id": "c", "text": "Make one table per product category, with a hundred or more tables in all"},
-            {"id": "d", "text": "Store every product as a single plain text description field"}
+            {
+              "id": "a",
+              "text": "Move everything to a document database because products vary"
+            },
+            {
+              "id": "b",
+              "text": "Keep PostgreSQL and store the varying attributes in a JSONB column"
+            },
+            {
+              "id": "c",
+              "text": "Make one table per product category, with a hundred or more tables in all"
+            },
+            {
+              "id": "d",
+              "text": "Store every product as a single plain text description field"
+            }
           ],
-          "correct": ["b"],
+          "correct": [
+            "b"
+          ],
           "explanation": "PostgreSQL's JSONB column holds flexible, category-specific attributes and can still be indexed and queried, while orders and payments keep full relational transactions. It handles both needs with the database the team already knows.",
           "why_others_wrong": {
             "a": "The team has no document-database experience, and orders still need strong transactional guarantees.",
@@ -457,13 +1218,31 @@
           "type": "multi_select",
           "prompt": "When the inventory service went down, ordering stopped completely because the order service calls it synchronously. Which two changes improve resilience?",
           "options": [
-            {"id": "a", "text": "Add timeouts and a circuit breaker on calls to inventory"},
-            {"id": "b", "text": "Retry each failed inventory call forever until it succeeds"},
-            {"id": "c", "text": "Record orders and publish an event for inventory to process"},
-            {"id": "d", "text": "Remove every timeout so that slow calls can always finish"},
-            {"id": "e", "text": "Merge both services into one process and keep it unchanged"}
+            {
+              "id": "a",
+              "text": "Add timeouts and a circuit breaker on calls to inventory"
+            },
+            {
+              "id": "b",
+              "text": "Retry each failed inventory call forever until it succeeds"
+            },
+            {
+              "id": "c",
+              "text": "Record orders and publish an event for inventory to process"
+            },
+            {
+              "id": "d",
+              "text": "Remove every timeout so that slow calls can always finish"
+            },
+            {
+              "id": "e",
+              "text": "Merge both services into one process and keep it unchanged"
+            }
           ],
-          "correct": ["a", "c"],
+          "correct": [
+            "a",
+            "c"
+          ],
           "explanation": "Timeouts and a circuit breaker stop a failing service from tying up the order service, and let it fail fast or fall back. Accepting the order and publishing an event, for example through an outbox table and a queue, lets inventory catch up when it recovers instead of blocking every order.",
           "why_others_wrong": {
             "b": "Endless retries pile up requests and hammer the struggling service, slowing its recovery.",
@@ -472,6 +1251,222 @@
           },
           "key_justification": "Contain dependency failures with timeouts, circuit breakers and asynchronous events.",
           "points": 10
+        }
+      ],
+      "code_pool": [
+        {
+          "id": "bke-4-c1",
+          "prompt": "Vyapar Setu sends reads to replicas that run a few seconds behind the primary, so a seller who updates a price and reloads may see the old one. Find which reads would be stale. The first line is the lag in seconds, the second is n, then n events in order: `WRITE t key` or `READ t key`. A read at time t is STALE if an earlier write to the same key happened at time w with t - lag < w <= t (the replica has not caught up), otherwise FRESH. Complete `replica_reads`; the program prints `t key verdict` for each read, in order.",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef replica_reads(events, lag):\n    \"\"\"events: list of ('WRITE' or 'READ', time, key) in order. Reads go to a replica that is `lag` seconds behind. A READ at time t of a key is 'STALE' if an earlier WRITE to that key happened at w with t - lag < w <= t, otherwise 'FRESH'. Return (t, key, verdict) for every read, in order.\"\"\"\n    # Write your code here.\n    return []\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    lag = int(data[0])\n    n = int(data[1])\n    events = []\n    for i in range(n):\n        kind, t, key = data[2 + i].split()\n        events.append((kind, int(t), key))\n    for t, key, verdict in replica_reads(events, lag):\n        print(t, key, verdict)\n\n\nmain()\n",
+          "reference_solution": "import sys\n\n\ndef replica_reads(events, lag):\n    \"\"\"events: list of ('WRITE' or 'READ', time, key) in order. Reads go to a replica that is `lag` seconds behind. A READ at time t of a key is 'STALE' if an earlier WRITE to that key happened at w with t - lag < w <= t, otherwise 'FRESH'. Return (t, key, verdict) for every read, in order.\"\"\"\n    last_write = {}                 # key -> time of the latest write seen so far\n    out = []\n    for kind, t, key in events:\n        if kind == \"WRITE\":\n            last_write[key] = t\n        else:\n            w = last_write.get(key)\n            out.append((t, key, \"STALE\" if w is not None and t - lag < w <= t else \"FRESH\"))\n    return out\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    lag = int(data[0])\n    n = int(data[1])\n    events = []\n    for i in range(n):\n        kind, t, key = data[2 + i].split()\n        events.append((kind, int(t), key))\n    for t, key, verdict in replica_reads(events, lag):\n        print(t, key, verdict)\n\n\nmain()\n",
+          "ds_topic": "hash_map",
+          "difficulty": 1,
+          "skills": [
+            "Python"
+          ],
+          "explanation": "Only the latest write to a key matters, so a dictionary from key to last write time answers each read in O(1). Reads that land inside the lag window after a write are the ones to route to the primary ('read your own writes') for a short time after a user's update.",
+          "key_justification": "Track the last write per key; reads within the lag window are stale.",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "3\n4\nWRITE 1 price\nREAD 2 price\nREAD 5 price\nREAD 5 stock\n",
+                  "expected_stdout": "2 price STALE\n5 price FRESH\n5 stock FRESH\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "2\n8\nREAD 1 loom\nREAD 2 price\nWRITE 4 stock\nREAD 7 stock\nREAD 9 loom\nWRITE 9 price\nREAD 10 loom\nREAD 10 title\n",
+                  "expected_stdout": "1 loom FRESH\n2 price FRESH\n7 stock FRESH\n9 loom FRESH\n10 loom FRESH\n10 title FRESH\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "3\n25\nREAD 0 title\nWRITE 1 loom\nWRITE 1 loom\nREAD 4 loom\nWRITE 4 saree\nREAD 5 price\nREAD 5 title\nREAD 5 loom\nREAD 6 stock\nREAD 7 saree\nREAD 8 saree\nREAD 11 saree\nWRITE 11 loom\nREAD 12 stock\nREAD 13 price\nWRITE 16 price\nREAD 17 loom\nWRITE 20 saree\nREAD 22 price\nWRITE 24 stock\nWRITE 24 price\nWRITE 25 title\nREAD 27 title\nREAD 30 title\nWRITE 33 price\n",
+                  "expected_stdout": "0 title FRESH\n4 loom FRESH\n5 price FRESH\n5 title FRESH\n5 loom FRESH\n6 stock FRESH\n7 saree FRESH\n8 saree FRESH\n11 saree FRESH\n12 stock FRESH\n13 price FRESH\n17 loom FRESH\n22 price FRESH\n27 title STALE\n30 title FRESH\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "4\n60\nREAD 2 saree\nREAD 5 loom\nREAD 7 stock\nWRITE 9 price\nWRITE 12 stock\nWRITE 14 price\nREAD 15 price\nWRITE 17 loom\nREAD 20 title\nREAD 20 title\nREAD 21 title\nREAD 22 loom\nREAD 23 stock\nREAD 25 saree\nREAD 28 stock\nREAD 29 title\nREAD 32 stock\nREAD 34 price\nREAD 36 stock\nWRITE 39 saree\nWRITE 41 price\nREAD 44 stock\nREAD 44 price\nREAD 45 price\nREAD 47 saree\nWRITE 47 stock\nWRITE 50 loom\nWRITE 52 title\nWRITE 52 saree\nREAD 54 title\nWRITE 54 loom\nWRITE 54 title\nWRITE 57 saree\nWRITE 58 stock\nREAD 59 saree\nREAD 59 stock\nWRITE 61 loom\nWRITE 62 saree\nWRITE 64 loom\nREAD 65 saree\nREAD 67 loom\nREAD 68 stock\nWRITE 68 loom\nWRITE 70 stock\nREAD 73 saree\nREAD 75 saree\nWRITE 76 stock\nWRITE 78 title\nWRITE 81 title\nREAD 81 loom\nWRITE 81 title\nREAD 84 stock\nREAD 85 price\nWRITE 87 loom\nWRITE 90 price\nWRITE 90 loom\nREAD 92 price\nREAD 94 price\nWRITE 94 price\nREAD 96 price\n",
+                  "expected_stdout": "2 saree FRESH\n5 loom FRESH\n7 stock FRESH\n15 price STALE\n20 title FRESH\n20 title FRESH\n21 title FRESH\n22 loom FRESH\n23 stock FRESH\n25 saree FRESH\n28 stock FRESH\n29 title FRESH\n32 stock FRESH\n34 price FRESH\n36 stock FRESH\n44 stock FRESH\n44 price STALE\n45 price FRESH\n47 saree FRESH\n54 title STALE\n59 saree STALE\n59 stock STALE\n65 saree STALE\n67 loom STALE\n68 stock FRESH\n73 saree FRESH\n75 saree FRESH\n81 loom FRESH\n84 stock FRESH\n85 price FRESH\n92 price STALE\n94 price FRESH\n96 price STALE\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "0\n2\nWRITE 5 x\nREAD 5 x\n",
+                  "expected_stdout": "5 x FRESH\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "2\n4\nWRITE 10 loom\nREAD 10 loom\nWRITE 11 loom\nREAD 12 loom\n",
+                  "expected_stdout": "10 loom STALE\n12 loom STALE\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "2\n8\nREAD 2 title\nREAD 2 stock\nREAD 2 title\nWRITE 2 title\nWRITE 2 price\nREAD 4 loom\nREAD 5 title\nREAD 8 price\n",
+                  "expected_stdout": "2 title FRESH\n2 stock FRESH\n2 title FRESH\n4 loom FRESH\n5 title FRESH\n8 price FRESH\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "2\n25\nREAD 0 title\nWRITE 0 stock\nREAD 1 stock\nREAD 1 price\nREAD 1 stock\nWRITE 2 stock\nREAD 4 title\nREAD 4 saree\nWRITE 5 loom\nREAD 8 title\nREAD 10 stock\nREAD 10 saree\nREAD 10 saree\nWRITE 13 saree\nWRITE 16 title\nREAD 19 loom\nWRITE 22 title\nREAD 24 loom\nREAD 26 loom\nWRITE 26 stock\nWRITE 27 loom\nWRITE 29 price\nREAD 30 loom\nREAD 33 stock\nWRITE 36 title\n",
+                  "expected_stdout": "0 title FRESH\n1 stock STALE\n1 price FRESH\n1 stock STALE\n4 title FRESH\n4 saree FRESH\n8 title FRESH\n10 stock FRESH\n10 saree FRESH\n10 saree FRESH\n19 loom FRESH\n24 loom FRESH\n26 loom FRESH\n30 loom FRESH\n33 stock FRESH\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "4\n60\nREAD 3 loom\nWRITE 4 stock\nREAD 6 loom\nREAD 9 stock\nWRITE 12 title\nREAD 14 saree\nREAD 14 price\nREAD 15 loom\nREAD 16 stock\nWRITE 17 loom\nWRITE 20 title\nREAD 20 price\nREAD 20 stock\nREAD 21 stock\nWRITE 24 price\nWRITE 26 price\nREAD 28 stock\nWRITE 29 loom\nREAD 29 price\nREAD 31 price\nWRITE 32 saree\nWRITE 32 title\nREAD 32 loom\nREAD 32 title\nREAD 34 price\nREAD 34 price\nWRITE 36 price\nREAD 38 stock\nWRITE 40 price\nREAD 42 title\nREAD 44 price\nWRITE 45 price\nWRITE 45 title\nREAD 47 loom\nREAD 47 price\nREAD 49 title\nWRITE 52 stock\nWRITE 54 loom\nREAD 56 saree\nREAD 57 loom\nWRITE 59 stock\nREAD 61 title\nREAD 61 stock\nREAD 63 loom\nREAD 65 loom\nWRITE 68 saree\nWRITE 69 price\nREAD 70 stock\nREAD 72 title\nREAD 72 price\nREAD 72 saree\nREAD 72 price\nWRITE 73 stock\nREAD 73 stock\nREAD 74 stock\nREAD 74 title\nREAD 76 price\nREAD 76 saree\nREAD 79 loom\nREAD 82 price\n",
+                  "expected_stdout": "3 loom FRESH\n6 loom FRESH\n9 stock FRESH\n14 saree FRESH\n14 price FRESH\n15 loom FRESH\n16 stock FRESH\n20 price FRESH\n20 stock FRESH\n21 stock FRESH\n28 stock FRESH\n29 price STALE\n31 price FRESH\n32 loom STALE\n32 title STALE\n34 price FRESH\n34 price FRESH\n38 stock FRESH\n42 title FRESH\n44 price FRESH\n47 loom FRESH\n47 price STALE\n49 title FRESH\n56 saree FRESH\n57 loom STALE\n61 title FRESH\n61 stock STALE\n63 loom FRESH\n65 loom FRESH\n70 stock FRESH\n72 title FRESH\n72 price STALE\n72 saree FRESH\n72 price STALE\n73 stock STALE\n74 stock STALE\n74 title FRESH\n76 price FRESH\n76 saree FRESH\n79 loom FRESH\n82 price FRESH\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "5\n1\nREAD 3 x\n",
+                  "expected_stdout": "3 x FRESH\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "1\n3\nWRITE 0 saree\nREAD 1 saree\nREAD 0 title\n",
+                  "expected_stdout": "1 saree FRESH\n0 title FRESH\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "1\n8\nREAD 0 stock\nWRITE 0 price\nREAD 0 price\nREAD 3 price\nWRITE 5 title\nWRITE 5 loom\nREAD 5 title\nREAD 8 loom\n",
+                  "expected_stdout": "0 stock FRESH\n0 price STALE\n3 price FRESH\n5 title STALE\n8 loom FRESH\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1\n25\nREAD 0 loom\nWRITE 0 loom\nREAD 2 price\nWRITE 3 title\nWRITE 4 price\nREAD 5 loom\nREAD 7 title\nWRITE 9 loom\nWRITE 11 price\nREAD 12 title\nREAD 12 loom\nREAD 15 stock\nREAD 18 price\nWRITE 18 saree\nREAD 19 saree\nWRITE 20 stock\nREAD 23 stock\nREAD 25 title\nREAD 27 title\nREAD 30 saree\nREAD 30 price\nWRITE 30 saree\nWRITE 33 saree\nREAD 33 loom\nREAD 35 title\n",
+                  "expected_stdout": "0 loom FRESH\n2 price FRESH\n5 loom FRESH\n7 title FRESH\n12 title FRESH\n12 loom FRESH\n15 stock FRESH\n18 price FRESH\n19 saree FRESH\n23 stock FRESH\n25 title FRESH\n27 title FRESH\n30 saree FRESH\n30 price FRESH\n33 loom FRESH\n35 title FRESH\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1\n60\nREAD 2 title\nREAD 3 stock\nREAD 3 price\nREAD 3 price\nREAD 4 saree\nWRITE 7 title\nREAD 9 loom\nWRITE 9 price\nWRITE 10 loom\nREAD 12 title\nWRITE 15 stock\nWRITE 15 stock\nWRITE 17 loom\nWRITE 17 saree\nWRITE 19 title\nREAD 19 saree\nREAD 19 saree\nREAD 22 saree\nREAD 22 loom\nWRITE 25 title\nREAD 26 loom\nREAD 27 title\nREAD 27 loom\nWRITE 28 title\nREAD 29 stock\nREAD 30 saree\nWRITE 33 price\nREAD 33 loom\nWRITE 35 stock\nREAD 38 title\nWRITE 39 loom\nREAD 39 loom\nWRITE 39 price\nWRITE 42 loom\nREAD 43 title\nREAD 43 price\nWRITE 43 price\nREAD 44 price\nREAD 47 title\nREAD 49 price\nREAD 49 stock\nWRITE 49 title\nREAD 50 title\nWRITE 52 stock\nREAD 52 price\nWRITE 54 loom\nWRITE 57 title\nREAD 58 loom\nREAD 60 stock\nWRITE 62 price\nWRITE 63 price\nREAD 65 saree\nWRITE 68 saree\nREAD 69 title\nREAD 71 price\nWRITE 74 title\nREAD 74 price\nREAD 76 stock\nREAD 78 loom\nWRITE 78 saree\n",
+                  "expected_stdout": "2 title FRESH\n3 stock FRESH\n3 price FRESH\n3 price FRESH\n4 saree FRESH\n9 loom FRESH\n12 title FRESH\n19 saree FRESH\n19 saree FRESH\n22 saree FRESH\n22 loom FRESH\n26 loom FRESH\n27 title FRESH\n27 loom FRESH\n29 stock FRESH\n30 saree FRESH\n33 loom FRESH\n38 title FRESH\n39 loom STALE\n43 title FRESH\n43 price FRESH\n44 price FRESH\n47 title FRESH\n49 price FRESH\n49 stock FRESH\n50 title FRESH\n52 price FRESH\n58 loom FRESH\n60 stock FRESH\n65 saree FRESH\n69 title FRESH\n71 price FRESH\n74 price FRESH\n76 stock FRESH\n78 loom FRESH\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "2\n3\nWRITE 1 a\nWRITE 4 a\nREAD 4 a\n",
+                  "expected_stdout": "4 a STALE\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "bke-4-c2",
+          "prompt": "Vyapar Setu's order service calls the inventory service, and when inventory hangs, orders hang too. A circuit breaker fails fast instead. The first line is `F C n`, then n calls `time outcome` (ok or fail: what the call would return). Closed: make the call; after F failures in a row the breaker opens until time + C. Open: answer SKIP for calls before that time; the first call at or after it is a trial CALL: ok closes the breaker, fail opens it again for another C seconds. Complete `breaker`; the program prints CALL or SKIP for each call, space-separated.",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef breaker(calls, failures, cooldown):\n    \"\"\"calls: list of (time, 'ok' or 'fail') in time order; the outcome is what the call WOULD return. Closed: make the call; after `failures` failures in a row, open until time + cooldown. Open: answer 'SKIP' until that time; the first call at or after it is a trial ('CALL'): ok closes the breaker, fail opens it again for another cooldown. Return 'CALL' or 'SKIP' for each call.\"\"\"\n    # Write your code here.\n    return [\"CALL\"] * len(calls)\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    failures, cooldown, n = map(int, data[0].split())\n    calls = []\n    for i in range(n):\n        t, outcome = data[1 + i].split()\n        calls.append((int(t), outcome))\n    print(\" \".join(breaker(calls, failures, cooldown)))\n\n\nmain()\n",
+          "reference_solution": "import sys\n\n\ndef breaker(calls, failures, cooldown):\n    \"\"\"calls: list of (time, 'ok' or 'fail') in time order; the outcome is what the call WOULD return. Closed: make the call; after `failures` failures in a row, open until time + cooldown. Open: answer 'SKIP' until that time; the first call at or after it is a trial ('CALL'): ok closes the breaker, fail opens it again for another cooldown. Return 'CALL' or 'SKIP' for each call.\"\"\"\n    out = []\n    in_a_row, open_until, is_open = 0, 0, False\n    for t, outcome in calls:\n        if is_open and t < open_until:\n            out.append(\"SKIP\")\n            continue\n        out.append(\"CALL\")\n        if is_open:                          # half-open trial call\n            if outcome == \"ok\":\n                is_open, in_a_row = False, 0\n            else:\n                open_until = t + cooldown\n            continue\n        in_a_row = 0 if outcome == \"ok\" else in_a_row + 1\n        if in_a_row >= failures:\n            is_open, open_until, in_a_row = True, t + cooldown, 0\n    return out\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    failures, cooldown, n = map(int, data[0].split())\n    calls = []\n    for i in range(n):\n        t, outcome = data[1 + i].split()\n        calls.append((int(t), outcome))\n    print(\" \".join(breaker(calls, failures, cooldown)))\n\n\nmain()\n",
+          "ds_topic": "array",
+          "difficulty": 2,
+          "skills": [
+            "Python"
+          ],
+          "explanation": "The breaker is a small state machine (closed, open, half-open) walked over the calls in order. Skipping calls while open protects the caller's threads and gives the failing service time to recover; one trial call decides whether to close again.",
+          "key_justification": "Circuit breaker: closed, open, half-open states driven by failures.",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "2 10 6\n1 fail\n2 fail\n5 ok\n12 fail\n13 ok\n14 ok\n",
+                  "expected_stdout": "CALL CALL SKIP CALL SKIP SKIP\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "4 10 8\n1 fail\n4 ok\n6 ok\n8 ok\n11 ok\n13 ok\n14 ok\n15 fail\n",
+                  "expected_stdout": "CALL CALL CALL CALL CALL CALL CALL CALL\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "4 10 25\n2 ok\n5 fail\n8 fail\n10 fail\n13 fail\n15 fail\n18 fail\n20 fail\n21 fail\n23 fail\n26 ok\n28 ok\n30 fail\n32 fail\n33 fail\n35 fail\n36 fail\n37 fail\n40 fail\n42 fail\n43 ok\n46 ok\n47 ok\n48 ok\n50 ok\n",
+                  "expected_stdout": "CALL CALL CALL CALL CALL SKIP SKIP SKIP SKIP CALL SKIP SKIP SKIP SKIP CALL SKIP SKIP SKIP SKIP SKIP CALL CALL CALL CALL CALL\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1 10 60\n2 ok\n4 ok\n6 ok\n9 ok\n10 ok\n13 ok\n15 ok\n17 fail\n18 fail\n20 fail\n23 fail\n26 fail\n27 fail\n30 fail\n31 ok\n34 ok\n36 ok\n38 ok\n39 ok\n42 ok\n44 ok\n45 ok\n46 ok\n49 ok\n51 ok\n52 ok\n55 ok\n57 ok\n59 ok\n60 ok\n62 ok\n64 ok\n67 ok\n68 ok\n69 ok\n70 fail\n72 ok\n75 ok\n78 ok\n79 ok\n80 ok\n81 fail\n84 fail\n85 fail\n86 ok\n88 ok\n90 fail\n91 fail\n92 fail\n93 fail\n94 ok\n95 ok\n96 ok\n99 ok\n100 ok\n102 ok\n104 ok\n107 fail\n108 fail\n111 fail\n",
+                  "expected_stdout": "CALL CALL CALL CALL CALL CALL CALL CALL SKIP SKIP SKIP SKIP CALL SKIP SKIP SKIP SKIP CALL CALL CALL CALL CALL CALL CALL CALL CALL CALL CALL CALL CALL CALL CALL CALL CALL CALL CALL SKIP SKIP SKIP SKIP CALL CALL SKIP SKIP SKIP SKIP SKIP CALL SKIP SKIP SKIP SKIP SKIP SKIP SKIP CALL CALL CALL SKIP SKIP\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1 1 2\n1 fail\n2 fail\n",
+                  "expected_stdout": "CALL CALL\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "1 3 4\n1 fail\n2 ok\n4 ok\n5 ok\n",
+                  "expected_stdout": "CALL SKIP CALL CALL\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "1 3 8\n2 ok\n3 ok\n5 ok\n8 ok\n11 ok\n12 fail\n14 ok\n15 ok\n",
+                  "expected_stdout": "CALL CALL CALL CALL CALL CALL SKIP CALL\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "2 5 25\n1 ok\n3 ok\n6 ok\n8 ok\n11 ok\n13 ok\n14 ok\n16 fail\n19 fail\n22 ok\n23 fail\n26 fail\n29 ok\n31 ok\n32 ok\n33 ok\n36 ok\n39 ok\n42 ok\n43 fail\n45 fail\n48 fail\n49 fail\n52 fail\n54 fail\n",
+                  "expected_stdout": "CALL CALL CALL CALL CALL CALL CALL CALL CALL SKIP SKIP CALL SKIP CALL CALL CALL CALL CALL CALL CALL CALL SKIP SKIP CALL SKIP\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "2 5 60\n1 ok\n2 ok\n4 fail\n5 ok\n7 fail\n10 fail\n12 fail\n14 ok\n15 ok\n18 ok\n20 ok\n22 ok\n23 ok\n24 ok\n25 ok\n28 ok\n29 ok\n32 fail\n33 fail\n36 fail\n39 ok\n40 fail\n42 fail\n45 fail\n47 fail\n50 fail\n51 fail\n54 fail\n55 fail\n58 fail\n59 fail\n62 fail\n65 fail\n68 fail\n70 fail\n71 fail\n73 fail\n75 ok\n78 fail\n80 fail\n81 fail\n82 fail\n83 fail\n86 ok\n89 fail\n92 fail\n95 fail\n98 fail\n100 ok\n103 ok\n104 fail\n105 fail\n107 fail\n110 fail\n113 fail\n116 fail\n119 fail\n122 ok\n123 ok\n126 fail\n",
+                  "expected_stdout": "CALL CALL CALL CALL CALL CALL SKIP SKIP CALL CALL CALL CALL CALL CALL CALL CALL CALL CALL CALL SKIP CALL CALL CALL SKIP CALL SKIP SKIP CALL SKIP SKIP CALL SKIP CALL SKIP CALL SKIP SKIP CALL CALL CALL SKIP SKIP SKIP CALL CALL CALL SKIP CALL SKIP CALL CALL CALL SKIP CALL SKIP CALL SKIP CALL CALL CALL\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "2 4 5\n1 fail\n2 fail\n3 ok\n6 ok\n7 fail\n",
+                  "expected_stdout": "CALL CALL SKIP CALL CALL\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "3 5 4\n1 fail\n2 ok\n3 fail\n4 fail\n",
+                  "expected_stdout": "CALL CALL CALL CALL\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "3 10 8\n3 ok\n5 ok\n8 ok\n9 ok\n11 fail\n12 fail\n15 ok\n17 fail\n",
+                  "expected_stdout": "CALL CALL CALL CALL CALL CALL CALL CALL\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "4 3 25\n2 fail\n3 fail\n6 ok\n9 ok\n11 fail\n13 ok\n15 fail\n16 fail\n18 fail\n19 fail\n22 fail\n23 fail\n25 fail\n26 ok\n27 ok\n28 fail\n30 fail\n31 fail\n33 fail\n36 fail\n37 fail\n40 fail\n41 fail\n42 fail\n43 fail\n",
+                  "expected_stdout": "CALL CALL CALL CALL CALL CALL CALL CALL CALL CALL CALL SKIP CALL SKIP SKIP CALL SKIP CALL SKIP CALL SKIP CALL SKIP SKIP CALL\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "4 3 60\n1 ok\n2 ok\n3 ok\n6 ok\n7 ok\n10 ok\n11 ok\n14 fail\n16 fail\n19 ok\n21 ok\n23 fail\n26 fail\n28 fail\n30 fail\n33 fail\n34 fail\n37 fail\n38 fail\n39 fail\n41 fail\n43 fail\n44 fail\n47 fail\n48 fail\n50 ok\n53 ok\n54 ok\n55 fail\n58 fail\n59 fail\n61 fail\n62 fail\n63 fail\n64 fail\n66 fail\n68 fail\n70 fail\n71 fail\n73 fail\n76 fail\n79 fail\n80 fail\n82 ok\n83 fail\n84 fail\n86 fail\n88 fail\n91 fail\n92 fail\n94 fail\n95 fail\n96 fail\n98 ok\n99 fail\n102 ok\n103 ok\n105 ok\n106 ok\n108 fail\n",
+                  "expected_stdout": "CALL CALL CALL CALL CALL CALL CALL CALL CALL CALL CALL CALL CALL CALL CALL CALL SKIP CALL SKIP SKIP CALL SKIP CALL CALL SKIP CALL CALL CALL CALL CALL CALL CALL SKIP SKIP CALL SKIP CALL SKIP CALL SKIP CALL CALL SKIP CALL CALL CALL CALL CALL CALL SKIP CALL SKIP SKIP CALL CALL CALL CALL CALL CALL CALL\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "5 5 1\n1 ok\n",
+                  "expected_stdout": "CALL\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -494,20 +1489,45 @@
         "Observability",
         "API security and system design"
       ],
-      "map_node": {"x": 0.88, "y": 0.16, "label": "Archive Vault"},
+      "map_node": {
+        "x": 0.88,
+        "y": 0.16,
+        "label": "Archive Vault"
+      },
       "questions": [
         {
           "id": "bke-5-q1",
           "type": "order",
           "prompt": "Put the steps for handling a student's submission request in order.",
           "options": [
-            {"id": "a", "text": "Return 201 Created with the new application id"},
-            {"id": "b", "text": "Authenticate the student from their session token"},
-            {"id": "c", "text": "A background worker sends the confirmation SMS"},
-            {"id": "d", "text": "Validate the request body against the rules"},
-            {"id": "e", "text": "Save the application and an SMS event in one transaction"}
+            {
+              "id": "a",
+              "text": "Return 201 Created with the new application id"
+            },
+            {
+              "id": "b",
+              "text": "Authenticate the student from their session token"
+            },
+            {
+              "id": "c",
+              "text": "A background worker sends the confirmation SMS"
+            },
+            {
+              "id": "d",
+              "text": "Validate the request body against the rules"
+            },
+            {
+              "id": "e",
+              "text": "Save the application and an SMS event in one transaction"
+            }
           ],
-          "correct": ["b", "d", "e", "a", "c"],
+          "correct": [
+            "b",
+            "d",
+            "e",
+            "a",
+            "c"
+          ],
           "explanation": "The server first establishes who is calling, then checks the submission is valid before touching the database. Saving the application together with an outbox event in one transaction guarantees the SMS is never lost or sent for an unsaved application, and the response returns before a worker sends the SMS in the background.",
           "why_others_wrong": {
             "common_mistake": "Sending the SMS inside the request before responding, which makes students wait on the SMS provider and can confirm an application whose save then fails."
@@ -520,12 +1540,26 @@
           "type": "single_choice",
           "prompt": "Deadline day brings 50 times normal traffic. Which plan handles it within budget?",
           "options": [
-            {"id": "a", "text": "Run 50 times the servers all year, so capacity is always ready"},
-            {"id": "b", "text": "Load-test early, autoscale stateless servers and queue slow work"},
-            {"id": "c", "text": "Extend the deadline by a week whenever the portal slows down"},
-            {"id": "d", "text": "Keep the current servers and hope that traffic is lower this year"}
+            {
+              "id": "a",
+              "text": "Run 50 times the servers all year, so capacity is always ready"
+            },
+            {
+              "id": "b",
+              "text": "Load-test early, autoscale stateless servers and queue slow work"
+            },
+            {
+              "id": "c",
+              "text": "Extend the deadline by a week whenever the portal slows down"
+            },
+            {
+              "id": "d",
+              "text": "Keep the current servers and hope that traffic is lower this year"
+            }
           ],
-          "correct": ["b"],
+          "correct": [
+            "b"
+          ],
           "explanation": "Stateless app servers behind a load balancer can be added automatically as traffic rises and removed afterwards, so extra capacity is paid for only on peak days. Load testing beforehand finds the real bottlenecks, such as the database, and queuing slow work such as PDF checks keeps request handling fast.",
           "why_others_wrong": {
             "a": "Paying for peak capacity all year wastes most of the budget.",
@@ -540,12 +1574,26 @@
           "type": "single_choice",
           "prompt": "Last year nobody could trace why some requests took 30 seconds as they passed through several services. What should be added?",
           "options": [
-            {"id": "a", "text": "A request id carried through every log and service, plus metrics"},
-            {"id": "b", "text": "Print statements that engineers add to the code whenever a problem happens"},
-            {"id": "c", "text": "A weekly email summary of the total number of requests served"},
-            {"id": "d", "text": "Full debug logging of every request body, kept for ten years"}
+            {
+              "id": "a",
+              "text": "A request id carried through every log and service, plus metrics"
+            },
+            {
+              "id": "b",
+              "text": "Print statements that engineers add to the code whenever a problem happens"
+            },
+            {
+              "id": "c",
+              "text": "A weekly email summary of the total number of requests served"
+            },
+            {
+              "id": "d",
+              "text": "Full debug logging of every request body, kept for ten years"
+            }
           ],
-          "correct": ["a"],
+          "correct": [
+            "a"
+          ],
           "explanation": "A request or correlation id passed between services and written in every structured log line, together with distributed tracing, shows where a slow request spent its time. Per-endpoint metrics for request rate, errors and latency reveal problems before students report them.",
           "why_others_wrong": {
             "b": "Ad hoc prints arrive after the incident and cannot reconstruct past requests.",
@@ -560,13 +1608,31 @@
           "type": "multi_select",
           "prompt": "Which two measures close the security gaps found last year?",
           "options": [
-            {"id": "a", "text": "Check on the server that each application belongs to the student"},
-            {"id": "b", "text": "Rely on the website's form to validate everything students send"},
-            {"id": "c", "text": "Validate inputs on the server and use parameterised queries"},
-            {"id": "d", "text": "Return full error stack traces to students to help them debug"},
-            {"id": "e", "text": "Keep the database password in the code repository for easy setup"}
+            {
+              "id": "a",
+              "text": "Check on the server that each application belongs to the student"
+            },
+            {
+              "id": "b",
+              "text": "Rely on the website's form to validate everything students send"
+            },
+            {
+              "id": "c",
+              "text": "Validate inputs on the server and use parameterised queries"
+            },
+            {
+              "id": "d",
+              "text": "Return full error stack traces to students to help them debug"
+            },
+            {
+              "id": "e",
+              "text": "Keep the database password in the code repository for easy setup"
+            }
           ],
-          "correct": ["a", "c"],
+          "correct": [
+            "a",
+            "c"
+          ],
           "explanation": "Viewing another student's application by changing the URL is broken object-level authorisation, fixed by checking ownership on the server for every request. Server-side validation and parameterised queries stop malformed or malicious input whatever client sent it.",
           "why_others_wrong": {
             "b": "Anyone can send requests directly to the API, so validation in the browser is easily bypassed.",
@@ -581,24 +1647,270 @@
           "type": "match",
           "prompt": "Match each portal requirement to the design choice that fits it best.",
           "items": [
-            {"id": "i1", "text": "Students upload PDF documents of up to 5 MB each"},
-            {"id": "i2", "text": "Applicants get an SMS whenever their status changes"},
-            {"id": "i3", "text": "A merit list is ranked nightly across 2 million rows"},
-            {"id": "i4", "text": "The eligibility rules page is read millions of times a day"}
+            {
+              "id": "i1",
+              "text": "Students upload PDF documents of up to 5 MB each"
+            },
+            {
+              "id": "i2",
+              "text": "Applicants get an SMS whenever their status changes"
+            },
+            {
+              "id": "i3",
+              "text": "A merit list is ranked nightly across 2 million rows"
+            },
+            {
+              "id": "i4",
+              "text": "The eligibility rules page is read millions of times a day"
+            }
           ],
           "targets": [
-            {"id": "t1", "text": "A nightly batch job that reads from a replica"},
-            {"id": "t2", "text": "Object storage, with only the file reference in the database"},
-            {"id": "t3", "text": "Cache it at the edge, since it rarely changes"},
-            {"id": "t4", "text": "Status-change events consumed by an SMS worker"}
+            {
+              "id": "t1",
+              "text": "A nightly batch job that reads from a replica"
+            },
+            {
+              "id": "t2",
+              "text": "Object storage, with only the file reference in the database"
+            },
+            {
+              "id": "t3",
+              "text": "Cache it at the edge, since it rarely changes"
+            },
+            {
+              "id": "t4",
+              "text": "Status-change events consumed by an SMS worker"
+            }
           ],
-          "correct": {"i1": "t2", "i2": "t4", "i3": "t1", "i4": "t3"},
+          "correct": {
+            "i1": "t2",
+            "i2": "t4",
+            "i3": "t1",
+            "i4": "t3"
+          },
           "explanation": "Large files belong in object storage, with only their location in the database, which keeps the database small and fast. Status changes publish events that a worker turns into SMS, the heavy nightly ranking runs as a batch job on a replica so it does not slow live traffic, and a page that rarely changes is served from an edge cache.",
           "why_others_wrong": {
             "common_mistake": "Storing the PDFs inside the database as binary columns, which bloats tables, backups and replicas and slows every query that touches them."
           },
           "key_justification": "Put files in object storage, side effects in events, heavy reports in batch jobs and static reads in caches.",
           "points": 10
+        }
+      ],
+      "code_pool": [
+        {
+          "id": "bke-5-c1",
+          "prompt": "Last year the portal 'looked fine on average' while students waited minutes. Averages hide the slow tail; percentiles show it. The first line is n, the second has n request latencies in ms. Complete `percentiles` using the nearest-rank method: sort the values and take the one at rank ceil(p / 100 x n), counting from 1. The program prints `p50` and `p95`.",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef percentiles(latencies):\n    \"\"\"latencies: request times in ms. Return (p50, p95) by the nearest-rank method: sort, then the value at rank ceil(p / 100 x n), counting ranks from 1.\"\"\"\n    # Write your code here.\n    return 0, 0\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    latencies = list(map(int, data[1].split()))\n    p50, p95 = percentiles(latencies)\n    print(\"p50\", p50)\n    print(\"p95\", p95)\n\n\nmain()\n",
+          "reference_solution": "import sys\n\n\ndef percentiles(latencies):\n    \"\"\"latencies: request times in ms. Return (p50, p95) by the nearest-rank method: sort, then the value at rank ceil(p / 100 x n), counting ranks from 1.\"\"\"\n    ordered = sorted(latencies)\n    n = len(ordered)\n\n    def nearest_rank(p):\n        rank = -(-p * n // 100)       # ceil(p * n / 100) in integers\n        return ordered[max(rank, 1) - 1]\n    return nearest_rank(50), nearest_rank(95)\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    latencies = list(map(int, data[1].split()))\n    p50, p95 = percentiles(latencies)\n    print(\"p50\", p50)\n    print(\"p95\", p95)\n\n\nmain()\n",
+          "ds_topic": "sorting",
+          "difficulty": 1,
+          "skills": [
+            "Python"
+          ],
+          "explanation": "Sorting once makes any percentile a lookup by rank. Integer ceiling division avoids a floating-point rank like 9.000001. The p95 reflects what the slowest 1 in 20 students experience, which is what an alert on deadline day should watch.",
+          "key_justification": "Nearest-rank percentile from a sorted list.",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "10\n12 15 11 40 13 14 300 16 18 17\n",
+                  "expected_stdout": "p50 15\np95 300\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "10\n103 145 82 92 170 131 2757 140 134 43\n",
+                  "expected_stdout": "p50 131\np95 2757\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "40\n113 77 84 504 150 44 2980 514 53 53 90 56 113 100 92 122 764 161 563 59 153 46 138 69 1769 1250 52 164 130 67 87 62 174 44 100 101 105 121 94 166\n",
+                  "expected_stdout": "p50 101\np95 1250\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "150\n72 164 150 44 162 74 76 97 100 2519 122 118 153 74 142 165 127 138 162 179 108 51 1884 136 158 130 117 113 163 85 1490 2403 72 63 167 142 64 58 176 59 120 179 118 156 167 97 92 121 140 60 169 107 79 174 487 176 96 79 88 158 815 89 53 178 118 136 92 104 173 104 156 114 119 1723 145 43 165 113 1387 44 155 68 108 2888 179 60 70 122 53 155 141 57 66 145 57 118 116 130 49 175 103 145 2911 166 1044 132 130 54 447 64 100 104 129 71 45 173 129 103 135 1927 100 116 1205 109 148 149 97 171 78 61 49 1250 80 123 92 41 129 138 149 109 70 135 112 166 150 89 49 60 172 46\n",
+                  "expected_stdout": "p50 120\np95 1490\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "2\n5 5\n",
+                  "expected_stdout": "p50 5\np95 5\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "4\n100 200 300 400\n",
+                  "expected_stdout": "p50 200\np95 400\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "10\n47 153 153 1456 159 137 862 60 129 44\n",
+                  "expected_stdout": "p50 137\np95 1456\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "40\n80 108 82 795 154 161 935 63 91 87 160 85 74 133 88 106 107 49 57 119 85 153 155 125 521 66 63 60 109 49 177 174 95 120 154 154 84 163 50 122\n",
+                  "expected_stdout": "p50 107\np95 521\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "150\n147 132 112 68 140 172 52 87 115 160 70 145 51 2747 104 169 122 103 143 59 97 167 119 135 111 2154 129 85 135 174 71 102 1547 165 137 1507 41 106 116 62 114 179 56 64 63 140 77 115 70 98 61 95 108 95 127 79 123 103 164 120 797 140 63 44 655 118 165 150 146 155 141 154 146 163 100 170 68 123 99 98 84 51 121 85 171 120 107 115 158 58 123 137 68 45 491 104 2024 121 104 164 60 42 143 82 132 125 64 168 64 57 146 44 122 101 56 153 71 1284 90 49 180 151 108 72 103 171 96 1864 100 107 63 90 148 1497 178 61 58 43 80 787 97 94 68 165 97 170 1775 82 169 64\n",
+                  "expected_stdout": "p50 114\np95 1497\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "20\n20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1\n",
+                  "expected_stdout": "p50 10\np95 19\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "1\n77\n",
+                  "expected_stdout": "p50 77\np95 77\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "10\n77 47 150 90 152 142 66 97 2382 82\n",
+                  "expected_stdout": "p50 90\np95 2382\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "40\n139 72 178 67 40 109 703 97 84 91 55 168 2888 170 179 1773 177 64 175 53 47 103 1335 70 48 108 126 42 2499 65 113 140 112 117 84 114 97 143 80 130\n",
+                  "expected_stdout": "p50 109\np95 1773\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "150\n74 78 87 1092 150 154 131 146 92 42 87 117 61 171 998 108 103 118 106 53 43 104 928 48 1052 106 63 180 46 167 121 45 86 135 131 92 97 178 102 149 53 179 102 96 141 482 78 180 2929 94 113 530 121 148 55 2044 64 118 179 127 131 95 72 146 139 68 86 688 76 80 133 1181 41 155 116 63 167 90 112 60 1427 73 42 64 110 92 55 86 163 88 130 149 176 46 77 143 121 67 107 149 158 129 125 65 73 85 88 146 75 91 51 120 90 48 2727 114 143 150 113 154 104 82 138 59 65 133 94 120 122 118 77 76 118 94 155 177 104 170 108 135 117 132 174 145 85 1034 180 160 115 63\n",
+                  "expected_stdout": "p50 113\np95 1034\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "3\n9 1 5\n",
+                  "expected_stdout": "p50 5\np95 9\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "bke-5-c2",
+          "prompt": "Each night the portal builds a merit list for a fixed number of scholarships from 2 million applications, and only the top few hundred matter. The first line is `seats n`, then n lines `id marks income`. Complete `merit_list` so it picks the best `seats` applicants without sorting all n: higher marks first, then lower family income, then id in string order. The program prints the chosen ids in rank order, one per line, or NONE.",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef merit_list(applicants, seats):\n    \"\"\"applicants: list of (id, marks, family income). Return the ids of the `seats` best applicants: higher marks first, then lower income, then id in string order.\"\"\"\n    # Write your code here.\n    return []\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    seats, n = map(int, data[0].split())\n    applicants = []\n    for i in range(n):\n        applicant, marks, income = data[1 + i].split()\n        applicants.append((applicant, int(marks), int(income)))\n    chosen = merit_list(applicants, seats)\n    print(\"\\n\".join(chosen) if chosen else \"NONE\")\n\n\nmain()\n",
+          "reference_solution": "import heapq\nimport sys\n\n\ndef merit_list(applicants, seats):\n    \"\"\"applicants: list of (id, marks, family income). Return the ids of the `seats` best applicants: higher marks first, then lower income, then id in string order.\"\"\"\n    best = heapq.nsmallest(seats, applicants, key=lambda a: (-a[1], a[2], a[0]))\n    return [applicant for applicant, _, _ in best]\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    seats, n = map(int, data[0].split())\n    applicants = []\n    for i in range(n):\n        applicant, marks, income = data[1 + i].split()\n        applicants.append((applicant, int(marks), int(income)))\n    chosen = merit_list(applicants, seats)\n    print(\"\\n\".join(chosen) if chosen else \"NONE\")\n\n\nmain()\n",
+          "ds_topic": "heap",
+          "difficulty": 2,
+          "skills": [
+            "Python",
+            "SQL"
+          ],
+          "explanation": "heapq.nsmallest keeps only `seats` candidates in a heap while scanning, O(n log k) instead of sorting all n in O(n log n). The key encodes the published rules in order, so the list is deterministic and can be explained to any student who asks.",
+          "key_justification": "Top-k with a heap and a rule-ordered composite key.",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "2 4\nA1 90 300000\nA2 95 500000\nA3 90 100000\nA4 80 50000\n",
+                  "expected_stdout": "A2\nA3\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "1 8\nS13229 78 120000\nS70574 83 120000\nS63140 98 120000\nS86331 83 50000\nS33547 84 80000\nS48759 71 200000\nS33503 75 200000\nS88811 88 50000\n",
+                  "expected_stdout": "S63140\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "2 40\nS30090 79 120000\nS61023 94 50000\nS62984 81 120000\nS78748 76 50000\nS21924 89 50000\nS92138 93 80000\nS73520 92 120000\nS10002 78 120000\nS61191 98 80000\nS62052 93 120000\nS39472 86 80000\nS33019 94 80000\nS47664 90 200000\nS24482 93 50000\nS26462 98 200000\nS34114 78 80000\nS53796 98 80000\nS40384 81 200000\nS43597 70 80000\nS58833 94 200000\nS16557 72 200000\nS81278 72 200000\nS51625 77 80000\nS35407 93 80000\nS21674 98 50000\nS55024 78 50000\nS78409 87 200000\nS28015 87 120000\nS88310 85 120000\nS61707 71 80000\nS33465 70 120000\nS99707 88 200000\nS21676 76 200000\nS36209 93 200000\nS77449 78 50000\nS44995 71 200000\nS64197 77 200000\nS82004 79 200000\nS10759 71 200000\nS30596 82 50000\n",
+                  "expected_stdout": "S21674\nS53796\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1 90\nS60041 85 50000\nS81973 75 200000\nS14322 75 200000\nS86369 97 50000\nS56081 97 50000\nS14383 70 50000\nS53246 88 120000\nS68617 81 120000\nS19866 86 120000\nS39048 99 50000\nS95223 83 50000\nS80584 74 200000\nS49501 94 80000\nS29762 86 120000\nS95419 79 50000\nS73675 100 50000\nS24897 90 50000\nS40862 77 200000\nS81798 94 120000\nS27444 78 80000\nS56796 79 200000\nS45715 77 80000\nS36149 78 200000\nS23384 79 80000\nS60800 83 80000\nS82808 77 120000\nS16912 73 50000\nS99764 90 80000\nS77526 76 200000\nS83311 92 80000\nS12279 95 50000\nS54243 79 120000\nS74108 80 50000\nS25961 82 120000\nS11311 100 200000\nS34706 100 50000\nS60067 99 50000\nS60875 87 50000\nS29287 92 200000\nS54587 96 80000\nS24367 85 50000\nS81902 91 50000\nS39476 72 80000\nS56284 81 120000\nS99401 75 80000\nS99762 94 80000\nS76067 77 200000\nS42256 92 50000\nS89322 70 80000\nS18144 75 120000\nS59355 97 200000\nS44094 87 120000\nS86257 71 80000\nS12874 73 80000\nS67025 88 80000\nS71148 89 80000\nS13999 96 50000\nS59295 93 50000\nS52894 95 120000\nS66377 100 50000\nS47351 75 80000\nS55344 77 80000\nS25426 83 80000\nS56912 99 80000\nS16311 93 120000\nS66619 98 80000\nS68788 82 120000\nS39224 76 50000\nS64627 96 200000\nS53971 77 120000\nS34030 96 80000\nS64611 86 80000\nS45906 86 50000\nS34829 95 120000\nS33909 72 200000\nS61382 93 200000\nS98843 84 50000\nS39552 72 80000\nS49826 81 50000\nS14418 83 80000\nS92954 80 50000\nS87247 93 120000\nS40595 75 50000\nS34585 74 50000\nS22997 86 120000\nS84357 89 50000\nS35384 74 80000\nS96335 70 80000\nS56128 75 200000\nS57100 70 80000\n",
+                  "expected_stdout": "S34706\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "3 0\n",
+                  "expected_stdout": "NONE\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "3 3\nB2 70 100\nB1 70 100\nB3 71 900\n",
+                  "expected_stdout": "B3\nB1\nB2\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "1 8\nS84049 83 120000\nS42189 73 50000\nS43038 95 200000\nS80086 78 80000\nS63553 83 50000\nS88646 80 50000\nS66346 77 200000\nS99339 81 200000\n",
+                  "expected_stdout": "S43038\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "2 40\nS41217 72 200000\nS56363 78 50000\nS58714 76 50000\nS60971 95 120000\nS69686 89 200000\nS68512 89 50000\nS61607 82 80000\nS13953 87 120000\nS12381 74 50000\nS30334 99 50000\nS67473 85 80000\nS80216 87 120000\nS91581 86 120000\nS24263 77 80000\nS16347 73 50000\nS77476 98 50000\nS47824 96 200000\nS46058 87 50000\nS52999 91 200000\nS38228 85 50000\nS31174 77 120000\nS92648 99 200000\nS75357 90 50000\nS75143 92 80000\nS12534 100 50000\nS70452 86 50000\nS66721 76 50000\nS80196 74 120000\nS22025 70 80000\nS79876 79 120000\nS62080 94 80000\nS85686 89 50000\nS52969 78 50000\nS97851 92 80000\nS20306 90 80000\nS22055 73 50000\nS18828 92 80000\nS51098 95 200000\nS62393 83 120000\nS36527 96 200000\n",
+                  "expected_stdout": "S12534\nS30334\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "2 90\nS63753 93 50000\nS86864 99 80000\nS49203 100 120000\nS56367 78 200000\nS75190 99 200000\nS83461 82 50000\nS62069 87 50000\nS53891 88 200000\nS45246 96 80000\nS70980 79 200000\nS73998 74 120000\nS80833 73 200000\nS11112 75 200000\nS97669 87 120000\nS67809 92 120000\nS33179 85 120000\nS74617 75 80000\nS46795 91 50000\nS50064 72 200000\nS71662 93 200000\nS39691 76 50000\nS80468 77 120000\nS26327 77 200000\nS91852 98 80000\nS69615 87 50000\nS27326 86 120000\nS13016 74 80000\nS79419 91 120000\nS94215 90 200000\nS45512 84 80000\nS61390 75 50000\nS94832 93 50000\nS17978 83 50000\nS39397 87 50000\nS63056 82 200000\nS16393 78 120000\nS26367 95 80000\nS20167 79 50000\nS91724 89 200000\nS17133 85 50000\nS66872 97 80000\nS41500 77 120000\nS92650 94 120000\nS53809 80 80000\nS84774 78 80000\nS71059 77 200000\nS97912 99 80000\nS15279 85 120000\nS34871 91 80000\nS57152 74 200000\nS90576 75 120000\nS54907 98 120000\nS91759 74 80000\nS15494 70 200000\nS27150 85 200000\nS32107 96 50000\nS29723 83 50000\nS14611 80 80000\nS41433 79 200000\nS93638 97 50000\nS84224 75 120000\nS25977 89 50000\nS55145 94 50000\nS10843 74 120000\nS92269 82 80000\nS10008 86 80000\nS56561 91 50000\nS43864 72 200000\nS24089 83 120000\nS17179 73 50000\nS92064 89 50000\nS16436 77 200000\nS29430 82 120000\nS82322 79 120000\nS98242 86 200000\nS84003 80 120000\nS43019 97 120000\nS59211 95 120000\nS13756 73 120000\nS29083 91 120000\nS70201 79 120000\nS95476 73 200000\nS86124 73 80000\nS41902 87 80000\nS15560 91 50000\nS11511 78 50000\nS55717 88 200000\nS12771 72 50000\nS70573 73 120000\nS54191 75 120000\n",
+                  "expected_stdout": "S49203\nS86864\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "5 2\nD1 50 1\nD2 60 1\n",
+                  "expected_stdout": "D2\nD1\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "1 2\nC9 88 5\nC1 88 6\n",
+                  "expected_stdout": "C9\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "1 8\nS64018 72 120000\nS88084 77 200000\nS57330 71 120000\nS21321 85 120000\nS61264 96 200000\nS81340 80 50000\nS97592 74 200000\nS96609 91 200000\n",
+                  "expected_stdout": "S61264\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1 40\nS30129 76 80000\nS85783 79 80000\nS31941 86 50000\nS14275 80 80000\nS51343 73 80000\nS50984 89 80000\nS86411 85 50000\nS93017 91 50000\nS26857 85 50000\nS71583 71 50000\nS71821 84 120000\nS55833 79 80000\nS73172 94 50000\nS79815 93 200000\nS69138 74 200000\nS89088 70 80000\nS24780 78 120000\nS21031 78 120000\nS99213 76 200000\nS22928 91 80000\nS41861 100 120000\nS99241 90 50000\nS78670 93 200000\nS77239 70 200000\nS27429 74 200000\nS36830 86 200000\nS67087 97 50000\nS25011 96 80000\nS21359 95 50000\nS85697 75 120000\nS93081 73 200000\nS55928 79 80000\nS85383 97 200000\nS93397 88 50000\nS66900 81 200000\nS96748 92 120000\nS93221 86 50000\nS53401 99 80000\nS59082 100 50000\nS53730 88 50000\n",
+                  "expected_stdout": "S59082\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "10 90\nS75858 90 50000\nS65071 74 200000\nS31232 96 120000\nS95304 83 120000\nS40324 77 200000\nS27777 95 50000\nS92409 83 200000\nS68699 72 50000\nS11591 90 120000\nS76995 100 50000\nS84595 73 80000\nS14189 92 120000\nS33509 71 120000\nS43605 93 120000\nS16669 73 80000\nS52422 72 200000\nS33016 83 50000\nS51138 82 50000\nS25772 85 200000\nS38089 88 80000\nS88082 79 120000\nS47162 82 120000\nS21350 78 200000\nS27697 76 200000\nS34089 100 200000\nS91421 96 200000\nS10665 97 120000\nS37651 89 120000\nS98484 89 200000\nS30856 95 50000\nS96590 72 200000\nS10397 100 80000\nS23705 97 200000\nS16132 80 120000\nS83822 87 80000\nS82501 98 120000\nS42751 100 80000\nS36214 79 80000\nS66175 76 50000\nS78210 94 200000\nS11349 73 80000\nS75453 88 120000\nS54835 98 80000\nS43834 82 50000\nS82266 86 80000\nS16327 87 80000\nS11945 80 80000\nS78989 78 200000\nS75010 71 200000\nS70394 78 200000\nS30490 97 200000\nS63847 83 120000\nS54249 90 80000\nS22959 95 120000\nS68559 81 80000\nS25717 70 80000\nS11069 80 200000\nS94419 97 50000\nS62087 70 80000\nS27011 100 80000\nS86379 82 120000\nS37654 77 80000\nS65044 100 120000\nS86357 98 120000\nS80884 78 200000\nS73677 99 120000\nS78798 92 120000\nS62027 81 50000\nS88419 82 200000\nS33475 76 200000\nS55286 71 120000\nS79122 83 50000\nS44107 99 50000\nS34598 92 120000\nS20892 92 80000\nS77755 95 120000\nS67605 83 50000\nS53027 72 50000\nS45404 92 200000\nS24260 100 120000\nS40875 74 120000\nS84302 84 80000\nS48119 89 80000\nS23486 94 120000\nS45480 94 80000\nS79831 92 80000\nS62627 97 50000\nS14925 77 50000\nS16013 85 80000\nS25804 79 200000\n",
+                  "expected_stdout": "S76995\nS10397\nS27011\nS42751\nS24260\nS65044\nS34089\nS44107\nS73677\nS54835\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "2 3\nE1 99 1\nE2 99 1\nE3 99 1\n",
+                  "expected_stdout": "E1\nE2\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
         }
       ]
     }
