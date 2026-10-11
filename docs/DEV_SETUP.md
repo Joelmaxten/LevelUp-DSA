@@ -33,6 +33,12 @@ python --version
 ```
 (the `which python` command can display an odd-looking nested path on some machines —
 this is a harmless display quirk; trust `python --version` working correctly instead.)
+**Stale venv path warning.** The committed-layout `venv/` in this checkout was created in a
+different folder: `venv/Scripts/activate` sets `VIRTUAL_ENV="C:\LevelUp-DSAenv"` and
+`activate.bat` points there too, not at `C:\LevelUp-DSA2env`. Activating it can therefore
+put the wrong folder on `PATH`. The safe way is to skip activation and call the interpreter
+directly (`venv/Scripts/python.exe scripts/...`), which is what the commands in this guide
+and the recent work used. Whether a freshly created venv fixes it was not tested.
 5. Install dependencies
 ```bash
 pip install -r requirements.txt
@@ -215,6 +221,8 @@ For these tests run `pip install -r requirements-dev.txt` once (adds fpdf2).
 | `smoke_test_quiz.py` | career quiz: question-bank rules (1-3 paths per option, 6+ options per path, separating options for each pair), invariants (every path can be #1, every pair separable, stop rule within the bank), 30 seeded replays against `scratch/golden/quiz_after.json`, all-A/all-B personas; pure, no database | no |
 | `smoke_test_async_generation.py` | background generation: `/roadmap/generate-async` 202 and polling to done, progress fields, 409, ownership 404, fixed error codes with no exception text, own app context, daily cap, expiry, CSRF, sync route unchanged | no (generator stubbed) |
 | `smoke_test_scenarios.py` | scenarios: validator (pilot file plus 20+ deliberately broken copies), blind-solve prompt leak proof, store, engine (all four question types, shuffle, grading edge cases), unlock / best-score / recommendation rules, every route (401, 403, 404, 409, 400, CSRF, rate limit), `CareerProfile` untouched, page renders, `dsa.html` still renders | no (no LLM, YouTube or Adzuna code is reachable; the blind-solve checker is only exercised with a stub) |
+| `smoke_test_readiness.py` | Placement Readiness Score: component maths, re-weighting when a component is unavailable, ready decided on the unrounded score, `GET /readiness`, dashboard card; accounts with nothing saved, quiz only, and a path with no scenario file (it hides one scenario file to test that) | no |
+| `smoke_test_resume_rules.py` | resume rules: combined skills (HTML/CSS), implied skills (SQL), excluded tooling (npm, pip, ...), alias boundaries (Node.js, Vue.js, Next.js must not match `js`), the ATS checks | no |
 | `smoke_test_cached_roadmaps.py` | cached base roadmaps: loader (valid, stale, corrupt, missing), the build script (dry run, resumable, no overwrite without `--force`, one failing path does not stop the others, environment override beats `.env`), the personalizer (bad indexes dropped, text clipped, overlap removed, injection stays escaped, failure is None, prompt under 3,000 estimated tokens for all 15 real outlines), the async route (cached with and without personalization, full fallback, `ROADMAP_MODE=full`, ownership, CSRF, cap, 409), progress and the switcher on a cached roadmap, a timing table written to `scratch/benchmark_cached.csv`; about 2 minutes | no (every LLM call stubbed, uses the local FAISS index) |
 | `smoke_test_llm.py` | `llm_client`: retry on throttling/5xx/timeouts, no retry on access-denied/validation, fallback model, provider switch, schema correction, no secrets or prompt text in errors or logs | no (fake Bedrock client, patched Gemini; hides real credentials and blocks real clients) |
 | `smoke_test_generator.py` | roadmap generator with a fake LLM: golden comparison for 3 paths, coverage/duplicate/index/allowlist/shape invariants at concurrency 1 and 3, thread hygiene, failure handling, duplicate rewrite, warm-up | no (fake LLM, local embeddings only; ~1.5 min, mostly model load) |
@@ -230,6 +238,11 @@ PYTHONPATH=. venv/Scripts/python.exe scripts/smoke_test_security.py
 
 Each prints `[PASS]`/`[FAIL]` per check and exits non-zero on a failure. Run the
 last four only deliberately: they spend quota.
+
+Current check counts (run on 2026-10-11 unless marked): `smoke_test_scenarios.py` 213,
+`smoke_test_readiness.py` 70, `smoke_test_resume_rules.py` 59, `smoke_test_cached_roadmaps.py` 95
+(the 95 is from the earlier biography entry and was not re-run for this update). All of these
+call no external service, but they use the development database, so PostgreSQL must be running.
 
 If you change generator behavior ON PURPOSE, recapture the golden files with
 `PYTHONPATH=. venv/Scripts/python.exe scripts/smoke_test_generator.py --update-golden`
@@ -339,6 +352,11 @@ python scripts/build_base_roadmaps.py --all --run
   first two steps of each phase. Read it before committing the JSON files. It also shows the summary table columns per path: phases, steps,
   discarded `topic_refs` (invented ids the generator dropped), duplicate warnings (phases rewritten / repeats kept), seconds and model.
 - The personalizer uses the `fast` model (`FAST_MODEL_ID`) at runtime, so that variable must point at a model the provider serves.
+- Time: about 14 minutes per path with `openai/gpt-oss-20b` (a figure reported by the project owner from the Cybersecurity build; not
+  re-measured here), so `--all --run` for every path is a multi-hour job. Run it one or two paths at a time; a run can be resumed.
+- The 14 base files other than Cybersecurity were not built with this model: their replies were written by Claude in a cloud session
+  and fed through the generator's real pipeline (see "Base Roadmaps for All 15 Paths" in PROJECT_BIOGRAPHY.md). Their `metadata.model_id` is
+  `claude-opus-5-5`; Cybersecurity's is `openai/gpt-oss-20b`. Check `metadata.model_id` before assuming how a file was made.
 
 ### Front-end design system (where the tokens and components live)
 
@@ -373,8 +391,9 @@ send it with `-H "X-CSRF-Token: ..."` plus `-b cookies.txt`.
 
 ### Scenarios (scenario-based practice)
 
-Short work scenarios per career path, shown as a map. Pilot path: Machine Learning Engineering
-(`data/scenarios/ml-engineering.json`, 5 scenarios, 22 questions). Page: `/scenarios`; API:
+Short work scenarios per career path, shown as a map. All 15 paths have a file in `data/scenarios/` (75
+scenarios and 340 questions in total; one file per path, e.g. `ml-engineering.json`, `cybersecurity.json`).
+Page: `/scenarios`; API:
 `app/routes/scenarios.py`; rules: `app/pipeline/scenario_engine.py` (pure); loading:
 `app/pipeline/scenario_store.py`; checks: `app/pipeline/scenario_validator.py`.
 
@@ -398,6 +417,15 @@ Short work scenarios per career path, shown as a map. Pilot path: Machine Learni
   `PYTHONPATH=. python scripts/blind_solve_scenarios.py`. The real run calls the configured model (one call per
   scenario, one retry for a failed scenario only):
   `PYTHONPATH=. python scripts/blind_solve_scenarios.py --run --paths "Machine Learning Engineering"`.
+  Notes from running it on all 15 paths: `--paths` takes a space-separated list of quoted names
+  (`--paths "DevOps" "Data Science"`), but run one or two paths at a time with `timeout 900`
+  (`PYTHONPATH=. timeout 900 venv/Scripts/python.exe scripts/blind_solve_scenarios.py --run --paths "DevOps"`);
+  `PYTHONPATH=.` is needed for the validator and the smoke tests (the blind-solve script adds the repo root
+  itself). The script prints the provider, host, model and key variable name (never a value) before it runs,
+  refuses to run when the key is missing, and does not write a review file when every scenario failed. A
+  `malformed_response` for a scenario means the model's reply was not usable: re-run that one command.
+  The model is non-deterministic: the same file can disagree on different questions in two runs, so a single
+  disagreement is a prompt to re-read the question, not proof the key is wrong.
 - **Answer delivery.** The server never sends the key. `POST /scenarios/<id>/start` returns the shuffled public view;
   `POST /scenarios/<id>/answer` locks one question and returns that question's explanation; `POST /scenarios/<id>/submit`
   grades everything on the server. A locked answer cannot be changed (the submit call uses the stored one).
@@ -408,7 +436,11 @@ Short work scenarios per career path, shown as a map. Pilot path: Machine Learni
 - **Add a path:** write `data/scenarios/<slug>.json` in the format above with a `path` that is in `CAREER_PATHS`; add
   the path's id prefix to `PATH_ID_PREFIX` in `scenario_validator.py`; run the validator; optionally drop a scene at
   `app/static/scenes/<scene_id>.svg` (without one the map shows a gradient); run the blind-solve check and read the
-  review file before shipping.
+  review file before shipping. `PATH_ID_PREFIX` maps a path name to its id prefix (for example `mle` for Machine
+  Learning Engineering, `cyb` for Cybersecurity, `den` for Data Engineering); the validator rejects a scenario id that
+  is not `<prefix>-N` or a question id that is not `<scenario id>-qM`. The smoke tests expect a file for every path in
+  `CAREER_PATHS`; to test the "no scenarios yet" behaviour they hide one file (Game Development's) for the duration of the
+  check (commit 95b70d2; the exact mechanism was not re-read for this update).
 - **Tests:** `PYTHONPATH=. python scripts/smoke_test_scenarios.py` (see the table above).
 
 ### Cleaning up test users

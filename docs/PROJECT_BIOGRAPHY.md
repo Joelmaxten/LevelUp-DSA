@@ -1923,6 +1923,151 @@ tables and models; `app/routes/dsa.py` and `dsa_graph.py`; `dashboard.py` (it re
 weakness formula (the `WeaknessProfile` table exists but nothing writes it) and no Placement Readiness Score yet.
 
 ---
+## Scenario Gamification Redesign: What Replaced the Skill DNA Map
+
+**What changed.** The Phase 3 plan (Skill DNA Map with code execution, XP/mastery/streaks and an adaptive bandit that spawns problems
+from weakness scores) was replaced for new work by real-world scenario case studies. The project owner records this as made on the
+guide's suggestion; that is not visible in git, so it is "as reported, not verified". The previous entry (Pilot: Machine Learning
+Engineering) holds the first build; this entry records the design as it now stands.
+
+**How it works.** Each career path has a map of five scenarios, each a short work situation with 4 or 5 questions of four types:
+single choice, choose-all-that-apply (`multi_select`), ordering (`order`) and matching (`match`). Grading is deterministic and on the
+server (10 points per question, all or nothing, pass at 70%); there is no model in the loop. The browser never receives an answer key
+early: `POST /scenarios/<id>/start` sends a whitelist-built, shuffled view, `POST /scenarios/<id>/answer` locks one question and returns
+only that question's explanation, and `POST /scenarios/<id>/submit` grades the stored answers. State lives in one new table,
+`scenario_attempts` (created by `db.create_all()`, no migration). The map payload (`GET /scenarios/<path slug>`, plus
+`GET /scenarios/paths`) carries each scenario's state from the engine: `locked`, `open`, `attempted` or `passed`, with best score and max
+score; scenario 1 is always open and scenario N+1 opens after any submitted attempt on N. The first scenario not yet passed is marked
+"recommended", and a "matches your goal" marker comes from the Goals chat.
+
+**Why this and not the bandit.** The scenarios test judgement (which fix, in what order, which two causes) with explanations of why the
+other options fail, need no code runner and need no weakness formula. The old tables and the `/dsa` map were left in place and still
+work; the `WeaknessProfile` table still has no writer.
+
+**Verified.** `smoke_test_scenarios.py` is at 213 checks and passes (run 2026-10-11 with the other suites). Counts at the time of this
+entry: 15 paths, 75 scenarios, 340 questions.
+
+**Not verified.** No real student has used it; every browser check recorded in this document was on a stubbed server. Scene artwork for
+the maps does not exist (maps use a gradient).
+
+---
+## Scenario Content Pipeline: Validator, Blind-Solve Checker, Fifteen Authored Paths
+
+**What was built.** (1) `scenario_validator.py` / `validate_scenarios.py`: structure, ids (a registered prefix per path in
+`PATH_ID_PREFIX`), option and key rules, plus warnings (all correct answers in one position, the longest option being correct too often)
+that never fail the run. The smoke test feeds it more than twenty deliberately broken copies. Final state: all 15 files give 0 errors and
+0 warnings. (2) `blind_solve_scenarios.py`: a model answers every question without seeing the key (prompt built from a whitelist; a test
+plants marker text in each key field and checks it never appears), and each disagreement is written to
+`docs/SCENARIO_REVIEW_<path slug>.md` for a human to judge. A disagreement means the question may be ambiguous or the key wrong; it
+proves neither. (3) Fifteen authored files in `data/scenarios/`: Machine Learning Engineering first, then, in commit order,
+Cybersecurity, Full-Stack, Data Science, AI Engineering, Data Analytics, Mobile, Game, Backend, UI/UX, Frontend, Cloud, DevOps, QA and
+Data Engineering. Each file was committed as "validated, blind-solve pending", and the blind-solve ran afterwards.
+
+**The `.env`-loading bug.** The first blind-solve script did not load `.env` before the app config was imported (the config reads the
+environment at import time), so the model call could not find its key and the script depended on `PYTHONPATH`. Commit 3870506 fixed it:
+`.env` is loaded before the config import, the script runs without `PYTHONPATH`, it prints provider, host, model and the key variable
+*name* (never a value), refuses when the key is missing, and writes no review file when every scenario failed. A smoke check proves the
+order of the `load_dotenv` call and that the banner never contains a key.
+
+**Blind-solve and domain-review findings, and what was changed.** The blind-solve model was `openai/gpt-oss-20b` through the NVIDIA
+endpoint (the model named in the run banner). The order-question disagreements were fixed by rewording one step so only one order is
+defensible (keys unchanged). Specific changes, from git history and the review work:
+- Early: ML option lengths equalised and `mle-4-q5` clarified (50fdeba); three fictional organisations renamed because they could be
+  mistaken for real ones (738d719).
+- Cybersecurity: a wrong "bcrypt is memory-hard" claim corrected and the `cyb-3-q5` isolation step reworded (23fd14f); `cyb-4-q2`
+  justified only by the stated constraints, dropping a phishing-resistance claim (ddd962f).
+- Order questions reworded: `aie-5-q1`, `mob-5-q1` and `den-5-q1` (reported by the owner as fixed earlier; they were uncommitted edits
+  until commit 2f26c1d), then `fsd-5-q1` (it needed two rewordings: the first still got a swapped order from the model; the second
+  states that the backfill happens with dual writes live) and `dop-5-q1` (mitigation tied to the incident commander).
+- Domain review of all 340 questions (commit 2f26c1d): `den-3-q4` made a join, because Spark's adaptive query execution splits skewed
+  *join* partitions, not group-bys, so the original key did not hold; `den-3-q3` corrected from "a few hundred gigabytes" to about 140 GB
+  (20 GB a day for a week); `dan-3-q2` run date moved from 29 to 22 October because 28 of 30 days of data cannot give a 30% drop;
+  `cyb-5-q5` "process" changed to "account". Then (4e19036): `mle-3` forecast horizon changed from "seven days ahead" to "for the next
+  day", so the 7-day lags and the previous-seven-days rolling average are known at forecast time, and `den-5-q5`'s raw-zone target was
+  reworded so it no longer implies the raw data is converted to columnar files (it conflicted with `den-5-q1`, which ingests raw files
+  unchanged).
+- Left unchanged as model errors: `dsc-4-q3` (the key follows from the stated equal cost per litre) and, in the final reruns, `fsd-1-q4`,
+  `dop-4-q4` and `dan-3-q4`.
+- Final reruns on the five paths changed in 2f26c1d: Full-Stack 21/22, DevOps 22/23, Data Engineering 23/23, Data Analytics 22/23,
+  Cybersecurity 22/22. The same file gave different disagreements between runs (`fsd-1-q4` and `fsd-5-q4` flipped), so the checker is
+  noisy by nature.
+
+**Issues faced.** `--paths` takes a space-separated list and each real run takes minutes: five runs in parallel worked, but the guidance
+is one or two at a time with `timeout 900`. A reworded order step can still be swapped by the model; the fix that held was to state the
+dependency in the option text itself.
+
+**Not verified.** Only one model (a 20B open model) acted as the blind solver, so a subtle wrong key could pass it. The domain review was
+done by reading, not by a subject-matter expert outside this project. Judgement calls were listed, not changed (for example whether a
+10-minute seat hold counts as double-booking prevention in `fsd-4-q4`, and whether a standby in a second zone meets the contract in
+`cle-4-q1` for a region-wide disaster). The review files `docs/SCENARIO_REVIEW_*.md` are generated reports and were not committed in the
+recent rounds.
+
+---
+## Placement Readiness Score
+
+**What was built.** `app/pipeline/readiness.py` (pure, no Flask or database), `GET /readiness` (`app/routes/readiness.py`), a dashboard
+card, and `smoke_test_readiness.py` (70 checks). Four components, each 0 to 1 or unavailable: roadmap (completed steps / total steps),
+skill gap (skills acquired / required), scenarios (mean over the path's scenarios of best score / max score, with unattempted = 0, and
+unavailable when the path has no scenario file, since "no content" is not a score of 0) and streak (days in the last 30 with a scenario
+submission or a completed roadmap step / 30). Base weights are .25, .35, .30 and .10. **An unavailable component is dropped and the
+remaining weights are re-normalised to sum to 1**, so a student is not penalised for content that does not exist. The score is 0 to 100 to
+one decimal; "ready" is 70.0 or more.
+
+**Issues faced and fixes.** (1) A score of 69.96 displays as 70.0 but should not read "ready", so ready is decided on the *unrounded*
+score (e946a01); floating-point noise under 1e-9 is ignored so a true 70 is not read as 69.999999999, and the weights are kept as integer
+hundredths to avoid drift. (2) A dashboard bug found in the browser (as reported by the project owner; the commit message does not say
+how it was found): an account with nothing saved was redirected from `/dashboard` to `/`, so a brand-new user never saw the readiness
+card. The dashboard now always renders for a logged-in user (b338bfb), shows 0.0 / 100 for a new account, and the score is shown to one
+decimal. Smoke checks were added for a new account, a quiz-only account and an account whose top path has no scenario file.
+
+**Verified.** `smoke_test_readiness.py` 70/70 on 2026-10-11. **Not verified:** the weights are a design choice with no data behind
+them, and the score has not been checked against real students.
+
+---
+## Resume Fixes: Composite and Implied Skills, Tooling Exclusion, Alias Boundaries, Stricter ATS
+
+**What was built (commit dfda571, branch `resume-fixes`).** `skill_matching.py` with one table each for combined skills (HTML/CSS),
+implied skills (SQL) and excluded tooling (npm, pip and similar). The extractor now reports HTML and CSS separately; HTML/CSS counts as
+matched only when both are found, and one of the two is reported as a partial skill. `get_required_skills` drops package managers before
+the top-N cut, which changed the required skills of 8 paths (the golden file `required_skills_before.json` was regenerated). The ATS score
+gained discriminating checks (page count, metrics, weak phrases, links, long paragraphs, dates), and every check, passed or deducted, is
+listed. The dashboard tile "Level / Strong" became "Readability", stating it is not role fit.
+
+**Alias boundary fix (8c7e988).** The alias check used `\b`, which treats `.` and `-` as boundaries, so `js` matched inside `Node.js` and
+credited JavaScript. Aliases now must not touch a word character or be joined to a word by a dot or hyphen (Node.js, Vue.js and Next.js
+no longer match `js`). A docstring typo was fixed afterwards (54d980d).
+
+**Verified.** `smoke_test_resume_rules.py` 59/59 on 2026-10-11. **Not verified:** a real resume run with a real LLM after these changes.
+
+---
+## Base Roadmaps for All 15 Paths (Honest Provenance)
+
+**What was built.** A reviewed base roadmap for every career path in `data/base_roadmaps/`, plus a review document
+(`docs/BASE_ROADMAP_REVIEW.md`, 915 lines, regenerated with `build_base_roadmaps.py --review-only`).
+
+**How they were made, stated plainly.** Cybersecurity was built with the project's own tooling and a real model call to
+`openai/gpt-oss-20b` (22 steps, two phases; file metadata `model_id: openai/gpt-oss-20b`, built 2026-10-09). The other **14 were
+authored in a cloud Claude Code session**: the generator's real pipeline ran unmodified (`generate_roadmap`, KB-only resources,
+`build_document`, `validate_document`), but **every model reply was written by Claude** (`claude-opus-5-5`, per the commit messages and
+file metadata, built 2026-10-10) answering the generator's prompts, not by the production model. Their step titles and wording are
+therefore a Claude-written stand-in for what gpt-oss-20b would produce; they pass the same structural validation but say nothing about
+gpt-oss-20b's quality. **The `audit` stored in each file is the generator's retrieved-chunks audit trail, not a model audit of quality;
+no model reviewed these roadmaps.** Whether a person has read all 15 end to end is not recorded in the repo (not verified).
+
+**Verified.** Each file passes the loader's validation (phased shape, contiguous `global_step_index`, `topic_refs` inside the path's
+inventory, no duplicate titles, videos and resources on every step); `smoke_test_cached_roadmaps.py` was 95 checks when last recorded
+(not re-run for this entry). **Not verified:** staleness against the current KB fingerprint was not re-checked for the 14 cloud-built files.
+
+---
+## Merge Into dev and Test-User Cleanup
+
+**What happened.** The work from `scenario-content` (merged in d2ae3bf and 76ab810), `resume-fixes` (8abf97c) and the cloud session's
+`origin/base-roadmaps-1` branch (merge commit 1e55cd3, on 2026-10-11) is in `dev`; the readiness score and the later scenario fixes were
+committed on `dev` directly. **31 test users were removed** from the development database; the project owner reported this, and it
+cannot be checked from git or the repo (the cleanup tool is `scripts/cleanup_demo_users.py`, which deletes `@example.com` users and
+their rows and knows the `scenario_attempts` table). Not verified.
+
+---
 ---
 ---
 ## Still To Build
@@ -1935,6 +2080,9 @@ weakness formula (the `WeaknessProfile` table exists but nothing writes it) and 
   v2 entry; not re-checked since the career-path restructuring)
 - Phase 3 Stage 2 (Piston, code execution, XP/mastery/streaks) and Stage 3
   (adaptive bandit map): superseded for new work by scenarios (see Scenario-Based Gamification); the DSA map stays as is
-- Scenario content for the other 14 paths, a real blind-solve run on the pilot, scene artwork
-- Placement Readiness Score (roadmap progress is now stored and can feed it)
-- Deployment (see "Known Issues / Deployment Backlog" in DEV_SETUP.md)
+- Scenario scene artwork (the maps use a gradient)
+- Coding questions in the scenarios: decision pending with the guide
+- Deployment on Render (see "Known Issues / Deployment Backlog" in DEV_SETUP.md); no deployment is recorded in the repo (not verified)
+- Advisor bot
+- ML path prediction
+- Remove detail from 500 responses (error bodies should stop exposing internals)
