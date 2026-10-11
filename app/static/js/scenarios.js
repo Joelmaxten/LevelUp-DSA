@@ -20,7 +20,12 @@ function announce(message) {
     setTimeout(() => { live.textContent = message; }, 30);
 }
 
+const RUNNER_ERRORS = ["timeout", "runtime_error", "runner_unavailable"];
+
 function errorText(result) {
+    const code = result.data && result.data.error;
+    if (RUNNER_ERRORS.includes(code)) return "Code check unavailable, try again.";
+    if (code === "code_too_large") return "Your code or its input is too long. Shorten it and try again.";
     if (result.status === 0) return "Couldn't reach the server. Check your connection and try again.";
     if (result.status === 401) return "You need to be logged in to continue.";
     if (result.status === 429) return "You're doing that too often. Please wait a bit and try again.";
@@ -328,7 +333,80 @@ function buildMatch(question) {
     };
 }
 
+// A code question: a plain textarea editor, a Run button (ungraded, visible examples only) and an output panel.
+// The Check button is the shared one in renderQuestion; get() returns the source for it.
+const TAB_SPACES = "    ";
+
+function buildCode(question) {
+    const examples = el("div", { className: "scen-examples" }, ...question.tests.map((t, i) => el("div", { className: "scen-example" },
+        el("p", { className: "scen-sub", text: `Example ${i + 1}` }),
+        el("p", { className: "hint", text: "Input" }), el("pre", { className: "scen-pre", text: t.stdin }),
+        el("p", { className: "hint", text: "Expected output" }), el("pre", { className: "scen-pre", text: t.expected_stdout }))));
+    const editorId = `code-${question.id}`;
+    const editor = el("textarea", {
+        className: "scen-code", id: editorId, rows: "14", spellcheck: "false", autocomplete: "off",
+        autocapitalize: "off", autocorrect: "off", "aria-describedby": `${editorId}-hint`,
+    });
+    editor.value = question.starter_code;
+    let trapTab = true;   // Tab inserts spaces until Escape; Escape then Tab (or Shift+Tab) moves focus on
+    editor.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") { trapTab = false; announce("Tab now moves focus out of the editor."); return; }
+        if (e.key !== "Tab" || e.shiftKey || e.ctrlKey || e.altKey || e.metaKey) return;
+        if (!trapTab) { trapTab = true; return; }
+        e.preventDefault();
+        editor.setRangeText(TAB_SPACES, editor.selectionStart, editor.selectionEnd, "end");
+        editor.dispatchEvent(new Event("input", { bubbles: true }));
+    });
+    editor.addEventListener("blur", () => { trapTab = true; });
+
+    const runBtn = el("button", { type: "button", className: "btn btn-secondary", text: "Run on the examples" });
+    const panel = el("div", { className: "scen-run-out stack-sm", "aria-live": "polite" });
+    let busy = false;
+    runBtn.addEventListener("click", async () => {
+        if (busy || !editor.value.trim()) return;
+        busy = true;
+        runBtn.disabled = true;
+        runBtn.setAttribute("aria-busy", "true");
+        panel.replaceChildren(el("p", { className: "muted", text: "Running…" }));
+        const result = await request(`/scenarios/${encodeURIComponent(run.scenario.id)}/code/run`, {
+            method: "POST", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ attempt_id: run.attemptId, question_id: question.id, source: editor.value }),
+        });
+        busy = false;
+        runBtn.removeAttribute("aria-busy");
+        runBtn.disabled = editor.disabled;
+        if (!result.ok) {
+            panel.replaceChildren(alertEl(errorText(result), "error"));
+            return;
+        }
+        panel.replaceChildren(...result.data.results.map((r, i) => {
+            const kids = [el("p", { className: `scen-verdict ${r.passed ? "is-right" : "is-wrong"}`, text: `Example ${i + 1}: ${r.passed ? "passed" : "not passed"}` })];
+            if (r.exception === "time_limit") kids.push(el("p", { className: "muted", text: "The program ran out of time." }));
+            else if (r.exception === "memory_limit") kids.push(el("p", { className: "muted", text: "The program used too much memory." }));
+            if (r.stdout) kids.push(el("p", { className: "hint", text: "Your output" }), el("pre", { className: "scen-pre", text: r.stdout }));
+            if (r.stderr) kids.push(el("p", { className: "hint", text: "Errors" }), el("pre", { className: "scen-pre", text: r.stderr }));
+            return el("div", { className: "scen-run-item stack-sm" }, ...kids);
+        }));
+        announce(`${result.data.results.filter((r) => r.passed).length} of ${result.data.results.length} examples passed.`);
+    });
+
+    const node = el("div", { className: "scen-code-wrap stack-sm" }, examples,
+        el("label", { className: "scen-sub", for: editorId, text: "Your Python code" }),
+        el("p", { className: "hint", id: `${editorId}-hint`, text: "Read input with input(), print the answer. Tab inserts spaces; press Escape, then Tab, to move on." }),
+        editor, el("div", { className: "actions" }, runBtn), panel);
+    return {
+        node,
+        onChange(cb) { editor.addEventListener("input", cb); },
+        get() { return editor.value.trim() ? editor.value : null; },
+        lock(result) {
+            editor.readOnly = true;
+            runBtn.disabled = true;
+        },
+    };
+}
+
 function correctAnswerText(question, result) {
+    if (question.type === "code") return [result.correct_answer];
     if (question.type === "match") {
         return Object.entries(result.correct_answer).map(([i, t]) => `${optionText(question, i, "items")} → ${optionText(question, t, "targets")}`);
     }
@@ -340,8 +418,12 @@ function feedbackCard(question, result) {
         el("h3", { className: `scen-verdict ${result.correct ? "is-right" : "is-wrong"}`, id: "scen-feedback", tabindex: "-1", text: result.correct ? "Correct" : "Not quite" }),
         el("p", { text: result.explanation }),
     ];
+    if (question.type === "code") {
+        const seen = result.visible_passed || [];
+        kids.push(el("p", { text: `Example tests: ${seen.filter(Boolean).length} of ${question.tests.length} passed. Hidden tests: ${result.hidden_passed} of ${result.hidden_total} passed.` }));
+    }
     if (!result.correct) {
-        kids.push(el("h4", { className: "scen-sub", text: question.type === "multi_select" ? "The correct answers" : "The correct answer" }));
+        kids.push(el("h4", { className: "scen-sub", text: question.type === "multi_select" ? "The correct answers" : question.type === "code" ? "For example" : "The correct answer" }));
         kids.push(el("ul", { className: "scen-answer-list" }, ...correctAnswerText(question, result).map((t) => el("li", { text: t }))));
     }
     const wrong = result.why_others_wrong || {};
@@ -365,15 +447,17 @@ function renderQuestion(allDone) {
 
     const input = question.type === "order" ? buildOrder(question)
         : question.type === "match" ? buildMatch(question)
+        : question.type === "code" ? buildCode(question)
         : buildChoice(question, question.type === "multi_select");
     const hint = question.type === "multi_select" ? "Choose all that apply."
         : question.type === "order" ? "Use the Up and Down buttons to put the steps in order."
-        : question.type === "match" ? "Pick one for each, using each option once." : "Choose one.";
+        : question.type === "match" ? "Pick one for each, using each option once."
+        : question.type === "code" ? "Write the program, try it on the examples, then check it against every test. You can check once." : "Choose one.";
 
     const fieldset = el("fieldset", { className: "scen-fieldset" },
         el("legend", { className: "scen-prompt", id: "scen-prompt", tabindex: "-1", text: question.prompt }),
         el("p", { className: "hint", text: hint }), input.node);
-    const check = el("button", { type: "button", className: "btn", text: "Check answer" });
+    const check = el("button", { type: "button", className: "btn", text: question.type === "code" ? "Check against all tests" : "Check answer" });
     const slot = el("div", { className: "stack-sm", id: "scen-slot" });
     const actions = el("div", { className: "actions" }, check);
     const nextBar = el("div", { className: "actions" });   // after the feedback, so Tab reaches it next
