@@ -19,6 +19,9 @@ DS_TOPICS = ["array", "hash_map", "stack", "queue", "linked_list", "tree", "grap
 CODE_LANGUAGES = ["python"]
 MAX_CODE_BYTES = 8 * 1024      # starter_code / reference_solution (the runner's source cap, app/pipeline/code_runner.py)
 MAX_STDIN_BYTES = 2 * 1024     # one test's stdin (the runner's per-input cap)
+MAX_POOL = 4                   # code problems in one scenario's pool
+MAX_VARIANTS = 5               # data variants of one pool problem
+PARAM_RE = re.compile(r"\{([a-z][a-z0-9_]*)\}")   # {placeholder} in a pool problem's prompt
 # Id prefix per path (mle-1, mle-1-q2). A path without an entry here cannot have a scenario file yet.
 PATH_ID_PREFIX = {
     "Full-Stack Development": "fsd",
@@ -45,6 +48,11 @@ BANNED_OPTION = re.compile(
 LETTER_REFERENCE = re.compile(r"\b(?:options?|choices?|answers?)\s*\(?[a-e]\)?(?![a-z])", re.I)
 
 _ID = {"type": "string", "pattern": r"^[a-z0-9]+$", "maxLength": 12}
+_TESTS = {"type": "array", "minItems": 1, "maxItems": 10, "items": {
+    "type": "object", "required": ["stdin", "expected_stdout", "hidden"], "additionalProperties": False,
+    "properties": {"stdin": {"type": "string", "maxLength": MAX_STDIN_BYTES},
+                   "expected_stdout": {"type": "string", "maxLength": MAX_STDIN_BYTES},
+                   "hidden": {"type": "boolean"}}}}
 _TEXT = {"type": "string", "minLength": 1, "maxLength": 1200}
 _OPTIONS = {"type": "array", "minItems": 2, "maxItems": 8,
             "items": {"type": "object", "required": ["id", "text"], "additionalProperties": False,
@@ -88,6 +96,10 @@ SCHEMA = {
                         "properties": {"x": {"type": "number"}, "y": {"type": "number"}, "label": _TEXT},
                     },
                     "questions": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/question"}},
+                    # Optional: coding problems, ONE of which is added to each attempt as its last question,
+                    # picked per student (scenario_engine.choose_code_pick), with one of its data variants.
+                    "code_pool": {"type": "array", "minItems": 1, "maxItems": MAX_POOL,
+                                  "items": {"$ref": "#/$defs/pool_problem"}},
                 },
             },
         },
@@ -115,12 +127,7 @@ SCHEMA = {
                               "starter_code": {"type": "string", "maxLength": MAX_CODE_BYTES},
                               "reference_solution": {"type": "string", "minLength": 1, "maxLength": MAX_CODE_BYTES},
                               "ds_topic": {"enum": DS_TOPICS},
-                              "tests": {"type": "array", "minItems": 1, "maxItems": 10, "items": {
-                                  "type": "object", "required": ["stdin", "expected_stdout", "hidden"],
-                                  "additionalProperties": False,
-                                  "properties": {"stdin": {"type": "string", "maxLength": MAX_STDIN_BYTES},
-                                                 "expected_stdout": {"type": "string", "maxLength": MAX_STDIN_BYTES},
-                                                 "hidden": {"type": "boolean"}}}}}}},
+                              "tests": _TESTS}}},
                 {"if": {"properties": {"type": {"enum": ["single_choice", "multi_select", "order"]}}},
                  "then": {"required": ["options"], "properties": {
                      "options": _OPTIONS, "correct": {"type": "array", "items": {"type": "string"}}}}},
@@ -129,7 +136,32 @@ SCHEMA = {
                      "items": _OPTIONS, "targets": _OPTIONS,
                      "correct": {"type": "object", "additionalProperties": {"type": "string"}}}}},
             ],
-        }
+        },
+        "pool_problem": {
+            "type": "object",
+            "required": ["id", "prompt", "language", "starter_code", "reference_solution", "ds_topic", "difficulty",
+                         "skills", "explanation", "key_justification", "variants"],
+            "additionalProperties": False,
+            "properties": {
+                "id": {"type": "string"},
+                "prompt": {"type": "string", "minLength": 1, "maxLength": 2000},
+                "language": {"enum": CODE_LANGUAGES},
+                "starter_code": {"type": "string", "maxLength": MAX_CODE_BYTES},
+                "reference_solution": {"type": "string", "minLength": 1, "maxLength": MAX_CODE_BYTES},
+                "ds_topic": {"enum": DS_TOPICS},
+                "difficulty": {"type": "integer", "minimum": 1, "maximum": 3},
+                "skills": {"type": "array", "items": {"type": "string", "minLength": 1, "maxLength": 40}},
+                "explanation": {"type": "string"},
+                "key_justification": {"type": "string"},
+                "points": {"type": "integer", "minimum": 1},
+                "variants": {"type": "array", "minItems": 1, "maxItems": MAX_VARIANTS, "items": {
+                    "type": "object", "required": ["params", "tests"], "additionalProperties": False,
+                    "properties": {
+                        "params": {"type": "object", "additionalProperties": {
+                            "type": "string", "minLength": 1, "maxLength": 60, "pattern": r"^[^{}\n]*$"}},
+                        "tests": _TESTS}}},
+            },
+        },
     },
 }
 
@@ -187,6 +219,10 @@ def validate_scenario_file(data):
             if prefix and q["id"] != f"{sid}-q{i}":
                 errors.append(f"{q['id']}: question id must be {sid}-q{i}")
             _check_question(q, errors)
+        for k, problem in enumerate(s.get("code_pool") or [], 1):
+            if prefix and problem["id"] != f"{sid}-c{k}":
+                errors.append(f"{problem['id']}: pool problem id must be {sid}-c{k}")
+            _check_pool_problem(problem, errors)
 
     scenario_ids = set(ids)
     for a, b in data["map"]["edges"]:
@@ -221,6 +257,37 @@ def _check_code_question(q, errors):
     keys = [(t["stdin"], t["expected_stdout"]) for t in tests]
     if len(set(keys)) != len(keys):
         errors.append(f"{qid}: duplicate tests")
+
+
+def materialize(problem, variant_index):
+    """One pool problem + one of its data variants -> an ordinary code question (prompt placeholders filled)."""
+    variant = problem["variants"][variant_index]
+    params = variant["params"]
+    question = {k: v for k, v in problem.items() if k not in ("variants", "difficulty", "skills")}
+    question["type"] = "code"
+    question["prompt"] = PARAM_RE.sub(lambda m: params.get(m.group(1), m.group(0)), problem["prompt"])
+    question["tests"] = [dict(t) for t in variant["tests"]]
+    return question
+
+
+def _check_pool_problem(problem, errors):
+    pid = problem["id"]
+    for field in ("explanation", "key_justification"):
+        if not problem[field].strip():
+            errors.append(f"{pid}: {field} is empty")
+    placeholders = set(PARAM_RE.findall(problem["prompt"]))
+    for n, variant in enumerate(problem["variants"], 1):
+        keys = set(variant["params"])
+        if keys != placeholders:
+            errors.append(f"{pid}: variant {n} params {sorted(keys)} do not match the prompt placeholders "
+                          f"{sorted(placeholders)}")
+        before = len(errors)
+        _check_code_question(materialize(problem, n - 1), errors)
+        for i in range(before, len(errors)):
+            errors[i] = errors[i].replace(f"{pid}:", f"{pid} variant {n}:", 1)
+    stdin_sets = [tuple(t["stdin"] for t in v["tests"]) for v in problem["variants"]]
+    if len(set(stdin_sets)) != len(stdin_sets):
+        errors.append(f"{pid}: two variants have identical test inputs")
 
 
 def _check_question(q, errors):

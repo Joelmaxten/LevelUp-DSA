@@ -1,8 +1,9 @@
 """
 Code-execution adapter for graded Python questions. One function, run_batch(source, stdins), hides the provider.
 
-Providers (config CODE_RUNNER): "onecompiler" (real HTTP call) or "fake" (executes nothing, returns scripted
-results; for tests and offline demos). Each result is {"stdout": str, "stderr": str, "exception": None | "time_limit"
+Providers (config CODE_RUNNER): "onecompiler" (real HTTP call), "fake" (executes nothing, returns scripted
+results; for tests) or "local" (runs the code with this machine's Python in a subprocess with a time limit, for an
+OFFLINE DEMO ON YOUR OWN LAPTOP ONLY: it is not a sandbox, so never enable it on a server other people can reach). Each result is {"stdout": str, "stderr": str, "exception": None | "time_limit"
 | "memory_limit" | "error"}. The provider's own text is never passed on except what the student's program printed
 (stdout/stderr), and it never appears in a CodeRunnerError, a log line or a response. The API key is read from
 ONECOMPILER_API_KEY (config) and is only ever sent as a request header.
@@ -10,6 +11,9 @@ ONECOMPILER_API_KEY (config) and is only ever sent as a request header.
 Errors are always CodeRunnerError with one fixed code: timeout, runtime_error, runner_unavailable, code_too_large.
 """
 import os
+import subprocess
+import sys
+import tempfile
 
 import requests
 
@@ -49,7 +53,7 @@ def _setting(name, default=""):
 
 def runner_name():
     name = str(_setting("CODE_RUNNER", "onecompiler") or "onecompiler").strip().lower()
-    return name if name in ("onecompiler", "fake") else "onecompiler"
+    return name if name in ("onecompiler", "fake", "local") else "onecompiler"
 
 
 def api_key_variable():
@@ -73,6 +77,32 @@ def _run_fake(source, stdins):
         return [{"stdout": "", "stderr": "", "exception": None} for _ in stdins]
     results = _fake(source, list(stdins)) if callable(_fake) else list(_fake)
     return [_clean(r) for r in results]
+
+
+# ---------------------------------------------------------------- local runner (offline demo only, not a sandbox)
+LOCAL_TIME_LIMIT_S = 5
+
+
+def _run_local(source, stdins):
+    results = []
+    with tempfile.TemporaryDirectory(prefix="levelup-run-") as folder:
+        main = os.path.join(folder, "main.py")
+        with open(main, "w", encoding="utf-8") as f:
+            f.write(source)
+        env = {"PYTHONIOENCODING": "utf-8", "PATH": os.environ.get("PATH", ""),
+               "SYSTEMROOT": os.environ.get("SYSTEMROOT", "")}   # Windows needs SYSTEMROOT to start Python
+        for stdin in stdins:
+            try:
+                done = subprocess.run([sys.executable, "-I", main], input=stdin, capture_output=True, text=True,
+                                      encoding="utf-8", errors="replace", cwd=folder, env=env,
+                                      timeout=LOCAL_TIME_LIMIT_S)
+                exception = None if done.returncode == 0 or done.stderr.strip() else "error"
+                results.append({"stdout": _text(done.stdout), "stderr": _text(done.stderr), "exception": exception})
+            except subprocess.TimeoutExpired:
+                results.append({"stdout": "", "stderr": "", "exception": "time_limit"})
+            except OSError:
+                raise CodeRunnerError("runner_unavailable") from None
+    return results
 
 
 # ---------------------------------------------------------------- shared helpers
@@ -151,7 +181,13 @@ def run_batch(source, stdins):
     _check_caps(source, stdins)
     if not stdins:
         return []
-    results = _run_fake(source, stdins) if runner_name() == "fake" else _run_onecompiler(source, stdins)
+    name = runner_name()
+    if name == "fake":
+        results = _run_fake(source, stdins)
+    elif name == "local":
+        results = _run_local(source, stdins)
+    else:
+        results = _run_onecompiler(source, stdins)
     if len(results) != len(stdins):
         raise CodeRunnerError("runner_unavailable")
     return results

@@ -390,7 +390,8 @@ function buildCode(question) {
         announce(`${result.data.results.filter((r) => r.passed).length} of ${result.data.results.length} examples passed.`);
     });
 
-    const node = el("div", { className: "scen-code-wrap stack-sm" }, examples,
+    const why = question.pick_reason ? el("p", { className: "hint scen-pick", text: `Why you got this problem: ${question.pick_reason}` }) : null;
+    const node = el("div", { className: "scen-code-wrap stack-sm" }, ...(why ? [why] : []), examples,
         el("label", { className: "scen-sub", for: editorId, text: "Your Python code" }),
         el("p", { className: "hint", id: `${editorId}-hint`, text: "Read input with input(), print the answer. Tab inserts spaces; press Escape, then Tab, to move on." }),
         editor, el("div", { className: "actions" }, runBtn), panel);
@@ -399,6 +400,8 @@ function buildCode(question) {
         onChange(cb) { editor.addEventListener("input", cb); },
         get() { return editor.value.trim() ? editor.value : null; },
         lock(result) {
+            // A resumed attempt shows the source that was checked, not the starter code.
+            if (result && typeof result.source === "string" && result.source) editor.value = result.source;
             editor.readOnly = true;
             runBtn.disabled = true;
         },

@@ -8,6 +8,8 @@ Grading is all-or-nothing per question (10 points), and the server alone grades:
 """
 import random
 
+from app.pipeline.scenario_validator import materialize
+
 POINTS_PER_QUESTION = 10
 PASS_PERCENT = 70
 
@@ -27,6 +29,8 @@ def public_question(question, seed):
     view = {"id": question["id"], "type": question["type"], "prompt": question["prompt"]}
     if question["type"] == "code":
         # Whitelist: never reference_solution, hidden tests, explanation or key.
+        if question.get("pick_reason"):
+            view["pick_reason"] = question["pick_reason"]
         view["language"] = question["language"]
         view["starter_code"] = question["starter_code"]
         view["tests"] = [{"stdin": t["stdin"], "expected_stdout": t["expected_stdout"]}
@@ -130,6 +134,8 @@ def _code_result(question, record):
         "explanation": question["explanation"],
         "why_others_wrong": {},
         "visible_passed": visible,
+        # The student's own locked source (their code, never the solution), so a resumed attempt can show it.
+        "source": rec.get("source") if isinstance(rec.get("source"), str) else "",
         "hidden_passed": rec.get("hidden_passed") if isinstance(rec.get("hidden_passed"), int) else 0,
         "hidden_total": rec.get("hidden_total") if isinstance(rec.get("hidden_total"), int) else 0,
     }
@@ -180,6 +186,98 @@ def grade(scenario, answers):
 
 def is_passing(score, max_score):
     return bool(max_score) and score * 100 >= PASS_PERCENT * max_score
+
+
+# ---------------------------------------------------------------- code pools: one personalised problem per attempt
+# A scenario may carry a "code_pool" of 1-4 coding problems, each with 1-5 data variants (validated files only).
+# When an attempt starts, choose_code_pick() picks ONE problem and ONE variant for this student; the pick is stored
+# on the attempt (answers["_pick"], a key no question id can take) and effective_scenario() appends that problem,
+# with the variant's tests, as the attempt's last question. Attempts without a pick (older ones) see the plain
+# scenario. Everything here is deterministic for the same inputs, so a pick can always be explained and reproduced.
+PICK_KEY = "_pick"
+HARDER_GOALS = {"specific_role", "any_good_company"}
+EASIER_GOALS = {"build_fundamentals", "explore"}
+
+
+def _norm(text):
+    return " ".join(str(text).lower().replace("/", " ").split())
+
+
+def choose_code_pick(scenario, seed, goal=None, missing_skills=(), previous_picks=(), last_try_failed=False):
+    """
+    {"pool_id", "variant", "reasons"} for this attempt, or None when the scenario has no code pool.
+
+    Rules, in order: a problem the student has not had before on this scenario wins over a repeat; then each problem
+    scores +2 if it practises a skill the resume analysis listed as missing, +1 if its difficulty suits the goal
+    from the Goals chat (harder for a specific role, easier for fundamentals), and +1 for the easier problem when the
+    student's last try at this scenario did not pass. Ties are broken by the attempt's seed. The data variant is
+    chosen by the seed too, so two students rarely see the same numbers.
+    """
+    pool = scenario.get("code_pool") or []
+    if not pool:
+        return None
+    seen = {p for p in previous_picks if isinstance(p, str)}
+    candidates = [p for p in pool if p["id"] not in seen] or list(pool)
+    missing = {_norm(m) for m in missing_skills or () if isinstance(m, str) and m.strip()}
+    lowest = min(p["difficulty"] for p in candidates)
+    highest = max(p["difficulty"] for p in candidates)
+
+    def score(problem):
+        points, reasons = 0, []
+        hit = [sk for sk in problem["skills"] if _norm(sk) in missing]
+        if hit:
+            points += 2
+            reasons.append(f"It practises {hit[0]}, which your resume analysis listed as a skill to learn.")
+        if goal in HARDER_GOALS and problem["difficulty"] == highest and highest > lowest:
+            points += 1
+            reasons.append("You are aiming for a specific role, so you get the harder problem.")
+        if goal in EASIER_GOALS and problem["difficulty"] == lowest and highest > lowest:
+            points += 1
+            reasons.append("You are building fundamentals, so you get the gentler problem.")
+        if last_try_failed and problem["difficulty"] == lowest and highest > lowest:
+            points += 1
+            reasons.append("Your last try at this scenario did not pass, so you get the easier problem first.")
+        return points, reasons
+
+    scored = [(problem, *score(problem)) for problem in candidates]
+    best = max(points for _, points, _ in scored)
+    tied = [(problem, reasons) for problem, points, reasons in scored if points == best]
+    rng = random.Random(f"{seed}:code-pick")
+    problem, reasons = tied[rng.randrange(len(tied))]
+    if len(candidates) < len(pool) and not reasons:
+        reasons = ["You have not had this problem on this scenario before."]
+    if not reasons:
+        reasons = ["Picked at random from this scenario's problems."]
+    variant = random.Random(f"{seed}:{problem['id']}:variant").randrange(len(problem["variants"]))
+    return {"pool_id": problem["id"], "variant": variant, "reasons": reasons}
+
+
+def pick_question(scenario, pick):
+    """The materialised code question for a stored pick, or None if the pick no longer matches the file."""
+    if not isinstance(pick, dict):
+        return None
+    problem = next((p for p in scenario.get("code_pool") or [] if p["id"] == pick.get("pool_id")), None)
+    variant = pick.get("variant")
+    if problem is None or isinstance(variant, bool) or not isinstance(variant, int):
+        return None
+    if not 0 <= variant < len(problem["variants"]):
+        return None
+    question = materialize(problem, variant)
+    reasons = pick.get("reasons")
+    if isinstance(reasons, list) and reasons and isinstance(reasons[0], str):
+        question["pick_reason"] = reasons[0]
+    return question
+
+
+def effective_scenario(scenario, answers):
+    """The scenario as this attempt sees it: its questions plus the picked code problem (if the attempt has one)."""
+    pick = (answers or {}).get(PICK_KEY) if isinstance(answers, dict) else None
+    question = pick_question(scenario, pick)
+    if question is None:
+        return scenario
+    out = dict(scenario)
+    out["questions"] = list(scenario["questions"]) + [question]
+    return out
 
 
 # ---------------------------------------------------------------- progress rules

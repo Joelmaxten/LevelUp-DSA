@@ -16,7 +16,7 @@ from flask import Blueprint, current_app, jsonify, request
 from flask_login import current_user, login_required
 
 from app import db
-from app.models import CareerProfile, ScenarioAttempt
+from app.models import CareerProfile, ScenarioAttempt, SkillGap
 from app.pipeline import code_runner
 from app.pipeline import scenario_engine as engine
 from app.pipeline import scenario_store as store
@@ -88,6 +88,24 @@ def _map_scenarios(path_data, goal):
     return entries, weak
 
 
+def _new_pick(scenario, seed):
+    """The personalised code problem for a new attempt (scenario_engine.choose_code_pick), or None (no pool)."""
+    if not scenario.get("code_pool"):
+        return None
+    profile = _profile()
+    goal = (profile.conversation_signals or {}).get("goal") if profile else None
+    gap = SkillGap.query.filter_by(user_id=current_user.id).order_by(SkillGap.id.desc()).first()
+    missing = list(gap.missing_skills or []) if gap is not None else []
+    earlier = (ScenarioAttempt.query
+               .filter(ScenarioAttempt.user_id == current_user.id, ScenarioAttempt.scenario_id == scenario["id"],
+                       ScenarioAttempt.submitted_at.isnot(None))
+               .order_by(ScenarioAttempt.id).all())
+    previous = [((a.answers or {}).get(engine.PICK_KEY) or {}).get("pool_id") for a in earlier]
+    last_failed = bool(earlier) and earlier[-1].passed is False
+    return engine.choose_code_pick(scenario, seed, goal=goal, missing_skills=missing,
+                                   previous_picks=[p for p in previous if p], last_try_failed=last_failed)
+
+
 def _scene_url(scene_id):
     """URL of static/scenes/<scene_id>.svg if that file exists, else None (the page draws a gradient instead)."""
     if os.path.isfile(os.path.join(current_app.static_folder, "scenes", f"{scene_id}.svg")):
@@ -152,17 +170,20 @@ def start(scenario_id):
                .filter_by(user_id=current_user.id, scenario_id=scenario_id, submitted_at=None)
                .order_by(ScenarioAttempt.id.desc()).first())
     if attempt is None:
+        seed = secrets.randbelow(2 ** 31 - 1)
+        pick = _new_pick(scenario, seed)
         attempt = ScenarioAttempt(user_id=current_user.id, path=path_data["path"], scenario_id=scenario_id,
-                                  answers={}, shuffle_seed=secrets.randbelow(2 ** 31 - 1))
+                                  answers={engine.PICK_KEY: pick} if pick else {}, shuffle_seed=seed)
         db.session.add(attempt)
         db.session.commit()
 
-    questions = {q["id"]: q for q in scenario["questions"]}
+    effective = engine.effective_scenario(scenario, attempt.answers)
+    questions = {q["id"]: q for q in effective["questions"]}
     locked = {qid: engine.grade_question(questions[qid], ans)
               for qid, ans in (attempt.answers or {}).items() if qid in questions}
     return jsonify({
         "attempt_id": attempt.id,
-        "scenario": engine.public_view(scenario, attempt.shuffle_seed),
+        "scenario": engine.public_view(effective, attempt.shuffle_seed),
         "locked": locked,
     }), 200
 
@@ -201,6 +222,7 @@ def lock_answer(scenario_id):
     attempt, error = _owned_open_attempt(scenario_id, body, lock=True)
     if error:
         return error
+    scenario = engine.effective_scenario(scenario, attempt.answers)
     question = next((q for q in scenario["questions"] if q["id"] == body.get("question_id")), None)
     if question is None:
         db.session.rollback()
@@ -284,9 +306,10 @@ def code_run(scenario_id):
     body, error = _json_body()
     if error:
         return error
-    _, error = _owned_open_attempt(scenario_id, body)
+    attempt, error = _owned_open_attempt(scenario_id, body)
     if error:
         return error
+    scenario = engine.effective_scenario(scenario, attempt.answers)
     db.session.rollback()
     question = next((q for q in scenario["questions"] if q["id"] == body.get("question_id")), None)
     if question is None or question["type"] != "code":
@@ -326,13 +349,17 @@ def submit(scenario_id):
     if error:
         return error
 
-    answers = dict(submitted)
+    scenario = engine.effective_scenario(scenario, attempt.answers)
+    answers = {k: v for k, v in submitted.items() if not str(k).startswith("_")}   # the pick is server-side only
     for q in scenario["questions"]:           # a code answer is only ever the server's own Check record
         if q["type"] == "code":
             answers.pop(q["id"], None)
     answers.update(attempt.answers or {})     # answers locked earlier cannot be changed now
     graded = engine.grade(scenario, answers)
-    attempt.answers = {q["id"]: answers[q["id"]] for q in scenario["questions"] if q["id"] in answers}
+    kept = {q["id"]: answers[q["id"]] for q in scenario["questions"] if q["id"] in answers}
+    if engine.PICK_KEY in (attempt.answers or {}):
+        kept[engine.PICK_KEY] = attempt.answers[engine.PICK_KEY]   # remembered so a retry gets a different problem
+    attempt.answers = kept
     attempt.score, attempt.max_score, attempt.passed = graded["score"], graded["max_score"], graded["passed"]
     attempt.submitted_at = datetime.utcnow()
     db.session.commit()
