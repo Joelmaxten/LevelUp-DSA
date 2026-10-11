@@ -17,6 +17,7 @@ from flask_login import current_user, login_required
 
 from app import db
 from app.models import CareerProfile, ScenarioAttempt
+from app.pipeline import code_runner
 from app.pipeline import scenario_engine as engine
 from app.pipeline import scenario_store as store
 from app.security import rate_limit_hit, rate_limited_response
@@ -27,7 +28,12 @@ MAX_BODY_BYTES = 32 * 1024
 START_LIMIT_PER_HOUR = 30
 ANSWER_LIMIT_PER_HOUR = 300
 SUBMIT_LIMIT_PER_HOUR = 30
+CODE_RUN_LIMIT_PER_HOUR = 60
+CODE_CHECK_LIMIT_PER_HOUR = 30
+CODE_OUTPUT_CHARS = 2048     # stdout / stderr of one run shown to the browser
 HOUR = 3600
+# HTTP status per code_runner error code (the body is only {"error": code}).
+RUNNER_STATUS = {"timeout": 504, "runtime_error": 502, "runner_unavailable": 503, "code_too_large": 400}
 
 
 def _error(code, status):
@@ -199,6 +205,8 @@ def lock_answer(scenario_id):
     if question is None:
         db.session.rollback()
         return _error("invalid_question_id", 400)
+    if question["type"] == "code":
+        return _check_code(scenario_id, attempt, question, body)
     answer = body.get("answer")
     if not isinstance(answer, (list, dict, str)):
         db.session.rollback()
@@ -212,6 +220,91 @@ def lock_answer(scenario_id):
     else:
         db.session.rollback()
     return jsonify({"result": engine.grade_question(question, locked[question["id"]])}), 200
+
+
+def _runner_error(error):
+    return _error(error.code, RUNNER_STATUS.get(error.code, 503))
+
+
+def _check_code(scenario_id, attempt, question, body):
+    """
+    Locks one Check of a code question against ALL its tests. The student's source is run in one batch; hidden
+    tests are only ever reported as counts. A runner failure locks nothing and counts as nothing: the student
+    just tries again. The caller holds the attempt row lock; it is released before the (slow) runner call.
+    """
+    source = body.get("answer")
+    if not isinstance(source, str) or not source.strip():
+        db.session.rollback()
+        return _error("invalid_answer", 400)
+    stored = (attempt.answers or {}).get(question["id"])
+    if stored is not None:                     # first Check wins; a repeat just returns the stored result
+        db.session.rollback()
+        return jsonify({"result": engine.grade_question(question, stored)}), 200
+    db.session.rollback()                      # no database lock held while the provider runs
+    limited = _limited("scenario_code_check", CODE_CHECK_LIMIT_PER_HOUR)
+    if limited:
+        return limited
+    try:
+        runs = code_runner.run_batch(source, [t["stdin"] for t in question["tests"]])
+    except code_runner.CodeRunnerError as error:
+        return _runner_error(error)
+    except Exception:
+        return _error("runner_unavailable", 503)
+    result, record = engine.grade_code_result(question, runs, source)
+
+    attempt, error = _owned_open_attempt(scenario_id, body, lock=True)
+    if error:
+        return error
+    locked = dict(attempt.answers or {})
+    if question["id"] not in locked:
+        locked[question["id"]] = record
+        attempt.answers = locked
+        db.session.commit()
+    else:                                      # another Check landed first
+        db.session.rollback()
+        result = engine.grade_question(question, locked[question["id"]])
+    return jsonify({"result": result}), 200
+
+
+def _clip(value):
+    value = value if isinstance(value, str) else ""
+    return value if len(value) <= CODE_OUTPUT_CHARS else value[:CODE_OUTPUT_CHARS] + " [output cut]"
+
+
+@scenarios_bp.route("/scenarios/<scenario_id>/code/run", methods=["POST"])
+@login_required
+def code_run(scenario_id):
+    """Ungraded run of the student's source against the VISIBLE tests only. Nothing is stored or locked."""
+    limited = _limited("scenario_code_run", CODE_RUN_LIMIT_PER_HOUR)
+    if limited:
+        return limited
+    _, scenario = store.find_scenario(scenario_id)
+    if scenario is None:
+        return _error("scenario_not_found", 404)
+    body, error = _json_body()
+    if error:
+        return error
+    _, error = _owned_open_attempt(scenario_id, body)
+    if error:
+        return error
+    db.session.rollback()
+    question = next((q for q in scenario["questions"] if q["id"] == body.get("question_id")), None)
+    if question is None or question["type"] != "code":
+        return _error("invalid_question_id", 400)
+    source = body.get("source")
+    if not isinstance(source, str) or not source.strip():
+        return _error("invalid_source", 400)
+    visible = [t for t in question["tests"] if not t["hidden"]]
+    try:
+        runs = code_runner.run_batch(source, [t["stdin"] for t in visible])
+    except code_runner.CodeRunnerError as error:
+        return _runner_error(error)
+    except Exception:
+        return _error("runner_unavailable", 503)
+    results = [{"index": i, "passed": engine.run_passed(t["expected_stdout"], run),
+                "stdout": _clip(run["stdout"]), "stderr": _clip(run["stderr"]), "exception": run["exception"]}
+               for i, (t, run) in enumerate(zip(visible, runs))]
+    return jsonify({"results": results}), 200
 
 
 @scenarios_bp.route("/scenarios/<scenario_id>/submit", methods=["POST"])
@@ -234,6 +327,9 @@ def submit(scenario_id):
         return error
 
     answers = dict(submitted)
+    for q in scenario["questions"]:           # a code answer is only ever the server's own Check record
+        if q["type"] == "code":
+            answers.pop(q["id"], None)
     answers.update(attempt.answers or {})     # answers locked earlier cannot be changed now
     graded = engine.grade(scenario, answers)
     attempt.answers = {q["id"]: answers[q["id"]] for q in scenario["questions"] if q["id"] in answers}

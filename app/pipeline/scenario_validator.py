@@ -14,7 +14,11 @@ from app.pipeline.career_path_registry import CAREER_PATHS
 
 SCHEMA_VERSION = 1
 LADDER_STAGES = ["foundations", "core_decision", "debugging", "trade_offs", "end_to_end"]
-QUESTION_TYPES = ["single_choice", "multi_select", "order", "match"]
+QUESTION_TYPES = ["single_choice", "multi_select", "order", "match", "code"]
+DS_TOPICS = ["array", "hash_map", "stack", "queue", "linked_list", "tree", "graph", "heap", "sorting", "string"]
+CODE_LANGUAGES = ["python"]
+MAX_CODE_BYTES = 8 * 1024      # starter_code / reference_solution (the runner's source cap, app/pipeline/code_runner.py)
+MAX_STDIN_BYTES = 2 * 1024     # one test's stdin (the runner's per-input cap)
 # Id prefix per path (mle-1, mle-1-q2). A path without an entry here cannot have a scenario file yet.
 PATH_ID_PREFIX = {
     "Full-Stack Development": "fsd",
@@ -91,7 +95,7 @@ SCHEMA = {
     "$defs": {
         "question": {
             "type": "object",
-            "required": ["id", "type", "prompt", "correct", "explanation", "why_others_wrong", "key_justification"],
+            "required": ["id", "type", "prompt", "explanation", "key_justification"],
             "properties": {
                 "id": {"type": "string"},
                 "type": {"enum": QUESTION_TYPES},
@@ -102,6 +106,21 @@ SCHEMA = {
                 "points": {"type": "integer", "minimum": 1},
             },
             "allOf": [
+                {"if": {"properties": {"type": {"enum": ["single_choice", "multi_select", "order", "match"]}}},
+                 "then": {"required": ["correct", "why_others_wrong"]}},
+                {"if": {"properties": {"type": {"const": "code"}}},
+                 "then": {"required": ["language", "starter_code", "tests", "reference_solution", "ds_topic"],
+                          "properties": {
+                              "language": {"enum": CODE_LANGUAGES},
+                              "starter_code": {"type": "string", "maxLength": MAX_CODE_BYTES},
+                              "reference_solution": {"type": "string", "minLength": 1, "maxLength": MAX_CODE_BYTES},
+                              "ds_topic": {"enum": DS_TOPICS},
+                              "tests": {"type": "array", "minItems": 1, "maxItems": 10, "items": {
+                                  "type": "object", "required": ["stdin", "expected_stdout", "hidden"],
+                                  "additionalProperties": False,
+                                  "properties": {"stdin": {"type": "string", "maxLength": MAX_STDIN_BYTES},
+                                                 "expected_stdout": {"type": "string", "maxLength": MAX_STDIN_BYTES},
+                                                 "hidden": {"type": "boolean"}}}}}}},
                 {"if": {"properties": {"type": {"enum": ["single_choice", "multi_select", "order"]}}},
                  "then": {"required": ["options"], "properties": {
                      "options": _OPTIONS, "correct": {"type": "array", "items": {"type": "string"}}}}},
@@ -179,11 +198,38 @@ def validate_scenario_file(data):
     return {"errors": errors, "warnings": warnings}
 
 
+def _check_code_question(q, errors):
+    qid = q["id"]
+    for field in ("options", "correct", "why_others_wrong", "items", "targets"):
+        if field in q:
+            errors.append(f"{qid}: a code question must not have {field!r}")
+    if len(q["starter_code"].encode("utf-8")) > MAX_CODE_BYTES or len(q["reference_solution"].encode("utf-8")) > MAX_CODE_BYTES:
+        errors.append(f"{qid}: starter_code / reference_solution exceed {MAX_CODE_BYTES} bytes")
+    if not q["reference_solution"].strip():
+        errors.append(f"{qid}: reference_solution is empty")
+    tests = q["tests"]
+    if not any(not t["hidden"] for t in tests):
+        errors.append(f"{qid}: code question needs at least one visible test")
+    if not any(t["hidden"] for t in tests):
+        errors.append(f"{qid}: code question needs at least one hidden test")
+    for n, t in enumerate(tests, 1):
+        if not t["expected_stdout"].strip():
+            errors.append(f"{qid}: test {n} has an empty expected_stdout")
+        if (len(t["stdin"].encode("utf-8")) > MAX_STDIN_BYTES
+                or len(t["expected_stdout"].encode("utf-8")) > MAX_STDIN_BYTES):
+            errors.append(f"{qid}: test {n} exceeds {MAX_STDIN_BYTES} bytes")
+    keys = [(t["stdin"], t["expected_stdout"]) for t in tests]
+    if len(set(keys)) != len(keys):
+        errors.append(f"{qid}: duplicate tests")
+
+
 def _check_question(q, errors):
     qid, qtype = q["id"], q["type"]
     for field in ("explanation", "key_justification"):
         if not q[field].strip():
             errors.append(f"{qid}: {field} is empty")
+    if qtype == "code":
+        return _check_code_question(q, errors)
     texts_to_scan = [q["explanation"]] + list(q["why_others_wrong"].values())
     if any(LETTER_REFERENCE.search(t) for t in texts_to_scan):
         errors.append(f"{qid}: explanation text refers to an option letter (options are shuffled)")

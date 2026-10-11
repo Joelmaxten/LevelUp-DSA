@@ -61,6 +61,11 @@ def slug(path_name):
     return re.sub(r"[^a-z0-9]+", "-", path_name.lower()).strip("-")
 
 
+def choice_questions(scenario):
+    """Code questions are graded by running code, not by a model reading options, so they are skipped here."""
+    return [q for q in scenario["questions"] if q["type"] != "code"]
+
+
 def build_blind_view(scenario, seed=0):
     """
     The ONLY thing sent to the model. Built field by field from a whitelist - never by copying the scenario
@@ -74,7 +79,7 @@ def build_blind_view(scenario, seed=0):
         return pool
 
     questions = []
-    for q in scenario["questions"]:
+    for q in choice_questions(scenario):
         view = {"id": q["id"], "type": q["type"], "prompt": q["prompt"]}
         if q["type"] == "match":
             view["items"], view["targets"] = shuffled(q["items"]), shuffled(q["targets"])
@@ -148,7 +153,7 @@ def solve_scenario(scenario, generate, retries=1, seed=0):
             result = generate(task="roadmap", prompt=prompt, system=SYSTEM, schema=ANSWER_SCHEMA)
             entries = (result.get("parsed") or {}).get("answers")
             by_id = {e.get("question_id"): e for e in entries if isinstance(e, dict)} if isinstance(entries, list) else {}
-            answers = {q["id"]: normalise_reply(q, by_id.get(q["id"])) for q in scenario["questions"]}
+            answers = {q["id"]: normalise_reply(q, by_id.get(q["id"])) for q in choice_questions(scenario)}
             if all(v is not None for v in answers.values()):
                 return {"answers": answers, "error": None, "attempts": attempt}
             error = "reply missing or malformed for: " + ", ".join(k for k, v in answers.items() if v is None)
@@ -177,14 +182,14 @@ def build_report(path_name, data, results):
     total = agreed = 0
     for scenario in data["scenarios"]:
         res = results[scenario["id"]]
-        n = len(scenario["questions"])
+        n = len(choice_questions(scenario))
         if res["error"]:
             rows.append(f"| {scenario['id']} | {n} | - | - | no result: {res['error']} |")
             sections.append(f"### {scenario['id']}: not solved\n\n{res['error']}\n")
             continue
         total += n
         local_agreed = 0
-        for q in scenario["questions"]:
+        for q in choice_questions(scenario):
             given = res["answers"][q["id"]]
             if agrees(q, given):
                 local_agreed += 1

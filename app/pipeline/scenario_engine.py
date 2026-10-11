@@ -25,6 +25,13 @@ def public_question(question, seed):
     """One question without any answer field; options/items/targets shuffled deterministically by seed."""
     rng = random.Random(f"{seed}:{question['id']}")
     view = {"id": question["id"], "type": question["type"], "prompt": question["prompt"]}
+    if question["type"] == "code":
+        # Whitelist: never reference_solution, hidden tests, explanation or key.
+        view["language"] = question["language"]
+        view["starter_code"] = question["starter_code"]
+        view["tests"] = [{"stdin": t["stdin"], "expected_stdout": t["expected_stdout"]}
+                         for t in question["tests"] if not t["hidden"]]
+        return view
     if question["type"] == "match":
         view["items"] = _shuffled(question["items"], rng)
         view["targets"] = _shuffled(question["targets"], rng)
@@ -72,7 +79,72 @@ def _answer_is_correct(question, answer):
     return False
 
 
+# ---------------------------------------------------------------- code questions
+# A code question is graded from the code runner's results (app/pipeline/code_runner.py), which the route fetches;
+# everything here stays pure. What is stored on the attempt for a locked code question is a "record" the SERVER wrote:
+# {"source", "passed", "visible": [bool per visible test], "hidden_passed", "hidden_total"}.
+def run_passed(expected, run):
+    """One test passes only if the program raised nothing, wrote nothing to stderr and printed the expected output."""
+    if not isinstance(run, dict) or run.get("exception") or str(run.get("stderr") or "").strip():
+        return False
+    out = str(run.get("stdout") or "").replace("\r\n", "\n").strip()
+    return out == str(expected).replace("\r\n", "\n").strip()
+
+
+def code_example_text(question):
+    """The only 'correct answer' shown for a code question: the first visible example, never the solution."""
+    visible = [t for t in question["tests"] if not t["hidden"]]
+    if not visible:
+        return ""
+    t = visible[0]
+    return f"Example: input {t['stdin'].strip()!r} should print {t['expected_stdout'].strip()!r}"
+
+
+def code_record(question, run_results, source=""):
+    """The per-test outcome of one Check. Missing or malformed results count as failed tests."""
+    runs = list(run_results) if isinstance(run_results, (list, tuple)) else []
+    flags = [run_passed(t["expected_stdout"], runs[i] if i < len(runs) else None)
+             for i, t in enumerate(question["tests"])]
+    visible = [ok for ok, t in zip(flags, question["tests"]) if not t["hidden"]]
+    hidden = [ok for ok, t in zip(flags, question["tests"]) if t["hidden"]]
+    return {"source": source, "passed": bool(flags) and all(flags), "visible": visible,
+            "hidden_passed": sum(hidden), "hidden_total": len(hidden)}
+
+
+def _code_correct(question, answer):
+    """True only for a record the server wrote with passed set; a client-supplied value never gets here."""
+    return (isinstance(answer, dict) and answer.get("passed") is True
+            and isinstance(answer.get("visible"), list) and all(v is True for v in answer["visible"])
+            and answer.get("hidden_passed") == answer.get("hidden_total"))
+
+
+def _code_result(question, record):
+    ok = _code_correct(question, record)
+    rec = record if isinstance(record, dict) else {}
+    visible = [bool(v) for v in rec.get("visible", [])] if isinstance(rec.get("visible"), list) else []
+    return {
+        "question_id": question["id"],
+        "correct": ok,
+        "awarded": POINTS_PER_QUESTION if ok else 0,
+        "correct_answer": code_example_text(question),
+        "explanation": question["explanation"],
+        "why_others_wrong": {},
+        "visible_passed": visible,
+        "hidden_passed": rec.get("hidden_passed") if isinstance(rec.get("hidden_passed"), int) else 0,
+        "hidden_total": rec.get("hidden_total") if isinstance(rec.get("hidden_total"), int) else 0,
+    }
+
+
+def grade_code_result(question, run_results, source=""):
+    """(result, record): the usual per-question result (all-or-nothing, 10 points) from the runner's results for
+    ALL of the question's tests in order, plus the record to store on the attempt."""
+    record = code_record(question, run_results, source)
+    return _code_result(question, record), record
+
+
 def grade_question(question, answer):
+    if question["type"] == "code":
+        return _code_result(question, answer)
     try:
         correct = bool(_answer_is_correct(question, answer))
     except Exception:
