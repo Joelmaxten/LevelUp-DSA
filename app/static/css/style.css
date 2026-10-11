@@ -7,8 +7,9 @@
      3. Components: button, card, chip, badge, progress bar + ring, segmented control / tabs, empty state,
         skeleton, alert, disclosure (details). Every page is built from these.
      4. Page layouts: .wrap / .stack / .grid helpers and per-page rules.
-     5. Legacy "sheet" layout (.sheet / .row / .margin): still used by the DSA skill-map page and the
-        legacy career-path picker (ui.js _legacyCareerPathPicker). Do not restyle those without checking /dsa.
+     5. Legacy "sheet" layout (.sheet / .row / .margin): used by the legacy career-path picker
+        (ui.js _legacyCareerPathPicker). The skill-map page that also used it was removed; its rules
+        ("Skill map" sections below) are now unused and can be deleted in a later clean-up.
 
    Rules that keep it coherent:
    - Marker yellow means one thing: "this is what to do or learn next". It is never decoration.

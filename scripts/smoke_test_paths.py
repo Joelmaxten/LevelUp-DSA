@@ -351,7 +351,7 @@ def main():
                 "dashboard: carries 'roadmaps' plus all old top-level keys",
                 resp.status_code == 200
                 and "roadmaps" in body
-                and all(k in body for k in ("career_profile", "roadmap", "resume", "dsa")),
+                and all(k in body for k in ("career_profile", "roadmap", "resume", "scenarios")),
             )
             check("dashboard: roadmaps list matches /roadmap/list's newest-first order", [r["roadmap_id"] for r in body["roadmaps"][:2]] == [flat_roadmap.id, phased_roadmap.id])
 

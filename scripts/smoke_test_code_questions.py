@@ -592,7 +592,7 @@ def test_routes():
         css = Path("app/static/css/style.css").read_text(encoding="utf-8")
         check("style.css: code editor is monospace, 16px, full width, with 44 px (--tap) buttons",
               ".scen-code {" in css and "monospace" in css and "width: 100%" in css and ".scen-code-wrap .btn { min-height: var(--tap); }" in css)
-        check("dsa page still renders", alice.get("/dsa").status_code == 200)
+        check("the old skill map page is gone (/dsa -> 404)", alice.get("/dsa").status_code == 404)
     finally:
         cr.set_fake_runner(None)
         store.set_directory(None)

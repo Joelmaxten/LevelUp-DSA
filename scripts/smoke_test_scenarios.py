@@ -759,7 +759,7 @@ def test_routes():
         html = page.get_data(as_text=True)
         check("GET /scenarios renders for a logged-in user with the script and nav link",
               page.status_code == 200 and "js/scenarios.js" in html and 'href="/scenarios"' in html)
-        check("dsa.html still renders", alice.get("/dsa").status_code == 200)
+        check("the old skill map page is gone (/dsa -> 404)", alice.get("/dsa").status_code == 404)
         check("map payload has scene_url (null when no scene file exists)", "scene_url" in alice.get("/scenarios/machine-learning-engineering").get_json())
         js = Path("app/static/js/scenarios.js").read_text(encoding="utf-8")
         check("scenarios.js never uses innerHTML / insertAdjacentHTML / document.write",

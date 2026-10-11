@@ -21,10 +21,11 @@ import sys
 from dotenv import load_dotenv
 load_dotenv()
 
+from sqlalchemy import text
+
 from app import create_app, db
 from app.models import (
-    CareerProfile, GeneratedRoadmap, NodeMastery, Resume, RoadmapProgress, ScenarioAttempt, SkillGap,
-    User, UserAttempt, UserDSAActivity, UserProgress, WeaknessProfile,
+    CareerProfile, GeneratedRoadmap, Resume, RoadmapProgress, ScenarioAttempt, SkillGap, User, UserProgress,
 )
 
 EMAIL_SUFFIX = "@example.com"
@@ -32,9 +33,16 @@ EMAIL_SUFFIX = "@example.com"
 # Child-first order. roadmap_progress references generated_roadmaps, so it goes before it;
 # every other table here references only users (and shared reference data we never touch).
 DEPENDENT_MODELS = [
-    RoadmapProgress, GeneratedRoadmap, UserAttempt, UserDSAActivity, NodeMastery,
-    WeaknessProfile, UserProgress, SkillGap, Resume, CareerProfile, ScenarioAttempt,
+    RoadmapProgress, GeneratedRoadmap, UserProgress, SkillGap, Resume, CareerProfile, ScenarioAttempt,
 ]
+# Tables of the removed skill map that reference users. They have no model any more, but an older database may still
+# have them (until scripts/drop_old_dsa_tables.py --drop), and their rows would block deleting a user.
+LEGACY_USER_TABLES = ["user_attempts", "user_dsa_activity", "node_mastery", "weakness_profiles"]
+
+
+def legacy_tables_present():
+    return [t for t in LEGACY_USER_TABLES
+            if db.session.execute(text("SELECT to_regclass(:t)"), {"t": t}).scalar() is not None]
 
 
 def check_all_user_tables_covered():
@@ -79,6 +87,8 @@ def main():
         ids = [u.id for u in users]
         files = [r.file_path for r in Resume.query.filter(Resume.user_id.in_(ids)).all() if r.file_path]
         try:
+            for table in legacy_tables_present():     # fixed names from LEGACY_USER_TABLES, never user input
+                db.session.execute(text(f"DELETE FROM {table} WHERE user_id = ANY(:ids)"), {"ids": ids})
             for model in DEPENDENT_MODELS:
                 model.query.filter(model.user_id.in_(ids)).delete(synchronize_session=False)
             User.query.filter(User.id.in_(ids)).delete(synchronize_session=False)

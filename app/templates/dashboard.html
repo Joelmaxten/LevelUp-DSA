@@ -34,7 +34,7 @@ function renderError(result) {
 }
 
 // The one thing to do next: a title and a single button. Order: roadmap first, then keep going on it,
-// then the resume, the quiz and the skill map.
+// then the resume, the quiz and the scenarios.
 function nextAction(data) {
     const progress = data.roadmap && data.roadmap.progress;
     const left = progress ? progress.total_steps - progress.completed_count : 0;
@@ -42,8 +42,9 @@ function nextAction(data) {
     if (left > 0) return { title: `${left} step${left === 1 ? "" : "s"} left on your roadmap`, button: "Continue roadmap", href: "/roadmap" };
     if (!data.resume) return { title: "See what your resume is missing", button: "Analyze resume", href: "/resume" };
     if (!data.career_profile) return { title: "Rank all career paths", button: "Take quiz", href: "/quiz" };
-    if (data.dsa && data.dsa.mastered < data.dsa.total) {
-        return { title: data.dsa.started ? "Keep going on your skill map" : "Start your skill map", button: "Open skill map", href: "/dsa" };
+    if (data.scenarios && data.scenarios.passed < data.scenarios.total) {
+        const title = data.scenarios.next_title ? `Next scenario: ${data.scenarios.next_title}` : "Practise real-world scenarios";
+        return { title, button: data.scenarios.started ? "Continue scenarios" : "Start scenarios", href: "/scenarios" };
     }
     return { title: "You're all caught up", button: "Open roadmap", href: "/roadmap" };
 }
@@ -69,7 +70,7 @@ function progressCard(data) {
         { label: "Roadmap", done: !!data.roadmap, href: "/roadmap" },
         { label: "Resume", done: !!data.resume, href: "/resume" },
     ];
-    if (data.dsa) stages.push({ label: "Skill map", done: data.dsa.started, href: "/dsa" });
+    if (data.scenarios) stages.push({ label: "Scenarios", done: data.scenarios.started, href: "/scenarios" });
     const done = stages.filter((s) => s.done).length;
 
     const chips = stages.map((s) => el("li", {},
@@ -80,7 +81,7 @@ function progressCard(data) {
         const p = data.roadmap.progress;
         stats.push(el("span", { className: "chip", text: `${p.completed_count} of ${p.total_steps} roadmap steps` }));
     }
-    if (data.dsa && data.dsa.started) stats.push(el("span", { className: "chip", text: `${data.dsa.mastered} of ${data.dsa.total} topics` }));
+    if (data.scenarios && data.scenarios.started) stats.push(el("span", { className: "chip", text: `${data.scenarios.passed} of ${data.scenarios.total} scenarios passed` }));
 
     return el("section", { className: "card card-pad progress-card", "aria-label": "Overall progress" },
         ring(Math.round((done / stages.length) * 100), `${done}/${stages.length}`, "done", 104),

@@ -349,7 +349,61 @@ def test_readiness_counts_code():
           abs(value - ((with_code - 10) / with_code) / len(data["scenarios"])) < 1e-9)
 
 
-SECTIONS = [test_content, test_engine, test_routes, test_readiness_counts_code]
+def test_dashboard_and_pages():
+    """The old skill map is gone; the dashboard summarises scenarios instead and no page links to /dsa."""
+    from app import create_app, db
+    from app.models import CareerProfile, ScenarioAttempt, User
+    from scripts._csrf import enable_csrf_client
+    from datetime import datetime
+
+    app = create_app()
+    enable_csrf_client(app)
+    suffix = random.randint(100000, 999999)
+    user_ids = []
+
+    def login(tag):
+        client = app.test_client()
+        email = f"dash{tag}{suffix}@example.com"
+        resp = client.post("/signup", json={"name": "Dash Test", "email": email, "password": "SmokeTest#123"})
+        user_ids.append(resp.get_json()["user_id"])
+        client.post("/login", json={"email": email, "password": "SmokeTest#123"})
+        return client, user_ids[-1]
+
+    try:
+        new, _ = login("n")
+        body = new.get("/dashboard/data").get_json()
+        check("dashboard: a new account has no scenario summary (no path yet) and no 'dsa' key",
+              body["scenarios"] is None and "dsa" not in body)
+        quizzed, qid = login("q")
+        with app.app_context():
+            db.session.add(CareerProfile(user_id=qid, career_ranking=[{"career_path": "Full-Stack Development"}],
+                                         conversation_signals={}))
+            db.session.add(ScenarioAttempt(user_id=qid, path="Full-Stack Development", scenario_id="fsd-1",
+                                           answers={}, score=40, max_score=40, passed=True, shuffle_seed=1,
+                                           submitted_at=datetime.utcnow()))
+            db.session.commit()
+        summary = quizzed.get("/dashboard/data").get_json()["scenarios"]
+        check("dashboard: the quiz path's scenarios are summarised (1 of 5 passed, next one named)",
+              summary["path"] == "Full-Stack Development" and summary["passed"] == 1 and summary["total"] == 5
+              and summary["started"] and summary["next_title"])
+        pages = {p: quizzed.get(p) for p in ("/", "/dashboard", "/roadmap", "/resume", "/scenarios")}
+        check("pages: every main page renders and none links to the removed /dsa page",
+              all(r.status_code == 200 and 'href="/dsa"' not in r.get_data(as_text=True) for r in pages.values()))
+        check("pages: /dsa and /dsa/map no longer exist",
+              quizzed.get("/dsa").status_code == 404 and quizzed.get("/dsa/map").status_code == 404)
+        templates = " ".join(Path(f"app/templates/{n}").read_text(encoding="utf-8")
+                             for n in ("dashboard.html", "roadmap.html", "resume.html", "index.html", "layout.html"))
+        check("templates: no link to /dsa left", '"/dsa"' not in templates and "/dsa\"" not in templates)
+    finally:
+        with app.app_context():
+            for uid in user_ids:
+                ScenarioAttempt.query.filter_by(user_id=uid).delete()
+                CareerProfile.query.filter_by(user_id=uid).delete()
+                User.query.filter_by(id=uid).delete()
+            db.session.commit()
+
+
+SECTIONS = [test_content, test_engine, test_routes, test_readiness_counts_code, test_dashboard_and_pages]
 
 
 def main():

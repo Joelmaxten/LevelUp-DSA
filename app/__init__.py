@@ -55,9 +55,6 @@ def create_app(config_name=None):
     from app.routes.dashboard import dashboard_bp, user_has_saved_work
     app.register_blueprint(dashboard_bp)
 
-    from app.routes.dsa import dsa_bp
-    app.register_blueprint(dsa_bp)
-
     from app.routes.scenarios import scenarios_bp
     app.register_blueprint(scenarios_bp)
 
@@ -72,7 +69,7 @@ def create_app(config_name=None):
     # Pages a successful login may send the user on to (via ?next=). An
     # allowlist rather than "any local path", so /login?next=... can never be
     # turned into an open redirect.
-    POST_LOGIN_PAGES = {"/dashboard", "/quiz", "/conversation", "/roadmap", "/resume", "/dsa", "/scenarios"}
+    POST_LOGIN_PAGES = {"/dashboard", "/quiz", "/conversation", "/roadmap", "/resume", "/scenarios"}
     # Where a plain login (no ?next=) goes. /dashboard shows a returning user's
     # saved results, and sends a brand-new user (nothing saved yet) to the home
     # page, where all the phases are offered side by side.
@@ -143,11 +140,6 @@ def create_app(config_name=None):
     @page_login_required
     def resume_page():
         return render_template("resume.html")
-
-    @app.route("/dsa", methods=["GET"])
-    @page_login_required
-    def dsa_page():
-        return render_template("dsa.html")
 
     @app.route("/scenarios", methods=["GET"])
     @page_login_required
