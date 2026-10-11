@@ -157,17 +157,14 @@ psql -U postgres -d levelup_dsa_dev
 You should see 19 tables (`scenario_attempts`, added for scenarios, is the 19th and is
 listed below): `users`, `career_paths`, `career_profiles`,
 `roadmap_steps`, `user_progress`, `generated_roadmaps`, `roadmap_progress`,
-`dsa_nodes`, `dsa_problems`, `dsa_problem_framings`, `user_dsa_activity`,
-`node_mastery`, `weakness_profiles`, `user_attempts`, `resumes`, `skill_gaps`,
-`job_listings`, `survey_respondents`, `scenario_attempts`.
+`resumes`, `skill_gaps`, `job_listings`, `survey_respondents`, `scenario_attempts`.
+(The old skill-map tables `dsa_nodes`, `dsa_problems`, `dsa_problem_framings`,
+`user_dsa_activity`, `node_mastery`, `weakness_profiles` and `user_attempts` are no
+longer created; see "Code questions" below for removing them from an older database.)
 Note: there's no migration tool (like Alembic) in place yet — table creation is
 manual via `db.create_all()`. If the schema changes later, existing tables won't
 auto-update; they'd need to be dropped and recreated, or a migration tool added.
-8b. Seed the Skill DNA Map (DSA topics, problems, career paths)
-```bash
-python scripts/seed_dsa.py
-```
-Safe to re-run: it updates rows in place and never deletes. It refuses to write anything if `scripts/verify_dsa_seed.py` (which checks every seeded test case against a reference solution) fails. Until it has run, `/dsa` shows a "hasn't been set up" message.
+8b. (Removed) The old Skill DNA Map seed step (`seed_dsa.py`) is gone with the skill map itself.
 9. Run the app
 ```bash
 python run.py
@@ -220,14 +217,15 @@ For these tests run `pip install -r requirements-dev.txt` once (adds fpdf2).
 | `smoke_test_resume_modes.py` | resume modes: ranking unit checks (near-ties, thin-path labelling, insufficient data), `/resume/discover` and `/resume/<id>/analyze` happy paths, 404/400/401, CSRF, rate limits, stored skills reused, `/resume/upload` unchanged, required-skills lists identical to the pre-change snapshot (`scratch/golden/required_skills_before.json`) | no (feedback stubbed; local index and embeddings; needs `requirements-dev.txt` for fpdf2) |
 | `smoke_test_quiz.py` | career quiz: question-bank rules (1-3 paths per option, 6+ options per path, separating options for each pair), invariants (every path can be #1, every pair separable, stop rule within the bank), 30 seeded replays against `scratch/golden/quiz_after.json`, all-A/all-B personas; pure, no database | no |
 | `smoke_test_async_generation.py` | background generation: `/roadmap/generate-async` 202 and polling to done, progress fields, 409, ownership 404, fixed error codes with no exception text, own app context, daily cap, expiry, CSRF, sync route unchanged | no (generator stubbed) |
-| `smoke_test_scenarios.py` | scenarios: validator (pilot file plus 20+ deliberately broken copies), blind-solve prompt leak proof, store, engine (all four question types, shuffle, grading edge cases), unlock / best-score / recommendation rules, every route (401, 403, 404, 409, 400, CSRF, rate limit), `CareerProfile` untouched, page renders, `dsa.html` still renders | no (no LLM, YouTube or Adzuna code is reachable; the blind-solve checker is only exercised with a stub) |
+| `smoke_test_scenarios.py` | scenarios: validator (pilot file plus 20+ deliberately broken copies), blind-solve prompt leak proof, store, engine (all four question types, shuffle, grading edge cases), unlock / best-score / recommendation rules, every route (401, 403, 404, 409, 400, CSRF, rate limit), `CareerProfile` untouched, page renders, the removed `/dsa` page returns 404 | no (no LLM, YouTube or Adzuna code is reachable; the blind-solve checker is only exercised with a stub) |
 | `smoke_test_readiness.py` | Placement Readiness Score: component maths, re-weighting when a component is unavailable, ready decided on the unrounded score, `GET /readiness`, dashboard card; accounts with nothing saved, quiz only, and a path with no scenario file (it hides one scenario file to test that) | no |
 | `smoke_test_resume_rules.py` | resume rules: combined skills (HTML/CSS), implied skills (SQL), excluded tooling (npm, pip, ...), alias boundaries (Node.js, Vue.js, Next.js must not match `js`), the ATS checks | no |
 | `smoke_test_cached_roadmaps.py` | cached base roadmaps: loader (valid, stale, corrupt, missing), the build script (dry run, resumable, no overwrite without `--force`, one failing path does not stop the others, environment override beats `.env`), the personalizer (bad indexes dropped, text clipped, overlap removed, injection stays escaped, failure is None, prompt under 3,000 estimated tokens for all 15 real outlines), the async route (cached with and without personalization, full fallback, `ROADMAP_MODE=full`, ownership, CSRF, cap, 409), progress and the switcher on a cached roadmap, a timing table written to `scratch/benchmark_cached.csv`; about 2 minutes | no (every LLM call stubbed, uses the local FAISS index) |
 | `smoke_test_llm.py` | `llm_client`: retry on throttling/5xx/timeouts, no retry on access-denied/validation, fallback model, provider switch, schema correction, no secrets or prompt text in errors or logs | no (fake Bedrock client, patched Gemini; hides real credentials and blocks real clients) |
 | `smoke_test_generator.py` | roadmap generator with a fake LLM: golden comparison for 3 paths, coverage/duplicate/index/allowlist/shape invariants at concurrency 1 and 3, thread hygiene, failure handling, duplicate rewrite, warm-up | no (fake LLM, local embeddings only; ~1.5 min, mostly model load) |
 | `smoke_test_profile_flow.py` | quiz then conversation then `CareerProfile` row; prints rather than counts | no |
-| `smoke_test_dsa.py` | skill map unlocking and mastery; needs `seed_dsa.py` first | yes: Gemini (problem framing) |
+| `smoke_test_code_questions.py` | code questions: runner adapter (OneCompiler shape, Cloudflare page, timeouts, caps, error codes), validator, public view, grading, Run and Check routes | no (fake runner or stubbed HTTP) |
+| `smoke_test_code_pools.py` | code pools: content shape of the 5 paths, validator rejections, materialise, the personalised pick rules, no secret field in any of the 120 variants, grading with the real reference solutions, Start/Run/Check/Submit end to end, retry gets the other problem, readiness counts the code question, dashboard scenario summary, no page links to `/dsa` | no (runs code with this machine's Python: `CODE_RUNNER=local`) |
 | `smoke_test_resume.py` | upload, extraction, gap analysis, AI feedback | yes: Gemini |
 | `smoke_test_roadmap.py` | `/roadmap/generate` end to end | yes: Gemini |
 | `smoke_test_youtube.py` | `/roadmap/<id>/resources` | yes: Gemini and YouTube |
@@ -240,7 +238,9 @@ Each prints `[PASS]`/`[FAIL]` per check and exits non-zero on a failure. Run the
 last four only deliberately: they spend quota.
 
 Current check counts (run on 2026-10-11 unless marked): `smoke_test_scenarios.py` 213,
-`smoke_test_readiness.py` 70, `smoke_test_resume_rules.py` 59, `smoke_test_cached_roadmaps.py` 95
+`smoke_test_readiness.py` 70, `smoke_test_resume_rules.py` 59, `smoke_test_cached_roadmaps.py` 95,
+`smoke_test_code_questions.py` 164, `smoke_test_code_pools.py` 78 (the last two were run in a cloud copy with an empty
+survey table, where readiness shows 69 and resume_rules 58; on the laptop's database they should show 70 and 59)
 (the 95 is from the earlier biography entry and was not re-run for this update). All of these
 call no external service, but they use the development database, so PostgreSQL must be running.
 
@@ -365,14 +365,14 @@ All styling is in one file, `app/static/css/style.css`, in this order: (1) token
 (2) base (reset, the one focus ring, skip link, `.visually-hidden`); (3) components: `.btn` (primary; `.btn-secondary`, `.btn-ghost`,
 `aria-busy="true"` for the loading state), `.card`, `.chip` / `.badge`, `.pbar` and `.ring`, `.seg` / `.tabs`, `.empty`, `.skel`,
 `.alert`, `.disclosure` (a `<details>` used for every "How this works"); (4) page rules (landing, quiz and goals, roadmap, resume,
-dashboard); (5) the legacy "sheet" layout (`.sheet`, `.row`, `.margin`, `.main`), which only the DSA skill-map page and the
-legacy career-path picker still use. Do not restyle that last block without opening `/dsa`.
+dashboard); (5) the legacy "sheet" layout (`.sheet`, `.row`, `.margin`, `.main`), which only the legacy career-path picker
+still uses (the skill-map page that also used it was removed; its "Skill map" rules are now unused).
 
 The JS builders for the components are in `app/static/js/ui.js`: `skeleton()`, `alertEl()`, `emptyState()`, `disclosure()`, `pbar()`,
 `ring()`, `sectionTabs()` (tabs on a wide screen, accordion on a narrow one), `questionForm()` (option cards, keys 1-9, Enter) and
 `questionProgress()`. Page renderers shared by several pages are in `app/static/js/results.js`. Rules for new UI: text only through `el()` /
 `textContent`, state-changing requests only through the CSRF helpers, one filled button per screen, and no web fonts or CDNs (the
-system font stack is used because no font is bundled; the DSA page still loads D3 from its CDN, as before). Text colours must stay
+system font stack is used because no font is bundled). Text colours must stay
 `--ink` or `--pencil` (both pass 4.5:1 on `--paper`, `--surface` and `--tint`; `scratch/contrast.py` checks the pairs).
 `scripts/make_roadmap_preview.py` builds a standalone page from `style.css`, `ui.js` and `results.js`, so it follows these files.
 
@@ -442,6 +442,44 @@ Page: `/scenarios`; API:
   `CAREER_PATHS`; to test the "no scenarios yet" behaviour they hide one file (Game Development's) for the duration of the
   check (commit 95b70d2; the exact mechanism was not re-read for this update).
 - **Tests:** `PYTHONPATH=. python scripts/smoke_test_scenarios.py` (see the table above).
+
+### Code questions (coding problems inside scenarios)
+
+A scenario can end with a Python coding problem. Questions of type `code` carry `language` (python), `starter_code`,
+`tests` (`stdin`, `expected_stdout`, `hidden`), `reference_solution` and `ds_topic`. Most code problems live in a
+scenario's **`code_pool`** instead: 1-4 problems (ids `<scenario id>-cK`), each with `difficulty` (1-3), `skills`
+(e.g. Python, SQL) and 1-5 data **variants** (`params` filled into `{placeholders}` in the prompt, and that variant's
+`tests`). Full-Stack, Data Science, Data Analytics, Backend and AI Engineering have 2 problems on each of scenarios 2-5
+(40 problems, 3 variants each); the other 10 paths have none yet.
+
+- **One problem per attempt, picked per student.** When an attempt starts, `scenario_engine.choose_code_pick` picks one
+  problem and one variant and stores the pick on the attempt (`answers["_pick"]`; the browser can never set it). Rules:
+  a problem the student has not had on this scenario wins; then +2 if it practises a skill the latest resume analysis
+  listed as missing, +1 if its difficulty suits the Goals-chat goal (harder for `specific_role` / `any_good_company`,
+  gentler for `build_fundamentals` / `explore`), +1 for the easier one after a failed last try; ties and the variant
+  come from the attempt's seed. The problem is appended as the attempt's last question and shows a one-line "why you
+  got this problem". Attempts started before pools existed see the plain scenario.
+- **Run and Check.** Run (`POST /scenarios/<id>/code/run`) is ungraded and uses the visible example only; Check
+  (the normal `/answer` call) runs every test in one batch and locks the result; hidden tests are only reported as
+  counts. A runner failure locks nothing. Code questions count 10 points like any other, so they are part of the
+  scenario score and therefore of the readiness score's scenario component, with no separate formula.
+- **Code runner** (`app/pipeline/code_runner.py`, `CODE_RUNNER` in `.env`): `onecompiler` (default; needs
+  `ONECOMPILER_API_KEY`; one batch of up to 10 tests = one credit; needs the browser-style User-Agent the adapter
+  already sends), `fake` (tests only) or `local` (runs the code with this machine's Python in a subprocess with a
+  5-second limit). `local` is for an offline demo on your own laptop ONLY: it is not a sandbox, so never enable it on
+  a server other people can reach.
+- **Authoring and checking problems.** Sources are in `scripts/code_pools/<path_slug>.py`. Then:
+  `PYTHONPATH=. python scripts/build_code_pools.py` checks without writing; `--write` writes the pools into
+  `data/scenarios/<slug>.json` (add `--paths full-stack-development` for one path). The build runs every reference
+  solution on every test with local Python and uses its output as the expected output, compares each visible example
+  with a hand-worked answer, compares every test with a second independent implementation (`alt`), and refuses a
+  starter that already passes. Any mismatch writes nothing.
+- **Checking against the real provider:** `PYTHONPATH=. python scripts/validate_code_questions.py` is a dry run that
+  prints the credit cost; `--run` checks the first variant of every pool problem (40 credits for the current files),
+  `--all-variants` checks all 120, `--max-credits N` stops after N calls.
+- **Old skill-map tables.** The app no longer uses them. `PYTHONPATH=. python scripts/drop_old_dsa_tables.py` lists
+  them and their row counts; `--drop` removes them (cannot be undone; the script's docstring has a `pg_dump` line for
+  a backup). `cleanup_demo_users.py` still clears rows in them first if they exist.
 
 ### Cleaning up test users
 
@@ -515,7 +553,7 @@ Known Issues / Deployment Backlog
   production WSGI server rather than `app.run`, and `SESSION_COOKIE_SECURE` left
   unset. The Flask debugger must stay off.
 - **`.env` hygiene.** Every line must be `NAME=value` with no spaces (see section 7).
-- **Real-service smoke tests** (`dsa`, `resume`, `roadmap`, `youtube`) spend Gemini
+- **Real-service smoke tests** (`resume`, `roadmap`, `youtube`) spend Gemini
   and YouTube quota and were not re-run after the CSRF change; they were updated
   to send the token and should be run once before a demo.
 - **Test data in the dev database.** Smoke tests run with `--keep`, and older runs,

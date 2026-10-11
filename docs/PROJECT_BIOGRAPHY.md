@@ -2067,8 +2067,66 @@ committed on `dev` directly. **31 test users were removed** from the development
 cannot be checked from git or the repo (the cleanup tool is `scripts/cleanup_demo_users.py`, which deletes `@example.com` users and
 their rows and knows the `scenario_attempts` table). Not verified.
 
----
----
+## Coding Questions Inside Scenarios: Engine, Personalised Problem Pools, Skill Map Removed
+
+**Why.** Scenarios tested decisions but no student ever wrote code, which left "Data Structures and Problem Solving" in the
+title thin. The project owner reports that the guide agreed to coding problems inside the career scenarios (not recorded in
+git). The plan settled on: problems tied to each path's story and to a core data structure, a fixed reviewed pool rather than
+model-written questions, and per-student variety from picking and data variants.
+
+**Code execution provider.** A research pass (no code) found the public Piston instance closed to the public since February
+2026, and hosted Judge0 / JDoodle limits and terms not verifiable. The owner then probed OneCompiler by hand: the default
+`python-requests` User-Agent gets a Cloudflare 403 page, a browser-style one works; a runtime error and a syntax error still come
+back with `status: "success"` and the text in `stderr`; an infinite loop returns `exception: "Time limit exceeded"` after about
+5 s; there is no exit code; and a request whose `stdin` is a list runs once per entry and was billed as one credit (the
+dashboard showed 11 requests, 11 credits for the 11 probes, including a 3-entry batch). Signup gave 100 credits. These are the
+owner's measurements on one account; the provider's terms for sending student code were not found (not verified).
+
+**Engine (commits 02954c7 to ce9b69a, Claude Code on the laptop).** `app/pipeline/code_runner.py` hides the provider behind
+`run_batch(source, stdins)` with fixed error codes (`timeout`, `runtime_error`, `runner_unavailable`, `code_too_large`) and
+size caps; the validator accepts a `code` question type; the public view sends only the prompt, starter code and visible
+examples; Run (ungraded, visible examples) and Check (all tests, locked once, hidden tests reported as counts) routes; a runner
+failure never counts as wrong; submit ignores any client-supplied code result. `smoke_test_code_questions.py`: 164 checks.
+
+**Pools and the personalised pick (this entry, a cloud Claude Code session on Opus, branch `coding-content-1`).** A scenario
+may carry a `code_pool` of 1-4 problems, each with 1-5 data variants (prompt placeholders plus that variant's tests). When an
+attempt starts, `choose_code_pick` picks one problem and one variant from the student's own data, in this order: a problem not
+had before on this scenario; a skill the latest resume analysis listed as missing (+2); the Goals-chat goal (harder or gentler,
++1); the easier one after a failed last try (+1); ties and the variant by the attempt's seed. The pick is stored on the attempt
+(`answers["_pick"]`, never accepted from the browser), the problem becomes the attempt's last question, and the player shows
+one line on why it was picked. Older unfinished attempts keep the plain scenario. Readiness needed no change: the code question
+is part of the attempt's score, and the scenario component already uses best score over max score. A resumed code question now
+shows the source that was checked. `CODE_RUNNER=local` was added for an offline demo on the owner's own laptop only (it is not
+a sandbox).
+
+**Content.** 40 Python problems for Full-Stack, Data Science, Data Analytics, Backend and AI Engineering: two on each of
+scenarios 2-5, one gentler and one harder, using different data structures (hash maps, sorting, heaps, stack, queue, linked
+list via an LRU cache, string handling, arrays, and a topological sort for an agent's tool plan), each with 3 data variants of
+1 visible and 4 hidden tests (120 test sets). The other 10 paths have no coding problems yet. Problems were written by Claude;
+no person has reviewed them for difficulty or wording (not verified).
+
+**How the content was checked.** `scripts/build_code_pools.py` builds the pools from `scripts/code_pools/<path>.py` and writes
+nothing unless every check passes: the reference solution is run on every test with local Python and its output becomes the
+expected output; each visible example is compared with a hand-worked answer; every test is compared with a second, independently
+written implementation; the starter code must fail at least one test. Three hand-worked answers were wrong in the first draft
+(a z statistic of 2.40 that is really 2.23, a peeking example that does cross 1.96 on day 1, and a partial-pooling example); they
+were found by re-working the arithmetic before the first build, not by the build. A deliberate wrong expected output, a wrong second implementation and a passing starter were each
+confirmed to fail the build. All 120 variants also pass through the app's own runner with `CODE_RUNNER=local`. They have NOT been
+run on OneCompiler yet (`validate_code_questions.py --run` checks the first variant of each problem for 40 credits).
+
+**Skill DNA Map removed.** The `/dsa` page and API, the D3 map script, the problem-framing LLM call, the seed / verify / smoke
+scripts and the seven old tables' models are gone. The dashboard's next step and progress chips now summarise scenario progress,
+and the nav, landing, roadmap and resume pages link to Scenarios. `scripts/drop_old_dsa_tables.py` lists the old tables (dry run)
+and drops them with `--drop`; `cleanup_demo_users.py` still clears legacy rows first if the tables exist.
+
+**Verification (cloud copy, empty survey table).** `smoke_test_code_pools.py` 78/78 (new), `smoke_test_code_questions.py`
+164/164, `smoke_test_scenarios.py` 213/213, `smoke_test_security.py` 30/30, `smoke_test_llm.py` 84/84, `smoke_test_quiz.py`
+33/33, `smoke_test_async_generation.py` 25/25, `smoke_test_readiness.py` 69/69 and `smoke_test_resume_rules.py` 58/59 (both one
+lower than on the laptop because the survey table was empty; the same counts on the base commit). `smoke_test_paths`,
+`adzuna`, `resume_modes`, `progress`, `generator` and `cached_roadmaps` could not run there (survey data, a scratch fixture and
+the embedding model are only on the laptop). **Not verified:** the code editor and the pick reason in a real browser; any
+OneCompiler run of the new problems; the laptop-only suites on this branch.
+
 ---
 ## Still To Build
 
@@ -2078,10 +2136,10 @@ their rows and knows the `scenario_attempts` table). Not verified.
   pin `boto3`, and set `PRICE_PER_MTOK` from the provider's real price list
 - Roadmap v2 verification backlog (see "Not yet verified" in the Roadmap Generation
   v2 entry; not re-checked since the career-path restructuring)
-- Phase 3 Stage 2 (Piston, code execution, XP/mastery/streaks) and Stage 3
-  (adaptive bandit map): superseded for new work by scenarios (see Scenario-Based Gamification); the DSA map stays as is
+- Phase 3 Stage 2 / Stage 3 (skill map, bandits): superseded by scenarios with coding questions; the skill map was removed
 - Scenario scene artwork (the maps use a gradient)
-- Coding questions in the scenarios: decision pending with the guide
+- Coding problems for the other 10 paths (5 paths have them)
+- Run the new coding problems once on OneCompiler (`validate_code_questions.py --run`) and check the editor in a browser
 - Deployment on Render (see "Known Issues / Deployment Backlog" in DEV_SETUP.md); no deployment is recorded in the repo (not verified)
 - Advisor bot
 - ML path prediction

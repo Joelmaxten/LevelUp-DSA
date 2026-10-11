@@ -25,8 +25,7 @@ an ill-fitting DevType onto a path would be a worse error than leaving it
 unmapped.
 
 Order matters here: it's the order paths are offered in the standalone
-career-path picker (resolve_target_career_path) and iterated when seeding
-CareerPath rows (scripts/seed_dsa.py).
+career-path picker (resolve_target_career_path).
 """
 
 FULL_STACK = "Full-Stack Development"
