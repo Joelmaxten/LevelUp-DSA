@@ -1,0 +1,4862 @@
+{
+ "metadata": {
+  "schema_version": 1,
+  "career_path": "Full-Stack Development",
+  "model_id": "claude-opus-5-5",
+  "built_at": "2026-10-10T18:02:25Z",
+  "generator": {
+   "profile": "neutral",
+   "provider": "claude_authored",
+   "llm_host": null,
+   "authoring": "Every model reply in this run was written by Claude (claude-opus-5-5) in a Claude Code cloud session, answering the generator's own prompts; retrieval, topic-ref validation, duplicate check, more_topics, resources and audit are the unmodified pipeline.",
+   "phase_concurrency": 1,
+   "duplicate_similarity_threshold": 0.8,
+   "reasoning_effort": "",
+   "resources": "kb_only"
+  },
+  "inventory_fingerprint": "4034b9e0b3082c0cc5459ecb3e6a6d74b47969f2c6d619c408cbda553f5a7396"
+ },
+ "roadmap": {
+  "phases": [
+   {
+    "phase_number": 1,
+    "title": "JavaScript",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "JavaScript Basics: Running Code and Declaring Variables",
+      "description": "JavaScript runs on both the browser and the server in a full-stack JavaScript stack, so it is the one language you cannot skip. Learn where JavaScript came from, how to run it, and how var, let and const differ.",
+      "topic_refs": [
+       "6khAD6mzZ9S96JJuC5_j6",
+       "UBB-8hUcwo4Mfd0cmEcdA",
+       "l-GKzcsBNA0r6Jax8hwnP",
+       "SFPsWnVpZBAw3_re7op4h",
+       "uXsWIUUxtc4H_iRx3uZv0",
+       "kvActjpU4FUJdrmuFoFEe",
+       "BqbAWt--Guqex-rrb4ZUv",
+       "JSjeM8qnBg4onXq9mn5gB",
+       "kDRa9G3pMp0Cb0mqYUawM",
+       "q85z6x1Lc-yLWepwtIT2_",
+       "HfieG3v3wnmpZDfNwEJvZ",
+       "-jbPPuEXacBR0d0CWPHgd"
+      ],
+      "projects": [
+       {
+        "title": "Console scratchpad",
+        "description": "Run snippets in the browser console and Node to compare how var, let and const behave in blocks.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Personal info card",
+        "description": "A page script that stores profile details in variables and prints a formatted card.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Introduction to JavaScript",
+       "What is JavaScript",
+       "History of JavaScript",
+       "Javascript Versions",
+       "How to run JavaScript"
+      ],
+      "more_topics": [
+       {
+        "node_id": "s8wUJivWmetysJ8bt9FBC",
+        "title": "Built in functions"
+       },
+       {
+        "node_id": "oC4o6GLEES_nUgCJu9Q6I",
+        "title": "Global"
+       }
+      ],
+      "global_step_index": 1,
+      "resource": {
+       "title": "JavaScript Crash Course for Beginners",
+       "url": "https://youtube.com/watch?v=hdI2bqOjy3c"
+      },
+      "videos": [
+       {
+        "title": "JavaScript Crash Course for Beginners",
+        "url": "https://youtube.com/watch?v=hdI2bqOjy3c",
+        "video_id": "hdI2bqOjy3c",
+        "source": "roadmap.sh",
+        "topic": "Introduction to JavaScript"
+       },
+       {
+        "title": "Learn JavaScript - Full Course for Beginners",
+        "url": "https://youtube.com/watch?v=PkZNo7MFNFg",
+        "video_id": "PkZNo7MFNFg",
+        "source": "roadmap.sh",
+        "topic": "What is JavaScript"
+       },
+       {
+        "title": "Declaring Variables without Var, Let, Const - What Would Happen?",
+        "url": "https://youtube.com/watch?v=6UAKBYpUC-Y",
+        "video_id": "6UAKBYpUC-Y",
+        "source": "roadmap.sh",
+        "topic": "[var] keyword"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 2,
+      "title": "Primitive Types, Objects and Type Coercion",
+      "description": "Many JavaScript bugs come from implicit type conversion, such as a form value that is a string rather than a number. Learn the primitive types, objects, typeof, and explicit and implicit casting.",
+      "topic_refs": [
+       "1RcwBHU3jzx0YxxUGZic4",
+       "GZ_SXsWmP7AsXRTc4WUMw",
+       "b1HvkoWA2t4kt8mS6FySm",
+       "CxyNyFMuTLS3owtRMgClD",
+       "ZLs0NKM0lrnOy5ATDhlk0",
+       "6lUF0neW1piiP1RsaVxEX",
+       "R6ICrk6vjoBxx5nRGo4Jg",
+       "xe8HZ8Mt1fK8yJMcDPYHJ",
+       "RRACLQ6-aopkxImIp3Toc",
+       "XPmBieVCXvL3WbWkYRoKr",
+       "_Bo2YZqZ_gY35SLPML4T6",
+       "pP42K_eH4RCdUdUS8BJlP"
+      ],
+      "projects": [
+       {
+        "title": "Coercion quiz",
+        "description": "Predict then check the result of thirty mixed-type expressions and explain each surprise.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Safe form parser",
+        "description": "Convert form inputs to the right types and reject invalid values explicitly.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "String",
+       "number",
+       "boolean",
+       "null",
+       "undefined"
+      ],
+      "more_topics": [
+       {
+        "node_id": "1xhjrRN-Rfekei2JwwU7Y",
+        "title": "Explicit Type Casting"
+       }
+      ],
+      "global_step_index": 2,
+      "resource": {
+       "title": "Booleans in JavaScript",
+       "url": "https://youtube.com/watch?v=B4ZCFdrBmbE"
+      },
+      "videos": [
+       {
+        "title": "Booleans in JavaScript",
+        "url": "https://youtube.com/watch?v=B4ZCFdrBmbE",
+        "video_id": "B4ZCFdrBmbE",
+        "source": "roadmap.sh",
+        "topic": "boolean"
+       },
+       {
+        "title": "undefined in JS",
+        "url": "https://youtube.com/watch?v=B7iF6G3EyIk",
+        "video_id": "B7iF6G3EyIk",
+        "source": "roadmap.sh",
+        "topic": "undefined"
+       },
+       {
+        "title": "The Whys and Hows Of BigInt",
+        "url": "https://youtube.com/watch?v=6I650PQfhMg",
+        "video_id": "6I650PQfhMg",
+        "source": "roadmap.sh",
+        "topic": "bigint"
+       },
+       {
+        "title": "Symbols in Javascript",
+        "url": "https://youtube.com/watch?v=E5Bblr-SFbA",
+        "video_id": "E5Bblr-SFbA",
+        "source": "roadmap.sh",
+        "topic": "Symbol"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 3,
+      "title": "Operators and Equality Comparisons",
+      "description": "Using == instead of === is a classic interview question and a real source of bugs. Practise arithmetic, assignment, comparison, logical and bitwise operators, and the equality algorithms behind them.",
+      "topic_refs": [
+       "_6vZa43gWjxO2OcD1iCCQ",
+       "0PK1NwlgkNe2Vf-We4uLH",
+       "IvBtUzIGnkgGXrJjqmjf4",
+       "-v4_V4UuoZSgUk2sqOCim",
+       "bo4SvzU4BrPl3c99zW7Y5",
+       "640mk-m5mB90Mme-7jcXV",
+       "c38b6t5f17Zg2O2yg3eFP",
+       "k9rSR-YQ8B_iRcXNm2btP",
+       "ghjNJW67Wj5L5QK46xwL-",
+       "23Xa6q5VvRVlzc6Dx8vST",
+       "lJwcc6JoUIQoiQ6FkV2KW",
+       "RonBj1htt6jnBt3W7zoTA"
+      ],
+      "projects": [
+       {
+        "title": "Equality table",
+        "description": "Build a table showing == and === results for common value pairs.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Discount calculator",
+        "description": "Apply coupon rules with logical and conditional operators.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Expressions & Operators",
+       "Arithmetic Operators",
+       "Assignment Operators",
+       "Comparison Operators",
+       "Logical Operators"
+      ],
+      "more_topics": [
+       {
+        "node_id": "PLallt_T33W6bUEn0Hc3W",
+        "title": "isLooselyEqual"
+       },
+       {
+        "node_id": "pcILon_Jjm2_XS10iUJ0E",
+        "title": "isStrictlyEqual"
+       },
+       {
+        "node_id": "nfMrC0eoXZl72H4o3VFEP",
+        "title": "SameValue"
+       },
+       {
+        "node_id": "ATma3bLKdmWY_WTsPIKxh",
+        "title": "Object.is"
+       },
+       {
+        "node_id": "fL3B2hkTgMb0oEwMiWJtK",
+        "title": "SameValueZero"
+       },
+       {
+        "node_id": "udoz0DZi7f-vm30dSnYKu",
+        "title": "BigInt Operators"
+       },
+       {
+        "node_id": "6_8EwyZY2jBkZr7xnfRY3",
+        "title": "Comma operators"
+       }
+      ],
+      "global_step_index": 3,
+      "resource": null,
+      "videos": [],
+      "resources": []
+     },
+     {
+      "step_number": 4,
+      "title": "Control Flow and Loops",
+      "description": "Branching and looping are how every piece of business logic is expressed. Practise if/else and switch, every loop form, and break and continue.",
+      "topic_refs": [
+       "3tckJ2Sci7z-sNx9jx9eF",
+       "ttCsd2_H2SuRivCjGv1OX",
+       "ndbDXAx6bL4lZmpXv16Y_",
+       "H_QlcUlavKKfcNK8CYAvb",
+       "uqEzHYx13Y2EpvTTRzykn",
+       "YD-2l_amfqqqCdtc_Zdzo",
+       "2M211rcaPSWbZ-sPoSEVR",
+       "cq3vvFZoNnAAZJ6oEBUwb",
+       "FBz6h_AmTJBXoBN-a38a5",
+       "9-MpHmzK_IiCi6IcvAlGM",
+       "57lO_3uxJaWsFXS-0J1AK",
+       "4oHFzn7R7xLxfuLpsJjr-"
+      ],
+      "projects": [
+       {
+        "title": "FizzBuzz variants",
+        "description": "Write FizzBuzz with each loop type and a switch-based version.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Grade report generator",
+        "description": "Loop over student records and assign grades with conditional logic.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Control Flow",
+       "Conditional statements",
+       "if...else",
+       "Switch",
+       "Block"
+      ],
+      "more_topics": [],
+      "global_step_index": 4,
+      "resource": null,
+      "videos": [],
+      "resources": []
+     },
+     {
+      "step_number": 5,
+      "title": "Functions, Scope and Closures",
+      "description": "Functions and closures underpin callbacks, React hooks and Node modules alike. Learn parameters, defaults, rest arguments, arrow functions, IIFEs, scope and hoisting, and how closures capture variables.",
+      "topic_refs": [
+       "k8bJH9qydZm8I9rhH7rXw",
+       "YMT7O6lrMSMtNo0EnmsnQ",
+       "R1D4fsZliHv7wIo8Tj-kp",
+       "8X8mRl-puL0Lp43dO5mha",
+       "-_6q0bIjQrvAaCWrVkASO",
+       "fr0NChxMXLpJizyMhXcXS",
+       "YZlCoPvZuX5MmpLOTj5d4",
+       "QLC7bW-qHskLH2HOA-Sko",
+       "q7b5iMJ1Lfka5A-K-YcaN",
+       "7iMJuaB7yKlSIbT4dBe5L",
+       "itS6B12I8I1KNCPvc0KCQ",
+       "Lb5jLF91WO5V5CWpifciW"
+      ],
+      "projects": [
+       {
+        "title": "Counter factory",
+        "description": "Create independent counters with closures and explain why each keeps its own state.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Debounce from scratch",
+        "description": "Implement a debounce helper with closures and use it on a search box.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Functions",
+       "Function",
+       "Function Parameters",
+       "Default Parameters",
+       "Rest"
+      ],
+      "more_topics": [],
+      "global_step_index": 5,
+      "resource": {
+       "title": "Understanding Global Local Function Block Scope",
+       "url": "https://youtube.com/watch?v=_E96W6ivHng"
+      },
+      "videos": [
+       {
+        "title": "Understanding Global Local Function Block Scope",
+        "url": "https://youtube.com/watch?v=_E96W6ivHng",
+        "video_id": "_E96W6ivHng",
+        "source": "roadmap.sh",
+        "topic": "Variable Scopes"
+       },
+       {
+        "title": "Learn JavaScript Hoisting In 5 Minutes",
+        "url": "https://youtube.com/watch?v=EvfRXyKa_GI",
+        "video_id": "EvfRXyKa_GI",
+        "source": "roadmap.sh",
+        "topic": "Hoisting"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 6,
+      "title": "Arrays, Collections and JSON",
+      "description": "Web apps spend much of their code transforming arrays of objects that arrive as JSON. Master array methods, Map and Set and their weak versions, typed arrays, and JSON parsing and serialising.",
+      "topic_refs": [
+       "NZedBxG9B9TRVOf2QE2yL",
+       "lBOGoHZrmnIRatvryDwTm",
+       "rhJrrqkRqy2Qw_he4SPGz",
+       "Xc0jL4rafpI-ixIaAxo9O",
+       "sciU68E13mcfL577y6Vim",
+       "6icsjC4aisDgPWasVuCOt",
+       "DSFzj61N9ojz29mjExhVa",
+       "8X1mdQ3NDBVOZZWBbAFRE",
+       "ADarwihuI2nBq1C3U7-Zr",
+       "JwLGAuSOTyZ5BHSqeBDU6",
+       "bFNvtHp97OzKnPJgr7WaH",
+       "D95ndkkwmT5X_HqboEn6E"
+      ],
+      "projects": [
+       {
+        "title": "Product list transformations",
+        "description": "Filter, sort, group and total a JSON product list using only array methods.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Unique visitors with Set",
+        "description": "Count unique visitors per day from a log array using Set and Map.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Arrays",
+       "Indexed collections",
+       "Keyed Collections",
+       "Map",
+       "Set"
+      ],
+      "more_topics": [],
+      "global_step_index": 6,
+      "resource": {
+       "title": "JavaScript Arrays",
+       "url": "https://youtube.com/watch?v=oigfaZ5ApsM"
+      },
+      "videos": [
+       {
+        "title": "JavaScript Arrays",
+        "url": "https://youtube.com/watch?v=oigfaZ5ApsM",
+        "video_id": "oigfaZ5ApsM",
+        "source": "roadmap.sh",
+        "topic": "Arrays"
+       },
+       {
+        "title": "Javascript Arrays",
+        "url": "https://youtube.com/watch?v=XYq9QpgAx8g",
+        "video_id": "XYq9QpgAx8g",
+        "source": "roadmap.sh",
+        "topic": "Indexed collections"
+       },
+       {
+        "title": "Creating keyed collection",
+        "url": "https://youtube.com/watch?v=4UqSqF4foy4",
+        "video_id": "4UqSqF4foy4",
+        "source": "roadmap.sh",
+        "topic": "Keyed Collections"
+       },
+       {
+        "title": "Intro to Typed Arrays in JavaScript",
+        "url": "https://youtube.com/watch?v=UYkJaW3pmj0",
+        "video_id": "UYkJaW3pmj0",
+        "source": "roadmap.sh",
+        "topic": "Typed Arrays"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 7,
+      "title": "this, Prototypes and Classes",
+      "description": "The value of this changes with how a function is called, which confuses many developers and causes event-handler bugs. Learn this in each context, call, apply and bind, prototypes and inheritance, and class syntax.",
+      "topic_refs": [
+       "fm2CuL1IZp3hnrLrPUX7U",
+       "3E5MuxPvEJU-dwgTrbQAR",
+       "P0190rTm2wLQmCzWOKour",
+       "JVbEBtVrTTFnTF3_yUIAC",
+       "gsyY3Oa3Jf0W5K_lyqBYO",
+       "-BtF34cEzI6J8sZCDRlRE",
+       "dbercnxXVTJXMpYSDNGb2",
+       "p2NhSwPYMtRiPRHjPaqmX",
+       "EAN6DCiCfSq04R4vKgZ0q",
+       "0I6dJE0ygXPGjeRAe8AtT",
+       "Xge6eru1hRGobnOEHLZqv",
+       "F_Lrj0F7UXriqJ0mhwxCy"
+      ],
+      "projects": [
+       {
+        "title": "this puzzle set",
+        "description": "Predict the value of this in fifteen snippets and fix the broken ones with bind or arrows.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Shape class hierarchy",
+        "description": "Model shapes with classes, then rewrite them with plain prototypes.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Using (this) keyword",
+       "this in a method",
+       "in arrow functions",
+       "in event handlers",
+       "call()"
+      ],
+      "more_topics": [
+       {
+        "node_id": "azsXq6Y5iCvQDgTWZpWQ3",
+        "title": "in a method"
+       },
+       {
+        "node_id": "qps2Mdm-lwa4Wr0IxKm0C",
+        "title": "using it alone"
+       }
+      ],
+      "global_step_index": 7,
+      "resource": {
+       "title": "Prototype in Javascript - Object Prototype",
+       "url": "https://youtube.com/watch?v=583MGxjypgU"
+      },
+      "videos": [
+       {
+        "title": "Prototype in Javascript - Object Prototype",
+        "url": "https://youtube.com/watch?v=583MGxjypgU",
+        "video_id": "583MGxjypgU",
+        "source": "roadmap.sh",
+        "topic": "Prototypes"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 8,
+      "title": "Asynchronous JavaScript and the Event Loop",
+      "description": "Every network call in the browser and in Node is asynchronous, so understanding the event loop is essential for full-stack work. Learn callbacks, promises and async/await, timers, and fetching data from APIs and the DOM.",
+      "topic_refs": [
+       "sFOqx6_7poVIVuXhJVY0E",
+       "_bs5NNHVdHLWGBmpYwHMi",
+       "D8oGY7pdviRByaz6c9sU6",
+       "PJSdqvh5OBwPCNpn3q_S5",
+       "yXSF5gGST7l2X-4z1g0d_",
+       "Dn872mgexmxoLtbkIgIgz",
+       "wXypuqEmFLIubx-QQvDIr",
+       "jaC3XXudd7OBKwwCpoPFf",
+       "kL5rfWxXe4J44ENru1uJS",
+       "LiuhBE7dIlkoWkthSoCsa",
+       "q6vciQb_Jk-Up16Pk5NeE",
+       "bhuGtcyqPFKu-900aESYz"
+      ],
+      "projects": [
+       {
+        "title": "Weather widget",
+        "description": "Fetch weather from an API with async/await and show loading and error states on a page.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Event loop ordering quiz",
+        "description": "Predict the log order of mixed timers, promises and sync code, then verify.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Asynchronous JavaScript",
+       "Event Loop",
+       "Callbacks",
+       "Callback Hell",
+       "Promises"
+      ],
+      "more_topics": [],
+      "global_step_index": 8,
+      "resource": {
+       "title": "What The Hack is Event Loop and Asynchronous JavaScript - JSConf",
+       "url": "https://youtube.com/watch?v=8aGhZQkoFbQ"
+      },
+      "videos": [
+       {
+        "title": "What The Hack is Event Loop and Asynchronous JavaScript - JSConf",
+        "url": "https://youtube.com/watch?v=8aGhZQkoFbQ",
+        "video_id": "8aGhZQkoFbQ",
+        "source": "roadmap.sh",
+        "topic": "Asynchronous JavaScript"
+       },
+       {
+        "title": "In the loop: JS conf 2018",
+        "url": "https://youtube.com/watch?v=cCOL7MC4Pl0",
+        "video_id": "cCOL7MC4Pl0",
+        "source": "roadmap.sh",
+        "topic": "Event Loop"
+       },
+       {
+        "title": "JavaScript Promises - Visualized",
+        "url": "https://youtube.com/watch?v=Xs1EMmBLpn4",
+        "video_id": "Xs1EMmBLpn4",
+        "source": "roadmap.sh",
+        "topic": "Promises"
+       },
+       {
+        "title": "setInterval and setTimeout: timing events",
+        "url": "https://youtube.com/watch?v=kOcFZV3c75I",
+        "video_id": "kOcFZV3c75I",
+        "source": "roadmap.sh",
+        "topic": "setTimeout"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 9,
+      "title": "Errors, Modules and Strict Mode",
+      "description": "Larger codebases rely on modules to stay organised and on proper error handling to fail safely. Learn try/catch/finally and error objects, ES modules versus CommonJS, strict mode, iterators, generators and recursion.",
+      "topic_refs": [
+       "34TKGxV9YziOWMh9rT_KE",
+       "rbjEZe5vxCJ8reI1oZ-jf",
+       "ReGIniyLYl5hGExchrJd2",
+       "-z-4VTaC3tOThqChgyoMs",
+       "hLnJlwnECFbVMeFpH0M5Q",
+       "jLNmYeo20Mbu4WRvVgvwU",
+       "4EXeGkOpfAViB9Uo4zL6O",
+       "Xw8lb0xCWKmNs4KZfhBUy",
+       "TZ8XGdykSJjKBjX6Nivwo",
+       "YJGhhFuWmFvhRKOg6nwON"
+      ],
+      "projects": [
+       {
+        "title": "Modular utility library",
+        "description": "Split helpers into ES modules with custom error classes and import them in a page.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Folder tree printer",
+        "description": "Recursively print a nested folder structure and handle bad input with thrown errors.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Exception Handling",
+       "try/catch/finally",
+       "Throw Statement",
+       "Error Objects",
+       "Modules"
+      ],
+      "more_topics": [],
+      "global_step_index": 9,
+      "resource": {
+       "title": "try, catch, finally, throw (video)",
+       "url": "https://youtube.com/watch?v=cFTFtuEQ-10"
+      },
+      "videos": [
+       {
+        "title": "try, catch, finally, throw (video)",
+        "url": "https://youtube.com/watch?v=cFTFtuEQ-10",
+        "video_id": "cFTFtuEQ-10",
+        "source": "roadmap.sh",
+        "topic": "Exception Handling"
+       },
+       {
+        "title": "JavaScript ES6 Modules Simplified",
+        "url": "https://youtube.com/watch?v=cRHQNNcYf6s",
+        "video_id": "cRHQNNcYf6s",
+        "source": "roadmap.sh",
+        "topic": "ESModules"
+       },
+       {
+        "title": "How to Import and Export Modules in CJS",
+        "url": "https://youtube.com/watch?v=XTND4rjATXA",
+        "video_id": "XTND4rjATXA",
+        "source": "roadmap.sh",
+        "topic": "CommonJS"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 10,
+      "title": "Debugging and Memory Management in JavaScript",
+      "description": "Slow pages and leaking tabs are found with DevTools, not guesswork. Use the browser debugger and profilers, understand the call stack, and learn how memory is allocated and garbage collected.",
+      "topic_refs": [
+       "rc5WzBBOm2cus-rQl8EOE",
+       "dhEtcgv7G9fNV-AUNJdWk",
+       "BA_ArmZMnVMaL_zl3W3Pt",
+       "ECxISKUAU7js_JsfSHzud",
+       "MatU4SthAAhByJ40XdZQn",
+       "ZR2WfH1cerA-V_kaPwRvm",
+       "KKyX8N4lTgN0w-Khm6Ztq",
+       "ISNzEYtrWe2v0R7Xfl5k-"
+      ],
+      "projects": [
+       {
+        "title": "Leak hunt",
+        "description": "Find a detached-DOM memory leak with heap snapshots and fix it.",
+        "difficulty": "advanced",
+        "grounded": false
+       },
+       {
+        "title": "Breakpoint walkthrough",
+        "description": "Step through a buggy function with breakpoints and watch expressions until you find the cause.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Using Browser DevTools",
+       "Debugging Issues",
+       "Debugging Memory Leaks",
+       "Debugging performance",
+       "Memory Management"
+      ],
+      "more_topics": [],
+      "global_step_index": 10,
+      "resource": {
+       "title": "JavaScript Memory Leaks Visualized and How To Fix Them",
+       "url": "https://youtube.com/watch?v=IkoGmbNJolo"
+      },
+      "videos": [
+       {
+        "title": "JavaScript Memory Leaks Visualized and How To Fix Them",
+        "url": "https://youtube.com/watch?v=IkoGmbNJolo",
+        "video_id": "IkoGmbNJolo",
+        "source": "roadmap.sh",
+        "topic": "Debugging Memory Leaks"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Official Docs",
+        "url": "https://developer.chrome.com/docs/devtools/",
+        "topic": "Using Browser DevTools"
+       },
+       {
+        "type": "official",
+        "title": "Debug JavaScript with Chrome Dev Tools",
+        "url": "https://developer.chrome.com/docs/devtools/javascript/",
+        "topic": "Using Browser DevTools"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 2,
+    "title": "Git & GitHub",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "Git Fundamentals: Commits and the Staging Area",
+      "description": "Every team and every internship expects you to use Git daily, and clean commits make your work easy to review. Learn why version control exists, configure Git, and practise the working directory, staging area and commit cycle.",
+      "topic_refs": [
+       "bY6b1GV2XQQ52NOx8gWFj",
+       "dhIx1GnynvbSUriqYLUt0",
+       "_jSTrYN9G8EsGHkbusKPU",
+       "v7hCNbgPByi3YiLSs46BK",
+       "NMCWgzhhfUvFOMO5GbF_u",
+       "1iOkbO5juk2LO-WZHx_W6",
+       "Sv36oxTZwlUv-i1K28NeP",
+       "h71Tx3nkfUrnhaqcHlDkQ",
+       "2_z3R7seCvQVj-Na4H1SV",
+       "7lRUYWNSpHvJ-QyIE8RMa",
+       "IfUm5D_zNaUKMd4HX4Fi4",
+       "oz2oRAhaEQb0Fm3aRJQG8"
+      ],
+      "projects": [
+       {
+        "title": "Portfolio under version control",
+        "description": "Put a portfolio site under Git with meaningful commits and a .gitignore.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Commit message makeover",
+        "description": "Rewrite ten vague commit messages into clear, conventional ones.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "What is Version Control?",
+       "Why use Version Control?",
+       "Git vs Other VCS",
+       "Installing Git Locally",
+       "git config"
+      ],
+      "more_topics": [
+       {
+        "node_id": "tVvxC5JQgUb_B8kOqYpD8",
+        "title": "Local vs Global Config"
+       },
+       {
+        "node_id": "HlUUGj3dOZ68t4gIjerXh",
+        "title": "Learn the Basics"
+       },
+       {
+        "node_id": "4dxVN81rXWn6VZqK99yq0",
+        "title": "Git Worktree"
+       },
+       {
+        "node_id": "GS3f1FKFVKT0-GJQrgCm8",
+        "title": "Setting up Profile"
+       },
+       {
+        "node_id": "CGj_UX5JMOOCKinedsNRc",
+        "title": "Git Attributes"
+       },
+       {
+        "node_id": "NeU38WPbEphJuJ_AMkH82",
+        "title": "Managing Tags"
+       },
+       {
+        "node_id": "62E1tDMXB6K74OEN0WsS0",
+        "title": "Checkout Tags"
+       },
+       {
+        "node_id": "zdunaucVe8J1tKf_z-NQo",
+        "title": "Git LFS"
+       },
+       {
+        "node_id": "V8nLIvddyOKTzEjOJX5GW",
+        "title": "HEAD"
+       },
+       {
+        "node_id": "d0-u_-_vtPK8tnUpnj_NB",
+        "title": "What and Why use?"
+       },
+       {
+        "node_id": "fjAFNjNNbPOzme9Uk_fDV",
+        "title": "Submodules"
+       },
+       {
+        "node_id": "D2WIExwfSnkAPIa5O-Hp5",
+        "title": "Documentation"
+       },
+       {
+        "node_id": "1Ulxl4VUvRSfyCPpi-iv8",
+        "title": "Markdown"
+       },
+       {
+        "node_id": "Ddkss13_qDJTquDHbVTVs",
+        "title": "CITATION files"
+       }
+      ],
+      "global_step_index": 11,
+      "resource": {
+       "title": "What is Git? Explained in 2 minutes",
+       "url": "https://youtube.com/watch?v=2ReR1YJrNOM"
+      },
+      "videos": [
+       {
+        "title": "What is Git? Explained in 2 minutes",
+        "url": "https://youtube.com/watch?v=2ReR1YJrNOM",
+        "video_id": "2ReR1YJrNOM",
+        "source": "roadmap.sh",
+        "topic": "What is Version Control?"
+       },
+       {
+        "title": "What are Staged Changes in Git?",
+        "url": "https://youtube.com/watch?v=HyeNfWZBut8",
+        "video_id": "HyeNfWZBut8",
+        "source": "roadmap.sh",
+        "topic": "Staging Area"
+       },
+       {
+        "title": "Write git commit messages like a PRO with Conventional Commits",
+        "url": "https://youtube.com/watch?v=OJqUWvmf4gg",
+        "video_id": "OJqUWvmf4gg",
+        "source": "roadmap.sh",
+        "topic": "Commit Messages"
+       },
+       {
+        "title": "Manage Branches easily using Git Worktree",
+        "url": "https://youtube.com/watch?v=cRunWRC8ye0",
+        "video_id": "cRunWRC8ye0",
+        "source": "roadmap.sh",
+        "topic": "Git Worktree"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Git - Downloads",
+        "url": "https://git-scm.com/downloads",
+        "topic": "Installing Git Locally"
+       },
+       {
+        "type": "official",
+        "title": "Git - git-config Documentation",
+        "url": "https://git-scm.com/docs/git-config",
+        "topic": "git config"
+       },
+       {
+        "type": "official",
+        "title": "Git - git-init Documentation",
+        "url": "https://git-scm.com/docs/git-init",
+        "topic": "git init"
+       },
+       {
+        "type": "official",
+        "title": "Getting Started - What is Git? - Staging Area",
+        "url": "https://git-scm.com/book/en/v2/Getting-Started-What-is-Git%3F#:~:text=The%20staging%20area%20is%20a,area%E2%80%9D%20works%20just%20as%20well.",
+        "topic": "Staging Area"
+       }
+      ]
+     },
+     {
+      "step_number": 2,
+      "title": "Branching, Merging and Conflicts",
+      "description": "Feature branches let a team work in parallel, and resolving conflicts calmly is a skill interviewers and teammates notice. Create and switch branches, merge and rebase, stash work in progress and resolve conflicts.",
+      "topic_refs": [
+       "bXfCUG3h1TIFPgD4WUDph",
+       "OegitQ5Ngjvd3ZfMpfrkM",
+       "PtRo-wGiNAagZ6CykfvMr",
+       "ks1Pip-RM-UWD6zuF2j4n",
+       "sNuy6NMjLOEkJlqdEjFPq",
+       "agtPWS8j6i6wQPk10cy8E",
+       "0rHDUbAdXqH9zQW2VfJ8v",
+       "9Dt4Gyiiq5jteWSKxsRMK",
+       "99FVJ3Zs8n6lr8L95mG6g",
+       "HMEfUFNu_Wp_Pac7VWHr-",
+       "X9K3PBpGsMoXkJsKdJPI7",
+       "-0zQvCHG8jS_ghSjmTeIx"
+      ],
+      "projects": [
+       {
+        "title": "Conflict practice repo",
+        "description": "Create a conflict on purpose from two branches and resolve it both by merge and by rebase.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Feature-branch workflow",
+        "description": "Build three features on separate branches and merge them in with a clean history.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Branching Basics",
+       "Creating Branch",
+       "Checkout Branch",
+       "Branch Naming",
+       "Merging Basics"
+      ],
+      "more_topics": [
+       {
+        "node_id": "O-zoAWkDvyn7B8_TmY257",
+        "title": "Between Branches"
+       },
+       {
+        "node_id": "RFJgfuxoVxt22QlwLI5mW",
+        "title": "Kanban Boards"
+       },
+       {
+        "node_id": "0cLf7FiI9CX--UX45sm2f",
+        "title": "Detached HEAD"
+       },
+       {
+        "node_id": "y4DkB5NvTh41IeT0G2gr-",
+        "title": "Labelling Issues / PRs"
+       },
+       {
+        "node_id": "GwDNk2HBjASr_NWIL4G3-",
+        "title": "PR Guidelines"
+       }
+      ],
+      "global_step_index": 12,
+      "resource": {
+       "title": "Git Branches Tutorial",
+       "url": "https://youtube.com/watch?v=e2IbNHi4uCI"
+      },
+      "videos": [
+       {
+        "title": "Git Branches Tutorial",
+        "url": "https://youtube.com/watch?v=e2IbNHi4uCI",
+        "video_id": "e2IbNHi4uCI",
+        "source": "roadmap.sh",
+        "topic": "Branching Basics"
+       },
+       {
+        "title": "Git Checkout. Different ways of using the checkout command in the Git Project",
+        "url": "https://youtube.com/watch?v=h_PIHOFUYuw",
+        "video_id": "h_PIHOFUYuw",
+        "source": "roadmap.sh",
+        "topic": "Checkout Branch"
+       },
+       {
+        "title": "GIT Fast Forward Visualized",
+        "url": "https://youtube.com/watch?v=DN1fNYoJgDw",
+        "video_id": "DN1fNYoJgDw",
+        "source": "roadmap.sh",
+        "topic": "Fast-Forward vs Non-FF"
+       },
+       {
+        "title": "Resolve Git MERGE CONFLICTS: The Definitive Guide",
+        "url": "https://youtube.com/watch?v=Sqsz1-o7nXk",
+        "video_id": "Sqsz1-o7nXk",
+        "source": "roadmap.sh",
+        "topic": "Handling Conflicts"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Git Branching - Basic Branching and Merging",
+        "url": "https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging",
+        "topic": "Branching Basics"
+       },
+       {
+        "type": "official",
+        "title": "Git branch documentation",
+        "url": "https://git-scm.com/docs/git-branch",
+        "topic": "Creating Branch"
+       },
+       {
+        "type": "official",
+        "title": "git-checkout",
+        "url": "https://git-scm.com/docs/git-checkout",
+        "topic": "Checkout Branch"
+       },
+       {
+        "type": "official",
+        "title": "Git Branching - Basic Merging",
+        "url": "https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging#:~:text=into%20master%20later.-,Basic%20Merging,-Suppose%20you%E2%80%99ve%20decided",
+        "topic": "Merging Basics"
+       }
+      ]
+     },
+     {
+      "step_number": 3,
+      "title": "Remotes, GitHub and Pull Requests",
+      "description": "GitHub is where hiring managers look at your work and where teams review code. Push and pull with remotes, fork and clone, open pull requests, review code and track work with issues.",
+      "topic_refs": [
+       "aWx9WHUrgofcTr8B-fQYe",
+       "1Koej79yTv-OAswVZwgGq",
+       "ZVMCh9om37ee1qsecFa-N",
+       "Gybnekbd1rJKTOf4hJ4Sh",
+       "l1Wf7Pe_ah8ycCgslfSK4",
+       "c_FO6xMixrrMo6iisfsvl",
+       "s3MzDYFPMASqiS8UnvWzW",
+       "8lXXVFkgK6n5IHaYkYe3l",
+       "xLB2fhsOm0Vu3xg_PusJB",
+       "crdllx5cH_seIpgVPvHg_",
+       "d_GNnB6PBINz1jxGNWAE-",
+       "WIVr7JxO1AJTNObW8mtY3"
+      ],
+      "projects": [
+       {
+        "title": "First open-source pull request",
+        "description": "Fork a beginner-friendly repository, fix a documentation issue and open a pull request.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Team project with reviews",
+        "description": "Work with a friend on one repo where every change goes through a reviewed pull request.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Git Remotes",
+       "Cloning Repositories",
+       "Pushing / Pulling Changes",
+       "Fetch without Merge",
+       "Forking vs Cloning"
+      ],
+      "more_topics": [
+       {
+        "node_id": "lw4zHuhtxIO4kDvbyiVfq",
+        "title": "Repository management"
+       },
+       {
+        "node_id": "sBQOInoFBU9XfkPZ-JlyT",
+        "title": "Managing Remotes"
+       },
+       {
+        "node_id": "lSCnKhmRr6xrKVYxO8idD",
+        "title": "REST API"
+       },
+       {
+        "node_id": "r-u1vTpUyuvsB0revOU0C",
+        "title": "Collaborators"
+       },
+       {
+        "node_id": "yMx3LdadPz4g25CL3N8da",
+        "title": "Working in a Team"
+       },
+       {
+        "node_id": "E3HAGNM-kXLL4Oci5JzpQ",
+        "title": "Pushing Tags"
+       },
+       {
+        "node_id": "x6eILrLCQrVpz4j8uOuy6",
+        "title": "Pull Requests"
+       },
+       {
+        "node_id": "rqPCHh25xX_ROMr-ULpaw",
+        "title": "GitHub Packages"
+       },
+       {
+        "node_id": "qZFtRABvlBbVvsy6T00J2",
+        "title": "GitHub Interface"
+       },
+       {
+        "node_id": "NV2HAXLEN7tskfgyFrbaf",
+        "title": "GitHub API"
+       },
+       {
+        "node_id": "h9cf_dh_pwjialOXOlNW-",
+        "title": "GitHub CLI"
+       },
+       {
+        "node_id": "vhdGUhMAyre_Xya6IxZ-t",
+        "title": "GitHub Sponsors"
+       },
+       {
+        "node_id": "pFyMiyNQ16-kP7jKaKKEU",
+        "title": "GitHub Education"
+       },
+       {
+        "node_id": "zsU6R2zvJKnYNU2ac4o4p",
+        "title": "Client vs Server Hooks"
+       },
+       {
+        "node_id": "560GJXFTt7DPdJjKtSDOo",
+        "title": "GitHub Apps"
+       },
+       {
+        "node_id": "RMrxQLhrINO5g4Mhxh5qS",
+        "title": "GitHub Organizations"
+       },
+       {
+        "node_id": "YmnTrjJtqHPXbEVrP8vd7",
+        "title": "GitHub Releases"
+       },
+       {
+        "node_id": "XstmIysIi_lWo6RzszLBt",
+        "title": "Reactions"
+       },
+       {
+        "node_id": "HEqBbw_A4ZbJI5zEy8ViN",
+        "title": "Private vs Public"
+       },
+       {
+        "node_id": "Pg6G4fzYb_RUhANeRKlRX",
+        "title": "GitHub Classroom"
+       },
+       {
+        "node_id": "lONqOqD-4slxa9B5i9ADX",
+        "title": "GitHub Wikis"
+       },
+       {
+        "node_id": "sxvT2hGko2PDRBoBrCGWD",
+        "title": "Roadmaps"
+       },
+       {
+        "node_id": "B1KiSOt2b8t8FYD7Jxw2A",
+        "title": "Campus Program"
+       },
+       {
+        "node_id": "vHfpoVbOW0DHNtiy0VN4X",
+        "title": "Installation and Setup"
+       },
+       {
+        "node_id": "_ft-uvXt6s_xrcMT3fbSF",
+        "title": "Collaborators / Members"
+       },
+       {
+        "node_id": "wydgCxR5VnieBpRolXt8i",
+        "title": "Teams within Organization"
+       },
+       {
+        "node_id": "KlXPt-K6br8PtpLgELaCj",
+        "title": "GraphQL API"
+       },
+       {
+        "node_id": "oWMaOWU06juoIuzXNe-wt",
+        "title": "Mentions"
+       },
+       {
+        "node_id": "VdoxEWaU56-QCbHFRw649",
+        "title": "Custom Domains"
+       }
+      ],
+      "global_step_index": 13,
+      "resource": {
+       "title": "What is a Remote Repository? \\[Beginner Git Tutorial\\]",
+       "url": "https://youtube.com/watch?v=Lb4yvfrX_7I"
+      },
+      "videos": [
+       {
+        "title": "What is a Remote Repository? \\[Beginner Git Tutorial\\]",
+        "url": "https://youtube.com/watch?v=Lb4yvfrX_7I",
+        "video_id": "Lb4yvfrX_7I",
+        "source": "roadmap.sh",
+        "topic": "Git Remotes"
+       },
+       {
+        "title": "Cloning Remote Repository into local machine",
+        "url": "https://youtube.com/watch?v=xeQih8LVtZM",
+        "video_id": "xeQih8LVtZM",
+        "source": "roadmap.sh",
+        "topic": "Cloning Repositories"
+       },
+       {
+        "title": "Git Fetch | What is Git Fetch and How to Use it | Learn Git",
+        "url": "https://youtube.com/watch?v=uEEcw1s_wWk",
+        "video_id": "uEEcw1s_wWk",
+        "source": "roadmap.sh",
+        "topic": "Fetch without Merge"
+       },
+       {
+        "title": "Git Fork vs. Git Clone: What's the Difference?",
+        "url": "https://youtube.com/watch?v=6YQxkxw8nhE",
+        "video_id": "6YQxkxw8nhE",
+        "source": "roadmap.sh",
+        "topic": "Forking vs Cloning"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "About Remote Repositories",
+        "url": "https://docs.github.com/en/get-started/getting-started-with-git/about-remote-repositories",
+        "topic": "Git Remotes"
+       },
+       {
+        "type": "official",
+        "title": "git clone",
+        "url": "https://git-scm.com/docs/git-clone",
+        "topic": "Cloning Repositories"
+       },
+       {
+        "type": "official",
+        "title": "Cloning a Repository",
+        "url": "https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository",
+        "topic": "Cloning Repositories"
+       },
+       {
+        "type": "official",
+        "title": "Pushing commits to a remote repository",
+        "url": "https://docs.github.com/en/get-started/using-git/pushing-commits-to-a-remote-repository",
+        "topic": "Pushing / Pulling Changes"
+       }
+      ]
+     },
+     {
+      "step_number": 4,
+      "title": "Undoing Changes and Rewriting History",
+      "description": "Knowing how to recover from mistakes safely, without force-pushing over teammates' work, is what makes you trustworthy with a shared repository. Learn reset modes, revert, amend, reflog, cherry-pick, squash, bisect and tags.",
+      "topic_refs": [
+       "0Yi4cryT2v2SGBjouOas3",
+       "igrR7LguU1jemg_mf_AD6",
+       "Uc7FyfAKpDFRGRNHwztFo",
+       "qis7Z5VRxMcOmbesQlegZ",
+       "V_joZNpQsS9G9PI-o-GmC",
+       "dLr55Om7IOvI53c1DgTKc",
+       "NjPnEXLf1Lt9qzgxccogv",
+       "hru0sL1-D4bJSQI1efEyU",
+       "eFf2fesrs-1aVM5tH3ORQ",
+       "Z-srOhYFGVEKDexlJ6cjt",
+       "ExXuwTQSI_lg4SRGW3Iu1",
+       "iFJBF-EEnLjQVsFSXjo_i"
+      ],
+      "projects": [
+       {
+        "title": "Recovery drills",
+        "description": "Lose a commit with reset --hard and recover it with reflog, then undo a pushed commit with revert.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Find the bad commit",
+        "description": "Use git bisect to find which of fifty commits introduced a failing test.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Undoing Changes",
+       "git reset",
+       "--soft",
+       "--mixed",
+       "--hard"
+      ],
+      "more_topics": [
+       {
+        "node_id": "i3AbARgzQtxtlB-1AS8zv",
+        "title": "Clean Git History"
+       },
+       {
+        "node_id": "sOoC-XxEoIvwKct00oKlX",
+        "title": "Rewriting History"
+       },
+       {
+        "node_id": "zen3RRdK9_nPAYgicRoHk",
+        "title": "History"
+       },
+       {
+        "node_id": "uxqJzQFRcALqatNRIWR0w",
+        "title": "Unstaged Changes"
+       },
+       {
+        "node_id": "mzjtCdpke1ayHcEuS-YUS",
+        "title": "Staged Changes"
+       },
+       {
+        "node_id": "BKVA6Q7DXemAYjyQOA0nh",
+        "title": "git filter-branch"
+       },
+       {
+        "node_id": "OQOmxg9mCfcjt80hpvXkA",
+        "title": "git push --force"
+       },
+       {
+        "node_id": "sFf1PdFfmEdQxsEntfeFq",
+        "title": "Git Patch"
+       },
+       {
+        "node_id": "_dPOVUbxApx0pfKPH8fgr",
+        "title": "Renaming Branch"
+       },
+       {
+        "node_id": "Rwpeltygwzcf6hnuZNURE",
+        "title": "Between Commits"
+       },
+       {
+        "node_id": "qFEonbCMLri8iA0yONwuf",
+        "title": "git log options"
+       },
+       {
+        "node_id": "1uDenoQ6zu7CT69FR2iQB",
+        "title": "Deleting Branch"
+       },
+       {
+        "node_id": "lXC07j6dOa3rQixY1P-Ob",
+        "title": "Linear vs Non-Linear"
+       },
+       {
+        "node_id": "PtU5Qwfzn3N1i3oRlCGoR",
+        "title": "What is a Repository"
+       },
+       {
+        "node_id": "x4bnsPVTiX2xOCSyrgWpF",
+        "title": "Adding / Updating"
+       },
+       {
+        "node_id": "dQS1V0zZxeKhHhUo3STBK",
+        "title": "Saved Replies"
+       },
+       {
+        "node_id": "KbVvFVQ4k77R2_ddsc7WT",
+        "title": "Profile Readme"
+       },
+       {
+        "node_id": "alysXC4b1hGi9ZdQ5-40y",
+        "title": "Storing Artifacts"
+       }
+      ],
+      "global_step_index": 14,
+      "resource": {
+       "title": "Git Reset | How to Use Git Reset | Learn Git",
+       "url": "https://youtube.com/watch?v=s1idhUiCk38"
+      },
+      "videos": [
+       {
+        "title": "Git Reset | How to Use Git Reset | Learn Git",
+        "url": "https://youtube.com/watch?v=s1idhUiCk38",
+        "video_id": "s1idhUiCk38",
+        "source": "roadmap.sh",
+        "topic": "git reset"
+       },
+       {
+        "title": "Git Revert - Visualised",
+        "url": "https://youtube.com/watch?v=XJqQPNudPSY",
+        "video_id": "XJqQPNudPSY",
+        "source": "roadmap.sh",
+        "topic": "git revert"
+       },
+       {
+        "title": "Git Amend Tutorial: Rewrite Git History",
+        "url": "https://youtube.com/watch?v=q53umU5vMkk",
+        "video_id": "q53umU5vMkk",
+        "source": "roadmap.sh",
+        "topic": "git commit --amend"
+       },
+       {
+        "title": "Learn Git Essentials 12: Git Reflog",
+        "url": "https://youtube.com/watch?v=RVu8lpS7JFY",
+        "video_id": "RVu8lpS7JFY",
+        "source": "roadmap.sh",
+        "topic": "Git Reflog"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Undoing Changes",
+        "url": "https://git-scm.com/book/en/v2/Git-Tools-Reset-Demystified",
+        "topic": "Undoing Changes"
+       },
+       {
+        "type": "official",
+        "title": "--soft documentation",
+        "url": "https://git-scm.com/docs/git-reset#Documentation/git-reset.txt---soft",
+        "topic": "--soft"
+       },
+       {
+        "type": "official",
+        "title": "--mixed documentation",
+        "url": "https://git-scm.com/docs/git-reset#Documentation/git-reset.txt---mixed",
+        "topic": "--mixed"
+       },
+       {
+        "type": "official",
+        "title": "--hard documentation",
+        "url": "https://git-scm.com/docs/git-reset#Documentation/git-reset.txt---hard",
+        "topic": "--hard"
+       }
+      ]
+     },
+     {
+      "step_number": 5,
+      "title": "GitHub Actions, Pages and Git Hooks",
+      "description": "Automation catches mistakes before they reach main and deploys your work without manual steps. Write GitHub Actions workflows with triggers, secrets and caching, publish with GitHub Pages, add pre-commit hooks and plan work in GitHub Projects.",
+      "topic_refs": [
+       "AmetdCURXXob5TUsikAab",
+       "p6rq3lQ9YRrTqwcc31O23",
+       "55uHPFNwYPVZx8Cy3c985",
+       "6QwlY3dEvjfAOPALcWKXQ",
+       "aflP7oWsQzAr4YPo2LLiQ",
+       "HMNhzzV6ApTKj4I_FOmUB",
+       "bnai6R6pOq_L5CPdbVwMW",
+       "ZHplGidvhxEIC3HN8KqRa",
+       "pqBV7BMAs0z6qpfZeW2XP",
+       "HhpAIzYMlMiQ9msrYZyDB",
+       "DzFJDdqnSy5GeGHWOpcVo",
+       "XRSVRl6iHncMmgSXoB7Lq"
+      ],
+      "projects": [
+       {
+        "title": "Test-and-deploy workflow",
+        "description": "Run tests on every push and deploy a static site to GitHub Pages from main.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Pre-commit lint hook",
+        "description": "Block commits that fail formatting or linting with a pre-commit hook.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "GitHub Actions",
+       "YAML Syntax",
+       "Workflow Triggers",
+       "Workflow Runners",
+       "Secrets and Env Vars"
+      ],
+      "more_topics": [
+       {
+        "node_id": "Ni3HKVLanFvSrJ3u8i5I1",
+        "title": "What are these?"
+       },
+       {
+        "node_id": "PUnYNBrAZWoZiopjtNgnA",
+        "title": "Usecases"
+       },
+       {
+        "node_id": "TNBz5755PhI6iKxTQTqcS",
+        "title": "Automations"
+       },
+       {
+        "node_id": "BnPiTu1Jw2kIW560a2A5T",
+        "title": "Workflow Context"
+       },
+       {
+        "node_id": "v7uabKuMQPOD_hBIaHOVT",
+        "title": "What and Why?"
+       },
+       {
+        "node_id": "buxb5TpzQ-xxn0vqtGdS3",
+        "title": "post-update"
+       },
+       {
+        "node_id": "SANEQI2rgOtsMQyn4qUCq",
+        "title": "post-checkout"
+       },
+       {
+        "node_id": "f2PG4t6iVtfIH8BVe5H7f",
+        "title": "GitHub Security"
+       },
+       {
+        "node_id": "jc4R1zhd1YeCEbVuxwJWy",
+        "title": "Workflow Status"
+       },
+       {
+        "node_id": "Y0EWgPsS4kZxH3y53jNxY",
+        "title": "Use in Automation"
+       },
+       {
+        "node_id": "M2_hBvXou7cCNqsMnexCt",
+        "title": "GitHub Gists"
+       },
+       {
+        "node_id": "uS1H9KoKGNONvETCuFBbz",
+        "title": "Scheduled Workflows"
+       },
+       {
+        "node_id": "MoG7D9kqPuA6o52-z_WDN",
+        "title": "Webhooks"
+       },
+       {
+        "node_id": "4slyjdk2Eeg5VYY6gCDG6",
+        "title": "GitHub Models"
+       },
+       {
+        "node_id": "SsogoCgJIbeTD6tk8UhTe",
+        "title": "Marketplace Actions"
+       },
+       {
+        "node_id": "NeSvgS2yA5x8qbcJHrV__",
+        "title": "GitHub Essentials"
+       },
+       {
+        "node_id": "NdfwgwMOewiyEAFyC2l7U",
+        "title": "GitHub Codespaces"
+       },
+       {
+        "node_id": "q0zy_hXav5iXw8LpGVJVd",
+        "title": "Project Planning"
+       },
+       {
+        "node_id": "5Oax1p7zIZ9HD2hmENPof",
+        "title": "Creating Apps"
+       },
+       {
+        "node_id": "snWQHCQECZyUXHdn6ppIk",
+        "title": "GitHub Discussions"
+       },
+       {
+        "node_id": "i7fIIHcBEk473te8bniJ5",
+        "title": "Creating Account"
+       },
+       {
+        "node_id": "qrdOARfqGPF9xhF6snbAn",
+        "title": "OAuth Apps"
+       },
+       {
+        "node_id": "j5kWEUKwBFg5EMm8-61K9",
+        "title": "pre-push"
+       },
+       {
+        "node_id": "R20LXLLEzNn-SpyFDMRXj",
+        "title": "GitHub Marketplace"
+       },
+       {
+        "node_id": "pJ-najh7dXhhYA_0bDiR5",
+        "title": "Contribution Guidelines"
+       },
+       {
+        "node_id": "jzYjHx-gIKSP8dQUTqWVw",
+        "title": "commit-msg"
+       },
+       {
+        "node_id": "iWn3zDMOfLLjSp6f1jQoE",
+        "title": "GitHub Copilot"
+       },
+       {
+        "node_id": "iwfNYDlAgbA_rpWYcoHCC",
+        "title": "Static Site Generators"
+       },
+       {
+        "node_id": "kGnZifvXbHBf5zXIsfAQw",
+        "title": "Issue Management"
+       }
+      ],
+      "global_step_index": 15,
+      "resource": {
+       "title": "What are GitHub Actions",
+       "url": "https://youtube.com/watch?v=URmeTqglS58"
+      },
+      "videos": [
+       {
+        "title": "What are GitHub Actions",
+        "url": "https://youtube.com/watch?v=URmeTqglS58",
+        "video_id": "URmeTqglS58",
+        "source": "roadmap.sh",
+        "topic": "GitHub Actions"
+       },
+       {
+        "title": "GitHub Actions Self-hosted runners",
+        "url": "https://youtube.com/watch?v=aLHyPZO0Fy0",
+        "video_id": "aLHyPZO0Fy0",
+        "source": "roadmap.sh",
+        "topic": "Workflow Runners"
+       },
+       {
+        "title": "Secrets and Environment Variables in your GitHub Action",
+        "url": "https://youtube.com/watch?v=dPLPSaFqJmY",
+        "video_id": "dPLPSaFqJmY",
+        "source": "roadmap.sh",
+        "topic": "Secrets and Env Vars"
+       },
+       {
+        "title": "Cache Management with GitHub actions",
+        "url": "https://youtube.com/watch?v=7PVUjRXUY0o",
+        "video_id": "7PVUjRXUY0o",
+        "source": "roadmap.sh",
+        "topic": "Caching Dependencies"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "GitHub Actions",
+        "url": "https://docs.github.com/en/actions",
+        "topic": "GitHub Actions"
+       },
+       {
+        "type": "official",
+        "title": "YAML",
+        "url": "https://yaml.org/",
+        "topic": "YAML Syntax"
+       },
+       {
+        "type": "official",
+        "title": "GitHub Actions Triggers",
+        "url": "https://docs.github.com/en/actions/reference/events-that-trigger-workflows",
+        "topic": "Workflow Triggers"
+       },
+       {
+        "type": "official",
+        "title": "GitHub Actions Runners",
+        "url": "https://docs.github.com/en/actions/hosting-your-own-runners/about-self-hosted-runners",
+        "topic": "Workflow Runners"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 3,
+    "title": "React",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "React Components, JSX and Props",
+      "description": "React is the most requested frontend library in Indian full-stack job postings, and everything in it is a component. Scaffold a project with Vite, write function components in JSX, pass props, render lists and conditions, and handle events.",
+      "topic_refs": [
+       "79K4xgljcoSHkCYI1D55O",
+       "8mw4TxlLN4ZKAlLl-_NVV",
+       "WREBxWSNQDD_6fzpHL6CE",
+       "RFuy3Eho3mnW1GpP08BVw",
+       "aE6XBgH23135_9QmD4ff2",
+       "HeWVCPHqVnnbOn6zIim4K",
+       "Nex2HcTOYIbfqUzXyxSMY",
+       "0uiGsC5SWavNdlFqizkKe",
+       "4T59gdcwdXqj9kCuK7cfp",
+       "tU4Umtnfu01t9gLlnlK6b",
+       "y9ToYDix-koRbR6FLydFw"
+      ],
+      "projects": [
+       {
+        "title": "Movie cards page",
+        "description": "Render a list of movie cards from an array with props and a filter by genre.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Reusable button and modal",
+        "description": "Build composable Button and Modal components used on two pages.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Components",
+       "Functional Components",
+       "JSX",
+       "Props vs State",
+       "Conditional Rendering"
+      ],
+      "more_topics": [
+       {
+        "node_id": "WzoB5B6SdOI4Mzv6U51nY",
+        "title": "react spring"
+       },
+       {
+        "node_id": "txARr3lgTvy-vJCj5zAb1",
+        "title": "Mobile Applications"
+       },
+       {
+        "node_id": "NvXAq1vN2wpncdW-yTL4c",
+        "title": "React Native"
+       }
+      ],
+      "global_step_index": 16,
+      "resource": {
+       "title": "Components & Templates in React",
+       "url": "https://youtube.com/watch?v=9D1x7-2FmTA"
+      },
+      "videos": [
+       {
+        "title": "Components & Templates in React",
+        "url": "https://youtube.com/watch?v=9D1x7-2FmTA",
+        "video_id": "9D1x7-2FmTA",
+        "source": "roadmap.sh",
+        "topic": "Components"
+       },
+       {
+        "title": "React JS Functional Components",
+        "url": "https://youtube.com/watch?v=NJ_qbsLf52w",
+        "video_id": "NJ_qbsLf52w",
+        "source": "roadmap.sh",
+        "topic": "Functional Components"
+       },
+       {
+        "title": "Conditional rendering in React",
+        "url": "https://youtube.com/watch?v=4oCVDkb_EIs",
+        "video_id": "4oCVDkb_EIs",
+        "source": "roadmap.sh",
+        "topic": "Conditional Rendering"
+       },
+       {
+        "title": "Vite Crash Course",
+        "url": "https://youtube.com/watch?v=LQQ3CR2JTX8",
+        "video_id": "LQQ3CR2JTX8",
+        "source": "roadmap.sh",
+        "topic": "Vite"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Creating and nesting components",
+        "url": "https://react.dev/learn#components",
+        "topic": "Components"
+       },
+       {
+        "type": "official",
+        "title": "Functional Components and Props",
+        "url": "https://react.dev/reference/react/Component",
+        "topic": "Functional Components"
+       },
+       {
+        "type": "official",
+        "title": "Your first component",
+        "url": "https://react.dev/learn/your-first-component",
+        "topic": "Functional Components"
+       },
+       {
+        "type": "official",
+        "title": "Passing props to a component",
+        "url": "https://react.dev/learn/passing-props-to-a-component",
+        "topic": "Functional Components"
+       }
+      ]
+     },
+     {
+      "step_number": 2,
+      "title": "React Hooks and Local State",
+      "description": "Hooks are how modern React handles state, side effects and reuse, and misuse of useEffect is a common source of bugs. Learn the built-in hooks, when to memoise, and how to write custom hooks.",
+      "topic_refs": [
+       "LbLQhonBqzxHU6B-L--Vq",
+       "FK59Zsm5ENA9g11XWCan_",
+       "YEpkbNzEMzS6wAKg85J_N",
+       "8OnzX03hkZ9K9i__tjmFX",
+       "t_laNdMmdLApYszqXRdWg",
+       "D5_O-uElftYGQr_bTU_se",
+       "v48Mv0wQqjXbvy8x6gDjQ",
+       "w3bNp7OkehI1gjx8NzlC8",
+       "dgoDNDtW2_q9R9yhkXrcz",
+       "HX75SExuzR5AP7TQ94qid",
+       "mkyU0ug8MXxV4biHuOity",
+       "_zNAOhFWMcWqP4oxNPCXF"
+      ],
+      "projects": [
+       {
+        "title": "Shopping cart with useReducer",
+        "description": "Add, remove and update cart items with a reducer and persist them to localStorage.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "useFetch custom hook",
+        "description": "A hook that fetches data with loading, error and cancel handling.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Hooks",
+       "useState Hook",
+       "useState",
+       "useEffect Hook",
+       "useRef"
+      ],
+      "more_topics": [],
+      "global_step_index": 17,
+      "resource": {
+       "title": "WebDevSimplified",
+       "url": "https://youtube.com/watch?v=t2ypzz6gJm0"
+      },
+      "videos": [
+       {
+        "title": "WebDevSimplified",
+        "url": "https://youtube.com/watch?v=t2ypzz6gJm0",
+        "video_id": "t2ypzz6gJm0",
+        "source": "roadmap.sh",
+        "topic": "useRef"
+       },
+       {
+        "title": "Learn useContext In 13 Minutes",
+        "url": "https://youtube.com/watch?v=5LrDIWkK_Bc",
+        "video_id": "5LrDIWkK_Bc",
+        "source": "roadmap.sh",
+        "topic": "useContext"
+       },
+       {
+        "title": "Learn React Hooks: useReducer - Simply Explained!",
+        "url": "https://youtube.com/watch?v=rgp_iCVS8ys",
+        "video_id": "rgp_iCVS8ys",
+        "source": "roadmap.sh",
+        "topic": "useReducer"
+       },
+       {
+        "title": "Custom Hooks in React",
+        "url": "https://youtube.com/watch?v=I2Bgi0Qcdvc",
+        "video_id": "I2Bgi0Qcdvc",
+        "source": "roadmap.sh",
+        "topic": "Writing Custom Hooks"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Hooks Reference",
+        "url": "https://react.dev/reference/react",
+        "topic": "Hooks"
+       },
+       {
+        "type": "official",
+        "title": "useState Documentation",
+        "url": "https://react.dev/reference/react/useState",
+        "topic": "useState Hook"
+       },
+       {
+        "type": "official",
+        "title": "State: A Component's Memory",
+        "url": "https://react.dev/learn/state-a-components-memory",
+        "topic": "useState Hook"
+       },
+       {
+        "type": "official",
+        "title": "Adding Interactivity",
+        "url": "https://react.dev/learn/adding-interactivity",
+        "topic": "useState Hook"
+       }
+      ]
+     },
+     {
+      "step_number": 3,
+      "title": "Advanced Component Patterns",
+      "description": "Larger React apps rely on context, portals, error boundaries and suspense to stay maintainable and resilient. Learn these patterns and the older higher-order component and render-prop styles you will meet in existing code.",
+      "topic_refs": [
+       "8OBlgDRUg-CTgDXY-QHyO",
+       "10uL0r388lKh8pWYWqRZD",
+       "zOENl96GUZRw2PP2KxIck",
+       "vdumdIglnouf1KyGIGZnc",
+       "DcDggX4OmmwvJGHwuV86t",
+       "gMHMjsh0i8paLZUH5mDX3",
+       "_F3WMxhzaK9F8_-zHDDMF"
+      ],
+      "projects": [
+       {
+        "title": "Theme switcher with context",
+        "description": "Share a light and dark theme across the app with context and a toggle.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Crash-safe dashboard",
+        "description": "Wrap widgets in error boundaries so one failing widget does not blank the page.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Component Life Cycle",
+       "Context",
+       "High Order Components",
+       "Render Props",
+       "Portals"
+      ],
+      "more_topics": [
+       {
+        "node_id": "RvDfKoa_HIW3QDBfkPv3m",
+        "title": "React Aria"
+       }
+      ],
+      "global_step_index": 18,
+      "resource": {
+       "title": "React Context API Crash Course",
+       "url": "https://youtube.com/watch?v=t9WmZFnE6Hg"
+      },
+      "videos": [
+       {
+        "title": "React Context API Crash Course",
+        "url": "https://youtube.com/watch?v=t9WmZFnE6Hg",
+        "video_id": "t9WmZFnE6Hg",
+        "source": "roadmap.sh",
+        "topic": "Context"
+       },
+       {
+        "title": "Learn React Higher Order Component (HOC) in 10 Minutes",
+        "url": "https://youtube.com/watch?v=J5P0q7EROfw",
+        "video_id": "J5P0q7EROfw",
+        "source": "roadmap.sh",
+        "topic": "High Order Components"
+       },
+       {
+        "title": "React Portals",
+        "url": "https://youtube.com/watch?v=HpHLa-5Wdys",
+        "video_id": "HpHLa-5Wdys",
+        "source": "roadmap.sh",
+        "topic": "Portals"
+       },
+       {
+        "title": "Why You Should Use React Aria Components",
+        "url": "https://youtube.com/watch?v=lTPh6NGLAmk",
+        "video_id": "lTPh6NGLAmk",
+        "source": "roadmap.sh",
+        "topic": "React Aria"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Lifecycle of Reactive Effects",
+        "url": "https://react.dev/learn/lifecycle-of-reactive-effects",
+        "topic": "Component Life Cycle"
+       },
+       {
+        "type": "official",
+        "title": "Class Component",
+        "url": "https://react.dev/reference/react/Component",
+        "topic": "Component Life Cycle"
+       },
+       {
+        "type": "official",
+        "title": "Passing Data Deeply with Context",
+        "url": "https://react.dev/learn/passing-data-deeply-with-context",
+        "topic": "Context"
+       },
+       {
+        "type": "official",
+        "title": "Render Props in React",
+        "url": "https://react.dev/learn/passing-props-to-a-component",
+        "topic": "Render Props"
+       }
+      ]
+     },
+     {
+      "step_number": 4,
+      "title": "Client-Side Routing and Global State",
+      "description": "Multi-page apps need routes, and shared data needs a state store once prop drilling gets painful. Set up routing with React Router or TanStack Router and manage global state with Zustand, Jotai or MobX.",
+      "topic_refs": [
+       "NStw6bi_pPB49K41BFSgo",
+       "jvp43wFkKlGQX2y7IxkbM",
+       "-WjJBYCmRRj08n_9HxohY",
+       "zWL8VLx_g0SWubavJDs6i",
+       "I7_mX4h-Yywp1YyTJRKXI",
+       "nl5imPsdY2oEWlg-9TTuk",
+       "yI6XiNW04EL78UL4lkVgd",
+       "1kbrCI5JS0c9wbzxXpgFU"
+      ],
+      "projects": [
+       {
+        "title": "Multi-page blog",
+        "description": "Routes for list, detail and 404 pages with URL parameters.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Auth state with Zustand",
+        "description": "Store the logged-in user globally and protect private routes.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Routing",
+       "React Router",
+       "react-router",
+       "TanStack Router",
+       "State Management"
+      ],
+      "more_topics": [],
+      "global_step_index": 19,
+      "resource": {
+       "title": "React Router 6 – Tutorial for Beginners.",
+       "url": "https://youtube.com/watch?v=59IXY5IDrBA"
+      },
+      "videos": [
+       {
+        "title": "React Router 6 – Tutorial for Beginners.",
+        "url": "https://youtube.com/watch?v=59IXY5IDrBA",
+        "video_id": "59IXY5IDrBA",
+        "source": "roadmap.sh",
+        "topic": "Routing"
+       },
+       {
+        "title": "TanStack Router - Crash Course",
+        "url": "https://youtube.com/watch?v=4sslBg8LprE",
+        "video_id": "4sslBg8LprE",
+        "source": "roadmap.sh",
+        "topic": "TanStack Router"
+       },
+       {
+        "title": "Zustand Tutorial for Beginners",
+        "url": "https://youtube.com/watch?v=AYO4qHAnLQI",
+        "video_id": "AYO4qHAnLQI",
+        "source": "roadmap.sh",
+        "topic": "Zustand"
+       },
+       {
+        "title": "Jotai React - Better Global State Management",
+        "url": "https://youtube.com/watch?v=ZcKzPZN7Ids",
+        "video_id": "ZcKzPZN7Ids",
+        "source": "roadmap.sh",
+        "topic": "Jotai"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "React Router — Official Website",
+        "url": "https://reactrouter.com/",
+        "topic": "React Router"
+       },
+       {
+        "type": "official",
+        "title": "Zustand - Official Website",
+        "url": "https://zustand-demo.pmnd.rs/",
+        "topic": "Zustand"
+       },
+       {
+        "type": "official",
+        "title": "Official Website: Jotai",
+        "url": "https://jotai.org/",
+        "topic": "Jotai"
+       },
+       {
+        "type": "official",
+        "title": "Official Website: MobX",
+        "url": "https://mobx.js.org/",
+        "topic": "MobX"
+       }
+      ]
+     },
+     {
+      "step_number": 5,
+      "title": "Fetching and Caching Server Data",
+      "description": "Most full-stack screens show data from your own API, and query libraries handle caching, retries and refetching for you. Call APIs with fetch or Axios, then manage server state with TanStack Query, SWR or RTK Query, and GraphQL clients.",
+      "topic_refs": [
+       "b4AP2OggxFAwsQtUwiUJJ",
+       "ElqWQClryfSYdL7P_mgYK",
+       "5EPmbiNdP_vhIXclv_GjV",
+       "-ea1KsXEyz-4voHXklG_J",
+       "h49-tjEkKcq7d7ikRHIOx",
+       "8nMbfGxe3STMbrAVcqHHh",
+       "cLfM342sZfsCwmPPxQpEI",
+       "9M5jRu0pj8KMvg9f-2oqZ",
+       "SUeXDkmOLipdRP4fSrZOH"
+      ],
+      "projects": [
+       {
+        "title": "Paginated list with TanStack Query",
+        "description": "Show a paginated list from your API with caching and background refetch.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Optimistic like button",
+        "description": "Update the UI immediately and roll back if the server request fails.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "API Calls",
+       "Axios",
+       "TanStack Query",
+       "SWR",
+       "rtk-query"
+      ],
+      "more_topics": [],
+      "global_step_index": 20,
+      "resource": {
+       "title": "TanStack Query - How to become a React Query God",
+       "url": "https://youtube.com/watch?v=mPaCnwpFvZY"
+      },
+      "videos": [
+       {
+        "title": "TanStack Query - How to become a React Query God",
+        "url": "https://youtube.com/watch?v=mPaCnwpFvZY",
+        "video_id": "mPaCnwpFvZY",
+        "source": "roadmap.sh",
+        "topic": "TanStack Query"
+       },
+       {
+        "title": "GraphQL With React Tutorial - Apollo Client",
+        "url": "https://youtube.com/watch?v=YyUWW04HwKY",
+        "video_id": "YyUWW04HwKY",
+        "source": "roadmap.sh",
+        "topic": "Apollo"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "TanStack Query",
+        "url": "https://tanstack.com/query/latest",
+        "topic": "TanStack Query"
+       },
+       {
+        "type": "official",
+        "title": "Official Website",
+        "url": "https://relay.dev/",
+        "topic": "Relay"
+       },
+       {
+        "type": "official",
+        "title": "Introduction to Relay modern",
+        "url": "https://relay.dev/docs/",
+        "topic": "Relay"
+       },
+       {
+        "type": "official",
+        "title": "Documentation For API",
+        "url": "https://react.dev/reference/react-dom/server",
+        "topic": "Server APIs"
+       }
+      ]
+     },
+     {
+      "step_number": 6,
+      "title": "Forms, Validation and TypeScript",
+      "description": "Forms are where users and bad data meet your app, and TypeScript catches whole classes of bugs before runtime. Build forms with React Hook Form or Formik, validate with Zod or Valibot, and type components with TypeScript.",
+      "topic_refs": [
+       "KHcC5pFN3qLnsbPPKpYd2",
+       "_5ht0PAdVOJWPzTRS1mVg",
+       "gr1CaLvL7tFOkIRywSsID",
+       "UNlvRp6k3_RDoTAAIEfJ1",
+       "K3RZ8ESxWCpLKHePF87Hy",
+       "EOQGj1ALgdp6u9thVHdmc",
+       "ElgRwv5LSVg5FXGx-2K2s"
+      ],
+      "projects": [
+       {
+        "title": "Registration form",
+        "description": "A multi-field sign-up form with schema validation shared between client and server.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Convert a component to TypeScript",
+        "description": "Add types to an existing component's props and state and fix the errors found.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Forms",
+       "React hook form",
+       "Formik",
+       "Types & Validation",
+       "Zod"
+      ],
+      "more_topics": [
+       {
+        "node_id": "_-2WpGnJ1CMj_acD1dr_i",
+        "title": "Formish"
+       }
+      ],
+      "global_step_index": 21,
+      "resource": {
+       "title": "React Forms: the SIMPLEST way",
+       "url": "https://youtube.com/watch?v=CT-72lTXdPg"
+      },
+      "videos": [
+       {
+        "title": "React Forms: the SIMPLEST way",
+        "url": "https://youtube.com/watch?v=CT-72lTXdPg",
+        "video_id": "CT-72lTXdPg",
+        "source": "roadmap.sh",
+        "topic": "Forms"
+       },
+       {
+        "title": "Formik - Building React Forms easier",
+        "url": "https://youtube.com/watch?v=khGypss-RJs",
+        "video_id": "khGypss-RJs",
+        "source": "roadmap.sh",
+        "topic": "Formik"
+       },
+       {
+        "title": "Learn Zod In 30 Minutes",
+        "url": "https://youtube.com/watch?v=L6BE-U3oy80",
+        "video_id": "L6BE-U3oy80",
+        "source": "roadmap.sh",
+        "topic": "Zod"
+       },
+       {
+        "title": "TypeScript for Beginners",
+        "url": "https://youtube.com/watch?v=BwuLxPH8IDs",
+        "video_id": "BwuLxPH8IDs",
+        "source": "roadmap.sh",
+        "topic": "TypeScript"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Official Website — Formik",
+        "url": "https://formik.org/",
+        "topic": "Formik"
+       },
+       {
+        "type": "official",
+        "title": "Zod Website",
+        "url": "https://zod.dev/",
+        "topic": "Zod"
+       },
+       {
+        "type": "official",
+        "title": "Valibot - Alternative to Zod",
+        "url": "https://valibot.dev/",
+        "topic": "Valibot"
+       },
+       {
+        "type": "official",
+        "title": "Official Website",
+        "url": "https://www.typescriptlang.org/",
+        "topic": "TypeScript"
+       }
+      ]
+     },
+     {
+      "step_number": 7,
+      "title": "Styling and Component Libraries",
+      "description": "Teams rarely style everything from scratch: they use utility CSS, CSS modules and component libraries. Style with Tailwind and CSS modules, use libraries such as Material UI, Chakra and shadcn/ui, and add motion with Framer Motion.",
+      "topic_refs": [
+       "DfrCkbD-HEHwLymv10zb5",
+       "KO3viVIJJREtxXxsocN7j",
+       "awoEhwPKjUcR84XGL6Som",
+       "akVNUPOqaTXaSHoQFlkP_",
+       "thfnymb_UIiKxakKfiua5",
+       "gy7eBxPOlwG8BvxHVLDQ9",
+       "uqphqAnlcJOLnwHZs5jWu",
+       "njKsYNkwTXPQ1NjlGKXab",
+       "XL9XOV2h0BAuA5cFcM5L_",
+       "MnDgQq9Vcxsu3wDqv5uh2",
+       "bRpeoo9zXrnZ2IHSI7JX4",
+       "H6-XGDjs4f-qbv13v5av0"
+      ],
+      "projects": [
+       {
+        "title": "Landing page in Tailwind",
+        "description": "Rebuild a product landing page with Tailwind that works on phone and desktop.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Admin panel with a component library",
+        "description": "Tables, forms and dialogs built with a component library and consistent theming.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Styling",
+       "Tailwind CSS",
+       "CSS Modules",
+       "Panda CSS",
+       "Component / Libraries"
+      ],
+      "more_topics": [
+       {
+        "node_id": "kiCTo0U6VgNON8rv_Ktlj",
+        "title": "Ark UI"
+       },
+       {
+        "node_id": "y2dI1DVLWKAkv6VRpgaQa",
+        "title": "GSock"
+       }
+      ],
+      "global_step_index": 22,
+      "resource": {
+       "title": "Tailwind CSS Full Course for Beginners",
+       "url": "https://youtube.com/watch?v=lCxcTsOHrjo"
+      },
+      "videos": [
+       {
+        "title": "Tailwind CSS Full Course for Beginners",
+        "url": "https://youtube.com/watch?v=lCxcTsOHrjo",
+        "video_id": "lCxcTsOHrjo",
+        "source": "roadmap.sh",
+        "topic": "Tailwind CSS"
+       },
+       {
+        "title": "CSS Modules: Why are they great?",
+        "url": "https://youtube.com/watch?v=pKMWU9OrA2s",
+        "video_id": "pKMWU9OrA2s",
+        "source": "roadmap.sh",
+        "topic": "CSS Modules"
+       },
+       {
+        "title": "Panda CSS First Impressions | Theo Reacts",
+        "url": "https://youtube.com/watch?v=UlY-Ixddjm0",
+        "video_id": "UlY-Ixddjm0",
+        "source": "roadmap.sh",
+        "topic": "Panda CSS"
+       },
+       {
+        "title": "React Material UI Course",
+        "url": "https://youtube.com/watch?v=BHEPVdfBAqE",
+        "video_id": "BHEPVdfBAqE",
+        "source": "roadmap.sh",
+        "topic": "Material UI"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Tailwind Website",
+        "url": "https://tailwindcss.com",
+        "topic": "Tailwind CSS"
+       },
+       {
+        "type": "official",
+        "title": "Official Website",
+        "url": "https://panda-css.com",
+        "topic": "Panda CSS"
+       },
+       {
+        "type": "official",
+        "title": "Tutorials and videos to get started with Panda!",
+        "url": "https://panda-css.com/learn",
+        "topic": "Panda CSS"
+       },
+       {
+        "type": "official",
+        "title": "Material UI website",
+        "url": "https://mui.com/material-ui/getting-started/",
+        "topic": "Material UI"
+       }
+      ]
+     },
+     {
+      "step_number": 8,
+      "title": "Testing React Apps and SSR Frameworks",
+      "description": "Tests let you refactor UI safely, and frameworks such as Next.js add server rendering and routing conventions most companies now use. Test components with Vitest or Jest and React Testing Library, write end-to-end tests with Playwright or Cypress, and try Next.js.",
+      "topic_refs": [
+       "e_lwZ-a72-tAan2KDX6k3",
+       "opa61u9gYgSpoPtxp58wu",
+       "LULjhsPNONyI5912DKzPw",
+       "cQllxv7qGbRtM9O5llgN6",
+       "zN7Ps1puD-YpHbKi1pHH8",
+       "g39P0c6M2sHNoUPs0m8tr",
+       "W-atg_Msa9uPLr6RXAKSb",
+       "HdWq9ue0JdwmwqSIN2OD_",
+       "_HoZkE7FH-v3wI_722ZTF"
+      ],
+      "projects": [
+       {
+        "title": "Component tests for a form",
+        "description": "Test validation messages and submit behaviour with React Testing Library.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Port a page to Next.js",
+        "description": "Move one page to Next.js with server-side data fetching and compare load time.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Testing",
+       "Jest",
+       "Vitest",
+       "React Testing Library",
+       "Cypress"
+      ],
+      "more_topics": [],
+      "global_step_index": 23,
+      "resource": {
+       "title": "Testing with Vitest",
+       "url": "https://youtube.com/watch?v=cM_AeQHzlGg"
+      },
+      "videos": [
+       {
+        "title": "Testing with Vitest",
+        "url": "https://youtube.com/watch?v=cM_AeQHzlGg",
+        "video_id": "cM_AeQHzlGg",
+        "source": "roadmap.sh",
+        "topic": "Vitest"
+       },
+       {
+        "title": "Cypress End-to-End Testing",
+        "url": "https://youtube.com/watch?v=7N63cMKosIE",
+        "video_id": "7N63cMKosIE",
+        "source": "roadmap.sh",
+        "topic": "Cypress"
+       },
+       {
+        "title": "Next.js 14 Full Course 2024",
+        "url": "https://youtube.com/watch?v=wm5gMKuwSYk",
+        "video_id": "wm5gMKuwSYk",
+        "source": "roadmap.sh",
+        "topic": "SSR Frameworks"
+       },
+       {
+        "title": "Next.js Full course",
+        "url": "https://youtube.com/watch?v=9P8mASSREYM",
+        "video_id": "9P8mASSREYM",
+        "source": "roadmap.sh",
+        "topic": "Next.js"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Jest Website",
+        "url": "https://jestjs.io/",
+        "topic": "Jest"
+       },
+       {
+        "type": "official",
+        "title": "Vitest Website",
+        "url": "https://vitest.dev/",
+        "topic": "Vitest"
+       },
+       {
+        "type": "official",
+        "title": "Official Website",
+        "url": "https://www.cypress.io/",
+        "topic": "Cypress"
+       },
+       {
+        "type": "official",
+        "title": "Official Website: Playwright",
+        "url": "https://playwright.dev/",
+        "topic": "Playwright"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 4,
+    "title": "Node.js",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "Node.js Basics and Running Scripts",
+      "description": "Node.js lets you use the JavaScript you already know on the server, which is what makes a single-language full stack possible. Learn what Node is and how it differs from the browser, run scripts with watch mode, and use its globals and command-line arguments.",
+      "topic_refs": [
+       "KDd40JOAvZ8O1mfhTYB3K",
+       "Mp056kNnwsRWeEXuhGPy-",
+       "ex8FOKrUlbu4MuEq2czyW",
+       "Vrcv5px-3fqmyJnQv3WBK",
+       "ebVb0anYmbD1Y9ZTFXKFp",
+       "uPJqdMQQJRkTMMhNORDeH",
+       "812bVEzxwTsYzLG_PmLqN",
+       "2Ym2jMvov0lZ79aJFaw29",
+       "PEGHvFT2Eg-1OyfhxYu22",
+       "1AaGG660rvZlNYMOA35qO",
+       "P2gdwx1qCxvg1Ppfw0aqQ",
+       "lT2DDRtbFfEjb_cmsQx8i"
+      ],
+      "projects": [
+       {
+        "title": "Argument-driven script",
+        "description": "A script that greets users and does maths based on command-line arguments, rerun automatically with --watch.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Browser versus Node checklist",
+        "description": "List the globals and APIs available in each environment by testing them.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Introduction to Node.js",
+       "What is Node.js?",
+       "Why use Node.js?",
+       "History of Node.js",
+       "Node.js vs Browser"
+      ],
+      "more_topics": [
+       {
+        "node_id": "O67e2qyhxP5joR5LGyZ2N",
+        "title": "Pug"
+       }
+      ],
+      "global_step_index": 24,
+      "resource": {
+       "title": "Video: Where TypeScript Excels",
+       "url": "https://youtube.com/watch?v=BUo7B6UuoJ4"
+      },
+      "videos": [
+       {
+        "title": "Video: Where TypeScript Excels",
+        "url": "https://youtube.com/watch?v=BUo7B6UuoJ4",
+        "video_id": "BUo7B6UuoJ4",
+        "source": "roadmap.sh",
+        "topic": "Introduction to TypeScript"
+       },
+       {
+        "title": "What is Node.js?",
+        "url": "https://youtube.com/watch?v=uVwtVBpw7RQ",
+        "video_id": "uVwtVBpw7RQ",
+        "source": "roadmap.sh",
+        "topic": "What is Node.js?"
+       },
+       {
+        "title": "Node.js: The Documentary | An Origin Story",
+        "url": "https://youtube.com/watch?v=LB8KwiiUGy0",
+        "video_id": "LB8KwiiUGy0",
+        "source": "roadmap.sh",
+        "topic": "History of Node.js"
+       },
+       {
+        "title": "What is Global Object?",
+        "url": "https://youtube.com/watch?v=jn8PZNBmKm0",
+        "video_id": "jn8PZNBmKm0",
+        "source": "roadmap.sh",
+        "topic": "global keyword"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Overview of TypeScript",
+        "url": "https://www.typescriptlang.org/docs/handbook/typescript-from-scratch.html",
+        "topic": "Introduction to TypeScript"
+       },
+       {
+        "type": "official",
+        "title": "TypeScript Official Handbook",
+        "url": "https://www.typescriptlang.org/docs/handbook/intro.html",
+        "topic": "Introduction to TypeScript"
+       },
+       {
+        "type": "official",
+        "title": "Node.js",
+        "url": "https://nodejs.org/en/about/",
+        "topic": "What is Node.js?"
+       },
+       {
+        "type": "official",
+        "title": "Node.js - Getting Started",
+        "url": "https://nodejs.org/en/learn/getting-started/introduction-to-nodejs",
+        "topic": "What is Node.js?"
+       }
+      ]
+     },
+     {
+      "step_number": 2,
+      "title": "Node.js Modules and npm",
+      "description": "Node projects are built from modules and npm packages, and version mistakes break builds for the whole team. Learn CommonJS and ES modules, core modules, npm and npx, local versus global installs, scripts, semantic versioning and publishing a package.",
+      "topic_refs": [
+       "mbGFT6S7mL3bHHEZv0_s2",
+       "M62lAWBOrTe99TfpFOQ-Y",
+       "mhjswf17nhq075NTYV5gE",
+       "mKccfWOhC1Aj4VnaOqryA",
+       "EEnmOcDKPZzY_O1NwP_5j",
+       "jQJ9aOKtg-O-GhWk5OgCK",
+       "YdpJ-DUo8Q5ATRmF4s4YS",
+       "oYeux7PbveYaVwXRzAg5x",
+       "l24OMkPAEDnEDAVAMrMuG",
+       "64pgc7rcgboFcNYuOlX8e",
+       "dOlzIXBfAPmbY542lNOe6",
+       "Uh9hmEy7o1EJLg4E--ku2"
+      ],
+      "projects": [
+       {
+        "title": "Publish a tiny utility",
+        "description": "Package a string-formatting helper with ES modules and publish it to npm under a scoped name.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "npm scripts setup",
+        "description": "Add dev, test, lint and build scripts to a project and document them.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Node.js Modules",
+       "Nodejs core modules",
+       "CommonJS vs ESM",
+       "ESM",
+       "Creating & Importing"
+      ],
+      "more_topics": [
+       {
+        "node_id": "WvxCGVKLvTUVEHeOcUQPg",
+        "title": "npm workspaces"
+       },
+       {
+        "node_id": "bYBz12FUiJ1qLgdQSGyGK",
+        "title": "Updating Packages"
+       }
+      ],
+      "global_step_index": 25,
+      "resource": {
+       "title": "Modules in Node.js",
+       "url": "https://youtube.com/watch?v=9Amxzvq5LY8"
+      },
+      "videos": [
+       {
+        "title": "Modules in Node.js",
+        "url": "https://youtube.com/watch?v=9Amxzvq5LY8",
+        "video_id": "9Amxzvq5LY8",
+        "source": "roadmap.sh",
+        "topic": "Node.js Modules"
+       },
+       {
+        "title": "Using Modules",
+        "url": "https://youtube.com/watch?v=pP4kjXykbio",
+        "video_id": "pP4kjXykbio",
+        "source": "roadmap.sh",
+        "topic": "CommonJS vs ESM"
+       },
+       {
+        "title": "Creating a Module in Node.js",
+        "url": "https://youtube.com/watch?v=Cxo4UKpHv5s",
+        "video_id": "Cxo4UKpHv5s",
+        "source": "roadmap.sh",
+        "topic": "Creating & Importing"
+       },
+       {
+        "title": "NPM Crash Course",
+        "url": "https://youtube.com/watch?v=jHDhaSSKmB0",
+        "video_id": "jHDhaSSKmB0",
+        "source": "roadmap.sh",
+        "topic": "npm"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Modules: CommonJS modules",
+        "url": "https://nodejs.org/api/modules.html#modules-commonjs-modules",
+        "topic": "Node.js Modules"
+       },
+       {
+        "type": "official",
+        "title": "fs module",
+        "url": "https://nodejs.org/api/fs.html",
+        "topic": "Nodejs core modules"
+       },
+       {
+        "type": "official",
+        "title": "url module",
+        "url": "https://nodejs.org/api/url.html",
+        "topic": "Nodejs core modules"
+       },
+       {
+        "type": "official",
+        "title": "console module",
+        "url": "https://nodejs.org/api/console.html",
+        "topic": "Nodejs core modules"
+       }
+      ]
+     },
+     {
+      "step_number": 3,
+      "title": "Files, Paths and Environment Variables",
+      "description": "Servers read config, write uploads and watch files, and hard-coded secrets are a common security mistake. Work with the fs and path modules and glob patterns, watch files, and load configuration from environment variables.",
+      "topic_refs": [
+       "wEK77A6MPQBCBUSJKMiaY",
+       "b1r1X3XCoPSayQjDBcy54",
+       "zDmWGRrgwq3Gjfkyk6crK",
+       "Blzb-fdQZMu6Xq5JDJW0_",
+       "CWH0ZsxJ8beLvwMYJyH52",
+       "HYTw74rrd7kkOemCxfT9I",
+       "een1zhvgN_33Cu6OiWtyX",
+       "QT2QE2FLkyUDpwMKYkFQL",
+       "wthXp2YGg3eTMbxsek77C",
+       "fE9C7Resn4EcL-hYHbsaZ"
+      ],
+      "projects": [
+       {
+        "title": "Folder organiser",
+        "description": "Sort files in a downloads folder into subfolders by type, with a dry-run mode.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Config loader",
+        "description": "Load settings from a .env file with defaults and fail fast when a required value is missing.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Working with Files",
+       "fs module",
+       "fs-extra",
+       "path module",
+       "glob"
+      ],
+      "more_topics": [],
+      "global_step_index": 26,
+      "resource": {
+       "title": "Using fs",
+       "url": "https://youtube.com/watch?v=ZySsdm576wE"
+      },
+      "videos": [
+       {
+        "title": "Using fs",
+        "url": "https://youtube.com/watch?v=ZySsdm576wE",
+        "video_id": "ZySsdm576wE",
+        "source": "roadmap.sh",
+        "topic": "fs module"
+       },
+       {
+        "title": "Path Module in Node.js",
+        "url": "https://youtube.com/watch?v=j95Lwxvi9JY",
+        "video_id": "j95Lwxvi9JY",
+        "source": "roadmap.sh",
+        "topic": "path module"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "File System Module",
+        "url": "https://nodejs.org/docs/latest/api/fs.html",
+        "topic": "Working with Files"
+       },
+       {
+        "type": "official",
+        "title": "fs module",
+        "url": "https://nodejs.org/api/fs.html",
+        "topic": "fs module"
+       },
+       {
+        "type": "official",
+        "title": "fs-extra package",
+        "url": "https://www.npmjs.com/package/fs-extra",
+        "topic": "fs-extra"
+       },
+       {
+        "type": "official",
+        "title": "Path Documentation",
+        "url": "https://nodejs.org/api/path.html",
+        "topic": "path module"
+       }
+      ]
+     },
+     {
+      "step_number": 4,
+      "title": "Node.js Async Internals: nextTick, Emitters and Streams",
+      "description": "Node's performance comes from non-blocking I/O, so you need to know how its event loop phases, emitters and streams behave. Learn process.nextTick, setImmediate and timers, event emitters, and streams for large data.",
+      "topic_refs": [
+       "uE7fvHSTSdebMf5RsNyaY",
+       "b679H8gEBuvrHQ8ik7e96",
+       "GwInWcbQn18PnzKGXzmln",
+       "QcOqhuKWOUUUBSiu5Oelv",
+       "a26qNCyMcT5GsVzxeNCLk",
+       "ATu9-29yJWcDOik5FTOgf",
+       "YvTPpoIiSqjDYi0Q10kWh",
+       "W2Dbj4Y78Bgdx7og5xkrg",
+       "T5I-mFKK6bKzXrzkECI0P",
+       "bgEHTBYzRDJqZ6gLqLbsz",
+       "WrnjjUDXQwwMXQjmgK72U"
+      ],
+      "projects": [
+       {
+        "title": "Stream a large CSV",
+        "description": "Process a one-gigabyte CSV line by line with streams and keep memory flat.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Order event emitter",
+        "description": "Emit order events and have separate listeners send emails and update stock.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Async Programming",
+       "Event Loop",
+       "Callbacks",
+       "Promises",
+       "Async/Await"
+      ],
+      "more_topics": [],
+      "global_step_index": 27,
+      "resource": {
+       "title": "Asynchronous Vs Synchronous Programming",
+       "url": "https://youtube.com/watch?v=Kpn2ajSa92c"
+      },
+      "videos": [
+       {
+        "title": "Asynchronous Vs Synchronous Programming",
+        "url": "https://youtube.com/watch?v=Kpn2ajSa92c",
+        "video_id": "Kpn2ajSa92c",
+        "source": "roadmap.sh",
+        "topic": "Async Programming"
+       },
+       {
+        "title": "Using async await",
+        "url": "https://youtube.com/watch?v=V_Kr9OSfDeU",
+        "video_id": "V_Kr9OSfDeU",
+        "source": "roadmap.sh",
+        "topic": "Async/Await"
+       },
+       {
+        "title": "The process.nextTick Function",
+        "url": "https://youtube.com/watch?v=-niA5XOlCWI",
+        "video_id": "-niA5XOlCWI",
+        "source": "roadmap.sh",
+        "topic": "process.nextTick()"
+       },
+       {
+        "title": "setInterval and setTimeout: timing events",
+        "url": "https://youtube.com/watch?v=kOcFZV3c75I",
+        "video_id": "kOcFZV3c75I",
+        "source": "roadmap.sh",
+        "topic": "setTimeout"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "The Node.JS Event Loop",
+        "url": "https://nodejs.org/learn/asynchronous-work/event-loop-timers-and-nexttick",
+        "topic": "Event Loop"
+       },
+       {
+        "type": "official",
+        "title": "Don't Block the Event Loop",
+        "url": "https://nodejs.org/learn/asynchronous-work/dont-block-the-event-loop",
+        "topic": "Event Loop"
+       },
+       {
+        "type": "official",
+        "title": "Asynchronicity in Programming Languages",
+        "url": "https://nodejs.org/en/learn/asynchronous-work/javascript-asynchronous-programming-and-callbacks",
+        "topic": "Callbacks"
+       },
+       {
+        "type": "official",
+        "title": "Promises",
+        "url": "https://www.promisejs.org/",
+        "topic": "Promises"
+       }
+      ]
+     },
+     {
+      "step_number": 5,
+      "title": "Building Web Servers and APIs in Node.js",
+      "description": "The server half of a full-stack app is usually a REST API built with Express or a similar framework. Start with the http module, then build APIs with Express, Fastify, NestJS or Hono, call other APIs, and render server-side templates.",
+      "topic_refs": [
+       "Sjc1YDtbzXyLQH711_3nj",
+       "1vq_KcYR_pkfp1MtXaL75",
+       "WkU_rI4i-UmNSxb5F9TI-",
+       "tGD8XLHnfspfv8CbguGwV",
+       "Xa-lA1wbZ9JZ_XpXfhhw5",
+       "fFVCb6aZWRHdNDFt5C09R",
+       "B_3rTGQxJneMREXoi2gQn",
+       "BOLiZg8YDKADMwP01U5ph",
+       "6stiDKubT6XVAOGiJ6wsx",
+       "-_2letLUta5Ymc5eEOKhn",
+       "J0ErCAZT5B97ZMogU2JHd",
+       "L-_N7OxxuHCXsdWYBgZGu"
+      ],
+      "projects": [
+       {
+        "title": "Notes REST API in Express",
+        "description": "CRUD endpoints with validation, error middleware and proper status codes.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Express versus Fastify",
+        "description": "Build the same endpoint in both frameworks and compare throughput under load.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "http module",
+       "Express.js",
+       "fastify",
+       "NestJS",
+       "Hono"
+      ],
+      "more_topics": [],
+      "global_step_index": 28,
+      "resource": {
+       "title": "Beginner Fastify Tutorial",
+       "url": "https://youtube.com/watch?v=Lk-uVEVGxOA"
+      },
+      "videos": [
+       {
+        "title": "Beginner Fastify Tutorial",
+        "url": "https://youtube.com/watch?v=Lk-uVEVGxOA",
+        "video_id": "Lk-uVEVGxOA",
+        "source": "roadmap.sh",
+        "topic": "fastify"
+       },
+       {
+        "title": "Beginner NestJS Tutorial",
+        "url": "https://youtube.com/watch?v=GHTA143_b-s",
+        "video_id": "GHTA143_b-s",
+        "source": "roadmap.sh",
+        "topic": "NestJS"
+       },
+       {
+        "title": "What is an API (in 5 minutes)",
+        "url": "https://youtube.com/watch?v=ByGJQzlzxQg",
+        "video_id": "ByGJQzlzxQg",
+        "source": "roadmap.sh",
+        "topic": "building--consuming-apis"
+       },
+       {
+        "title": "Axios Tutorial",
+        "url": "https://youtube.com/watch?v=6LyagkoRWYA",
+        "video_id": "6LyagkoRWYA",
+        "source": "roadmap.sh",
+        "topic": "Axios"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Node.js http.get() documentation",
+        "url": "https://nodejs.org/docs/latest-v16.x/api/http.html#httpgeturl-options-callback",
+        "topic": "http module"
+       },
+       {
+        "type": "official",
+        "title": "Node.js http.request() documentation",
+        "url": "https://nodejs.org/docs/latest-v16.x/api/http.html#httprequesturl-options-callback",
+        "topic": "http module"
+       },
+       {
+        "type": "official",
+        "title": "Express.js",
+        "url": "https://expressjs.com/",
+        "topic": "Express.js"
+       },
+       {
+        "type": "official",
+        "title": "Getting Started Guide",
+        "url": "https://expressjs.com/en/starter/installing.html",
+        "topic": "Express.js"
+       }
+      ]
+     },
+     {
+      "step_number": 6,
+      "title": "Databases, ORMs and Authentication in Node.js",
+      "description": "Full-stack apps persist users and data and must log users in securely. Connect to SQL and NoSQL databases with native drivers and ORMs such as Prisma, Drizzle and Mongoose, and add JWT and Passport authentication.",
+      "topic_refs": [
+       "5l-lZ8gwVLqqAF_n99vIO",
+       "KpC-QYKalUp7VUvnMKBoW",
+       "5WqLm53CHDT5uBoMH-iPl",
+       "3Qxtf8n6gJYdnRsuqa52Q",
+       "JXQF9H4_N0rM7ZDKcCZNn",
+       "fOm-ktIaLqrmA0zln0Bga",
+       "rk5FtAPDi1TpvWd0yBbtl",
+       "HDDnt79_PCB5JU-KnHKUh",
+       "NDf-o-WECK02mVnZ8IFxy",
+       "7u2WMxjLx3mMtn0cha4M7",
+       "mIyv6S9a5dCHkk-JhhjKV"
+      ],
+      "projects": [
+       {
+        "title": "Prisma-backed task API",
+        "description": "Model users and tasks in Prisma with migrations and expose them through Express.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "JWT login",
+        "description": "Sign-up and login endpoints that issue JWTs and a middleware that protects routes.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "What is Database",
+       "Native Drivers (Relational)",
+       "Native Drivers (NoSQL)",
+       "Prisma",
+       "Drizzle"
+      ],
+      "more_topics": [
+       {
+        "node_id": "O7Cy2g_GPxKU6vPfEmNyi",
+        "title": "Prisma"
+       }
+      ],
+      "global_step_index": 29,
+      "resource": {
+       "title": "Prisma & MongoDB Youtube Tutorial",
+       "url": "https://youtube.com/watch?v=-7r4whMKt1s"
+      },
+      "videos": [
+       {
+        "title": "Prisma & MongoDB Youtube Tutorial",
+        "url": "https://youtube.com/watch?v=-7r4whMKt1s",
+        "video_id": "-7r4whMKt1s",
+        "source": "roadmap.sh",
+        "topic": "Prisma"
+       },
+       {
+        "title": "TypeORM Crash Course",
+        "url": "https://youtube.com/watch?v=JaTbzPcyiOE",
+        "video_id": "JaTbzPcyiOE",
+        "source": "roadmap.sh",
+        "topic": "TypeORM"
+       },
+       {
+        "title": "JWT Implementation",
+        "url": "https://youtube.com/watch?v=mbsmsi7l3r4",
+        "video_id": "mbsmsi7l3r4",
+        "source": "roadmap.sh",
+        "topic": "JSON Web Token"
+       },
+       {
+        "title": "Implementation of OAuth using passportjs",
+        "url": "https://youtube.com/watch?v=sakQbeRjgwg",
+        "video_id": "sakQbeRjgwg",
+        "source": "roadmap.sh",
+        "topic": "Passport js"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "MongoDB Drivers",
+        "url": "https://www.mongodb.com/docs/drivers/",
+        "topic": "Native Drivers (NoSQL)"
+       },
+       {
+        "type": "official",
+        "title": "Prisma",
+        "url": "https://www.prisma.io/",
+        "topic": "Prisma"
+       },
+       {
+        "type": "official",
+        "title": "Drizzle Documentation",
+        "url": "https://orm.drizzle.team/docs/overview",
+        "topic": "Drizzle"
+       },
+       {
+        "type": "official",
+        "title": "Sequelize",
+        "url": "https://sequelize.org/",
+        "topic": "Sequelize"
+       }
+      ]
+     },
+     {
+      "step_number": 7,
+      "title": "Error Handling and Debugging in Node.js",
+      "description": "An unhandled rejection can crash a Node server, so production code must handle every error path. Learn the error types, async error handling, uncaught exceptions and exit codes, and debug with the inspector.",
+      "topic_refs": [
+       "t_kfKdNSKVBPYQ9zF9VqQ",
+       "Wg7KSpAPxjeFMxC6PBnHO",
+       "05YY-AhLKzn4Ypr4eow5E",
+       "wQ4i6_a1EFk9HHc6Sll-3",
+       "do-tdCUfDtiZHBg4ZO3dC",
+       "3MpxV23lNpuKg0--e_9m7",
+       "uzOmaTZrHhBxx5plb345Z",
+       "wIieXdFtoZWJ-ht8qqWbp",
+       "XteNExIZN3_g95_dPCopY",
+       "ZLNUuDKhJ03Kw7xMVc7IR",
+       "DcmGcVlEHL4IV7yPMDpVa",
+       "XEGTeGWw05xWYOfUo3POE"
+      ],
+      "projects": [
+       {
+        "title": "Central error middleware",
+        "description": "Map validation, not-found and system errors to clean JSON responses with logged stack traces.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Inspector debugging session",
+        "description": "Debug a failing async route with node --inspect and Chrome DevTools.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Error Handling",
+       "JavaScript Errors",
+       "System Errors",
+       "User Specified Errors",
+       "Assertion Errors"
+      ],
+      "more_topics": [],
+      "global_step_index": 30,
+      "resource": null,
+      "videos": [],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Node.js Errors",
+        "url": "https://nodejs.org/api/errors.html#errors_class_systemerror",
+        "topic": "System Errors"
+       },
+       {
+        "type": "official",
+        "title": "Node.js Assert",
+        "url": "https://nodejs.org/api/assert.html#new-assertassertionerroroptions",
+        "topic": "Assertion Errors"
+       },
+       {
+        "type": "official",
+        "title": "Uncaught Exception Error Events",
+        "url": "https://nodejs.org/api/process.html#event-uncaughtexception",
+        "topic": "Uncaught Exceptions"
+       },
+       {
+        "type": "official",
+        "title": "Exit Documentation",
+        "url": "https://nodejs.org/api/process.html#event-exit",
+        "topic": "Exiting / Exit Codes"
+       }
+      ]
+     },
+     {
+      "step_number": 8,
+      "title": "Command-Line Tools with Node.js",
+      "description": "Developer tools, scripts and generators are often written as Node CLIs, and building one is a good portfolio piece. Parse commands and prompts, style output, show progress, read stdin and spawn child processes.",
+      "topic_refs": [
+       "Ce-dP-OXu0mEm30rzp2hW",
+       "BxxLQUI7JcQgF6TK3L5uU",
+       "WFJJtIqVoBIhK10XY-d7l",
+       "xgsKrUdfB0g0DMQCLK3aY",
+       "V4OWIC1cnw8EFyu26Y_dA",
+       "PHLdJylzNZDJBGi8FFsfO",
+       "iW9je5Pq7bjxWZDERv_p5",
+       "betuntelnEMSHdatO6VPl",
+       "N2vR1_NyDn4rYLXJzxWBZ",
+       "lzPrWD3pxQmpbqgYPL-zW"
+      ],
+      "projects": [
+       {
+        "title": "Project scaffolder CLI",
+        "description": "A CLI that asks a few questions and generates a starter project folder.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Git summary tool",
+        "description": "Run git commands as child processes and print a coloured weekly summary.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Command Line Applications",
+       "Commander.js",
+       "Inquirer Package",
+       "prompts package",
+       "chalk package"
+      ],
+      "more_topics": [
+       {
+        "node_id": "f2DyjBIglAZ6NoHaRnlzt",
+        "title": "Marko"
+       }
+      ],
+      "global_step_index": 31,
+      "resource": {
+       "title": "5-Minute Node.js CLI Project",
+       "url": "https://youtube.com/watch?v=_oHByo8tiEY"
+      },
+      "videos": [
+       {
+        "title": "5-Minute Node.js CLI Project",
+        "url": "https://youtube.com/watch?v=_oHByo8tiEY",
+        "video_id": "_oHByo8tiEY",
+        "source": "roadmap.sh",
+        "topic": "Command Line Applications"
+       },
+       {
+        "title": "How to make a CLI in Node.js with Inquirer",
+        "url": "https://youtube.com/watch?v=0xjfkl9nODQ",
+        "video_id": "0xjfkl9nODQ",
+        "source": "roadmap.sh",
+        "topic": "Inquirer Package"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "commander package",
+        "url": "https://www.npmjs.com/package/commander",
+        "topic": "Commander.js"
+       },
+       {
+        "type": "official",
+        "title": "Prompts",
+        "url": "https://www.npmjs.com/package/prompts",
+        "topic": "prompts package"
+       },
+       {
+        "type": "official",
+        "title": "CLI-Progress Documentation",
+        "url": "https://www.npmjs.com/package/cli-progress",
+        "topic": "cli-progress"
+       },
+       {
+        "type": "official",
+        "title": "process.stdin",
+        "url": "https://nodejs.org/api/process.html#processstdin",
+        "topic": "process.stdin"
+       }
+      ]
+     },
+     {
+      "step_number": 9,
+      "title": "Testing Node.js Applications",
+      "description": "Backend changes are only safe to deploy when tests cover routes and logic. Write tests with the built-in test runner, Jest or Vitest, and add browser end-to-end tests with Playwright or Cypress.",
+      "topic_refs": [
+       "90NIFfbWjTbyKZKwyJlfI",
+       "oSLpy31XEcA2nRq9ks_LJ",
+       "5xrbKv2stKPJRv7Vzf9nM",
+       "qjToBaMenW3SDtEfoCbQ6",
+       "Ix-g9pgJjEI04bSfROvlq",
+       "3Fh3-V1kCZtlUTvEoloIO"
+      ],
+      "projects": [
+       {
+        "title": "API test suite",
+        "description": "Test every endpoint of your API against a test database, including error cases.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "End-to-end sign-up test",
+        "description": "A Playwright test that signs up through the React UI and checks the database row.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Testing",
+       "node:test",
+       "Jest",
+       "Vitest",
+       "Playwright"
+      ],
+      "more_topics": [],
+      "global_step_index": 32,
+      "resource": null,
+      "videos": [],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Vitest",
+        "url": "https://vitest.dev/",
+        "topic": "Testing"
+       },
+       {
+        "type": "official",
+        "title": "Jest",
+        "url": "https://jest.io",
+        "topic": "Testing"
+       },
+       {
+        "type": "official",
+        "title": "Test Runner API Docs",
+        "url": "https://nodejs.org/api/test.html",
+        "topic": "node:test"
+       },
+       {
+        "type": "official",
+        "title": "Node.js Test Runner",
+        "url": "https://nodejs.org/en/learn/test-runner/using-test-runner",
+        "topic": "node:test"
+       }
+      ]
+     },
+     {
+      "step_number": 10,
+      "title": "Running Node.js in Production",
+      "description": "In production, Node apps must restart on crashes, use all CPU cores, log usefully and stay free of memory leaks. Use PM2 and clustering, worker threads for CPU work, structured logging with Winston or Morgan, APM tools and leak detection.",
+      "topic_refs": [
+       "af7n-J7VvbdpZh9lwA773",
+       "swp4wBgA7z-sd64VDkMrw",
+       "7WAuMMyelUbgwEHtnMmJv",
+       "PkQ_sQ0YFPCZGx4BRgG0t",
+       "bH2Iv3BX0ZiWD3lOmC_m_",
+       "KzUmXkwrmU_ssVBjSHAiY",
+       "b7ZAEqo0ZU6TNf18Bo0mI",
+       "Oe9cQCz2lwSaot7miZOta",
+       "CTHFGgtXFpke4aPhh5vRY",
+       "CvkjlOpT34lOHgzQHL40s",
+       "oU9I7KBZoTSXXFmYscEIq",
+       "SJ01N7vMZkNiIuMYQhdpj"
+      ],
+      "projects": [
+       {
+        "title": "PM2 cluster deployment",
+        "description": "Run an API on all cores with PM2, restart on crash and view logs.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Offload work to a worker thread",
+        "description": "Move image hashing to a worker thread so API latency stays low under load.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Keep your app running in Production",
+       "Keep App Running",
+       "Pm2",
+       "Cluster",
+       "Worker Threads"
+      ],
+      "more_topics": [],
+      "global_step_index": 33,
+      "resource": null,
+      "videos": [],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Pm2",
+        "url": "https://pm2.keymetrics.io/",
+        "topic": "Pm2"
+       },
+       {
+        "type": "official",
+        "title": "Pm2 Documentation",
+        "url": "https://pm2.keymetrics.io/docs/usage/quick-start/",
+        "topic": "Pm2"
+       },
+       {
+        "type": "official",
+        "title": "Node.js Cluster",
+        "url": "https://nodejs.org/api/cluster.html#cluster",
+        "topic": "Cluster"
+       },
+       {
+        "type": "official",
+        "title": "Worker Threads",
+        "url": "https://nodejs.org/api/worker_threads.html#worker-threads",
+        "topic": "Worker Threads"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 5,
+    "title": "Full-Stack",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "Checkpoint Projects: Frontend Apps and a GitHub Profile",
+      "description": "Recruiters judge full-stack candidates by what they can show, so this step turns your frontend skills into finished, published projects. Build the checkpoint apps in HTML, CSS, JavaScript and React, then present them on a well-organised GitHub profile.",
+      "topic_refs": [
+       "B0kARTODvCBi0iOF8iiqI",
+       "dAJHWmGeiYdzZ1ZjrWz1S",
+       "T9PB6WQf-Fa9NXKKvVOy_",
+       "khoUtTUxdf8udAzN9_CAb",
+       "mGgx_QTEPmVKf6AijX9fi",
+       "We2APJpOPTr-VNfowG0kI",
+       "8sPXL8iClpPqje03ksses",
+       "WsdUAEaI7FX6DKKhPXUHp",
+       "2DFzoIUjKdAKGjfu_SCfa",
+       "R4aeJNOrfWyVp3ea-qF4H",
+       "7JU1cVggMDoZUV-adGsf-",
+       "zFGWxgLPcZoW7KIzlnSV9"
+      ],
+      "projects": [
+       {
+        "title": "To-do list with local storage",
+        "description": "A to-do app where users search, add, edit and delete items, saved in the browser's local storage.",
+        "difficulty": "beginner",
+        "grounded": true
+       },
+       {
+        "title": "GitHub profile viewer",
+        "description": "Enter any GitHub username and show their profile from GitHub's API, with validation and error handling.",
+        "difficulty": "beginner",
+        "grounded": true
+       },
+       {
+        "title": "Timezone clock with npm packages",
+        "description": "Show the current time with dayjs and switch timezone from a modal built with an installed library.",
+        "difficulty": "beginner",
+        "grounded": true
+       }
+      ],
+      "subtopics": [
+       "HTML",
+       "CSS",
+       "JavaScript",
+       "React",
+       "npm"
+      ],
+      "more_topics": [
+       {
+        "node_id": "CVCqdPkq_hGQfI8EEi5RC",
+        "title": "Tailwind CSS"
+       }
+      ],
+      "global_step_index": 34,
+      "resource": {
+       "title": "HTML Full Course for Beginners",
+       "url": "https://youtube.com/watch?v=mJgBOIoGihA"
+      },
+      "videos": [
+       {
+        "title": "HTML Full Course for Beginners",
+        "url": "https://youtube.com/watch?v=mJgBOIoGihA",
+        "video_id": "mJgBOIoGihA",
+        "source": "roadmap.sh",
+        "topic": "HTML"
+       },
+       {
+        "title": "CSS Complete Course",
+        "url": "https://youtube.com/watch?v=n4R2E7O-Ngo",
+        "video_id": "n4R2E7O-Ngo",
+        "source": "roadmap.sh",
+        "topic": "CSS"
+       },
+       {
+        "title": "JavaScript Crash Course for Beginners",
+        "url": "https://youtube.com/watch?v=hdI2bqOjy3c",
+        "video_id": "hdI2bqOjy3c",
+        "source": "roadmap.sh",
+        "topic": "JavaScript"
+       },
+       {
+        "title": "React JS Course for Beginners",
+        "url": "https://youtube.com/watch?v=nTeuhbP7wdE",
+        "video_id": "nTeuhbP7wdE",
+        "source": "roadmap.sh",
+        "topic": "React"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Getting Started with React",
+        "url": "https://react.dev/learn/tutorial-tic-tac-toe",
+        "topic": "React"
+       },
+       {
+        "type": "official",
+        "title": "GitHub Documentation",
+        "url": "https://docs.github.com/en/get-started/quickstart",
+        "topic": "GitHub"
+       },
+       {
+        "type": "official",
+        "title": "Tailwind CSS",
+        "url": "https://tailwindcss.com",
+        "topic": "Tailwind CSS"
+       }
+      ]
+     },
+     {
+      "step_number": 2,
+      "title": "Checkpoint Projects: CLI, CRUD and a Secured Full-Stack App",
+      "description": "This is where frontend and backend come together into one working product, the main portfolio piece for full-stack roles. Build the CLI and CRUD checkpoints, then a complete app with a responsive frontend, a JWT-secured REST API and a PostgreSQL database.",
+      "topic_refs": [
+       "_aA6Hp4KkgJeptqo8oKTg",
+       "HGhnbMg6jh6cAmUH4DtOx",
+       "Onfd7Sl8LG2sjh2aQY7gb",
+       "vmHbWdmMHF53otXIrqzRV",
+       "vHojhJYjiN0IwruEqi1Dv",
+       "JGu0TKwAw-ieiG92BytYI",
+       "3EtGLO6cwkLc1-o9gwFNk",
+       "v4NF25lJElAtkU0Rm6Fob"
+      ],
+      "projects": [
+       {
+        "title": "CRUD to-do CLI",
+        "description": "A command-line to-do app backed by a database with --new, --list, --done, --delete and --help options.",
+        "difficulty": "beginner",
+        "grounded": true
+       },
+       {
+        "title": "Bulk file renamer or image compressor CLI",
+        "description": "A Node CLI that renames or compresses every file in a folder, with an optional output path.",
+        "difficulty": "intermediate",
+        "grounded": true
+       },
+       {
+        "title": "Blogging platform with JWT auth",
+        "description": "Users register, log in, set up a blog and write posts, with a React frontend, a JWT-secured API and PostgreSQL.",
+        "difficulty": "advanced",
+        "grounded": true
+       }
+      ],
+      "subtopics": [
+       "Node.js",
+       "PostgreSQL",
+       "Redis",
+       "REST",
+       "JWT"
+      ],
+      "more_topics": [],
+      "global_step_index": 35,
+      "resource": {
+       "title": "Node.js and Express.js Full Course",
+       "url": "https://youtube.com/watch?v=Oe421EPjeBE"
+      },
+      "videos": [
+       {
+        "title": "Node.js and Express.js Full Course",
+        "url": "https://youtube.com/watch?v=Oe421EPjeBE",
+        "video_id": "Oe421EPjeBE",
+        "source": "roadmap.sh",
+        "topic": "Node.js"
+       },
+       {
+        "title": "Postgres tutorial for Beginners",
+        "url": "https://youtube.com/watch?v=eMIxuk0nOkU",
+        "video_id": "eMIxuk0nOkU",
+        "source": "roadmap.sh",
+        "topic": "PostgreSQL"
+       },
+       {
+        "title": "Redis in 100 Seconds",
+        "url": "https://youtube.com/watch?v=G1rOthIU-uo",
+        "video_id": "G1rOthIU-uo",
+        "source": "roadmap.sh",
+        "topic": "Redis"
+       },
+       {
+        "title": "What Is A RESTful API? Explanation of REST & HTTP",
+        "url": "https://youtube.com/watch?v=Q-BpqyOT3a8",
+        "video_id": "Q-BpqyOT3a8",
+        "source": "roadmap.sh",
+        "topic": "REST"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Node.js Website",
+        "url": "https://nodejs.org/en/about/",
+        "topic": "Node.js"
+       },
+       {
+        "type": "official",
+        "title": "Learn Node.js Official Website",
+        "url": "https://nodejs.org/en/learn/getting-started/introduction-to-nodejs",
+        "topic": "Node.js"
+       },
+       {
+        "type": "official",
+        "title": "PostgreSQL Website",
+        "url": "https://www.postgresql.org/",
+        "topic": "PostgreSQL"
+       },
+       {
+        "type": "official",
+        "title": "Redis Documentation",
+        "url": "https://redis.io/docs/latest/",
+        "topic": "Redis"
+       }
+      ]
+     },
+     {
+      "step_number": 3,
+      "title": "Deploying a Full-Stack App to AWS",
+      "description": "Knowing how to put your own app on a real server with a domain and HTTPS sets you apart from candidates who only run code locally. Learn the core AWS services and Linux basics, then deploy to EC2 with a database, a Route53 domain and a TLS certificate.",
+      "topic_refs": [
+       "cUOfvOlQ_0Uu1VX3i67kJ",
+       "6oBIxYj8WPcUHidQ99tus",
+       "QtL-bLKtWIdH00K6k_PdC",
+       "5zyYpu9cyuTFwQCjTbHpS",
+       "n2Xp_ijJ2OS8xhE7xMWxk",
+       "B-cphY7Imnv6JBMujVIF7",
+       "SHTSvMDqI7X1_ZT7-m--n",
+       "J2_IWAb1s9zZcxOY3NXm2"
+      ],
+      "projects": [
+       {
+        "title": "Deploy your app to EC2",
+        "description": "Launch an Ubuntu EC2 instance, install Node.js, Git and PostgreSQL, clone your app and open HTTP and HTTPS in the security group.",
+        "difficulty": "intermediate",
+        "grounded": true
+       },
+       {
+        "title": "Custom domain with HTTPS",
+        "description": "Point a Route53 domain at the instance and set up auto-renewing HTTPS with certbot.",
+        "difficulty": "intermediate",
+        "grounded": true
+       }
+      ],
+      "subtopics": [
+       "Basic AWS Services",
+       "EC2",
+       "VPC",
+       "Route53",
+       "S3"
+      ],
+      "more_topics": [],
+      "global_step_index": 36,
+      "resource": {
+       "title": "Deploy Node App on AWS EC2",
+       "url": "https://youtube.com/watch?v=oHAQ3TzUTro"
+      },
+      "videos": [
+       {
+        "title": "Deploy Node App on AWS EC2",
+        "url": "https://youtube.com/watch?v=oHAQ3TzUTro",
+        "video_id": "oHAQ3TzUTro",
+        "source": "roadmap.sh",
+        "topic": "Basic AWS Services"
+       },
+       {
+        "title": "AWS VPC & Subnets For Beginners",
+        "url": "https://youtube.com/watch?v=TUTqYEZZUdc",
+        "video_id": "TUTqYEZZUdc",
+        "source": "roadmap.sh",
+        "topic": "VPC"
+       },
+       {
+        "title": "Amazon Route 53",
+        "url": "https://youtube.com/watch?v=RGWgfhZByAI",
+        "video_id": "RGWgfhZByAI",
+        "source": "roadmap.sh",
+        "topic": "Route53"
+       },
+       {
+        "title": "Upload Images to S3 from Node Back End",
+        "url": "https://youtube.com/watch?v=NZElg91l_ms",
+        "video_id": "NZElg91l_ms",
+        "source": "roadmap.sh",
+        "topic": "S3"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Amazon AWS EC2",
+        "url": "https://aws.amazon.com/ec2/",
+        "topic": "EC2"
+       },
+       {
+        "type": "official",
+        "title": "Amazon AWS VPC",
+        "url": "https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html",
+        "topic": "VPC"
+       },
+       {
+        "type": "official",
+        "title": "Route53",
+        "url": "https://aws.amazon.com/route53/",
+        "topic": "Route53"
+       },
+       {
+        "type": "official",
+        "title": "Amazon AWS S3",
+        "url": "https://aws.amazon.com/s3/",
+        "topic": "S3"
+       }
+      ]
+     },
+     {
+      "step_number": 4,
+      "title": "Automating Infrastructure, Deployments and Monitoring",
+      "description": "Teams expect deployments to be repeatable and monitored, not done by hand over SSH. Provision servers with Ansible, deploy on every push with GitHub Actions, define infrastructure in Terraform, and add monitoring and auto-restarts with Monit.",
+      "topic_refs": [
+       "rFXupYpUFfp7vZO8zh614",
+       "863KMXcFJzInvTp_-Ldmz",
+       "2kKHuQZScu7hCDgQWxl5u",
+       "y1SFX7uvWaCy4OYBnECLu",
+       "sO_9-l4FECbaqiaFnyeXO",
+       "liaY1GnlOateB_ZKBjNpY",
+       "NQmEl27eBPYhivcXdOEz3",
+       "YVMyHFSCVF-GgXydq-SFJ"
+      ],
+      "projects": [
+       {
+        "title": "Ansible provisioning playbook",
+        "description": "Automate installing Node.js, Git and PostgreSQL and starting the app on a fresh EC2 instance without SSHing in.",
+        "difficulty": "intermediate",
+        "grounded": true
+       },
+       {
+        "title": "Push-to-deploy pipeline",
+        "description": "A GitHub Actions workflow that runs tests and deploys to AWS with rsync on every push to main.",
+        "difficulty": "intermediate",
+        "grounded": true
+       },
+       {
+        "title": "Fully automated stack",
+        "description": "Terraform for infrastructure, Ansible for provisioning, GitHub Actions for CI/CD and Monit watching CPU, memory, disk and process health.",
+        "difficulty": "advanced",
+        "grounded": true
+       }
+      ],
+      "subtopics": [
+       "Ansible",
+       "GitHub Actions",
+       "Terraform",
+       "Monit",
+       "Checkpoint"
+      ],
+      "more_topics": [],
+      "global_step_index": 37,
+      "resource": {
+       "title": "Ansible Full Course for Beginners",
+       "url": "https://youtube.com/watch?v=9Ua2b06oAr4"
+      },
+      "videos": [
+       {
+        "title": "Ansible Full Course for Beginners",
+        "url": "https://youtube.com/watch?v=9Ua2b06oAr4",
+        "video_id": "9Ua2b06oAr4",
+        "source": "roadmap.sh",
+        "topic": "Ansible"
+       },
+       {
+        "title": "5 Ways to DevOps-ify your App",
+        "url": "https://youtube.com/watch?v=eB0nUzAI7M8",
+        "video_id": "eB0nUzAI7M8",
+        "source": "roadmap.sh",
+        "topic": "GitHub Actions"
+       },
+       {
+        "title": "Intro to Terraform",
+        "url": "https://youtube.com/watch?v=h970ZBgKINg",
+        "video_id": "h970ZBgKINg",
+        "source": "roadmap.sh",
+        "topic": "Terraform"
+       },
+       {
+        "title": "DevOps CI/CD Explained in 100 Seconds",
+        "url": "https://youtube.com/watch?v=scEDHsr3APg",
+        "video_id": "scEDHsr3APg",
+        "source": "roadmap.sh",
+        "topic": "GitHub Actions"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Ansible Documentation",
+        "url": "https://docs.ansible.com/",
+        "topic": "Ansible"
+       },
+       {
+        "type": "official",
+        "title": "Ansible Getting Started Guide",
+        "url": "https://www.ansible.com/resources/get-started",
+        "topic": "Ansible"
+       },
+       {
+        "type": "official",
+        "title": "GitHub Actions Documentation",
+        "url": "https://docs.github.com/en/actions",
+        "topic": "GitHub Actions"
+       },
+       {
+        "type": "official",
+        "title": "Terraform Documentation",
+        "url": "https://www.terraform.io/docs",
+        "topic": "Terraform"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "audit": {
+  "phases": [
+   {
+    "phase_number": 1,
+    "title": "JavaScript",
+    "queries": [
+     "Full-Stack Development",
+     "Full-Stack Development fundamentals",
+     "Full-Stack Development: JavaScript"
+    ],
+    "retrieved": [
+     {
+      "source": "javascript/introduction-to-javascript@6khAD6mzZ9S96JJuC5_j6.md",
+      "score": 0.6112783551216125,
+      "queries": [
+       "Full-Stack Development: JavaScript"
+      ]
+     },
+     {
+      "source": "javascript/built-in-functions@s8wUJivWmetysJ8bt9FBC.md",
+      "score": 0.5732198357582092,
+      "queries": [
+       "Full-Stack Development: JavaScript"
+      ]
+     },
+     {
+      "source": "javascript/garbage-collection@KKyX8N4lTgN0w-Khm6Ztq.md",
+      "score": 0.5350190997123718,
+      "queries": [
+       "Full-Stack Development: JavaScript"
+      ]
+     },
+     {
+      "source": "javascript/javascript-versions@SFPsWnVpZBAw3_re7op4h.md",
+      "score": 0.5146602392196655,
+      "queries": [
+       "Full-Stack Development: JavaScript"
+      ]
+     },
+     {
+      "source": "javascript/how-to-run-javascript@uXsWIUUxtc4H_iRx3uZv0.md",
+      "score": 0.5104373097419739,
+      "queries": [
+       "Full-Stack Development: JavaScript"
+      ]
+     },
+     {
+      "source": "javascript/what-is-javascript@UBB-8hUcwo4Mfd0cmEcdA.md",
+      "score": 0.5003127455711365,
+      "queries": [
+       "Full-Stack Development: JavaScript"
+      ]
+     },
+     {
+      "source": "so_survey_2025_india/Full-Stack_Development",
+      "score": 0.4978172779083252,
+      "queries": [
+       "Full-Stack Development",
+       "Full-Stack Development fundamentals",
+       "Full-Stack Development: JavaScript"
+      ]
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 1,
+      "topic_refs": [
+       "6khAD6mzZ9S96JJuC5_j6",
+       "UBB-8hUcwo4Mfd0cmEcdA",
+       "l-GKzcsBNA0r6Jax8hwnP",
+       "SFPsWnVpZBAw3_re7op4h",
+       "uXsWIUUxtc4H_iRx3uZv0",
+       "kvActjpU4FUJdrmuFoFEe",
+       "BqbAWt--Guqex-rrb4ZUv",
+       "JSjeM8qnBg4onXq9mn5gB",
+       "kDRa9G3pMp0Cb0mqYUawM",
+       "q85z6x1Lc-yLWepwtIT2_",
+       "HfieG3v3wnmpZDfNwEJvZ",
+       "-jbPPuEXacBR0d0CWPHgd"
+      ],
+      "queries": [
+       "Full-Stack Development: JavaScript"
+      ]
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 2,
+      "topic_refs": [
+       "1RcwBHU3jzx0YxxUGZic4",
+       "GZ_SXsWmP7AsXRTc4WUMw",
+       "b1HvkoWA2t4kt8mS6FySm",
+       "CxyNyFMuTLS3owtRMgClD",
+       "ZLs0NKM0lrnOy5ATDhlk0",
+       "6lUF0neW1piiP1RsaVxEX",
+       "R6ICrk6vjoBxx5nRGo4Jg",
+       "xe8HZ8Mt1fK8yJMcDPYHJ",
+       "RRACLQ6-aopkxImIp3Toc",
+       "XPmBieVCXvL3WbWkYRoKr",
+       "_Bo2YZqZ_gY35SLPML4T6",
+       "pP42K_eH4RCdUdUS8BJlP"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 3,
+      "topic_refs": [
+       "_6vZa43gWjxO2OcD1iCCQ",
+       "0PK1NwlgkNe2Vf-We4uLH",
+       "IvBtUzIGnkgGXrJjqmjf4",
+       "-v4_V4UuoZSgUk2sqOCim",
+       "bo4SvzU4BrPl3c99zW7Y5",
+       "640mk-m5mB90Mme-7jcXV",
+       "c38b6t5f17Zg2O2yg3eFP",
+       "k9rSR-YQ8B_iRcXNm2btP",
+       "ghjNJW67Wj5L5QK46xwL-",
+       "23Xa6q5VvRVlzc6Dx8vST",
+       "lJwcc6JoUIQoiQ6FkV2KW",
+       "RonBj1htt6jnBt3W7zoTA"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 4,
+      "global_step_index": 4,
+      "topic_refs": [
+       "3tckJ2Sci7z-sNx9jx9eF",
+       "ttCsd2_H2SuRivCjGv1OX",
+       "ndbDXAx6bL4lZmpXv16Y_",
+       "H_QlcUlavKKfcNK8CYAvb",
+       "uqEzHYx13Y2EpvTTRzykn",
+       "YD-2l_amfqqqCdtc_Zdzo",
+       "2M211rcaPSWbZ-sPoSEVR",
+       "cq3vvFZoNnAAZJ6oEBUwb",
+       "FBz6h_AmTJBXoBN-a38a5",
+       "9-MpHmzK_IiCi6IcvAlGM",
+       "57lO_3uxJaWsFXS-0J1AK",
+       "4oHFzn7R7xLxfuLpsJjr-"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 5,
+      "global_step_index": 5,
+      "topic_refs": [
+       "k8bJH9qydZm8I9rhH7rXw",
+       "YMT7O6lrMSMtNo0EnmsnQ",
+       "R1D4fsZliHv7wIo8Tj-kp",
+       "8X8mRl-puL0Lp43dO5mha",
+       "-_6q0bIjQrvAaCWrVkASO",
+       "fr0NChxMXLpJizyMhXcXS",
+       "YZlCoPvZuX5MmpLOTj5d4",
+       "QLC7bW-qHskLH2HOA-Sko",
+       "q7b5iMJ1Lfka5A-K-YcaN",
+       "7iMJuaB7yKlSIbT4dBe5L",
+       "itS6B12I8I1KNCPvc0KCQ",
+       "Lb5jLF91WO5V5CWpifciW"
+      ],
+      "queries": [
+       "Full-Stack Development: JavaScript"
+      ]
+     },
+     {
+      "step_number": 6,
+      "global_step_index": 6,
+      "topic_refs": [
+       "NZedBxG9B9TRVOf2QE2yL",
+       "lBOGoHZrmnIRatvryDwTm",
+       "rhJrrqkRqy2Qw_he4SPGz",
+       "Xc0jL4rafpI-ixIaAxo9O",
+       "sciU68E13mcfL577y6Vim",
+       "6icsjC4aisDgPWasVuCOt",
+       "DSFzj61N9ojz29mjExhVa",
+       "8X1mdQ3NDBVOZZWBbAFRE",
+       "ADarwihuI2nBq1C3U7-Zr",
+       "JwLGAuSOTyZ5BHSqeBDU6",
+       "bFNvtHp97OzKnPJgr7WaH",
+       "D95ndkkwmT5X_HqboEn6E"
+      ],
+      "queries": [
+       "Full-Stack Development: JavaScript"
+      ]
+     },
+     {
+      "step_number": 7,
+      "global_step_index": 7,
+      "topic_refs": [
+       "fm2CuL1IZp3hnrLrPUX7U",
+       "3E5MuxPvEJU-dwgTrbQAR",
+       "P0190rTm2wLQmCzWOKour",
+       "JVbEBtVrTTFnTF3_yUIAC",
+       "gsyY3Oa3Jf0W5K_lyqBYO",
+       "-BtF34cEzI6J8sZCDRlRE",
+       "dbercnxXVTJXMpYSDNGb2",
+       "p2NhSwPYMtRiPRHjPaqmX",
+       "EAN6DCiCfSq04R4vKgZ0q",
+       "0I6dJE0ygXPGjeRAe8AtT",
+       "Xge6eru1hRGobnOEHLZqv",
+       "F_Lrj0F7UXriqJ0mhwxCy"
+      ],
+      "queries": [
+       "Full-Stack Development: JavaScript"
+      ]
+     },
+     {
+      "step_number": 8,
+      "global_step_index": 8,
+      "topic_refs": [
+       "sFOqx6_7poVIVuXhJVY0E",
+       "_bs5NNHVdHLWGBmpYwHMi",
+       "D8oGY7pdviRByaz6c9sU6",
+       "PJSdqvh5OBwPCNpn3q_S5",
+       "yXSF5gGST7l2X-4z1g0d_",
+       "Dn872mgexmxoLtbkIgIgz",
+       "wXypuqEmFLIubx-QQvDIr",
+       "jaC3XXudd7OBKwwCpoPFf",
+       "kL5rfWxXe4J44ENru1uJS",
+       "LiuhBE7dIlkoWkthSoCsa",
+       "q6vciQb_Jk-Up16Pk5NeE",
+       "bhuGtcyqPFKu-900aESYz"
+      ],
+      "queries": [
+       "Full-Stack Development: JavaScript"
+      ]
+     },
+     {
+      "step_number": 9,
+      "global_step_index": 9,
+      "topic_refs": [
+       "34TKGxV9YziOWMh9rT_KE",
+       "rbjEZe5vxCJ8reI1oZ-jf",
+       "ReGIniyLYl5hGExchrJd2",
+       "-z-4VTaC3tOThqChgyoMs",
+       "hLnJlwnECFbVMeFpH0M5Q",
+       "jLNmYeo20Mbu4WRvVgvwU",
+       "4EXeGkOpfAViB9Uo4zL6O",
+       "Xw8lb0xCWKmNs4KZfhBUy",
+       "TZ8XGdykSJjKBjX6Nivwo",
+       "YJGhhFuWmFvhRKOg6nwON"
+      ],
+      "queries": [
+       "Full-Stack Development: JavaScript"
+      ]
+     },
+     {
+      "step_number": 10,
+      "global_step_index": 10,
+      "topic_refs": [
+       "rc5WzBBOm2cus-rQl8EOE",
+       "dhEtcgv7G9fNV-AUNJdWk",
+       "BA_ArmZMnVMaL_zl3W3Pt",
+       "ECxISKUAU7js_JsfSHzud",
+       "MatU4SthAAhByJ40XdZQn",
+       "ZR2WfH1cerA-V_kaPwRvm",
+       "KKyX8N4lTgN0w-Khm6Ztq",
+       "ISNzEYtrWe2v0R7Xfl5k-"
+      ],
+      "queries": [
+       "Full-Stack Development",
+       "Full-Stack Development fundamentals",
+       "Full-Stack Development: JavaScript"
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 2,
+    "title": "Git & GitHub",
+    "queries": [
+     "Full-Stack Development",
+     "Full-Stack Development fundamentals",
+     "Full-Stack Development: Git & GitHub"
+    ],
+    "retrieved": [
+     {
+      "source": "git-github/github-essentials@NeSvgS2yA5x8qbcJHrV__.md",
+      "score": 0.5915277004241943,
+      "queries": [
+       "Full-Stack Development: Git & GitHub"
+      ]
+     },
+     {
+      "source": "git-github/github-gists@M2_hBvXou7cCNqsMnexCt.md",
+      "score": 0.5897228121757507,
+      "queries": [
+       "Full-Stack Development: Git & GitHub"
+      ]
+     },
+     {
+      "source": "git-github/collaboration-on-github@d_GNnB6PBINz1jxGNWAE-.md",
+      "score": 0.5817856788635254,
+      "queries": [
+       "Full-Stack Development: Git & GitHub"
+      ]
+     },
+     {
+      "source": "git-github/github-education@pFyMiyNQ16-kP7jKaKKEU.md",
+      "score": 0.5807638168334961,
+      "queries": [
+       "Full-Stack Development: Git & GitHub"
+      ]
+     },
+     {
+      "source": "git-github/github-codespaces@NdfwgwMOewiyEAFyC2l7U.md",
+      "score": 0.5806028246879578,
+      "queries": [
+       "Full-Stack Development",
+       "Full-Stack Development fundamentals",
+       "Full-Stack Development: Git & GitHub"
+      ]
+     },
+     {
+      "source": "git-github/github-projects@DzFJDdqnSy5GeGHWOpcVo.md",
+      "score": 0.5773875117301941,
+      "queries": [
+       "Full-Stack Development: Git & GitHub"
+      ]
+     },
+     {
+      "source": "so_survey_2025_india/Full-Stack_Development",
+      "score": 0.383230596780777,
+      "queries": [
+       "Full-Stack Development",
+       "Full-Stack Development fundamentals"
+      ]
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 11,
+      "topic_refs": [
+       "bY6b1GV2XQQ52NOx8gWFj",
+       "dhIx1GnynvbSUriqYLUt0",
+       "_jSTrYN9G8EsGHkbusKPU",
+       "v7hCNbgPByi3YiLSs46BK",
+       "NMCWgzhhfUvFOMO5GbF_u",
+       "1iOkbO5juk2LO-WZHx_W6",
+       "Sv36oxTZwlUv-i1K28NeP",
+       "h71Tx3nkfUrnhaqcHlDkQ",
+       "2_z3R7seCvQVj-Na4H1SV",
+       "7lRUYWNSpHvJ-QyIE8RMa",
+       "IfUm5D_zNaUKMd4HX4Fi4",
+       "oz2oRAhaEQb0Fm3aRJQG8"
+      ],
+      "queries": [
+       "Full-Stack Development fundamentals",
+       "Full-Stack Development: Git & GitHub"
+      ]
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 12,
+      "topic_refs": [
+       "bXfCUG3h1TIFPgD4WUDph",
+       "OegitQ5Ngjvd3ZfMpfrkM",
+       "PtRo-wGiNAagZ6CykfvMr",
+       "ks1Pip-RM-UWD6zuF2j4n",
+       "sNuy6NMjLOEkJlqdEjFPq",
+       "agtPWS8j6i6wQPk10cy8E",
+       "0rHDUbAdXqH9zQW2VfJ8v",
+       "9Dt4Gyiiq5jteWSKxsRMK",
+       "99FVJ3Zs8n6lr8L95mG6g",
+       "HMEfUFNu_Wp_Pac7VWHr-",
+       "X9K3PBpGsMoXkJsKdJPI7",
+       "-0zQvCHG8jS_ghSjmTeIx"
+      ],
+      "queries": [
+       "Full-Stack Development fundamentals"
+      ]
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 13,
+      "topic_refs": [
+       "aWx9WHUrgofcTr8B-fQYe",
+       "1Koej79yTv-OAswVZwgGq",
+       "ZVMCh9om37ee1qsecFa-N",
+       "Gybnekbd1rJKTOf4hJ4Sh",
+       "l1Wf7Pe_ah8ycCgslfSK4",
+       "c_FO6xMixrrMo6iisfsvl",
+       "s3MzDYFPMASqiS8UnvWzW",
+       "8lXXVFkgK6n5IHaYkYe3l",
+       "xLB2fhsOm0Vu3xg_PusJB",
+       "crdllx5cH_seIpgVPvHg_",
+       "d_GNnB6PBINz1jxGNWAE-",
+       "WIVr7JxO1AJTNObW8mtY3"
+      ],
+      "queries": [
+       "Full-Stack Development",
+       "Full-Stack Development fundamentals",
+       "Full-Stack Development: Git & GitHub"
+      ]
+     },
+     {
+      "step_number": 4,
+      "global_step_index": 14,
+      "topic_refs": [
+       "0Yi4cryT2v2SGBjouOas3",
+       "igrR7LguU1jemg_mf_AD6",
+       "Uc7FyfAKpDFRGRNHwztFo",
+       "qis7Z5VRxMcOmbesQlegZ",
+       "V_joZNpQsS9G9PI-o-GmC",
+       "dLr55Om7IOvI53c1DgTKc",
+       "NjPnEXLf1Lt9qzgxccogv",
+       "hru0sL1-D4bJSQI1efEyU",
+       "eFf2fesrs-1aVM5tH3ORQ",
+       "Z-srOhYFGVEKDexlJ6cjt",
+       "ExXuwTQSI_lg4SRGW3Iu1",
+       "iFJBF-EEnLjQVsFSXjo_i"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 5,
+      "global_step_index": 15,
+      "topic_refs": [
+       "AmetdCURXXob5TUsikAab",
+       "p6rq3lQ9YRrTqwcc31O23",
+       "55uHPFNwYPVZx8Cy3c985",
+       "6QwlY3dEvjfAOPALcWKXQ",
+       "aflP7oWsQzAr4YPo2LLiQ",
+       "HMNhzzV6ApTKj4I_FOmUB",
+       "bnai6R6pOq_L5CPdbVwMW",
+       "ZHplGidvhxEIC3HN8KqRa",
+       "pqBV7BMAs0z6qpfZeW2XP",
+       "HhpAIzYMlMiQ9msrYZyDB",
+       "DzFJDdqnSy5GeGHWOpcVo",
+       "XRSVRl6iHncMmgSXoB7Lq"
+      ],
+      "queries": [
+       "Full-Stack Development: Git & GitHub"
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 3,
+    "title": "React",
+    "queries": [
+     "Full-Stack Development",
+     "Full-Stack Development fundamentals",
+     "Full-Stack Development: React"
+    ],
+    "retrieved": [
+     {
+      "source": "react/composition@4T59gdcwdXqj9kCuK7cfp.md",
+      "score": 0.5313462615013123,
+      "queries": [
+       "Full-Stack Development: React"
+      ]
+     },
+     {
+      "source": "react/react-router@-WjJBYCmRRj08n_9HxohY.md",
+      "score": 0.5196232795715332,
+      "queries": [
+       "Full-Stack Development: React"
+      ]
+     },
+     {
+      "source": "react/mobile-applications@txARr3lgTvy-vJCj5zAb1.md",
+      "score": 0.5015199184417725,
+      "queries": [
+       "Full-Stack Development",
+       "Full-Stack Development: React"
+      ]
+     },
+     {
+      "source": "react/server-apis@SUeXDkmOLipdRP4fSrZOH.md",
+      "score": 0.4989367425441742,
+      "queries": [
+       "Full-Stack Development: React"
+      ]
+     },
+     {
+      "source": "react/component--libraries@thfnymb_UIiKxakKfiua5.md",
+      "score": 0.4958287477493286,
+      "queries": [
+       "Full-Stack Development: React"
+      ]
+     },
+     {
+      "source": "react/hooks-best-practices@mkyU0ug8MXxV4biHuOity.md",
+      "score": 0.48379814624786377,
+      "queries": [
+       "Full-Stack Development: React"
+      ]
+     },
+     {
+      "source": "so_survey_2025_india/Full-Stack_Development",
+      "score": 0.383230596780777,
+      "queries": [
+       "Full-Stack Development",
+       "Full-Stack Development fundamentals"
+      ]
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 16,
+      "topic_refs": [
+       "79K4xgljcoSHkCYI1D55O",
+       "8mw4TxlLN4ZKAlLl-_NVV",
+       "WREBxWSNQDD_6fzpHL6CE",
+       "RFuy3Eho3mnW1GpP08BVw",
+       "aE6XBgH23135_9QmD4ff2",
+       "HeWVCPHqVnnbOn6zIim4K",
+       "Nex2HcTOYIbfqUzXyxSMY",
+       "0uiGsC5SWavNdlFqizkKe",
+       "4T59gdcwdXqj9kCuK7cfp",
+       "tU4Umtnfu01t9gLlnlK6b",
+       "y9ToYDix-koRbR6FLydFw"
+      ],
+      "queries": [
+       "Full-Stack Development",
+       "Full-Stack Development fundamentals",
+       "Full-Stack Development: React"
+      ]
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 17,
+      "topic_refs": [
+       "LbLQhonBqzxHU6B-L--Vq",
+       "FK59Zsm5ENA9g11XWCan_",
+       "YEpkbNzEMzS6wAKg85J_N",
+       "8OnzX03hkZ9K9i__tjmFX",
+       "t_laNdMmdLApYszqXRdWg",
+       "D5_O-uElftYGQr_bTU_se",
+       "v48Mv0wQqjXbvy8x6gDjQ",
+       "w3bNp7OkehI1gjx8NzlC8",
+       "dgoDNDtW2_q9R9yhkXrcz",
+       "HX75SExuzR5AP7TQ94qid",
+       "mkyU0ug8MXxV4biHuOity",
+       "_zNAOhFWMcWqP4oxNPCXF"
+      ],
+      "queries": [
+       "Full-Stack Development: React"
+      ]
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 18,
+      "topic_refs": [
+       "8OBlgDRUg-CTgDXY-QHyO",
+       "10uL0r388lKh8pWYWqRZD",
+       "zOENl96GUZRw2PP2KxIck",
+       "vdumdIglnouf1KyGIGZnc",
+       "DcDggX4OmmwvJGHwuV86t",
+       "gMHMjsh0i8paLZUH5mDX3",
+       "_F3WMxhzaK9F8_-zHDDMF"
+      ],
+      "queries": [
+       "Full-Stack Development: React"
+      ]
+     },
+     {
+      "step_number": 4,
+      "global_step_index": 19,
+      "topic_refs": [
+       "NStw6bi_pPB49K41BFSgo",
+       "jvp43wFkKlGQX2y7IxkbM",
+       "-WjJBYCmRRj08n_9HxohY",
+       "zWL8VLx_g0SWubavJDs6i",
+       "I7_mX4h-Yywp1YyTJRKXI",
+       "nl5imPsdY2oEWlg-9TTuk",
+       "yI6XiNW04EL78UL4lkVgd",
+       "1kbrCI5JS0c9wbzxXpgFU"
+      ],
+      "queries": [
+       "Full-Stack Development: React"
+      ]
+     },
+     {
+      "step_number": 5,
+      "global_step_index": 20,
+      "topic_refs": [
+       "b4AP2OggxFAwsQtUwiUJJ",
+       "ElqWQClryfSYdL7P_mgYK",
+       "5EPmbiNdP_vhIXclv_GjV",
+       "-ea1KsXEyz-4voHXklG_J",
+       "h49-tjEkKcq7d7ikRHIOx",
+       "8nMbfGxe3STMbrAVcqHHh",
+       "cLfM342sZfsCwmPPxQpEI",
+       "9M5jRu0pj8KMvg9f-2oqZ",
+       "SUeXDkmOLipdRP4fSrZOH"
+      ],
+      "queries": [
+       "Full-Stack Development: React"
+      ]
+     },
+     {
+      "step_number": 6,
+      "global_step_index": 21,
+      "topic_refs": [
+       "KHcC5pFN3qLnsbPPKpYd2",
+       "_5ht0PAdVOJWPzTRS1mVg",
+       "gr1CaLvL7tFOkIRywSsID",
+       "UNlvRp6k3_RDoTAAIEfJ1",
+       "K3RZ8ESxWCpLKHePF87Hy",
+       "EOQGj1ALgdp6u9thVHdmc",
+       "ElgRwv5LSVg5FXGx-2K2s"
+      ],
+      "queries": [
+       "Full-Stack Development: React"
+      ]
+     },
+     {
+      "step_number": 7,
+      "global_step_index": 22,
+      "topic_refs": [
+       "DfrCkbD-HEHwLymv10zb5",
+       "KO3viVIJJREtxXxsocN7j",
+       "awoEhwPKjUcR84XGL6Som",
+       "akVNUPOqaTXaSHoQFlkP_",
+       "thfnymb_UIiKxakKfiua5",
+       "gy7eBxPOlwG8BvxHVLDQ9",
+       "uqphqAnlcJOLnwHZs5jWu",
+       "njKsYNkwTXPQ1NjlGKXab",
+       "XL9XOV2h0BAuA5cFcM5L_",
+       "MnDgQq9Vcxsu3wDqv5uh2",
+       "bRpeoo9zXrnZ2IHSI7JX4",
+       "H6-XGDjs4f-qbv13v5av0"
+      ],
+      "queries": [
+       "Full-Stack Development",
+       "Full-Stack Development fundamentals",
+       "Full-Stack Development: React"
+      ]
+     },
+     {
+      "step_number": 8,
+      "global_step_index": 23,
+      "topic_refs": [
+       "e_lwZ-a72-tAan2KDX6k3",
+       "opa61u9gYgSpoPtxp58wu",
+       "LULjhsPNONyI5912DKzPw",
+       "cQllxv7qGbRtM9O5llgN6",
+       "zN7Ps1puD-YpHbKi1pHH8",
+       "g39P0c6M2sHNoUPs0m8tr",
+       "W-atg_Msa9uPLr6RXAKSb",
+       "HdWq9ue0JdwmwqSIN2OD_",
+       "_HoZkE7FH-v3wI_722ZTF"
+      ],
+      "queries": [
+       "Full-Stack Development",
+       "Full-Stack Development: React"
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 4,
+    "title": "Node.js",
+    "queries": [
+     "Full-Stack Development",
+     "Full-Stack Development fundamentals",
+     "Full-Stack Development: Node.js"
+    ],
+    "retrieved": [
+     {
+      "source": "nodejs/introduction-to-nodejs@KDd40JOAvZ8O1mfhTYB3K.md",
+      "score": 0.6874983310699463,
+      "queries": [
+       "Full-Stack Development fundamentals",
+       "Full-Stack Development: Node.js"
+      ]
+     },
+     {
+      "source": "nodejs/what-is-nodejs@Mp056kNnwsRWeEXuhGPy-.md",
+      "score": 0.6374707221984863,
+      "queries": [
+       "Full-Stack Development: Node.js"
+      ]
+     },
+     {
+      "source": "nodejs/history-of-nodejs@Vrcv5px-3fqmyJnQv3WBK.md",
+      "score": 0.6223610043525696,
+      "queries": [
+       "Full-Stack Development",
+       "Full-Stack Development fundamentals",
+       "Full-Stack Development: Node.js"
+      ]
+     },
+     {
+      "source": "nodejs/common-built-in-modules@M62lAWBOrTe99TfpFOQ-Y.md",
+      "score": 0.6214625239372253,
+      "queries": [
+       "Full-Stack Development fundamentals",
+       "Full-Stack Development: Node.js"
+      ]
+     },
+     {
+      "source": "nodejs/why-use-nodejs@ex8FOKrUlbu4MuEq2czyW.md",
+      "score": 0.6000333428382874,
+      "queries": [
+       "Full-Stack Development: Node.js"
+      ]
+     },
+     {
+      "source": "nodejs/modules@mbGFT6S7mL3bHHEZv0_s2.md",
+      "score": 0.5940743088722229,
+      "queries": [
+       "Full-Stack Development fundamentals",
+       "Full-Stack Development: Node.js"
+      ]
+     },
+     {
+      "source": "so_survey_2025_india/Full-Stack_Development",
+      "score": 0.4706422686576843,
+      "queries": [
+       "Full-Stack Development",
+       "Full-Stack Development fundamentals",
+       "Full-Stack Development: Node.js"
+      ]
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 24,
+      "topic_refs": [
+       "KDd40JOAvZ8O1mfhTYB3K",
+       "Mp056kNnwsRWeEXuhGPy-",
+       "ex8FOKrUlbu4MuEq2czyW",
+       "Vrcv5px-3fqmyJnQv3WBK",
+       "ebVb0anYmbD1Y9ZTFXKFp",
+       "uPJqdMQQJRkTMMhNORDeH",
+       "812bVEzxwTsYzLG_PmLqN",
+       "2Ym2jMvov0lZ79aJFaw29",
+       "PEGHvFT2Eg-1OyfhxYu22",
+       "1AaGG660rvZlNYMOA35qO",
+       "P2gdwx1qCxvg1Ppfw0aqQ",
+       "lT2DDRtbFfEjb_cmsQx8i"
+      ],
+      "queries": [
+       "Full-Stack Development",
+       "Full-Stack Development fundamentals",
+       "Full-Stack Development: Node.js"
+      ]
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 25,
+      "topic_refs": [
+       "mbGFT6S7mL3bHHEZv0_s2",
+       "M62lAWBOrTe99TfpFOQ-Y",
+       "mhjswf17nhq075NTYV5gE",
+       "mKccfWOhC1Aj4VnaOqryA",
+       "EEnmOcDKPZzY_O1NwP_5j",
+       "jQJ9aOKtg-O-GhWk5OgCK",
+       "YdpJ-DUo8Q5ATRmF4s4YS",
+       "oYeux7PbveYaVwXRzAg5x",
+       "l24OMkPAEDnEDAVAMrMuG",
+       "64pgc7rcgboFcNYuOlX8e",
+       "dOlzIXBfAPmbY542lNOe6",
+       "Uh9hmEy7o1EJLg4E--ku2"
+      ],
+      "queries": [
+       "Full-Stack Development",
+       "Full-Stack Development fundamentals",
+       "Full-Stack Development: Node.js"
+      ]
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 26,
+      "topic_refs": [
+       "wEK77A6MPQBCBUSJKMiaY",
+       "b1r1X3XCoPSayQjDBcy54",
+       "zDmWGRrgwq3Gjfkyk6crK",
+       "Blzb-fdQZMu6Xq5JDJW0_",
+       "CWH0ZsxJ8beLvwMYJyH52",
+       "HYTw74rrd7kkOemCxfT9I",
+       "een1zhvgN_33Cu6OiWtyX",
+       "QT2QE2FLkyUDpwMKYkFQL",
+       "wthXp2YGg3eTMbxsek77C",
+       "fE9C7Resn4EcL-hYHbsaZ"
+      ],
+      "queries": [
+       "Full-Stack Development: Node.js"
+      ]
+     },
+     {
+      "step_number": 4,
+      "global_step_index": 27,
+      "topic_refs": [
+       "uE7fvHSTSdebMf5RsNyaY",
+       "b679H8gEBuvrHQ8ik7e96",
+       "GwInWcbQn18PnzKGXzmln",
+       "QcOqhuKWOUUUBSiu5Oelv",
+       "a26qNCyMcT5GsVzxeNCLk",
+       "ATu9-29yJWcDOik5FTOgf",
+       "YvTPpoIiSqjDYi0Q10kWh",
+       "W2Dbj4Y78Bgdx7og5xkrg",
+       "T5I-mFKK6bKzXrzkECI0P",
+       "bgEHTBYzRDJqZ6gLqLbsz",
+       "WrnjjUDXQwwMXQjmgK72U"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 5,
+      "global_step_index": 28,
+      "topic_refs": [
+       "Sjc1YDtbzXyLQH711_3nj",
+       "1vq_KcYR_pkfp1MtXaL75",
+       "WkU_rI4i-UmNSxb5F9TI-",
+       "tGD8XLHnfspfv8CbguGwV",
+       "Xa-lA1wbZ9JZ_XpXfhhw5",
+       "fFVCb6aZWRHdNDFt5C09R",
+       "B_3rTGQxJneMREXoi2gQn",
+       "BOLiZg8YDKADMwP01U5ph",
+       "6stiDKubT6XVAOGiJ6wsx",
+       "-_2letLUta5Ymc5eEOKhn",
+       "J0ErCAZT5B97ZMogU2JHd",
+       "L-_N7OxxuHCXsdWYBgZGu"
+      ],
+      "queries": [
+       "Full-Stack Development: Node.js"
+      ]
+     },
+     {
+      "step_number": 6,
+      "global_step_index": 29,
+      "topic_refs": [
+       "5l-lZ8gwVLqqAF_n99vIO",
+       "KpC-QYKalUp7VUvnMKBoW",
+       "5WqLm53CHDT5uBoMH-iPl",
+       "3Qxtf8n6gJYdnRsuqa52Q",
+       "JXQF9H4_N0rM7ZDKcCZNn",
+       "fOm-ktIaLqrmA0zln0Bga",
+       "rk5FtAPDi1TpvWd0yBbtl",
+       "HDDnt79_PCB5JU-KnHKUh",
+       "NDf-o-WECK02mVnZ8IFxy",
+       "7u2WMxjLx3mMtn0cha4M7",
+       "mIyv6S9a5dCHkk-JhhjKV"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 7,
+      "global_step_index": 30,
+      "topic_refs": [
+       "t_kfKdNSKVBPYQ9zF9VqQ",
+       "Wg7KSpAPxjeFMxC6PBnHO",
+       "05YY-AhLKzn4Ypr4eow5E",
+       "wQ4i6_a1EFk9HHc6Sll-3",
+       "do-tdCUfDtiZHBg4ZO3dC",
+       "3MpxV23lNpuKg0--e_9m7",
+       "uzOmaTZrHhBxx5plb345Z",
+       "wIieXdFtoZWJ-ht8qqWbp",
+       "XteNExIZN3_g95_dPCopY",
+       "ZLNUuDKhJ03Kw7xMVc7IR",
+       "DcmGcVlEHL4IV7yPMDpVa",
+       "XEGTeGWw05xWYOfUo3POE"
+      ],
+      "queries": [
+       "Full-Stack Development",
+       "Full-Stack Development fundamentals",
+       "Full-Stack Development: Node.js"
+      ]
+     },
+     {
+      "step_number": 8,
+      "global_step_index": 31,
+      "topic_refs": [
+       "Ce-dP-OXu0mEm30rzp2hW",
+       "BxxLQUI7JcQgF6TK3L5uU",
+       "WFJJtIqVoBIhK10XY-d7l",
+       "xgsKrUdfB0g0DMQCLK3aY",
+       "V4OWIC1cnw8EFyu26Y_dA",
+       "PHLdJylzNZDJBGi8FFsfO",
+       "iW9je5Pq7bjxWZDERv_p5",
+       "betuntelnEMSHdatO6VPl",
+       "N2vR1_NyDn4rYLXJzxWBZ",
+       "lzPrWD3pxQmpbqgYPL-zW"
+      ],
+      "queries": [
+       "Full-Stack Development",
+       "Full-Stack Development fundamentals",
+       "Full-Stack Development: Node.js"
+      ]
+     },
+     {
+      "step_number": 9,
+      "global_step_index": 32,
+      "topic_refs": [
+       "90NIFfbWjTbyKZKwyJlfI",
+       "oSLpy31XEcA2nRq9ks_LJ",
+       "5xrbKv2stKPJRv7Vzf9nM",
+       "qjToBaMenW3SDtEfoCbQ6",
+       "Ix-g9pgJjEI04bSfROvlq",
+       "3Fh3-V1kCZtlUTvEoloIO"
+      ],
+      "queries": [
+       "Full-Stack Development",
+       "Full-Stack Development fundamentals",
+       "Full-Stack Development: Node.js"
+      ]
+     },
+     {
+      "step_number": 10,
+      "global_step_index": 33,
+      "topic_refs": [
+       "af7n-J7VvbdpZh9lwA773",
+       "swp4wBgA7z-sd64VDkMrw",
+       "7WAuMMyelUbgwEHtnMmJv",
+       "PkQ_sQ0YFPCZGx4BRgG0t",
+       "bH2Iv3BX0ZiWD3lOmC_m_",
+       "KzUmXkwrmU_ssVBjSHAiY",
+       "b7ZAEqo0ZU6TNf18Bo0mI",
+       "Oe9cQCz2lwSaot7miZOta",
+       "CTHFGgtXFpke4aPhh5vRY",
+       "CvkjlOpT34lOHgzQHL40s",
+       "oU9I7KBZoTSXXFmYscEIq",
+       "SJ01N7vMZkNiIuMYQhdpj"
+      ],
+      "queries": [
+       "Full-Stack Development",
+       "Full-Stack Development fundamentals",
+       "Full-Stack Development: Node.js"
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 5,
+    "title": "Full-Stack",
+    "queries": [
+     "Full-Stack Development",
+     "Full-Stack Development fundamentals",
+     "Full-Stack Development: Full-Stack"
+    ],
+    "retrieved": [
+     {
+      "source": "so_survey_2025_india/Full-Stack_Development",
+      "score": 0.383230596780777,
+      "queries": [
+       "Full-Stack Development",
+       "Full-Stack Development fundamentals",
+       "Full-Stack Development: Full-Stack"
+      ]
+     },
+     {
+      "source": "full-stack/checkpoint---frontend-apps@7JU1cVggMDoZUV-adGsf-.md",
+      "score": 0.33987656235694885,
+      "queries": [
+       "Full-Stack Development",
+       "Full-Stack Development fundamentals",
+       "Full-Stack Development: Full-Stack"
+      ]
+     },
+     {
+      "source": "full-stack/checkpoint--complete-app@v4NF25lJElAtkU0Rm6Fob.md",
+      "score": 0.3179382085800171,
+      "queries": [
+       "Full-Stack Development",
+       "Full-Stack Development fundamentals",
+       "Full-Stack Development: Full-Stack"
+      ]
+     },
+     {
+      "source": "full-stack/linux-basics@SHTSvMDqI7X1_ZT7-m--n.md",
+      "score": 0.3121289014816284,
+      "queries": [
+       "Full-Stack Development",
+       "Full-Stack Development fundamentals",
+       "Full-Stack Development: Full-Stack"
+      ]
+     },
+     {
+      "source": "full-stack/checkpoint--infrastructure@YVMyHFSCVF-GgXydq-SFJ.md",
+      "score": 0.27829504013061523,
+      "queries": [
+       "Full-Stack Development",
+       "Full-Stack Development fundamentals",
+       "Full-Stack Development: Full-Stack"
+      ]
+     },
+     {
+      "source": "full-stack/react@khoUtTUxdf8udAzN9_CAb.md",
+      "score": 0.2718815803527832,
+      "queries": [
+       "Full-Stack Development",
+       "Full-Stack Development fundamentals",
+       "Full-Stack Development: Full-Stack"
+      ]
+     },
+     {
+      "source": "full-stack/git@We2APJpOPTr-VNfowG0kI.md",
+      "score": 0.25716307759284973,
+      "queries": [
+       "Full-Stack Development",
+       "Full-Stack Development: Full-Stack"
+      ]
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 34,
+      "topic_refs": [
+       "B0kARTODvCBi0iOF8iiqI",
+       "dAJHWmGeiYdzZ1ZjrWz1S",
+       "T9PB6WQf-Fa9NXKKvVOy_",
+       "khoUtTUxdf8udAzN9_CAb",
+       "mGgx_QTEPmVKf6AijX9fi",
+       "We2APJpOPTr-VNfowG0kI",
+       "8sPXL8iClpPqje03ksses",
+       "WsdUAEaI7FX6DKKhPXUHp",
+       "2DFzoIUjKdAKGjfu_SCfa",
+       "R4aeJNOrfWyVp3ea-qF4H",
+       "7JU1cVggMDoZUV-adGsf-",
+       "zFGWxgLPcZoW7KIzlnSV9"
+      ],
+      "queries": [
+       "Full-Stack Development",
+       "Full-Stack Development fundamentals",
+       "Full-Stack Development: Full-Stack"
+      ]
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 35,
+      "topic_refs": [
+       "_aA6Hp4KkgJeptqo8oKTg",
+       "HGhnbMg6jh6cAmUH4DtOx",
+       "Onfd7Sl8LG2sjh2aQY7gb",
+       "vmHbWdmMHF53otXIrqzRV",
+       "vHojhJYjiN0IwruEqi1Dv",
+       "JGu0TKwAw-ieiG92BytYI",
+       "3EtGLO6cwkLc1-o9gwFNk",
+       "v4NF25lJElAtkU0Rm6Fob"
+      ],
+      "queries": [
+       "Full-Stack Development",
+       "Full-Stack Development fundamentals",
+       "Full-Stack Development: Full-Stack"
+      ]
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 36,
+      "topic_refs": [
+       "cUOfvOlQ_0Uu1VX3i67kJ",
+       "6oBIxYj8WPcUHidQ99tus",
+       "QtL-bLKtWIdH00K6k_PdC",
+       "5zyYpu9cyuTFwQCjTbHpS",
+       "n2Xp_ijJ2OS8xhE7xMWxk",
+       "B-cphY7Imnv6JBMujVIF7",
+       "SHTSvMDqI7X1_ZT7-m--n",
+       "J2_IWAb1s9zZcxOY3NXm2"
+      ],
+      "queries": [
+       "Full-Stack Development",
+       "Full-Stack Development fundamentals",
+       "Full-Stack Development: Full-Stack"
+      ]
+     },
+     {
+      "step_number": 4,
+      "global_step_index": 37,
+      "topic_refs": [
+       "rFXupYpUFfp7vZO8zh614",
+       "863KMXcFJzInvTp_-Ldmz",
+       "2kKHuQZScu7hCDgQWxl5u",
+       "y1SFX7uvWaCy4OYBnECLu",
+       "sO_9-l4FECbaqiaFnyeXO",
+       "liaY1GnlOateB_ZKBjNpY",
+       "NQmEl27eBPYhivcXdOEz3",
+       "YVMyHFSCVF-GgXydq-SFJ"
+      ],
+      "queries": [
+       "Full-Stack Development",
+       "Full-Stack Development fundamentals",
+       "Full-Stack Development: Full-Stack"
+      ]
+     }
+    ]
+   }
+  ]
+ }
+}

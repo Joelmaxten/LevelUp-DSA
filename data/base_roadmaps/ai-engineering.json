@@ -1,0 +1,4486 @@
+{
+ "metadata": {
+  "schema_version": 1,
+  "career_path": "AI Engineering",
+  "model_id": "claude-opus-5-5",
+  "built_at": "2026-10-10T17:49:16Z",
+  "generator": {
+   "profile": "neutral",
+   "provider": "claude_authored",
+   "llm_host": null,
+   "authoring": "Every model reply in this run was written by Claude (claude-opus-5-5) in a Claude Code cloud session, answering the generator's own prompts; retrieval, topic-ref validation, duplicate check, more_topics, resources and audit are the unmodified pipeline.",
+   "phase_concurrency": 1,
+   "duplicate_similarity_threshold": 0.8,
+   "reasoning_effort": "",
+   "resources": "kb_only"
+  },
+  "inventory_fingerprint": "3b51e631c22b66db17bc6023bd17ba385c5103272b01a87eba71922f80edb43e"
+ },
+ "roadmap": {
+  "phases": [
+   {
+    "phase_number": 1,
+    "title": "Python",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "Python Fundamentals",
+      "description": "LLM SDKs, vector databases and agent frameworks are used mainly from Python, so solid core syntax is the entry ticket to AI engineering. Practise variables, control flow, functions, built-in collections, strings and exceptions until small scripts come easily.",
+      "topic_refs": [
+       "6xRncUs3_vxVbDur567QA",
+       "dEFLBGpiH6nbSMeR7ecaT",
+       "so95CO6Qw3I0S98ISENS-",
+       "NP1kjSk0ujU0Gx-ajNHlR",
+       "Dvy7BnNzK55qbh_SgOk8m",
+       "-DJgS6l2qngfwurExlmmT",
+       "UT_SR7G-LYtzqooWrEtF1",
+       "bc9CL_HMT-R6nXO1eR-gP",
+       "i7xIGiXU-k5UIKHIhQPjE",
+       "soZFqivM3YBuljeX6PoaX",
+       "Sg5w8zO2Ji-uDJKEoWey9",
+       "fNTb9y3zs1HPYclAmu_Wv"
+      ],
+      "projects": [
+       {
+        "title": "Prompt template filler",
+        "description": "A script that fills a text template from a dictionary of values and validates that no placeholder is left.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Chat log analyser",
+        "description": "Parse an exported chat file and report message counts, longest messages and most common words.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Basic Syntax",
+       "Variables",
+       "Operators",
+       "Conditionals",
+       "Loops"
+      ],
+      "more_topics": [
+       {
+        "node_id": "GISOFMKvnBys0O0IMpz2J",
+        "title": "Python"
+       },
+       {
+        "node_id": "0-ShORjGnQlAdcwjtxdEB",
+        "title": "Python Frameworks"
+       },
+       {
+        "node_id": "4GU5HNi3W8yFkImVY9ZpW",
+        "title": "Paradigms"
+       },
+       {
+        "node_id": "0F0ppU_ClIUKZ23Q6BVZp",
+        "title": "Code Formatting"
+       },
+       {
+        "node_id": "jPFOiwbqfaGshaGDBWb5x",
+        "title": "Tox"
+       },
+       {
+        "node_id": "1PXApuUpPmJjgi12cmWo4",
+        "title": "Static Typing"
+       },
+       {
+        "node_id": "3RNy7Sp28d-NMx0Yh4bdx",
+        "title": "Variable Scope"
+       },
+       {
+        "node_id": "__ndo1gcuUUtzmBnMIAbR",
+        "title": "Docstrings and Comments"
+       },
+       {
+        "node_id": "WQOYjuwKIWB2meea4JnsV",
+        "title": "Testing"
+       },
+       {
+        "node_id": "tbR_h9NpZ5tBTYuCfwkcY",
+        "title": "@ (Matrix Multiplication Operator)"
+       },
+       {
+        "node_id": "uh67D1u-Iv5cZamRgFEJg",
+        "title": "Conda"
+       },
+       {
+        "node_id": "vvTmjcWCVclOPY4f_5uB0",
+        "title": "Sorting Algorithms"
+       },
+       {
+        "node_id": "7zcpXN3krnS3tMRWVNIVe",
+        "title": "Plotly Dash"
+       },
+       {
+        "node_id": "VJSIbYJcy2MC6MOFBrqXi",
+        "title": "Data Structures and Algorithms"
+       },
+       {
+        "node_id": "kLBgy_nxxjE8SxdVi04bq",
+        "title": "Recursion"
+       },
+       {
+        "node_id": "zey2C6BdzsHJAlb_K3qrP",
+        "title": "Tornado"
+       },
+       {
+        "node_id": "uJIqgsqUbE62Tyo3K75Qx",
+        "title": "Binary Search Trees"
+       }
+      ],
+      "global_step_index": 1,
+      "resource": {
+       "title": "Python for Beginners - Learn Python in 1 Hour",
+       "url": "https://youtube.com/watch?v=kqtD5dpn9C8"
+      },
+      "videos": [
+       {
+        "title": "Python for Beginners - Learn Python in 1 Hour",
+        "url": "https://youtube.com/watch?v=kqtD5dpn9C8",
+        "video_id": "kqtD5dpn9C8",
+        "source": "roadmap.sh",
+        "topic": "Basic Syntax"
+       },
+       {
+        "title": "Python Tutorial for Beginners | Operators in Python",
+        "url": "https://youtube.com/watch?v=v5MR5JnKcZI",
+        "video_id": "v5MR5JnKcZI",
+        "source": "roadmap.sh",
+        "topic": "Operators"
+       },
+       {
+        "title": "Control Flow in Python - If Elif Else Statements",
+        "url": "https://youtube.com/watch?v=Zp5MuPOtsSY",
+        "video_id": "Zp5MuPOtsSY",
+        "source": "roadmap.sh",
+        "topic": "Conditionals"
+       },
+       {
+        "title": "Learn Python for loops in 5 minutes!",
+        "url": "https://youtube.com/watch?v=KWgYha0clzw",
+        "video_id": "KWgYha0clzw",
+        "source": "roadmap.sh",
+        "topic": "Loops"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Built-in Functions in Python",
+        "url": "https://docs.python.org/3/library/functions.html",
+        "topic": "Functions"
+       },
+       {
+        "type": "official",
+        "title": "Python Official Documentation on Listsc",
+        "url": "https://docs.python.org/3/tutorial/introduction.html#lists",
+        "topic": "Lists in Python"
+       },
+       {
+        "type": "official",
+        "title": "Dictionaries in Python",
+        "url": "https://docs.python.org/3/tutorial/datastructures.html#dictionaries",
+        "topic": "Dictionaries"
+       },
+       {
+        "type": "official",
+        "title": "Tuples Documentation",
+        "url": "https://docs.python.org/3/tutorial/datastructures.html#tuples-and-sequences",
+        "topic": "Tuples"
+       }
+      ]
+     },
+     {
+      "step_number": 2,
+      "title": "Idiomatic Python: Classes, Modules and Text Handling",
+      "description": "AI applications are built from classes for clients and tools, decorators for retries and logging, and lots of text parsing. Learn object-oriented Python, modules, comprehensions, generators, decorators, context managers, files and regular expressions.",
+      "topic_refs": [
+       "AqwzR8dZKLQIoj_6KKZ3t",
+       "P_Di-XPSDITmU3xKQew8G",
+       "S0FLE70szSVUPI0CDEQK7",
+       "zAS4YiEJ6VPsyABrkIG8i",
+       "274uk28wzxn6EKWQzLpHs",
+       "l7k0qTYe42wYBTlT2-1cy",
+       "4gtmtYWYRWqwLdZRL0XMg",
+       "jnLIVRrWxcX3yq3Op91Vr",
+       "pIluLJkySqn_gI_GykV6G",
+       "KAXF2kUAOvtBZhY8G9rkI",
+       "Nf3kRDSl_vas6QPXG7eVa",
+       "7t6mJBsaFMWPi7o9fbhhq"
+      ],
+      "projects": [
+       {
+        "title": "Retry decorator for flaky APIs",
+        "description": "A decorator that retries a function with exponential backoff and logs each attempt.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Document chunker module",
+        "description": "A reusable module that reads text files and yields overlapping chunks with a generator.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Classes",
+       "OOP",
+       "Inheritance",
+       "Methods and Dunder Methods",
+       "Modules"
+      ],
+      "more_topics": [
+       {
+        "node_id": "08XifLQ20c4FKI_4AWNBQ",
+        "title": "Builtin Modules"
+       },
+       {
+        "node_id": "o1wi39VnjnFfWIC8XcuAK",
+        "title": "Typing"
+       },
+       {
+        "node_id": "_94NrQ3quc4t_PPOsFSN0",
+        "title": "Common Packages and Modules"
+       },
+       {
+        "node_id": "1q9HWgu9jDTK757hTNOmE",
+        "title": "pyright"
+       },
+       {
+        "node_id": "gIcJ3bUVQXqO1Wx4gUKd5",
+        "title": "mypy"
+       },
+       {
+        "node_id": "DHtskqATeAVKgaazdhXKD",
+        "title": "Pyramid"
+       },
+       {
+        "node_id": "9mFR_ueXbIB2IrkqU2s85",
+        "title": "pyrefly"
+       },
+       {
+        "node_id": "b4he_RO17C3ScNeUd6v2b",
+        "title": "PyUnit / Unittest"
+       },
+       {
+        "node_id": "xDgXISgVUMRHh9hu4h6Hl",
+        "title": "PDM"
+       },
+       {
+        "node_id": "aVclygxoA9ePU5IxaORSH",
+        "title": "Doctest"
+       },
+       {
+        "node_id": "bqnwMKY4R0rirup3q_hb_",
+        "title": "Glob Module in Python"
+       },
+       {
+        "node_id": "aB1LSQjDEQb_BxueOcnxU",
+        "title": "Iterators"
+       },
+       {
+        "node_id": "tsh_vbhzKz1-H9Vh69tsK",
+        "title": "yapf"
+       },
+       {
+        "node_id": "IWq-tfkz-pSC1ztZl60vM",
+        "title": "pipenv"
+       },
+       {
+        "node_id": "HKsGyRzntjh1UbRZSWh_4",
+        "title": "Flask"
+       },
+       {
+        "node_id": "aWHgAk959DPUZL46CeRiI",
+        "title": "Lambdas"
+       },
+       {
+        "node_id": "DS6nuAUhUYcqiJDmQisKM",
+        "title": "black"
+       },
+       {
+        "node_id": "N5VaKMbgQ0V_BC5tadV65",
+        "title": "pyenv"
+       },
+       {
+        "node_id": "maYNuTKYyZndxk1z29-UY",
+        "title": "sphinx"
+       },
+       {
+        "node_id": "x1V8GjdjANTnhP6YXMbgC",
+        "title": "Django"
+       },
+       {
+        "node_id": "uXd2B01GVBEQNXQE8RATT",
+        "title": "Poetry"
+       },
+       {
+        "node_id": "3dC2o3WXdx4plFhDP2Vqk",
+        "title": "Encapsulation"
+       },
+       {
+        "node_id": "6cB0pvUO1-gvCtgqozP-Q",
+        "title": "ruff"
+       },
+       {
+        "node_id": "DG4fi1e5ec2BVckPLsTJS",
+        "title": "HashMaps"
+       },
+       {
+        "node_id": "R9DQNc0AyAQ2HLpP4HOk6",
+        "title": "Typecasting"
+       },
+       {
+        "node_id": "0NlRczh6ZEaFLlT6LORWz",
+        "title": "Heaps, Stacks, and Queues"
+       }
+      ],
+      "global_step_index": 2,
+      "resource": {
+       "title": "Python OOP Tutorial",
+       "url": "https://youtube.com/watch?v=ZDa-Z5JzLYM"
+      },
+      "videos": [
+       {
+        "title": "Python OOP Tutorial",
+        "url": "https://youtube.com/watch?v=ZDa-Z5JzLYM",
+        "video_id": "ZDa-Z5JzLYM",
+        "source": "roadmap.sh",
+        "topic": "Classes"
+       },
+       {
+        "title": "OOP in Python One Shot",
+        "url": "https://youtube.com/watch?v=Ej_02ICOIgs",
+        "video_id": "Ej_02ICOIgs",
+        "source": "roadmap.sh",
+        "topic": "OOP"
+       },
+       {
+        "title": "Decorators in Python",
+        "url": "https://youtube.com/watch?v=FXUUSfJO_J4",
+        "video_id": "FXUUSfJO_J4",
+        "source": "roadmap.sh",
+        "topic": "Decorators"
+       },
+       {
+        "title": "Python File Handling for Beginners",
+        "url": "https://youtube.com/watch?v=BRrem1k3904",
+        "video_id": "BRrem1k3904",
+        "source": "roadmap.sh",
+        "topic": "File Handling in Python"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Classes in Python",
+        "url": "https://docs.python.org/3/tutorial/classes.html",
+        "topic": "Classes"
+       },
+       {
+        "type": "official",
+        "title": "Python Official Documentation on Inheritance",
+        "url": "https://docs.python.org/3/tutorial/classes.html#inheritance",
+        "topic": "Inheritance"
+       },
+       {
+        "type": "official",
+        "title": "Python Modules",
+        "url": "https://docs.python.org/3/tutorial/modules.html",
+        "topic": "Modules"
+       },
+       {
+        "type": "official",
+        "title": "Python List Comprehensions",
+        "url": "https://docs.python.org/3/tutorial/datastructures.html#list-comprehensions",
+        "topic": "List Comprehensions"
+       }
+      ]
+     },
+     {
+      "step_number": 3,
+      "title": "Async Python, APIs and Project Tooling",
+      "description": "Model calls are slow network requests, so AI services rely on async code, typed request models and a fast API layer. Learn asyncio-style concurrency, build endpoints with FastAPI and Pydantic, and set up environments, packaging and tests.",
+      "topic_refs": [
+       "Mow7RvropbC4ZGDpcGZmw",
+       "u4nRzWQ4zhDFMOrZ2I_uJ",
+       "IBVAvFtN4mnIPbIuyUvEb",
+       "XeQSmvAsGSTi8dd7QVHxn",
+       "W3VALz5evFo1qqkQbMN1R",
+       "syV0DT_3ITgIFDbwPts8i",
+       "qeCMw-sJ2FR4UxvU9DDzv",
+       "iVhQnp6hpgVZDNJ0XoVra",
+       "p3Frfs6oxpuciUzeCEsvb",
+       "_IXXTSwQOgYzYIUuKVWNE",
+       "GHKAY9gOykEbxkEeR30wL",
+       "3FDwJpesfelEyJrNWtm0V"
+      ],
+      "projects": [
+       {
+        "title": "Concurrent API caller",
+        "description": "Fire fifty HTTP requests concurrently with async code and compare the time with a sequential loop.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Typed FastAPI service",
+        "description": "An endpoint that validates JSON input with Pydantic models and is covered by pytest tests.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Asynchrony",
+       "Concurrency",
+       "AIOHTTP",
+       "FastAPI",
+       "Pydantic"
+      ],
+      "more_topics": [
+       {
+        "node_id": "9RGpqsj9jHz0_-r7EvRcw",
+        "title": "Sanic"
+       },
+       {
+        "node_id": "bS7WeVKm2kEElu3sBKcIC",
+        "title": "GIL"
+       },
+       {
+        "node_id": "HSY5OUc_M5S6OcFXPRtkx",
+        "title": "Multiprocessing"
+       },
+       {
+        "node_id": "UIx0XYaOgXXlYbbQtjiPq",
+        "title": "Threading"
+       },
+       {
+        "node_id": "InUJIGmTnf0X4cSoLuCEQ",
+        "title": "gevent"
+       },
+       {
+        "node_id": "1dfOTOGsOk5XE3bnZs8Ht",
+        "title": "PyPI"
+       },
+       {
+        "node_id": "OPD4WdMO7q4gRZMcRCQh1",
+        "title": "Arrays and Linked lists"
+       }
+      ],
+      "global_step_index": 3,
+      "resource": {
+       "title": "Python Asyncio, Requests, Aiohttp | Make faster API Calls",
+       "url": "https://youtube.com/watch?v=nFn4_nA_yk8"
+      },
+      "videos": [
+       {
+        "title": "Python Asyncio, Requests, Aiohttp | Make faster API Calls",
+        "url": "https://youtube.com/watch?v=nFn4_nA_yk8",
+        "video_id": "nFn4_nA_yk8",
+        "source": "roadmap.sh",
+        "topic": "AIOHTTP"
+       },
+       {
+        "title": "Create an API with Fast-API (Full 19 Hour Course)",
+        "url": "https://youtube.com/watch?v=0sOvCWFmrtA",
+        "video_id": "0sOvCWFmrtA",
+        "source": "roadmap.sh",
+        "topic": "FastAPI"
+       },
+       {
+        "title": "Pydantic Tutorial – Complete Python Data Validation (ArjanCodes)",
+        "url": "https://youtube.com/watch?v=XIdQ6gO3Anc",
+        "video_id": "XIdQ6gO3Anc",
+        "source": "roadmap.sh",
+        "topic": "Pydantic"
+       },
+       {
+        "title": "Pytest Tutorial – How to Test Python Code",
+        "url": "https://youtube.com/watch?v=cHYq1MRoyI0",
+        "video_id": "cHYq1MRoyI0",
+        "source": "roadmap.sh",
+        "topic": "pytest"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Python AsyncIO library",
+        "url": "https://docs.python.org/3/library/asyncio.html",
+        "topic": "Asynchrony"
+       },
+       {
+        "type": "official",
+        "title": "Concurrent Execution",
+        "url": "https://docs.python.org/3/library/concurrency.html",
+        "topic": "Concurrency"
+       },
+       {
+        "type": "official",
+        "title": "aiohttp docs",
+        "url": "https://docs.aiohttp.org/en/stable/",
+        "topic": "AIOHTTP"
+       },
+       {
+        "type": "official",
+        "title": "FastAPI Documentation",
+        "url": "https://fastapi.tiangolo.com/",
+        "topic": "FastAPI"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 2,
+    "title": "Prompt Engineering",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "How LLMs Work: Tokens, Context and Model Providers",
+      "description": "Cost, latency and what fits in a request are all measured in tokens and context windows, so this is the vocabulary of every AI engineering decision. Learn how LLMs generate text, what parameters are, and how the main model providers differ.",
+      "topic_refs": [
+       "jrH1qE6EnFXL4fTyYU8gR",
+       "pamV5Z8DRKk2ioZbg6QVK",
+       "74JxgfJ_1qmVNZ_QRp9Ne",
+       "Sj1CMZzZp8kF-LuHcd_UU",
+       "NPcaSEteeEA5g22wQ7nL_",
+       "b-Xtkv6rt8QgzJXSShOX-",
+       "yfsjW1eze8mWT0iHxv078",
+       "Yb5cQiV2ETxPbBYCLOpt2",
+       "V8pDOwrRKKcHBTd4qlSsH",
+       "o-6UKLZ6oCRbAKgRjH2uI",
+       "Td2YzDFT4LPGDw8JMmQSQ",
+       "3wshuH7_DXgbhxsLzzI4D"
+      ],
+      "projects": [
+       {
+        "title": "Token cost calculator",
+        "description": "Count tokens for sample prompts with a tokenizer and estimate the monthly cost at different traffic levels.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Provider comparison notebook",
+        "description": "Send the same ten prompts to two model providers and compare answers, latency and price.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Introduction",
+       "LLM",
+       "LLMs and How They Work",
+       "AI vs AGI",
+       "Tokens"
+      ],
+      "more_topics": [],
+      "global_step_index": 4,
+      "resource": {
+       "title": "How Large Language Models Work",
+       "url": "https://youtube.com/watch?v=5sLYAQS9sWQ"
+      },
+      "videos": [
+       {
+        "title": "How Large Language Models Work",
+        "url": "https://youtube.com/watch?v=5sLYAQS9sWQ",
+        "video_id": "5sLYAQS9sWQ",
+        "source": "roadmap.sh",
+        "topic": "LLMs and How They Work"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "LLM - Anthropic Glossary",
+        "url": "https://platform.claude.com/docs/en/about-claude/glossary",
+        "topic": "LLM"
+       },
+       {
+        "type": "official",
+        "title": "Context windows - Anthropic",
+        "url": "https://platform.claude.com/docs/en/build-with-claude/context-windows",
+        "topic": "Context Window"
+       },
+       {
+        "type": "official",
+        "title": "OpenAI API Documentation",
+        "url": "https://developers.openai.com/api/docs",
+        "topic": "OpenAI"
+       },
+       {
+        "type": "official",
+        "title": "OpenAI Cookbook (GitHub)",
+        "url": "https://github.com/openai/openai-cookbook",
+        "topic": "OpenAI"
+       }
+      ]
+     },
+     {
+      "step_number": 2,
+      "title": "Core Prompting Techniques",
+      "description": "Well-structured prompts are the cheapest way to improve an AI feature, before any fine-tuning or extra infrastructure. Practise zero- and few-shot prompting, system and role prompts, and reasoning techniques such as chain of thought, self-consistency and ReAct.",
+      "topic_refs": [
+       "i4ijY3T5gLgNz0XqRipXe",
+       "43drPbTwPqJQPyzwYUdBT",
+       "GRerL9UXN73TwpCW2eTIE",
+       "Iufv_LsgUNls-Alx_Btlh",
+       "fWo39-hehRgwmx7CF36mM",
+       "XHWKGaSRBYT4MsCHwV-iR",
+       "5TNK1KcSzh9GTKiEJnM-y",
+       "weRaJxEplhKDyFWSMeoyI",
+       "2MboHh8ugkoH8dSd9d4Mk",
+       "1EzqCoplXPiHjp9Z-vqn-",
+       "ob9D0W9B9145Da64nbi1M",
+       "8Ks6txRSUfMK7VotSQ4sC"
+      ],
+      "projects": [
+       {
+        "title": "Prompt technique bake-off",
+        "description": "Solve twenty arithmetic word problems with zero-shot, few-shot and chain-of-thought prompts and score each.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Customer-support persona",
+        "description": "Write a system prompt for a support assistant and test it against tricky and off-topic user messages.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "What is a Prompt?",
+       "What is Prompt Engineering?",
+       "Zero-Shot Prompting",
+       "One-Shot & Few-Shot Prompting",
+       "System Prompting"
+      ],
+      "more_topics": [],
+      "global_step_index": 5,
+      "resource": {
+       "title": "RAG vs Fine-Tuning vs Prompt Engineering: Optimizing AI Models",
+       "url": "https://youtube.com/watch?v=zYGDpG-pTho"
+      },
+      "videos": [
+       {
+        "title": "RAG vs Fine-Tuning vs Prompt Engineering: Optimizing AI Models",
+        "url": "https://youtube.com/watch?v=zYGDpG-pTho",
+        "video_id": "zYGDpG-pTho",
+        "source": "roadmap.sh",
+        "topic": "What is Prompt Engineering?"
+       },
+       {
+        "title": "Context Engineering vs. Prompt Engineering: Smarter AI with RAG & Agents",
+        "url": "https://youtube.com/watch?v=vD0E3EUb8-8",
+        "video_id": "vD0E3EUb8-8",
+        "source": "roadmap.sh",
+        "topic": "One-Shot & Few-Shot Prompting"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Prompt Engineering Overview - Anthropic",
+        "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview",
+        "topic": "System Prompting"
+       },
+       {
+        "type": "official",
+        "title": "Prompting Best Practices - Anthropic",
+        "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices",
+        "topic": "Contextual Prompting"
+       }
+      ]
+     },
+     {
+      "step_number": 3,
+      "title": "Sampling Parameters and Structured Output",
+      "description": "Applications need answers that are consistent and machine-readable, which depends on sampling settings and output constraints. Learn temperature, top-k and top-p, penalties, stop sequences and token limits, and how to get reliable structured output.",
+      "topic_refs": [
+       "JgigM7HvmNOuKnp60v1Ce",
+       "iMwg-I76-Tg5dhu8DGO6U",
+       "FF8ai1v5GDzxXLQhpwuPj",
+       "-G1U1jDN5st1fTUtQmMl1",
+       "vK9Gf8dGu2UvvJJhhuHG9",
+       "v3CylRlojeltcwnE76j8Q",
+       "YIVNjkmTOY61VmL0md9Pj",
+       "WpO8V5caudySVehOcuDvK",
+       "g8ylIg4Zh567u-E3yVVY4",
+       "wSf7Zr8ZYBuKWX0GQX6J3",
+       "j-PWO-ZmF9Oi9A5bwMRto"
+      ],
+      "projects": [
+       {
+        "title": "Temperature explorer",
+        "description": "Generate fifty completions at several temperatures and measure how varied the answers are.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Invoice field extractor",
+        "description": "Extract vendor, date and total from invoice text into validated JSON, with a retry on malformed output.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Sampling Parameters",
+       "Temperature",
+       "Top-K",
+       "Top-P",
+       "Max Tokens"
+      ],
+      "more_topics": [],
+      "global_step_index": 6,
+      "resource": null,
+      "videos": [],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Gemini API Prompting Strategies - Google",
+        "url": "https://ai.google.dev/gemini-api/docs/prompting-strategies",
+        "topic": "Top-K"
+       },
+       {
+        "type": "official",
+        "title": "Token Counting - Anthropic",
+        "url": "https://platform.claude.com/docs/en/build-with-claude/token-counting",
+        "topic": "Max Tokens"
+       },
+       {
+        "type": "official",
+        "title": "Handling Stop Reasons - Anthropic",
+        "url": "https://platform.claude.com/docs/en/build-with-claude/handling-stop-reasons",
+        "topic": "Stop Sequences"
+       },
+       {
+        "type": "official",
+        "title": "Increase Output Consistency - Anthropic",
+        "url": "https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/increase-consistency",
+        "topic": "Output Control"
+       }
+      ]
+     },
+     {
+      "step_number": 4,
+      "title": "Reliable Prompts: Hallucination, Evaluation and Injection",
+      "description": "Hallucinated facts and prompt injection are the two failures most likely to embarrass a shipped AI product. Learn to calibrate and self-check answers, ensemble and debias prompts, decide between RAG, prompting and fine-tuning, and defend against injection.",
+      "topic_refs": [
+       "SWDa3Su3VS815WQbvvNsa",
+       "P5nDyQbME53DOEfSkcY6I",
+       "CvV3GIvQhsTvE-TQjTpIQ",
+       "HOqWHqAkxLX8f2ImSmZE7",
+       "0H2keZYD8iTNyBgmNVhto",
+       "diHNCiuKHeMVgvJ4OMwVh",
+       "Ke5GT163k_ek9SzbcbBGE",
+       "gxydtFKmnXNY9I5kpTwjP",
+       "6W_ONYREbXHwPigoDx1cW",
+       "Wvu9Q_kNhH1_JlOgxAjP6",
+       "Pw5LWA9vNRY0N2M0FW16f"
+      ],
+      "projects": [
+       {
+        "title": "Hallucination test set",
+        "description": "Write questions with known answers, measure how often a model invents facts, and reduce it with grounding.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Injection attack playground",
+        "description": "Try injection payloads against a summariser prompt and document which defences stop them.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Hallucination",
+       "Calibrating LLMs",
+       "LLM Self Evaluation",
+       "Prompt Ensembling",
+       "Prompt Debiasing"
+      ],
+      "more_topics": [],
+      "global_step_index": 7,
+      "resource": {
+       "title": "What Is a Prompt Injection Attack?",
+       "url": "https://youtube.com/watch?v=jrHRe9lSqqA"
+      },
+      "videos": [
+       {
+        "title": "What Is a Prompt Injection Attack?",
+        "url": "https://youtube.com/watch?v=jrHRe9lSqqA",
+        "video_id": "jrHRe9lSqqA",
+        "source": "roadmap.sh",
+        "topic": "Prompt Injection"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Reduce hallucinations - Anthropic",
+        "url": "https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-hallucinations",
+        "topic": "Hallucination"
+       },
+       {
+        "type": "official",
+        "title": "Mitigate jailbreaks and prompt injections - Anthropic",
+        "url": "https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/mitigate-jailbreaks",
+        "topic": "Prompt Injection"
+       },
+       {
+        "type": "official",
+        "title": "LLM01:2025 Prompt Injection - OWASP",
+        "url": "https://genai.owasp.org/llmrisk/llm01-prompt-injection/",
+        "topic": "Prompt Injection"
+       },
+       {
+        "type": "official",
+        "title": "Tool use overview - Anthropic",
+        "url": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview",
+        "topic": "Agents"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 3,
+    "title": "AI Engineering",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "The AI Engineer Role and Choosing a Model",
+      "description": "AI engineers build products on top of pre-trained models instead of training models from scratch, so picking the right model for a use case is the first real decision. Understand the role, model types, and the trade-offs between open and closed models.",
+      "topic_refs": [
+       "GN6SnI7RXIeW8JeD-qORW",
+       "jSZ1LhPdhlkW-9QJhIvFs",
+       "K9EiuFgPBFgeRxY4wxAmb",
+       "qJVgKe9uBvXc-YPfvX_Y7",
+       "t1SObMWkDZ1cKqNNlcd9L",
+       "_hYN0gEi9BL24nptEtXWU",
+       "zdeuA4GbdBl2DwKgiOA4G",
+       "wf2BSyUekr1S1q6l8kyq6",
+       "2X0NDcq2ojBJ0RxY_U6bl",
+       "d7fzv_ft12EopsQdmEsel",
+       "zeWoTtAFEpVXDQzWNsha4",
+       "RBwGsq9DngUsl8PrrCbqx"
+      ],
+      "projects": [
+       {
+        "title": "Model selection memo",
+        "description": "For three product ideas, recommend a model with reasons covering quality, cost, latency and data privacy.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Use-case discovery interviews",
+        "description": "Interview three potential users about a task and write which parts an LLM should and should not do.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "What is an AI Engineer?",
+       "AI Engineer vs ML Engineer",
+       "Roles and Responsibilities",
+       "Impact on Product Development",
+       "Know your Customers / Usecases"
+      ],
+      "more_topics": [],
+      "global_step_index": 8,
+      "resource": {
+       "title": "What is a Derivative? Deriving the Power Rule",
+       "url": "https://youtube.com/watch?v=x3iEEDxrhyE"
+      },
+      "videos": [
+       {
+        "title": "What is a Derivative? Deriving the Power Rule",
+        "url": "https://youtube.com/watch?v=x3iEEDxrhyE",
+        "video_id": "x3iEEDxrhyE",
+        "source": "roadmap.sh",
+        "topic": "Derivatives and Partial Derivatives"
+       },
+       {
+        "title": "AI vs ML",
+        "url": "https://youtube.com/watch?v=4RixMPF4xis",
+        "video_id": "4RixMPF4xis",
+        "source": "roadmap.sh",
+        "topic": "AI Engineer vs ML Engineer"
+       },
+       {
+        "title": "How Large Language Models Work",
+        "url": "https://youtube.com/watch?v=5sLYAQS9sWQ",
+        "video_id": "5sLYAQS9sWQ",
+        "source": "roadmap.sh",
+        "topic": "How LLMs Work"
+       },
+       {
+        "title": "Transforming Language with Generative Pre-trained Transformers (GPT)",
+        "url": "https://youtube.com/watch?v=bdICz_sBI34",
+        "video_id": "bdICz_sBI34",
+        "source": "roadmap.sh",
+        "topic": "Pre-trained Models"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 2,
+      "title": "Calling Model APIs and SDKs",
+      "description": "Every AI feature starts with a well-handled API call, including streaming, caching and switching providers when one is down or too costly. Use the major provider APIs directly and through OpenAI-compatible gateways.",
+      "topic_refs": [
+       "3PQVZbcr4neNMRr6CuNzS",
+       "ro3vY_sp6xMQ-hfzO-rc1",
+       "nxwMVla0-PNG8nlocKK5v",
+       "hy6EyKiNxk1x84J63dhez",
+       "TsG_I7FL-cOCSw8gvZH3r",
+       "hzeEo8COf2l07iu5EdlFo",
+       "vnXtUupJUlyU_uCbZBbnk",
+       "1GlpMjmdAWor0X_BnISGg",
+       "WZVW8FQu6LyspSKm1C_sl",
+       "MUDBYjR7uCUZQ-kQxi2K_",
+       "bqqY0gsZkBpcHMZw1hcZ5",
+       "2WbVpRLqwi3Oeqk1JPui4"
+      ],
+      "projects": [
+       {
+        "title": "Provider-agnostic chat wrapper",
+        "description": "One function that talks to two providers through the same interface and streams tokens to the terminal.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Prompt caching savings test",
+        "description": "Measure latency and token cost for a long repeated system prompt with and without caching.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "OpenAI Models (GPT, o-series)",
+       "OpenAI Response API",
+       "Claude Messages API",
+       "Anthropic's Claude",
+       "Google Gemini API"
+      ],
+      "more_topics": [
+       {
+        "node_id": "AxzTGDCC2Ftp4G66U4Uqr",
+        "title": "Vertex AI"
+       },
+       {
+        "node_id": "oe8E6ZIQWuYvHVbYJHUc1",
+        "title": "Google's Gemini"
+       },
+       {
+        "node_id": "xTqTaiKLo6EE_4JVFdjEt",
+        "title": "modus"
+       }
+      ],
+      "global_step_index": 9,
+      "resource": {
+       "title": "How To Use Claude Pro For Beginners",
+       "url": "https://youtube.com/watch?v=J3X_JWQkvo8"
+      },
+      "videos": [
+       {
+        "title": "How To Use Claude Pro For Beginners",
+        "url": "https://youtube.com/watch?v=J3X_JWQkvo8",
+        "video_id": "J3X_JWQkvo8",
+        "source": "roadmap.sh",
+        "topic": "Anthropic's Claude"
+       },
+       {
+        "title": "Introduction to Gemini APIs and AI Studio",
+        "url": "https://youtube.com/watch?v=4oyqd7CB09c",
+        "video_id": "4oyqd7CB09c",
+        "source": "roadmap.sh",
+        "topic": "Google Gemini API"
+       },
+       {
+        "title": "Welcome to the Gemini era",
+        "url": "https://youtube.com/watch?v=_fuimO6ErKI",
+        "video_id": "_fuimO6ErKI",
+        "source": "roadmap.sh",
+        "topic": "Gemini"
+       },
+       {
+        "title": "What is Open Router ?",
+        "url": "https://youtube.com/watch?v=pfT6l0yMsB0",
+        "video_id": "pfT6l0yMsB0",
+        "source": "roadmap.sh",
+        "topic": "OpenRouter"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "OpenAI Platform",
+        "url": "https://openai.com/api/",
+        "topic": "OpenAI Models (GPT, o-series)"
+       },
+       {
+        "type": "official",
+        "title": "OpenAI Models",
+        "url": "https://developers.openai.com/api/docs/models",
+        "topic": "OpenAI Models (GPT, o-series)"
+       },
+       {
+        "type": "official",
+        "title": "Responses API",
+        "url": "https://developers.openai.com/api/reference/resources/responses/",
+        "topic": "OpenAI Response API"
+       },
+       {
+        "type": "official",
+        "title": "Messages API",
+        "url": "https://platform.claude.com/docs/en/api/messages",
+        "topic": "Claude Messages API"
+       }
+      ]
+     },
+     {
+      "step_number": 3,
+      "title": "Open Models, Self-Hosting and Fine-tuning",
+      "description": "Some products need data to stay on-premises or costs that hosted APIs cannot meet, which is where open-weight models come in. Learn the Hugging Face ecosystem, run models locally, and know when fine-tuning is worth the effort.",
+      "topic_refs": [
+       "v99C5Bml2a6148LCJ9gy9",
+       "YLOdOvLXa5Fa7_mmuvKEi",
+       "dLEg4IA3F5jgc44Bst9if",
+       "3kRTzlLNBnXdTsAEXVu_M",
+       "_qqITQ8O0Q0RWUeZsUXnY",
+       "rTT2UnvqFO3GH6ThPLEjO",
+       "a_3SabylVqzzOyw3tZN5f",
+       "OkYO-aSPiuVYuLXHswBCn",
+       "n-Ud2dXkqIzK37jlKItN4",
+       "zTvsCNS3ucsZmvy1tHyeI",
+       "xostGgoaYkqMO28iN2gx8",
+       "4NtUD9V64gkp8SFudj_ai"
+      ],
+      "projects": [
+       {
+        "title": "Local assistant with Ollama",
+        "description": "Run an open model locally and serve it behind a small API used by a chat page.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Small fine-tune experiment",
+        "description": "Fine-tune a small open model on a few hundred labelled examples and compare it with few-shot prompting.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Hugging Face",
+       "Hugging Face Hub",
+       "Models on Hugging Face",
+       "Inference SDK",
+       "Self-Hosted AI Models"
+      ],
+      "more_topics": [
+       {
+        "node_id": "EIDbwbdolR_qsNKVDla6V",
+        "title": "Hugging Face Models"
+       },
+       {
+        "node_id": "YKIPOiSj_FNtg0h8uaSMq",
+        "title": "Hugging Face Tasks"
+       },
+       {
+        "node_id": "sFYcBgG9I0n1iKpwlp_7B",
+        "title": "DataHub"
+       }
+      ],
+      "global_step_index": 10,
+      "resource": {
+       "title": "What is Hugging Face? - Machine Learning Hub Explained",
+       "url": "https://youtube.com/watch?v=1AUjKfpRZVo"
+      },
+      "videos": [
+       {
+        "title": "What is Hugging Face? - Machine Learning Hub Explained",
+        "url": "https://youtube.com/watch?v=1AUjKfpRZVo",
+        "video_id": "1AUjKfpRZVo",
+        "source": "roadmap.sh",
+        "topic": "Hugging Face"
+       },
+       {
+        "title": "Hugging Face - Text embeddings & semantic search",
+        "url": "https://youtube.com/watch?v=OATCgQtNX2o",
+        "video_id": "OATCgQtNX2o",
+        "source": "roadmap.sh",
+        "topic": "Models on Hugging Face"
+       },
+       {
+        "title": "What is Ollama? Running Local LLMs Made Simple",
+        "url": "https://youtube.com/watch?v=5RIOQuHOihY",
+        "video_id": "5RIOQuHOihY",
+        "source": "roadmap.sh",
+        "topic": "Ollama"
+       },
+       {
+        "title": "LM Studio Tutorial: Run Large Language Models (LLM) on Your Laptop",
+        "url": "https://youtube.com/watch?v=ygUEbCpOOLg",
+        "video_id": "ygUEbCpOOLg",
+        "source": "roadmap.sh",
+        "topic": "LM Studio"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Hugging Face",
+        "url": "https://huggingface.co",
+        "topic": "Hugging Face"
+       },
+       {
+        "type": "official",
+        "title": "Hugging Face Documentation",
+        "url": "https://huggingface.co/docs/hub/en/index",
+        "topic": "Hugging Face Hub"
+       },
+       {
+        "type": "official",
+        "title": "Hugging Face Embedding Models",
+        "url": "https://huggingface.co/models?pipeline_tag=feature-extraction",
+        "topic": "Models on Hugging Face"
+       },
+       {
+        "type": "official",
+        "title": "Inference",
+        "url": "https://huggingface.co/docs/huggingface_hub/en/package_reference/inference_client",
+        "topic": "Inference SDK"
+       }
+      ]
+     },
+     {
+      "step_number": 4,
+      "title": "Constraining Model Inputs and Outputs",
+      "description": "In an application, prompts are code: they must produce parseable, on-policy output for every user, not just the demo case. Learn to constrain inputs and outputs, use system and role instructions, examples and reasoning prompts, and tag requests with user IDs for abuse tracking.",
+      "topic_refs": [
+       "qmx6OHqx4_0JXVIv8dASp",
+       "PT3uDiUjiKhO8laOkCmgP",
+       "ONLDyczNacGVZGojYyJrU",
+       "zqhmLzHsmDlrTFVHzhq6-",
+       "S46Vaq8hYq6Ee1Id_-fSQ",
+       "N3TzWYxU0jgv1l99Ts58n",
+       "DZPM9zjCbYYWBPLmQImxQ",
+       "15XOFdVp0IC-kLYPXUJWh",
+       "nyBgEHvUhwF-NANMwkRJW",
+       "4Q5x2VCXedAWISBXUIyin",
+       "_bPTciEA1GT1JwfXim19z",
+       "FjV3oD7G2Ocq5HhUC17iH"
+      ],
+      "projects": [
+       {
+        "title": "Schema-validated classifier",
+        "description": "Classify product reviews into fixed labels with JSON output validated against a schema.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Prompt regression suite",
+        "description": "Keep fifty test inputs for a prompt and check that every edit still returns valid, correct output.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Robust prompt engineering",
+       "Constraining Prompts",
+       "Constraining outputs and inputs",
+       "Structured Outputs",
+       "System Prompting"
+      ],
+      "more_topics": [
+       {
+        "node_id": "cUyLT6ctYQ1pgmodCKREq",
+        "title": "Prompt Injection Attacks"
+       },
+       {
+        "node_id": "VjXmSCdzi2ACv-W85Sy9D",
+        "title": "Prompt Engineering"
+       },
+       {
+        "node_id": "LCHse57rXf3sl8ml1ow0T",
+        "title": "Input Format"
+       }
+      ],
+      "global_step_index": 11,
+      "resource": {
+       "title": "System Prompt Fundamentals",
+       "url": "https://youtube.com/watch?v=RMR0Y8esSmE"
+      },
+      "videos": [
+       {
+        "title": "System Prompt Fundamentals",
+        "url": "https://youtube.com/watch?v=RMR0Y8esSmE",
+        "video_id": "RMR0Y8esSmE",
+        "source": "roadmap.sh",
+        "topic": "System Prompting"
+       },
+       {
+        "title": "Discover Few-Shot Prompting | Google AI Essentials",
+        "url": "https://youtube.com/watch?v=9qdgEBVkWR4",
+        "video_id": "9qdgEBVkWR4",
+        "source": "roadmap.sh",
+        "topic": "Few-Shot Prompting"
+       },
+       {
+        "title": "Zero-shot, One-shot and Few-shot Prompting Explained | Prompt Engineering 101",
+        "url": "https://youtube.com/watch?v=sW5xoicq5TY",
+        "video_id": "sW5xoicq5TY",
+        "source": "roadmap.sh",
+        "topic": "Zero Shot Prompting"
+       },
+       {
+        "title": "ChatGPT Prompt Engineering Principles: Chain of Thought Prompting",
+        "url": "https://youtube.com/watch?v=Kar2qfLDQ2c",
+        "video_id": "Kar2qfLDQ2c",
+        "source": "roadmap.sh",
+        "topic": "Chain-of-Thought Prompting"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Sending End-user IDs - OpenAI",
+        "url": "https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids",
+        "topic": "Adding end-user IDs in prompts"
+       }
+      ]
+     },
+     {
+      "step_number": 5,
+      "title": "Context Engineering",
+      "description": "What the model sees, from documents and tool results to conversation history, decides answer quality more than wording does. Learn to source, compact, isolate and evaluate context, and to spot the ways long contexts fail.",
+      "topic_refs": [
+       "kCiHNaZ9CgnS9uksIQ_SY",
+       "5b2-GXozMVOqZF1Ga-HE8",
+       "vvpYkmycH0_W030E-L12f",
+       "x0G0WD8MUflucdBqf2j5k",
+       "ozrR8IvjNFbHd44kZrExX",
+       "s2YrrjXbvNIyW5WSFj2po",
+       "9XCxilAQ7FRet7lHQr1gE",
+       "9JwWIK0Z2MK8-6EQQJsCO",
+       "mfiiWDVZEeUGFa6KKUGLB",
+       "SzW-BtzGsSfGGa5DbSlr4",
+       "BfmhnGPe1UdnThdpr7m1i",
+       "unoZLoE2oJbKPOCBYUnMZ"
+      ],
+      "projects": [
+       {
+        "title": "Conversation summariser",
+        "description": "Compact a long chat history into a running summary and check that key facts survive.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Needle-in-a-haystack test",
+        "description": "Hide a fact at different depths of a long context and measure how often the model finds it.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Context Engineering",
+       "What is a Context Layer?",
+       "Context",
+       "Context Sources",
+       "Prompt vs. Context Engineering"
+      ],
+      "more_topics": [
+       {
+        "node_id": "ySIOjFFU4GZbP0gqyWwLL",
+        "title": "Context Engineering"
+       },
+       {
+        "node_id": "9oUpeEnaMWctQLTobbmY7",
+        "title": "Contextual prompting"
+       },
+       {
+        "node_id": "SF07y6d-JcE1-pzXeBOU7",
+        "title": "Context Window"
+       },
+       {
+        "node_id": "wel7a_gpXqpuDAdmF_4Rp",
+        "title": "Context Security"
+       }
+      ],
+      "global_step_index": 12,
+      "resource": {
+       "title": "Context Engineering vs. Prompt Engineering: Smarter AI with RAG & Agents",
+       "url": "https://youtube.com/watch?v=vD0E3EUb8-8"
+      },
+      "videos": [
+       {
+        "title": "Context Engineering vs. Prompt Engineering: Smarter AI with RAG & Agents",
+        "url": "https://youtube.com/watch?v=vD0E3EUb8-8",
+        "video_id": "vD0E3EUb8-8",
+        "source": "roadmap.sh",
+        "topic": "Context Engineering"
+       },
+       {
+        "title": "What Is a Context Layer for AI Systems? Complete Guide \\[2026\\]",
+        "url": "https://youtube.com/watch?v=ldDwueG18YE",
+        "video_id": "ldDwueG18YE",
+        "source": "roadmap.sh",
+        "topic": "What is a Context Layer?"
+       },
+       {
+        "title": "What is a Context Window? Unlocking LLM Secrets",
+        "url": "https://youtube.com/watch?v=-QVoIxEpFkM",
+        "video_id": "-QVoIxEpFkM",
+        "source": "roadmap.sh",
+        "topic": "Context"
+       },
+       {
+        "title": "Most devs don’t understand how context windows work",
+        "url": "https://youtube.com/watch?v=-uW5-TaVXu4",
+        "video_id": "-uW5-TaVXu4",
+        "source": "roadmap.sh",
+        "topic": "Context Sources"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 6,
+      "title": "Embeddings and Semantic Search",
+      "description": "Embeddings turn text into vectors so meaning can be compared, which underpins search, recommendations and RAG. Compare embedding models and use them for similarity search, recommendations and anomaly detection.",
+      "topic_refs": [
+       "--ig0Ume_BnXb9K2U7HJN",
+       "XyEp6jnBSpCxMGwALnYfT",
+       "fr0UOXlVVctkk1K84Z8Of",
+       "l6priWeJhbdUD5tJ7uHyG",
+       "y0qD5Kb4Pf-ymIwW-tvhX",
+       "4GArjDYipit4SLqKZAWDf",
+       "ZV_V6sqOnRodgaw4mzokC",
+       "apVYIV4EyejPft25oAvdI",
+       "eMfcyBxnMY_l_5-8eg6sD",
+       "ZcbRPtgaptqKqWBgRrEBU",
+       "HQe9GKy3p0kTUPxojIfSF",
+       "AglWJ7gb9rTT2rMkstxtk"
+      ],
+      "projects": [
+       {
+        "title": "FAQ semantic search",
+        "description": "Embed a college FAQ and return the closest answers to a student's question.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Embedding model comparison",
+        "description": "Score three embedding models on the same labelled query set by top-5 accuracy and speed.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "What are Embeddings",
+       "Embeddings",
+       "Embedding Models",
+       "OpenAI Embeddings API",
+       "Cohere Embeddings"
+      ],
+      "more_topics": [
+       {
+        "node_id": "grTcbzT7jKk_sIUwOTZTD",
+        "title": "Embedding"
+       },
+       {
+        "node_id": "a7qsvoauFe5u953I699ps",
+        "title": "Cohere"
+       },
+       {
+        "node_id": "06Xta-OqSci05nV2QMFdF",
+        "title": "Data Classification"
+       }
+      ],
+      "global_step_index": 13,
+      "resource": {
+       "title": "What are Word Embeddings",
+       "url": "https://youtube.com/watch?v=wgfSDrqYMJ4"
+      },
+      "videos": [
+       {
+        "title": "What are Word Embeddings",
+        "url": "https://youtube.com/watch?v=wgfSDrqYMJ4",
+        "video_id": "wgfSDrqYMJ4",
+        "source": "roadmap.sh",
+        "topic": "What are Embeddings"
+       },
+       {
+        "title": "Master OpenAI Embedding API",
+        "url": "https://youtube.com/watch?v=9oCS-VQupoc",
+        "video_id": "9oCS-VQupoc",
+        "source": "roadmap.sh",
+        "topic": "OpenAI Embeddings API"
+       },
+       {
+        "title": "What are text embeddings?",
+        "url": "https://youtube.com/watch?v=vlcQV4j2kTo",
+        "video_id": "vlcQV4j2kTo",
+        "source": "roadmap.sh",
+        "topic": "Gemini Embedding"
+       },
+       {
+        "title": "What is Semantic Search? - Cohere",
+        "url": "https://youtube.com/watch?v=fFt4kR4ntAA",
+        "video_id": "fFt4kR4ntAA",
+        "source": "roadmap.sh",
+        "topic": "Semantic Search"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "OpenAI Embeddings API",
+        "url": "https://platform.openai.com/docs/api-reference/embeddings/create",
+        "topic": "OpenAI Embeddings API"
+       },
+       {
+        "type": "official",
+        "title": "Introduction to Embeddings at Cohere",
+        "url": "https://docs.cohere.com/docs/embeddings",
+        "topic": "Cohere Embeddings"
+       },
+       {
+        "type": "official",
+        "title": "What are embedding models? Benefits and best practices",
+        "url": "https://cohere.com/blog/embedding-models",
+        "topic": "Cohere Embeddings"
+       },
+       {
+        "type": "official",
+        "title": "Embeddings",
+        "url": "https://ai.google.dev/gemini-api/docs/embeddings",
+        "topic": "Gemini Embedding"
+       }
+      ]
+     },
+     {
+      "step_number": 7,
+      "title": "Vector Databases",
+      "description": "Once you have more than a few thousand vectors you need an index that is fast, filterable and persistent. Learn how vector indexes work and try both local libraries and managed vector databases.",
+      "topic_refs": [
+       "zZA1FBhf1y4kCoUZ-hM4H",
+       "tt9u3oFlsjEMfPyojuqpc",
+       "5TQnO9B4_LTHwqjI7iHB1",
+       "JurLbOO1Z8r6C3yUqRNwf",
+       "dSd2C9lNl-ymmCRT9_ZC3",
+       "_Cf7S1DCvX7p1_3-tP3C3",
+       "DwOAL5mOBgBiw-EQpAzQl",
+       "VgUnrZGKVjAAO4n_llq5-",
+       "rjaCNT3Li45kwu2gXckke",
+       "j6bkm0VUgLkHdMDDJFiMC",
+       "9kT7EEQsbeD2WDdN9ADx7"
+      ],
+      "projects": [
+       {
+        "title": "FAISS versus Chroma",
+        "description": "Index the same hundred thousand vectors in both and compare build time, query latency and filtering.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Filtered product search",
+        "description": "Store product embeddings with price and category metadata and query with combined filters.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Vector Database",
+       "Vector Databases",
+       "Indexing Embeddings",
+       "FAISS",
+       "Chroma"
+      ],
+      "more_topics": [
+       {
+        "node_id": "dzPKW_fn82lY1OOVrggk3",
+        "title": "Vector Databases"
+       },
+       {
+        "node_id": "WcjX6p-V-Rdd77EL8Ega9",
+        "title": "Purpose and Functionality"
+       }
+      ],
+      "global_step_index": 14,
+      "resource": {
+       "title": "Vector Databases Simply Explained! (Embeddings & Indexes)",
+       "url": "https://youtube.com/watch?v=dN0lsF2cvm4"
+      },
+      "videos": [
+       {
+        "title": "Vector Databases Simply Explained! (Embeddings & Indexes)",
+        "url": "https://youtube.com/watch?v=dN0lsF2cvm4",
+        "video_id": "dN0lsF2cvm4",
+        "source": "roadmap.sh",
+        "topic": "Indexing Embeddings"
+       },
+       {
+        "title": "FAISS Vector Library with LangChain and OpenAI",
+        "url": "https://youtube.com/watch?v=ZCSsIkyCZk4",
+        "video_id": "ZCSsIkyCZk4",
+        "source": "roadmap.sh",
+        "topic": "FAISS"
+       },
+       {
+        "title": "Chroma - Chroma - Vector Database for LLM Applications",
+        "url": "https://youtube.com/watch?v=Qs_y0lTJAp0",
+        "video_id": "Qs_y0lTJAp0",
+        "source": "roadmap.sh",
+        "topic": "Chroma"
+       },
+       {
+        "title": "Introducing Pinecone Serverless",
+        "url": "https://youtube.com/watch?v=iCuR6ihHQgc",
+        "video_id": "iCuR6ihHQgc",
+        "source": "roadmap.sh",
+        "topic": "Pinecone"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "FAISS",
+        "url": "https://ai.meta.com/tools/faiss/",
+        "topic": "FAISS"
+       },
+       {
+        "type": "official",
+        "title": "Chroma",
+        "url": "https://www.trychroma.com/",
+        "topic": "Chroma"
+       },
+       {
+        "type": "official",
+        "title": "Pinecone",
+        "url": "https://www.pinecone.io",
+        "topic": "Pinecone"
+       },
+       {
+        "type": "official",
+        "title": "Qdrant",
+        "url": "https://qdrant.tech/",
+        "topic": "Qdrant"
+       }
+      ]
+     },
+     {
+      "step_number": 8,
+      "title": "Building RAG Pipelines",
+      "description": "Retrieval-augmented generation is the most common way companies ground LLM answers in their own documents. Build the full pipeline of chunking, retrieval, filtering and generation, with and without frameworks, and know when RAG beats fine-tuning.",
+      "topic_refs": [
+       "IX1BJWGwGmB4L063g0Frf",
+       "lVhWhZGR558O-ljHobxIi",
+       "mX987wiZF7p3V_gExrPeX",
+       "OCGCzHQM2LQyUWmiqe6E0",
+       "2jJnS9vRYhaS69d6OxrMh",
+       "LnQ2AatMWpExUHcZhDIPd",
+       "GCn4LGNEtPI0NWYAZCRE-",
+       "qlBEXrbV88e_wAGRwO9hW",
+       "jM-Jbo0wUilhVY830hetJ",
+       "JT4mBXOjvvrUnynA7yrqt",
+       "ebXXEhNRROjbbof-Gym4p",
+       "d0ontCII8KI8wfP-8Y45R"
+      ],
+      "projects": [
+       {
+        "title": "Policy-document assistant",
+        "description": "Answer questions over a set of PDFs with citations to the source chunk.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Chunking strategy experiment",
+        "description": "Compare fixed-size, sentence and heading-based chunking on answer accuracy for one document set.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "RAG",
+       "RAG & Implementation",
+       "Chunking",
+       "Retrieval Process",
+       "Generation"
+      ],
+      "more_topics": [
+       {
+        "node_id": "UGYYh2W1XnnbgYNY8L8Hb",
+        "title": "DeepSeek"
+       },
+       {
+        "node_id": "akQTCKuPRRelj2GORqvsh",
+        "title": "LlamaIndex for Multi-modal Apps"
+       },
+       {
+        "node_id": "LbB2PeytxRSuU07Bk0KlJ",
+        "title": "Sampling Parameters"
+       },
+       {
+        "node_id": "c0RPhpD00VIUgF4HJgN2T",
+        "title": "Qwen"
+       },
+       {
+        "node_id": "qzvp6YxWDiGakA2mtspfh",
+        "title": "Top-K Sampling"
+       },
+       {
+        "node_id": "bGLrbpxKgENe2xS1eQtdh",
+        "title": "Transformers.js"
+       },
+       {
+        "node_id": "e_Mgd4pxKPdxL5DNxlxQ_",
+        "title": "Atlan"
+       }
+      ],
+      "global_step_index": 15,
+      "resource": {
+       "title": "What is Retrieval-Augmented Generation? - IBM",
+       "url": "https://youtube.com/watch?v=T-D1OfcDW1M"
+      },
+      "videos": [
+       {
+        "title": "What is Retrieval-Augmented Generation? - IBM",
+        "url": "https://youtube.com/watch?v=T-D1OfcDW1M",
+        "video_id": "T-D1OfcDW1M",
+        "source": "roadmap.sh",
+        "topic": "RAG"
+       },
+       {
+        "title": "Retrieval Augmented Generation (RAG) Explained in 8 Minutes!",
+        "url": "https://youtube.com/watch?v=HREbdmOSQ18",
+        "video_id": "HREbdmOSQ18",
+        "source": "roadmap.sh",
+        "topic": "Generation"
+       },
+       {
+        "title": "Introduction to RAG",
+        "url": "https://youtube.com/watch?v=LmiFeXH-kq8",
+        "video_id": "LmiFeXH-kq8",
+        "source": "roadmap.sh",
+        "topic": "RAG Usecases"
+       },
+       {
+        "title": "RAG vs Fine-tuning",
+        "url": "https://youtube.com/watch?v=00Q0G84kq3M",
+        "video_id": "00Q0G84kq3M",
+        "source": "roadmap.sh",
+        "topic": "RAG vs Fine-tuning"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Langchain",
+        "url": "https://www.langchain.com/",
+        "topic": "Langchain"
+       },
+       {
+        "type": "official",
+        "title": "Llama Index",
+        "url": "https://docs.llamaindex.ai/en/stable/",
+        "topic": "Llama Index"
+       },
+       {
+        "type": "official",
+        "title": "Haystack",
+        "url": "https://haystack.deepset.ai/",
+        "topic": "Haystack"
+       },
+       {
+        "type": "official",
+        "title": "Haystack Overview",
+        "url": "https://docs.haystack.deepset.ai/docs/intro",
+        "topic": "Haystack"
+       }
+      ]
+     },
+     {
+      "step_number": 9,
+      "title": "Multimodal AI: Vision, Images and Audio",
+      "description": "Many products now take photos, screenshots or voice as input, so AI engineers work with more than text. Use vision models, image generation, speech-to-text and text-to-speech APIs, and know the use cases where each pays off.",
+      "topic_refs": [
+       "W7cKPt_UxcUgwp8J6hS4p",
+       "sGR9qcro68KrzM8qWxcH8",
+       "fzVq4hGoa2gdbIzoyY1Zp",
+       "CRrqa-dBw1LlOwVbrZhjK",
+       "TxaZCtTCTUfwCxAJ2pmND",
+       "49BWxYVFpIgZCCqsikH7l",
+       "LKFwwjtcawJ4Z12X102Cb",
+       "6y73FLjshnqxV8BTGUeiu",
+       "mxQYB820447DC6kogyZIL",
+       "jQX10XKd_QM5wdQweEkVJ",
+       "OTBd6cPUayKaAM-fLWdSt",
+       "GCERpLz5BcRtWPpv-asUz"
+      ],
+      "projects": [
+       {
+        "title": "Receipt reader",
+        "description": "Extract line items and totals from photographed receipts with a vision model into structured data.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Voice note to tasks",
+        "description": "Transcribe a voice note with speech-to-text and turn it into a to-do list.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Multimodal AI",
+       "Multimodal AI Usecases",
+       "Image Understanding",
+       "OpenAI Vision API",
+       "Video Understanding"
+      ],
+      "more_topics": [
+       {
+        "node_id": "j9zD3pHysB1CBhLfLjhpD",
+        "title": "LangChain for Multimodal Apps"
+       },
+       {
+        "node_id": "5QdihE1lLpMc3DFrGy46M",
+        "title": "AI vs AGI"
+       }
+      ],
+      "global_step_index": 16,
+      "resource": {
+       "title": "OpenAI Vision API Crash Course",
+       "url": "https://youtube.com/watch?v=ZjkS11DSeEk"
+      },
+      "videos": [
+       {
+        "title": "OpenAI Vision API Crash Course",
+        "url": "https://youtube.com/watch?v=ZjkS11DSeEk",
+        "video_id": "ZjkS11DSeEk",
+        "source": "roadmap.sh",
+        "topic": "OpenAI Vision API"
+       },
+       {
+        "title": "How AI Image Generators Work (Stable Diffusion / Dall-E)",
+        "url": "https://youtube.com/watch?v=1CIpzeNxIhU",
+        "video_id": "1CIpzeNxIhU",
+        "source": "roadmap.sh",
+        "topic": "Image Generation"
+       },
+       {
+        "title": "DALL E API - Introduction (Generative AI Pictures from OpenAI)",
+        "url": "https://youtube.com/watch?v=Zr6vAWwjHN0",
+        "video_id": "Zr6vAWwjHN0",
+        "source": "roadmap.sh",
+        "topic": "DALL-E API"
+       },
+       {
+        "title": "Audio Signal Processing for Machine Learning",
+        "url": "https://youtube.com/watch?v=iCwMQJnKk2c",
+        "video_id": "iCwMQJnKk2c",
+        "source": "roadmap.sh",
+        "topic": "Audio Processing"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Hugging Face Multimodal Models",
+        "url": "https://huggingface.co/learn/computer-vision-course/en/unit4/multimodal-models/a_multimodal_world",
+        "topic": "Multimodal AI Usecases"
+       },
+       {
+        "type": "official",
+        "title": "Vision",
+        "url": "https://developers.openai.com/api/docs/guides/images-vision",
+        "topic": "OpenAI Vision API"
+       },
+       {
+        "type": "official",
+        "title": "DALL-E",
+        "url": "https://openai.com/index/dall-e-2/",
+        "topic": "Image Generation"
+       },
+       {
+        "type": "official",
+        "title": "OpenAI Image Generation",
+        "url": "https://platform.openai.com/docs/guides/images",
+        "topic": "DALL-E API"
+       }
+      ]
+     },
+     {
+      "step_number": 10,
+      "title": "Tool Use and AI Agents",
+      "description": "Agents let a model call tools and act over several steps, which is how assistants book, search and update systems. Implement function calling and a ReAct loop by hand, add memory, then try agent frameworks and multi-agent setups.",
+      "topic_refs": [
+       "4_ap0rD9Gl6Ep_4jMfPpG",
+       "778HsQzTuJ_3c9OSn5DmH",
+       "wFfjHkGLrcCyLyXV4BiFM",
+       "eOqCBgBTKM8CmY3nsWjre",
+       "Waox7xR_yUeSnOtQFzU4c",
+       "6xaRB34_g0HGt-y1dGYXR",
+       "4HkJJigCBBO4eOef8qvhz",
+       "KWjD4xEPhOOYS51dvRLd2",
+       "kG1bkF2oY21CJOm9zhdpn",
+       "wQfU09yhZ5sd-UPHkq2n0",
+       "Sm0Ne5Nx72hcZCdAcC0C2",
+       "mbp2NoL-VZ5hZIIblNBXt"
+      ],
+      "projects": [
+       {
+        "title": "Hand-written agent loop",
+        "description": "An agent with a calculator, a web-search stub and a notes tool, built without a framework.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Two-agent research team",
+        "description": "A planner agent and a writer agent that share context to produce a cited summary.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "AI Agents",
+       "Agents Use Cases",
+       "Function Calling",
+       "Tools & Function Calling in AI Agents",
+       "ReAct"
+      ],
+      "more_topics": [
+       {
+        "node_id": "Uffu609uQbIzDl88Ddccv",
+        "title": "AI Agents"
+       },
+       {
+        "node_id": "voDKcKvXtyLzeZdx2g3Qn",
+        "title": "ReAct Prompting"
+       }
+      ],
+      "global_step_index": 17,
+      "resource": {
+       "title": "The Complete Guide to Building AI Agents for Beginners",
+       "url": "https://youtube.com/watch?v=MOyl58VF2ak"
+      },
+      "videos": [
+       {
+        "title": "The Complete Guide to Building AI Agents for Beginners",
+        "url": "https://youtube.com/watch?v=MOyl58VF2ak",
+        "video_id": "MOyl58VF2ak",
+        "source": "roadmap.sh",
+        "topic": "AI Agents"
+       },
+       {
+        "title": "LLM Function Calling - AI Tools Deep Dive",
+        "url": "https://youtube.com/watch?v=gMeTK6zzaO4",
+        "video_id": "gMeTK6zzaO4",
+        "source": "roadmap.sh",
+        "topic": "Function Calling"
+       },
+       {
+        "title": "4 Methods of Prompt Engineering",
+        "url": "https://youtube.com/watch?v=vD0E3EUb8-8",
+        "video_id": "vD0E3EUb8-8",
+        "source": "roadmap.sh",
+        "topic": "ReAct"
+       },
+       {
+        "title": "CAG vs Long Context: How AI Models Use and Remember Information",
+        "url": "https://youtube.com/watch?v=B_RrXwDupIg",
+        "video_id": "B_RrXwDupIg",
+        "source": "roadmap.sh",
+        "topic": "Memory Systems"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "What are Tools? - Hugging Face",
+        "url": "https://huggingface.co/learn/agents-course/en/unit1/tools",
+        "topic": "Tools & Function Calling in AI Agents"
+       },
+       {
+        "type": "official",
+        "title": "A practical guide to building agents - OpenAI",
+        "url": "https://cdn.openai.com/business-guides-and-resources/a-practical-guide-to-building-agents.pdf",
+        "topic": "Manual Implementation of AI Agents"
+       },
+       {
+        "type": "official",
+        "title": "Create custom subagents - Claude",
+        "url": "https://code.claude.com/docs/en/sub-agents",
+        "topic": "Manual Implementation of AI Agents"
+       },
+       {
+        "type": "official",
+        "title": "Introducing AgentKit",
+        "url": "https://openai.com/index/introducing-agentkit/",
+        "topic": "OpenAI AgentKit"
+       }
+      ]
+     },
+     {
+      "step_number": 11,
+      "title": "Model Context Protocol (MCP)",
+      "description": "MCP is becoming the standard way to plug tools and data sources into AI assistants, so building servers and clients is a practical skill. Learn the host, client and server roles, the data and transport layers, and connect local and remote servers.",
+      "topic_refs": [
+       "AeHkNU-uJ_gBdo5-xdpEu",
+       "jpSel6gPj1d0EhH73Knm7",
+       "MabZ9jOrSj539C5qZrVBd",
+       "po0fIZYaFhRbNlza7sB37",
+       "8Xkd88EjX3GE_9DWQhr7G",
+       "0Rk0rCbmRFJT2GKwUibQS",
+       "oLGfKjcqBzJ3vd6Cg-T1B",
+       "H-G93SsEgsA_NGL_v4hPv",
+       "2t4uINxmzfx8FUF-_i_2B",
+       "Z0920V57_ziDhXbQJMN9O",
+       "o4gHDZ5p9lyeHuCAPvAKz",
+       "xXLyuUNrKEc32XLQxMjgT"
+      ],
+      "projects": [
+       {
+        "title": "Timetable MCP server",
+        "description": "Expose a college timetable as MCP tools and query it from an MCP-capable assistant.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Minimal MCP client",
+        "description": "Write a client that lists a server's tools and calls one from the command line.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Model Context Protocol (MCP)",
+       "MCP",
+       "MCP Host",
+       "MCP Client",
+       "MCP Server"
+      ],
+      "more_topics": [
+       {
+        "node_id": "31UjRzoh7wQKk6uAZ7aVM",
+        "title": "PostHog"
+       }
+      ],
+      "global_step_index": 18,
+      "resource": {
+       "title": "What is MCP? Integrate AI Agents with Databases & APIs",
+       "url": "https://youtube.com/watch?v=eur8dUO9mvE"
+      },
+      "videos": [
+       {
+        "title": "What is MCP? Integrate AI Agents with Databases & APIs",
+        "url": "https://youtube.com/watch?v=eur8dUO9mvE",
+        "video_id": "eur8dUO9mvE",
+        "source": "roadmap.sh",
+        "topic": "MCP"
+       },
+       {
+        "title": "The Complete Guide to Building AI Agents for Beginners",
+        "url": "https://youtube.com/watch?v=MOyl58VF2ak",
+        "video_id": "MOyl58VF2ak",
+        "source": "roadmap.sh",
+        "topic": "MCP Client"
+       },
+       {
+        "title": "Create an MCP Client in Python - FastAPI Tutorial",
+        "url": "https://youtube.com/watch?v=mhdGVbJBswA",
+        "video_id": "mhdGVbJBswA",
+        "source": "roadmap.sh",
+        "topic": "Building an MCP Client"
+       },
+       {
+        "title": "Build and Ship Any MCP Server in MINUTES (Full Guide)",
+        "url": "https://youtube.com/watch?v=Zw3sfAIpeH8",
+        "video_id": "Zw3sfAIpeH8",
+        "source": "roadmap.sh",
+        "topic": "Building an MCP Server"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Model Context Protocol",
+        "url": "https://modelcontextprotocol.io/",
+        "topic": "Model Context Protocol (MCP)"
+       },
+       {
+        "type": "official",
+        "title": "Concepts of MCP",
+        "url": "https://modelcontextprotocol.io/docs/learn/architecture#concepts-of-mcp",
+        "topic": "MCP Host"
+       },
+       {
+        "type": "official",
+        "title": "Understanding MCP clients",
+        "url": "https://modelcontextprotocol.io/docs/learn/client-concepts#understanding-mcp-clients",
+        "topic": "MCP Client"
+       },
+       {
+        "type": "official",
+        "title": "Understanding MCP Servers",
+        "url": "https://modelcontextprotocol.io/docs/learn/server-concepts#understanding-mcp-servers",
+        "topic": "MCP Server"
+       }
+      ]
+     },
+     {
+      "step_number": 12,
+      "title": "AI Coding Assistants and Developer Tools",
+      "description": "AI engineers are expected to work productively with AI coding tools and to understand how they are built. Try the main coding assistants on a real codebase and note where they help and where they need review.",
+      "topic_refs": [
+       "NYge7PNtfI-y6QWefXJ4d",
+       "wr5ddjutC-fX_ixysTHaT",
+       "MWhoqhNnBaoeCdN_8i15k",
+       "XY2l96sry3WyLzzo3KUeU",
+       "Ubk4GN0Z4XlDJ3EbRXdxg",
+       "Xsl8mx6J182TxPPtNP471"
+      ],
+      "projects": [
+       {
+        "title": "Assistant-built feature log",
+        "description": "Add one feature to a project with an AI coding assistant and log every suggestion you had to correct.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Coding tool comparison",
+        "description": "Give two assistants the same bug-fix task and compare correctness, time and review effort.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Development Tools",
+       "Claude Code",
+       "Cursor",
+       "Codex",
+       "Replit"
+      ],
+      "more_topics": [],
+      "global_step_index": 19,
+      "resource": {
+       "title": "Cursor AI Tutorial for Beginners",
+       "url": "https://youtube.com/watch?v=3289vhOUdKA"
+      },
+      "videos": [
+       {
+        "title": "Cursor AI Tutorial for Beginners",
+        "url": "https://youtube.com/watch?v=3289vhOUdKA",
+        "video_id": "3289vhOUdKA",
+        "source": "roadmap.sh",
+        "topic": "Cursor"
+       },
+       {
+        "title": "Getting started with Codex",
+        "url": "https://youtube.com/watch?v=px7XlbYgk7I",
+        "video_id": "px7XlbYgk7I",
+        "source": "roadmap.sh",
+        "topic": "Codex"
+       },
+       {
+        "title": "Getting Started with Replit",
+        "url": "https://youtube.com/watch?v=St95nPOwsa8",
+        "video_id": "St95nPOwsa8",
+        "source": "roadmap.sh",
+        "topic": "Replit"
+       },
+       {
+        "title": "Devin AI Is the Future of Coding… Full Tutorial",
+        "url": "https://youtube.com/watch?v=GFlFABWeqDc",
+        "video_id": "GFlFABWeqDc",
+        "source": "roadmap.sh",
+        "topic": "Devin"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Cursor Docs",
+        "url": "https://cursor.com/docs",
+        "topic": "Cursor"
+       },
+       {
+        "type": "official",
+        "title": "Cursor Learn",
+        "url": "https://cursor.com/learn",
+        "topic": "Cursor"
+       },
+       {
+        "type": "official",
+        "title": "Codex - Official Website",
+        "url": "https://chatgpt.com/codex",
+        "topic": "Codex"
+       },
+       {
+        "type": "official",
+        "title": "Replit",
+        "url": "https://replit.com/",
+        "topic": "Replit"
+       }
+      ]
+     },
+     {
+      "step_number": 13,
+      "title": "Evaluating LLM Applications",
+      "description": "Without evaluations you cannot tell whether a prompt or model change made the product better or worse. Build deterministic, model-graded and human evaluations, use RAG-specific metrics, and run regression and adversarial tests before release.",
+      "topic_refs": [
+       "FJ3ZwbTdiFyebrFi96tnz",
+       "Z8MBleL51wJuV9BkS1djI",
+       "kSDTJK74Tq0KHBfIawJuT",
+       "LJ6_U5lOdc0uRngutj7Ro",
+       "QIx5nT75l2Cn2q75-TxfD",
+       "Bkzi3QyzKyHxcHE7sodRZ",
+       "CZ_-PSDzzSrSon5XdzLen",
+       "hyN5v8dg1lHJLpdZZdtJE",
+       "Pt-AJmSJrOxKvolb5_HEv"
+      ],
+      "projects": [
+       {
+        "title": "RAG evaluation harness",
+        "description": "Score a RAG app on faithfulness and answer relevance with RAGAS on a fixed question set.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "LLM-as-judge calibration",
+        "description": "Compare a model grader's scores with your own labels on fifty answers and measure agreement.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "LLM Evaluations",
+       "Evaluation MetricsEvaluation Metrics",
+       "Deterministic Evals",
+       "Model-Based Evals",
+       "Human Evals"
+      ],
+      "more_topics": [
+       {
+        "node_id": "MNtaY1_kOJHeoWuM-abb4",
+        "title": "Gemma"
+       },
+       {
+        "node_id": "0_pa739kMPWHfuSQV-VO7",
+        "title": "Repetition Penalties"
+       }
+      ],
+      "global_step_index": 20,
+      "resource": {
+       "title": "Welcome to the LLM evaluation course",
+       "url": "https://youtube.com/watch?v=rHs0sP7b5fM"
+      },
+      "videos": [
+       {
+        "title": "Welcome to the LLM evaluation course",
+        "url": "https://youtube.com/watch?v=rHs0sP7b5fM",
+        "video_id": "rHs0sP7b5fM",
+        "source": "roadmap.sh",
+        "topic": "LLM Evaluations"
+       },
+       {
+        "title": "LLM as a Judge: Scaling AI Evaluation Strategies",
+        "url": "https://youtube.com/watch?v=trfUBIDeI1Y",
+        "video_id": "trfUBIDeI1Y",
+        "source": "roadmap.sh",
+        "topic": "Model-Based Evals"
+       },
+       {
+        "title": "Regression Testing for LLMs: Golden Datasets Explained",
+        "url": "https://youtube.com/watch?v=7vqU_Yj5kUc",
+        "video_id": "7vqU_Yj5kUc",
+        "source": "roadmap.sh",
+        "topic": "Regression Testing"
+       },
+       {
+        "title": "RAGAS: How to Evaluate a RAG Application",
+        "url": "https://youtube.com/watch?v=5fp6e5nhJRk",
+        "video_id": "5fp6e5nhJRk",
+        "source": "roadmap.sh",
+        "topic": "RAGAS"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Ragas Docs",
+        "url": "https://docs.ragas.io/en/stable/",
+        "topic": "RAGAS"
+       },
+       {
+        "type": "official",
+        "title": "DeepEval Docs",
+        "url": "https://deepeval.com/docs/introduction",
+        "topic": "DeepEval"
+       },
+       {
+        "type": "official",
+        "title": "Gemma",
+        "url": "https://deepmind.google/models/gemma/",
+        "topic": "Gemma"
+       }
+      ]
+     },
+     {
+      "step_number": 14,
+      "title": "Observability, Safety and Security in Production",
+      "description": "Live AI features need tracing, cost and latency tracking, and guardrails for harmful content, bias and data leaks. Instrument an app with an LLM observability tool and add moderation and privacy controls.",
+      "topic_refs": [
+       "1bBgMVISENC-XBwuZFlUk",
+       "cdapQf0Owxdx6olAHTrbq",
+       "3gwVG4XaO83z3Yzdd84Z-",
+       "CG3XTMPug98s-EP0_rn1Y",
+       "bN_ReFUQgkJmWOAFMLXMg",
+       "Xw6-crHimGrVC1u1xujc6",
+       "82LE-qxw1H_FYfVUdgkN9",
+       "jx57heeBnacrlCyQPhlEi",
+       "8ndKHDJgL_gYwaXC7XMer",
+       "lhIU0ulpvDAn1Xc3ooYz_",
+       "ljZLa3yjQpegiZWwtnn_q",
+       "sWBT-j2cRuFqRFYtV_5TK"
+      ],
+      "projects": [
+       {
+        "title": "Traced chatbot",
+        "description": "Add tracing to a chatbot so every request shows its prompt, tokens, latency and cost in a dashboard.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Guardrail layer",
+        "description": "Screen inputs and outputs with a moderation API and redact phone numbers and emails before logging.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "LLM Observability",
+       "Tracing & Logging",
+       "Production Monitoring",
+       "Cost & Latency Monitoring",
+       "LangSmith"
+      ],
+      "more_topics": [],
+      "global_step_index": 21,
+      "resource": {
+       "title": "Why Evals Matter | LangSmith Evaluations",
+       "url": "https://youtube.com/watch?v=vygFgCNR7WA"
+      },
+      "videos": [
+       {
+        "title": "Why Evals Matter | LangSmith Evaluations",
+        "url": "https://youtube.com/watch?v=vygFgCNR7WA",
+        "video_id": "vygFgCNR7WA",
+        "source": "roadmap.sh",
+        "topic": "LangSmith"
+       },
+       {
+        "title": "Get Started with Langfuse - Open-Source LLM Monitoring",
+        "url": "https://youtube.com/watch?v=epnPfe5am3I",
+        "video_id": "epnPfe5am3I",
+        "source": "roadmap.sh",
+        "topic": "LangFuse"
+       },
+       {
+        "title": "ES  Skip navigation Helicone tutorial     Create   Avatar image Helicone AI — The Open-source LLM Observability for Developers",
+        "url": "https://youtube.com/watch?v=RNFa8bl3RdE",
+        "video_id": "RNFa8bl3RdE",
+        "source": "roadmap.sh",
+        "topic": "Helicone"
+       },
+       {
+        "title": "How to Evaluate Tool-Calling Agents",
+        "url": "https://youtube.com/watch?v=JytjrbDaI44",
+        "video_id": "JytjrbDaI44",
+        "source": "roadmap.sh",
+        "topic": "Arize AI"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "LagLangSmith docsnS",
+        "url": "https://docs.langchain.com/langsmith/home",
+        "topic": "LangSmith"
+       },
+       {
+        "type": "official",
+        "title": "Langfuse Overview",
+        "url": "https://langfuse.com/docs",
+        "topic": "LangFuse"
+       },
+       {
+        "type": "official",
+        "title": "Helicone Docs",
+        "url": "https://docs.helicone.ai/getting-started/quick-start",
+        "topic": "Helicone"
+       },
+       {
+        "type": "official",
+        "title": "Arize AI Docs",
+        "url": "https://arize.com/docs/ax",
+        "topic": "Arize AI"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 4,
+    "title": "AI Agents",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "The Agent Loop: Perceive, Reason, Act, Observe",
+      "description": "An agent is a loop around a model, and most agent bugs are loop bugs: no stopping rule, lost observations, or the wrong model for the job. Learn each stage of the loop, when a reasoning model is worth its cost, and how token pricing adds up over many steps.",
+      "topic_refs": [
+       "aFZAm44nP5NefX_9TpT0A",
+       "Eih4eybuYB3C2So8K0AT3",
+       "LU76AhCYDjxdBhpMQ4eMU",
+       "ycPRgRYR4lEBQr_xxHKnM",
+       "sHYd4KsKlmw5Im3nQ19W8",
+       "ZJTrun3jK3zBGOTm1jdMI",
+       "K0G-Lw069jXUJwZqHtybd",
+       "ZF5_5Y5zqa75Ov22JACX6",
+       "N3yZfUxphxjiupqGpyaS9",
+       "DSJAhQhc1dQmBHQ8ZkTau",
+       "tJYmEDDwK0LtEux-kwp9B",
+       "1fiWPBV99E2YncqdCgUw2"
+      ],
+      "projects": [
+       {
+        "title": "Loop tracer",
+        "description": "Print every perceive, reason, act and observe stage of a simple agent and add a maximum-step stopping rule.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Agent cost estimator",
+        "description": "Estimate the cost of a ten-step agent run on a standard model versus a reasoning model.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "What are AI Agents?",
+       "Agent Loop",
+       "Perception / User Input",
+       "Reason and Plan",
+       "Acting / Tool Invocation"
+      ],
+      "more_topics": [],
+      "global_step_index": 22,
+      "resource": {
+       "title": "What are AI Agents?",
+       "url": "https://youtube.com/watch?v=F8NKVhkZZWI"
+      },
+      "videos": [
+       {
+        "title": "What are AI Agents?",
+        "url": "https://youtube.com/watch?v=F8NKVhkZZWI",
+        "video_id": "F8NKVhkZZWI",
+        "source": "roadmap.sh",
+        "topic": "What are AI Agents?"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "ReAct: Synergizing Reasoning and Acting in Language Models",
+        "url": "https://react-lm.github.io/",
+        "topic": "Reason and Plan"
+       },
+       {
+        "type": "official",
+        "title": "Best Practices for Prompting and Self-checking",
+        "url": "https://platform.openai.com/docs/guides/prompt-engineering",
+        "topic": "Observation & Reflection"
+       },
+       {
+        "type": "official",
+        "title": "Falcon LLM – Technology Innovation Institute (TII)",
+        "url": "https://falconllm.tii.ae/",
+        "topic": "Open Weight Models"
+       },
+       {
+        "type": "official",
+        "title": "Hugging Face – Open LLM Leaderboard (Top Open Models)",
+        "url": "https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard",
+        "topic": "Open Weight Models"
+       }
+      ]
+     },
+     {
+      "step_number": 2,
+      "title": "Designing Agent Tools and Permissions",
+      "description": "An agent is only as capable and as safe as its tools, so clear tool definitions and tight permissions matter more than clever prompts. Define tools for each provider's function-calling API and give agents search, code, file, database and messaging tools with sandboxing.",
+      "topic_refs": [
+       "2zsOUWJQ8e7wnoHmq1icG",
+       "qakbxB8xe7Y8gejC5cZnK",
+       "aafZxtjxiwzJH1lwHBODi",
+       "AQtxTTxmBpfl8BMgJbGzc",
+       "1EZFbDHA5J5_5BPMLMxXb",
+       "_iIsBJTVS6OBf_dsdmbVO",
+       "kBtqT8AduLoYDWopj-V9_",
+       "mS0EVCkWuPN_GkVPng4A2",
+       "BoJqZvdGam4cd6G6yK2IV",
+       "sV1BnA2-qBnXoKpUn-8Ub",
+       "qaNr5I-NQPnfrRH7ynGTl",
+       "UVzLGXG6K7HQVHmw8ZAv2"
+      ],
+      "projects": [
+       {
+        "title": "Read-only SQL tool",
+        "description": "A database tool that lets an agent answer questions but rejects any write query.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Sandboxed code runner",
+        "description": "Run agent-generated Python in a restricted container with a time and memory limit.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "What are Tools?",
+       "Tool Definition",
+       "LLM Native \"Function Calling\"",
+       "OpenAI Functions Calling",
+       "Anthropic Tool Use"
+      ],
+      "more_topics": [
+       {
+        "node_id": "B8dzg61TGaknuruBgkEJd",
+        "title": "Pricing of Common Models"
+       }
+      ],
+      "global_step_index": 23,
+      "resource": {
+       "title": "How File Systems Work?",
+       "url": "https://youtube.com/watch?v=KN8YgJnShPM"
+      },
+      "videos": [
+       {
+        "title": "How File Systems Work?",
+        "url": "https://youtube.com/watch?v=KN8YgJnShPM",
+        "video_id": "KN8YgJnShPM",
+        "source": "roadmap.sh",
+        "topic": "File System Access"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "OpenAI Documentation – Function Calling",
+        "url": "https://platform.openai.com/docs/guides/function-calling",
+        "topic": "OpenAI Functions Calling"
+       },
+       {
+        "type": "official",
+        "title": "OpenAI Cookbook – Using Functions with GPT Models",
+        "url": "https://github.com/openai/openai-cookbook/blob/main/examples/How_to_call_functions_with_chat_models.ipynb",
+        "topic": "OpenAI Functions Calling"
+       },
+       {
+        "type": "official",
+        "title": "OpenAI API Reference – Functions Section",
+        "url": "https://platform.openai.com/docs/api-reference/chat/create#functions",
+        "topic": "OpenAI Functions Calling"
+       },
+       {
+        "type": "official",
+        "title": "Anthropic Tool Use",
+        "url": "https://docs.anthropic.com/en/docs/build-with-claude/tool-use/overview",
+        "topic": "Anthropic Tool Use"
+       }
+      ]
+     },
+     {
+      "step_number": 3,
+      "title": "Agent Memory: Short-Term, Long-Term and Retrieval",
+      "description": "Assistants that forget the user between sessions, or drown in old history, feel broken. Learn short-term and long-term memory, episodic versus semantic memory, summarisation and forgetting, and memory backed by vector search.",
+      "topic_refs": [
+       "TBH_DZTAfR8Daoh-njNFC",
+       "M3U6RfIqaiut2nuOibY8W",
+       "Ue633fz6Xu2wa2-KOAtdP",
+       "EfCCNqLMJpWKKtamUa5gK",
+       "QJqXHV8VHPTnfYfmKPzW7",
+       "jTDC19BTWCqxqMizrIJHr",
+       "m-97m7SI0XpBnhEE8-_1S",
+       "cW8O4vLLKEG-Q0dE8E5Zp",
+       "UIm54UmICKgep6s8Itcyv",
+       "wkS4yOJ3JdZQE_yBID8K7",
+       "qwVQOwBTLA2yUgRISzC8k"
+      ],
+      "projects": [
+       {
+        "title": "Study buddy with memory",
+        "description": "An assistant that remembers a student's weak topics across sessions and decays old facts.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Memory compression test",
+        "description": "Summarise a long conversation into memory and test whether the agent still answers questions about it.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "What is Agent Memory?",
+       "Short-Term Memory",
+       "Long Term Memory",
+       "Episodic vs Semantic Memory",
+       "User Profile Storage"
+      ],
+      "more_topics": [
+       {
+        "node_id": "dyn1LSioema-Bf9lLTgUZ",
+        "title": "Context Windows"
+       },
+       {
+        "node_id": "GAjuWyJl9CI1nqXBp6XCf",
+        "title": "Tokenization"
+       },
+       {
+        "node_id": "i2NE6haX9-7mdoV5LQ3Ah",
+        "title": "Streamed vs Unstreamed Responses"
+       }
+      ],
+      "global_step_index": 24,
+      "resource": {
+       "title": "Building Brain-Like Memory for AI Agents",
+       "url": "https://youtube.com/watch?v=VKPngyO0iKg"
+      },
+      "videos": [
+       {
+        "title": "Building Brain-Like Memory for AI Agents",
+        "url": "https://youtube.com/watch?v=VKPngyO0iKg",
+        "video_id": "VKPngyO0iKg",
+        "source": "roadmap.sh",
+        "topic": "What is Agent Memory?"
+       },
+       {
+        "title": "Learn RAG From Scratch",
+        "url": "https://youtube.com/watch?v=sVcwVQRHIc8",
+        "video_id": "sVcwVQRHIc8",
+        "source": "roadmap.sh",
+        "topic": "Understand the Basics of RAG"
+       },
+       {
+        "title": "What is Retrieval-Augmented Generation (RAG)?",
+        "url": "https://youtube.com/watch?v=T-D1OfcDW1M",
+        "video_id": "T-D1OfcDW1M",
+        "source": "roadmap.sh",
+        "topic": "Understand the Basics of RAG"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "OpenAI Embeddings API Documentation",
+        "url": "https://platform.openai.com/docs/guides/embeddings/what-are-embeddings",
+        "topic": "Embeddings and Vector Search"
+       }
+      ]
+     },
+     {
+      "step_number": 4,
+      "title": "Agent Architectures and Planning Patterns",
+      "description": "Different tasks need different control flows: a single ReAct loop, a planner with executors, a fixed DAG, or agents that critique each other. Implement these patterns from scratch so you can tell what a framework is doing for you.",
+      "topic_refs": [
+       "53xDks6JQ33fHMa3XcuCd",
+       "qwdh5pkBbrF8LKPxbZp4F",
+       "Nmy1PoB32DcWZnPM8l8jT",
+       "6YLCMWzystao6byCYCTPO",
+       "Ep8RoZSy_Iq_zWXlGQLZo",
+       "hBW8-z72NcETDn_cearYc",
+       "FjAYD6ZhAuPcS6gbvBBtE",
+       "US6T5dXM8IY9V2qZnTOFW"
+      ],
+      "projects": [
+       {
+        "title": "Planner-executor trip planner",
+        "description": "A planner that splits a travel request into tasks and executors that complete each with tools.",
+        "difficulty": "advanced",
+        "grounded": false
+       },
+       {
+        "title": "Self-critique writer",
+        "description": "An agent that drafts an answer, critiques it against a checklist and revises it once.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "ReAct (Reason + Act)",
+       "Chain of Thought (CoT)",
+       "Tree-of-Thought",
+       "Planner Executor",
+       "DAG Agents"
+      ],
+      "more_topics": [],
+      "global_step_index": 25,
+      "resource": {
+       "title": "DAGs Explained Simply",
+       "url": "https://youtube.com/watch?v=1Yh5S-S6wsI"
+      },
+      "videos": [
+       {
+        "title": "DAGs Explained Simply",
+        "url": "https://youtube.com/watch?v=1Yh5S-S6wsI",
+        "video_id": "1Yh5S-S6wsI",
+        "source": "roadmap.sh",
+        "topic": "DAG Agents"
+       },
+       {
+        "title": "Multi Agent Systems Explained: How AI Agents & LLMs Work Together",
+        "url": "https://youtube.com/watch?v=sWH0T4Zez6I",
+        "video_id": "sWH0T4Zez6I",
+        "source": "roadmap.sh",
+        "topic": "Multi-Agents"
+       },
+       {
+        "title": "Building an AI Agent From Scratch",
+        "url": "https://youtube.com/watch?v=bTMPwUgLZf0",
+        "video_id": "bTMPwUgLZf0",
+        "source": "roadmap.sh",
+        "topic": "Manual (from scratch)"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "ReAct: Synergizing Reasoning and Acting in Language Models",
+        "url": "https://react-lm.github.io/",
+        "topic": "ReAct (Reason + Act)"
+       },
+       {
+        "type": "official",
+        "title": "Airflow: Directed Acyclic Graphs Documentation",
+        "url": "https://airflow.apache.org/docs/apache-airflow/stable/concepts/dags.html",
+        "topic": "DAG Agents"
+       }
+      ]
+     },
+     {
+      "step_number": 5,
+      "title": "Agent Frameworks",
+      "description": "Frameworks speed up agent development but hide control flow, so choose one deliberately. Build the same small agent in two or three frameworks and compare debuggability, state handling and multi-agent support.",
+      "topic_refs": [
+       "Ka6VpCEnqABvwiF9vba7t",
+       "O53AvUSRB5SI6hhwKxniL",
+       "iEHF-Jm3ck-Iu85EbCoDi",
+       "XS-FsvtrXGZ8DPrwOsnlI",
+       "7YtnQ9-KIvGPSpDzEDexl",
+       "uFPJqgU4qGvZyxTv-osZA",
+       "PY5WTJgRnXiYeOM6BBUvn",
+       "eWxQiBrxIUG2JNcrdfIHS",
+       "37GBFVZ2J2d5r8bd1ViHq"
+      ],
+      "projects": [
+       {
+        "title": "One agent, three frameworks",
+        "description": "Implement a document Q&A agent in LangGraph, CrewAI and plain code, and compare the code and traces.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Stateful support flow in LangGraph",
+        "description": "A graph-based agent that escalates to a human after two failed resolutions.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "LangChain",
+       "LangGraph",
+       "LlamaIndex",
+       "Haystack",
+       "AutoGen"
+      ],
+      "more_topics": [
+       {
+        "node_id": "xp7TCTRE9HP60_rGzTUF6",
+        "title": "LangSmith"
+       }
+      ],
+      "global_step_index": 26,
+      "resource": {
+       "title": "LangChain Crash Course - Build LLM Apps Fast (YouTube)",
+       "url": "https://youtube.com/watch?v=nAmC7SoVLd8"
+      },
+      "videos": [
+       {
+        "title": "LangChain Crash Course - Build LLM Apps Fast (YouTube)",
+        "url": "https://youtube.com/watch?v=nAmC7SoVLd8",
+        "video_id": "nAmC7SoVLd8",
+        "source": "roadmap.sh",
+        "topic": "LangChain"
+       },
+       {
+        "title": "LangChain vs LangGraph: A Tale of Two Frameworks",
+        "url": "https://youtube.com/watch?v=qAF1NjEVHhY",
+        "video_id": "qAF1NjEVHhY",
+        "source": "roadmap.sh",
+        "topic": "LangGraph"
+       },
+       {
+        "title": "Crew AI Full Tutorial For Beginners",
+        "url": "https://youtube.com/watch?v=q6QLGS306d0",
+        "video_id": "q6QLGS306d0",
+        "source": "roadmap.sh",
+        "topic": "CrewAI"
+       },
+       {
+        "title": "Building Your First Agent With AGNO AGI ( Previously Phidata ) | For Complete Begineers",
+        "url": "https://youtube.com/watch?v=s7Kkc6vA2K0",
+        "video_id": "s7Kkc6vA2K0",
+        "source": "roadmap.sh",
+        "topic": "Agno"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "LangChain Documentation",
+        "url": "https://python.langchain.com/docs/introduction/",
+        "topic": "LangChain"
+       },
+       {
+        "type": "official",
+        "title": "LangGraph Docs",
+        "url": "https://docs.langchain.com/oss/python/langgraph/overview?_gl=1*wnuiny*_gcl_au*MTI0NjQ3NzM5NS4xNzczMDQ5NDY2*_ga*MTgwMzY5ODQ5OS4xNzczMDQ5NDY2*_ga_47WX3HKKY2*czE3NzMwNDk0NjYkbzEkZzAkdDE3NzMwNDk0NjYkajYwJGwwJGgw",
+        "topic": "LangGraph"
+       },
+       {
+        "type": "official",
+        "title": "LlamaIndex Documentation",
+        "url": "https://docs.smith.langchain.com/",
+        "topic": "LlamaIndex"
+       },
+       {
+        "type": "official",
+        "title": "Haystack",
+        "url": "https://haystack.deepset.ai/",
+        "topic": "Haystack"
+       }
+      ]
+     },
+     {
+      "step_number": 6,
+      "title": "Agent Integrations: MCP Servers and Backend APIs",
+      "description": "Agents become useful when they reach real systems, through MCP servers or ordinary REST APIs behind a backend. Create and host MCP servers locally and remotely, and expose agent capabilities through a small backend service.",
+      "topic_refs": [
+       "1B0IqRNYdtbHDi1jHSXuI",
+       "9FryAIrWRHh8YlzKX3et5",
+       "CGVstUxVXLJcYZrwk3iNQ",
+       "yv_-87FVM7WKn5iv6LW9q",
+       "1NXIN-Hbjl5rPy_mqxQYW",
+       "iBtJp24F_kJE3YlBsW60s",
+       "dHNMX3_t1KSDdAWqgdJXv",
+       "QtTwecLdvQa8pgELJ6i80",
+       "52qxjZILV-X1isup6dazC",
+       "VPI89s-m885r2YrXjYxdd"
+      ],
+      "projects": [
+       {
+        "title": "Remote MCP server for notes",
+        "description": "Deploy an MCP server that lets an assistant create and search notes stored in a database.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Agent behind a REST endpoint",
+        "description": "Wrap an agent in a backend API with request IDs, timeouts and streamed replies.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Model Context Protocol (MCP)",
+       "MCP Hosts",
+       "MCP Client",
+       "MCP Servers",
+       "Creating MCP Servers"
+      ],
+      "more_topics": [],
+      "global_step_index": 27,
+      "resource": {
+       "title": "Run a Local Server on Your Machine",
+       "url": "https://youtube.com/watch?v=ldGl6L4Vktk"
+      },
+      "videos": [
+       {
+        "title": "Run a Local Server on Your Machine",
+        "url": "https://youtube.com/watch?v=ldGl6L4Vktk",
+        "video_id": "ldGl6L4Vktk",
+        "source": "roadmap.sh",
+        "topic": "Local Desktop"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Model Context Protocol",
+        "url": "https://modelcontextprotocol.io/introduction",
+        "topic": "Model Context Protocol (MCP)"
+       },
+       {
+        "type": "official",
+        "title": "Vercel Serverless Hosting",
+        "url": "https://vercel.com/docs",
+        "topic": "MCP Hosts"
+       },
+       {
+        "type": "official",
+        "title": "OpenAI API Reference",
+        "url": "https://platform.openai.com/docs/api-reference",
+        "topic": "MCP Client"
+       },
+       {
+        "type": "official",
+        "title": "Anthropic API Documentation",
+        "url": "https://docs.anthropic.com/claude/reference",
+        "topic": "MCP Client"
+       }
+      ]
+     },
+     {
+      "step_number": 7,
+      "title": "Writing Instructions for Agents",
+      "description": "Agents follow instructions over many steps, so vague goals and missing formats compound into wrong actions. Practise specific, context-rich instructions with examples, and tune temperature, top-p, length and penalties for agent behaviour.",
+      "topic_refs": [
+       "Y8EqzFx3qxtrSh7bWbbV8",
+       "qFKFM2qNPEN7EoD0V-1SM",
+       "6I42CoeWX-kkFXTKAY7rw",
+       "sUwdtOX550tSdceaeFPmF",
+       "yulzE4ZNLhXOgHhG7BtZQ",
+       "noTuUFnHSBzn7GKG9UZEi",
+       "wwHHlEoPAx0TLxbtY6nMA",
+       "L1zL1GzqjSAjF06pIIXhy",
+       "icbp1NjurQfdM0dHnz6v2",
+       "Bn_BkthrVX_vOuwQzvPZa",
+       "z_N-Y0zGkv8_qHPuVtimL",
+       "Vd8ycw8pW-ZKvg5WYFtoh"
+      ],
+      "projects": [
+       {
+        "title": "Instruction rewrite exercise",
+        "description": "Take a vague agent instruction, rewrite it three times and measure task success on ten runs each.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Deterministic tool-picking",
+        "description": "Tune sampling settings until an agent picks the correct tool consistently across repeated runs.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "What is Prompt Engineering",
+       "Be specific in what you want",
+       "Provide additional context",
+       "Use relevant technical terms",
+       "Use Examples in your Prompt"
+      ],
+      "more_topics": [
+       {
+        "node_id": "5OW_6o286mj470ElFyJ_5",
+        "title": "Fine-tuning vs Prompt Engineering"
+       }
+      ],
+      "global_step_index": 28,
+      "resource": {
+       "title": "Prompt Engineering: The Iterative Process",
+       "url": "https://youtube.com/watch?v=dOxUroR57xs"
+      },
+      "videos": [
+       {
+        "title": "Prompt Engineering: The Iterative Process",
+        "url": "https://youtube.com/watch?v=dOxUroR57xs",
+        "video_id": "dOxUroR57xs",
+        "source": "roadmap.sh",
+        "topic": "Iterate and Test your Prompts"
+       },
+       {
+        "title": "Understanding ChatGPT/OpenAI Tokens",
+        "url": "https://youtube.com/watch?v=Mo3NV5n1yZk",
+        "video_id": "Mo3NV5n1yZk",
+        "source": "roadmap.sh",
+        "topic": "Max Length"
+       },
+       {
+        "title": "RAG vs Fine-Tuning vs Prompt Engineering: Optimizing AI Models",
+        "url": "https://youtube.com/watch?v=zYGDpG-pTho",
+        "video_id": "zYGDpG-pTho",
+        "source": "roadmap.sh",
+        "topic": "Fine-tuning vs Prompt Engineering"
+       }
+      ],
+      "resources": [
+       {
+        "type": "course",
+        "title": "Prompt Engineering Best Practices",
+        "url": "https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/",
+        "topic": "Iterate and Test your Prompts"
+       }
+      ]
+     },
+     {
+      "step_number": 8,
+      "title": "Testing and Tracing Agents",
+      "description": "Agents are non-deterministic and multi-step, so they need unit tests for tools, flow tests and traces to find where a run went wrong. Test tools and flows, track the right metrics, add human review, and trace runs with an observability tool.",
+      "topic_refs": [
+       "qo_O4YAe4-MTP_ZJoXJHR",
+       "P9-SiIda3TSjHsfkI5OUV",
+       "rHxdxN97ZcU7MPl8L1jzN",
+       "v8qLnyFRnEumodBYxQSXQ",
+       "YzEDtGEaMaMWVt0W03HRt",
+       "0924QUH1wV7Mp-Xu0FAhF",
+       "zs6LM8WEnb0ERWpiaQCgc",
+       "SS8mGqf9wfrNqenIWvN8Z",
+       "UoIheaJlShiceafrWALEH",
+       "MLxP5N0Vrmwh-kyvNeGXn",
+       "7UqPXUzqKYXklnB3x-tsv",
+       "SU2RuicMUo8tiAsQtDI1k"
+      ],
+      "projects": [
+       {
+        "title": "Agent test suite",
+        "description": "Unit-test each tool and run twenty end-to-end scenarios, reporting success rate and average steps.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Jailbreak regression tests",
+        "description": "Collect jailbreak prompts and check on every release that the agent refuses them.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Unit Testing for Individual Tools",
+       "Integration Testing for Flows",
+       "Human in the Loop Evaluation",
+       "Metrics to Track",
+       "Ragas"
+      ],
+      "more_topics": [],
+      "global_step_index": 29,
+      "resource": {
+       "title": "DeepEval - LLM Evaluation Framework",
+       "url": "https://youtube.com/watch?v=ZNs2dCXHlfo"
+      },
+      "videos": [
+       {
+        "title": "DeepEval - LLM Evaluation Framework",
+        "url": "https://youtube.com/watch?v=ZNs2dCXHlfo",
+        "video_id": "ZNs2dCXHlfo",
+        "source": "roadmap.sh",
+        "topic": "DeepEval"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Ragas Documentation",
+        "url": "https://docs.ragas.io/en/latest/",
+        "topic": "Ragas"
+       },
+       {
+        "type": "official",
+        "title": "DeepEval - The Open-Source LLM Evaluation Framework",
+        "url": "https://www.deepeval.com/",
+        "topic": "DeepEval"
+       },
+       {
+        "type": "official",
+        "title": "LangSmith",
+        "url": "https://smith.langchain.com/",
+        "topic": "LangSmith"
+       },
+       {
+        "type": "official",
+        "title": "LangSmith Documentation",
+        "url": "https://docs.smith.langchain.com/",
+        "topic": "LangSmith"
+       }
+      ]
+     },
+     {
+      "step_number": 9,
+      "title": "Agent Use Cases and Guardrails",
+      "description": "Common agent products include personal assistants, coding and data-analysis agents, and scrapers, and each needs guardrails for harm, bias and private data. Build one use case and add red-team testing and PII redaction before showing it to anyone.",
+      "topic_refs": [
+       "PPdAutqJF5G60Eg9lYBND",
+       "PK8w31GlvtmAuU92sHaqr",
+       "wKYEaPWNsR30TIpHaxSsq",
+       "ok8vN7VtCgyef5x6aoQaL",
+       "5oLc-235bvKhApxzYFkEc",
+       "McREk2zHOlIrqbGSKbX-J",
+       "63nsfJFO1BwjLX_ZVaPFC",
+       "EyLo2j8IQsIK91SKaXkmK",
+       "rdlYBJNNyZUshzsJawME4"
+      ],
+      "projects": [
+       {
+        "title": "CSV analysis agent",
+        "description": "An agent that answers questions about an uploaded spreadsheet by writing and running pandas code.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Red-team report",
+        "description": "Attack your own agent with harmful, biased and data-leaking requests and document the fixes.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Personal assistant",
+       "Code generation",
+       "Data Analysis",
+       "NPC / Game AI",
+       "Web Scraping / Crawling"
+      ],
+      "more_topics": [],
+      "global_step_index": 30,
+      "resource": {
+       "title": "Git and Terminal Basics Crash Course (YouTube)",
+       "url": "https://youtube.com/watch?v=HVsySz-h9r4"
+      },
+      "videos": [
+       {
+        "title": "Git and Terminal Basics Crash Course (YouTube)",
+        "url": "https://youtube.com/watch?v=HVsySz-h9r4",
+        "video_id": "HVsySz-h9r4",
+        "source": "roadmap.sh",
+        "topic": "Git and Terminal Usage"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "GitHub Copilot",
+        "url": "https://github.com/features/copilot",
+        "topic": "Code generation"
+       },
+       {
+        "type": "official",
+        "title": "Unity – AI for NPCs",
+        "url": "https://dev.epicgames.com/documentation/en-us/unreal-engine/artificial-intelligence-in-unreal-engine?application_version=5.3",
+        "topic": "NPC / Game AI"
+       },
+       {
+        "type": "official",
+        "title": "Git Basics",
+        "url": "https://git-scm.com/doc",
+        "topic": "Git and Terminal Usage"
+       },
+       {
+        "type": "official",
+        "title": "Introduction to the Terminal",
+        "url": "https://ubuntu.com/tutorials/command-line-for-beginners#1-overview",
+        "topic": "Git and Terminal Usage"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 5,
+    "title": "AI Red Teaming",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "Red Teaming Foundations and Threat Modelling",
+      "description": "Before attacking your own AI system you need a clear model of what could go wrong, who might do it, and what it would cost. Learn the red team's role and ethics, the CIA triad, threat modelling and risk assessment for model-based systems.",
+      "topic_refs": [
+       "HFJIYcI16OMyM77fAw9af",
+       "Irkc9DgBfqSn72WaJqXEt",
+       "1gyuEV519LjN-KpROoVwv",
+       "WZkIHZkV2qDYbYF9KBBRi",
+       "RDOaTBWP3aIJPUp_kcafm",
+       "MupRvk_8Io2Hn7yEvU663",
+       "887lc3tWCRH-sOHSxWgWJ",
+       "8K-wCn2cLc7Vs_V4sC3sE",
+       "RuKzVhd1nZphCrlW1wZGL",
+       "3XJ-g0KvHP75U18mxCqgw"
+      ],
+      "projects": [
+       {
+        "title": "Threat model for a RAG chatbot",
+        "description": "Draw the data flow of a document chatbot and list threats, impact and mitigations for each component.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Risk register",
+        "description": "Rate likelihood and impact for ten AI-specific risks in a product you have built.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Introduction",
+       "Role of Red Teams",
+       "Ethical Considerations",
+       "Confidentiality, Integrity, Availability",
+       "Threat Modeling"
+      ],
+      "more_topics": [
+       {
+        "node_id": "soC-kcem1ISbnCQMa6BIB",
+        "title": "Advanced Techniques"
+       },
+       {
+        "node_id": "Xqzc4mOKsVzwaUxLGjHya",
+        "title": "Reinforcement Learning"
+       },
+       {
+        "node_id": "ZC0yKsu-CJC-LZKKo2pLD",
+        "title": "Unsupervised Learning"
+       }
+      ],
+      "global_step_index": 31,
+      "resource": null,
+      "videos": [],
+      "resources": [
+       {
+        "type": "course",
+        "title": "Introduction to Generative AI",
+        "url": "https://learnprompting.org/courses/intro-to-gen-ai",
+        "topic": "Generative Models"
+       },
+       {
+        "type": "course",
+        "title": "Deep Reinforcement Learning Course by HuggingFace",
+        "url": "https://huggingface.co/learn/deep-rl-course/unit0/introduction",
+        "topic": "Reinforcement Learning"
+       }
+      ]
+     },
+     {
+      "step_number": 2,
+      "title": "Prompt Injection and Jailbreak Attacks",
+      "description": "Injection is the most common real-world attack on LLM products, and agents with tools turn it into code execution or data theft. Practise direct and indirect injection, jailbreaks and filter bypasses against your own systems, then harden them.",
+      "topic_refs": [
+       "1Xr7mxVekeAHzTL7G4eAZ",
+       "XOrAPDRhBvde9R-znEipH",
+       "5zHow4KZVpfhch5Aabeft",
+       "3_gJRtJSdm2iAfkwmcv0e",
+       "Ds8pqn4y9Npo7z6ubunvc",
+       "j7uLLpt8MkZ1rqM7UBPW4",
+       "gx4KaFqKgJX9n9_ZGMqlZ",
+       "FVsKivsJrIb82B0lpPmgw",
+       "vhBu5x8INTtqvx6vcYAhE",
+       "kgDsDlBk8W2aM6LyWpFY8"
+      ],
+      "projects": [
+       {
+        "title": "Indirect injection via a web page",
+        "description": "Hide instructions in a page that a browsing agent reads and show how it changes the agent's actions.",
+        "difficulty": "advanced",
+        "grounded": false
+       },
+       {
+        "title": "Jailbreak catalogue",
+        "description": "Test known jailbreak styles against a chatbot and record which defences block each one.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Prompt Hacking",
+       "Prompt Injection",
+       "Direct Injection",
+       "Indirect Injection",
+       "Jailbreak Techniques"
+      ],
+      "more_topics": [],
+      "global_step_index": 32,
+      "resource": {
+       "title": "SQL vs NoSQL Databases in 4 mins",
+       "url": "https://youtube.com/watch?v=_Ss42Vb1SU4"
+      },
+      "videos": [
+       {
+        "title": "SQL vs NoSQL Databases in 4 mins",
+        "url": "https://youtube.com/watch?v=_Ss42Vb1SU4",
+        "video_id": "_Ss42Vb1SU4",
+        "source": "roadmap.sh",
+        "topic": "SQL vs NoSQL"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Model Context Protocol - Authorization Specification",
+        "url": "https://modelcontextprotocol.io/specification/2025-11-25/basic/authorization",
+        "topic": "Agentic AI Security"
+       },
+       {
+        "type": "course",
+        "title": "Introduction to Prompt Hacking",
+        "url": "https://learnprompting.org/courses/intro-to-prompt-hacking",
+        "topic": "Prompt Hacking"
+       },
+       {
+        "type": "course",
+        "title": "Advanced Prompt Hacking - Learn Prompting",
+        "url": "https://learnprompting.org/courses/advanced-prompt-hacking",
+        "topic": "Prompt Injection"
+       }
+      ]
+     },
+     {
+      "step_number": 3,
+      "title": "Model-Level Attacks and Defences",
+      "description": "Attackers can also target the model itself, by crafting inputs, poisoning training data, or extracting weights and private training records. Learn these attacks and defences such as adversarial training and robust design.",
+      "topic_refs": [
+       "uBXrri2bXVsNiM8fIHHOv",
+       "xjlttOti-_laPRn8a2fVy",
+       "2Y0ZO-etpv3XIvunDLu-W",
+       "nD0_64ELEeJSN-0aZiR7i",
+       "iE5PcswBHnu_EBFIacib0",
+       "QFzLx5nc4rCCD8WVc20mo",
+       "6gEHMhh6BGJI-ZYN27YPW",
+       "G1u_Kq4NeUsGX2qnUTuJU",
+       "aKzai0A8J55-OBXTnQih1"
+      ],
+      "projects": [
+       {
+        "title": "Adversarial image attack",
+        "description": "Fool an image classifier with small perturbations, then retrain with adversarial examples and re-test.",
+        "difficulty": "advanced",
+        "grounded": false
+       },
+       {
+        "title": "Poisoned-label experiment",
+        "description": "Flip a share of training labels and measure how quickly accuracy collapses.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Model Vulnerabilities",
+       "Adversarial Examples",
+       "Adversarial Training",
+       "Data Poisoning",
+       "Model Inversion"
+      ],
+      "more_topics": [
+       {
+        "node_id": "NvOJIv36Utpm7_kOZyr79",
+        "title": "Supervised Learning"
+       }
+      ],
+      "global_step_index": 33,
+      "resource": null,
+      "videos": [],
+      "resources": []
+     },
+     {
+      "step_number": 4,
+      "title": "Securing AI Infrastructure and APIs",
+      "description": "Many AI incidents are ordinary security failures around the model, such as exposed keys, missing authorisation or unmonitored endpoints. Secure model APIs with authentication and authorisation and monitor for abuse.",
+      "topic_refs": [
+       "nhUKKWyBH80nyKfGT8ErC",
+       "Tszl26iNBnQBdBEWOueDA",
+       "J7gjlt2MBx7lOkOnfGvPF",
+       "JQ3bR8odXJfd-1RCEf3-Q",
+       "DQeOavZCoXpF3k_qRDABs",
+       "7Km0mFpHguHYPs5UhHTsM",
+       "59lkLcoqV4gq7f8Zm0X2p"
+      ],
+      "projects": [
+       {
+        "title": "Hardened inference API",
+        "description": "Add API keys, per-user rate limits and role checks to a model endpoint and log refused calls.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Abuse alerting",
+        "description": "Alert when one user's request volume or refusal rate spikes above normal.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Infrastructure Security",
+       "API Protection",
+       "Authentication",
+       "Authorization",
+       "Unauthorized Access"
+      ],
+      "more_topics": [],
+      "global_step_index": 34,
+      "resource": null,
+      "videos": [],
+      "resources": []
+     },
+     {
+      "step_number": 5,
+      "title": "Red Team Testing Methods and Reporting",
+      "description": "Useful red teaming is systematic, repeatable and well reported, not a few clever prompts. Learn black-, grey- and white-box testing, automate LLM security tests against benchmarks in a lab, and report findings responsibly.",
+      "topic_refs": [
+       "0bApnJTt-Z2IUf0X3OCYf",
+       "Mrk_js5UVn4dRDw-Yco3Y",
+       "ZVNAMCP68XKRXVxF2-hBc",
+       "LVdYN9hyCyNPYn2Lz1y9b",
+       "C1zO2xC0AqyV53p2YEPWg",
+       "xJYTRbPxMn0Xs5ea0Ygn6",
+       "DpYsL0du37n40toH33fIr",
+       "et1Xrr8ez-fmB0mAq8W_a",
+       "c8n8FcYKDOgPLQvV9xF5J",
+       "MmwwRK4I9aRH_ha7duPqf",
+       "BLnfNlA0C4yzy1dvifjwx",
+       "KAcCZ3zcv25R6HwzAsfUG"
+      ],
+      "projects": [
+       {
+        "title": "Automated red-team script",
+        "description": "Run a benchmark of attack prompts against a model nightly and chart the failure rate over time.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Findings report",
+        "description": "Write a red-team report with severity, reproduction steps and fixes for three issues you found.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Black Box Testing",
+       "White Box Testing",
+       "Grey Box Testing",
+       "Automated vs Manual Testing",
+       "Custom Testing Scripts"
+      ],
+      "more_topics": [],
+      "global_step_index": 35,
+      "resource": null,
+      "videos": [],
+      "resources": [
+       {
+        "type": "course",
+        "title": "AI Red Teaming Courses - Learn Prompting",
+        "url": "https://learnprompting.org/blog/ai-red-teaming-courses",
+        "topic": "LLM Security Testing"
+       }
+      ]
+     },
+     {
+      "step_number": 6,
+      "title": "Community, Credentials and Emerging Threats",
+      "description": "AI attack techniques change monthly, so staying current through challenges, research and standards is part of the job. Take part in CTFs, follow research groups and conferences, and keep tests running as new threats appear.",
+      "topic_refs": [
+       "2Imb64Px3ZQcBpSQjdc_G",
+       "LuKnmd9nSz9yLbTU_5Yp2",
+       "Smncq-n1OlnLAY27AFQOO",
+       "ZlR03pM-sqVFZNhD1gMSJ",
+       "VmaIHVsCpq2um_0cA33V3",
+       "s1xKK8HL5-QGZpcutiuvj",
+       "HHjsFR6wRDqUd66PMDE_7",
+       "WePO66_4-gNcSdE00WKmw",
+       "-G8v_CNa8wO_g-46_RFQo",
+       "65Lo60JQS5YlvvQ6KevXt"
+      ],
+      "projects": [
+       {
+        "title": "AI security CTF write-up",
+        "description": "Solve an AI security CTF challenge and publish a write-up of the approach.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Monthly threat digest",
+        "description": "Summarise new AI attack papers each month and add one new test case per paper to your suite.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "CTF Challenges",
+       "Conferences",
+       "Forums",
+       "Research Groups",
+       "Research Opportunities"
+      ],
+      "more_topics": [],
+      "global_step_index": 36,
+      "resource": null,
+      "videos": [],
+      "resources": [
+       {
+        "type": "course",
+        "title": "AI Red Teaming Courses - Learn Prompting",
+        "url": "https://learnprompting.org/blog/ai-red-teaming-courses",
+        "topic": "Specialized Courses"
+       },
+       {
+        "type": "course",
+        "title": "AI Security | Coursera",
+        "url": "https://www.coursera.org/learn/ai-security",
+        "topic": "Specialized Courses"
+       },
+       {
+        "type": "course",
+        "title": "Free Online Cyber Security Courses with Certificates in 2025",
+        "url": "https://www.eccouncil.org/cybersecurity-exchange/cyber-novice/free-cybersecurity-courses-beginners/",
+        "topic": "Specialized Courses"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "audit": {
+  "phases": [
+   {
+    "phase_number": 1,
+    "title": "Python",
+    "queries": [
+     "AI Engineering",
+     "AI Engineering fundamentals",
+     "AI Engineering: Python"
+    ],
+    "retrieved": [
+     {
+      "source": "ai-red-teaming/ai-security-fundamentals@R9DQNc0AyAQ2HLpP4HOk6.md",
+      "score": 0.5639216303825378,
+      "queries": [
+       "AI Engineering",
+       "AI Engineering fundamentals",
+       "AI Engineering: Python"
+      ]
+     },
+     {
+      "source": "python/learn-the-basics@GISOFMKvnBys0O0IMpz2J.md",
+      "score": 0.4834273159503937,
+      "queries": [
+       "AI Engineering: Python"
+      ]
+     },
+     {
+      "source": "python/aiohttp@IBVAvFtN4mnIPbIuyUvEb.md",
+      "score": 0.4655586779117584,
+      "queries": [
+       "AI Engineering: Python"
+      ]
+     },
+     {
+      "source": "python/basic-syntax@6xRncUs3_vxVbDur567QA.md",
+      "score": 0.46204403042793274,
+      "queries": [
+       "AI Engineering: Python"
+      ]
+     },
+     {
+      "source": "python/builtin@08XifLQ20c4FKI_4AWNBQ.md",
+      "score": 0.43724265694618225,
+      "queries": []
+     },
+     {
+      "source": "so_survey_2025_india/AI_Engineering",
+      "score": 0.4136819541454315,
+      "queries": []
+     },
+     {
+      "source": "python/list-comprehensions@4gtmtYWYRWqwLdZRL0XMg.md",
+      "score": 0.4087570905685425,
+      "queries": []
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 1,
+      "topic_refs": [
+       "6xRncUs3_vxVbDur567QA",
+       "dEFLBGpiH6nbSMeR7ecaT",
+       "so95CO6Qw3I0S98ISENS-",
+       "NP1kjSk0ujU0Gx-ajNHlR",
+       "Dvy7BnNzK55qbh_SgOk8m",
+       "-DJgS6l2qngfwurExlmmT",
+       "UT_SR7G-LYtzqooWrEtF1",
+       "bc9CL_HMT-R6nXO1eR-gP",
+       "i7xIGiXU-k5UIKHIhQPjE",
+       "soZFqivM3YBuljeX6PoaX",
+       "Sg5w8zO2Ji-uDJKEoWey9",
+       "fNTb9y3zs1HPYclAmu_Wv"
+      ],
+      "queries": [
+       "AI Engineering: Python"
+      ]
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 2,
+      "topic_refs": [
+       "AqwzR8dZKLQIoj_6KKZ3t",
+       "P_Di-XPSDITmU3xKQew8G",
+       "S0FLE70szSVUPI0CDEQK7",
+       "zAS4YiEJ6VPsyABrkIG8i",
+       "274uk28wzxn6EKWQzLpHs",
+       "l7k0qTYe42wYBTlT2-1cy",
+       "4gtmtYWYRWqwLdZRL0XMg",
+       "jnLIVRrWxcX3yq3Op91Vr",
+       "pIluLJkySqn_gI_GykV6G",
+       "KAXF2kUAOvtBZhY8G9rkI",
+       "Nf3kRDSl_vas6QPXG7eVa",
+       "7t6mJBsaFMWPi7o9fbhhq"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 3,
+      "topic_refs": [
+       "Mow7RvropbC4ZGDpcGZmw",
+       "u4nRzWQ4zhDFMOrZ2I_uJ",
+       "IBVAvFtN4mnIPbIuyUvEb",
+       "XeQSmvAsGSTi8dd7QVHxn",
+       "W3VALz5evFo1qqkQbMN1R",
+       "syV0DT_3ITgIFDbwPts8i",
+       "qeCMw-sJ2FR4UxvU9DDzv",
+       "iVhQnp6hpgVZDNJ0XoVra",
+       "p3Frfs6oxpuciUzeCEsvb",
+       "_IXXTSwQOgYzYIUuKVWNE",
+       "GHKAY9gOykEbxkEeR30wL",
+       "3FDwJpesfelEyJrNWtm0V"
+      ],
+      "queries": [
+       "AI Engineering: Python"
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 2,
+    "title": "Prompt Engineering",
+    "queries": [
+     "AI Engineering",
+     "AI Engineering fundamentals",
+     "AI Engineering: Prompt Engineering"
+    ],
+    "retrieved": [
+     {
+      "source": "prompt-engineering/introduction@jrH1qE6EnFXL4fTyYU8gR.md",
+      "score": 0.7404487133026123,
+      "queries": [
+       "AI Engineering",
+       "AI Engineering fundamentals",
+       "AI Engineering: Prompt Engineering"
+      ]
+     },
+     {
+      "source": "prompt-engineering/what-is-prompt-engineering@43drPbTwPqJQPyzwYUdBT.md",
+      "score": 0.7312496900558472,
+      "queries": [
+       "AI Engineering: Prompt Engineering"
+      ]
+     },
+     {
+      "source": "prompt-engineering/automatic-prompt-engineering@diHNCiuKHeMVgvJ4OMwVh.md",
+      "score": 0.5803996324539185,
+      "queries": [
+       "AI Engineering: Prompt Engineering"
+      ]
+     },
+     {
+      "source": "prompt-engineering/openai@Yb5cQiV2ETxPbBYCLOpt2.md",
+      "score": 0.5759122371673584,
+      "queries": [
+       "AI Engineering",
+       "AI Engineering: Prompt Engineering"
+      ]
+     },
+     {
+      "source": "prompt-engineering/ai-vs-agi@Sj1CMZzZp8kF-LuHcd_UU.md",
+      "score": 0.5256312489509583,
+      "queries": [
+       "AI Engineering",
+       "AI Engineering fundamentals"
+      ]
+     },
+     {
+      "source": "prompt-engineering/what-is-a-prompt@i4ijY3T5gLgNz0XqRipXe.md",
+      "score": 0.5139162540435791,
+      "queries": [
+       "AI Engineering: Prompt Engineering"
+      ]
+     },
+     {
+      "source": "so_survey_2025_india/AI_Engineering",
+      "score": 0.4080386161804199,
+      "queries": []
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 4,
+      "topic_refs": [
+       "jrH1qE6EnFXL4fTyYU8gR",
+       "pamV5Z8DRKk2ioZbg6QVK",
+       "74JxgfJ_1qmVNZ_QRp9Ne",
+       "Sj1CMZzZp8kF-LuHcd_UU",
+       "NPcaSEteeEA5g22wQ7nL_",
+       "b-Xtkv6rt8QgzJXSShOX-",
+       "yfsjW1eze8mWT0iHxv078",
+       "Yb5cQiV2ETxPbBYCLOpt2",
+       "V8pDOwrRKKcHBTd4qlSsH",
+       "o-6UKLZ6oCRbAKgRjH2uI",
+       "Td2YzDFT4LPGDw8JMmQSQ",
+       "3wshuH7_DXgbhxsLzzI4D"
+      ],
+      "queries": [
+       "AI Engineering",
+       "AI Engineering fundamentals",
+       "AI Engineering: Prompt Engineering"
+      ]
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 5,
+      "topic_refs": [
+       "i4ijY3T5gLgNz0XqRipXe",
+       "43drPbTwPqJQPyzwYUdBT",
+       "GRerL9UXN73TwpCW2eTIE",
+       "Iufv_LsgUNls-Alx_Btlh",
+       "fWo39-hehRgwmx7CF36mM",
+       "XHWKGaSRBYT4MsCHwV-iR",
+       "5TNK1KcSzh9GTKiEJnM-y",
+       "weRaJxEplhKDyFWSMeoyI",
+       "2MboHh8ugkoH8dSd9d4Mk",
+       "1EzqCoplXPiHjp9Z-vqn-",
+       "ob9D0W9B9145Da64nbi1M",
+       "8Ks6txRSUfMK7VotSQ4sC"
+      ],
+      "queries": [
+       "AI Engineering: Prompt Engineering"
+      ]
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 6,
+      "topic_refs": [
+       "JgigM7HvmNOuKnp60v1Ce",
+       "iMwg-I76-Tg5dhu8DGO6U",
+       "FF8ai1v5GDzxXLQhpwuPj",
+       "-G1U1jDN5st1fTUtQmMl1",
+       "vK9Gf8dGu2UvvJJhhuHG9",
+       "v3CylRlojeltcwnE76j8Q",
+       "YIVNjkmTOY61VmL0md9Pj",
+       "WpO8V5caudySVehOcuDvK",
+       "g8ylIg4Zh567u-E3yVVY4",
+       "wSf7Zr8ZYBuKWX0GQX6J3",
+       "j-PWO-ZmF9Oi9A5bwMRto"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 4,
+      "global_step_index": 7,
+      "topic_refs": [
+       "SWDa3Su3VS815WQbvvNsa",
+       "P5nDyQbME53DOEfSkcY6I",
+       "CvV3GIvQhsTvE-TQjTpIQ",
+       "HOqWHqAkxLX8f2ImSmZE7",
+       "0H2keZYD8iTNyBgmNVhto",
+       "diHNCiuKHeMVgvJ4OMwVh",
+       "Ke5GT163k_ek9SzbcbBGE",
+       "gxydtFKmnXNY9I5kpTwjP",
+       "6W_ONYREbXHwPigoDx1cW",
+       "Wvu9Q_kNhH1_JlOgxAjP6",
+       "Pw5LWA9vNRY0N2M0FW16f"
+      ],
+      "queries": [
+       "AI Engineering",
+       "AI Engineering fundamentals",
+       "AI Engineering: Prompt Engineering"
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 3,
+    "title": "AI Engineering",
+    "queries": [
+     "AI Engineering",
+     "AI Engineering fundamentals",
+     "AI Engineering: AI Engineering"
+    ],
+    "retrieved": [
+     {
+      "source": "ai-engineer/introduction@_hYN0gEi9BL24nptEtXWU.md",
+      "score": 0.7908661961555481,
+      "queries": [
+       "AI Engineering",
+       "AI Engineering fundamentals",
+       "AI Engineering: AI Engineering"
+      ]
+     },
+     {
+      "source": "ai-engineer/what-is-an-ai-engineer@GN6SnI7RXIeW8JeD-qORW.md",
+      "score": 0.7356795072555542,
+      "queries": [
+       "AI Engineering",
+       "AI Engineering fundamentals",
+       "AI Engineering: AI Engineering"
+      ]
+     },
+     {
+      "source": "ai-engineer/ai-agents@Uffu609uQbIzDl88Ddccv.md",
+      "score": 0.6892944574356079,
+      "queries": [
+       "AI Engineering",
+       "AI Engineering fundamentals",
+       "AI Engineering: AI Engineering"
+      ]
+     },
+     {
+      "source": "ai-engineer/ai-agents@4_ap0rD9Gl6Ep_4jMfPpG.md",
+      "score": 0.6892944574356079,
+      "queries": [
+       "AI Engineering",
+       "AI Engineering fundamentals",
+       "AI Engineering: AI Engineering"
+      ]
+     },
+     {
+      "source": "ai-engineer/roles-and-responsiblities@K9EiuFgPBFgeRxY4wxAmb.md",
+      "score": 0.6285231709480286,
+      "queries": [
+       "AI Engineering",
+       "AI Engineering fundamentals",
+       "AI Engineering: AI Engineering"
+      ]
+     },
+     {
+      "source": "ai-engineer/ai-engineer-vs-ml-engineer@jSZ1LhPdhlkW-9QJhIvFs.md",
+      "score": 0.6248873472213745,
+      "queries": [
+       "AI Engineering",
+       "AI Engineering fundamentals",
+       "AI Engineering: AI Engineering"
+      ]
+     },
+     {
+      "source": "so_survey_2025_india/AI_Engineering",
+      "score": 0.4080386161804199,
+      "queries": []
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 8,
+      "topic_refs": [
+       "GN6SnI7RXIeW8JeD-qORW",
+       "jSZ1LhPdhlkW-9QJhIvFs",
+       "K9EiuFgPBFgeRxY4wxAmb",
+       "qJVgKe9uBvXc-YPfvX_Y7",
+       "t1SObMWkDZ1cKqNNlcd9L",
+       "_hYN0gEi9BL24nptEtXWU",
+       "zdeuA4GbdBl2DwKgiOA4G",
+       "wf2BSyUekr1S1q6l8kyq6",
+       "2X0NDcq2ojBJ0RxY_U6bl",
+       "d7fzv_ft12EopsQdmEsel",
+       "zeWoTtAFEpVXDQzWNsha4",
+       "RBwGsq9DngUsl8PrrCbqx"
+      ],
+      "queries": [
+       "AI Engineering",
+       "AI Engineering fundamentals",
+       "AI Engineering: AI Engineering"
+      ]
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 9,
+      "topic_refs": [
+       "3PQVZbcr4neNMRr6CuNzS",
+       "ro3vY_sp6xMQ-hfzO-rc1",
+       "nxwMVla0-PNG8nlocKK5v",
+       "hy6EyKiNxk1x84J63dhez",
+       "TsG_I7FL-cOCSw8gvZH3r",
+       "hzeEo8COf2l07iu5EdlFo",
+       "vnXtUupJUlyU_uCbZBbnk",
+       "1GlpMjmdAWor0X_BnISGg",
+       "WZVW8FQu6LyspSKm1C_sl",
+       "MUDBYjR7uCUZQ-kQxi2K_",
+       "bqqY0gsZkBpcHMZw1hcZ5",
+       "2WbVpRLqwi3Oeqk1JPui4"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 10,
+      "topic_refs": [
+       "v99C5Bml2a6148LCJ9gy9",
+       "YLOdOvLXa5Fa7_mmuvKEi",
+       "dLEg4IA3F5jgc44Bst9if",
+       "3kRTzlLNBnXdTsAEXVu_M",
+       "_qqITQ8O0Q0RWUeZsUXnY",
+       "rTT2UnvqFO3GH6ThPLEjO",
+       "a_3SabylVqzzOyw3tZN5f",
+       "OkYO-aSPiuVYuLXHswBCn",
+       "n-Ud2dXkqIzK37jlKItN4",
+       "zTvsCNS3ucsZmvy1tHyeI",
+       "xostGgoaYkqMO28iN2gx8",
+       "4NtUD9V64gkp8SFudj_ai"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 4,
+      "global_step_index": 11,
+      "topic_refs": [
+       "qmx6OHqx4_0JXVIv8dASp",
+       "PT3uDiUjiKhO8laOkCmgP",
+       "ONLDyczNacGVZGojYyJrU",
+       "zqhmLzHsmDlrTFVHzhq6-",
+       "S46Vaq8hYq6Ee1Id_-fSQ",
+       "N3TzWYxU0jgv1l99Ts58n",
+       "DZPM9zjCbYYWBPLmQImxQ",
+       "15XOFdVp0IC-kLYPXUJWh",
+       "nyBgEHvUhwF-NANMwkRJW",
+       "4Q5x2VCXedAWISBXUIyin",
+       "_bPTciEA1GT1JwfXim19z",
+       "FjV3oD7G2Ocq5HhUC17iH"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 5,
+      "global_step_index": 12,
+      "topic_refs": [
+       "kCiHNaZ9CgnS9uksIQ_SY",
+       "5b2-GXozMVOqZF1Ga-HE8",
+       "vvpYkmycH0_W030E-L12f",
+       "x0G0WD8MUflucdBqf2j5k",
+       "ozrR8IvjNFbHd44kZrExX",
+       "s2YrrjXbvNIyW5WSFj2po",
+       "9XCxilAQ7FRet7lHQr1gE",
+       "9JwWIK0Z2MK8-6EQQJsCO",
+       "mfiiWDVZEeUGFa6KKUGLB",
+       "SzW-BtzGsSfGGa5DbSlr4",
+       "BfmhnGPe1UdnThdpr7m1i",
+       "unoZLoE2oJbKPOCBYUnMZ"
+      ],
+      "queries": [
+       "AI Engineering",
+       "AI Engineering fundamentals",
+       "AI Engineering: AI Engineering"
+      ]
+     },
+     {
+      "step_number": 6,
+      "global_step_index": 13,
+      "topic_refs": [
+       "--ig0Ume_BnXb9K2U7HJN",
+       "XyEp6jnBSpCxMGwALnYfT",
+       "fr0UOXlVVctkk1K84Z8Of",
+       "l6priWeJhbdUD5tJ7uHyG",
+       "y0qD5Kb4Pf-ymIwW-tvhX",
+       "4GArjDYipit4SLqKZAWDf",
+       "ZV_V6sqOnRodgaw4mzokC",
+       "apVYIV4EyejPft25oAvdI",
+       "eMfcyBxnMY_l_5-8eg6sD",
+       "ZcbRPtgaptqKqWBgRrEBU",
+       "HQe9GKy3p0kTUPxojIfSF",
+       "AglWJ7gb9rTT2rMkstxtk"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 7,
+      "global_step_index": 14,
+      "topic_refs": [
+       "zZA1FBhf1y4kCoUZ-hM4H",
+       "tt9u3oFlsjEMfPyojuqpc",
+       "5TQnO9B4_LTHwqjI7iHB1",
+       "JurLbOO1Z8r6C3yUqRNwf",
+       "dSd2C9lNl-ymmCRT9_ZC3",
+       "_Cf7S1DCvX7p1_3-tP3C3",
+       "DwOAL5mOBgBiw-EQpAzQl",
+       "VgUnrZGKVjAAO4n_llq5-",
+       "rjaCNT3Li45kwu2gXckke",
+       "j6bkm0VUgLkHdMDDJFiMC",
+       "9kT7EEQsbeD2WDdN9ADx7"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 8,
+      "global_step_index": 15,
+      "topic_refs": [
+       "IX1BJWGwGmB4L063g0Frf",
+       "lVhWhZGR558O-ljHobxIi",
+       "mX987wiZF7p3V_gExrPeX",
+       "OCGCzHQM2LQyUWmiqe6E0",
+       "2jJnS9vRYhaS69d6OxrMh",
+       "LnQ2AatMWpExUHcZhDIPd",
+       "GCn4LGNEtPI0NWYAZCRE-",
+       "qlBEXrbV88e_wAGRwO9hW",
+       "jM-Jbo0wUilhVY830hetJ",
+       "JT4mBXOjvvrUnynA7yrqt",
+       "ebXXEhNRROjbbof-Gym4p",
+       "d0ontCII8KI8wfP-8Y45R"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 9,
+      "global_step_index": 16,
+      "topic_refs": [
+       "W7cKPt_UxcUgwp8J6hS4p",
+       "sGR9qcro68KrzM8qWxcH8",
+       "fzVq4hGoa2gdbIzoyY1Zp",
+       "CRrqa-dBw1LlOwVbrZhjK",
+       "TxaZCtTCTUfwCxAJ2pmND",
+       "49BWxYVFpIgZCCqsikH7l",
+       "LKFwwjtcawJ4Z12X102Cb",
+       "6y73FLjshnqxV8BTGUeiu",
+       "mxQYB820447DC6kogyZIL",
+       "jQX10XKd_QM5wdQweEkVJ",
+       "OTBd6cPUayKaAM-fLWdSt",
+       "GCERpLz5BcRtWPpv-asUz"
+      ],
+      "queries": [
+       "AI Engineering"
+      ]
+     },
+     {
+      "step_number": 10,
+      "global_step_index": 17,
+      "topic_refs": [
+       "4_ap0rD9Gl6Ep_4jMfPpG",
+       "778HsQzTuJ_3c9OSn5DmH",
+       "wFfjHkGLrcCyLyXV4BiFM",
+       "eOqCBgBTKM8CmY3nsWjre",
+       "Waox7xR_yUeSnOtQFzU4c",
+       "6xaRB34_g0HGt-y1dGYXR",
+       "4HkJJigCBBO4eOef8qvhz",
+       "KWjD4xEPhOOYS51dvRLd2",
+       "kG1bkF2oY21CJOm9zhdpn",
+       "wQfU09yhZ5sd-UPHkq2n0",
+       "Sm0Ne5Nx72hcZCdAcC0C2",
+       "mbp2NoL-VZ5hZIIblNBXt"
+      ],
+      "queries": [
+       "AI Engineering",
+       "AI Engineering fundamentals",
+       "AI Engineering: AI Engineering"
+      ]
+     },
+     {
+      "step_number": 11,
+      "global_step_index": 18,
+      "topic_refs": [
+       "AeHkNU-uJ_gBdo5-xdpEu",
+       "jpSel6gPj1d0EhH73Knm7",
+       "MabZ9jOrSj539C5qZrVBd",
+       "po0fIZYaFhRbNlza7sB37",
+       "8Xkd88EjX3GE_9DWQhr7G",
+       "0Rk0rCbmRFJT2GKwUibQS",
+       "oLGfKjcqBzJ3vd6Cg-T1B",
+       "H-G93SsEgsA_NGL_v4hPv",
+       "2t4uINxmzfx8FUF-_i_2B",
+       "Z0920V57_ziDhXbQJMN9O",
+       "o4gHDZ5p9lyeHuCAPvAKz",
+       "xXLyuUNrKEc32XLQxMjgT"
+      ],
+      "queries": [
+       "AI Engineering",
+       "AI Engineering fundamentals",
+       "AI Engineering: AI Engineering"
+      ]
+     },
+     {
+      "step_number": 12,
+      "global_step_index": 19,
+      "topic_refs": [
+       "NYge7PNtfI-y6QWefXJ4d",
+       "wr5ddjutC-fX_ixysTHaT",
+       "MWhoqhNnBaoeCdN_8i15k",
+       "XY2l96sry3WyLzzo3KUeU",
+       "Ubk4GN0Z4XlDJ3EbRXdxg",
+       "Xsl8mx6J182TxPPtNP471"
+      ],
+      "queries": [
+       "AI Engineering",
+       "AI Engineering fundamentals",
+       "AI Engineering: AI Engineering"
+      ]
+     },
+     {
+      "step_number": 13,
+      "global_step_index": 20,
+      "topic_refs": [
+       "FJ3ZwbTdiFyebrFi96tnz",
+       "Z8MBleL51wJuV9BkS1djI",
+       "kSDTJK74Tq0KHBfIawJuT",
+       "LJ6_U5lOdc0uRngutj7Ro",
+       "QIx5nT75l2Cn2q75-TxfD",
+       "Bkzi3QyzKyHxcHE7sodRZ",
+       "CZ_-PSDzzSrSon5XdzLen",
+       "hyN5v8dg1lHJLpdZZdtJE",
+       "Pt-AJmSJrOxKvolb5_HEv"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 14,
+      "global_step_index": 21,
+      "topic_refs": [
+       "1bBgMVISENC-XBwuZFlUk",
+       "cdapQf0Owxdx6olAHTrbq",
+       "3gwVG4XaO83z3Yzdd84Z-",
+       "CG3XTMPug98s-EP0_rn1Y",
+       "bN_ReFUQgkJmWOAFMLXMg",
+       "Xw6-crHimGrVC1u1xujc6",
+       "82LE-qxw1H_FYfVUdgkN9",
+       "jx57heeBnacrlCyQPhlEi",
+       "8ndKHDJgL_gYwaXC7XMer",
+       "lhIU0ulpvDAn1Xc3ooYz_",
+       "ljZLa3yjQpegiZWwtnn_q",
+       "sWBT-j2cRuFqRFYtV_5TK"
+      ],
+      "queries": [
+       "AI Engineering",
+       "AI Engineering fundamentals",
+       "AI Engineering: AI Engineering"
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 4,
+    "title": "AI Agents",
+    "queries": [
+     "AI Engineering",
+     "AI Engineering fundamentals",
+     "AI Engineering: AI Agents"
+    ],
+    "retrieved": [
+     {
+      "source": "ai-agents/what-are-ai-agents@aFZAm44nP5NefX_9TpT0A.md",
+      "score": 0.6661118865013123,
+      "queries": [
+       "AI Engineering",
+       "AI Engineering fundamentals",
+       "AI Engineering: AI Agents"
+      ]
+     },
+     {
+      "source": "ai-agents/manual-from-scratch@US6T5dXM8IY9V2qZnTOFW.md",
+      "score": 0.6119047403335571,
+      "queries": [
+       "AI Engineering",
+       "AI Engineering fundamentals",
+       "AI Engineering: AI Agents"
+      ]
+     },
+     {
+      "source": "ai-agents/data-analysis@wKYEaPWNsR30TIpHaxSsq.md",
+      "score": 0.5625495910644531,
+      "queries": [
+       "AI Engineering",
+       "AI Engineering fundamentals",
+       "AI Engineering: AI Agents"
+      ]
+     },
+     {
+      "source": "ai-agents/smol-depot@eWxQiBrxIUG2JNcrdfIHS.md",
+      "score": 0.5417583584785461,
+      "queries": [
+       "AI Engineering: AI Agents"
+      ]
+     },
+     {
+      "source": "ai-agents/crewai@uFPJqgU4qGvZyxTv-osZA.md",
+      "score": 0.5320375561714172,
+      "queries": [
+       "AI Engineering: AI Agents"
+      ]
+     },
+     {
+      "source": "ai-agents/reason-and-plan@ycPRgRYR4lEBQr_xxHKnM.md",
+      "score": 0.5190632343292236,
+      "queries": [
+       "AI Engineering",
+       "AI Engineering fundamentals",
+       "AI Engineering: AI Agents"
+      ]
+     },
+     {
+      "source": "so_survey_2025_india/AI_Engineering",
+      "score": 0.4080386161804199,
+      "queries": []
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 22,
+      "topic_refs": [
+       "aFZAm44nP5NefX_9TpT0A",
+       "Eih4eybuYB3C2So8K0AT3",
+       "LU76AhCYDjxdBhpMQ4eMU",
+       "ycPRgRYR4lEBQr_xxHKnM",
+       "sHYd4KsKlmw5Im3nQ19W8",
+       "ZJTrun3jK3zBGOTm1jdMI",
+       "K0G-Lw069jXUJwZqHtybd",
+       "ZF5_5Y5zqa75Ov22JACX6",
+       "N3yZfUxphxjiupqGpyaS9",
+       "DSJAhQhc1dQmBHQ8ZkTau",
+       "tJYmEDDwK0LtEux-kwp9B",
+       "1fiWPBV99E2YncqdCgUw2"
+      ],
+      "queries": [
+       "AI Engineering",
+       "AI Engineering fundamentals",
+       "AI Engineering: AI Agents"
+      ]
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 23,
+      "topic_refs": [
+       "2zsOUWJQ8e7wnoHmq1icG",
+       "qakbxB8xe7Y8gejC5cZnK",
+       "aafZxtjxiwzJH1lwHBODi",
+       "AQtxTTxmBpfl8BMgJbGzc",
+       "1EZFbDHA5J5_5BPMLMxXb",
+       "_iIsBJTVS6OBf_dsdmbVO",
+       "kBtqT8AduLoYDWopj-V9_",
+       "mS0EVCkWuPN_GkVPng4A2",
+       "BoJqZvdGam4cd6G6yK2IV",
+       "sV1BnA2-qBnXoKpUn-8Ub",
+       "qaNr5I-NQPnfrRH7ynGTl",
+       "UVzLGXG6K7HQVHmw8ZAv2"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 24,
+      "topic_refs": [
+       "TBH_DZTAfR8Daoh-njNFC",
+       "M3U6RfIqaiut2nuOibY8W",
+       "Ue633fz6Xu2wa2-KOAtdP",
+       "EfCCNqLMJpWKKtamUa5gK",
+       "QJqXHV8VHPTnfYfmKPzW7",
+       "jTDC19BTWCqxqMizrIJHr",
+       "m-97m7SI0XpBnhEE8-_1S",
+       "cW8O4vLLKEG-Q0dE8E5Zp",
+       "UIm54UmICKgep6s8Itcyv",
+       "wkS4yOJ3JdZQE_yBID8K7",
+       "qwVQOwBTLA2yUgRISzC8k"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 4,
+      "global_step_index": 25,
+      "topic_refs": [
+       "53xDks6JQ33fHMa3XcuCd",
+       "qwdh5pkBbrF8LKPxbZp4F",
+       "Nmy1PoB32DcWZnPM8l8jT",
+       "6YLCMWzystao6byCYCTPO",
+       "Ep8RoZSy_Iq_zWXlGQLZo",
+       "hBW8-z72NcETDn_cearYc",
+       "FjAYD6ZhAuPcS6gbvBBtE",
+       "US6T5dXM8IY9V2qZnTOFW"
+      ],
+      "queries": [
+       "AI Engineering",
+       "AI Engineering fundamentals",
+       "AI Engineering: AI Agents"
+      ]
+     },
+     {
+      "step_number": 5,
+      "global_step_index": 26,
+      "topic_refs": [
+       "Ka6VpCEnqABvwiF9vba7t",
+       "O53AvUSRB5SI6hhwKxniL",
+       "iEHF-Jm3ck-Iu85EbCoDi",
+       "XS-FsvtrXGZ8DPrwOsnlI",
+       "7YtnQ9-KIvGPSpDzEDexl",
+       "uFPJqgU4qGvZyxTv-osZA",
+       "PY5WTJgRnXiYeOM6BBUvn",
+       "eWxQiBrxIUG2JNcrdfIHS",
+       "37GBFVZ2J2d5r8bd1ViHq"
+      ],
+      "queries": [
+       "AI Engineering: AI Agents"
+      ]
+     },
+     {
+      "step_number": 6,
+      "global_step_index": 27,
+      "topic_refs": [
+       "1B0IqRNYdtbHDi1jHSXuI",
+       "9FryAIrWRHh8YlzKX3et5",
+       "CGVstUxVXLJcYZrwk3iNQ",
+       "yv_-87FVM7WKn5iv6LW9q",
+       "1NXIN-Hbjl5rPy_mqxQYW",
+       "iBtJp24F_kJE3YlBsW60s",
+       "dHNMX3_t1KSDdAWqgdJXv",
+       "QtTwecLdvQa8pgELJ6i80",
+       "52qxjZILV-X1isup6dazC",
+       "VPI89s-m885r2YrXjYxdd"
+      ],
+      "queries": [
+       "AI Engineering fundamentals"
+      ]
+     },
+     {
+      "step_number": 7,
+      "global_step_index": 28,
+      "topic_refs": [
+       "Y8EqzFx3qxtrSh7bWbbV8",
+       "qFKFM2qNPEN7EoD0V-1SM",
+       "6I42CoeWX-kkFXTKAY7rw",
+       "sUwdtOX550tSdceaeFPmF",
+       "yulzE4ZNLhXOgHhG7BtZQ",
+       "noTuUFnHSBzn7GKG9UZEi",
+       "wwHHlEoPAx0TLxbtY6nMA",
+       "L1zL1GzqjSAjF06pIIXhy",
+       "icbp1NjurQfdM0dHnz6v2",
+       "Bn_BkthrVX_vOuwQzvPZa",
+       "z_N-Y0zGkv8_qHPuVtimL",
+       "Vd8ycw8pW-ZKvg5WYFtoh"
+      ],
+      "queries": [
+       "AI Engineering",
+       "AI Engineering fundamentals"
+      ]
+     },
+     {
+      "step_number": 8,
+      "global_step_index": 29,
+      "topic_refs": [
+       "qo_O4YAe4-MTP_ZJoXJHR",
+       "P9-SiIda3TSjHsfkI5OUV",
+       "rHxdxN97ZcU7MPl8L1jzN",
+       "v8qLnyFRnEumodBYxQSXQ",
+       "YzEDtGEaMaMWVt0W03HRt",
+       "0924QUH1wV7Mp-Xu0FAhF",
+       "zs6LM8WEnb0ERWpiaQCgc",
+       "SS8mGqf9wfrNqenIWvN8Z",
+       "UoIheaJlShiceafrWALEH",
+       "MLxP5N0Vrmwh-kyvNeGXn",
+       "7UqPXUzqKYXklnB3x-tsv",
+       "SU2RuicMUo8tiAsQtDI1k"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 9,
+      "global_step_index": 30,
+      "topic_refs": [
+       "PPdAutqJF5G60Eg9lYBND",
+       "PK8w31GlvtmAuU92sHaqr",
+       "wKYEaPWNsR30TIpHaxSsq",
+       "ok8vN7VtCgyef5x6aoQaL",
+       "5oLc-235bvKhApxzYFkEc",
+       "McREk2zHOlIrqbGSKbX-J",
+       "63nsfJFO1BwjLX_ZVaPFC",
+       "EyLo2j8IQsIK91SKaXkmK",
+       "rdlYBJNNyZUshzsJawME4"
+      ],
+      "queries": [
+       "AI Engineering",
+       "AI Engineering fundamentals",
+       "AI Engineering: AI Agents"
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 5,
+    "title": "AI Red Teaming",
+    "queries": [
+     "AI Engineering",
+     "AI Engineering fundamentals",
+     "AI Engineering: AI Red Teaming"
+    ],
+    "retrieved": [
+     {
+      "source": "ai-red-teaming/advanced-techniques@soC-kcem1ISbnCQMa6BIB.md",
+      "score": 0.7572383284568787,
+      "queries": [
+       "AI Engineering fundamentals",
+       "AI Engineering: AI Red Teaming"
+      ]
+     },
+     {
+      "source": "ai-red-teaming/research-opportunities@VmaIHVsCpq2um_0cA33V3.md",
+      "score": 0.6945385336875916,
+      "queries": [
+       "AI Engineering",
+       "AI Engineering fundamentals",
+       "AI Engineering: AI Red Teaming"
+      ]
+     },
+     {
+      "source": "ai-red-teaming/role-of-red-teams@Irkc9DgBfqSn72WaJqXEt.md",
+      "score": 0.6917048692703247,
+      "queries": [
+       "AI Engineering: AI Red Teaming"
+      ]
+     },
+     {
+      "source": "ai-red-teaming/introduction@HFJIYcI16OMyM77fAw9af.md",
+      "score": 0.6885484457015991,
+      "queries": [
+       "AI Engineering: AI Red Teaming"
+      ]
+     },
+     {
+      "source": "so_survey_2025_india/AI_Engineering",
+      "score": 0.4080386161804199,
+      "queries": []
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 31,
+      "topic_refs": [
+       "HFJIYcI16OMyM77fAw9af",
+       "Irkc9DgBfqSn72WaJqXEt",
+       "1gyuEV519LjN-KpROoVwv",
+       "WZkIHZkV2qDYbYF9KBBRi",
+       "RDOaTBWP3aIJPUp_kcafm",
+       "MupRvk_8Io2Hn7yEvU663",
+       "887lc3tWCRH-sOHSxWgWJ",
+       "8K-wCn2cLc7Vs_V4sC3sE",
+       "RuKzVhd1nZphCrlW1wZGL",
+       "3XJ-g0KvHP75U18mxCqgw"
+      ],
+      "queries": [
+       "AI Engineering",
+       "AI Engineering fundamentals",
+       "AI Engineering: AI Red Teaming"
+      ]
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 32,
+      "topic_refs": [
+       "1Xr7mxVekeAHzTL7G4eAZ",
+       "XOrAPDRhBvde9R-znEipH",
+       "5zHow4KZVpfhch5Aabeft",
+       "3_gJRtJSdm2iAfkwmcv0e",
+       "Ds8pqn4y9Npo7z6ubunvc",
+       "j7uLLpt8MkZ1rqM7UBPW4",
+       "gx4KaFqKgJX9n9_ZGMqlZ",
+       "FVsKivsJrIb82B0lpPmgw",
+       "vhBu5x8INTtqvx6vcYAhE",
+       "kgDsDlBk8W2aM6LyWpFY8"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 33,
+      "topic_refs": [
+       "uBXrri2bXVsNiM8fIHHOv",
+       "xjlttOti-_laPRn8a2fVy",
+       "2Y0ZO-etpv3XIvunDLu-W",
+       "nD0_64ELEeJSN-0aZiR7i",
+       "iE5PcswBHnu_EBFIacib0",
+       "QFzLx5nc4rCCD8WVc20mo",
+       "6gEHMhh6BGJI-ZYN27YPW",
+       "G1u_Kq4NeUsGX2qnUTuJU",
+       "aKzai0A8J55-OBXTnQih1"
+      ],
+      "queries": [
+       "AI Engineering: AI Red Teaming"
+      ]
+     },
+     {
+      "step_number": 4,
+      "global_step_index": 34,
+      "topic_refs": [
+       "nhUKKWyBH80nyKfGT8ErC",
+       "Tszl26iNBnQBdBEWOueDA",
+       "J7gjlt2MBx7lOkOnfGvPF",
+       "JQ3bR8odXJfd-1RCEf3-Q",
+       "DQeOavZCoXpF3k_qRDABs",
+       "7Km0mFpHguHYPs5UhHTsM",
+       "59lkLcoqV4gq7f8Zm0X2p"
+      ],
+      "queries": [
+       "AI Engineering: AI Red Teaming"
+      ]
+     },
+     {
+      "step_number": 5,
+      "global_step_index": 35,
+      "topic_refs": [
+       "0bApnJTt-Z2IUf0X3OCYf",
+       "Mrk_js5UVn4dRDw-Yco3Y",
+       "ZVNAMCP68XKRXVxF2-hBc",
+       "LVdYN9hyCyNPYn2Lz1y9b",
+       "C1zO2xC0AqyV53p2YEPWg",
+       "xJYTRbPxMn0Xs5ea0Ygn6",
+       "DpYsL0du37n40toH33fIr",
+       "et1Xrr8ez-fmB0mAq8W_a",
+       "c8n8FcYKDOgPLQvV9xF5J",
+       "MmwwRK4I9aRH_ha7duPqf",
+       "BLnfNlA0C4yzy1dvifjwx",
+       "KAcCZ3zcv25R6HwzAsfUG"
+      ],
+      "queries": [
+       "AI Engineering: AI Red Teaming"
+      ]
+     },
+     {
+      "step_number": 6,
+      "global_step_index": 36,
+      "topic_refs": [
+       "2Imb64Px3ZQcBpSQjdc_G",
+       "LuKnmd9nSz9yLbTU_5Yp2",
+       "Smncq-n1OlnLAY27AFQOO",
+       "ZlR03pM-sqVFZNhD1gMSJ",
+       "VmaIHVsCpq2um_0cA33V3",
+       "s1xKK8HL5-QGZpcutiuvj",
+       "HHjsFR6wRDqUd66PMDE_7",
+       "WePO66_4-gNcSdE00WKmw",
+       "-G8v_CNa8wO_g-46_RFQo",
+       "65Lo60JQS5YlvvQ6KevXt"
+      ],
+      "queries": [
+       "AI Engineering",
+       "AI Engineering fundamentals",
+       "AI Engineering: AI Red Teaming"
+      ]
+     }
+    ]
+   }
+  ]
+ }
+}

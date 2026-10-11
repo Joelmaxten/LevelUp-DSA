@@ -1,0 +1,3551 @@
+{
+ "metadata": {
+  "schema_version": 1,
+  "career_path": "Backend Engineering",
+  "model_id": "claude-opus-5-5",
+  "built_at": "2026-10-10T17:59:23Z",
+  "generator": {
+   "profile": "neutral",
+   "provider": "claude_authored",
+   "llm_host": null,
+   "authoring": "Every model reply in this run was written by Claude (claude-opus-5-5) in a Claude Code cloud session, answering the generator's own prompts; retrieval, topic-ref validation, duplicate check, more_topics, resources and audit are the unmodified pipeline.",
+   "phase_concurrency": 1,
+   "duplicate_similarity_threshold": 0.8,
+   "reasoning_effort": "",
+   "resources": "kb_only"
+  },
+  "inventory_fingerprint": "c840e33dfa08400b8fbc8d3357a647eb93f92408d2cc3c74f21d71cfc17def8a"
+ },
+ "roadmap": {
+  "phases": [
+   {
+    "phase_number": 1,
+    "title": "Backend",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "How the Web Works",
+      "description": "Backend engineers debug problems that start in DNS, HTTP or the browser, so the request path has to be clear in your head. Learn how the internet, domains, hosting, HTTP and HTTPS work, plus enough HTML, CSS and JavaScript to understand the client side.",
+      "topic_refs": [
+       "yCnn-NfSxIybUQ2iTuUGq",
+       "R12sArWVpbIs_PHxBqVaR",
+       "x-WBJjBd8u93ym5gtxGsR",
+       "hkxw9jPGYphmjhTjw8766",
+       "ZhSuu2VArnzPDp6dPQQSC",
+       "aqMaEY8gkKMikiqleV5EP",
+       "P82WFaTPgQEPNp5IIuZ1Y",
+       "SiYUdtYMDImRPmV2_XPkH",
+       "oyg5g4-cY5EBEUgVkjnL3",
+       "9-pCsW650T1mfj5dmRB9L",
+       "utA1W2O6pzoV_LbtDE5DN",
+       "8-lO-v6jCYYoklEJXULxN"
+      ],
+      "projects": [
+       {
+        "title": "Trace a request",
+        "description": "Use curl and browser dev tools to follow one page load from DNS lookup to response headers and write up each hop.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Static site on a custom domain",
+        "description": "Host a simple page and point a domain at it with HTTPS enabled.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Internet",
+       "What is HTTP?",
+       "HTTPS",
+       "DNS",
+       "Domain Name"
+      ],
+      "more_topics": [],
+      "global_step_index": 1,
+      "resource": {
+       "title": "How the Internet Works in 5 Minutes",
+       "url": "https://youtube.com/watch?v=7_LPdttKXPc"
+      },
+      "videos": [
+       {
+        "title": "How the Internet Works in 5 Minutes",
+        "url": "https://youtube.com/watch?v=7_LPdttKXPc",
+        "video_id": "7_LPdttKXPc",
+        "source": "roadmap.sh",
+        "topic": "How Does The Internet Work"
+       },
+       {
+        "title": "HTTP vs HTTPS",
+        "url": "https://youtube.com/watch?v=nOmT_5hqgPk",
+        "video_id": "nOmT_5hqgPk",
+        "source": "roadmap.sh",
+        "topic": "HTTPS"
+       },
+       {
+        "title": "DNS and How does it Work?",
+        "url": "https://youtube.com/watch?v=Wj0od2ag5sk",
+        "video_id": "Wj0od2ag5sk",
+        "source": "roadmap.sh",
+        "topic": "DNS"
+       },
+       {
+        "title": "What is a Domain Name?",
+        "url": "https://youtube.com/watch?v=lMHzpBwPuG8",
+        "video_id": "lMHzpBwPuG8",
+        "source": "roadmap.sh",
+        "topic": "Domain Name"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 2,
+      "title": "Choosing a Backend Language and Using Git",
+      "description": "Every backend role expects depth in at least one server language and daily fluency with Git. Compare Python, Java, Go, JavaScript and others for backend work, pick one to go deep in, and use Git with a hosted repository.",
+      "topic_refs": [
+       "2f0ZO6GJElfZ2Eis28Hzg",
+       "J_sVHsD72Yzyqb9KCIvAY",
+       "ANeSwxJDJyQ-49pO2-CCI",
+       "BdXbcz4-ar3XOX0wIKzBp",
+       "8-lO-v6jCYYoklEJXULxN",
+       "rImbMHLLfJwjf3l25vBkc",
+       "l9Wrq_Ad9-Ju4NIB0m5Ha",
+       "SlH0Rl07yURDko2nDPfFy",
+       "CWwh2abwqx4hAxpAGvhIx",
+       "ezdqQW9wTUw93F6kjOzku",
+       "_I1E__wCIVrhjMk6IMieE",
+       "NvUcSDWBhzJZ31nzT4UlE"
+      ],
+      "projects": [
+       {
+        "title": "Same CLI tool in two languages",
+        "description": "Write a small URL-checker in your main language and in one other, and compare the experience.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Branch-and-merge practice",
+        "description": "Work through feature branches, a merge conflict and a pull request on a hosted repo.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Learn a Language",
+       "Python",
+       "Java",
+       "Go",
+       "JavaScript"
+      ],
+      "more_topics": [
+       {
+        "node_id": "An2lMuJEkkpL0cfw4RrSl",
+        "title": "JavaScript"
+       }
+      ],
+      "global_step_index": 2,
+      "resource": {
+       "title": "Complete Java course",
+       "url": "https://youtube.com/watch?v=xk4_1vDrzzo"
+      },
+      "videos": [
+       {
+        "title": "Complete Java course",
+        "url": "https://youtube.com/watch?v=xk4_1vDrzzo",
+        "video_id": "xk4_1vDrzzo",
+        "source": "roadmap.sh",
+        "topic": "Java"
+       },
+       {
+        "title": "Go Programming – Golang Course with Bonus Projects",
+        "url": "https://youtube.com/watch?v=un6ZyFkqFKo",
+        "video_id": "un6ZyFkqFKo",
+        "source": "roadmap.sh",
+        "topic": "Go"
+       },
+       {
+        "title": "JavaScript Crash Course for Beginners",
+        "url": "https://youtube.com/watch?v=hdI2bqOjy3c",
+        "video_id": "hdI2bqOjy3c",
+        "source": "roadmap.sh",
+        "topic": "JavaScript"
+       },
+       {
+        "title": "Learn C# Programming – Full Course with Mini-Projects",
+        "url": "https://youtube.com/watch?v=YrtFtdTTfv0",
+        "video_id": "YrtFtdTTfv0",
+        "source": "roadmap.sh",
+        "topic": "C#"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Python Website",
+        "url": "https://www.python.org/",
+        "topic": "Python"
+       },
+       {
+        "type": "official",
+        "title": "Java Website",
+        "url": "https://www.java.com/",
+        "topic": "Java"
+       },
+       {
+        "type": "official",
+        "title": "Go Reference Documentation",
+        "url": "https://go.dev/doc/",
+        "topic": "Go"
+       },
+       {
+        "type": "official",
+        "title": "C# Tour",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/tour-of-csharp/",
+        "topic": "C#"
+       }
+      ]
+     },
+     {
+      "step_number": 3,
+      "title": "Relational Databases, ORMs and Migrations",
+      "description": "Most backends store their core data in a relational database, and ORM misuse such as the N+1 problem is a common cause of slow APIs. Learn the main relational databases, normalisation, ORMs and schema migrations.",
+      "topic_refs": [
+       "LJt27onEOeIBomiEMTyKd",
+       "r45b461NxLN6wBODJ5CNP",
+       "FihTrMO56kj9jT8O_pO2T",
+       "VPxOdjJtKAqmM5V0LR5OC",
+       "tD3i-8gBpMKCHB-ITyDiU",
+       "dEsTje8kfHwWjCI3zcgLC",
+       "h1SAjQltHtztSt8QmRgab",
+       "kdulE3Z_BdbtRmq6T2KmR",
+       "Z7jp_Juj5PffSxV7UZcBb",
+       "MOLAXgs0CMCT7o84L0EaK",
+       "bQnOAu863hsHdyNMNyJop",
+       "Ge2SnKBrQQrU-oGLz6TmT"
+      ],
+      "projects": [
+       {
+        "title": "Blog schema with migrations",
+        "description": "Design a normalised schema for users, posts and comments and evolve it through three migrations.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Fix an N+1 query",
+        "description": "Find an N+1 pattern in an ORM endpoint with query logging and fix it with eager loading.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Databases",
+       "Relational Databases",
+       "PostgreSQL",
+       "MySQL",
+       "MariaDB"
+      ],
+      "more_topics": [
+       {
+        "node_id": "MOLAXgs0CMCT7o84L0EaK.md",
+        "title": "Migrations"
+       },
+       {
+        "node_id": "GMxPmyatxYmIPRFHfRAnr",
+        "title": "Structured Outputs"
+       },
+       {
+        "node_id": "Ofv__kXuBk-Vv2jVhaFss",
+        "title": "Embeddings"
+       }
+      ],
+      "global_step_index": 3,
+      "resource": {
+       "title": "What is Relational Database",
+       "url": "https://youtube.com/watch?v=OqjJjpjDRLc"
+      },
+      "videos": [
+       {
+        "title": "What is Relational Database",
+        "url": "https://youtube.com/watch?v=OqjJjpjDRLc",
+        "video_id": "OqjJjpjDRLc",
+        "source": "roadmap.sh",
+        "topic": "Relational Databases"
+       },
+       {
+        "title": "MySQL Complete Course",
+        "url": "https://youtube.com/watch?v=5OdVJbNCSso",
+        "video_id": "5OdVJbNCSso",
+        "source": "roadmap.sh",
+        "topic": "MySQL"
+       },
+       {
+        "title": "MariaDB Tutorial For Beginners in One Hour",
+        "url": "https://youtube.com/watch?v=_AMj02sANpI",
+        "video_id": "_AMj02sANpI",
+        "source": "roadmap.sh",
+        "topic": "MariaDB"
+       },
+       {
+        "title": "SQL Server tutorial for beginners",
+        "url": "https://youtube.com/watch?v=-EPMOaV7h_Q",
+        "video_id": "-EPMOaV7h_Q",
+        "source": "roadmap.sh",
+        "topic": "MS SQL"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Official Website",
+        "url": "https://www.postgresql.org/",
+        "topic": "PostgreSQL"
+       },
+       {
+        "type": "official",
+        "title": "MySQL Docs",
+        "url": "https://dev.mysql.com/doc/",
+        "topic": "MySQL"
+       },
+       {
+        "type": "official",
+        "title": "MariaDB",
+        "url": "https://mariadb.org/",
+        "topic": "MariaDB"
+       },
+       {
+        "type": "official",
+        "title": "MS SQL",
+        "url": "https://www.microsoft.com/en-ca/sql-server/",
+        "topic": "MS SQL"
+       }
+      ]
+     },
+     {
+      "step_number": 4,
+      "title": "Transactions, Indexes and Scaling Databases",
+      "description": "Correctness under concurrent writes and speed under load both come down to transactions, indexes and replication choices. Learn ACID, indexing, replication, sharding and the CAP theorem, and profile slow queries.",
+      "topic_refs": [
+       "qSAdfaGUfn8mtmDjHJi3z",
+       "rq_y_OBMD9AH_4aoecvAi",
+       "y-xkHFE9YzhNIX3EiWspL",
+       "wrl7HHWXOaxoKVlNZxZ6d",
+       "zWstl08R4uzqve4BdYurp",
+       "95d9itpUZ4s9roZN8kG9x",
+       "LAdKDJ4LcMaDWqslMvE8X",
+       "SYXJhanu0lFmGj2m2XXhS"
+      ],
+      "projects": [
+       {
+        "title": "Double-booking bug",
+        "description": "Reproduce a race condition in seat booking and fix it with a transaction and the right isolation level.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Read replica setup",
+        "description": "Run a primary and a read replica locally and route read-only queries to the replica.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "ACID",
+       "Transactions",
+       "Database Indexes",
+       "Data Replication",
+       "Sharding strategies"
+      ],
+      "more_topics": [],
+      "global_step_index": 4,
+      "resource": {
+       "title": "ACID Explained: Atomic, Consistent, Isolated & Durable",
+       "url": "https://youtube.com/watch?v=yaQ5YMWkxq4"
+      },
+      "videos": [
+       {
+        "title": "ACID Explained: Atomic, Consistent, Isolated & Durable",
+        "url": "https://youtube.com/watch?v=yaQ5YMWkxq4",
+        "video_id": "yaQ5YMWkxq4",
+        "source": "roadmap.sh",
+        "topic": "ACID"
+       },
+       {
+        "title": "What is a Database transaction?",
+        "url": "https://youtube.com/watch?v=wHUOeXbZCYA",
+        "video_id": "wHUOeXbZCYA",
+        "source": "roadmap.sh",
+        "topic": "Transactions"
+       },
+       {
+        "title": "Database Indexing Explained",
+        "url": "https://youtube.com/watch?v=-qNSXK7s7_w",
+        "video_id": "-qNSXK7s7_w",
+        "source": "roadmap.sh",
+        "topic": "Database Indexes"
+       },
+       {
+        "title": "What is Data Replication?",
+        "url": "https://youtube.com/watch?v=iO8a1nMbL1o",
+        "video_id": "iO8a1nMbL1o",
+        "source": "roadmap.sh",
+        "topic": "Data Replication"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "PostgreSQL Tutorial on Transactions",
+        "url": "https://www.postgresql.org/docs/current/tutorial-transactions.html",
+        "topic": "ACID"
+       },
+       {
+        "type": "official",
+        "title": "MySQL InnoDB and the ACID Model",
+        "url": "https://dev.mysql.com/doc/refman/8.0/en/mysql-acid.html",
+        "topic": "ACID"
+       },
+       {
+        "type": "official",
+        "title": "PostgreSQL - Indexes",
+        "url": "https://www.postgresql.org/docs/current/indexes.html",
+        "topic": "Database Indexes"
+       }
+      ]
+     },
+     {
+      "step_number": 5,
+      "title": "NoSQL Databases",
+      "description": "Key-value, document, wide-column, graph and time-series stores each solve problems relational databases handle poorly. Learn when to use each family and try the common ones.",
+      "topic_refs": [
+       "F8frGuv1dunOdcVJ_IiGs",
+       "28U6q_X-NTYf7OSKHjoWH",
+       "g8GjkJAhvnSxXTZks0V1g",
+       "dwfEHInbX2eFiafM-nRMX",
+       "zsiZLWJ2bMvrjuHch5fX_",
+       "aArZ3gKwObzafCkTOd-Hj",
+       "qOlNzZ7U8LhIGukb67n7U",
+       "RyJFLLGieJ8Xjt-DlIayM",
+       "BTNJfWemFKEeNeTyENXui",
+       "XbM4TDImSH-56NsITjyHK",
+       "WiAK70I0z-_bzbWNwiHUd",
+       "ZyGLSvx17p7QmYDy1LFbM"
+      ],
+      "projects": [
+       {
+        "title": "Product catalogue in MongoDB",
+        "description": "Store products with varying attributes as documents and query them with indexes.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Sensor metrics store",
+        "description": "Write device readings to a time-series database and query hourly averages.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "NoSQL databases",
+       "MongoDB",
+       "Redis",
+       "DynamoDB",
+       "Cassandra"
+      ],
+      "more_topics": [
+       {
+        "node_id": "M0iaSSdVPWaCUpyTG50Vf",
+        "title": "Redis"
+       },
+       {
+        "node_id": "5T0ljwlHL0545ICCeehcQ",
+        "title": "RethinkDB"
+       },
+       {
+        "node_id": "5xy66yQrz1P1w7n6PcAFq",
+        "title": "AWS Neptune"
+       },
+       {
+        "node_id": "GKrcTsUi5XWj_pP1TOK0S",
+        "title": "DGraph"
+       }
+      ],
+      "global_step_index": 5,
+      "resource": {
+       "title": "How do NoSQL Databases work",
+       "url": "https://youtube.com/watch?v=0buKQHokLK8"
+      },
+      "videos": [
+       {
+        "title": "How do NoSQL Databases work",
+        "url": "https://youtube.com/watch?v=0buKQHokLK8",
+        "video_id": "0buKQHokLK8",
+        "source": "roadmap.sh",
+        "topic": "NoSQL databases"
+       },
+       {
+        "title": "Redis Tutorial for Beginners",
+        "url": "https://youtube.com/watch?v=jgpVdJB2sKQ",
+        "video_id": "jgpVdJB2sKQ",
+        "source": "roadmap.sh",
+        "topic": "Redis"
+       },
+       {
+        "title": "AWS DynamoDB Tutorial For Beginners",
+        "url": "https://youtube.com/watch?v=2k2GINpO308",
+        "video_id": "2k2GINpO308",
+        "source": "roadmap.sh",
+        "topic": "DynamoDB"
+       },
+       {
+        "title": "Apache Cassandra Database – Full Course for Beginners",
+        "url": "https://youtube.com/watch?v=J-cSy5MeMOA",
+        "video_id": "J-cSy5MeMOA",
+        "source": "roadmap.sh",
+        "topic": "Cassandra"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Learning Path for MongoDB Developers",
+        "url": "https://learn.mongodb.com/catalog",
+        "topic": "MongoDB"
+       },
+       {
+        "type": "official",
+        "title": "Redis Documentation",
+        "url": "https://redis.io/docs/latest/",
+        "topic": "Redis"
+       },
+       {
+        "type": "official",
+        "title": "AWS DynamoDB",
+        "url": "https://aws.amazon.com/dynamodb/",
+        "topic": "DynamoDB"
+       },
+       {
+        "type": "official",
+        "title": "Cassandra",
+        "url": "https://cassandra.apache.org/_/index.html",
+        "topic": "Cassandra"
+       }
+      ]
+     },
+     {
+      "step_number": 6,
+      "title": "Designing APIs: REST, GraphQL and gRPC",
+      "description": "APIs are the contract between your service and every client, so design mistakes are expensive to undo. Design REST and JSON APIs, compare GraphQL, gRPC and SOAP, document with OpenAPI, and add rate limiting and streaming.",
+      "topic_refs": [
+       "EwvLPSI6AlZ4TnNIJTZA4",
+       "lfNFDZZNdrB0lbEaMtU71",
+       "sNceS4MpSIjRkWhNDmrFg",
+       "zp3bq38tMnutT2N0tktOW",
+       "J-TOE2lT4At1mSdNoxPS1",
+       "sSNf93azjuyMzQqIHE0Rh",
+       "9cD5ag1L0GqHx4_zxc5JX",
+       "qAu-Y4KI2Z_y-EqiG86cR",
+       "9f-aWi3_7USy4XpNzrTL6"
+      ],
+      "projects": [
+       {
+        "title": "Documented REST API",
+        "description": "A to-do API with pagination, filtering, proper status codes and an OpenAPI spec.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "REST versus GraphQL",
+        "description": "Expose the same data through REST and GraphQL and compare round trips for a mobile screen.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "APIs",
+       "REST",
+       "JSON APIs",
+       "GraphQL",
+       "gRPC"
+      ],
+      "more_topics": [],
+      "global_step_index": 6,
+      "resource": {
+       "title": "What is an API (in 5 minutes)",
+       "url": "https://youtube.com/watch?v=ByGJQzlzxQg"
+      },
+      "videos": [
+       {
+        "title": "What is an API (in 5 minutes)",
+        "url": "https://youtube.com/watch?v=ByGJQzlzxQg",
+        "video_id": "ByGJQzlzxQg",
+        "source": "roadmap.sh",
+        "topic": "APIs"
+       },
+       {
+        "title": "REST API Best Practices – REST Endpoint Design",
+        "url": "https://youtube.com/watch?v=1Wl-rtew1_E",
+        "video_id": "1Wl-rtew1_E",
+        "source": "roadmap.sh",
+        "topic": "REST"
+       },
+       {
+        "title": "REST API vs JSON API - Which Should You Use?",
+        "url": "https://youtube.com/watch?v=0oXYLzuucwE",
+        "video_id": "0oXYLzuucwE",
+        "source": "roadmap.sh",
+        "topic": "JSON APIs"
+       },
+       {
+        "title": "Tutorial - GraphQL Explained in 100 Seconds",
+        "url": "https://youtube.com/watch?v=eIQh02xuVw4",
+        "video_id": "eIQh02xuVw4",
+        "source": "roadmap.sh",
+        "topic": "GraphQL"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "JSON.org - Introducing JSON",
+        "url": "https://www.json.org/json-en.html",
+        "topic": "JSON APIs"
+       },
+       {
+        "type": "official",
+        "title": "GraphQL",
+        "url": "https://graphql.org/",
+        "topic": "GraphQL"
+       },
+       {
+        "type": "official",
+        "title": "gRPC Website",
+        "url": "https://grpc.io/",
+        "topic": "gRPC"
+       },
+       {
+        "type": "official",
+        "title": "OpenAPI Specification Website",
+        "url": "https://swagger.io/specification/",
+        "topic": "Open API Spec"
+       }
+      ]
+     },
+     {
+      "step_number": 7,
+      "title": "Authentication and Password Storage",
+      "description": "Login and session bugs are among the most damaging backend vulnerabilities. Implement cookie, token and JWT authentication, integrate OAuth, OpenID and SAML, and store passwords with slow hashes, not MD5 or plain SHA.",
+      "topic_refs": [
+       "PY9G7KQy8bF6eIdr1ydHf",
+       "yRiJgjjv2s1uV9vgo3n8m",
+       "ffzsh8_5yRq85trFt9Xhk",
+       "0rGj7FThLJZouSQUhnqGW",
+       "UxS_mzVUjLigEwKrXnEeB",
+       "vp-muizdICcmU0gN8zmkS",
+       "z3EJBpgGm0_Uj3ymhypbX",
+       "UCHtaePVxS-0kpqlYxbfC",
+       "dlG1bVkDmjI3PEGpkm1xH",
+       "kGTALrvCpxyVCXHRmkI7s",
+       "jWwA6yX4Zjx-r_KpDaD3c",
+       "JVN38r5jENoteia3YeIQ3"
+      ],
+      "projects": [
+       {
+        "title": "Auth service",
+        "description": "Sign-up and login with bcrypt hashing, JWT access tokens and refresh tokens.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Login with Google",
+        "description": "Add OAuth sign-in with an external provider alongside password login.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Authentication",
+       "Basic authentication",
+       "Cookie-Based Authentication",
+       "Token authentication",
+       "JWT"
+      ],
+      "more_topics": [],
+      "global_step_index": 7,
+      "resource": {
+       "title": "Basic Authentication in 5 minutes",
+       "url": "https://youtube.com/watch?v=rhi1eIjSbvk"
+      },
+      "videos": [
+       {
+        "title": "Basic Authentication in 5 minutes",
+        "url": "https://youtube.com/watch?v=rhi1eIjSbvk",
+        "video_id": "rhi1eIjSbvk",
+        "source": "roadmap.sh",
+        "topic": "Basic authentication"
+       },
+       {
+        "title": "Session vs Token Authentication in 100 Seconds",
+        "url": "https://youtube.com/watch?v=UBUNrFtufWo",
+        "video_id": "UBUNrFtufWo",
+        "source": "roadmap.sh",
+        "topic": "Cookie-Based Authentication"
+       },
+       {
+        "title": "Why is JWT popular?",
+        "url": "https://youtube.com/watch?v=P2CPd9ynFLg",
+        "video_id": "P2CPd9ynFLg",
+        "source": "roadmap.sh",
+        "topic": "Token authentication"
+       },
+       {
+        "title": "Node.js JWT Authentication Tutorial",
+        "url": "https://youtube.com/watch?v=mbsmsi7l3r4",
+        "video_id": "mbsmsi7l3r4",
+        "source": "roadmap.sh",
+        "topic": "JWT"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "HTTP Cookies - MDN Web Docs",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies",
+        "topic": "Cookie-Based Authentication"
+       },
+       {
+        "type": "official",
+        "title": "jwt.io Website",
+        "url": "https://jwt.io/",
+        "topic": "JWT"
+       },
+       {
+        "type": "official",
+        "title": "OpenID Website",
+        "url": "https://openid.net/",
+        "topic": "OpenID"
+       },
+       {
+        "type": "official",
+        "title": "sCrypt Website",
+        "url": "https://www.tarsnap.com/scrypt.html",
+        "topic": "Scrypt"
+       }
+      ]
+     },
+     {
+      "step_number": 8,
+      "title": "Web Security Essentials",
+      "description": "Every exposed endpoint will be probed, so backend engineers must know the common attacks and defences. Study the OWASP risks, configure TLS, CORS and content security policy, and harden servers.",
+      "topic_refs": [
+       "RBrIP5KbVQ2F0ly7kMfTo",
+       "AAgciyxuDvS2B_c6FRMvT",
+       "HgQBde1zLUFtlwB66PR6_",
+       "0v3OsaghJEGHeXX0c5kqn",
+       "TZ0BWOENPv6pQm8qYB8Ow",
+       "LU6WUbkWKbPM1rb2_gEqa"
+      ],
+      "projects": [
+       {
+        "title": "OWASP self-audit",
+        "description": "Check your own API against the OWASP Top 10 and fix at least three issues.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "CORS and TLS setup",
+        "description": "Configure a strict CORS policy and HTTPS for an API and test it from a browser app.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Web Security Knowledge",
+       "OWASP Security Risks",
+       "Content Security Policy",
+       "SSL/TLS",
+       "Server Security"
+      ],
+      "more_topics": [],
+      "global_step_index": 8,
+      "resource": {
+       "title": "7 Security Risks and Hacking Stories for Web Developers",
+       "url": "https://youtube.com/watch?v=4YOpILi9Oxs"
+      },
+      "videos": [
+       {
+        "title": "7 Security Risks and Hacking Stories for Web Developers",
+        "url": "https://youtube.com/watch?v=4YOpILi9Oxs",
+        "video_id": "4YOpILi9Oxs",
+        "source": "roadmap.sh",
+        "topic": "Web Security Knowledge"
+       },
+       {
+        "title": "Content Security Policy Explained",
+        "url": "https://youtube.com/watch?v=-LjPRzFR5f0",
+        "video_id": "-LjPRzFR5f0",
+        "source": "roadmap.sh",
+        "topic": "Content Security Policy"
+       },
+       {
+        "title": "SSL, TLS, HTTPS Explained",
+        "url": "https://youtube.com/watch?v=j9QmMEWmcfo",
+        "video_id": "j9QmMEWmcfo",
+        "source": "roadmap.sh",
+        "topic": "SSL/TLS"
+       },
+       {
+        "title": "10 Tips for Hardening your Linux Servers",
+        "url": "https://youtube.com/watch?v=Jnxx_IAC0G4",
+        "video_id": "Jnxx_IAC0G4",
+        "source": "roadmap.sh",
+        "topic": "Server Security"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "OWASP Website",
+        "url": "https://owasp.org/",
+        "topic": "OWASP Security Risks"
+       }
+      ]
+     },
+     {
+      "step_number": 9,
+      "title": "Caching and Search Engines",
+      "description": "Caching is the quickest way to cut latency and database load, and full-text search needs its own engine. Learn client-side and server-side caching with Memcached, and search with Elasticsearch or Solr.",
+      "topic_refs": [
+       "uPjCrDGA2MHylWXbZvMBM",
+       "KWTbEVX_WxS8jmSaAX3Fe",
+       "xPvVwGQw28uMeLYIWn8yn",
+       "gKTSe9yQFVbPVlLzWB0hC",
+       "NulaE1isWqn-feYHg4YQT",
+       "iN_1EuIwCx_7lRBw1Io4U"
+      ],
+      "projects": [
+       {
+        "title": "Cache a slow endpoint",
+        "description": "Add a cache with expiry in front of a slow query and measure the latency drop.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Job search with Elasticsearch",
+        "description": "Index job postings and support keyword search with filters and relevance ranking.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Caching",
+       "Client Side Caching",
+       "Memcached",
+       "Search Engines",
+       "Elasticsearch"
+      ],
+      "more_topics": [],
+      "global_step_index": 9,
+      "resource": {
+       "title": "Caching Complete Tutorial for Beginners",
+       "url": "https://youtube.com/watch?v=1XJG34mewts"
+      },
+      "videos": [
+       {
+        "title": "Caching Complete Tutorial for Beginners",
+        "url": "https://youtube.com/watch?v=1XJG34mewts",
+        "video_id": "1XJG34mewts",
+        "source": "roadmap.sh",
+        "topic": "Caching"
+       },
+       {
+        "title": "Everything you need to know about HTTP Caching",
+        "url": "https://youtube.com/watch?v=HiBDZgTNpXY",
+        "video_id": "HiBDZgTNpXY",
+        "source": "roadmap.sh",
+        "topic": "Client Side Caching"
+       },
+       {
+        "title": "Redis vs Memcached",
+        "url": "https://youtube.com/watch?v=Gyy1SiE8avE",
+        "video_id": "Gyy1SiE8avE",
+        "source": "roadmap.sh",
+        "topic": "Memcached"
+       },
+       {
+        "title": "Elasticsearch Tutorial for Beginners",
+        "url": "https://youtube.com/watch?v=ZP0NmfyNsuo",
+        "video_id": "ZP0NmfyNsuo",
+        "source": "roadmap.sh",
+        "topic": "Search Engines"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Intro to OpenSearch",
+        "url": "https://opensearch.org/docs/latest/getting-started/intro/",
+        "topic": "Search Engines"
+       },
+       {
+        "type": "official",
+        "title": "Elasticsearch Website",
+        "url": "https://www.elastic.co/elasticsearch/",
+        "topic": "Elasticsearch"
+       },
+       {
+        "type": "official",
+        "title": "Elasticsearch Documentation",
+        "url": "https://www.elastic.co/guide/index.html",
+        "topic": "Elasticsearch"
+       }
+      ]
+     },
+     {
+      "step_number": 10,
+      "title": "Backend Testing and CI/CD",
+      "description": "Teams ship backend changes many times a day and rely on automated tests to catch regressions. Write unit, integration and functional tests, and run them in a CI/CD pipeline on GitHub or GitLab.",
+      "topic_refs": [
+       "STQQbPa7PE3gbjMdL6P-t",
+       "3OYm6b9f6WOrKi4KTOZYK",
+       "381Kw1IMRv7CJp-Uf--qd",
+       "NAGisfq2CgeK3SsuRjnMw",
+       "mGfD7HfuP184lFkXZzGjG",
+       "ptD8EVqwFUYr4W5A_tABY",
+       "Wcp-VDdFHipwa7hNAp1z_"
+      ],
+      "projects": [
+       {
+        "title": "Tested API",
+        "description": "Unit-test business logic and integration-test endpoints against a real test database.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "CI pipeline",
+        "description": "Run tests and linting on every pull request and block merges that fail.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Testing",
+       "Unit Testing",
+       "Integration Testing",
+       "Functional Testing",
+       "CI/CD"
+      ],
+      "more_topics": [],
+      "global_step_index": 10,
+      "resource": {
+       "title": "What is Unit Testing?",
+       "url": "https://youtube.com/watch?v=x95ez7_V7rA"
+      },
+      "videos": [
+       {
+        "title": "What is Unit Testing?",
+        "url": "https://youtube.com/watch?v=x95ez7_V7rA",
+        "video_id": "x95ez7_V7rA",
+        "source": "roadmap.sh",
+        "topic": "Unit Testing"
+       },
+       {
+        "title": "Integration Testing in Node.js",
+        "url": "https://youtube.com/watch?v=r9HdJ8P6GQI",
+        "video_id": "r9HdJ8P6GQI",
+        "source": "roadmap.sh",
+        "topic": "Integration Testing"
+       },
+       {
+        "title": "Functional Testing vs Non-Functional Testing",
+        "url": "https://youtube.com/watch?v=NgQT7miTP9M",
+        "video_id": "NgQT7miTP9M",
+        "source": "roadmap.sh",
+        "topic": "Functional Testing"
+       },
+       {
+        "title": "DevOps CI/CD Explained in 100 Seconds",
+        "url": "https://youtube.com/watch?v=scEDHsr3APg",
+        "video_id": "scEDHsr3APg",
+        "source": "roadmap.sh",
+        "topic": "CI/CD"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Jest - JavaScript Testing Framework",
+        "url": "https://jestjs.io/docs/getting-started",
+        "topic": "Unit Testing"
+       },
+       {
+        "type": "official",
+        "title": "Playwright - End-to-End Testing Documentation",
+        "url": "https://playwright.dev/docs/intro",
+        "topic": "Functional Testing"
+       },
+       {
+        "type": "official",
+        "title": "GitHub Documentation",
+        "url": "https://docs.github.com",
+        "topic": "GitHub"
+       },
+       {
+        "type": "official",
+        "title": "GitLab",
+        "url": "https://gitlab.com/",
+        "topic": "GitLab"
+       }
+      ]
+     },
+     {
+      "step_number": 11,
+      "title": "Web Servers, Containers and Serverless Deployment",
+      "description": "Code only becomes a service once it runs behind a web server or a serverless platform, configured the twelve-factor way. Learn Nginx, Apache and Caddy as reverse proxies, container basics, serverless functions and twelve-factor configuration.",
+      "topic_refs": [
+       "fekyMpEnaGqjh1Cu4Nyc4",
+       "z5AdThp9ByulmM9uekgm-",
+       "jjjonHTHHo-NiAf6p9xPv",
+       "Op-PSPNoyj6Ss9CS09AXh",
+       "0NJDgfe6eMa7qPUOI6Eya",
+       "31ZlpfIPr9-5vYZqvjUeL",
+       "nkmIv3dNwre4yrULMgTh3",
+       "8DmabQJXlrT__COZrDVTV"
+      ],
+      "projects": [
+       {
+        "title": "Nginx reverse proxy",
+        "description": "Serve an API behind Nginx with HTTPS, gzip and a static-files route.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Serverless image resizer",
+        "description": "A function that resizes uploaded images and stores the thumbnails.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Web Servers",
+       "Nginx",
+       "Apache",
+       "Caddy",
+       "MS IIS"
+      ],
+      "more_topics": [],
+      "global_step_index": 11,
+      "resource": {
+       "title": "Web Server Concepts and Examples",
+       "url": "https://youtube.com/watch?v=9J1nJOivdyw"
+      },
+      "videos": [
+       {
+        "title": "Web Server Concepts and Examples",
+        "url": "https://youtube.com/watch?v=9J1nJOivdyw",
+        "video_id": "9J1nJOivdyw",
+        "source": "roadmap.sh",
+        "topic": "Web Servers"
+       },
+       {
+        "title": "NGINX Explained in 100 Seconds",
+        "url": "https://youtube.com/watch?v=JKxlsvZXG7c",
+        "video_id": "JKxlsvZXG7c",
+        "source": "roadmap.sh",
+        "topic": "Nginx"
+       },
+       {
+        "title": "What is Apache Web Server?",
+        "url": "https://youtube.com/watch?v=kaaenHXO4t4",
+        "video_id": "kaaenHXO4t4",
+        "source": "roadmap.sh",
+        "topic": "Apache"
+       },
+       {
+        "title": "How to Make a Simple Caddy 2 Website",
+        "url": "https://youtube.com/watch?v=WgUV_BlHvj0",
+        "video_id": "WgUV_BlHvj0",
+        "source": "roadmap.sh",
+        "topic": "Caddy"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Nginx Website",
+        "url": "https://nginx.org/",
+        "topic": "Nginx"
+       },
+       {
+        "type": "official",
+        "title": "Apache Server",
+        "url": "https://httpd.apache.org/",
+        "topic": "Apache"
+       },
+       {
+        "type": "official",
+        "title": "Apache Server Documentation",
+        "url": "https://httpd.apache.org/docs/2.4/",
+        "topic": "Apache"
+       },
+       {
+        "type": "official",
+        "title": "Caddy Server",
+        "url": "https://caddyserver.com/",
+        "topic": "Caddy"
+       }
+      ]
+     },
+     {
+      "step_number": 12,
+      "title": "Monoliths, Microservices and Messaging",
+      "description": "How a system is split and how its parts communicate shapes team speed and failure behaviour. Compare monoliths, SOA and microservices, use message brokers such as RabbitMQ and Kafka, and push real-time updates with websockets and server-sent events.",
+      "topic_refs": [
+       "tHiUpG9LN35E5RaHddMv5",
+       "Ke522R-4k6TDeiDRyZbbU",
+       "K55h3aqOGe6-hgVhiFisT",
+       "tObmzWpjsJtK4GWhx6pwB",
+       "n14b7sfTOwsjKTpFC9EZ2",
+       "nJ5FpFgGCRaALcWmAKBKT",
+       "GPFRMcY1DEtRgnaZwJ3vW",
+       "VoYSis1F1ZfTxMlQlXQKB",
+       "5XGvep2qoti31bsyqNzrU",
+       "sVuIdAe08IWJVqAt4z-ag",
+       "RUSdlokJUcEYbCvq5FJBJ",
+       "osvajAJlwGI3XnX0fE-kA"
+      ],
+      "projects": [
+       {
+        "title": "Order events with RabbitMQ",
+        "description": "Publish an order-placed event that an email service and an inventory service consume.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Live order tracker",
+        "description": "Push delivery status to the browser with websockets and compare it with long polling.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Architectural Patterns",
+       "Monolithic Apps",
+       "Microservices",
+       "SOA",
+       "Service Mesh"
+      ],
+      "more_topics": [
+       {
+        "node_id": "iatQ3RCxESHt1CwN3PSfx",
+        "title": "Integration Patterns"
+       },
+       {
+        "node_id": "mHnI19RgZ57XDEIDaHxD0",
+        "title": "Model Context Protocol (MCP)"
+       }
+      ],
+      "global_step_index": 12,
+      "resource": {
+       "title": "10 Architecture Patterns Used In Enterprise Software Development Today",
+       "url": "https://youtube.com/watch?v=BrT3AO8bVQY"
+      },
+      "videos": [
+       {
+        "title": "10 Architecture Patterns Used In Enterprise Software Development Today",
+        "url": "https://youtube.com/watch?v=BrT3AO8bVQY",
+        "video_id": "BrT3AO8bVQY",
+        "source": "roadmap.sh",
+        "topic": "Architectural Patterns"
+       },
+       {
+        "title": "Monolithic vs Microservice Architecture",
+        "url": "https://youtube.com/watch?v=NdeTGlZ__Do",
+        "video_id": "NdeTGlZ__Do",
+        "source": "roadmap.sh",
+        "topic": "Monolithic Apps"
+       },
+       {
+        "title": "Microservices explained in 5 minutes",
+        "url": "https://youtube.com/watch?v=lL_j7ilk7rc",
+        "video_id": "lL_j7ilk7rc",
+        "source": "roadmap.sh",
+        "topic": "Microservices"
+       },
+       {
+        "title": "Service Oriented Architecture (SOA) Simplified",
+        "url": "https://youtube.com/watch?v=PA9RjHI463g",
+        "video_id": "PA9RjHI463g",
+        "source": "roadmap.sh",
+        "topic": "SOA"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "RabbitMQ Tutorials",
+        "url": "https://www.rabbitmq.com/getstarted.html",
+        "topic": "RabbitMQ"
+       },
+       {
+        "type": "official",
+        "title": "Apache Kafka",
+        "url": "https://kafka.apache.org/quickstart",
+        "topic": "Kafka"
+       },
+       {
+        "type": "official",
+        "title": "Apache Kafka Streams",
+        "url": "https://kafka.apache.org/documentation/streams/",
+        "topic": "Kafka"
+       },
+       {
+        "type": "official",
+        "title": "Kafka Streams Confluent",
+        "url": "https://docs.confluent.io/platform/current/streams/concepts.html",
+        "topic": "Kafka"
+       }
+      ]
+     },
+     {
+      "step_number": 13,
+      "title": "Resilience and Observability",
+      "description": "Production systems fail in partial and surprising ways, and you can only fix what you can see. Learn failure modes, graceful degradation, circuit breakers, backpressure and load shifting, and instrument services with metrics, logs and traces.",
+      "topic_refs": [
+       "SHmbcMRsc3SygEDksJQBD",
+       "GwApfL4Yx-b5Y8dB9Vy__",
+       "G9AI_i3MkUE1BsO3_-PH7",
+       "spkiQTPvXY4qrhhVUkoPV",
+       "JansCqGDyXecQkD1K7E7e",
+       "HoQdX7a4SnkFRU4RPQ-D5",
+       "Z01E67D6KjrShvQCHjGR7",
+       "QvMEEsXh0-rzn5hDGcmEv",
+       "neVRtPjIHP_VG7lHwfah0",
+       "4X-sbqpP0NDhM99bKdqIa"
+      ],
+      "projects": [
+       {
+        "title": "Circuit breaker demo",
+        "description": "Make a service call a flaky dependency and add a circuit breaker with a fallback response.",
+        "difficulty": "advanced",
+        "grounded": false
+       },
+       {
+        "title": "Service dashboard",
+        "description": "Expose request rate, error rate and latency metrics and graph them.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Building for Scale",
+       "Failure Modes",
+       "Graceful Degradation",
+       "Circuit Breaker",
+       "Backpressure"
+      ],
+      "more_topics": [],
+      "global_step_index": 13,
+      "resource": {
+       "title": "Scaling Distributed Systems - Software Architecture Introduction",
+       "url": "https://youtube.com/watch?v=gxfERVP18-g"
+      },
+      "videos": [
+       {
+        "title": "Scaling Distributed Systems - Software Architecture Introduction",
+        "url": "https://youtube.com/watch?v=gxfERVP18-g",
+        "video_id": "gxfERVP18-g",
+        "source": "roadmap.sh",
+        "topic": "Building for Scale"
+       },
+       {
+        "title": "Graceful Degradation - Georgia Tech",
+        "url": "https://youtube.com/watch?v=Tk7e0LMsAlI",
+        "video_id": "Tk7e0LMsAlI",
+        "source": "roadmap.sh",
+        "topic": "Graceful Degradation"
+       },
+       {
+        "title": "What is the Circuit Breaker Pattern?",
+        "url": "https://youtube.com/watch?v=ADHcBxEXvFA",
+        "video_id": "ADHcBxEXvFA",
+        "source": "roadmap.sh",
+        "topic": "Circuit Breaker"
+       },
+       {
+        "title": "What is Back Pressure",
+        "url": "https://youtube.com/watch?v=viTGm_cV7lE",
+        "video_id": "viTGm_cV7lE",
+        "source": "roadmap.sh",
+        "topic": "Backpressure"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Circuit Breaker - Azure Architecture Patterns",
+        "url": "https://learn.microsoft.com/en-us/azure/architecture/patterns/circuit-breaker",
+        "topic": "Circuit Breaker"
+       },
+       {
+        "type": "official",
+        "title": "Prometheus Documentation",
+        "url": "https://prometheus.io/docs/introduction/overview/",
+        "topic": "Monitoring"
+       },
+       {
+        "type": "official",
+        "title": "Grafana Documentation",
+        "url": "https://grafana.com/docs/grafana/latest/",
+        "topic": "Monitoring"
+       },
+       {
+        "type": "course",
+        "title": "Database Failure Modes",
+        "url": "https://roadmap.sh/ai/course/database-failure-modes-prevention-and-recovery",
+        "topic": "Failure Modes"
+       }
+      ]
+     },
+     {
+      "step_number": 14,
+      "title": "AI in Backend Development",
+      "description": "Backend teams now use AI coding tools daily and increasingly build LLM features into services. Use AI assistants for coding, review and refactoring with care, and learn how LLMs, prompts, function calling and RAG fit into a backend.",
+      "topic_refs": [
+       "UTupdqjOyLh7-56_0SXJ8",
+       "Nx7mjvYgqLpmJ0_iSx5of",
+       "IZKl6PxbvgNkryAkdy3-p",
+       "fA3yi9puMbTFmbPpo6OjN",
+       "0TMdly8yiqnNR8sx36iqc",
+       "HQrxxDxKN8gizvXRU5psW",
+       "CKlkVK_7GZ7xzIUHJqZr8",
+       "RcC1fVuePQZ59AsJfeTdR",
+       "tUNP5VRKvrPcufPDPPEo8",
+       "xL8d-uHMpJKwUvT8z-Jia",
+       "Uve-UObgOBfrd-cLayVWe",
+       "6PCOCzCbx7jo9wO2Hl2gy"
+      ],
+      "projects": [
+       {
+        "title": "Summarise-ticket endpoint",
+        "description": "An API endpoint that calls an LLM to summarise support tickets, with timeouts and structured output.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "AI-assisted refactor log",
+        "description": "Refactor a legacy module with an AI assistant and record which suggestions you rejected and why.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "AI in Backend Development",
+       "AI Applications in Software Development",
+       "AI vs. Traditional Software Development",
+       "AI-Assisted Coding",
+       "AI-Powered Code Reviews"
+      ],
+      "more_topics": [
+       {
+        "node_id": "w1D3-bSg93ndKK9XJTu7z",
+        "title": "AI Agents"
+       },
+       {
+        "node_id": "IWubGe3oquSj882QVnhLU",
+        "title": "Skills"
+       },
+       {
+        "node_id": "EYT2rTLZ8tUW2u8DOnAWF",
+        "title": "Refactoring with AI"
+       },
+       {
+        "node_id": "q7NpwqQXUp4wt2to-yFiP",
+        "title": "Documentation Generation with AI"
+       },
+       {
+        "node_id": "-ye5ZtYFDoYGpj-UJaBP8",
+        "title": "OpenAI"
+       },
+       {
+        "node_id": "yKNdBbahm_h81xdMDT-qx",
+        "title": "Vectors"
+       },
+       {
+        "node_id": "E7-LveK7jO2npxVTLUDfw",
+        "title": "Antigravity"
+       },
+       {
+        "node_id": "Lw2nR7x8PYgq1P5CxPAxi",
+        "title": "Anthropic"
+       },
+       {
+        "node_id": "Bic4PHhz-YqzPWRimJO83",
+        "title": "Gemini"
+       }
+      ],
+      "global_step_index": 14,
+      "resource": {
+       "title": "AI Systems vs Traditional Coding",
+       "url": "https://youtube.com/watch?v=P7lryCIvxgA"
+      },
+      "videos": [
+       {
+        "title": "AI Systems vs Traditional Coding",
+        "url": "https://youtube.com/watch?v=P7lryCIvxgA",
+        "video_id": "P7lryCIvxgA",
+        "source": "roadmap.sh",
+        "topic": "AI vs. Traditional Software Development"
+       },
+       {
+        "title": "Everything You Need to Know About Coding with AI // NOT vibe coding",
+        "url": "https://youtube.com/watch?v=5fhcklZe-qE",
+        "video_id": "5fhcklZe-qE",
+        "source": "roadmap.sh",
+        "topic": "AI-Assisted Coding"
+       },
+       {
+        "title": "Automatic code reviews with OpenAI Codex",
+        "url": "https://youtube.com/watch?v=HwbSWVg5Ln4",
+        "video_id": "HwbSWVg5Ln4",
+        "source": "roadmap.sh",
+        "topic": "AI-Powered Code Reviews"
+       },
+       {
+        "title": "Intro to GitHob Copilot in Visual Studio",
+        "url": "https://youtube.com/watch?v=z1ycDvspv8U",
+        "video_id": "z1ycDvspv8U",
+        "source": "roadmap.sh",
+        "topic": "GitHub Copilot"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Common workflows - Claude Code",
+        "url": "https://code.claude.com/docs/en/common-workflows",
+        "topic": "AI-Powered Code Reviews"
+       },
+       {
+        "type": "official",
+        "title": "Quickstart for GitHub Copilot",
+        "url": "https://docs.github.com/en/copilot/quickstart",
+        "topic": "GitHub Copilot"
+       },
+       {
+        "type": "official",
+        "title": "Tutorials for GitHub Copilot",
+        "url": "https://docs.github.com/en/copilot/tutorials",
+        "topic": "GitHub Copilot"
+       },
+       {
+        "type": "official",
+        "title": "Cursor Docs",
+        "url": "https://cursor.com/docs",
+        "topic": "Cursor"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 2,
+    "title": "SQL",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "SQL Queries: Selecting, Joining and Grouping",
+      "description": "ORMs generate SQL, but backend engineers still need to read and write it to debug slow or wrong queries. Practise SELECT with filtering and sorting, joins across tables, and grouped aggregates.",
+      "topic_refs": [
+       "nhUKKWyBH80nyKfGT8ErC",
+       "JDDG4KfhtIlw1rkNCzUli",
+       "tBzMDfCMh6MIagNaxCzin",
+       "i8u8E_sne6XiKJo2FXDog",
+       "WhYAy6f7Euk3E49-ot644",
+       "NfCiSPrL4upMssukcw3Kh",
+       "4UQQYbjzwVxZOAxBuXKQS",
+       "aaua13CkTxLOYXr8cAgPm",
+       "X9cJJ8zLZCF2cOoqxwFfY",
+       "6qG0AVYd6Y1B8LOSDoMX9",
+       "14TKE6KhrH1yFtHcSZSXq",
+       "LX9nzJ4uqznHN4SksoDvr"
+      ],
+      "projects": [
+       {
+        "title": "ORM query translation",
+        "description": "Write raw SQL for ten ORM queries in your project and compare them with the generated SQL.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Reporting endpoint in raw SQL",
+        "description": "An endpoint that returns orders per customer per month using a hand-written join and GROUP BY.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Learn the Basics",
+       "Basic SQL Syntax",
+       "Data Types",
+       "Select Statement",
+       "WHERE Clause in SELECT Statements"
+      ],
+      "more_topics": [
+       {
+        "node_id": "rmqXH29n1oXtZ8tvmcRFn",
+        "title": "SELECT statement"
+       },
+       {
+        "node_id": "8V6yw7kLaow-VVcv_K_pL",
+        "title": "JOIN Queries"
+       },
+       {
+        "node_id": "ffwniprGJHZzJ7t3lQcXz",
+        "title": "Operators"
+       },
+       {
+        "node_id": "6yoo7qC6X2jYDIjd3HIm7",
+        "title": "SQL keywords"
+       },
+       {
+        "node_id": "Zw8IHfCCMSxmVjx5Ho5ff",
+        "title": "GROUP BY"
+       },
+       {
+        "node_id": "UDqbT1y-YzBrljfKSz_RG",
+        "title": "Advanced SQL Concepts"
+       },
+       {
+        "node_id": "TjgwabhEtaSoYMLNr6q9l",
+        "title": "Recursive Queries"
+       },
+       {
+        "node_id": "N1Racr3ZpU320gS545We8",
+        "title": "FROM Clause in SELECT Statements"
+       },
+       {
+        "node_id": "PcsGK4VBh0zNQIPZvNES4",
+        "title": "Creating Views"
+       },
+       {
+        "node_id": "xkPJ2MYiXmzC4yqQWyB_7",
+        "title": "Nested Subqueries"
+       },
+       {
+        "node_id": "HhICJpCK5__b-itUoEBES",
+        "title": "HAVING"
+       },
+       {
+        "node_id": "mPj6BiK5FKKkIQ9WsWEo6",
+        "title": "INSERT Statement"
+       },
+       {
+        "node_id": "R9DQNc0AyAQ2HLpP4HOk6",
+        "title": "Relational Databases"
+       },
+       {
+        "node_id": "w53CSY53nAAN0ux-XeJ4c",
+        "title": "Selective Projection"
+       },
+       {
+        "node_id": "R9WDMRd-3wxsKH97-sT3n",
+        "title": "Table"
+       },
+       {
+        "node_id": "ytwCkSMTiTuemE0KVfAfy",
+        "title": "HAVING"
+       },
+       {
+        "node_id": "wmtt-3auWLdQWuVdwZLPd",
+        "title": "Column"
+       },
+       {
+        "node_id": "gx4KaFqKgJX9n9_ZGMqlZ",
+        "title": "SQL vs NoSQL"
+       },
+       {
+        "node_id": "7ow6tiSSCnTpv_GYQU017",
+        "title": "Cross Join"
+       },
+       {
+        "node_id": "aLDl75i8gtLRA2Ud-fMmQ",
+        "title": "Row"
+       },
+       {
+        "node_id": "W2ePJHdfEiEJ3ZKoRQKt_",
+        "title": "CASE"
+       },
+       {
+        "node_id": "88KlrMqSza9_YaD7Dv61p",
+        "title": "TIME"
+       },
+       {
+        "node_id": "eXQ-TrTlqL5p2AdGnozkL",
+        "title": "Scalar"
+       },
+       {
+        "node_id": "aS5zCyJRA779yHF0G2pje",
+        "title": "FULL OUTER JOIN"
+       },
+       {
+        "node_id": "9aHYrOQDkA84tlxcVK5aD",
+        "title": "COUNT"
+       }
+      ],
+      "global_step_index": 15,
+      "resource": {
+       "title": "MySQL 101 - Data Types",
+       "url": "https://youtube.com/watch?v=vAiBa69YCnk"
+      },
+      "videos": [
+       {
+        "title": "MySQL 101 - Data Types",
+        "url": "https://youtube.com/watch?v=vAiBa69YCnk",
+        "video_id": "vAiBa69YCnk",
+        "source": "roadmap.sh",
+        "topic": "Data Types"
+       },
+       {
+        "title": "How to filter with the WHERE clause in SQL",
+        "url": "https://youtube.com/watch?v=4Uv0o8IBqw0",
+        "video_id": "4Uv0o8IBqw0",
+        "source": "roadmap.sh",
+        "topic": "WHERE Clause in SELECT Statements"
+       },
+       {
+        "title": "SQL ORDER BY Sorting Clause",
+        "url": "https://youtube.com/watch?v=h_HHTNjAgS8",
+        "video_id": "h_HHTNjAgS8",
+        "source": "roadmap.sh",
+        "topic": "ORDER BY"
+       },
+       {
+        "title": "SQL JOINs Tutorial for beginners",
+        "url": "https://youtube.com/watch?v=0OQJDd3QqQM",
+        "video_id": "0OQJDd3QqQM",
+        "source": "roadmap.sh",
+        "topic": "JOINs"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 2,
+      "title": "Writing Data Safely: DDL, DML and Constraints",
+      "description": "Constraints in the database are the last line of defence against bad data from buggy code. Create and alter tables, insert, update and delete rows, and enforce keys, uniqueness, NOT NULL and CHECK rules.",
+      "topic_refs": [
+       "epEpBxRosLhuAuKwp823r",
+       "WjXlO42WL9saDS7RIGapt",
+       "K5vhqTJrdPK08Txv8zaEj",
+       "-Hew0y53ziZK3epQnGA0O",
+       "eu9dJFi6gBPMBdy08Y5Bb",
+       "ddtVaA4Ls6qRj-7OtTSIH",
+       "Jlwmyq6CUQeDAlL4dazOP",
+       "DHz6sRLYhFeCbAcNJS8hm",
+       "5yGo8i7eplxtXOD_qfzOs",
+       "M4M_-vjM9GNy0NmXZneDA",
+       "Q0h9Wfnl_W9ThOkv7Q17A",
+       "mBQ3Z8GlFcpIena3IB7D_"
+      ],
+      "projects": [
+       {
+        "title": "Constraint-first schema",
+        "description": "Design a wallet schema where the database itself rejects negative balances and orphan rows.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Zero-downtime column change",
+        "description": "Rename a column in steps so the running app never breaks.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Create Table",
+       "Alter Table",
+       "Truncate Table",
+       "INSERT",
+       "UPDATE Statement"
+      ],
+      "more_topics": [
+       {
+        "node_id": "qBios3sZVhcJMpXmj9f7B",
+        "title": "Data Constraints"
+       },
+       {
+        "node_id": "WMSXi-eez_hHGDM8kUdWz",
+        "title": "Data Manipulation Language (DML)"
+       },
+       {
+        "node_id": "xPOeXK1EPBNG56vgfG-VV",
+        "title": "Data Definition Language (DDL)"
+       },
+       {
+        "node_id": "fNTb9y3zs1HPYclAmu_Wv",
+        "title": "RDBMS Benefits and Limitations"
+       },
+       {
+        "node_id": "YzJ6QmY2arMfRzMAPaI0T",
+        "title": "Drop Table"
+       },
+       {
+        "node_id": "KJJ6PYjTnr_3yU2mNPL9v",
+        "title": "UPDATE Statement"
+       },
+       {
+        "node_id": "zWnvuHJLHr03PWkrW1wZZ",
+        "title": "DELETE Statement in SQL"
+       },
+       {
+        "node_id": "3eE-l-P93nOXoWfLr8PSW",
+        "title": "Modifying Views"
+       },
+       {
+        "node_id": "Ivqo2wa-_NhGU3vGd0pUI",
+        "title": "DATE"
+       },
+       {
+        "node_id": "MIOuWWcCjLAmgzog2DBC3",
+        "title": "Dropping Views"
+       },
+       {
+        "node_id": "7hEqkoxkdAWmakGZsMJx-",
+        "title": "TIMESTAMP"
+       },
+       {
+        "node_id": "Othfo7NvTVzfyL906PLM1",
+        "title": "UPPER"
+       }
+      ],
+      "global_step_index": 16,
+      "resource": {
+       "title": "SQL Tutorial - TRUNCATE TABLE",
+       "url": "https://youtube.com/watch?v=zJidbjOQlJM"
+      },
+      "videos": [
+       {
+        "title": "SQL Tutorial - TRUNCATE TABLE",
+        "url": "https://youtube.com/watch?v=zJidbjOQlJM",
+        "video_id": "zJidbjOQlJM",
+        "source": "roadmap.sh",
+        "topic": "Truncate Table"
+       },
+       {
+        "title": "SQL INSERT Statement",
+        "url": "https://youtube.com/watch?v=Yp1MKeIG-M4",
+        "video_id": "Yp1MKeIG-M4",
+        "source": "roadmap.sh",
+        "topic": "INSERT"
+       },
+       {
+        "title": "Foreign Keys are easy (kind of)",
+        "url": "https://youtube.com/watch?v=rFssfx37UJw",
+        "video_id": "rFssfx37UJw",
+        "source": "roadmap.sh",
+        "topic": "Foreign Key"
+       },
+       {
+        "title": "NOT NULL Constraint",
+        "url": "https://youtube.com/watch?v=unzHhq82mKU",
+        "video_id": "unzHhq82mKU",
+        "source": "roadmap.sh",
+        "topic": "NOT NULL Constraint"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 3,
+      "title": "SQL Transaction Control, Procedures and Permissions",
+      "description": "Payments, bookings and inventory need multi-statement changes that succeed or fail together, with the right isolation. Control transactions with BEGIN, COMMIT, ROLLBACK and savepoints, choose isolation levels, and manage stored procedures and database permissions.",
+      "topic_refs": [
+       "OdaBXz2XBAVLsQ-m7xtAM",
+       "7sTW1vwUhCFOMXYjScVEt",
+       "3cMECz5QPVDOFrk5duObs",
+       "xbD67KVlt3UhHpKh8HLx8",
+       "pJtYvXUo81aZfPuRjIbMq",
+       "ujeq8EIFcrqkBjoFizsJM",
+       "w7FNjdwqjY7X69aJqqBy4",
+       "z5Sf0VU14ZCQ80kL1qOqc",
+       "03qMopxzjx_-dZbYw9b7J",
+       "vhBZqqmUcEon6-Vwvla4q",
+       "R1ktDJpXOz0PTllAcBrdu"
+      ],
+      "projects": [
+       {
+        "title": "Money transfer procedure",
+        "description": "Transfer funds between accounts in one transaction and test it under concurrent requests.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Least-privilege database user",
+        "description": "Create an application user that can only read and write the tables it needs.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Transactions",
+       "BEGIN",
+       "COMMIT",
+       "ROLLBACK",
+       "SAVEPOINT"
+      ],
+      "more_topics": [
+       {
+        "node_id": "igg34gLPl3HYVAmRNFGcV",
+        "title": "ACID"
+       },
+       {
+        "node_id": "nwFaz9i-1s0WVrVaFsoqb",
+        "title": "Pivot / Unpivot Operations"
+       },
+       {
+        "node_id": "o2SH4iQn1Ap2yDZ7cVYLO",
+        "title": "FLOOR"
+       }
+      ],
+      "global_step_index": 17,
+      "resource": {
+       "title": "How to undo a mistake a in SQL: Rollback and Commit",
+       "url": "https://youtube.com/watch?v=jomsdMLiIZM"
+      },
+      "videos": [
+       {
+        "title": "How to undo a mistake a in SQL: Rollback and Commit",
+        "url": "https://youtube.com/watch?v=jomsdMLiIZM",
+        "video_id": "jomsdMLiIZM",
+        "source": "roadmap.sh",
+        "topic": "ROLLBACK"
+       },
+       {
+        "title": "DBMS - Save Point",
+        "url": "https://youtube.com/watch?v=30ldSUkswGM",
+        "video_id": "30ldSUkswGM",
+        "source": "roadmap.sh",
+        "topic": "SAVEPOINT"
+       },
+       {
+        "title": "Dynamic SQL",
+        "url": "https://youtube.com/watch?v=01LZMCotcpY",
+        "video_id": "01LZMCotcpY",
+        "source": "roadmap.sh",
+        "topic": "Dynamic SQL"
+       },
+       {
+        "title": "ACID Explained: Atomic, Consistent, Isolated & Durable",
+        "url": "https://youtube.com/watch?v=yaQ5YMWkxq4",
+        "video_id": "yaQ5YMWkxq4",
+        "source": "roadmap.sh",
+        "topic": "ACID"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 4,
+      "title": "Advanced Queries and Query Tuning",
+      "description": "Slow queries are the most common backend performance problem, and fixing them needs plans, indexes and better query shapes. Use CTEs, subqueries and window functions, then read query plans, manage indexes and rewrite joins and subqueries.",
+      "topic_refs": [
+       "tedQynR0xicVKhuR1oahw",
+       "86iZ8s8EdhSuYwgwAM_EO",
+       "JZqS3Xapw6mfSPVgFW7av",
+       "tBvXLLp5FKeSSN35Kj1X4",
+       "zW27ZHdLwQY-85iqbBKQZ",
+       "2tyezwOIxV6O84N-Q3Awh",
+       "LcljR70T-OnzSrJJDqOWf",
+       "NtxGd6Vx-REBclry7lZuE",
+       "Ps9Yv2s-bKvEegGAbPsiA",
+       "C6P69YiFdS-ioPXMNfX07",
+       "C0dhS6uLf4TUSfvcWyXhv",
+       "UVTgbZrqpbYl1bQvQejcF"
+      ],
+      "projects": [
+       {
+        "title": "Explain-plan tuning",
+        "description": "Take three slow queries, read their plans, add indexes or rewrite them, and record the timings.",
+        "difficulty": "advanced",
+        "grounded": false
+       },
+       {
+        "title": "Leaderboard query",
+        "description": "Return the top players per region with a window function behind a cached endpoint.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "CTEs (Common Table Expressions)",
+       "Sub Queries",
+       "Correlated Subqueries",
+       "Window Functions",
+       "Row_number"
+      ],
+      "more_topics": [
+       {
+        "node_id": "vTMd0bqz4eTgLnhfgY61h",
+        "title": "Advanced Functions"
+       },
+       {
+        "node_id": "4rqCPpTb0dAgpheBKshRG",
+        "title": "Performance Optimization"
+       },
+       {
+        "node_id": "9wOgP0i9G4HSeZGn2Gm7r",
+        "title": "Using Indexes"
+       },
+       {
+        "node_id": "k7lZe4QRt9q4InUImFmvx",
+        "title": "COALESCE"
+       },
+       {
+        "node_id": "BcXdxY6bld5c0YNFSKkh-",
+        "title": "lag"
+       },
+       {
+        "node_id": "cucCPw3KfetAP2OMFUs0X",
+        "title": "rank"
+       },
+       {
+        "node_id": "aJJjaGunRrwyh9MjQfJt-",
+        "title": "lead"
+       },
+       {
+        "node_id": "knTG6pAq2mYP24WMa29xI",
+        "title": "LOWER"
+       },
+       {
+        "node_id": "PnG_5D6q66NAKxXVOwA6N",
+        "title": "SUBSTRING"
+       },
+       {
+        "node_id": "QM0ltgPu8lLLYc2MsTLj-",
+        "title": "dense_rank"
+       },
+       {
+        "node_id": "VNbb3YPc0FtrROylRns8h",
+        "title": "REPLACE"
+       },
+       {
+        "node_id": "Wou6YXLYUgomvcELh851L",
+        "title": "AVG"
+       },
+       {
+        "node_id": "shpgZkh1CLqUwjOaRtAFy",
+        "title": "RIGHT JOIN"
+       },
+       {
+        "node_id": "5inpEqafeVCfqsURHzQQg",
+        "title": "CONCAT"
+       },
+       {
+        "node_id": "YqDJq3fPxUZlwsdq0kJg7",
+        "title": "MAX"
+       },
+       {
+        "node_id": "9DntFiZV1AyaRPhYP5q6u",
+        "title": "ROUND"
+       },
+       {
+        "node_id": "1E1WdWOyqxbbdiIbw26dZ",
+        "title": "DATEADD"
+       },
+       {
+        "node_id": "bFEYMlqPZtTUYtDQxqHzT",
+        "title": "MIN"
+       },
+       {
+        "node_id": "OUw--8zEq6lk5-6oySVHe",
+        "title": "MOD"
+       },
+       {
+        "node_id": "BAqJQvcguhIhzyII5LRH6",
+        "title": "CEILING"
+       },
+       {
+        "node_id": "KI6vngoYcHsnpIk8ErhhS",
+        "title": "NULLIF"
+       },
+       {
+        "node_id": "6vYFb_D1N_-tLWZftL-Az",
+        "title": "ABS"
+       },
+       {
+        "node_id": "w4T3jFb0ilf1KNw-AvRXG",
+        "title": "SUM"
+       },
+       {
+        "node_id": "RH8DLiQpDUWqw3U1522q5",
+        "title": "LENGTH"
+       },
+       {
+        "node_id": "BJ4fQvagTO0B5UtXblyx8",
+        "title": "DATEPART"
+       }
+      ],
+      "global_step_index": 18,
+      "resource": {
+       "title": "Advanced SQL Tutorial | Subqueries",
+       "url": "https://youtube.com/watch?v=m1KcNV-Zhmc"
+      },
+      "videos": [
+       {
+        "title": "Advanced SQL Tutorial | Subqueries",
+        "url": "https://youtube.com/watch?v=m1KcNV-Zhmc",
+        "video_id": "m1KcNV-Zhmc",
+        "source": "roadmap.sh",
+        "topic": "Sub Queries"
+       },
+       {
+        "title": "Intro To Subqueries",
+        "url": "https://youtube.com/watch?v=TUxadt94L0M",
+        "video_id": "TUxadt94L0M",
+        "source": "roadmap.sh",
+        "topic": "Correlated Subqueries"
+       },
+       {
+        "title": "SQL Window Functions in 10 Minutes",
+        "url": "https://youtube.com/watch?v=y1KCM8vbYe4",
+        "video_id": "y1KCM8vbYe4",
+        "source": "roadmap.sh",
+        "topic": "Window Functions"
+       },
+       {
+        "title": "SQL Views Tutorial",
+        "url": "https://youtube.com/watch?v=cLSxasHg9WY",
+        "video_id": "cLSxasHg9WY",
+        "source": "roadmap.sh",
+        "topic": "Views"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Correlated Subqueries",
+        "url": "https://dev.mysql.com/doc/refman/8.4/en/correlated-subqueries.html",
+        "topic": "Correlated Subqueries"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 3,
+    "title": "System Design",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "Approaching System Design and Core Trade-offs",
+      "description": "System design rounds are standard for backend roles, and they test whether you can reason about trade-offs, not recite components. Learn a step-by-step approach and the core trade-offs: performance versus scalability, latency versus throughput, and availability versus consistency.",
+      "topic_refs": [
+       "idLHBxhvcIqZTqmh_E8Az",
+       "_hYN0gEi9BL24nptEtXWU",
+       "os3Pa6W9SSNEzgmlBbglQ",
+       "e_15lymUjFc6VWqzPnKxG",
+       "O3wAHLnzrkvLWr4afHDdr",
+       "uJc27BNAuP321HQNbjftn",
+       "tcGdVQsCEobdV9hgOq3eG",
+       "uHdrZllrZFAnVkwIB3y5-",
+       "IkUCfSWNY-02wg2WCo1c6",
+       "XXuzTrP5UNVwSpAk-tAGr"
+      ],
+      "projects": [
+       {
+        "title": "Design a URL shortener",
+        "description": "Write a full design with requirements, estimates, API, data model and scaling plan.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Nines calculator",
+        "description": "Compute yearly downtime for 99.9% to 99.999% availability and for components in series and parallel.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "What is System Design?",
+       "Introduction",
+       "How to approach System Design?",
+       "Performance vs Scalability",
+       "Latency vs Throughput"
+      ],
+      "more_topics": [],
+      "global_step_index": 19,
+      "resource": {
+       "title": "Intro to Architecture and Systems Design Interviews",
+       "url": "https://youtube.com/watch?v=ZgdS0EUmn70"
+      },
+      "videos": [
+       {
+        "title": "Intro to Architecture and Systems Design Interviews",
+        "url": "https://youtube.com/watch?v=ZgdS0EUmn70",
+        "video_id": "ZgdS0EUmn70",
+        "source": "roadmap.sh",
+        "topic": "How to approach System Design?"
+       },
+       {
+        "title": "Latency and Throughput - MIT",
+        "url": "https://youtube.com/watch?v=3HIV4MnLGCw",
+        "video_id": "3HIV4MnLGCw",
+        "source": "roadmap.sh",
+        "topic": "Latency vs Throughput"
+       },
+       {
+        "title": "CAP Theorem",
+        "url": "https://youtube.com/watch?v=_RbsFXWRZ10",
+        "video_id": "_RbsFXWRZ10",
+        "source": "roadmap.sh",
+        "topic": "Availability vs Consistency"
+       },
+       {
+        "title": "The CAP theorem",
+        "url": "https://youtube.com/watch?v=k-Yaq8AHlFA",
+        "video_id": "k-Yaq8AHlFA",
+        "source": "roadmap.sh",
+        "topic": "CAP Theorem"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 2,
+      "title": "Consistency and Availability Patterns",
+      "description": "Distributed systems must choose how fresh data must be and how they survive node failures. Learn strong, weak and eventual consistency, fail-over, replication and leader election.",
+      "topic_refs": [
+       "GHe8V-REu1loRpDnHbyUn",
+       "JjB7eB8gdRCAYf5M0RcT7",
+       "EKD5AikZtwjtsEYRPJhQ2",
+       "rRDGVynX43inSeQ9lR_FS",
+       "ezptoTqeaepByegxS5kHL",
+       "Xzkvf4naveszLGV9b-8ih",
+       "wPe7Xlwqws7tEpTAVvYjr",
+       "L_jRfjvMGjFbHEbozeVQl",
+       "0RQ5jzZKdadYY0h_QZ0Bb",
+       "AJLBFyAsEdQYF6ygO0MmQ"
+      ],
+      "projects": [
+       {
+        "title": "Replication lag demo",
+        "description": "Write to a primary, read from a lagging replica and design a read-your-writes fix.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Fail-over drill",
+        "description": "Kill the primary of a replicated database and measure how long writes are unavailable.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Consistency Patterns",
+       "Strong Consistency",
+       "Weak Consistency",
+       "Eventual Consistency",
+       "Availability Patterns"
+      ],
+      "more_topics": [
+       {
+        "node_id": "dc-aIbBwUdlwgwQKGrq49",
+        "title": "Replication"
+       },
+       {
+        "node_id": "uR1fU6pm7zTtdBcNgSRi4",
+        "title": "Scheduling Agent Supervisor"
+       },
+       {
+        "node_id": "beWKUIB6Za27yhxQwEYe3",
+        "title": "Leader Election"
+       }
+      ],
+      "global_step_index": 20,
+      "resource": {
+       "title": "Design Patterns for High Availability: What gets you 99.999% uptime?",
+       "url": "https://youtube.com/watch?v=LdvduBxZRLs"
+      },
+      "videos": [
+       {
+        "title": "Design Patterns for High Availability: What gets you 99.999% uptime?",
+        "url": "https://youtube.com/watch?v=LdvduBxZRLs",
+        "video_id": "LdvduBxZRLs",
+        "source": "roadmap.sh",
+        "topic": "Availability Patterns"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 3,
+      "title": "DNS, CDNs and Load Balancers",
+      "description": "Traffic reaches your servers through DNS, CDNs and load balancers, and each affects latency and resilience. Learn push and pull CDNs, layer 4 and layer 7 load balancing, balancing algorithms, reverse proxies and service discovery.",
+      "topic_refs": [
+       "Uk6J8JRcKVEFz4_8rLfnQ",
+       "O730v5Ww3ByAiBSs6fwyM",
+       "uIerrf_oziiLg-KEyz8WM",
+       "HkXiEMLqxJoQyAHav3ccL",
+       "-lKq-LT7EPK7r3xbXLgwS",
+       "14KqLKgh090Rb3MDwelWY",
+       "urSjLyLTE5IIz0TFxMBWL",
+       "MpM9rT1-_LGD7YbnBjqOk",
+       "e69-JVbDj7dqV_p1j1kML",
+       "ocdcbhHrwjJX0KWgmsOL6",
+       "Nt0HUWLOl4O77elF8Is1S"
+      ],
+      "projects": [
+       {
+        "title": "Load balancer experiment",
+        "description": "Run three app instances behind a load balancer and compare round-robin with least-connections.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "CDN for static assets",
+        "description": "Serve images through a CDN and compare load times from two regions.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Domain Name System",
+       "Content Delivery Networks",
+       "Push CDNs",
+       "Pull CDNs",
+       "Static Content Hosting"
+      ],
+      "more_topics": [
+       {
+        "node_id": "izPT8NfJy1JC6h3i7GJYl",
+        "title": "Static Content Hosting"
+       }
+      ],
+      "global_step_index": 21,
+      "resource": null,
+      "videos": [],
+      "resources": []
+     },
+     {
+      "step_number": 4,
+      "title": "Choosing and Partitioning Data Stores",
+      "description": "The data layer is usually the hardest part of a design to scale and to change later. Pick between SQL and NoSQL store types, partition with sharding and federation, and use denormalisation, index tables and materialised views for read speed.",
+      "topic_refs": [
+       "5FXwwRMNBhG7LT5ub6t2L",
+       "KLnpMR2FxlQkCHZP6-tZm",
+       "KFtdmmce4bRkDyvFXZzLN",
+       "didEznSlVHqqlijtyOSr3",
+       "WHq1AdISkcgthaugE9uY7",
+       "6RLgnL8qLBzYkllHeaI-Z",
+       "FX6dcV_93zOfbZMdM_-li",
+       "DGmVRI7oWdSOeIUn_g0rI",
+       "Zp9D4--DgtlAjE2nIfaO_",
+       "fY8zgbB13wxZ1CFtMSdZZ",
+       "AH0nVeVsfYOjcI3vZvcdz",
+       "WB7vQ4IJ0TPh2MbZvxP6V"
+      ],
+      "projects": [
+       {
+        "title": "Shard key choice",
+        "description": "Pick and justify a shard key for a chat app and show what happens to hot users.",
+        "difficulty": "advanced",
+        "grounded": false
+       },
+       {
+        "title": "Store selection table",
+        "description": "For ten features of a social app, choose a store type and explain the choice.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Databases",
+       "SQL vs NoSQL",
+       "Key-Value Store",
+       "Document Store",
+       "Wide Column Store"
+      ],
+      "more_topics": [
+       {
+        "node_id": "R6YehzA3X6DDo6oGBoBAx",
+        "title": "Sharding"
+       }
+      ],
+      "global_step_index": 22,
+      "resource": {
+       "title": "Scaling up to your first 10 million users",
+       "url": "https://youtube.com/watch?v=kKjm4ehYiMs"
+      },
+      "videos": [
+       {
+        "title": "Scaling up to your first 10 million users",
+        "url": "https://youtube.com/watch?v=kKjm4ehYiMs",
+        "video_id": "kKjm4ehYiMs",
+        "source": "roadmap.sh",
+        "topic": "Databases"
+       },
+       {
+        "title": "Introduction to NoSQL",
+        "url": "https://youtube.com/watch?v=qI_g07C_Q5I",
+        "video_id": "qI_g07C_Q5I",
+        "source": "roadmap.sh",
+        "topic": "Graph Databases"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Introduction to SQL Tuning - Oracle",
+        "url": "https://docs.oracle.com/en/database/oracle/oracle-database/23/tgsql/introduction-to-sql-tuning.html#GUID-B653E5F3-F078-4BBC-9516-B892960046A2",
+        "topic": "SQL Tuning"
+       }
+      ]
+     },
+     {
+      "step_number": 5,
+      "title": "Cache Strategies at Every Layer",
+      "description": "Caches sit in the browser, CDN, web server, application and database, and the update strategy decides whether users see stale data. Learn where to cache and the cache-aside, write-through, write-behind and refresh-ahead patterns.",
+      "topic_refs": [
+       "-X4g8kljgVBOBcf1DDzgi",
+       "RHNRb6QWiGvCK3KQOPK3u",
+       "Kisvxlrjb7XnKFCOdxRtb",
+       "o532nPnL-d2vXJn9k6vMl",
+       "BeIg4jzbij2cwc_a_VpYG",
+       "5Ux_JBDOkflCaIm4tVBgO",
+       "bffJlvoLHFldS0CluWifP",
+       "RNITLR1FUQWkRbSBXTD_z",
+       "vNndJ-MWetcbaF2d-3-JP",
+       "Bgqgl67FK56ioLNFivIsc"
+      ],
+      "projects": [
+       {
+        "title": "Cache strategy comparison",
+        "description": "Implement cache-aside and write-through for a profile service and compare staleness and latency.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Cache stampede fix",
+        "description": "Reproduce a stampede when a hot key expires and fix it with locking or early refresh.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Caching",
+       "Client Caching",
+       "CDN Caching",
+       "Web Server Caching",
+       "Database Caching"
+      ],
+      "more_topics": [
+       {
+        "node_id": "PK4V9OWNVi8StdA2N13X2",
+        "title": "Cache Aside"
+       }
+      ],
+      "global_step_index": 23,
+      "resource": null,
+      "videos": [],
+      "resources": []
+     },
+     {
+      "step_number": 6,
+      "title": "Network Protocols: TCP, UDP, HTTP and RPC",
+      "description": "Protocol choice affects latency, reliability and how services talk to each other. Compare TCP and UDP, HTTP-based REST and GraphQL, and RPC frameworks such as gRPC.",
+      "topic_refs": [
+       "uQFzD_ryd-8Dr1ppjorYJ",
+       "I_nR6EwjNXSG7_hw-_VhX",
+       "2nF5uC6fYKbf0RFgGNHiP",
+       "LC5aTmUKNiw9RuSUt3fSE",
+       "ixqucoAkgnphWYAFnsMe-",
+       "6-bgmfDTAQ9zABhpmVoHV",
+       "Hw2v1rCYn24qxBhhmdc28",
+       "jwv2g2Yeq-6Xv5zSd746R"
+      ],
+      "projects": [
+       {
+        "title": "TCP versus UDP chat",
+        "description": "Build a tiny chat over TCP and over UDP and observe message loss and ordering.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "gRPC service",
+        "description": "Define a protobuf service and compare its payload size and latency with a JSON REST version.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Communication",
+       "HTTP",
+       "TCP",
+       "UDP",
+       "RPC"
+      ],
+      "more_topics": [],
+      "global_step_index": 24,
+      "resource": null,
+      "videos": [],
+      "resources": []
+     },
+     {
+      "step_number": 7,
+      "title": "Asynchronism, Queues and Background Jobs",
+      "description": "Moving slow work off the request path keeps APIs fast and absorbs traffic spikes. Learn message and task queues, back pressure, competing consumers, priority queues, queue-based load levelling and publish-subscribe.",
+      "topic_refs": [
+       "84N4XY31PwXRntXX1sdCU",
+       "37X1_9eCmkZkz5RDudE5N",
+       "a9wGW_H1HpvvdYCXoS-Rf",
+       "YiYRZFE_zwPMiCZxz9FnP",
+       "DOESIlBThd_wp2uOSd_CS",
+       "eNFNXPsFiryVxFe4unVxk",
+       "9Ld07KLOqP0ICtXEjngYM",
+       "DZcZEOi7h3u0744YhASet",
+       "-M3Zd8w79sKBAY6_aJRE8",
+       "2ryzJhRDTo98gGgn9mAxR",
+       "kl4upCnnZvJSf2uII1Pa0",
+       "VgvUWAC6JYFyPZKBRoEqf"
+      ],
+      "projects": [
+       {
+        "title": "Video processing queue",
+        "description": "Accept uploads instantly and process them with a pool of workers, reporting progress.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Priority job runner",
+        "description": "Run paid-user jobs before free-user jobs without starving the free queue.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Asynchronism",
+       "Message Queues",
+       "Task Queues",
+       "Back Pressure",
+       "Background Jobs"
+      ],
+      "more_topics": [
+       {
+        "node_id": "LncTxPg-wx8loy55r5NmV",
+        "title": "Queue-Based Load Leveling"
+       },
+       {
+        "node_id": "NybkOwl1lgaglZPRJQJ_Z",
+        "title": "Queue-Based load leveling"
+       },
+       {
+        "node_id": "zoViI4kzpKIxpU20T89K_",
+        "title": "Schedule Driven"
+       },
+       {
+        "node_id": "Ml9lPDGjRAJTHkBnX51Un",
+        "title": "Geodes"
+       },
+       {
+        "node_id": "siXdR3TB9-4wx_qWieJ5w",
+        "title": "Pipes and Filters"
+       }
+      ],
+      "global_step_index": 25,
+      "resource": {
+       "title": "It's all a numbers game",
+       "url": "https://youtube.com/watch?v=1KRYH75wgy4"
+      },
+      "videos": [
+       {
+        "title": "It's all a numbers game",
+        "url": "https://youtube.com/watch?v=1KRYH75wgy4",
+        "video_id": "1KRYH75wgy4",
+        "source": "roadmap.sh",
+        "topic": "Asynchronism"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 8,
+      "title": "Data Management Patterns: CQRS and Event Sourcing",
+      "description": "Splitting reads from writes and recording events instead of overwriting state solve hard scaling and audit problems. Learn CQRS, event sourcing, compensating transactions, idempotency, choreography and supervisor patterns.",
+      "topic_refs": [
+       "W0cUCrhiwH_Nrzxw50x3L",
+       "ivr3mh0OES5n86FI1PN4N",
+       "7OgRKlwFqrk3XO2z49EI1",
+       "NEsPjQifNDlZJE-2YLVl1",
+       "MNlWNjrG8eh5OzPVlbb9t",
+       "3pRi8M4xQXsehkdfUNtYL",
+       "aCzRgUkVBvtHUeLU6p5ZH",
+       "RTEJHZ26znfBLrpQPtNvn",
+       "WkoFezOXLf1H2XI9AtBtv",
+       "dsWpta3WIBvv2K9pNVPo0",
+       "stZOcr8EUBOK_ZB48uToj",
+       "BrgXwf7g2F-6Rqfjryvpj"
+      ],
+      "projects": [
+       {
+        "title": "Event-sourced bank account",
+        "description": "Store deposits and withdrawals as events and rebuild balances from them.",
+        "difficulty": "advanced",
+        "grounded": false
+       },
+       {
+        "title": "Idempotent payment API",
+        "description": "Make a payment endpoint safe to retry using idempotency keys.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Data Management",
+       "CQRS",
+       "Event Sourcing",
+       "Event-Driven",
+       "Compensating Transaction"
+      ],
+      "more_topics": [
+       {
+        "node_id": "LTD3dn05c0ruUJW0IQO7z",
+        "title": "CQRS"
+       }
+      ],
+      "global_step_index": 26,
+      "resource": {
+       "title": "Event Sourcing Explained Using Football",
+       "url": "https://youtube.com/watch?v=xPmQxYIi5fA"
+      },
+      "videos": [
+       {
+        "title": "Event Sourcing Explained Using Football",
+        "url": "https://youtube.com/watch?v=xPmQxYIi5fA",
+        "video_id": "xPmQxYIi5fA",
+        "source": "roadmap.sh",
+        "topic": "Event Sourcing"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 9,
+      "title": "Gateways, Sidecars and Migration Patterns",
+      "description": "Microservice systems lean on gateways and sidecars, and moving off a legacy system needs patterns that avoid a big-bang rewrite. Learn API gateway routing, aggregation and offloading, backends for frontends, sidecars and ambassadors, and the strangler fig.",
+      "topic_refs": [
+       "PtJ7-v1VCLsyaWWYHYujV",
+       "Hja4YF3JcgM6CPwB1mxmo",
+       "4hi7LvjLcv8eR6m-uk8XQ",
+       "n4It-lr7FFtSY83DcGydX",
+       "bANGLm_5zR9mqMd6Oox8s",
+       "0SOWAA8hrLM-WsG5k66fd",
+       "LXH_mDlILqcyIKtMYTWqy",
+       "AAgOGrra5Yz3_eG6tD2Fx",
+       "VIbXf7Jh9PbQ9L-g6pHUG",
+       "UKTiaHCzYXnrNw31lHriv",
+       "ODjVoXnvJasPvCS2A5iMO",
+       "THlzcZTNnPGLRiHPWT-Jv"
+      ],
+      "projects": [
+       {
+        "title": "Strangler migration plan",
+        "description": "Plan how to move a monolith's checkout feature into a new service behind a gateway.",
+        "difficulty": "advanced",
+        "grounded": false
+       },
+       {
+        "title": "Mobile BFF",
+        "description": "A backend-for-frontend that aggregates three service calls into one mobile response.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Design and Implementation",
+       "Ambassador",
+       "Anti-Corruption Layer",
+       "Backends for Frontend",
+       "Gateway Aggregation"
+      ],
+      "more_topics": [
+       {
+        "node_id": "VltZgIrApHOwZ8YHvdmHB",
+        "title": "Valet Key"
+       }
+      ],
+      "global_step_index": 27,
+      "resource": null,
+      "videos": [],
+      "resources": []
+     },
+     {
+      "step_number": 10,
+      "title": "Cloud Reliability and Security Patterns",
+      "description": "Cloud systems stay up by isolating failures and protecting entry points. Learn bulkheads, circuit breakers, retries and throttling, deployment stamps and geodes, health endpoints, and gatekeeper and federated identity patterns.",
+      "topic_refs": [
+       "DYkdM_L7T2GcTPAoZNnUR",
+       "wlAWMjxZF6yav3ZXOScxH",
+       "IR2_kgs2U9rnAJiDBmpqK",
+       "D1OmCoqvd3-_af3u0ciHr",
+       "xX_9VGUaOkBYFH3jPjnww",
+       "6YVkguDOtwveyeP4Z1NL3",
+       "FPPJw-I1cw8OxKwmDh0dT",
+       "6hOSEZJZ7yezVN67h5gmS",
+       "CKCNk3obx4u43rBqUj2Yf",
+       "DTQJu0AvgWOhMFcOYqzTD",
+       "lHPl-kr1ArblR7bJeQEB9",
+       "ZvYpE6-N5dAtRDIwqcAu6"
+      ],
+      "projects": [
+       {
+        "title": "Bulkhead isolation",
+        "description": "Give a slow dependency its own connection pool so it cannot exhaust the main service.",
+        "difficulty": "advanced",
+        "grounded": false
+       },
+       {
+        "title": "Health endpoint",
+        "description": "Add liveness and readiness endpoints that check the database and cache.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Reliability Patterns",
+       "Resiliency",
+       "Bulkhead",
+       "Circuit Breaker",
+       "Retry"
+      ],
+      "more_topics": [
+       {
+        "node_id": "O4zYDqvVWD7sMI27k_0Nl",
+        "title": "Circuit Breaker"
+       },
+       {
+        "node_id": "PLn9TF9GYnPcbpTdDMQbG",
+        "title": "Bulkhead"
+       },
+       {
+        "node_id": "Ze471tPbAwlwZyU4oIzH9",
+        "title": "Deployment Stamps"
+       }
+      ],
+      "global_step_index": 28,
+      "resource": null,
+      "videos": [],
+      "resources": []
+     },
+     {
+      "step_number": 11,
+      "title": "Performance Antipatterns",
+      "description": "Many outages come from a few recurring mistakes such as chatty I/O, busy databases and retry storms. Learn to recognise each antipattern in code and designs and the standard fix.",
+      "topic_refs": [
+       "p--uEm6klLx_hKxKJiXE5",
+       "hxiV2uF7tvhZKe4K-4fTn",
+       "i_2M3VloG-xTgWDWp4ngt",
+       "0IzQwuYi_E00bJwxDuw2B",
+       "6u3XmtJFWyJnyZUnJcGYb",
+       "lwMs4yiUHF3nQwcvauers",
+       "p1QhCptnwzTGUXVMnz_Oz",
+       "klvHk1_e03Jarn5T46QNi",
+       "r7uQxmurvfsYtTCieHqly",
+       "LNmAJmh2ndFtOQIpvX_ga",
+       "Ihnmxo_bVgZABDwg1QGGk",
+       "2gRIstNT-fTkv5GZ692gx"
+      ],
+      "projects": [
+       {
+        "title": "Antipattern hunt",
+        "description": "Review an open-source backend and document three antipatterns with suggested fixes.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Retry storm simulation",
+        "description": "Show how naive retries overload a recovering service and fix it with backoff and jitter.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Performance Antipatterns",
+       "Busy Database",
+       "Busy Frontend",
+       "Chatty I/O",
+       "Extraneous Fetching"
+      ],
+      "more_topics": [],
+      "global_step_index": 29,
+      "resource": null,
+      "videos": [],
+      "resources": []
+     },
+     {
+      "step_number": 12,
+      "title": "Monitoring Distributed Systems",
+      "description": "In a distributed system you need health, availability, performance, security and usage signals to know what is wrong. Instrument services and build dashboards and alerts that point to the failing component.",
+      "topic_refs": [
+       "hDFYlGFYwcwWXLmrxodFX",
+       "hkjYvLoVt9xKDzubm0Jy3",
+       "rVrwaioGURvrqNBufF2dj",
+       "x1i3qWFtNNjd00-kAvFHw",
+       "I_NfmDcBph8-oyFVFTknL",
+       "eSZq74lROh5lllLyTBK5a",
+       "Q0fKphqmPwjTD0dhqiP6K",
+       "IwMOTpsYHApdvHZOhXtIw"
+      ],
+      "projects": [
+       {
+        "title": "SLO dashboard",
+        "description": "Define an availability and latency SLO for an API and alert when the error budget burns fast.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Synthetic availability check",
+        "description": "Probe a service every minute from outside and chart uptime.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Monitoring",
+       "Health Monitoring",
+       "Availability Monitoring",
+       "Performance Monitoring",
+       "Security Monitoring"
+      ],
+      "more_topics": [
+       {
+        "node_id": "cNJQoMNZmxNygWAJIA8HI",
+        "title": "Health Endpoint Monitoring"
+       },
+       {
+        "node_id": "uK5o7NgDvr2pV0ulF0Fh9",
+        "title": "Health Endpoint Monitoring"
+       }
+      ],
+      "global_step_index": 30,
+      "resource": null,
+      "videos": [],
+      "resources": []
+     }
+    ]
+   }
+  ]
+ },
+ "audit": {
+  "phases": [
+   {
+    "phase_number": 1,
+    "title": "Backend",
+    "queries": [
+     "Backend Engineering",
+     "Backend Engineering fundamentals",
+     "Backend Engineering: Backend"
+    ],
+    "retrieved": [
+     {
+      "source": "backend/introduction@SiYUdtYMDImRPmV2_XPkH.md",
+      "score": 0.7720432281494141,
+      "queries": [
+       "Backend Engineering",
+       "Backend Engineering fundamentals",
+       "Backend Engineering: Backend"
+      ]
+     },
+     {
+      "source": "backend/frontend-basics@oyg5g4-cY5EBEUgVkjnL3.md",
+      "score": 0.6028615236282349,
+      "queries": [
+       "Backend Engineering",
+       "Backend Engineering fundamentals",
+       "Backend Engineering: Backend"
+      ]
+     },
+     {
+      "source": "backend/learn-the-basics@UTupdqjOyLh7-56_0SXJ8.md",
+      "score": 0.5896100401878357,
+      "queries": [
+       "Backend Engineering",
+       "Backend Engineering fundamentals",
+       "Backend Engineering: Backend"
+      ]
+     },
+     {
+      "source": "backend/pick-a-backend-language@2f0ZO6GJElfZ2Eis28Hzg.md",
+      "score": 0.5295084714889526,
+      "queries": [
+       "Backend Engineering",
+       "Backend Engineering fundamentals",
+       "Backend Engineering: Backend"
+      ]
+     },
+     {
+      "source": "so_survey_2025_india/Backend_Engineering",
+      "score": 0.49763917922973633,
+      "queries": [
+       "Backend Engineering",
+       "Backend Engineering fundamentals",
+       "Backend Engineering: Backend"
+      ]
+     },
+     {
+      "source": "backend/backpressure@JansCqGDyXecQkD1K7E7e.md",
+      "score": 0.4131263494491577,
+      "queries": [
+       "Backend Engineering",
+       "Backend Engineering fundamentals",
+       "Backend Engineering: Backend"
+      ]
+     },
+     {
+      "source": "backend/prompting-techniques@xL8d-uHMpJKwUvT8z-Jia.md",
+      "score": 0.3978249132633209,
+      "queries": [
+       "Backend Engineering",
+       "Backend Engineering fundamentals",
+       "Backend Engineering: Backend"
+      ]
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 1,
+      "topic_refs": [
+       "yCnn-NfSxIybUQ2iTuUGq",
+       "R12sArWVpbIs_PHxBqVaR",
+       "x-WBJjBd8u93ym5gtxGsR",
+       "hkxw9jPGYphmjhTjw8766",
+       "ZhSuu2VArnzPDp6dPQQSC",
+       "aqMaEY8gkKMikiqleV5EP",
+       "P82WFaTPgQEPNp5IIuZ1Y",
+       "SiYUdtYMDImRPmV2_XPkH",
+       "oyg5g4-cY5EBEUgVkjnL3",
+       "9-pCsW650T1mfj5dmRB9L",
+       "utA1W2O6pzoV_LbtDE5DN",
+       "8-lO-v6jCYYoklEJXULxN"
+      ],
+      "queries": [
+       "Backend Engineering",
+       "Backend Engineering fundamentals",
+       "Backend Engineering: Backend"
+      ]
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 2,
+      "topic_refs": [
+       "2f0ZO6GJElfZ2Eis28Hzg",
+       "J_sVHsD72Yzyqb9KCIvAY",
+       "ANeSwxJDJyQ-49pO2-CCI",
+       "BdXbcz4-ar3XOX0wIKzBp",
+       "8-lO-v6jCYYoklEJXULxN",
+       "rImbMHLLfJwjf3l25vBkc",
+       "l9Wrq_Ad9-Ju4NIB0m5Ha",
+       "SlH0Rl07yURDko2nDPfFy",
+       "CWwh2abwqx4hAxpAGvhIx",
+       "ezdqQW9wTUw93F6kjOzku",
+       "_I1E__wCIVrhjMk6IMieE",
+       "NvUcSDWBhzJZ31nzT4UlE"
+      ],
+      "queries": [
+       "Backend Engineering",
+       "Backend Engineering fundamentals",
+       "Backend Engineering: Backend"
+      ]
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 3,
+      "topic_refs": [
+       "LJt27onEOeIBomiEMTyKd",
+       "r45b461NxLN6wBODJ5CNP",
+       "FihTrMO56kj9jT8O_pO2T",
+       "VPxOdjJtKAqmM5V0LR5OC",
+       "tD3i-8gBpMKCHB-ITyDiU",
+       "dEsTje8kfHwWjCI3zcgLC",
+       "h1SAjQltHtztSt8QmRgab",
+       "kdulE3Z_BdbtRmq6T2KmR",
+       "Z7jp_Juj5PffSxV7UZcBb",
+       "MOLAXgs0CMCT7o84L0EaK",
+       "bQnOAu863hsHdyNMNyJop",
+       "Ge2SnKBrQQrU-oGLz6TmT"
+      ],
+      "queries": [
+       "Backend Engineering",
+       "Backend Engineering fundamentals",
+       "Backend Engineering: Backend"
+      ]
+     },
+     {
+      "step_number": 4,
+      "global_step_index": 4,
+      "topic_refs": [
+       "qSAdfaGUfn8mtmDjHJi3z",
+       "rq_y_OBMD9AH_4aoecvAi",
+       "y-xkHFE9YzhNIX3EiWspL",
+       "wrl7HHWXOaxoKVlNZxZ6d",
+       "zWstl08R4uzqve4BdYurp",
+       "95d9itpUZ4s9roZN8kG9x",
+       "LAdKDJ4LcMaDWqslMvE8X",
+       "SYXJhanu0lFmGj2m2XXhS"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 5,
+      "global_step_index": 5,
+      "topic_refs": [
+       "F8frGuv1dunOdcVJ_IiGs",
+       "28U6q_X-NTYf7OSKHjoWH",
+       "g8GjkJAhvnSxXTZks0V1g",
+       "dwfEHInbX2eFiafM-nRMX",
+       "zsiZLWJ2bMvrjuHch5fX_",
+       "aArZ3gKwObzafCkTOd-Hj",
+       "qOlNzZ7U8LhIGukb67n7U",
+       "RyJFLLGieJ8Xjt-DlIayM",
+       "BTNJfWemFKEeNeTyENXui",
+       "XbM4TDImSH-56NsITjyHK",
+       "WiAK70I0z-_bzbWNwiHUd",
+       "ZyGLSvx17p7QmYDy1LFbM"
+      ],
+      "queries": [
+       "Backend Engineering",
+       "Backend Engineering fundamentals",
+       "Backend Engineering: Backend"
+      ]
+     },
+     {
+      "step_number": 6,
+      "global_step_index": 6,
+      "topic_refs": [
+       "EwvLPSI6AlZ4TnNIJTZA4",
+       "lfNFDZZNdrB0lbEaMtU71",
+       "sNceS4MpSIjRkWhNDmrFg",
+       "zp3bq38tMnutT2N0tktOW",
+       "J-TOE2lT4At1mSdNoxPS1",
+       "sSNf93azjuyMzQqIHE0Rh",
+       "9cD5ag1L0GqHx4_zxc5JX",
+       "qAu-Y4KI2Z_y-EqiG86cR",
+       "9f-aWi3_7USy4XpNzrTL6"
+      ],
+      "queries": [
+       "Backend Engineering"
+      ]
+     },
+     {
+      "step_number": 7,
+      "global_step_index": 7,
+      "topic_refs": [
+       "PY9G7KQy8bF6eIdr1ydHf",
+       "yRiJgjjv2s1uV9vgo3n8m",
+       "ffzsh8_5yRq85trFt9Xhk",
+       "0rGj7FThLJZouSQUhnqGW",
+       "UxS_mzVUjLigEwKrXnEeB",
+       "vp-muizdICcmU0gN8zmkS",
+       "z3EJBpgGm0_Uj3ymhypbX",
+       "UCHtaePVxS-0kpqlYxbfC",
+       "dlG1bVkDmjI3PEGpkm1xH",
+       "kGTALrvCpxyVCXHRmkI7s",
+       "jWwA6yX4Zjx-r_KpDaD3c",
+       "JVN38r5jENoteia3YeIQ3"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 8,
+      "global_step_index": 8,
+      "topic_refs": [
+       "RBrIP5KbVQ2F0ly7kMfTo",
+       "AAgciyxuDvS2B_c6FRMvT",
+       "HgQBde1zLUFtlwB66PR6_",
+       "0v3OsaghJEGHeXX0c5kqn",
+       "TZ0BWOENPv6pQm8qYB8Ow",
+       "LU6WUbkWKbPM1rb2_gEqa"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 9,
+      "global_step_index": 9,
+      "topic_refs": [
+       "uPjCrDGA2MHylWXbZvMBM",
+       "KWTbEVX_WxS8jmSaAX3Fe",
+       "xPvVwGQw28uMeLYIWn8yn",
+       "gKTSe9yQFVbPVlLzWB0hC",
+       "NulaE1isWqn-feYHg4YQT",
+       "iN_1EuIwCx_7lRBw1Io4U"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 10,
+      "global_step_index": 10,
+      "topic_refs": [
+       "STQQbPa7PE3gbjMdL6P-t",
+       "3OYm6b9f6WOrKi4KTOZYK",
+       "381Kw1IMRv7CJp-Uf--qd",
+       "NAGisfq2CgeK3SsuRjnMw",
+       "mGfD7HfuP184lFkXZzGjG",
+       "ptD8EVqwFUYr4W5A_tABY",
+       "Wcp-VDdFHipwa7hNAp1z_"
+      ],
+      "queries": [
+       "Backend Engineering",
+       "Backend Engineering: Backend"
+      ]
+     },
+     {
+      "step_number": 11,
+      "global_step_index": 11,
+      "topic_refs": [
+       "fekyMpEnaGqjh1Cu4Nyc4",
+       "z5AdThp9ByulmM9uekgm-",
+       "jjjonHTHHo-NiAf6p9xPv",
+       "Op-PSPNoyj6Ss9CS09AXh",
+       "0NJDgfe6eMa7qPUOI6Eya",
+       "31ZlpfIPr9-5vYZqvjUeL",
+       "nkmIv3dNwre4yrULMgTh3",
+       "8DmabQJXlrT__COZrDVTV"
+      ],
+      "queries": [
+       "Backend Engineering",
+       "Backend Engineering fundamentals",
+       "Backend Engineering: Backend"
+      ]
+     },
+     {
+      "step_number": 12,
+      "global_step_index": 12,
+      "topic_refs": [
+       "tHiUpG9LN35E5RaHddMv5",
+       "Ke522R-4k6TDeiDRyZbbU",
+       "K55h3aqOGe6-hgVhiFisT",
+       "tObmzWpjsJtK4GWhx6pwB",
+       "n14b7sfTOwsjKTpFC9EZ2",
+       "nJ5FpFgGCRaALcWmAKBKT",
+       "GPFRMcY1DEtRgnaZwJ3vW",
+       "VoYSis1F1ZfTxMlQlXQKB",
+       "5XGvep2qoti31bsyqNzrU",
+       "sVuIdAe08IWJVqAt4z-ag",
+       "RUSdlokJUcEYbCvq5FJBJ",
+       "osvajAJlwGI3XnX0fE-kA"
+      ],
+      "queries": [
+       "Backend Engineering",
+       "Backend Engineering fundamentals",
+       "Backend Engineering: Backend"
+      ]
+     },
+     {
+      "step_number": 13,
+      "global_step_index": 13,
+      "topic_refs": [
+       "SHmbcMRsc3SygEDksJQBD",
+       "GwApfL4Yx-b5Y8dB9Vy__",
+       "G9AI_i3MkUE1BsO3_-PH7",
+       "spkiQTPvXY4qrhhVUkoPV",
+       "JansCqGDyXecQkD1K7E7e",
+       "HoQdX7a4SnkFRU4RPQ-D5",
+       "Z01E67D6KjrShvQCHjGR7",
+       "QvMEEsXh0-rzn5hDGcmEv",
+       "neVRtPjIHP_VG7lHwfah0",
+       "4X-sbqpP0NDhM99bKdqIa"
+      ],
+      "queries": [
+       "Backend Engineering",
+       "Backend Engineering fundamentals",
+       "Backend Engineering: Backend"
+      ]
+     },
+     {
+      "step_number": 14,
+      "global_step_index": 14,
+      "topic_refs": [
+       "UTupdqjOyLh7-56_0SXJ8",
+       "Nx7mjvYgqLpmJ0_iSx5of",
+       "IZKl6PxbvgNkryAkdy3-p",
+       "fA3yi9puMbTFmbPpo6OjN",
+       "0TMdly8yiqnNR8sx36iqc",
+       "HQrxxDxKN8gizvXRU5psW",
+       "CKlkVK_7GZ7xzIUHJqZr8",
+       "RcC1fVuePQZ59AsJfeTdR",
+       "tUNP5VRKvrPcufPDPPEo8",
+       "xL8d-uHMpJKwUvT8z-Jia",
+       "Uve-UObgOBfrd-cLayVWe",
+       "6PCOCzCbx7jo9wO2Hl2gy"
+      ],
+      "queries": []
+     }
+    ]
+   },
+   {
+    "phase_number": 2,
+    "title": "SQL",
+    "queries": [
+     "Backend Engineering",
+     "Backend Engineering fundamentals",
+     "Backend Engineering: SQL"
+    ],
+    "retrieved": [
+     {
+      "source": "sql/learn-the-basics@nhUKKWyBH80nyKfGT8ErC.md",
+      "score": 0.5613816380500793,
+      "queries": [
+       "Backend Engineering: SQL"
+      ]
+     },
+     {
+      "source": "sql/basic-sql-syntax@JDDG4KfhtIlw1rkNCzUli.md",
+      "score": 0.5527706742286682,
+      "queries": [
+       "Backend Engineering: SQL"
+      ]
+     },
+     {
+      "source": "sql/dynamic-sql@z5Sf0VU14ZCQ80kL1qOqc.md",
+      "score": 0.5193113088607788,
+      "queries": [
+       "Backend Engineering: SQL"
+      ]
+     },
+     {
+      "source": "sql/advanced-sql@UDqbT1y-YzBrljfKSz_RG.md",
+      "score": 0.5033508539199829,
+      "queries": [
+       "Backend Engineering: SQL"
+      ]
+     },
+     {
+      "source": "so_survey_2025_india/Backend_Engineering",
+      "score": 0.49763917922973633,
+      "queries": [
+       "Backend Engineering",
+       "Backend Engineering fundamentals",
+       "Backend Engineering: SQL"
+      ]
+     },
+     {
+      "source": "sql/common-table-expressions@tedQynR0xicVKhuR1oahw.md",
+      "score": 0.4590986371040344,
+      "queries": [
+       "Backend Engineering: SQL"
+      ]
+     },
+     {
+      "source": "sql/data-manipulation-language-dml@WMSXi-eez_hHGDM8kUdWz.md",
+      "score": 0.4551506042480469,
+      "queries": [
+       "Backend Engineering: SQL"
+      ]
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 15,
+      "topic_refs": [
+       "nhUKKWyBH80nyKfGT8ErC",
+       "JDDG4KfhtIlw1rkNCzUli",
+       "tBzMDfCMh6MIagNaxCzin",
+       "i8u8E_sne6XiKJo2FXDog",
+       "WhYAy6f7Euk3E49-ot644",
+       "NfCiSPrL4upMssukcw3Kh",
+       "4UQQYbjzwVxZOAxBuXKQS",
+       "aaua13CkTxLOYXr8cAgPm",
+       "X9cJJ8zLZCF2cOoqxwFfY",
+       "6qG0AVYd6Y1B8LOSDoMX9",
+       "14TKE6KhrH1yFtHcSZSXq",
+       "LX9nzJ4uqznHN4SksoDvr"
+      ],
+      "queries": [
+       "Backend Engineering: SQL"
+      ]
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 16,
+      "topic_refs": [
+       "epEpBxRosLhuAuKwp823r",
+       "WjXlO42WL9saDS7RIGapt",
+       "K5vhqTJrdPK08Txv8zaEj",
+       "-Hew0y53ziZK3epQnGA0O",
+       "eu9dJFi6gBPMBdy08Y5Bb",
+       "ddtVaA4Ls6qRj-7OtTSIH",
+       "Jlwmyq6CUQeDAlL4dazOP",
+       "DHz6sRLYhFeCbAcNJS8hm",
+       "5yGo8i7eplxtXOD_qfzOs",
+       "M4M_-vjM9GNy0NmXZneDA",
+       "Q0h9Wfnl_W9ThOkv7Q17A",
+       "mBQ3Z8GlFcpIena3IB7D_"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 17,
+      "topic_refs": [
+       "OdaBXz2XBAVLsQ-m7xtAM",
+       "7sTW1vwUhCFOMXYjScVEt",
+       "3cMECz5QPVDOFrk5duObs",
+       "xbD67KVlt3UhHpKh8HLx8",
+       "pJtYvXUo81aZfPuRjIbMq",
+       "ujeq8EIFcrqkBjoFizsJM",
+       "w7FNjdwqjY7X69aJqqBy4",
+       "z5Sf0VU14ZCQ80kL1qOqc",
+       "03qMopxzjx_-dZbYw9b7J",
+       "vhBZqqmUcEon6-Vwvla4q",
+       "R1ktDJpXOz0PTllAcBrdu"
+      ],
+      "queries": [
+       "Backend Engineering: SQL"
+      ]
+     },
+     {
+      "step_number": 4,
+      "global_step_index": 18,
+      "topic_refs": [
+       "tedQynR0xicVKhuR1oahw",
+       "86iZ8s8EdhSuYwgwAM_EO",
+       "JZqS3Xapw6mfSPVgFW7av",
+       "tBvXLLp5FKeSSN35Kj1X4",
+       "zW27ZHdLwQY-85iqbBKQZ",
+       "2tyezwOIxV6O84N-Q3Awh",
+       "LcljR70T-OnzSrJJDqOWf",
+       "NtxGd6Vx-REBclry7lZuE",
+       "Ps9Yv2s-bKvEegGAbPsiA",
+       "C6P69YiFdS-ioPXMNfX07",
+       "C0dhS6uLf4TUSfvcWyXhv",
+       "UVTgbZrqpbYl1bQvQejcF"
+      ],
+      "queries": [
+       "Backend Engineering: SQL"
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 3,
+    "title": "System Design",
+    "queries": [
+     "Backend Engineering",
+     "Backend Engineering fundamentals",
+     "Backend Engineering: System Design"
+    ],
+    "retrieved": [
+     {
+      "source": "system-design/backends-for-frontend@n4It-lr7FFtSY83DcGydX.md",
+      "score": 0.6436557769775391,
+      "queries": [
+       "Backend Engineering",
+       "Backend Engineering fundamentals",
+       "Backend Engineering: System Design"
+      ]
+     },
+     {
+      "source": "system-design/how-to-approach-system-design@os3Pa6W9SSNEzgmlBbglQ.md",
+      "score": 0.5472118258476257,
+      "queries": [
+       "Backend Engineering",
+       "Backend Engineering fundamentals",
+       "Backend Engineering: System Design"
+      ]
+     },
+     {
+      "source": "system-design/introduction@_hYN0gEi9BL24nptEtXWU.md",
+      "score": 0.5456398725509644,
+      "queries": [
+       "Backend Engineering",
+       "Backend Engineering fundamentals",
+       "Backend Engineering: System Design"
+      ]
+     },
+     {
+      "source": "so_survey_2025_india/Backend_Engineering",
+      "score": 0.49763917922973633,
+      "queries": [
+       "Backend Engineering",
+       "Backend Engineering fundamentals",
+       "Backend Engineering: System Design"
+      ]
+     },
+     {
+      "source": "system-design/design--implementation@PtJ7-v1VCLsyaWWYHYujV.md",
+      "score": 0.489790141582489,
+      "queries": [
+       "Backend Engineering",
+       "Backend Engineering fundamentals",
+       "Backend Engineering: System Design"
+      ]
+     },
+     {
+      "source": "system-design/back-pressure@YiYRZFE_zwPMiCZxz9FnP.md",
+      "score": 0.4675682783126831,
+      "queries": [
+       "Backend Engineering",
+       "Backend Engineering fundamentals",
+       "Backend Engineering: System Design"
+      ]
+     },
+     {
+      "source": "system-design/availability-patterns@ezptoTqeaepByegxS5kHL.md",
+      "score": 0.40674644708633423,
+      "queries": [
+       "Backend Engineering",
+       "Backend Engineering fundamentals",
+       "Backend Engineering: System Design"
+      ]
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 19,
+      "topic_refs": [
+       "idLHBxhvcIqZTqmh_E8Az",
+       "_hYN0gEi9BL24nptEtXWU",
+       "os3Pa6W9SSNEzgmlBbglQ",
+       "e_15lymUjFc6VWqzPnKxG",
+       "O3wAHLnzrkvLWr4afHDdr",
+       "uJc27BNAuP321HQNbjftn",
+       "tcGdVQsCEobdV9hgOq3eG",
+       "uHdrZllrZFAnVkwIB3y5-",
+       "IkUCfSWNY-02wg2WCo1c6",
+       "XXuzTrP5UNVwSpAk-tAGr"
+      ],
+      "queries": [
+       "Backend Engineering",
+       "Backend Engineering fundamentals",
+       "Backend Engineering: System Design"
+      ]
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 20,
+      "topic_refs": [
+       "GHe8V-REu1loRpDnHbyUn",
+       "JjB7eB8gdRCAYf5M0RcT7",
+       "EKD5AikZtwjtsEYRPJhQ2",
+       "rRDGVynX43inSeQ9lR_FS",
+       "ezptoTqeaepByegxS5kHL",
+       "Xzkvf4naveszLGV9b-8ih",
+       "wPe7Xlwqws7tEpTAVvYjr",
+       "L_jRfjvMGjFbHEbozeVQl",
+       "0RQ5jzZKdadYY0h_QZ0Bb",
+       "AJLBFyAsEdQYF6ygO0MmQ"
+      ],
+      "queries": [
+       "Backend Engineering",
+       "Backend Engineering fundamentals",
+       "Backend Engineering: System Design"
+      ]
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 21,
+      "topic_refs": [
+       "Uk6J8JRcKVEFz4_8rLfnQ",
+       "O730v5Ww3ByAiBSs6fwyM",
+       "uIerrf_oziiLg-KEyz8WM",
+       "HkXiEMLqxJoQyAHav3ccL",
+       "-lKq-LT7EPK7r3xbXLgwS",
+       "14KqLKgh090Rb3MDwelWY",
+       "urSjLyLTE5IIz0TFxMBWL",
+       "MpM9rT1-_LGD7YbnBjqOk",
+       "e69-JVbDj7dqV_p1j1kML",
+       "ocdcbhHrwjJX0KWgmsOL6",
+       "Nt0HUWLOl4O77elF8Is1S"
+      ],
+      "queries": [
+       "Backend Engineering",
+       "Backend Engineering fundamentals"
+      ]
+     },
+     {
+      "step_number": 4,
+      "global_step_index": 22,
+      "topic_refs": [
+       "5FXwwRMNBhG7LT5ub6t2L",
+       "KLnpMR2FxlQkCHZP6-tZm",
+       "KFtdmmce4bRkDyvFXZzLN",
+       "didEznSlVHqqlijtyOSr3",
+       "WHq1AdISkcgthaugE9uY7",
+       "6RLgnL8qLBzYkllHeaI-Z",
+       "FX6dcV_93zOfbZMdM_-li",
+       "DGmVRI7oWdSOeIUn_g0rI",
+       "Zp9D4--DgtlAjE2nIfaO_",
+       "fY8zgbB13wxZ1CFtMSdZZ",
+       "AH0nVeVsfYOjcI3vZvcdz",
+       "WB7vQ4IJ0TPh2MbZvxP6V"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 5,
+      "global_step_index": 23,
+      "topic_refs": [
+       "-X4g8kljgVBOBcf1DDzgi",
+       "RHNRb6QWiGvCK3KQOPK3u",
+       "Kisvxlrjb7XnKFCOdxRtb",
+       "o532nPnL-d2vXJn9k6vMl",
+       "BeIg4jzbij2cwc_a_VpYG",
+       "5Ux_JBDOkflCaIm4tVBgO",
+       "bffJlvoLHFldS0CluWifP",
+       "RNITLR1FUQWkRbSBXTD_z",
+       "vNndJ-MWetcbaF2d-3-JP",
+       "Bgqgl67FK56ioLNFivIsc"
+      ],
+      "queries": [
+       "Backend Engineering fundamentals",
+       "Backend Engineering: System Design"
+      ]
+     },
+     {
+      "step_number": 6,
+      "global_step_index": 24,
+      "topic_refs": [
+       "uQFzD_ryd-8Dr1ppjorYJ",
+       "I_nR6EwjNXSG7_hw-_VhX",
+       "2nF5uC6fYKbf0RFgGNHiP",
+       "LC5aTmUKNiw9RuSUt3fSE",
+       "ixqucoAkgnphWYAFnsMe-",
+       "6-bgmfDTAQ9zABhpmVoHV",
+       "Hw2v1rCYn24qxBhhmdc28",
+       "jwv2g2Yeq-6Xv5zSd746R"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 7,
+      "global_step_index": 25,
+      "topic_refs": [
+       "84N4XY31PwXRntXX1sdCU",
+       "37X1_9eCmkZkz5RDudE5N",
+       "a9wGW_H1HpvvdYCXoS-Rf",
+       "YiYRZFE_zwPMiCZxz9FnP",
+       "DOESIlBThd_wp2uOSd_CS",
+       "eNFNXPsFiryVxFe4unVxk",
+       "9Ld07KLOqP0ICtXEjngYM",
+       "DZcZEOi7h3u0744YhASet",
+       "-M3Zd8w79sKBAY6_aJRE8",
+       "2ryzJhRDTo98gGgn9mAxR",
+       "kl4upCnnZvJSf2uII1Pa0",
+       "VgvUWAC6JYFyPZKBRoEqf"
+      ],
+      "queries": [
+       "Backend Engineering",
+       "Backend Engineering fundamentals",
+       "Backend Engineering: System Design"
+      ]
+     },
+     {
+      "step_number": 8,
+      "global_step_index": 26,
+      "topic_refs": [
+       "W0cUCrhiwH_Nrzxw50x3L",
+       "ivr3mh0OES5n86FI1PN4N",
+       "7OgRKlwFqrk3XO2z49EI1",
+       "NEsPjQifNDlZJE-2YLVl1",
+       "MNlWNjrG8eh5OzPVlbb9t",
+       "3pRi8M4xQXsehkdfUNtYL",
+       "aCzRgUkVBvtHUeLU6p5ZH",
+       "RTEJHZ26znfBLrpQPtNvn",
+       "WkoFezOXLf1H2XI9AtBtv",
+       "dsWpta3WIBvv2K9pNVPo0",
+       "stZOcr8EUBOK_ZB48uToj",
+       "BrgXwf7g2F-6Rqfjryvpj"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 9,
+      "global_step_index": 27,
+      "topic_refs": [
+       "PtJ7-v1VCLsyaWWYHYujV",
+       "Hja4YF3JcgM6CPwB1mxmo",
+       "4hi7LvjLcv8eR6m-uk8XQ",
+       "n4It-lr7FFtSY83DcGydX",
+       "bANGLm_5zR9mqMd6Oox8s",
+       "0SOWAA8hrLM-WsG5k66fd",
+       "LXH_mDlILqcyIKtMYTWqy",
+       "AAgOGrra5Yz3_eG6tD2Fx",
+       "VIbXf7Jh9PbQ9L-g6pHUG",
+       "UKTiaHCzYXnrNw31lHriv",
+       "ODjVoXnvJasPvCS2A5iMO",
+       "THlzcZTNnPGLRiHPWT-Jv"
+      ],
+      "queries": [
+       "Backend Engineering",
+       "Backend Engineering fundamentals",
+       "Backend Engineering: System Design"
+      ]
+     },
+     {
+      "step_number": 10,
+      "global_step_index": 28,
+      "topic_refs": [
+       "DYkdM_L7T2GcTPAoZNnUR",
+       "wlAWMjxZF6yav3ZXOScxH",
+       "IR2_kgs2U9rnAJiDBmpqK",
+       "D1OmCoqvd3-_af3u0ciHr",
+       "xX_9VGUaOkBYFH3jPjnww",
+       "6YVkguDOtwveyeP4Z1NL3",
+       "FPPJw-I1cw8OxKwmDh0dT",
+       "6hOSEZJZ7yezVN67h5gmS",
+       "CKCNk3obx4u43rBqUj2Yf",
+       "DTQJu0AvgWOhMFcOYqzTD",
+       "lHPl-kr1ArblR7bJeQEB9",
+       "ZvYpE6-N5dAtRDIwqcAu6"
+      ],
+      "queries": [
+       "Backend Engineering fundamentals",
+       "Backend Engineering: System Design"
+      ]
+     },
+     {
+      "step_number": 11,
+      "global_step_index": 29,
+      "topic_refs": [
+       "p--uEm6klLx_hKxKJiXE5",
+       "hxiV2uF7tvhZKe4K-4fTn",
+       "i_2M3VloG-xTgWDWp4ngt",
+       "0IzQwuYi_E00bJwxDuw2B",
+       "6u3XmtJFWyJnyZUnJcGYb",
+       "lwMs4yiUHF3nQwcvauers",
+       "p1QhCptnwzTGUXVMnz_Oz",
+       "klvHk1_e03Jarn5T46QNi",
+       "r7uQxmurvfsYtTCieHqly",
+       "LNmAJmh2ndFtOQIpvX_ga",
+       "Ihnmxo_bVgZABDwg1QGGk",
+       "2gRIstNT-fTkv5GZ692gx"
+      ],
+      "queries": [
+       "Backend Engineering",
+       "Backend Engineering fundamentals",
+       "Backend Engineering: System Design"
+      ]
+     },
+     {
+      "step_number": 12,
+      "global_step_index": 30,
+      "topic_refs": [
+       "hDFYlGFYwcwWXLmrxodFX",
+       "hkjYvLoVt9xKDzubm0Jy3",
+       "rVrwaioGURvrqNBufF2dj",
+       "x1i3qWFtNNjd00-kAvFHw",
+       "I_NfmDcBph8-oyFVFTknL",
+       "eSZq74lROh5lllLyTBK5a",
+       "Q0fKphqmPwjTD0dhqiP6K",
+       "IwMOTpsYHApdvHZOhXtIw"
+      ],
+      "queries": []
+     }
+    ]
+   }
+  ]
+ }
+}

@@ -1,0 +1,3664 @@
+{
+ "metadata": {
+  "schema_version": 1,
+  "career_path": "DevOps",
+  "model_id": "claude-opus-5-5",
+  "built_at": "2026-10-10T18:13:05Z",
+  "generator": {
+   "profile": "neutral",
+   "provider": "claude_authored",
+   "llm_host": null,
+   "authoring": "Every model reply in this run was written by Claude (claude-opus-5-5) in a Claude Code cloud session, answering the generator's own prompts; retrieval, topic-ref validation, duplicate check, more_topics, resources and audit are the unmodified pipeline.",
+   "phase_concurrency": 1,
+   "duplicate_similarity_threshold": 0.8,
+   "reasoning_effort": "",
+   "resources": "kb_only"
+  },
+  "inventory_fingerprint": "31681dcc617bcccd121d04018fce84ef9b8cd0104f3ed1d13dd5c8cb6ede9ab0"
+ },
+ "roadmap": {
+  "phases": [
+   {
+    "phase_number": 1,
+    "title": "Linux",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "Linux Shell, Files and Text Processing",
+      "description": "Nearly every server a DevOps engineer touches runs Linux, and most of the job happens in a shell. Get fluent with files, permissions and links, pipes and redirection, grep and awk, and small shell scripts.",
+      "topic_refs": [
+       "8QBMyL8D5jPovxN8jyZW9",
+       "KaMSsQnJzNqGHg0Oia4uy",
+       "RsOTPZPZGTEIt1Lk41bQV",
+       "abKO6KuuIfl9ruVxBw6t_",
+       "TnrT-cqMA8urew9nLv0Ns",
+       "KaXHG_EKxI5PUXmcvlJt6",
+       "v32PJl4fzIFTOirOm6G44",
+       "JgoZzx4BfK7tmosgpZOsf",
+       "t3fxSgCgtxuMtHjclPHA6",
+       "umlhxidsvtZG9k40Ca0Ac",
+       "QTmECqpRVMjNgQU70uCF8",
+       "4tFZ1PLpz50bddf7zSFrW"
+      ],
+      "projects": [
+       {
+        "title": "Log summary one-liners",
+        "description": "Find the top IP addresses and error codes in a web server log with grep, awk, sort and uniq.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Backup script",
+        "description": "A shell script that archives a folder, keeps the last seven copies and logs what it did.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Shell Basics",
+       "Command Help",
+       "Working with Files",
+       "Copying and Renaming Files",
+       "File Permissions"
+      ],
+      "more_topics": [
+       {
+        "node_id": "-B2Dvz7160Er0OBHzS6ro",
+        "title": "Text Processing"
+       },
+       {
+        "node_id": "tVrbVcNEfc11FbEUoO2Dk",
+        "title": "File Transfer"
+       },
+       {
+        "node_id": "L6RMExeqi9501y-eCHDt1",
+        "title": "Permissions"
+       },
+       {
+        "node_id": "O9Vci_WpUY-79AkA4HDx3",
+        "title": "Tr-Command"
+       },
+       {
+        "node_id": "Pl9s2ti25hsSEljXJvBTj",
+        "title": "Split Command"
+       },
+       {
+        "node_id": "yqRwmcZThjQuqh2ao0dWK",
+        "title": "Nano: A File Editing Tool"
+       },
+       {
+        "node_id": "6xdkFk_GT93MigeTSSGCp",
+        "title": "Head Command"
+       },
+       {
+        "node_id": "Yyk28H6TiteZEGv6Aps1h",
+        "title": "Tail Command"
+       },
+       {
+        "node_id": "moGMHNR58wFlzhS7je1wc",
+        "title": "Command Path in Shell"
+       },
+       {
+        "node_id": "h8wc8XEwWYHErna68w7Mg",
+        "title": "Users and Groups"
+       },
+       {
+        "node_id": "Bo9CdrGJej-QcNmw46k9t",
+        "title": "Tee"
+       },
+       {
+        "node_id": "rQxfp7UWqN72iqewZhOdc",
+        "title": "Conditionals"
+       },
+       {
+        "node_id": "LFPhSHOhUqM98fUxMjQUw",
+        "title": "Filesystems"
+       },
+       {
+        "node_id": "rOGnHbGIr3xPCFdpkqoeK",
+        "title": "Debugging"
+       },
+       {
+        "node_id": "vfcCS1GoyKpU1rQaE8I5r",
+        "title": "join Command"
+       },
+       {
+        "node_id": "1WRIy3xHtQfiQFZrprobP",
+        "title": "Sort"
+       },
+       {
+        "node_id": "Z5Mf_e5G24IkmxEHgYBe2",
+        "title": "Cut Command"
+       },
+       {
+        "node_id": "-pW7R76yNIeGf7TQoX4QL",
+        "title": "Literals"
+       },
+       {
+        "node_id": "LIGOJwrXexnIcPyHVlhQ8",
+        "title": "WC - Text Processing"
+       },
+       {
+        "node_id": "XiZz7EFIey1XKS292GN4t",
+        "title": "Vim: An Essential Tool for Editing Files"
+       },
+       {
+        "node_id": "5658kdqJw-pIOyyhll80a",
+        "title": "Paste"
+       },
+       {
+        "node_id": "Z23eJZjmWoeXQuezR9AhG",
+        "title": "Finding and Installing Packages"
+       },
+       {
+        "node_id": "jSzfQf0MlnXtWHCc-HYvr",
+        "title": "Server Review"
+       },
+       {
+        "node_id": "QgfenmhMc18cU_JngQ1n0",
+        "title": "Ulimits"
+       },
+       {
+        "node_id": "TZuDVFS7DZFBgaSYYXoGe",
+        "title": "Expand"
+       },
+       {
+        "node_id": "WJT-yrMq8cEI87RHWA2jY",
+        "title": "Loops"
+       },
+       {
+        "node_id": "JyxvZOb7iusOSUYSlniGl",
+        "title": "Variables"
+       },
+       {
+        "node_id": "23lsrUw8ux6ZP9JlDNNu2",
+        "title": "Cgroups"
+       },
+       {
+        "node_id": "sKduFaX6xZaUUBdXRMKCL",
+        "title": "Unexpand"
+       },
+       {
+        "node_id": "MfengY3ouz6sSOx3PXYf8",
+        "title": "Docker"
+       }
+      ],
+      "global_step_index": 1,
+      "resource": {
+       "title": "Linux File Permissions in 5 Minutes",
+       "url": "https://youtube.com/watch?v=LnKoncbQBsM"
+      },
+      "videos": [
+       {
+        "title": "Linux File Permissions in 5 Minutes",
+        "url": "https://youtube.com/watch?v=LnKoncbQBsM",
+        "video_id": "LnKoncbQBsM",
+        "source": "roadmap.sh",
+        "topic": "File Permissions"
+       },
+       {
+        "title": "Learning Awk Is Essential For Linux Users",
+        "url": "https://youtube.com/watch?v=9YOZmI-zWok",
+        "video_id": "9YOZmI-zWok",
+        "source": "roadmap.sh",
+        "topic": "AWK"
+       },
+       {
+        "title": "Nano editor fundamentals",
+        "url": "https://youtube.com/watch?v=gyKiDczLIZ4",
+        "video_id": "gyKiDczLIZ4",
+        "source": "roadmap.sh",
+        "topic": "Nano: A File Editing Tool"
+       },
+       {
+        "title": "Vim Basics",
+        "url": "https://youtube.com/watch?v=wACD8WEnImo",
+        "video_id": "wACD8WEnImo",
+        "source": "roadmap.sh",
+        "topic": "Vim: An Essential Tool for Editing Files"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "nano - Text editor",
+        "url": "https://www.nano-editor.org/",
+        "topic": "Nano: A File Editing Tool"
+       },
+       {
+        "type": "official",
+        "title": "Filesystems in the Linux Kernel",
+        "url": "https://docs.kernel.org/filesystems/index.html",
+        "topic": "Filesystems"
+       },
+       {
+        "type": "official",
+        "title": "APT Package Manager",
+        "url": "https://www.debian.org/doc/manuals/apt-guide/index.en.html",
+        "topic": "Finding and Installing Packages"
+       },
+       {
+        "type": "official",
+        "title": "Using the DNF Software Package Manager",
+        "url": "https://docs.fedoraproject.org/en-US/quick-docs/dnf/",
+        "topic": "Finding and Installing Packages"
+       }
+      ]
+     },
+     {
+      "step_number": 2,
+      "title": "Processes, Services, Users and Packages",
+      "description": "Keeping services running, users scoped and software patched is daily operations work. Manage processes and signals, run and inspect systemd services and their logs, administer users and sudo, and install and upgrade packages.",
+      "topic_refs": [
+       "h01Y6dW09ChidlM2HYoav",
+       "lf3_CRyOI2ZXGzz5ff451",
+       "0FLUI9r7znMqi6YKReLzD",
+       "VkLWTvKnRXzvLGWza2v45",
+       "mUKoiGUTpIaUgQNF3BND_",
+       "F1sU3O1ouxTOvpidDfN3k",
+       "FStz-bftQBK0M6zz2Bxl4",
+       "DuEfJNrm4Jfmp8-8Pggrf",
+       "g6n7f1Qi0BPr_BGvisWuz",
+       "NIBSZGE9PskVrluJpdom0",
+       "4eINX8jYMJxfYh7ZV47YI",
+       "xEHiB-egkkcBuZmgMoqHT"
+      ],
+      "projects": [
+       {
+        "title": "Custom systemd service",
+        "description": "Run a small app as a systemd service that restarts on failure, and read its logs.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "User onboarding script",
+        "description": "Create a user with a group, SSH key and limited sudo rights in one script.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Process Management",
+       "Listing and Finding Processes",
+       "Kill Processes",
+       "Process Signals",
+       "Background and Foreground Processes"
+      ],
+      "more_topics": [
+       {
+        "node_id": "ewUuI_x-YhOQIYd3MTgJJ",
+        "title": "Running Services"
+       },
+       {
+        "node_id": "34UUrc8Yjc_8lvTL8itc3",
+        "title": "Creating Services"
+       },
+       {
+        "node_id": "Rib7h9lh_ndiXkwNbftz_",
+        "title": "Process Forking"
+       },
+       {
+        "node_id": "R9TZfkgVUQNLnMpDhovJa",
+        "title": "Create, Update, and Delete Users"
+       },
+       {
+        "node_id": "ru7mpLQZKE1QxAdiA1sS3",
+        "title": "System Logs"
+       },
+       {
+        "node_id": "xk5Xgi797HlVjdZJRfwX1",
+        "title": "Checking Service Status"
+       },
+       {
+        "node_id": "5anSYRhaKIs3dCLWlvZfT",
+        "title": "Process Priorities"
+       },
+       {
+        "node_id": "zwXEmpPYjA7_msS43z7I0",
+        "title": "Environment Variables"
+       },
+       {
+        "node_id": "DQEa8LrJ9TVW4ULBE4aHJ",
+        "title": "Booting Linux"
+       },
+       {
+        "node_id": "bVCwRoFsYb3HD8X4xuKOo",
+        "title": "Container Runtime"
+       },
+       {
+        "node_id": "WwybfdKuP9ogCGpT7d3NU",
+        "title": "Authentication Logs"
+       },
+       {
+        "node_id": "48wAoAAlCNt3j5mBpKTWC",
+        "title": "Listing Installed Packages"
+       },
+       {
+        "node_id": "eKyMZn30UxQeBZQ7FxFbF",
+        "title": "Snap"
+       },
+       {
+        "node_id": "19lTWqAvZFT2CDlhLlPSq",
+        "title": "Uptime and Load"
+       },
+       {
+        "node_id": "2oQiuQ2j02SCt9t5eV6hg",
+        "title": "Repositories"
+       },
+       {
+        "node_id": "bZ8Yj6QfBeDdh8hRM_aZs",
+        "title": "Netfilter"
+       },
+       {
+        "node_id": "Ymf3u_sG1dyt8ZR_LbwqJ",
+        "title": "ICMP"
+       },
+       {
+        "node_id": "YSfGrmT795miIeIZrtC3D",
+        "title": "NL (Number Lines)"
+       },
+       {
+        "node_id": "iD073xTmpzvQFfXwcwXcY",
+        "title": "Archiving and Compressing"
+       },
+       {
+        "node_id": "Xszo9vXuwwXZo26seHehD",
+        "title": "Subnetting"
+       },
+       {
+        "node_id": "qnBbzphImflQbEbtFub9x",
+        "title": "Uniq"
+       }
+      ],
+      "global_step_index": 2,
+      "resource": null,
+      "videos": [],
+      "resources": [
+       {
+        "type": "official",
+        "title": "APT Package Manager",
+        "url": "https://www.debian.org/doc/manuals/apt-guide/index.en.html",
+        "topic": "Package Management"
+       },
+       {
+        "type": "official",
+        "title": "Using the DNF Software Package Manager",
+        "url": "https://docs.fedoraproject.org/en-US/quick-docs/dnf/",
+        "topic": "Package Management"
+       },
+       {
+        "type": "official",
+        "title": "The GNU GRUB",
+        "url": "https://www.gnu.org/software/grub/",
+        "topic": "Booting Linux"
+       },
+       {
+        "type": "official",
+        "title": "netfilter/iptables project homepage",
+        "url": "https://netfilter.org/",
+        "topic": "Netfilter"
+       }
+      ]
+     },
+     {
+      "step_number": 3,
+      "title": "Disks, Networking and Server Troubleshooting",
+      "description": "When production breaks, the cause is often a full disk, a DNS problem or a blocked port. Manage disks, mounts and LVM, check memory and disk, understand TCP/IP, DNS and SSH, and troubleshoot with netstat, ping and traceroute.",
+      "topic_refs": [
+       "Fn_uYKigJRgb7r_iYGVBr",
+       "zmb5lK_EGMAChPoPvP9E0",
+       "I3LNa1cM_zRkBy8wKdz3g",
+       "tx0nh6cbBjVxwNlyrBNYm",
+       "Mb42VFjCzMZn_PovKIfKx",
+       "0pciSsiQqIGJh3x8465_s",
+       "f5oQYhmjNM2_FD7Qe1zGK",
+       "uk6UMuI8Uhf02TBAGVeLS",
+       "yrxNYMluJ9OAQCKuM5W1u",
+       "Uc36t92UAlILgM3_XxcMG",
+       "BnB3Rirh4R7a7LW7-k-95",
+       "bdQNcr1sj94aX_gjwf2Fa"
+      ],
+      "projects": [
+       {
+        "title": "Disk-full incident drill",
+        "description": "Fill a disk on a test VM, find what filled it and recover without rebooting.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Connectivity checklist",
+        "description": "Write and test a step-by-step checklist for 'the site is unreachable' from DNS to the open port.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Disks and Filesystems",
+       "Mounts",
+       "LVM (Logical Volume Manager)",
+       "Available Memory and Disk",
+       "Networking"
+      ],
+      "more_topics": [
+       {
+        "node_id": "4xBaZPk0eSsWG1vK3e2yW",
+        "title": "Adding Disks"
+       },
+       {
+        "node_id": "AWosNs2nvDGV8r6WvgBI1",
+        "title": "Swap Space"
+       },
+       {
+        "node_id": "AwQJYL60NNbA5_z7iLcM7",
+        "title": "Inodes"
+       },
+       {
+        "node_id": "o5lSQFW-V_PqndGqo1mp3",
+        "title": "Boot Loaders"
+       },
+       {
+        "node_id": "7seneb4TWts4v1_x8xlcZ",
+        "title": "Packet Analysis"
+       },
+       {
+        "node_id": "4ees23q281J1DPVAc7iXd",
+        "title": "Ethernet, ARP and RARP"
+       },
+       {
+        "node_id": "X6Jw95kbyPgsDNRhvkQP9",
+        "title": "DHCP"
+       },
+       {
+        "node_id": "D0yUzzaJsfhtdBWMtquAj",
+        "title": "IP Routing"
+       }
+      ],
+      "global_step_index": 3,
+      "resource": {
+       "title": "ARP Explained - Address Resolution Protocol",
+       "url": "https://youtube.com/watch?v=cn8Zxh9bPio"
+      },
+      "videos": [
+       {
+        "title": "ARP Explained - Address Resolution Protocol",
+        "url": "https://youtube.com/watch?v=cn8Zxh9bPio",
+        "video_id": "cn8Zxh9bPio",
+        "source": "roadmap.sh",
+        "topic": "Ethernet, ARP and RARP"
+       },
+       {
+        "title": "What is Ethernet?",
+        "url": "https://youtube.com/watch?v=HLziLmaYsO0",
+        "video_id": "HLziLmaYsO0",
+        "source": "roadmap.sh",
+        "topic": "Ethernet, ARP and RARP"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "The mount command manual page",
+        "url": "https://man7.org/linux/man-pages/man8/mount.8.html",
+        "topic": "Mounts"
+       },
+       {
+        "type": "official",
+        "title": "The GNU GRUB",
+        "url": "https://www.gnu.org/software/grub/",
+        "topic": "Boot Loaders"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 2,
+    "title": "Docker",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "Why Containers: Bare Metal, VMs and Docker",
+      "description": "DevOps teams moved from hand-configured servers to containers to make builds reproducible and deployments fast. Understand the problems containers solve, how they compare with bare metal and virtual machines, and where Docker fits.",
+      "topic_refs": [
+       "i4ijY3T5gLgNz0XqRipXe",
+       "74JxgfJ_1qmVNZ_QRp9Ne",
+       "3hatcMVLDbMuz73uTx-9P",
+       "Py9nst2FDJ1_hoXeX_qSF",
+       "kIqx7Inf50mE9W0juwNBz",
+       "EqYWfBL5l5OOquok_OvOW"
+      ],
+      "projects": [
+       {
+        "title": "Works-on-my-machine fix",
+        "description": "Containerise an app that fails on a friend's laptop because of version differences, and show it now runs the same.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Isolation comparison table",
+        "description": "Compare bare metal, VMs and containers on start time, density, isolation and cost.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Need for Containers",
+       "What are Containers?",
+       "Bare Metal vs VM vs Containers",
+       "What is Docker?",
+       "Docker Basics"
+      ],
+      "more_topics": [],
+      "global_step_index": 4,
+      "resource": {
+       "title": "How Large Language Models Work",
+       "url": "https://youtube.com/watch?v=5sLYAQS9sWQ"
+      },
+      "videos": [
+       {
+        "title": "How Large Language Models Work",
+        "url": "https://youtube.com/watch?v=5sLYAQS9sWQ",
+        "video_id": "5sLYAQS9sWQ",
+        "source": "roadmap.sh",
+        "topic": "LLMs and How They Work"
+       },
+       {
+        "title": "Microservices vs Monolith Architecture",
+        "url": "https://youtube.com/watch?v=GBTdnfD6s5Q",
+        "video_id": "GBTdnfD6s5Q",
+        "source": "roadmap.sh",
+        "topic": "Application Architecture"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Docker",
+        "url": "https://www.docker.com/",
+        "topic": "What is Docker?"
+       },
+       {
+        "type": "official",
+        "title": "Docker Docs",
+        "url": "https://docs.docker.com/",
+        "topic": "What is Docker?"
+       },
+       {
+        "type": "official",
+        "title": "Docker Application Design Patterns",
+        "url": "https://docs.docker.com/get-started/docker-concepts/building-images/",
+        "topic": "Application Architecture"
+       }
+      ]
+     },
+     {
+      "step_number": 2,
+      "title": "How Docker Containers Work",
+      "description": "Debugging containers in production requires knowing what they are under the hood. Learn how namespaces, cgroups and union filesystems make containers possible, how Docker Engine and OCI fit together, and install Docker.",
+      "topic_refs": [
+       "jhwe-xfVc-C7qy8YuS5dZ",
+       "jrH1qE6EnFXL4fTyYU8gR",
+       "BvV8VCX39wRB-g8WvGF1g",
+       "fRl4EfNwlBiidzn3IV34-",
+       "vEUfw_vobshuZI0-q8RZo",
+       "43drPbTwPqJQPyzwYUdBT",
+       "0NKqLUWtJMlXn-m6wpA6f",
+       "01nDXqxVdMv4SeXc0nYHH",
+       "NCdsPRhJy7UtQFNLo1J1f",
+       "W5kX5jn49hghRgkEw6_S3",
+       "InlMtuaUJ9EXO-OD9x1jj",
+       "YzpB7rgSR4ueQRLa0bRWa"
+      ],
+      "projects": [
+       {
+        "title": "Container versus VM comparison",
+        "description": "Start a container and a virtual machine with the same app and compare start time and memory.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Namespace exploration",
+        "description": "Inspect a running container's process, network and mount namespaces from the host.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Containers",
+       "Underlying Technologies",
+       "What are Namespaces?",
+       "cgroups",
+       "Union Filesystems"
+      ],
+      "more_topics": [
+       {
+        "node_id": "XxT9UUjbKW1ARyERSLH_W",
+        "title": "Programming Languages"
+       }
+      ],
+      "global_step_index": 5,
+      "resource": {
+       "title": "An introduction to cgroups, runc & containerD",
+       "url": "https://youtube.com/watch?v=u1LeMndEk70"
+      },
+      "videos": [
+       {
+        "title": "An introduction to cgroups, runc & containerD",
+        "url": "https://youtube.com/watch?v=u1LeMndEk70",
+        "video_id": "u1LeMndEk70",
+        "source": "roadmap.sh",
+        "topic": "cgroups"
+       },
+       {
+        "title": "RAG vs Fine-Tuning vs Prompt Engineering: Optimizing AI Models",
+        "url": "https://youtube.com/watch?v=zYGDpG-pTho",
+        "video_id": "zYGDpG-pTho",
+        "source": "roadmap.sh",
+        "topic": "What is Prompt Engineering?"
+       },
+       {
+        "title": "Docker Engine for Linux Servers Setup and Tips",
+        "url": "https://youtube.com/watch?v=YeF7ObTnDwc",
+        "video_id": "YeF7ObTnDwc",
+        "source": "roadmap.sh",
+        "topic": "Docker Engine"
+       },
+       {
+        "title": "Linux Commands for Beginners",
+        "url": "https://youtube.com/watch?v=ZtqBQ68cfJc",
+        "video_id": "ZtqBQ68cfJc",
+        "source": "roadmap.sh",
+        "topic": "Shell Commands"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Docker CLI Commands",
+        "url": "https://docs.docker.com/engine/reference/commandline/cli/",
+        "topic": "Containers"
+       },
+       {
+        "type": "official",
+        "title": "Docker Namespaces",
+        "url": "https://docs.docker.com/engine/security/userns-remap/",
+        "topic": "What are Namespaces?"
+       },
+       {
+        "type": "official",
+        "title": "Control Groups",
+        "url": "https://www.docker.com/resources/what-container/#control-groups",
+        "topic": "cgroups"
+       },
+       {
+        "type": "official",
+        "title": "Docker Engine Installation Guide",
+        "url": "https://docs.docker.com/engine/install/",
+        "topic": "Docker Engine"
+       }
+      ]
+     },
+     {
+      "step_number": 3,
+      "title": "Running Containers with Volumes, Networks and Compose",
+      "description": "Real applications need persistent data, several connected containers and clear runtime configuration. Run and configure containers with the CLI, persist data with volumes and bind mounts, connect containers on networks, and define multi-container apps with Compose.",
+      "topic_refs": [
+       "b-LwyYiegbF0jIrn7HYRv",
+       "6eu5NRA1sJuaHTlHtNurc",
+       "mAaEz-bwB5DLaBbOSYGMn",
+       "LShK3-1EGGuXnEvdScFR7",
+       "jKSE_wKYf4P9wnSh_LkMi",
+       "086zZYjtzdCaDHm-MkSqg",
+       "uUPYXmwu27SBPqKZx6U_q",
+       "eHtVLB6v3h7hatJb-9cZK",
+       "wZcCW1ojGzUakHCv2AaI1",
+       "woemCQmWTR-hIoWAci3d5",
+       "w5QjzvOaciK2rotOkjvjQ",
+       "jjA9E0J8N2frfeJCNtA1m"
+      ],
+      "projects": [
+       {
+        "title": "App plus database with Compose",
+        "description": "Run a web app and PostgreSQL with Compose, with data kept in a named volume.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Data loss experiment",
+        "description": "Show data disappearing from a container's ephemeral filesystem and fix it with a volume.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Docker CLI",
+       "Running Containers",
+       "Runtime Configuration Options",
+       "Using Third Party Images",
+       "Using Databases"
+      ],
+      "more_topics": [
+       {
+        "node_id": "z2eeBXPzo-diQ67Fcfyhc",
+        "title": "Running Containers"
+       }
+      ],
+      "global_step_index": 6,
+      "resource": {
+       "title": "How to Setup MySQL Database with Docker",
+       "url": "https://youtube.com/watch?v=igc2zsOKPJs"
+      },
+      "videos": [
+       {
+        "title": "How to Setup MySQL Database with Docker",
+        "url": "https://youtube.com/watch?v=igc2zsOKPJs",
+        "video_id": "igc2zsOKPJs",
+        "source": "roadmap.sh",
+        "topic": "Using Databases"
+       },
+       {
+        "title": "Docker Concepts - Persisting container data",
+        "url": "https://youtube.com/watch?v=10_2BjqB_Ls",
+        "video_id": "10_2BjqB_Ls",
+        "source": "roadmap.sh",
+        "topic": "Ephemeral FS"
+       },
+       {
+        "title": "Docker Volumes explained in 6 minutes",
+        "url": "https://youtube.com/watch?v=p2PH_YPCsis",
+        "video_id": "p2PH_YPCsis",
+        "source": "roadmap.sh",
+        "topic": "Volume Mounts"
+       },
+       {
+        "title": "Docker Networking",
+        "url": "https://youtube.com/watch?v=bKFMS5C4CG0",
+        "video_id": "bKFMS5C4CG0",
+        "source": "roadmap.sh",
+        "topic": "Docker Networks"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Docker CLI",
+        "url": "https://docs.docker.com/reference/cli/docker/",
+        "topic": "Docker CLI"
+       },
+       {
+        "type": "official",
+        "title": "Docker Compose",
+        "url": "https://docs.docker.com/compose/",
+        "topic": "Docker CLI"
+       },
+       {
+        "type": "official",
+        "title": "Docker Run",
+        "url": "https://docs.docker.com/engine/reference/commandline/run/",
+        "topic": "Running Containers"
+       },
+       {
+        "type": "official",
+        "title": "Docker Documentation",
+        "url": "https://docs.docker.com/engine/reference/run/",
+        "topic": "Runtime Configuration Options"
+       }
+      ]
+     },
+     {
+      "step_number": 4,
+      "title": "Building Small, Cache-Friendly Images",
+      "description": "Image size and layer order decide build speed, deploy time and attack surface. Write Dockerfiles that use layer caching well, shrink images with multi-stage builds, tag and push them to registries, and set up hot reloading and debugging for development.",
+      "topic_refs": [
+       "yGRQcx64S-yBGEoOeMc55",
+       "5OEfBQaYNOCi999x6QUqW",
+       "3Nsg-F3wMKEzEsXw1MBZv",
+       "frshJqVMP8D7o_7tMZMPI",
+       "-8wAzF6_3gruiM3VYMvB0",
+       "Vs4WQwgJFhA63U9Gf2ym0",
+       "3VKPiMfbGBxv9m_SljIQV",
+       "rxVR62_yXIjc-L4GFSV6u",
+       "fh5aERX7c-lY9FPsmftoF",
+       "4p5d3rzCHy4vjg2PRX-2k",
+       "LiAV9crrTHhLqeZhD25a2",
+       "Kmyo1_Mor9WHLkRhNShRZ"
+      ],
+      "projects": [
+       {
+        "title": "Multi-stage image diet",
+        "description": "Cut an app image from over a gigabyte to under 150 MB with a multi-stage build.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Dev container with hot reload",
+        "description": "A Compose setup where code changes reload instantly inside the container.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Dockerfile",
+       "Building Container Images",
+       "Docker Images",
+       "Efficient Layer Caching",
+       "Reducing Image Size"
+      ],
+      "more_topics": [
+       {
+        "node_id": "mw-weCutd2ECKlx2DE_ZJ",
+        "title": "Package Managers"
+       },
+       {
+        "node_id": "hHXTth0ZP8O-iMGR9xfu9",
+        "title": "Developer Experience"
+       }
+      ],
+      "global_step_index": 7,
+      "resource": {
+       "title": "What is an image?",
+       "url": "https://youtube.com/watch?v=NyvT9REqLe4"
+      },
+      "videos": [
+       {
+        "title": "What is an image?",
+        "url": "https://youtube.com/watch?v=NyvT9REqLe4",
+        "video_id": "NyvT9REqLe4",
+        "source": "roadmap.sh",
+        "topic": "Docker Images"
+       },
+       {
+        "title": "Layer Caching",
+        "url": "https://youtube.com/watch?v=_nMpndIyaBU",
+        "video_id": "_nMpndIyaBU",
+        "source": "roadmap.sh",
+        "topic": "Efficient Layer Caching"
+       },
+       {
+        "title": "Linux Package Managers Explained",
+        "url": "https://youtube.com/watch?v=-iSMFoPPbKU",
+        "video_id": "-iSMFoPPbKU",
+        "source": "roadmap.sh",
+        "topic": "Package Managers"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Dockerfile Reference",
+        "url": "https://docs.docker.com/engine/reference/builder/",
+        "topic": "Dockerfile"
+       },
+       {
+        "type": "official",
+        "title": "Dockerfile Best Practices",
+        "url": "https://docs.docker.com/develop/develop-images/dockerfile_best-practices/",
+        "topic": "Dockerfile"
+       },
+       {
+        "type": "official",
+        "title": "Docker Build Overview",
+        "url": "https://docs.docker.com/build/concepts/overview",
+        "topic": "Building Container Images"
+       },
+       {
+        "type": "official",
+        "title": "Docker Image Builder",
+        "url": "https://docs.docker.com/reference/cli/docker/buildx/build/",
+        "topic": "Building Container Images"
+       }
+      ]
+     },
+     {
+      "step_number": 5,
+      "title": "Container Security and Deployment Options",
+      "description": "Containers running as root with unscanned images are a common audit finding, and DevOps engineers own the pipeline that prevents them. Scan images, run as non-root with least privilege, build and push in CI, and compare deploying with PaaS services, Swarm, Nomad and Kubernetes.",
+      "topic_refs": [
+       "78YFahP3Fg-c27reLkuK4",
+       "M5UG-ZcyhBPbksZd0ZdNt",
+       "vYug8kcwrMoWf8ft4UDNI",
+       "uKjB2qntFTpPuYUT9sdxd",
+       "oyqw4tr-taZcxt5kREh1g",
+       "qXOGqORi3EdqwsP9Uhi9m",
+       "PP_RRBo_pThe2mgf6xzMP",
+       "ks6PFN-0Z9zH7gtWaWgxz",
+       "r1eJZDZYouUjnGwAtRbyU",
+       "RqXpX2XabtHYVjgg1EZR_"
+      ],
+      "projects": [
+       {
+        "title": "Image scan in CI",
+        "description": "Build, scan and push an image in a CI pipeline and fail on critical vulnerabilities.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Non-root hardening",
+        "description": "Run an app as a non-root user with a read-only filesystem and dropped capabilities.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Container Security",
+       "Image Security",
+       "Runtime Security",
+       "Users / Groups Permissions",
+       "Continuous Integration (CI)"
+      ],
+      "more_topics": [],
+      "global_step_index": 8,
+      "resource": null,
+      "videos": [],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Docker Security",
+        "url": "https://docs.docker.com/engine/security/",
+        "topic": "Container Security"
+       },
+       {
+        "type": "official",
+        "title": "Docker Content Trust",
+        "url": "https://docs.docker.com/engine/security/trust/content_trust/",
+        "topic": "Image Security"
+       },
+       {
+        "type": "official",
+        "title": "Docker Hub",
+        "url": "https://hub.docker.com/",
+        "topic": "Image Security"
+       },
+       {
+        "type": "official",
+        "title": "Docker Security Best Practices",
+        "url": "https://docs.docker.com/build/building/best-practices/",
+        "topic": "Runtime Security"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 3,
+    "title": "Kubernetes",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "Kubernetes Concepts and Your First Cluster",
+      "description": "Kubernetes is the standard platform for running containers at scale, and cloud roles expect you to operate it. Learn why it exists and its key terms, then run a local cluster, compare managed providers with self-managed clusters, and deploy a first app.",
+      "topic_refs": [
+       "y7KjVfSI6CAduyHd4mBFT",
+       "qLeEEwBvlGt1fP5Qcreah",
+       "q-Ky0ietZGpyUcBQfh-BJ",
+       "9oo2fxTM2_p0VYPBroqxa",
+       "3fzuXKH7az_LVnmnoXB1p",
+       "YaIs8lquWIe1D7RCUBZmC",
+       "qSatCdBTDXPu-IFWzUI99",
+       "ZrVhYTw63aVVIFAEJDG5r",
+       "M-iTb_7EWZIJ3JpdViICx",
+       "2cQKTxln3dIk5IjX2UZdM",
+       "zrbSJa3k7a3TE0aYbWi9c"
+      ],
+      "projects": [
+       {
+        "title": "Local cluster hello world",
+        "description": "Start a kind or minikube cluster and deploy, expose and scale a sample app with kubectl.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Managed provider comparison",
+        "description": "Compare EKS, GKE and AKS on control-plane cost, upgrades and node options for a small team.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Kubernetes Introduction",
+       "Kubernetes overview",
+       "Why Kubernetes",
+       "Key Concepts Terminologies",
+       "Kubernetes Alternatives"
+      ],
+      "more_topics": [
+       {
+        "node_id": "3OpGaQhyNtk1n1MLp-tlb",
+        "title": "Deploying your First Application"
+       }
+      ],
+      "global_step_index": 9,
+      "resource": {
+       "title": "Linux fundamentals",
+       "url": "https://youtube.com/watch?v=kPylihJRG70"
+      },
+      "videos": [
+       {
+        "title": "Linux fundamentals",
+        "url": "https://youtube.com/watch?v=kPylihJRG70",
+        "video_id": "kPylihJRG70",
+        "source": "roadmap.sh",
+        "topic": "Navigation Basics"
+       },
+       {
+        "title": "The Linux File System Explained in 1,233 Seconds",
+        "url": "https://youtube.com/watch?v=A3G-3hp88mo",
+        "video_id": "A3G-3hp88mo",
+        "source": "roadmap.sh",
+        "topic": "Understanding Directory Hierarchy"
+       },
+       {
+        "title": "KUBERNETES | Install Kubernetes Cluster",
+        "url": "https://youtube.com/watch?v=Ro2qeYeisZQ",
+        "video_id": "Ro2qeYeisZQ",
+        "source": "roadmap.sh",
+        "topic": "Own Cluster"
+       },
+       {
+        "title": "Tutorial - Install Control Plane Components",
+        "url": "https://youtube.com/watch?v=IUwuyZ5ReF0",
+        "video_id": "IUwuyZ5ReF0",
+        "source": "roadmap.sh",
+        "topic": "Control Plane Installation"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Creating a cluster with kubeadm",
+        "url": "https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/",
+        "topic": "Own Cluster"
+       },
+       {
+        "type": "official",
+        "title": "Initializing your control-plane node - Documentation",
+        "url": "https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#initializing-your-control-plane-node",
+        "topic": "Control Plane Installation"
+       },
+       {
+        "type": "official",
+        "title": "Node Management",
+        "url": "https://kubernetes.io/docs/concepts/architecture/nodes/#management",
+        "topic": "Managing Worker Nodes"
+       },
+       {
+        "type": "official",
+        "title": "Using kubectl to Create a Deployment",
+        "url": "https://kubernetes.io/docs/tutorials/kubernetes-basics/deploy-app/deploy-intro/",
+        "topic": "Deploying your First Application"
+       }
+      ]
+     },
+     {
+      "step_number": 2,
+      "title": "Workloads: Pods, Deployments, StatefulSets and Helm",
+      "description": "Choosing the right workload type and wiring in configuration correctly is most of everyday Kubernetes work. Run pods through ReplicaSets and Deployments, jobs for batch work, StatefulSets with storage for databases, and package apps with Helm.",
+      "topic_refs": [
+       "HGmeYvRf7_XusZl_K4x9k",
+       "-d2PIXm0V_Iehe8cws8zK",
+       "IF09l0-pryGpMbDt__ocr",
+       "TUGQX7y1gs-aKPge2F1NU",
+       "1MdrzhktCWjpmxiYYBdz7",
+       "r3fzAN5DzratAKnnT8hzb",
+       "LJUJ1NIUsajb1AUdvJjqW",
+       "AJiRBEaKU8qYEm0fqN389",
+       "55RV9psPCmcg8G_P_zQo9",
+       "u24UlZKI86vaguj_VpMv1",
+       "dj7Tb2XTX4kxRUYiTjlhM",
+       "FAEFOhLdp7xrmctHFxiOM"
+      ],
+      "projects": [
+       {
+        "title": "Helm chart for a web app",
+        "description": "Package an app with a ConfigMap, Secret and Deployment as a Helm chart with values per environment.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "PostgreSQL StatefulSet",
+        "description": "Run a database as a StatefulSet with a persistent volume and survive a pod restart.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Containers",
+       "Pods",
+       "ReplicaSets",
+       "Deployments",
+       "Running Applications"
+      ],
+      "more_topics": [
+       {
+        "node_id": "URnYf9jMprFz-o26fbU2P",
+        "title": "CSI drivers"
+       }
+      ],
+      "global_step_index": 10,
+      "resource": {
+       "title": "What is a Pod in kubernetes ? Why do you need it ?",
+       "url": "https://youtube.com/watch?v=k0fzMZgpp14"
+      },
+      "videos": [
+       {
+        "title": "What is a Pod in kubernetes ? Why do you need it ?",
+        "url": "https://youtube.com/watch?v=k0fzMZgpp14",
+        "video_id": "k0fzMZgpp14",
+        "source": "roadmap.sh",
+        "topic": "Pods"
+       },
+       {
+        "title": "ReplicaSet in Kubernetes",
+        "url": "https://youtube.com/watch?v=1WM-LsH6tKc",
+        "video_id": "1WM-LsH6tKc",
+        "source": "roadmap.sh",
+        "topic": "ReplicaSets"
+       },
+       {
+        "title": "Kubernetes Deployments | Deployment Strategies",
+        "url": "https://youtube.com/watch?v=lxc4EXZOOvE",
+        "video_id": "lxc4EXZOOvE",
+        "source": "roadmap.sh",
+        "topic": "Deployments"
+       },
+       {
+        "title": "Kubernetes 101: Deploying Your First Application!",
+        "url": "https://youtube.com/watch?v=XltFOyGanYE",
+        "video_id": "XltFOyGanYE",
+        "source": "roadmap.sh",
+        "topic": "Running Applications"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Pods Documentation",
+        "url": "https://kubernetes.io/docs/concepts/workloads/pods/",
+        "topic": "Pods"
+       },
+       {
+        "type": "official",
+        "title": "ReplicaSet Documentation",
+        "url": "https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/",
+        "topic": "ReplicaSets"
+       },
+       {
+        "type": "official",
+        "title": "Deployments Documentation",
+        "url": "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/",
+        "topic": "Deployments"
+       },
+       {
+        "type": "official",
+        "title": "Run Applications",
+        "url": "https://kubernetes.io/docs/tasks/run-application/",
+        "topic": "Running Applications"
+       }
+      ]
+     },
+     {
+      "step_number": 3,
+      "title": "Cluster Networking, RBAC and Pod Security",
+      "description": "Misconfigured networking and permissions are the most common Kubernetes security problems. Learn pod-to-pod networking and external access with services and load balancers, network policies, role-based access control, pod security and image scanning.",
+      "topic_refs": [
+       "44rhdieUCWsGFC_1__9kk",
+       "aUJ_w2L8nxNq3DfAW97Gd",
+       "jUOlITLqnIvSu97I_3nBz",
+       "Qelo1YvAcUoX5PA-RYbNp",
+       "s0gHg8CqwrSylpSPu8arA",
+       "jOq0WwLrq8tlmOgo64QDc",
+       "i7qxaFhFHPfe3fGEgsbcE",
+       "SG3wtV2rt9nmLEkgrp_zP"
+      ],
+      "projects": [
+       {
+        "title": "Network policy lockdown",
+        "description": "Allow only the frontend to reach the API and only the API to reach the database.",
+        "difficulty": "advanced",
+        "grounded": false
+       },
+       {
+        "title": "Read-only developer role",
+        "description": "Create an RBAC role that lets developers view but not change one namespace.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Networking & Pod-to-Pod Communication",
+       "Networking and Pod to Pod Communication",
+       "External Access to Services",
+       "Load Balancing",
+       "Network Security"
+      ],
+      "more_topics": [
+       {
+        "node_id": "Nja7IFWcFTLsPcqbvRNm9",
+        "title": "Container and Pod Security"
+       },
+       {
+        "node_id": "S0CwGC2gMG-SqnLNldqBD",
+        "title": "Secrets"
+       }
+      ],
+      "global_step_index": 11,
+      "resource": {
+       "title": "Kubernetes Networking Deep Dive",
+       "url": "https://youtube.com/watch?v=t98ekMiz0hQ"
+      },
+      "videos": [
+       {
+        "title": "Kubernetes Networking Deep Dive",
+        "url": "https://youtube.com/watch?v=t98ekMiz0hQ",
+        "video_id": "t98ekMiz0hQ",
+        "source": "roadmap.sh",
+        "topic": "Networking & Pod-to-Pod Communication"
+       },
+       {
+        "title": "How do I provide external access to Kubernetes services",
+        "url": "https://youtube.com/watch?v=iBYTFpoXx24",
+        "video_id": "iBYTFpoXx24",
+        "source": "roadmap.sh",
+        "topic": "External Access to Services"
+       },
+       {
+        "title": "Tutorial | Load Balancing Service in Kubernetes",
+        "url": "https://youtube.com/watch?v=xCsz9IOt-fs",
+        "video_id": "xCsz9IOt-fs",
+        "source": "roadmap.sh",
+        "topic": "Load Balancing"
+       },
+       {
+        "title": "Kubernetes Security Best Practices",
+        "url": "https://youtube.com/watch?v=oBf5lrmquYI",
+        "video_id": "oBf5lrmquYI",
+        "source": "roadmap.sh",
+        "topic": "Network Security"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Cluster Networking - Kubernetes Documentation",
+        "url": "https://kubernetes.io/docs/concepts/cluster-administration/networking/",
+        "topic": "Networking & Pod-to-Pod Communication"
+       },
+       {
+        "type": "official",
+        "title": "Network Policies - Kubernetes Documentation",
+        "url": "https://kubernetes.io/docs/concepts/services-networking/network-policies/",
+        "topic": "Networking & Pod-to-Pod Communication"
+       },
+       {
+        "type": "official",
+        "title": "Job with Pod-to-Pod Communication",
+        "url": "https://kubernetes.io/docs/tasks/job/job-with-pod-to-pod-communication/",
+        "topic": "Networking and Pod to Pod Communication"
+       },
+       {
+        "type": "official",
+        "title": "Ingress - Documentation",
+        "url": "https://kubernetes.io/docs/concepts/services-networking/ingress/",
+        "topic": "External Access to Services"
+       }
+      ]
+     },
+     {
+      "step_number": 4,
+      "title": "Scheduling, Resource Limits and Autoscaling",
+      "description": "Requests, limits and autoscalers decide both reliability and the cloud bill. Control where pods land with taints, tolerations, spread constraints and priorities, set requests, limits and quotas, and scale with the horizontal and vertical pod autoscalers.",
+      "topic_refs": [
+       "xZDXM_8qb4VL15tNGG0ws",
+       "70lTSIVh0AD6M8fMMuWzY",
+       "zXUsHAI1HFhcY2BFAcypv",
+       "CL0hKTcml40InmyVUXpY2",
+       "_Gva1eGcYqpmZNPyV03lt",
+       "TRKzlDW2PQN9bWTyz3NWL",
+       "8RLR6gRjIyTn6GCugEfgk",
+       "OHz4QMmA3lqL_C7aWL8Ga",
+       "03mGA5AyL7mpF6y3EMW7A",
+       "044IUUCgZP4oQ9UxUG2iy",
+       "c1KVczGRjh9bhMpbPP6sA",
+       "PP4ld_vvjpY3QltBBsXKD"
+      ],
+      "projects": [
+       {
+        "title": "HPA under load",
+        "description": "Autoscale a deployment on CPU, generate load and watch replicas rise and fall.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Right-sizing exercise",
+        "description": "Measure real usage of three workloads and adjust their requests and limits.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Scheduling",
+       "Scheduling Basics",
+       "Taints and Tolerations",
+       "Topology Spread Constraints",
+       "Pod Priorities"
+      ],
+      "more_topics": [
+       {
+        "node_id": "RC5MoYtG2rom-d4FW5qD2",
+        "title": "Autoscaling"
+       }
+      ],
+      "global_step_index": 12,
+      "resource": {
+       "title": "How Scheduling in Kubernetes Works",
+       "url": "https://youtube.com/watch?v=0FvQR-0tK54"
+      },
+      "videos": [
+       {
+        "title": "How Scheduling in Kubernetes Works",
+        "url": "https://youtube.com/watch?v=0FvQR-0tK54",
+        "video_id": "0FvQR-0tK54",
+        "source": "roadmap.sh",
+        "topic": "Scheduling Basics"
+       },
+       {
+        "title": "Kubernetes For Beginners: Taints & Tolerations",
+        "url": "https://youtube.com/watch?v=mo2UrkjA7FE",
+        "video_id": "mo2UrkjA7FE",
+        "source": "roadmap.sh",
+        "topic": "Taints and Tolerations"
+       },
+       {
+        "title": "Kubernetes | Topology Spread Constraints",
+        "url": "https://youtube.com/watch?v=joRrWJ6bwvE",
+        "video_id": "joRrWJ6bwvE",
+        "source": "roadmap.sh",
+        "topic": "Topology Spread Constraints"
+       },
+       {
+        "title": "Kubernetes Pod Priority (Examples)",
+        "url": "https://youtube.com/watch?v=sR_Zmvme3-0",
+        "video_id": "sR_Zmvme3-0",
+        "source": "roadmap.sh",
+        "topic": "Pod Priorities"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Kubernetes Scheduler",
+        "url": "https://kubernetes.io/docs/concepts/scheduling-eviction/kube-scheduler/",
+        "topic": "Scheduling"
+       },
+       {
+        "type": "official",
+        "title": "Scheduling Framework",
+        "url": "https://kubernetes.io/docs/concepts/scheduling-eviction/scheduling-framework/",
+        "topic": "Scheduling"
+       },
+       {
+        "type": "official",
+        "title": "Taints and Tolerations",
+        "url": "https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/",
+        "topic": "Taints and Tolerations"
+       },
+       {
+        "type": "official",
+        "title": "Topology Spread Constraints",
+        "url": "https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/",
+        "topic": "Topology Spread Constraints"
+       }
+      ]
+     },
+     {
+      "step_number": 5,
+      "title": "Rollout Strategies and GitOps",
+      "description": "Releasing without downtime and rolling back quickly are what make Kubernetes worth the complexity. Use rolling updates and rollbacks, blue-green and canary releases, CI/CD integration and GitOps, and manage multiple clusters.",
+      "topic_refs": [
+       "yMSXdwDO36CLtp2TBC7aB",
+       "9-oaTlzKmcxTfaRycz1w3",
+       "88IGeC3dAopHLGtLozxdY",
+       "Pymc9H-lRHVPy7M9eSaPD",
+       "dATdEyNWlpDNKjedCXLyb",
+       "auZgEQ6FC3nUjuyx0zANh"
+      ],
+      "projects": [
+       {
+        "title": "GitOps with Argo CD",
+        "description": "Sync a cluster from a Git repository and roll back by reverting a commit.",
+        "difficulty": "advanced",
+        "grounded": false
+       },
+       {
+        "title": "Canary release",
+        "description": "Send ten percent of traffic to a new version, check its errors, then promote it.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Rolling Updates and Rollbacks",
+       "Blue Green Deployments",
+       "Canary Deployments",
+       "CI/CD Integration",
+       "GitOps"
+      ],
+      "more_topics": [
+       {
+        "node_id": "0l0xpsabglvs_t6oAP-XG",
+        "title": "Blue Green Deployments"
+       }
+      ],
+      "global_step_index": 13,
+      "resource": {
+       "title": "Kubernetes Rollbacks Tutorial",
+       "url": "https://youtube.com/watch?v=9hK11Ov74U4"
+      },
+      "videos": [
+       {
+        "title": "Kubernetes Rollbacks Tutorial",
+        "url": "https://youtube.com/watch?v=9hK11Ov74U4",
+        "video_id": "9hK11Ov74U4",
+        "source": "roadmap.sh",
+        "topic": "Rolling Updates and Rollbacks"
+       },
+       {
+        "title": "Kubernetes - Blue/Green Deployments",
+        "url": "https://youtube.com/watch?v=jxhpTGQ484Y",
+        "video_id": "jxhpTGQ484Y",
+        "source": "roadmap.sh",
+        "topic": "Blue Green Deployments"
+       },
+       {
+        "title": "Kubernetes canary deployments Explained",
+        "url": "https://youtube.com/watch?v=sCevTD_GtvU",
+        "video_id": "sCevTD_GtvU",
+        "source": "roadmap.sh",
+        "topic": "Canary Deployments"
+       },
+       {
+        "title": "DevOps and GitOps for Kubernetes",
+        "url": "https://youtube.com/watch?v=PFLimPh5-wo",
+        "video_id": "PFLimPh5-wo",
+        "source": "roadmap.sh",
+        "topic": "GitOps"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Performing a Rolling Update",
+        "url": "https://kubernetes.io/docs/tutorials/kubernetes-basics/update/update-intro/",
+        "topic": "Rolling Updates and Rollbacks"
+       },
+       {
+        "type": "official",
+        "title": "Configure Access to Multiple Clusters - Documentation",
+        "url": "https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/",
+        "topic": "Multi Cluster Management"
+       }
+      ]
+     },
+     {
+      "step_number": 6,
+      "title": "Cluster Observability and Extending Kubernetes",
+      "description": "Operating clusters means reading logs, metrics and traces, and many platforms extend Kubernetes with their own resources. Set up observability, and learn custom resource definitions, controllers and scheduler extenders.",
+      "topic_refs": [
+       "-XxQtiLDAkXs7IFM_Ddw6",
+       "nqUBHBFUYFdYqCKZvfXBR",
+       "ldYTEPt_hI4PXxr3tgJi5",
+       "pDjNsK5vI9FmKZbQm0lDP",
+       "AgsQnQjyTLUFhFpRdcE13",
+       "UeJcKv3jhenjNzHM-0R86",
+       "9P7l-RBOkUxs3Z_UpKQO-",
+       "L9rVPEEXFwisQOwT_LQ4v",
+       "1-Nb8rCMJEZrYm20sEcRJ",
+       "t8SJbGVXsUDECxePLDk_w"
+      ],
+      "projects": [
+       {
+        "title": "Cluster monitoring stack",
+        "description": "Install Prometheus and Grafana and build a dashboard of node and pod health.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Simple custom resource",
+        "description": "Define a CRD for 'Website' objects and a small controller that creates a deployment for each.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Logs",
+       "Metrics",
+       "Traces",
+       "Resource Health",
+       "Observability Engines"
+      ],
+      "more_topics": [
+       {
+        "node_id": "eWKkdiBhD5x2sGYajmHEs",
+        "title": "Monitoring and Optimizing Resource Usage"
+       },
+       {
+        "node_id": "FANswgUhUb5Iuah2fni3L",
+        "title": "Observability Engines"
+       }
+      ],
+      "global_step_index": 14,
+      "resource": {
+       "title": "Kubernetes: Log collection explained",
+       "url": "https://youtube.com/watch?v=6kmHvXdAzIM"
+      },
+      "videos": [
+       {
+        "title": "Kubernetes: Log collection explained",
+        "url": "https://youtube.com/watch?v=6kmHvXdAzIM",
+        "video_id": "6kmHvXdAzIM",
+        "source": "roadmap.sh",
+        "topic": "Logs"
+       },
+       {
+        "title": "How to collect metrics in K8s?",
+        "url": "https://youtube.com/watch?v=JQrk6HwlN78",
+        "video_id": "JQrk6HwlN78",
+        "source": "roadmap.sh",
+        "topic": "Metrics"
+       },
+       {
+        "title": "Introduction to Tracing",
+        "url": "https://youtube.com/watch?v=idDu_jXqf4E",
+        "video_id": "idDu_jXqf4E",
+        "source": "roadmap.sh",
+        "topic": "Traces"
+       },
+       {
+        "title": "Dashboards with Grafana and Prometheus",
+        "url": "https://youtube.com/watch?v=fzny5uUaAeY",
+        "video_id": "fzny5uUaAeY",
+        "source": "roadmap.sh",
+        "topic": "Resource Health"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "System Logs",
+        "url": "https://kubernetes.io/docs/concepts/cluster-administration/system-logs/",
+        "topic": "Logs"
+       },
+       {
+        "type": "official",
+        "title": "Node Metrics Data",
+        "url": "https://kubernetes.io/docs/reference/instrumentation/node-metrics/",
+        "topic": "Metrics"
+       },
+       {
+        "type": "official",
+        "title": "Traces For Kubernetes System Components",
+        "url": "https://kubernetes.io/docs/concepts/cluster-administration/system-traces/",
+        "topic": "Traces"
+       },
+       {
+        "type": "official",
+        "title": "Extensions - Documentation",
+        "url": "https://kubernetes.io/docs/concepts/extend-kubernetes/#extensions",
+        "topic": "Kubernetes Extensions and APIs"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 4,
+    "title": "DevOps",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "Programming and Scripting for DevOps",
+      "description": "DevOps engineers automate everything, so you need one scripting language for glue work and one compiled language for tools. Pick Python or Go alongside Bash or PowerShell, and get comfortable in the terminal with text tools and an editor such as Vim.",
+      "topic_refs": [
+       "v5FGKQc-_7NYEsWjmTEuq",
+       "TwVfCYMS9jSaJ6UyYmC-K",
+       "npnMwSDEK2aLGgnuZZ4dO",
+       "syBIAL1mHbJLnTBoSxXI7",
+       "z6IBekR8Xl-6f8WEb05Nw",
+       "QCdemtWa2mE78poNXeqzr",
+       "PuXAPYA0bsMgwcnlwJxQn",
+       "eL62bKAoJCMsu7zPlgyhy",
+       "wjJPzrFJBNYOD3SJLzW2M",
+       "cUifrP7v55psTb20IZndf",
+       "Jt8BmtLUH6fHT2pGKoJs3"
+      ],
+      "projects": [
+       {
+        "title": "Health-check script",
+        "description": "A Python script that checks a list of URLs and posts failures to a chat webhook.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Small Go CLI",
+        "description": "A Go command-line tool that tails a log file and counts errors per minute.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Learn a Language",
+       "Python",
+       "Go",
+       "Bash",
+       "PowerShell"
+      ],
+      "more_topics": [],
+      "global_step_index": 15,
+      "resource": {
+       "title": "Python Full Course for free",
+       "url": "https://youtube.com/watch?v=ix9cRaBkVe0"
+      },
+      "videos": [
+       {
+        "title": "Python Full Course for free",
+        "url": "https://youtube.com/watch?v=ix9cRaBkVe0",
+        "video_id": "ix9cRaBkVe0",
+        "source": "roadmap.sh",
+        "topic": "Python"
+       },
+       {
+        "title": "Go in 100 Seconds",
+        "url": "https://youtube.com/watch?v=446E-r0rXHI",
+        "video_id": "446E-r0rXHI",
+        "source": "roadmap.sh",
+        "topic": "Go"
+       },
+       {
+        "title": "Bash in 100 Seconds",
+        "url": "https://youtube.com/watch?v=I4EWvMFj37g",
+        "video_id": "I4EWvMFj37g",
+        "source": "roadmap.sh",
+        "topic": "Bash"
+       },
+       {
+        "title": "Learn PowerShell in Less Than 2 Hours",
+        "url": "https://youtube.com/watch?v=ZOoCaWyifmI",
+        "video_id": "ZOoCaWyifmI",
+        "source": "roadmap.sh",
+        "topic": "PowerShell"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Python Website",
+        "url": "https://www.python.org/",
+        "topic": "Python"
+       },
+       {
+        "type": "official",
+        "title": "A Tour of Go – Go Basics",
+        "url": "https://go.dev/tour/welcome/1",
+        "topic": "Go"
+       },
+       {
+        "type": "official",
+        "title": "Go Reference Documentation",
+        "url": "https://go.dev/doc/",
+        "topic": "Go"
+       },
+       {
+        "type": "official",
+        "title": "PowerShell Documentation",
+        "url": "https://learn.microsoft.com/en-us/powershell/",
+        "topic": "PowerShell"
+       }
+      ]
+     },
+     {
+      "step_number": 2,
+      "title": "Server Operating Systems and Monitoring Basics",
+      "description": "Production fleets run on a few Linux families and sometimes Windows or BSD, and each has its own tools and conventions. Compare Ubuntu, RHEL and other systems, and monitor processes, performance and network health on a single server.",
+      "topic_refs": [
+       "qe84v529VbCyydl0BKFk2",
+       "cTqVab0VbVcn3W7i0wBrX",
+       "7mS6Y_BOAHNgM3OjyFtZ9",
+       "zhNUK953p6tjREndk3yQZ",
+       "PiPHFimToormOPl1EtEe8",
+       "97cJYKqv7CPPUXkKNwM4x",
+       "haiYSwNt3rjiiwCDszPk1",
+       "UOQimp7QkM3sxmFvk5d3i",
+       "x-JWvG1iw86ULL9KrQmRu",
+       "gIEQDgKOsoEnSv8mpEzGH",
+       "OaqKLZe-XnngcDhDzCtRt",
+       "jCWrnQNgjHKyhzd9dwOHz"
+      ],
+      "projects": [
+       {
+        "title": "Two-distro setup",
+        "description": "Set up the same web server on Ubuntu and on a RHEL-family VM and note every difference.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Server health snapshot",
+        "description": "Script a report of CPU, memory, disk, top processes and open ports.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Operating System",
+       "Ubuntu / Debian",
+       "RHEL and Derivatives",
+       "openSUSE Linux",
+       "FreeBSD"
+      ],
+      "more_topics": [],
+      "global_step_index": 16,
+      "resource": {
+       "title": "What are Operating Systems?",
+       "url": "https://youtube.com/watch?v=pVzRTmdd9j0"
+      },
+      "videos": [
+       {
+        "title": "What are Operating Systems?",
+        "url": "https://youtube.com/watch?v=pVzRTmdd9j0",
+        "video_id": "pVzRTmdd9j0",
+        "source": "roadmap.sh",
+        "topic": "Operating System"
+       },
+       {
+        "title": "What is Red Hat Enterprise Linux?",
+        "url": "https://youtube.com/watch?v=HEBvdSI0wGQ",
+        "video_id": "HEBvdSI0wGQ",
+        "source": "roadmap.sh",
+        "topic": "RHEL and Derivatives"
+       },
+       {
+        "title": "OpenSuSE - You Should Try It",
+        "url": "https://youtube.com/watch?v=CZwAgf3f8CM",
+        "video_id": "CZwAgf3f8CM",
+        "source": "roadmap.sh",
+        "topic": "openSUSE Linux"
+       },
+       {
+        "title": "FreeBSD in 100 Seconds",
+        "url": "https://youtube.com/watch?v=NKHzcXwTdB4",
+        "video_id": "NKHzcXwTdB4",
+        "source": "roadmap.sh",
+        "topic": "FreeBSD"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Debian Website",
+        "url": "https://www.debian.org/",
+        "topic": "Ubuntu / Debian"
+       },
+       {
+        "type": "official",
+        "title": "Ubuntu Website",
+        "url": "https://ubuntu.com/",
+        "topic": "Ubuntu / Debian"
+       },
+       {
+        "type": "official",
+        "title": "Red Hat Enterprise Linux Website",
+        "url": "https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux",
+        "topic": "RHEL and Derivatives"
+       },
+       {
+        "type": "official",
+        "title": "RHEL Documentation",
+        "url": "https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/",
+        "topic": "RHEL and Derivatives"
+       }
+      ]
+     },
+     {
+      "step_number": 3,
+      "title": "Version Control and Code Hosting",
+      "description": "Git is the source of truth for code, configuration and infrastructure, and pipelines are triggered from it. Use Git confidently and know the GitHub, GitLab and Bitbucket hosting features that DevOps pipelines rely on.",
+      "topic_refs": [
+       "LvhFmlxz5uIy7k_nzx2Bv",
+       "uyDm1SpOQdpHjq9zBAdck",
+       "h10BH3OybHcIN2iDTSGkn",
+       "ot9I_IHdnq2yAMffrSrbN",
+       "oQIB0KE0BibjIYmxrpPZS",
+       "Z7SsBWgluZWr9iWb2e9XO"
+      ],
+      "projects": [
+       {
+        "title": "Protected main branch",
+        "description": "Set branch protection with required reviews and status checks on a team repository.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Config in Git",
+        "description": "Move a server's configuration files into a Git repository and deploy them from it.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Version Control Systems",
+       "Git",
+       "Version Control Hosting Services",
+       "GitHub",
+       "GitLab"
+      ],
+      "more_topics": [],
+      "global_step_index": 17,
+      "resource": {
+       "title": "Version Control System (VCS)",
+       "url": "https://youtube.com/watch?v=SVkuliabq4g"
+      },
+      "videos": [
+       {
+        "title": "Version Control System (VCS)",
+        "url": "https://youtube.com/watch?v=SVkuliabq4g",
+        "video_id": "SVkuliabq4g",
+        "source": "roadmap.sh",
+        "topic": "Version Control Systems"
+       },
+       {
+        "title": "Git & GitHub Crash Course For Beginners",
+        "url": "https://youtube.com/watch?v=vA5TTz6BXhY",
+        "video_id": "vA5TTz6BXhY",
+        "source": "roadmap.sh",
+        "topic": "Git"
+       },
+       {
+        "title": "GitHub vs GitLab vs Bitbucket - Which Is Better?",
+        "url": "https://youtube.com/watch?v=FQGXIIqziQg",
+        "video_id": "FQGXIIqziQg",
+        "source": "roadmap.sh",
+        "topic": "Version Control Hosting Services"
+       },
+       {
+        "title": "What is GitHub?",
+        "url": "https://youtube.com/watch?v=pBy1zgt0XPc",
+        "video_id": "pBy1zgt0XPc",
+        "source": "roadmap.sh",
+        "topic": "GitHub"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "GitHub",
+        "url": "https://github.com",
+        "topic": "Version Control Hosting Services"
+       },
+       {
+        "type": "official",
+        "title": "GitLab",
+        "url": "https://about.gitlab.com/",
+        "topic": "Version Control Hosting Services"
+       },
+       {
+        "type": "official",
+        "title": "BitBucket",
+        "url": "https://bitbucket.org/product/guides/getting-started/overview",
+        "topic": "Version Control Hosting Services"
+       },
+       {
+        "type": "official",
+        "title": "GitLab Website",
+        "url": "https://gitlab.com/",
+        "topic": "GitLab"
+       }
+      ]
+     },
+     {
+      "step_number": 4,
+      "title": "Networking, Protocols and Mail Services",
+      "description": "Outages often trace back to DNS, TLS or a blocked port, so DevOps engineers must understand the network stack. Learn the OSI model, DNS, HTTP and HTTPS, TLS certificates, SSH and file transfer, mail protocols and firewalls.",
+      "topic_refs": [
+       "w5d24Sf8GDkLDLGUPxzS9",
+       "QZ7bkY-MaEgxYoPDP3nma",
+       "Vu955vdsYerCG8G6suqml",
+       "ke-8MeuLx7AS2XjSsPhxe",
+       "AJO3jtHvIICj8YKaSXl0U",
+       "0o6ejhfpmO4S8A6djVWva",
+       "wcIRMLVm3SdEJWF9RPfn7",
+       "RDLmML_HS2c8J4D_U_KYe",
+       "zJy9dOynWgLTDKI1iBluG",
+       "WMuXqa4b5wyRuYAQKQJRj",
+       "fzO6xVTBxliu24f3W5zaU",
+       "f3tM2uo6LLSOmyeFfLc7h"
+      ],
+      "projects": [
+       {
+        "title": "Certificate expiry monitor",
+        "description": "Check TLS certificates for a list of domains and alert thirty days before expiry.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Firewall baseline",
+        "description": "Lock a server down to SSH and HTTPS only and verify from outside with a port scan.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Networking & Protocols",
+       "OSI Model",
+       "DNS",
+       "HTTP",
+       "HTTPS"
+      ],
+      "more_topics": [
+       {
+        "node_id": "RYCD78msIR2BPJoIP71aj",
+        "title": "Domain Keys"
+       },
+       {
+        "node_id": "ewcJfnDFKXN8I5TLpXEaB",
+        "title": "SPF"
+       },
+       {
+        "node_id": "5vUKHuItQfkarp7LtACvX",
+        "title": "DMARC"
+       }
+      ],
+      "global_step_index": 18,
+      "resource": {
+       "title": "DNS and How does it Work?",
+       "url": "https://youtube.com/watch?v=Wj0od2ag5sk"
+      },
+      "videos": [
+       {
+        "title": "DNS and How does it Work?",
+        "url": "https://youtube.com/watch?v=Wj0od2ag5sk",
+        "video_id": "Wj0od2ag5sk",
+        "source": "roadmap.sh",
+        "topic": "Networking & Protocols"
+       },
+       {
+        "title": "OSI Model",
+        "url": "https://youtube.com/watch?v=dV8mjZd1OtU",
+        "video_id": "dV8mjZd1OtU",
+        "source": "roadmap.sh",
+        "topic": "OSI Model"
+       },
+       {
+        "title": "HTTP Crash Course & Exploration",
+        "url": "https://youtube.com/watch?v=iYM2zFP3Zn0",
+        "video_id": "iYM2zFP3Zn0",
+        "source": "roadmap.sh",
+        "topic": "HTTP"
+       },
+       {
+        "title": "Does HTTPS REALLY Keep You Safe?",
+        "url": "https://youtube.com/watch?v=25mXesOV9-8",
+        "video_id": "25mXesOV9-8",
+        "source": "roadmap.sh",
+        "topic": "HTTPS"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "What is SSH?",
+        "url": "https://www.ssh.com/academy/ssh/protocol",
+        "topic": "SSH"
+       },
+       {
+        "type": "official",
+        "title": "DMARC",
+        "url": "https://dmarc.org/",
+        "topic": "DMARC"
+       }
+      ]
+     },
+     {
+      "step_number": 5,
+      "title": "Web Servers, Proxies and Load Balancers",
+      "description": "Every web service sits behind a server or proxy that terminates TLS, caches and spreads load. Configure Nginx, Apache, Caddy and Tomcat, set up reverse and forward proxies and caching, and balance traffic with load balancers and Envoy.",
+      "topic_refs": [
+       "ukOrSeyK1ElOt9tTjCkfO",
+       "0_GMTcMeZv3A8dYkHRoW7",
+       "54UZNO2q8M5FiA_XbcU_D",
+       "dF3otkMMN09tgCzci8Jyv",
+       "5iJOE1QxMvf8BQ_8ssiI8",
+       "eGF7iyigl57myx2ejpmNC",
+       "F93XnRj0BLswJkzyRggLS",
+       "R4XSY4TSjU1M7cW66zUqJ",
+       "i8Sd9maB_BeFurULrHXNq",
+       "epLLYArR16HlhAS4c33b4"
+      ],
+      "projects": [
+       {
+        "title": "Nginx load balancer",
+        "description": "Balance traffic across three app instances with Nginx and take one down without errors.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Caching proxy",
+        "description": "Put a caching reverse proxy in front of a slow API and measure the hit rate.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Nginx",
+       "Apache",
+       "Caddy",
+       "Tomcat",
+       "Internet Information Services (IIS)"
+      ],
+      "more_topics": [],
+      "global_step_index": 19,
+      "resource": {
+       "title": "NGINX Explained in 100 Seconds",
+       "url": "https://youtube.com/watch?v=JKxlsvZXG7c"
+      },
+      "videos": [
+       {
+        "title": "NGINX Explained in 100 Seconds",
+        "url": "https://youtube.com/watch?v=JKxlsvZXG7c",
+        "video_id": "JKxlsvZXG7c",
+        "source": "roadmap.sh",
+        "topic": "Nginx"
+       },
+       {
+        "title": "What is Apache Web Server?",
+        "url": "https://youtube.com/watch?v=kaaenHXO4t4",
+        "video_id": "kaaenHXO4t4",
+        "source": "roadmap.sh",
+        "topic": "Apache"
+       },
+       {
+        "title": "Exploring Caddy, An Open Source Web Server",
+        "url": "https://youtube.com/watch?v=tqXL5QLvPRQ",
+        "video_id": "tqXL5QLvPRQ",
+        "source": "roadmap.sh",
+        "topic": "Caddy"
+       },
+       {
+        "title": "Apache Tomcat Full Tutorial",
+        "url": "https://youtube.com/watch?v=rElJIPRw5iM",
+        "video_id": "rElJIPRw5iM",
+        "source": "roadmap.sh",
+        "topic": "Tomcat"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Nginx",
+        "url": "https://nginx.org/",
+        "topic": "Nginx"
+       },
+       {
+        "type": "official",
+        "title": "Apache Server Website",
+        "url": "https://httpd.apache.org/",
+        "topic": "Apache"
+       },
+       {
+        "type": "official",
+        "title": "Caddy Website",
+        "url": "https://caddyserver.com/",
+        "topic": "Caddy"
+       },
+       {
+        "type": "official",
+        "title": "Tomcat Website",
+        "url": "https://tomcat.apache.org/",
+        "topic": "Tomcat"
+       }
+      ]
+     },
+     {
+      "step_number": 6,
+      "title": "Cloud Providers and Serverless Functions",
+      "description": "DevOps roles in India mostly work on AWS, Azure or GCP, with cheaper providers for smaller workloads. Compare the major and budget providers, and run event-driven code with Lambda, Azure Functions and Google Cloud Functions.",
+      "topic_refs": [
+       "2Wd9SlWGg6QtxgiUVLyZL",
+       "1ieK6B_oqW8qOC6bdmiJe",
+       "ctor79Vd7EXDMdrLyUcu_",
+       "zYrOxFQkl3KSe67fh3smD",
+       "YUJf-6ccHvYjL_RzufQ-G",
+       "-h-kNVDNzZYnQAR_4lfXc",
+       "I327qPYGMcdayRR5WT0Ek",
+       "eJZdjheptmiwKsVokt7Io",
+       "9p_ufPj6QH9gHbWBQUmGw",
+       "UfQrIJ-uMNJt9H_VM_Q5q",
+       "mlrlf2McMI7IBhyEdq0Nf",
+       "JXsctlXUUS1ie8nNEgIk9"
+      ],
+      "projects": [
+       {
+        "title": "Same function on two clouds",
+        "description": "Deploy one HTTP function to AWS Lambda and Azure Functions and compare setup and cold starts.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Cost comparison sheet",
+        "description": "Price a small three-server setup on AWS, DigitalOcean and Hetzner.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Cloud Providers",
+       "AWS",
+       "Azure",
+       "Google Cloud",
+       "Alibaba Cloud"
+      ],
+      "more_topics": [],
+      "global_step_index": 20,
+      "resource": {
+       "title": "Microsoft Azure Fundamentals Certification Course (AZ-900)",
+       "url": "https://youtube.com/watch?v=5abffC-K40c"
+      },
+      "videos": [
+       {
+        "title": "Microsoft Azure Fundamentals Certification Course (AZ-900)",
+        "url": "https://youtube.com/watch?v=5abffC-K40c",
+        "video_id": "5abffC-K40c",
+        "source": "roadmap.sh",
+        "topic": "Azure"
+       },
+       {
+        "title": "Google Cloud Platform Full Course 2023",
+        "url": "https://youtube.com/watch?v=fZOz13joN0o",
+        "video_id": "fZOz13joN0o",
+        "source": "roadmap.sh",
+        "topic": "Google Cloud"
+       },
+       {
+        "title": "Getting Started With Kubernetes on DigitalOcean",
+        "url": "https://youtube.com/watch?v=cJKdo-glRD0",
+        "video_id": "cJKdo-glRD0",
+        "source": "roadmap.sh",
+        "topic": "DigitalOcean"
+       },
+       {
+        "title": "Coolify Crash Course | Self Host 101",
+        "url": "https://youtube.com/watch?v=taJlPG82Ucw",
+        "video_id": "taJlPG82Ucw",
+        "source": "roadmap.sh",
+        "topic": "Hetzner"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "AWS Cloud Essentials",
+        "url": "https://aws.amazon.com/getting-started/cloud-essentials/",
+        "topic": "AWS"
+       },
+       {
+        "type": "official",
+        "title": "Overview of Amazon Web Services",
+        "url": "https://docs.aws.amazon.com/whitepapers/latest/aws-overview/introduction.html",
+        "topic": "AWS"
+       },
+       {
+        "type": "official",
+        "title": "Azure Website",
+        "url": "https://azure.microsoft.com/en-us/",
+        "topic": "Azure"
+       },
+       {
+        "type": "official",
+        "title": "Google Cloud",
+        "url": "https://cloud.google.com/",
+        "topic": "Google Cloud"
+       }
+      ]
+     },
+     {
+      "step_number": 7,
+      "title": "Managed Platforms and Container Hosting",
+      "description": "Not every team runs its own clusters: many ship on PaaS platforms or managed container services. Compare Heroku, Render, Railway, Vercel and Netlify with ECS/Fargate, managed Kubernetes and OpenShift, and older options such as Swarm and LXC.",
+      "topic_refs": [
+       "FaPf567JGRAg1MBlFj9Tk",
+       "hCKODV2b_l2uPit0YeP1M",
+       "LZDRgDxEZ3klp2PrrJFBX",
+       "DjDR8Yn5Q55NvoihElj7m",
+       "e0CIteRMxc0DydKEJnMhp",
+       "l8VAewSEXzoyqYFhoplJj",
+       "FE2h-uQy6qli3rKERci1j",
+       "XbrWlTyH4z8crSHkki2lp",
+       "3GryoQuI67JTHg9r3xUHO",
+       "VD24HC9qJOC42lbpJ-swC",
+       "Yq8kVoRf20aL_o4VZU5--",
+       "qYRJYIZsmf-inMqKECRkI"
+      ],
+      "projects": [
+       {
+        "title": "Platform bake-off",
+        "description": "Deploy one containerised app to a PaaS and to a managed container service and compare effort and cost.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Hosting decision guide",
+        "description": "Write when a startup should pick PaaS, managed containers or Kubernetes.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Heroku",
+       "Netlify",
+       "Vercel",
+       "Render",
+       "Railway"
+      ],
+      "more_topics": [
+       {
+        "node_id": "hIBeTUiAI3zwUY6NgAO-A",
+        "title": "Kubernetes"
+       },
+       {
+        "node_id": "P0acFNZ413MSKElHqCxr3",
+        "title": "Docker"
+       },
+       {
+        "node_id": "CQhUflAcv1lhBnmDY0gaz",
+        "title": "Containers"
+       }
+      ],
+      "global_step_index": 21,
+      "resource": {
+       "title": "What is Heroku?",
+       "url": "https://youtube.com/watch?v=IB0V8wWsCsc"
+      },
+      "videos": [
+       {
+        "title": "What is Heroku?",
+        "url": "https://youtube.com/watch?v=IB0V8wWsCsc",
+        "video_id": "IB0V8wWsCsc",
+        "source": "roadmap.sh",
+        "topic": "Heroku"
+       },
+       {
+        "title": "How to Deploy a Website on Netlify",
+        "url": "https://youtube.com/watch?v=0P53S34zm44",
+        "video_id": "0P53S34zm44",
+        "source": "roadmap.sh",
+        "topic": "Netlify"
+       },
+       {
+        "title": "Vercel: Product Walkthrough",
+        "url": "https://youtube.com/watch?v=sPmat30SE4k",
+        "video_id": "sPmat30SE4k",
+        "source": "roadmap.sh",
+        "topic": "Vercel"
+       },
+       {
+        "title": "From GitHub to Production in Minutes with Render",
+        "url": "https://youtube.com/watch?v=VyxA3mlvo84",
+        "video_id": "VyxA3mlvo84",
+        "source": "roadmap.sh",
+        "topic": "Render"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Heroku Website",
+        "url": "https://www.heroku.com/",
+        "topic": "Heroku"
+       },
+       {
+        "type": "official",
+        "title": "Netlify Documentation",
+        "url": "https://docs.netlify.com/platform/primitives/#functions",
+        "topic": "Netlify"
+       },
+       {
+        "type": "official",
+        "title": "Vercel",
+        "url": "https://vercel.com/",
+        "topic": "Vercel"
+       },
+       {
+        "type": "official",
+        "title": "Vercel Docs",
+        "url": "https://vercel.com/docs",
+        "topic": "Vercel"
+       }
+      ]
+     },
+     {
+      "step_number": 8,
+      "title": "Infrastructure as Code and Configuration Management",
+      "description": "Servers and cloud resources must be reproducible from code, not built by hand. Provision infrastructure with Terraform, Pulumi, CDK or CloudFormation, and configure machines with Ansible, Chef, Puppet or Salt.",
+      "topic_refs": [
+       "1oYvpFG8LKT1JD6a_9J0m",
+       "nUBGf1rp9GK_pbagWCP9g",
+       "O0xZ3dy2zIDbOetVrgna6",
+       "XA__697KgofsH28coQ-ma",
+       "TgBb4aL_9UkyU36CN4qvS",
+       "yQ4d2uiROZYr950cjYnQE",
+       "V9sOxlNOyRp0Mghl7zudv",
+       "h9vVPOmdUSeEGVQQaSTH5",
+       "kv508kxzUj_CjZRb-TeRv",
+       "yP1y8U3eblpzbaLiCGliU",
+       "Kumwd6XOlEMeDohDH0q9P"
+      ],
+      "projects": [
+       {
+        "title": "Terraform plus Ansible",
+        "description": "Provision a VM with Terraform and configure it with an Ansible playbook in one run.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "IaC tool comparison",
+        "description": "Define the same bucket and function in Terraform and Pulumi and compare the code.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Provisioning",
+       "Terraform",
+       "Pulumi",
+       "AWS CDK",
+       "CloudFormation"
+      ],
+      "more_topics": [
+       {
+        "node_id": "1_NRXjckZ0F8EtEmgixqz",
+        "title": "Design and Implementation"
+       },
+       {
+        "node_id": "Qc0MGR5bMG9eeM5Zb9PMk",
+        "title": "Cloud Design Patterns"
+       }
+      ],
+      "global_step_index": 22,
+      "resource": {
+       "title": "Open Answers: What is provisioning?",
+       "url": "https://youtube.com/watch?v=hWvDlmhASpk"
+      },
+      "videos": [
+       {
+        "title": "Open Answers: What is provisioning?",
+        "url": "https://youtube.com/watch?v=hWvDlmhASpk",
+        "video_id": "hWvDlmhASpk",
+        "source": "roadmap.sh",
+        "topic": "Provisioning"
+       },
+       {
+        "title": "Pulumi in Three Minutes",
+        "url": "https://youtube.com/watch?v=Q8tw6YTD3ac",
+        "video_id": "Q8tw6YTD3ac",
+        "source": "roadmap.sh",
+        "topic": "Pulumi"
+       },
+       {
+        "title": "Create and Delete an AWS CloudFormation Stack",
+        "url": "https://youtube.com/watch?v=fmDG-W5TFp4",
+        "video_id": "fmDG-W5TFp4",
+        "source": "roadmap.sh",
+        "topic": "CloudFormation"
+       },
+       {
+        "title": "Why You Need to Learn Configuration Management",
+        "url": "https://youtube.com/watch?v=9In7ysQJGBs",
+        "video_id": "9In7ysQJGBs",
+        "source": "roadmap.sh",
+        "topic": "Configuration Management"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Terraform Documentation",
+        "url": "https://www.terraform.io/docs",
+        "topic": "Terraform"
+       },
+       {
+        "type": "official",
+        "title": "Pulumi Website",
+        "url": "https://www.pulumi.com/",
+        "topic": "Pulumi"
+       },
+       {
+        "type": "official",
+        "title": "AWS CDK",
+        "url": "https://aws.amazon.com/cdk/",
+        "topic": "AWS CDK"
+       },
+       {
+        "type": "official",
+        "title": "AWS CDK Documentation",
+        "url": "https://docs.aws.amazon.com/cdk/index.html",
+        "topic": "AWS CDK"
+       }
+      ]
+     },
+     {
+      "step_number": 9,
+      "title": "CI/CD Pipelines and Artifact Management",
+      "description": "Automated build, test and release pipelines are the core of DevOps work. Build pipelines in GitHub Actions, GitLab CI or Jenkins, compare other CI and CD tools, and store build outputs in artifact repositories such as Artifactory or Nexus.",
+      "topic_refs": [
+       "aQJaouIaxIJChM-40M3HQ",
+       "JnWVCS1HbAyfCJzGt-WOH",
+       "2KjSLLVTvl2G2KValw7S7",
+       "dUapFp3f0Rum-rf_Vk_b-",
+       "1-JneOQeGhox-CKrdiquq",
+       "L000AbzF3oLcn4B1eUIYX",
+       "1du8Q2pRZM82ri6jBy5T7",
+       "TsXFx1wWikVBVoFUUDAMx",
+       "zuBAjrqQPjj-0DHGjCaqT",
+       "C_sFyIsIIpriZlovvcbSE",
+       "ootuLJfRXarVvm3J1Ir11",
+       "vsmE6EpCc2DFGk1YTbkHS"
+      ],
+      "projects": [
+       {
+        "title": "Build-test-release pipeline",
+        "description": "Build an image, run tests, push it to a registry and deploy to staging on every merge.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Jenkins pipeline as code",
+        "description": "Write a Jenkinsfile with parallel test stages and a manual approval before production.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "CI/CD Tools",
+       "GitHub Actions",
+       "GitLab CI",
+       "Jenkins",
+       "Circle CI"
+      ],
+      "more_topics": [],
+      "global_step_index": 23,
+      "resource": {
+       "title": "DevOps CI/CD Explained in 100 Seconds",
+       "url": "https://youtube.com/watch?v=scEDHsr3APg"
+      },
+      "videos": [
+       {
+        "title": "DevOps CI/CD Explained in 100 Seconds",
+        "url": "https://youtube.com/watch?v=scEDHsr3APg",
+        "video_id": "scEDHsr3APg",
+        "source": "roadmap.sh",
+        "topic": "CI/CD Tools"
+       },
+       {
+        "title": "What is GitHub Actions?",
+        "url": "https://youtube.com/watch?v=URmeTqglS58",
+        "video_id": "URmeTqglS58",
+        "source": "roadmap.sh",
+        "topic": "GitHub Actions"
+       },
+       {
+        "title": "GitLab CI/CD Pipeline Tutorial for Beginners (2024)",
+        "url": "https://youtube.com/watch?v=z7nLsJvEyMY",
+        "video_id": "z7nLsJvEyMY",
+        "source": "roadmap.sh",
+        "topic": "GitLab CI"
+       },
+       {
+        "title": "Learn Jenkins! Complete Jenkins Course - Zero to Hero",
+        "url": "https://youtube.com/watch?v=6YZvp2GwT0A",
+        "video_id": "6YZvp2GwT0A",
+        "source": "roadmap.sh",
+        "topic": "Jenkins"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "GitHub Actions Documentation",
+        "url": "https://docs.github.com/en/actions",
+        "topic": "GitHub Actions"
+       },
+       {
+        "type": "official",
+        "title": "GitLab Website",
+        "url": "https://gitlab.com/",
+        "topic": "GitLab CI"
+       },
+       {
+        "type": "official",
+        "title": "GitLab Documentation",
+        "url": "https://docs.gitlab.com/",
+        "topic": "GitLab CI"
+       },
+       {
+        "type": "official",
+        "title": "Jenkins Website",
+        "url": "https://www.jenkins.io/",
+        "topic": "Jenkins"
+       }
+      ]
+     },
+     {
+      "step_number": 10,
+      "title": "GitOps Tooling, Secrets and Service Mesh",
+      "description": "Mature platforms deploy from Git automatically, keep secrets out of repositories, and manage service-to-service traffic centrally. Use Argo CD or Flux, manage secrets with Vault, SOPS, Sealed Secrets or External Secrets, and learn service meshes such as Istio, Linkerd and Consul.",
+      "topic_refs": [
+       "-INN1qTMLimrZgaSPCcHj",
+       "i-DLwNXdCUUug6lfjkPSy",
+       "6gVV_JUgKgwJb4C8tHZn7",
+       "hcrPpjFxPi_iLiMdLKJrO",
+       "tZzvs80KzqT8aDvEyjack",
+       "GHQWHLxsO40kJ6z_YCinJ",
+       "ZWq23Q9ZNxLNti68oltxA",
+       "lUUJAEBrGJvL8dRs2n1GD",
+       "EeWsihH9ehbFKebYoB5i9",
+       "XsSnqW6k2IzvmrMmJeU6a",
+       "hhoSe4q1u850PgK62Ubau",
+       "OXOTm3nz6o44p50qd0brN"
+      ],
+      "projects": [
+       {
+        "title": "Encrypted secrets in Git",
+        "description": "Store app secrets in Git with SOPS or Sealed Secrets and have Argo CD deploy them.",
+        "difficulty": "advanced",
+        "grounded": false
+       },
+       {
+        "title": "Mesh traffic split",
+        "description": "Use a service mesh to send a share of traffic to a new version and add mutual TLS.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "GitOps",
+       "ArgoCD",
+       "FluxCD",
+       "Secret Management",
+       "Vault"
+      ],
+      "more_topics": [],
+      "global_step_index": 24,
+      "resource": {
+       "title": "What is GitOps, How GitOps works and Why it's so useful",
+       "url": "https://youtube.com/watch?v=f5EpcWp0THw"
+      },
+      "videos": [
+       {
+        "title": "What is GitOps, How GitOps works and Why it's so useful",
+        "url": "https://youtube.com/watch?v=f5EpcWp0THw",
+        "video_id": "f5EpcWp0THw",
+        "source": "roadmap.sh",
+        "topic": "GitOps"
+       },
+       {
+        "title": "ArgoCD Tutorial for Beginners",
+        "url": "https://youtube.com/watch?v=MeU5_k9ssrs",
+        "video_id": "MeU5_k9ssrs",
+        "source": "roadmap.sh",
+        "topic": "ArgoCD"
+       },
+       {
+        "title": "Introduction to Flux CD on Kubernetes",
+        "url": "https://youtube.com/watch?v=X5W_706-jSY",
+        "video_id": "X5W_706-jSY",
+        "source": "roadmap.sh",
+        "topic": "FluxCD"
+       },
+       {
+        "title": "DevOps Tricks for Managing Secrets in Production",
+        "url": "https://youtube.com/watch?v=u_L-f7Th_7o",
+        "video_id": "u_L-f7Th_7o",
+        "source": "roadmap.sh",
+        "topic": "Secret Management"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Argo CD - Argo Project",
+        "url": "https://argo-cd.readthedocs.io/en/stable/",
+        "topic": "ArgoCD"
+       },
+       {
+        "type": "official",
+        "title": "Flux CD",
+        "url": "https://fluxcd.io/flux/",
+        "topic": "FluxCD"
+       },
+       {
+        "type": "official",
+        "title": "HashiCorp Vault",
+        "url": "https://www.vaultproject.io/",
+        "topic": "Vault"
+       },
+       {
+        "type": "official",
+        "title": "SOPs Website",
+        "url": "https://getsops.io",
+        "topic": "SOPS"
+       }
+      ]
+     },
+     {
+      "step_number": 11,
+      "title": "Monitoring, Metrics and Tracing Tools",
+      "description": "On-call engineers rely on metrics, dashboards and traces to find failures fast. Run Prometheus and Grafana, compare Zabbix, Datadog, New Relic and Dynatrace, and trace requests with OpenTelemetry and Jaeger.",
+      "topic_refs": [
+       "wNguM6-YEznduz3MgBCYo",
+       "qqRLeTpuoW64H9LvY0U_w",
+       "eOyu4wmKOrcMlhD8pUGGh",
+       "niA_96yR7uQ0sc6S_OStf",
+       "W9sKEoDlR8LzocQkqSv82",
+       "BHny2Emf96suhAlltiEro",
+       "pk76Us6z8LoX3f0mhnCyR",
+       "4aJVaimsuvGIPXMZ_WjaA",
+       "K81bmtgnB1gfhYdi3TB5a",
+       "8rd7T5ahK2I_zh5co-IF-",
+       "8kby89epyullS9W7uKDrs",
+       "JCe3fcOf-sokTJURyX1oI"
+      ],
+      "projects": [
+       {
+        "title": "Prometheus and Grafana stack",
+        "description": "Scrape app and node metrics and build an alerting dashboard for latency and errors.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Distributed trace",
+        "description": "Instrument two services with OpenTelemetry and follow one request in Jaeger.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Observability",
+       "Infrastructure Monitoring",
+       "Prometheus",
+       "Grafana",
+       "Zabbix"
+      ],
+      "more_topics": [
+       {
+        "node_id": "NiVvRbCOCDpVvif48poCo",
+        "title": "Prometheus"
+       }
+      ],
+      "global_step_index": 25,
+      "resource": {
+       "title": "Application Monitoring - 4 Golden Signals",
+       "url": "https://youtube.com/watch?v=PHcnmTdVPT0"
+      },
+      "videos": [
+       {
+        "title": "Application Monitoring - 4 Golden Signals",
+        "url": "https://youtube.com/watch?v=PHcnmTdVPT0",
+        "video_id": "PHcnmTdVPT0",
+        "source": "roadmap.sh",
+        "topic": "Observability"
+       },
+       {
+        "title": "Infrastructure Monitoring Basics with Telegraf, Grafana and InfluxDB",
+        "url": "https://youtube.com/watch?v=ESub4SAKouI",
+        "video_id": "ESub4SAKouI",
+        "source": "roadmap.sh",
+        "topic": "Infrastructure Monitoring"
+       },
+       {
+        "title": "Server Monitoring // Prometheus and Grafana Tutorial",
+        "url": "https://youtube.com/watch?v=9TJx7QTrTyo",
+        "video_id": "9TJx7QTrTyo",
+        "source": "roadmap.sh",
+        "topic": "Grafana"
+       },
+       {
+        "title": "How to Monitor EVERYTHING in your HomeLab for free - Zabbix Overview",
+        "url": "https://youtube.com/watch?v=R_EQzBkz4sE",
+        "video_id": "R_EQzBkz4sE",
+        "source": "roadmap.sh",
+        "topic": "Zabbix"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Prometheus Website",
+        "url": "https://prometheus.io/",
+        "topic": "Prometheus"
+       },
+       {
+        "type": "official",
+        "title": "Prometheus Documentation",
+        "url": "https://prometheus.io/docs/introduction/overview/",
+        "topic": "Prometheus"
+       },
+       {
+        "type": "official",
+        "title": "Getting Started with Prometheus",
+        "url": "https://prometheus.io/docs/tutorials/getting_started/",
+        "topic": "Prometheus"
+       },
+       {
+        "type": "official",
+        "title": "Grafana",
+        "url": "https://grafana.com/",
+        "topic": "Grafana"
+       }
+      ]
+     },
+     {
+      "step_number": 12,
+      "title": "Centralised Log Management",
+      "description": "Logs from many servers and containers are useless until they are collected and searchable in one place. Ship logs to the Elastic Stack, Loki, Graylog, Splunk or Papertrail, and build searches and alerts on them.",
+      "topic_refs": [
+       "gaoZjOYmU0J5aM6vtLNvN",
+       "K_qLhK2kKN_uCq7iVjqph",
+       "w2eCgBC-ydMHSxh7LMti8",
+       "s_kss4FJ2KyZRdcKNHK2v",
+       "dZID_Y_uRTF8JlfDCqeqs",
+       "cjjMZdyLgakyVkImVQTza"
+      ],
+      "projects": [
+       {
+        "title": "Loki log pipeline",
+        "description": "Collect container logs into Loki and query errors per service in Grafana.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Log-based alert",
+        "description": "Alert when a payment service logs more than ten failures in five minutes.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Logs Management",
+       "Elastic Stack",
+       "Loki",
+       "Graylog",
+       "Splunk"
+      ],
+      "more_topics": [
+       {
+        "node_id": "5FN7iva4DW_lv-r1tijd8",
+        "title": "Data Management"
+       },
+       {
+        "node_id": "bujq_C-ejtpmk-ICALByy",
+        "title": "Datadog"
+       },
+       {
+        "node_id": "E-lSLGzgOPrz-25ER2Hk7",
+        "title": "White / Grey Listing"
+       }
+      ],
+      "global_step_index": 26,
+      "resource": {
+       "title": "Master the Elastic Stack: Elastic Stack Overview",
+       "url": "https://youtube.com/watch?v=CfCTWVAwFbQ"
+      },
+      "videos": [
+       {
+        "title": "Master the Elastic Stack: Elastic Stack Overview",
+        "url": "https://youtube.com/watch?v=CfCTWVAwFbQ",
+        "video_id": "CfCTWVAwFbQ",
+        "source": "roadmap.sh",
+        "topic": "Elastic Stack"
+       },
+       {
+        "title": "Meet Grafana LOKI, a Log Aggregation System for EVERYTHING",
+        "url": "https://youtube.com/watch?v=h_GGd7HfKQ8",
+        "video_id": "h_GGd7HfKQ8",
+        "source": "roadmap.sh",
+        "topic": "Loki"
+       },
+       {
+        "title": "Splunk Tutorial for Beginners",
+        "url": "https://youtube.com/watch?v=3CiRs6WaWaU",
+        "video_id": "3CiRs6WaWaU",
+        "source": "roadmap.sh",
+        "topic": "Splunk"
+       },
+       {
+        "title": "SolarWinds Papertrail Overview",
+        "url": "https://youtube.com/watch?v=lx3UyNSn8AQ",
+        "video_id": "lx3UyNSn8AQ",
+        "source": "roadmap.sh",
+        "topic": "Papertrail"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Log Management: What DevOps Teams Need to Know",
+        "url": "https://devops.com/log-management-what-devops-teams-need-to-know/",
+        "topic": "Logs Management"
+       },
+       {
+        "type": "official",
+        "title": "Elastic Stack",
+        "url": "https://www.elastic.co/elastic-stack/",
+        "topic": "Elastic Stack"
+       },
+       {
+        "type": "official",
+        "title": "Loki",
+        "url": "https://grafana.com/oss/loki/",
+        "topic": "Loki"
+       },
+       {
+        "type": "official",
+        "title": "Loki Documentation",
+        "url": "https://grafana.com/docs/loki/latest/?pg=oss-loki&plcmt=quick-links",
+        "topic": "Loki"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "audit": {
+  "phases": [
+   {
+    "phase_number": 1,
+    "title": "Linux",
+    "queries": [
+     "DevOps",
+     "DevOps fundamentals",
+     "DevOps: Linux"
+    ],
+    "retrieved": [
+     {
+      "source": "so_survey_2025_india/DevOps",
+      "score": 0.5540667176246643,
+      "queries": [
+       "DevOps",
+       "DevOps fundamentals",
+       "DevOps: Linux"
+      ]
+     },
+     {
+      "source": "linux/server-review@jSzfQf0MlnXtWHCc-HYvr.md",
+      "score": 0.38802874088287354,
+      "queries": [
+       "DevOps: Linux"
+      ]
+     },
+     {
+      "source": "linux/shell-and-other-basics@8QBMyL8D5jPovxN8jyZW9.md",
+      "score": 0.385628879070282,
+      "queries": [
+       "DevOps: Linux"
+      ]
+     },
+     {
+      "source": "linux/creating-new-services@34UUrc8Yjc_8lvTL8itc3.md",
+      "score": 0.37442564964294434,
+      "queries": [
+       "DevOps: Linux"
+      ]
+     },
+     {
+      "source": "linux/docker@MfengY3ouz6sSOx3PXYf8.md",
+      "score": 0.3710139989852905,
+      "queries": [
+       "DevOps: Linux"
+      ]
+     },
+     {
+      "source": "linux/container-runtime@bVCwRoFsYb3HD8X4xuKOo.md",
+      "score": 0.36856287717819214,
+      "queries": []
+     },
+     {
+      "source": "linux/working-with-files@RsOTPZPZGTEIt1Lk41bQV.md",
+      "score": 0.36632031202316284,
+      "queries": []
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 1,
+      "topic_refs": [
+       "8QBMyL8D5jPovxN8jyZW9",
+       "KaMSsQnJzNqGHg0Oia4uy",
+       "RsOTPZPZGTEIt1Lk41bQV",
+       "abKO6KuuIfl9ruVxBw6t_",
+       "TnrT-cqMA8urew9nLv0Ns",
+       "KaXHG_EKxI5PUXmcvlJt6",
+       "v32PJl4fzIFTOirOm6G44",
+       "JgoZzx4BfK7tmosgpZOsf",
+       "t3fxSgCgtxuMtHjclPHA6",
+       "umlhxidsvtZG9k40Ca0Ac",
+       "QTmECqpRVMjNgQU70uCF8",
+       "4tFZ1PLpz50bddf7zSFrW"
+      ],
+      "queries": [
+       "DevOps: Linux"
+      ]
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 2,
+      "topic_refs": [
+       "h01Y6dW09ChidlM2HYoav",
+       "lf3_CRyOI2ZXGzz5ff451",
+       "0FLUI9r7znMqi6YKReLzD",
+       "VkLWTvKnRXzvLGWza2v45",
+       "mUKoiGUTpIaUgQNF3BND_",
+       "F1sU3O1ouxTOvpidDfN3k",
+       "FStz-bftQBK0M6zz2Bxl4",
+       "DuEfJNrm4Jfmp8-8Pggrf",
+       "g6n7f1Qi0BPr_BGvisWuz",
+       "NIBSZGE9PskVrluJpdom0",
+       "4eINX8jYMJxfYh7ZV47YI",
+       "xEHiB-egkkcBuZmgMoqHT"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 3,
+      "topic_refs": [
+       "Fn_uYKigJRgb7r_iYGVBr",
+       "zmb5lK_EGMAChPoPvP9E0",
+       "I3LNa1cM_zRkBy8wKdz3g",
+       "tx0nh6cbBjVxwNlyrBNYm",
+       "Mb42VFjCzMZn_PovKIfKx",
+       "0pciSsiQqIGJh3x8465_s",
+       "f5oQYhmjNM2_FD7Qe1zGK",
+       "uk6UMuI8Uhf02TBAGVeLS",
+       "yrxNYMluJ9OAQCKuM5W1u",
+       "Uc36t92UAlILgM3_XxcMG",
+       "BnB3Rirh4R7a7LW7-k-95",
+       "bdQNcr1sj94aX_gjwf2Fa"
+      ],
+      "queries": []
+     }
+    ]
+   },
+   {
+    "phase_number": 2,
+    "title": "Docker",
+    "queries": [
+     "DevOps",
+     "DevOps fundamentals",
+     "DevOps: Docker"
+    ],
+    "retrieved": [
+     {
+      "source": "docker/developer-experience@hHXTth0ZP8O-iMGR9xfu9.md",
+      "score": 0.7212514877319336,
+      "queries": [
+       "DevOps",
+       "DevOps fundamentals",
+       "DevOps: Docker"
+      ]
+     },
+     {
+      "source": "docker/introduction@Py9nst2FDJ1_hoXeX_qSF.md",
+      "score": 0.6764205694198608,
+      "queries": [
+       "DevOps: Docker"
+      ]
+     },
+     {
+      "source": "docker/docker-desktop-winmaclinux@NCdsPRhJy7UtQFNLo1J1f.md",
+      "score": 0.6338759064674377,
+      "queries": [
+       "DevOps: Docker"
+      ]
+     },
+     {
+      "source": "docker/containers@jhwe-xfVc-C7qy8YuS5dZ.md",
+      "score": 0.6270749568939209,
+      "queries": [
+       "DevOps: Docker"
+      ]
+     },
+     {
+      "source": "docker/docker-engine--linux@0NKqLUWtJMlXn-m6wpA6f.md",
+      "score": 0.624643087387085,
+      "queries": [
+       "DevOps: Docker"
+      ]
+     },
+     {
+      "source": "docker/databases@jKSE_wKYf4P9wnSh_LkMi.md",
+      "score": 0.6133319139480591,
+      "queries": [
+       "DevOps fundamentals",
+       "DevOps: Docker"
+      ]
+     },
+     {
+      "source": "so_survey_2025_india/DevOps",
+      "score": 0.49557673931121826,
+      "queries": [
+       "DevOps",
+       "DevOps fundamentals"
+      ]
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 4,
+      "topic_refs": [
+       "i4ijY3T5gLgNz0XqRipXe",
+       "74JxgfJ_1qmVNZ_QRp9Ne",
+       "3hatcMVLDbMuz73uTx-9P",
+       "Py9nst2FDJ1_hoXeX_qSF",
+       "kIqx7Inf50mE9W0juwNBz",
+       "EqYWfBL5l5OOquok_OvOW"
+      ],
+      "queries": [
+       "DevOps: Docker"
+      ]
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 5,
+      "topic_refs": [
+       "jhwe-xfVc-C7qy8YuS5dZ",
+       "jrH1qE6EnFXL4fTyYU8gR",
+       "BvV8VCX39wRB-g8WvGF1g",
+       "fRl4EfNwlBiidzn3IV34-",
+       "vEUfw_vobshuZI0-q8RZo",
+       "43drPbTwPqJQPyzwYUdBT",
+       "0NKqLUWtJMlXn-m6wpA6f",
+       "01nDXqxVdMv4SeXc0nYHH",
+       "NCdsPRhJy7UtQFNLo1J1f",
+       "W5kX5jn49hghRgkEw6_S3",
+       "InlMtuaUJ9EXO-OD9x1jj",
+       "YzpB7rgSR4ueQRLa0bRWa"
+      ],
+      "queries": [
+       "DevOps: Docker"
+      ]
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 6,
+      "topic_refs": [
+       "b-LwyYiegbF0jIrn7HYRv",
+       "6eu5NRA1sJuaHTlHtNurc",
+       "mAaEz-bwB5DLaBbOSYGMn",
+       "LShK3-1EGGuXnEvdScFR7",
+       "jKSE_wKYf4P9wnSh_LkMi",
+       "086zZYjtzdCaDHm-MkSqg",
+       "uUPYXmwu27SBPqKZx6U_q",
+       "eHtVLB6v3h7hatJb-9cZK",
+       "wZcCW1ojGzUakHCv2AaI1",
+       "woemCQmWTR-hIoWAci3d5",
+       "w5QjzvOaciK2rotOkjvjQ",
+       "jjA9E0J8N2frfeJCNtA1m"
+      ],
+      "queries": [
+       "DevOps fundamentals",
+       "DevOps: Docker"
+      ]
+     },
+     {
+      "step_number": 4,
+      "global_step_index": 7,
+      "topic_refs": [
+       "yGRQcx64S-yBGEoOeMc55",
+       "5OEfBQaYNOCi999x6QUqW",
+       "3Nsg-F3wMKEzEsXw1MBZv",
+       "frshJqVMP8D7o_7tMZMPI",
+       "-8wAzF6_3gruiM3VYMvB0",
+       "Vs4WQwgJFhA63U9Gf2ym0",
+       "3VKPiMfbGBxv9m_SljIQV",
+       "rxVR62_yXIjc-L4GFSV6u",
+       "fh5aERX7c-lY9FPsmftoF",
+       "4p5d3rzCHy4vjg2PRX-2k",
+       "LiAV9crrTHhLqeZhD25a2",
+       "Kmyo1_Mor9WHLkRhNShRZ"
+      ],
+      "queries": [
+       "DevOps: Docker"
+      ]
+     },
+     {
+      "step_number": 5,
+      "global_step_index": 8,
+      "topic_refs": [
+       "78YFahP3Fg-c27reLkuK4",
+       "M5UG-ZcyhBPbksZd0ZdNt",
+       "vYug8kcwrMoWf8ft4UDNI",
+       "uKjB2qntFTpPuYUT9sdxd",
+       "oyqw4tr-taZcxt5kREh1g",
+       "qXOGqORi3EdqwsP9Uhi9m",
+       "PP_RRBo_pThe2mgf6xzMP",
+       "ks6PFN-0Z9zH7gtWaWgxz",
+       "r1eJZDZYouUjnGwAtRbyU",
+       "RqXpX2XabtHYVjgg1EZR_"
+      ],
+      "queries": [
+       "DevOps",
+       "DevOps fundamentals",
+       "DevOps: Docker"
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 3,
+    "title": "Kubernetes",
+    "queries": [
+     "DevOps",
+     "DevOps fundamentals",
+     "DevOps: Kubernetes"
+    ],
+    "retrieved": [
+     {
+      "source": "kubernetes/introduction@y7KjVfSI6CAduyHd4mBFT.md",
+      "score": 0.7634111642837524,
+      "queries": [
+       "DevOps: Kubernetes"
+      ]
+     },
+     {
+      "source": "kubernetes/advanced-topics@t8SJbGVXsUDECxePLDk_w.md",
+      "score": 0.7623375654220581,
+      "queries": [
+       "DevOps",
+       "DevOps fundamentals",
+       "DevOps: Kubernetes"
+      ]
+     },
+     {
+      "source": "kubernetes/overview-of-kubernetes@qLeEEwBvlGt1fP5Qcreah.md",
+      "score": 0.726514458656311,
+      "queries": [
+       "DevOps: Kubernetes"
+      ]
+     },
+     {
+      "source": "kubernetes/kubernetes-alternatives@3fzuXKH7az_LVnmnoXB1p.md",
+      "score": 0.7086092233657837,
+      "queries": [
+       "DevOps fundamentals",
+       "DevOps: Kubernetes"
+      ]
+     },
+     {
+      "source": "kubernetes/key-concepts-and-terminologies@9oo2fxTM2_p0VYPBroqxa.md",
+      "score": 0.6779801845550537,
+      "queries": [
+       "DevOps fundamentals",
+       "DevOps: Kubernetes"
+      ]
+     },
+     {
+      "source": "kubernetes/adding-and-managing-worker-nodes@2cQKTxln3dIk5IjX2UZdM.md",
+      "score": 0.6692763566970825,
+      "queries": [
+       "DevOps fundamentals",
+       "DevOps: Kubernetes"
+      ]
+     },
+     {
+      "source": "so_survey_2025_india/DevOps",
+      "score": 0.49557673931121826,
+      "queries": [
+       "DevOps",
+       "DevOps fundamentals"
+      ]
+     },
+     {
+      "source": "linux/containerization@3OpGaQhyNtk1n1MLp-tlb.md",
+      "score": 0.39891505241394043,
+      "queries": []
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 9,
+      "topic_refs": [
+       "y7KjVfSI6CAduyHd4mBFT",
+       "qLeEEwBvlGt1fP5Qcreah",
+       "q-Ky0ietZGpyUcBQfh-BJ",
+       "9oo2fxTM2_p0VYPBroqxa",
+       "3fzuXKH7az_LVnmnoXB1p",
+       "YaIs8lquWIe1D7RCUBZmC",
+       "qSatCdBTDXPu-IFWzUI99",
+       "ZrVhYTw63aVVIFAEJDG5r",
+       "M-iTb_7EWZIJ3JpdViICx",
+       "2cQKTxln3dIk5IjX2UZdM",
+       "zrbSJa3k7a3TE0aYbWi9c"
+      ],
+      "queries": [
+       "DevOps fundamentals",
+       "DevOps: Kubernetes"
+      ]
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 10,
+      "topic_refs": [
+       "HGmeYvRf7_XusZl_K4x9k",
+       "-d2PIXm0V_Iehe8cws8zK",
+       "IF09l0-pryGpMbDt__ocr",
+       "TUGQX7y1gs-aKPge2F1NU",
+       "1MdrzhktCWjpmxiYYBdz7",
+       "r3fzAN5DzratAKnnT8hzb",
+       "LJUJ1NIUsajb1AUdvJjqW",
+       "AJiRBEaKU8qYEm0fqN389",
+       "55RV9psPCmcg8G_P_zQo9",
+       "u24UlZKI86vaguj_VpMv1",
+       "dj7Tb2XTX4kxRUYiTjlhM",
+       "FAEFOhLdp7xrmctHFxiOM"
+      ],
+      "queries": [
+       "DevOps",
+       "DevOps fundamentals",
+       "DevOps: Kubernetes"
+      ]
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 11,
+      "topic_refs": [
+       "44rhdieUCWsGFC_1__9kk",
+       "aUJ_w2L8nxNq3DfAW97Gd",
+       "jUOlITLqnIvSu97I_3nBz",
+       "Qelo1YvAcUoX5PA-RYbNp",
+       "s0gHg8CqwrSylpSPu8arA",
+       "jOq0WwLrq8tlmOgo64QDc",
+       "i7qxaFhFHPfe3fGEgsbcE",
+       "SG3wtV2rt9nmLEkgrp_zP"
+      ],
+      "queries": [
+       "DevOps: Kubernetes"
+      ]
+     },
+     {
+      "step_number": 4,
+      "global_step_index": 12,
+      "topic_refs": [
+       "xZDXM_8qb4VL15tNGG0ws",
+       "70lTSIVh0AD6M8fMMuWzY",
+       "zXUsHAI1HFhcY2BFAcypv",
+       "CL0hKTcml40InmyVUXpY2",
+       "_Gva1eGcYqpmZNPyV03lt",
+       "TRKzlDW2PQN9bWTyz3NWL",
+       "8RLR6gRjIyTn6GCugEfgk",
+       "OHz4QMmA3lqL_C7aWL8Ga",
+       "03mGA5AyL7mpF6y3EMW7A",
+       "044IUUCgZP4oQ9UxUG2iy",
+       "c1KVczGRjh9bhMpbPP6sA",
+       "PP4ld_vvjpY3QltBBsXKD"
+      ],
+      "queries": [
+       "DevOps: Kubernetes"
+      ]
+     },
+     {
+      "step_number": 5,
+      "global_step_index": 13,
+      "topic_refs": [
+       "yMSXdwDO36CLtp2TBC7aB",
+       "9-oaTlzKmcxTfaRycz1w3",
+       "88IGeC3dAopHLGtLozxdY",
+       "Pymc9H-lRHVPy7M9eSaPD",
+       "dATdEyNWlpDNKjedCXLyb",
+       "auZgEQ6FC3nUjuyx0zANh"
+      ],
+      "queries": [
+       "DevOps",
+       "DevOps fundamentals",
+       "DevOps: Kubernetes"
+      ]
+     },
+     {
+      "step_number": 6,
+      "global_step_index": 14,
+      "topic_refs": [
+       "-XxQtiLDAkXs7IFM_Ddw6",
+       "nqUBHBFUYFdYqCKZvfXBR",
+       "ldYTEPt_hI4PXxr3tgJi5",
+       "pDjNsK5vI9FmKZbQm0lDP",
+       "AgsQnQjyTLUFhFpRdcE13",
+       "UeJcKv3jhenjNzHM-0R86",
+       "9P7l-RBOkUxs3Z_UpKQO-",
+       "L9rVPEEXFwisQOwT_LQ4v",
+       "1-Nb8rCMJEZrYm20sEcRJ",
+       "t8SJbGVXsUDECxePLDk_w"
+      ],
+      "queries": [
+       "DevOps",
+       "DevOps fundamentals",
+       "DevOps: Kubernetes"
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 4,
+    "title": "DevOps",
+    "queries": [
+     "DevOps",
+     "DevOps fundamentals",
+     "DevOps: DevOps"
+    ],
+    "retrieved": [
+     {
+      "source": "devops/cloud-providers@2Wd9SlWGg6QtxgiUVLyZL.md",
+      "score": 0.5136868357658386,
+      "queries": [
+       "DevOps",
+       "DevOps fundamentals",
+       "DevOps: DevOps"
+      ]
+     },
+     {
+      "source": "so_survey_2025_india/DevOps",
+      "score": 0.49557673931121826,
+      "queries": [
+       "DevOps",
+       "DevOps fundamentals",
+       "DevOps: DevOps"
+      ]
+     },
+     {
+      "source": "devops/octopus-deploy@TsXFx1wWikVBVoFUUDAMx.md",
+      "score": 0.45856666564941406,
+      "queries": [
+       "DevOps",
+       "DevOps fundamentals",
+       "DevOps: DevOps"
+      ]
+     },
+     {
+      "source": "devops/buildkite@1du8Q2pRZM82ri6jBy5T7.md",
+      "score": 0.45691636204719543,
+      "queries": [
+       "DevOps",
+       "DevOps fundamentals",
+       "DevOps: DevOps"
+      ]
+     },
+     {
+      "source": "devops/provisioning@1oYvpFG8LKT1JD6a_9J0m.md",
+      "score": 0.43542009592056274,
+      "queries": [
+       "DevOps",
+       "DevOps fundamentals",
+       "DevOps: DevOps"
+      ]
+     },
+     {
+      "source": "devops/jenkins@dUapFp3f0Rum-rf_Vk_b-.md",
+      "score": 0.42342066764831543,
+      "queries": [
+       "DevOps",
+       "DevOps fundamentals",
+       "DevOps: DevOps"
+      ]
+     },
+     {
+      "source": "devops/render@DjDR8Yn5Q55NvoihElj7m.md",
+      "score": 0.41077762842178345,
+      "queries": [
+       "DevOps",
+       "DevOps fundamentals",
+       "DevOps: DevOps"
+      ]
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 15,
+      "topic_refs": [
+       "v5FGKQc-_7NYEsWjmTEuq",
+       "TwVfCYMS9jSaJ6UyYmC-K",
+       "npnMwSDEK2aLGgnuZZ4dO",
+       "syBIAL1mHbJLnTBoSxXI7",
+       "z6IBekR8Xl-6f8WEb05Nw",
+       "QCdemtWa2mE78poNXeqzr",
+       "PuXAPYA0bsMgwcnlwJxQn",
+       "eL62bKAoJCMsu7zPlgyhy",
+       "wjJPzrFJBNYOD3SJLzW2M",
+       "cUifrP7v55psTb20IZndf",
+       "Jt8BmtLUH6fHT2pGKoJs3"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 16,
+      "topic_refs": [
+       "qe84v529VbCyydl0BKFk2",
+       "cTqVab0VbVcn3W7i0wBrX",
+       "7mS6Y_BOAHNgM3OjyFtZ9",
+       "zhNUK953p6tjREndk3yQZ",
+       "PiPHFimToormOPl1EtEe8",
+       "97cJYKqv7CPPUXkKNwM4x",
+       "haiYSwNt3rjiiwCDszPk1",
+       "UOQimp7QkM3sxmFvk5d3i",
+       "x-JWvG1iw86ULL9KrQmRu",
+       "gIEQDgKOsoEnSv8mpEzGH",
+       "OaqKLZe-XnngcDhDzCtRt",
+       "jCWrnQNgjHKyhzd9dwOHz"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 17,
+      "topic_refs": [
+       "LvhFmlxz5uIy7k_nzx2Bv",
+       "uyDm1SpOQdpHjq9zBAdck",
+       "h10BH3OybHcIN2iDTSGkn",
+       "ot9I_IHdnq2yAMffrSrbN",
+       "oQIB0KE0BibjIYmxrpPZS",
+       "Z7SsBWgluZWr9iWb2e9XO"
+      ],
+      "queries": [
+       "DevOps",
+       "DevOps fundamentals",
+       "DevOps: DevOps"
+      ]
+     },
+     {
+      "step_number": 4,
+      "global_step_index": 18,
+      "topic_refs": [
+       "w5d24Sf8GDkLDLGUPxzS9",
+       "QZ7bkY-MaEgxYoPDP3nma",
+       "Vu955vdsYerCG8G6suqml",
+       "ke-8MeuLx7AS2XjSsPhxe",
+       "AJO3jtHvIICj8YKaSXl0U",
+       "0o6ejhfpmO4S8A6djVWva",
+       "wcIRMLVm3SdEJWF9RPfn7",
+       "RDLmML_HS2c8J4D_U_KYe",
+       "zJy9dOynWgLTDKI1iBluG",
+       "WMuXqa4b5wyRuYAQKQJRj",
+       "fzO6xVTBxliu24f3W5zaU",
+       "f3tM2uo6LLSOmyeFfLc7h"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 5,
+      "global_step_index": 19,
+      "topic_refs": [
+       "ukOrSeyK1ElOt9tTjCkfO",
+       "0_GMTcMeZv3A8dYkHRoW7",
+       "54UZNO2q8M5FiA_XbcU_D",
+       "dF3otkMMN09tgCzci8Jyv",
+       "5iJOE1QxMvf8BQ_8ssiI8",
+       "eGF7iyigl57myx2ejpmNC",
+       "F93XnRj0BLswJkzyRggLS",
+       "R4XSY4TSjU1M7cW66zUqJ",
+       "i8Sd9maB_BeFurULrHXNq",
+       "epLLYArR16HlhAS4c33b4"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 6,
+      "global_step_index": 20,
+      "topic_refs": [
+       "2Wd9SlWGg6QtxgiUVLyZL",
+       "1ieK6B_oqW8qOC6bdmiJe",
+       "ctor79Vd7EXDMdrLyUcu_",
+       "zYrOxFQkl3KSe67fh3smD",
+       "YUJf-6ccHvYjL_RzufQ-G",
+       "-h-kNVDNzZYnQAR_4lfXc",
+       "I327qPYGMcdayRR5WT0Ek",
+       "eJZdjheptmiwKsVokt7Io",
+       "9p_ufPj6QH9gHbWBQUmGw",
+       "UfQrIJ-uMNJt9H_VM_Q5q",
+       "mlrlf2McMI7IBhyEdq0Nf",
+       "JXsctlXUUS1ie8nNEgIk9"
+      ],
+      "queries": [
+       "DevOps",
+       "DevOps fundamentals",
+       "DevOps: DevOps"
+      ]
+     },
+     {
+      "step_number": 7,
+      "global_step_index": 21,
+      "topic_refs": [
+       "FaPf567JGRAg1MBlFj9Tk",
+       "hCKODV2b_l2uPit0YeP1M",
+       "LZDRgDxEZ3klp2PrrJFBX",
+       "DjDR8Yn5Q55NvoihElj7m",
+       "e0CIteRMxc0DydKEJnMhp",
+       "l8VAewSEXzoyqYFhoplJj",
+       "FE2h-uQy6qli3rKERci1j",
+       "XbrWlTyH4z8crSHkki2lp",
+       "3GryoQuI67JTHg9r3xUHO",
+       "VD24HC9qJOC42lbpJ-swC",
+       "Yq8kVoRf20aL_o4VZU5--",
+       "qYRJYIZsmf-inMqKECRkI"
+      ],
+      "queries": [
+       "DevOps",
+       "DevOps fundamentals",
+       "DevOps: DevOps"
+      ]
+     },
+     {
+      "step_number": 8,
+      "global_step_index": 22,
+      "topic_refs": [
+       "1oYvpFG8LKT1JD6a_9J0m",
+       "nUBGf1rp9GK_pbagWCP9g",
+       "O0xZ3dy2zIDbOetVrgna6",
+       "XA__697KgofsH28coQ-ma",
+       "TgBb4aL_9UkyU36CN4qvS",
+       "yQ4d2uiROZYr950cjYnQE",
+       "V9sOxlNOyRp0Mghl7zudv",
+       "h9vVPOmdUSeEGVQQaSTH5",
+       "kv508kxzUj_CjZRb-TeRv",
+       "yP1y8U3eblpzbaLiCGliU",
+       "Kumwd6XOlEMeDohDH0q9P"
+      ],
+      "queries": [
+       "DevOps",
+       "DevOps fundamentals",
+       "DevOps: DevOps"
+      ]
+     },
+     {
+      "step_number": 9,
+      "global_step_index": 23,
+      "topic_refs": [
+       "aQJaouIaxIJChM-40M3HQ",
+       "JnWVCS1HbAyfCJzGt-WOH",
+       "2KjSLLVTvl2G2KValw7S7",
+       "dUapFp3f0Rum-rf_Vk_b-",
+       "1-JneOQeGhox-CKrdiquq",
+       "L000AbzF3oLcn4B1eUIYX",
+       "1du8Q2pRZM82ri6jBy5T7",
+       "TsXFx1wWikVBVoFUUDAMx",
+       "zuBAjrqQPjj-0DHGjCaqT",
+       "C_sFyIsIIpriZlovvcbSE",
+       "ootuLJfRXarVvm3J1Ir11",
+       "vsmE6EpCc2DFGk1YTbkHS"
+      ],
+      "queries": [
+       "DevOps",
+       "DevOps fundamentals",
+       "DevOps: DevOps"
+      ]
+     },
+     {
+      "step_number": 10,
+      "global_step_index": 24,
+      "topic_refs": [
+       "-INN1qTMLimrZgaSPCcHj",
+       "i-DLwNXdCUUug6lfjkPSy",
+       "6gVV_JUgKgwJb4C8tHZn7",
+       "hcrPpjFxPi_iLiMdLKJrO",
+       "tZzvs80KzqT8aDvEyjack",
+       "GHQWHLxsO40kJ6z_YCinJ",
+       "ZWq23Q9ZNxLNti68oltxA",
+       "lUUJAEBrGJvL8dRs2n1GD",
+       "EeWsihH9ehbFKebYoB5i9",
+       "XsSnqW6k2IzvmrMmJeU6a",
+       "hhoSe4q1u850PgK62Ubau",
+       "OXOTm3nz6o44p50qd0brN"
+      ],
+      "queries": [
+       "DevOps",
+       "DevOps fundamentals",
+       "DevOps: DevOps"
+      ]
+     },
+     {
+      "step_number": 11,
+      "global_step_index": 25,
+      "topic_refs": [
+       "wNguM6-YEznduz3MgBCYo",
+       "qqRLeTpuoW64H9LvY0U_w",
+       "eOyu4wmKOrcMlhD8pUGGh",
+       "niA_96yR7uQ0sc6S_OStf",
+       "W9sKEoDlR8LzocQkqSv82",
+       "BHny2Emf96suhAlltiEro",
+       "pk76Us6z8LoX3f0mhnCyR",
+       "4aJVaimsuvGIPXMZ_WjaA",
+       "K81bmtgnB1gfhYdi3TB5a",
+       "8rd7T5ahK2I_zh5co-IF-",
+       "8kby89epyullS9W7uKDrs",
+       "JCe3fcOf-sokTJURyX1oI"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 12,
+      "global_step_index": 26,
+      "topic_refs": [
+       "gaoZjOYmU0J5aM6vtLNvN",
+       "K_qLhK2kKN_uCq7iVjqph",
+       "w2eCgBC-ydMHSxh7LMti8",
+       "s_kss4FJ2KyZRdcKNHK2v",
+       "dZID_Y_uRTF8JlfDCqeqs",
+       "cjjMZdyLgakyVkImVQTza"
+      ],
+      "queries": []
+     }
+    ]
+   }
+  ]
+ }
+}

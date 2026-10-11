@@ -1,0 +1,3616 @@
+{
+ "metadata": {
+  "schema_version": 1,
+  "career_path": "Cloud Engineering",
+  "model_id": "claude-opus-5-5",
+  "built_at": "2026-10-10T18:11:16Z",
+  "generator": {
+   "profile": "neutral",
+   "provider": "claude_authored",
+   "llm_host": null,
+   "authoring": "Every model reply in this run was written by Claude (claude-opus-5-5) in a Claude Code cloud session, answering the generator's own prompts; retrieval, topic-ref validation, duplicate check, more_topics, resources and audit are the unmodified pipeline.",
+   "phase_concurrency": 1,
+   "duplicate_similarity_threshold": 0.8,
+   "reasoning_effort": "",
+   "resources": "kb_only"
+  },
+  "inventory_fingerprint": "3736570d3cdae3315259d7ae33ac04e07baec113bfbd80d555bb35c15dc6c55f"
+ },
+ "roadmap": {
+  "phases": [
+   {
+    "phase_number": 1,
+    "title": "AWS",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "Cloud Computing and AWS Fundamentals",
+      "description": "AWS is the most widely used cloud in Indian companies and the one most cloud job postings ask for. Learn the cloud service and deployment models, AWS's global infrastructure, the shared responsibility model, the Well-Architected Framework, and service limits and quotas.",
+      "topic_refs": [
+       "74JxgfJ_1qmVNZ_QRp9Ne",
+       "i4ijY3T5gLgNz0XqRipXe",
+       "3hatcMVLDbMuz73uTx-9P",
+       "Dg1v9TV-wGSNLPfAals_y",
+       "Py9nst2FDJ1_hoXeX_qSF",
+       "z9R1BWUGalmnw0E7QqiW6",
+       "0flGtxZmxQKxO3c3sguwp",
+       "eKuC7VmkGVYFnbC2Rvn8D",
+       "zSiSbIdBgFLBBAnp4I9vX",
+       "0ctJa-V6aenimSr5h303J",
+       "PYgs4niQRlLKCBMfM4qf9"
+      ],
+      "projects": [
+       {
+        "title": "Free-tier account with billing alarm",
+        "description": "Create an AWS account, enable MFA and set a billing alarm before launching anything.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Region choice memo",
+        "description": "Pick an AWS region for an Indian user base and justify it on latency, cost and service availability.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "What is Cloud Computing?",
+       "IaaS vs PaaS vs SaaS",
+       "Public vs Private vs Hybrid Cloud",
+       "Introduction to AWS",
+       "Introduction"
+      ],
+      "more_topics": [],
+      "global_step_index": 1,
+      "resource": {
+       "title": "How Large Language Models Work",
+       "url": "https://youtube.com/watch?v=5sLYAQS9sWQ"
+      },
+      "videos": [
+       {
+        "title": "How Large Language Models Work",
+        "url": "https://youtube.com/watch?v=5sLYAQS9sWQ",
+        "video_id": "5sLYAQS9sWQ",
+        "source": "roadmap.sh",
+        "topic": "LLMs and How They Work"
+       },
+       {
+        "title": "AWS Tutorial for Beginners",
+        "url": "https://youtube.com/watch?v=zA8guDqfv40",
+        "video_id": "zA8guDqfv40",
+        "source": "roadmap.sh",
+        "topic": "Introduction to AWS"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "AWS Documentation",
+        "url": "https://docs.aws.amazon.com/",
+        "topic": "Introduction to AWS"
+       },
+       {
+        "type": "official",
+        "title": "Introduction of AWS",
+        "url": "https://docs.aws.amazon.com/whitepapers/latest/aws-overview/introduction.html",
+        "topic": "Introduction to AWS"
+       },
+       {
+        "type": "official",
+        "title": "Docker",
+        "url": "https://www.docker.com/",
+        "topic": "What is Docker?"
+       },
+       {
+        "type": "official",
+        "title": "Docker Docs",
+        "url": "https://docs.docker.com/",
+        "topic": "What is Docker?"
+       }
+      ]
+     },
+     {
+      "step_number": 2,
+      "title": "IAM: Users, Roles and Policies",
+      "description": "Most cloud breaches start with over-permissive access, so IAM is the first thing to get right. Create users and groups, write identity- and resource-based policies, and use roles and instance profiles instead of long-lived keys.",
+      "topic_refs": [
+       "xmKeB4hEi2DunmhAsvS1X",
+       "Nn2zawk6A31NwZa40jOhX",
+       "7nI202hX41mI5ms9LZonh",
+       "dO9ZfUyNia7L_fCh4d0n7",
+       "cwGuOrmbSTcSoH80skLTk",
+       "v_YmmlOk-DkzJ8mI5Ftgr",
+       "0IMdO7g_5El1elvDXJJ_0",
+       "i7X1GfOx5AZYFskepW4Zr"
+      ],
+      "projects": [
+       {
+        "title": "Least-privilege policy",
+        "description": "Write a policy that lets a developer read one S3 bucket and nothing else, and test it.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Role for an EC2 app",
+        "description": "Give an EC2 instance an instance profile so the app reads S3 without stored keys.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "IAM",
+       "Users / User Groups",
+       "Roles",
+       "Policies",
+       "Identity-Based"
+      ],
+      "more_topics": [
+       {
+        "node_id": "eQAn3e-k9WNufPqOnwY_K",
+        "title": "Policies"
+       }
+      ],
+      "global_step_index": 2,
+      "resource": null,
+      "videos": [],
+      "resources": [
+       {
+        "type": "official",
+        "title": "IAM - User Guide",
+        "url": "https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html",
+        "topic": "IAM"
+       },
+       {
+        "type": "official",
+        "title": "Create Your First Role",
+        "url": "https://docs.aws.amazon.com/IAM/latest/UserGuide/getting-started-roles.html",
+        "topic": "Roles"
+       },
+       {
+        "type": "official",
+        "title": "Cloudfront IAM",
+        "url": "https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/security-iam.html",
+        "topic": "Policies"
+       },
+       {
+        "type": "official",
+        "title": "Identity Based Policies",
+        "url": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html",
+        "topic": "Identity-Based"
+       }
+      ]
+     },
+     {
+      "step_number": 3,
+      "title": "EC2 Compute: Instances, AMIs and Volumes",
+      "description": "EC2 is the base compute service, and choosing instance types and purchase options well saves a lot of money. Launch instances from AMIs and launch templates, secure them with key pairs and security groups, bootstrap with user data, and attach EBS volumes.",
+      "topic_refs": [
+       "cL7vis8H5L2vv6LqJ5wvC",
+       "VHD2ISW9WoSWjp8Hh6Zft",
+       "_U2bKjxIrAAk7TMrPttpb",
+       "8v9T6Y6JC7qaqIgkbT-nr",
+       "AfagmWcllSi81D2XIQz0V",
+       "K0GCk5_HDvP0_ZqsUc3tG",
+       "wFT-fddGn__DRoqG0joFk",
+       "Cd9gdbkCFdrTLrnJMy5F3",
+       "DCvkZSp25pjaimG0THLTu",
+       "ZKjjgXZ89zV2atWcSal-s",
+       "A0u7CJwj5ULAMiAm12vZI",
+       "3l1ji4JToj277vpgONmLw"
+      ],
+      "projects": [
+       {
+        "title": "Web server from user data",
+        "description": "Launch an instance that installs and starts Nginx through a user-data script.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Custom AMI",
+        "description": "Bake a configured server into an AMI and launch identical copies from a template.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "EC2",
+       "Instance Types",
+       "CPU Credits",
+       "Purchasing Options",
+       "AMIs"
+      ],
+      "more_topics": [
+       {
+        "node_id": "PphzNicIJawVElmY5rn8f",
+        "title": "Clusters / ECS Container Agents"
+       },
+       {
+        "node_id": "1lHXxpoF11yE3rfoQCbTG",
+        "title": "Tasks"
+       }
+      ],
+      "global_step_index": 3,
+      "resource": {
+       "title": "Introduction to Amazon EC2",
+       "url": "https://youtube.com/watch?v=eaicwmnSdCs"
+      },
+      "videos": [
+       {
+        "title": "Introduction to Amazon EC2",
+        "url": "https://youtube.com/watch?v=eaicwmnSdCs",
+        "video_id": "eaicwmnSdCs",
+        "source": "roadmap.sh",
+        "topic": "EC2"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "EC2 - User Guide",
+        "url": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html",
+        "topic": "EC2"
+       },
+       {
+        "type": "official",
+        "title": "AWS EC2 Instance Types",
+        "url": "https://aws.amazon.com/ec2/instance-types",
+        "topic": "Instance Types"
+       },
+       {
+        "type": "official",
+        "title": "Burstable Performance Instances and CPU Credits",
+        "url": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html",
+        "topic": "CPU Credits"
+       },
+       {
+        "type": "official",
+        "title": "Purchasing Options",
+        "url": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-purchasing-options.html",
+        "topic": "Purchasing Options"
+       }
+      ]
+     },
+     {
+      "step_number": 4,
+      "title": "Networking with VPC and Load Balancers",
+      "description": "Every production workload sits in a VPC, and network design decides what is reachable from the internet. Plan CIDR blocks, public and private subnets, route tables, internet and NAT gateways, and put applications behind load balancers with health checks.",
+      "topic_refs": [
+       "Sv2aT8eI1RvJhvoKVYQEX",
+       "2hFBv2fhKDYBN-9ITs82J",
+       "Y64TE0U20kllmykjdfhHp",
+       "ABCH1rATHmecyWHyK3n-m",
+       "ymuURDwW8JG3NSIXcl0FL",
+       "FCdOnwQubhOnCFFnF8uJN",
+       "Le8yOJzpzxH1xgd7XEU2B",
+       "6D-gs32jrCyvMVhr9PSAY",
+       "YAZPKMbmrxYNqF6alXMyL",
+       "LXG_znJ3XzPAlDxUH2-Xp"
+      ],
+      "projects": [
+       {
+        "title": "Two-tier VPC",
+        "description": "Public subnets for a load balancer and private subnets for app servers, with a NAT gateway for updates.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Subnet plan",
+        "description": "Allocate CIDR ranges for three environments across two availability zones without overlap.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "VPC",
+       "CIDR Blocks",
+       "Subnets",
+       "Public Subnet",
+       "Private Subnet"
+      ],
+      "more_topics": [],
+      "global_step_index": 4,
+      "resource": {
+       "title": "AWS VPC Beginner to Advanced uses",
+       "url": "https://youtube.com/watch?v=g2JOHLHh4rI"
+      },
+      "videos": [
+       {
+        "title": "AWS VPC Beginner to Advanced uses",
+        "url": "https://youtube.com/watch?v=g2JOHLHh4rI",
+        "video_id": "g2JOHLHh4rI",
+        "source": "roadmap.sh",
+        "topic": "VPC"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "VPC",
+        "url": "https://aws.amazon.com/vpc/",
+        "topic": "VPC"
+       },
+       {
+        "type": "official",
+        "title": "cidr.xyz: Interactive CIDR range visualizer",
+        "url": "https://cidr.xyz/",
+        "topic": "CIDR Blocks"
+       },
+       {
+        "type": "official",
+        "title": "VPC - CIRD Blocks",
+        "url": "https://docs.aws.amazon.com/vpc/latest/userguide/vpc-cidr-blocks.html",
+        "topic": "CIDR Blocks"
+       },
+       {
+        "type": "official",
+        "title": "Subnets",
+        "url": "https://docs.aws.amazon.com/vpc/latest/userguide/configure-subnets.html",
+        "topic": "Subnets"
+       }
+      ]
+     },
+     {
+      "step_number": 5,
+      "title": "Auto Scaling, Route 53 and CloudFront",
+      "description": "Applications must grow with traffic and be fast for users far from the servers. Configure Auto Scaling groups and policies, route traffic with Route 53 hosted zones and routing policies, and cache content at the edge with CloudFront.",
+      "topic_refs": [
+       "dOAZG-NbjWiVdPKYEhWxj",
+       "gBKHVG7FvlCEgINKmw00s",
+       "1r2FL3OEOh0S9ee0OVnrN",
+       "fRBaiw8Qx8kapzCphmM4v",
+       "KtXww9J0znwzTwL7GKfaY",
+       "f89qL7Cg9R_LTxBEG4jUK",
+       "z-o-2cGYSM6KW_CNJyw3p",
+       "IQhPG1La7dZeSXnX23D1n",
+       "zFgnu2fL0EUKIMz9tVH1j",
+       "fAK7GRKunmoidlD32OBma",
+       "hRXbAADgRTXEFwbBXeNu7",
+       "5SF5nO94NFDkHY8UJoeAY"
+      ],
+      "projects": [
+       {
+        "title": "Auto-scaled web tier",
+        "description": "Scale an app between two and six instances on CPU load and watch it react to a load test.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Static site with CloudFront",
+        "description": "Serve a site from S3 through CloudFront with a custom domain and cache invalidation on deploy.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Auto-Scaling",
+       "Auto-Scaling Groups",
+       "Launch Config / Autoscaling Groups",
+       "Scaling Policies",
+       "Capacity Settings"
+      ],
+      "more_topics": [],
+      "global_step_index": 5,
+      "resource": null,
+      "videos": [],
+      "resources": [
+       {
+        "type": "official",
+        "title": "AWS Autoscaling",
+        "url": "https://docs.aws.amazon.com/autoscaling/ec2/userguide/what-is-amazon-ec2-auto-scaling.html",
+        "topic": "Auto-Scaling"
+       },
+       {
+        "type": "official",
+        "title": "Auto Scaling Groups",
+        "url": "https://docs.aws.amazon.com/eks/latest/best-practices/cas.html",
+        "topic": "Auto-Scaling Groups"
+       },
+       {
+        "type": "official",
+        "title": "Launch Config in EC2",
+        "url": "https://docs.aws.amazon.com/autoscaling/ec2/userguide/launch-configurations.html",
+        "topic": "Launch Config / Autoscaling Groups"
+       },
+       {
+        "type": "official",
+        "title": "Capacity Settings",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/capacity-mode.html",
+        "topic": "Capacity Settings"
+       }
+      ]
+     },
+     {
+      "step_number": 6,
+      "title": "S3 Storage Classes and Block Storage",
+      "description": "Storage is a large part of most cloud bills, and lifecycle rules can cut it sharply. Learn S3 buckets and objects, storage classes from Standard to Glacier, lifecycle policies, EBS volume types and backup and restore.",
+      "topic_refs": [
+       "PN3xAYfQ-_QgZCRCnsEca",
+       "rTgjDj5HqbjRpcJ7PR-EC",
+       "8i6zpjkMC_Pg-tDNmrx4n",
+       "Ll5FPCtkpYq_niJd7WoTC",
+       "JlkLNQ8wRzGkjaootNKOD",
+       "IikKYP58sT2H1lM8glm-g",
+       "PJaAqax4fABnkObY5UwNp",
+       "uo5HIyePegnJooortvWLu",
+       "y0CoNcEFHyz350f7pNddt",
+       "NWvasq-AcwxmOKZPDv3ue"
+      ],
+      "projects": [
+       {
+        "title": "Lifecycle cost saver",
+        "description": "Move log files to infrequent access after 30 days and to Glacier after 90, and estimate the saving.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Snapshot and restore drill",
+        "description": "Snapshot an EBS volume, delete the instance and restore the data to a new one.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "S3",
+       "Buckets / Objects",
+       "Bucket / Object Lifecycle",
+       "Standard",
+       "S3-IA"
+      ],
+      "more_topics": [],
+      "global_step_index": 6,
+      "resource": null,
+      "videos": [],
+      "resources": [
+       {
+        "type": "official",
+        "title": "S3",
+        "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html",
+        "topic": "S3"
+       },
+       {
+        "type": "official",
+        "title": "Bucket / Object",
+        "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingBucket.html",
+        "topic": "Buckets / Objects"
+       },
+       {
+        "type": "official",
+        "title": "Bucket / Object Lifecycle",
+        "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lifecycle-mgmt.html",
+        "topic": "Bucket / Object Lifecycle"
+       },
+       {
+        "type": "official",
+        "title": "AWS S3 Standard",
+        "url": "https://aws.amazon.com/s3/pricing/",
+        "topic": "Standard"
+       }
+      ]
+     },
+     {
+      "step_number": 7,
+      "title": "Managed Databases: RDS, DynamoDB and ElastiCache",
+      "description": "Managed databases remove patching and backup chores but bring their own design rules. Run relational databases on RDS, model DynamoDB tables with keys and indexes, use streams, and add ElastiCache for hot data.",
+      "topic_refs": [
+       "fkMF-2PQZ00UdwxhQt1ds",
+       "l9oq3LiEd8ZrPtupPk-Fn",
+       "wGb0TEDnSe_bmv9Krx4qB",
+       "DN_iuLo9gYDqU8JleE1WJ",
+       "oWtWgaFznTPJhQIyfIIQf",
+       "aU1lv80xXNkQTD41Qfln5",
+       "0C3GCGdSXozJK2MNeWerg",
+       "yauCWo1VoG-X483-4mfdn",
+       "9TcYdsdmvKWWHoyE6uNbC"
+      ],
+      "projects": [
+       {
+        "title": "RDS-backed app",
+        "description": "Connect an app in a private subnet to an RDS instance with automated backups.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "DynamoDB single-table design",
+        "description": "Model users, orders and items in one DynamoDB table and query them with indexes.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "RDS",
+       "DB Instances",
+       "DynamoDB",
+       "Tables / Items / Attributes",
+       "Primary Keys / Secondary Indexes"
+      ],
+      "more_topics": [
+       {
+        "node_id": "Xs057ESpvxXg2r_rDQnOa",
+        "title": "Storage Types"
+       },
+       {
+        "node_id": "tBKc7tHOiJaTmwEl3q--Y",
+        "title": "Backup / Restore"
+       }
+      ],
+      "global_step_index": 7,
+      "resource": null,
+      "videos": [],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Amazon RDS",
+        "url": "https://aws.amazon.com/rds/",
+        "topic": "RDS"
+       },
+       {
+        "type": "official",
+        "title": "DB Instances - RDS",
+        "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.DBInstance.html",
+        "topic": "DB Instances"
+       },
+       {
+        "type": "official",
+        "title": "Amazon DynamoDB",
+        "url": "https://aws.amazon.com/dynamodb/",
+        "topic": "DynamoDB"
+       },
+       {
+        "type": "official",
+        "title": "Amazon DynamoDB",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithItems.html",
+        "topic": "Tables / Items / Attributes"
+       }
+      ]
+     },
+     {
+      "step_number": 8,
+      "title": "Serverless and Containers on AWS",
+      "description": "Many new AWS workloads run as Lambda functions or containers rather than servers you manage. Build Lambda functions with layers, versions and schedules behind API Gateway, and run containers on ECS, Fargate and EKS with images in ECR.",
+      "topic_refs": [
+       "741vsAPTXJLVUlazFg0q4",
+       "SdCNevKjyhFcreMSWY6BT",
+       "CL93C0NGFQmScVnftnRtO",
+       "KWjIAakMIlxn_jso22h0M",
+       "75ZjuGozDfoZPLj32P2t2",
+       "EuOv19jDSj56Cy7PqvtNv",
+       "0CUfDEMwCwSHVdqkP8lOG",
+       "T0dvezPWX6rAiKweT0TkG",
+       "EqUT0wpdPRDGtGAZ7nneY",
+       "_c_Wq84yIu4ac7e0RzDtC",
+       "OI8y54RhFpfS_l1L9VTZe",
+       "kvHzEDZQV72AUjqisg8PB"
+      ],
+      "projects": [
+       {
+        "title": "Serverless URL shortener",
+        "description": "API Gateway, Lambda and DynamoDB for a working URL shortener.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Container on Fargate",
+        "description": "Push an image to ECR and run it as a Fargate service behind a load balancer.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Lambda",
+       "Creating / Invoking Functions",
+       "Layers",
+       "Custom Runtimes",
+       "Versioning / Aliases"
+      ],
+      "more_topics": [],
+      "global_step_index": 8,
+      "resource": {
+       "title": "First AWS Lambda Function",
+       "url": "https://youtube.com/watch?v=e1tkFsFOBHA"
+      },
+      "videos": [
+       {
+        "title": "First AWS Lambda Function",
+        "url": "https://youtube.com/watch?v=e1tkFsFOBHA",
+        "video_id": "e1tkFsFOBHA",
+        "source": "roadmap.sh",
+        "topic": "Creating / Invoking Functions"
+       },
+       {
+        "title": "Create and Use Lambda Layers",
+        "url": "https://youtube.com/watch?v=jyuZDkiHe2Q",
+        "video_id": "jyuZDkiHe2Q",
+        "source": "roadmap.sh",
+        "topic": "Layers"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "AWS Lambda",
+        "url": "https://docs.aws.amazon.com/lambda/latest/dg/welcome.html",
+        "topic": "Lambda"
+       },
+       {
+        "type": "official",
+        "title": "Create Your First Lambda Function",
+        "url": "https://docs.aws.amazon.com/lambda/latest/dg/getting-started.html",
+        "topic": "Creating / Invoking Functions"
+       },
+       {
+        "type": "official",
+        "title": "AWS Lambda Layers",
+        "url": "https://docs.aws.amazon.com/lambda/latest/dg/chapter-layers.html",
+        "topic": "Layers"
+       },
+       {
+        "type": "official",
+        "title": "AWS Lambda Runtimes",
+        "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html",
+        "topic": "Custom Runtimes"
+       }
+      ]
+     },
+     {
+      "step_number": 9,
+      "title": "Monitoring with CloudWatch and Email with SES",
+      "description": "You cannot operate what you cannot see, and transactional email is a common cloud integration. Collect metrics, logs and events in CloudWatch with alarms, and send email through SES with verified identities, DKIM and reputation monitoring.",
+      "topic_refs": [
+       "VAYxwJH10PFjGS8poKd9-",
+       "2vQPmVNk1QpMM-15RKG8b",
+       "oC6KIjWAXw0hLl4FwkB9F",
+       "tHQ6NRVDPCPEOmzgjQDLX",
+       "-bwXo6xvF1yzyWEm5oZhJ",
+       "4svXYQYmqjUZU39z8OyhD",
+       "kG7tlZjv_hJbHGooBkxS0",
+       "bTCVHXPG-LtaaFmgiB2SL",
+       "zwVd1vNm1ks6MdHZoi-5W",
+       "Vo_PBfB7LxYL27nBBVoVp",
+       "pnX1dfkjS8woWc4KGXlh_",
+       "0NWTFssjg9SbDXQRkN5kF"
+      ],
+      "projects": [
+       {
+        "title": "Alarm on errors",
+        "description": "Alarm when an app's error logs exceed a threshold and notify by email.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Verified transactional email",
+        "description": "Send sign-up emails through SES with DKIM and handle bounces.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Cloudwatch",
+       "Metrics",
+       "Logs",
+       "Events",
+       "SES"
+      ],
+      "more_topics": [],
+      "global_step_index": 9,
+      "resource": null,
+      "videos": [],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Amazon Cloudwatch",
+        "url": "https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html",
+        "topic": "Cloudwatch"
+       },
+       {
+        "type": "official",
+        "title": "CloudWatch Metrics",
+        "url": "https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/publishingMetrics.html",
+        "topic": "Metrics"
+       },
+       {
+        "type": "official",
+        "title": "Amazon Cloudwatch Logs",
+        "url": "https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/WhatIsCloudWatchLogs.html",
+        "topic": "Logs"
+       },
+       {
+        "type": "official",
+        "title": "Amazon Cloudwatch Events",
+        "url": "https://docs.aws.amazon.com/whitepapers/latest/introduction-devops-aws/cloudwatch-events.html",
+        "topic": "Events"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 2,
+    "title": "Docker",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "How Docker Containers Work",
+      "description": "Containers package an app with its dependencies so it runs the same on a laptop and in the cloud, and they are the standard deployment unit today. Learn how namespaces, cgroups and union filesystems make containers possible, and install Docker Engine.",
+      "topic_refs": [
+       "jhwe-xfVc-C7qy8YuS5dZ",
+       "kIqx7Inf50mE9W0juwNBz",
+       "EqYWfBL5l5OOquok_OvOW",
+       "jrH1qE6EnFXL4fTyYU8gR",
+       "BvV8VCX39wRB-g8WvGF1g",
+       "fRl4EfNwlBiidzn3IV34-",
+       "vEUfw_vobshuZI0-q8RZo",
+       "43drPbTwPqJQPyzwYUdBT",
+       "0NKqLUWtJMlXn-m6wpA6f",
+       "01nDXqxVdMv4SeXc0nYHH",
+       "NCdsPRhJy7UtQFNLo1J1f",
+       "W5kX5jn49hghRgkEw6_S3"
+      ],
+      "projects": [
+       {
+        "title": "Container versus VM comparison",
+        "description": "Start a container and a virtual machine with the same app and compare start time and memory.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Namespace exploration",
+        "description": "Inspect a running container's process, network and mount namespaces from the host.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Containers",
+       "Docker Basics",
+       "Application Architecture",
+       "Underlying Technologies",
+       "What are Namespaces?"
+      ],
+      "more_topics": [
+       {
+        "node_id": "XxT9UUjbKW1ARyERSLH_W",
+        "title": "Programming Languages"
+       },
+       {
+        "node_id": "InlMtuaUJ9EXO-OD9x1jj",
+        "title": "Shell Scripting"
+       }
+      ],
+      "global_step_index": 10,
+      "resource": {
+       "title": "Microservices vs Monolith Architecture",
+       "url": "https://youtube.com/watch?v=GBTdnfD6s5Q"
+      },
+      "videos": [
+       {
+        "title": "Microservices vs Monolith Architecture",
+        "url": "https://youtube.com/watch?v=GBTdnfD6s5Q",
+        "video_id": "GBTdnfD6s5Q",
+        "source": "roadmap.sh",
+        "topic": "Application Architecture"
+       },
+       {
+        "title": "An introduction to cgroups, runc & containerD",
+        "url": "https://youtube.com/watch?v=u1LeMndEk70",
+        "video_id": "u1LeMndEk70",
+        "source": "roadmap.sh",
+        "topic": "cgroups"
+       },
+       {
+        "title": "RAG vs Fine-Tuning vs Prompt Engineering: Optimizing AI Models",
+        "url": "https://youtube.com/watch?v=zYGDpG-pTho",
+        "video_id": "zYGDpG-pTho",
+        "source": "roadmap.sh",
+        "topic": "What is Prompt Engineering?"
+       },
+       {
+        "title": "Docker Engine for Linux Servers Setup and Tips",
+        "url": "https://youtube.com/watch?v=YeF7ObTnDwc",
+        "video_id": "YeF7ObTnDwc",
+        "source": "roadmap.sh",
+        "topic": "Docker Engine"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Docker CLI Commands",
+        "url": "https://docs.docker.com/engine/reference/commandline/cli/",
+        "topic": "Containers"
+       },
+       {
+        "type": "official",
+        "title": "Docker Application Design Patterns",
+        "url": "https://docs.docker.com/get-started/docker-concepts/building-images/",
+        "topic": "Application Architecture"
+       },
+       {
+        "type": "official",
+        "title": "Docker Namespaces",
+        "url": "https://docs.docker.com/engine/security/userns-remap/",
+        "topic": "What are Namespaces?"
+       },
+       {
+        "type": "official",
+        "title": "Control Groups",
+        "url": "https://www.docker.com/resources/what-container/#control-groups",
+        "topic": "cgroups"
+       }
+      ]
+     },
+     {
+      "step_number": 2,
+      "title": "Running Containers with Volumes, Networks and Compose",
+      "description": "Real applications need persistent data, several connected containers and clear runtime configuration. Run and configure containers with the CLI, persist data with volumes and bind mounts, connect containers on networks, and define multi-container apps with Compose.",
+      "topic_refs": [
+       "b-LwyYiegbF0jIrn7HYRv",
+       "6eu5NRA1sJuaHTlHtNurc",
+       "mAaEz-bwB5DLaBbOSYGMn",
+       "LShK3-1EGGuXnEvdScFR7",
+       "jKSE_wKYf4P9wnSh_LkMi",
+       "086zZYjtzdCaDHm-MkSqg",
+       "uUPYXmwu27SBPqKZx6U_q",
+       "eHtVLB6v3h7hatJb-9cZK",
+       "wZcCW1ojGzUakHCv2AaI1",
+       "woemCQmWTR-hIoWAci3d5",
+       "w5QjzvOaciK2rotOkjvjQ",
+       "jjA9E0J8N2frfeJCNtA1m"
+      ],
+      "projects": [
+       {
+        "title": "App plus database with Compose",
+        "description": "Run a web app and PostgreSQL with Compose, with data kept in a named volume.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Data loss experiment",
+        "description": "Show data disappearing from a container's ephemeral filesystem and fix it with a volume.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Docker CLI",
+       "Running Containers",
+       "Runtime Configuration Options",
+       "Using Third Party Images",
+       "Using Databases"
+      ],
+      "more_topics": [
+       {
+        "node_id": "z2eeBXPzo-diQ67Fcfyhc",
+        "title": "Running Containers"
+       },
+       {
+        "node_id": "YzpB7rgSR4ueQRLa0bRWa",
+        "title": "Command Line Utilities"
+       }
+      ],
+      "global_step_index": 11,
+      "resource": {
+       "title": "How to Setup MySQL Database with Docker",
+       "url": "https://youtube.com/watch?v=igc2zsOKPJs"
+      },
+      "videos": [
+       {
+        "title": "How to Setup MySQL Database with Docker",
+        "url": "https://youtube.com/watch?v=igc2zsOKPJs",
+        "video_id": "igc2zsOKPJs",
+        "source": "roadmap.sh",
+        "topic": "Using Databases"
+       },
+       {
+        "title": "Docker Concepts - Persisting container data",
+        "url": "https://youtube.com/watch?v=10_2BjqB_Ls",
+        "video_id": "10_2BjqB_Ls",
+        "source": "roadmap.sh",
+        "topic": "Ephemeral FS"
+       },
+       {
+        "title": "Docker Volumes explained in 6 minutes",
+        "url": "https://youtube.com/watch?v=p2PH_YPCsis",
+        "video_id": "p2PH_YPCsis",
+        "source": "roadmap.sh",
+        "topic": "Volume Mounts"
+       },
+       {
+        "title": "Docker Networking",
+        "url": "https://youtube.com/watch?v=bKFMS5C4CG0",
+        "video_id": "bKFMS5C4CG0",
+        "source": "roadmap.sh",
+        "topic": "Docker Networks"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Docker CLI",
+        "url": "https://docs.docker.com/reference/cli/docker/",
+        "topic": "Docker CLI"
+       },
+       {
+        "type": "official",
+        "title": "Docker Compose",
+        "url": "https://docs.docker.com/compose/",
+        "topic": "Docker CLI"
+       },
+       {
+        "type": "official",
+        "title": "Docker Run",
+        "url": "https://docs.docker.com/engine/reference/commandline/run/",
+        "topic": "Running Containers"
+       },
+       {
+        "type": "official",
+        "title": "Docker Documentation",
+        "url": "https://docs.docker.com/engine/reference/run/",
+        "topic": "Runtime Configuration Options"
+       }
+      ]
+     },
+     {
+      "step_number": 3,
+      "title": "Building Small, Cache-Friendly Images",
+      "description": "Image size and layer order decide build speed, deploy time and attack surface. Write Dockerfiles that use layer caching well, shrink images with multi-stage builds, tag and push them to registries, and set up hot reloading and debugging for development.",
+      "topic_refs": [
+       "yGRQcx64S-yBGEoOeMc55",
+       "5OEfBQaYNOCi999x6QUqW",
+       "3Nsg-F3wMKEzEsXw1MBZv",
+       "frshJqVMP8D7o_7tMZMPI",
+       "-8wAzF6_3gruiM3VYMvB0",
+       "Vs4WQwgJFhA63U9Gf2ym0",
+       "3VKPiMfbGBxv9m_SljIQV",
+       "rxVR62_yXIjc-L4GFSV6u",
+       "fh5aERX7c-lY9FPsmftoF",
+       "4p5d3rzCHy4vjg2PRX-2k",
+       "LiAV9crrTHhLqeZhD25a2",
+       "Kmyo1_Mor9WHLkRhNShRZ"
+      ],
+      "projects": [
+       {
+        "title": "Multi-stage image diet",
+        "description": "Cut an app image from over a gigabyte to under 150 MB with a multi-stage build.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Dev container with hot reload",
+        "description": "A Compose setup where code changes reload instantly inside the container.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Dockerfile",
+       "Building Container Images",
+       "Docker Images",
+       "Efficient Layer Caching",
+       "Reducing Image Size"
+      ],
+      "more_topics": [
+       {
+        "node_id": "mw-weCutd2ECKlx2DE_ZJ",
+        "title": "Package Managers"
+       },
+       {
+        "node_id": "hHXTth0ZP8O-iMGR9xfu9",
+        "title": "Developer Experience"
+       }
+      ],
+      "global_step_index": 12,
+      "resource": {
+       "title": "What is an image?",
+       "url": "https://youtube.com/watch?v=NyvT9REqLe4"
+      },
+      "videos": [
+       {
+        "title": "What is an image?",
+        "url": "https://youtube.com/watch?v=NyvT9REqLe4",
+        "video_id": "NyvT9REqLe4",
+        "source": "roadmap.sh",
+        "topic": "Docker Images"
+       },
+       {
+        "title": "Layer Caching",
+        "url": "https://youtube.com/watch?v=_nMpndIyaBU",
+        "video_id": "_nMpndIyaBU",
+        "source": "roadmap.sh",
+        "topic": "Efficient Layer Caching"
+       },
+       {
+        "title": "Linux Package Managers Explained",
+        "url": "https://youtube.com/watch?v=-iSMFoPPbKU",
+        "video_id": "-iSMFoPPbKU",
+        "source": "roadmap.sh",
+        "topic": "Package Managers"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Dockerfile Reference",
+        "url": "https://docs.docker.com/engine/reference/builder/",
+        "topic": "Dockerfile"
+       },
+       {
+        "type": "official",
+        "title": "Dockerfile Best Practices",
+        "url": "https://docs.docker.com/develop/develop-images/dockerfile_best-practices/",
+        "topic": "Dockerfile"
+       },
+       {
+        "type": "official",
+        "title": "Docker Build Overview",
+        "url": "https://docs.docker.com/build/concepts/overview",
+        "topic": "Building Container Images"
+       },
+       {
+        "type": "official",
+        "title": "Docker Image Builder",
+        "url": "https://docs.docker.com/reference/cli/docker/buildx/build/",
+        "topic": "Building Container Images"
+       }
+      ]
+     },
+     {
+      "step_number": 4,
+      "title": "Container Security and Deployment Options",
+      "description": "Containers running as root with unscanned images are a common audit finding. Scan images, run as non-root with least privilege, build and push in CI, and compare deploying with PaaS services, Swarm, Nomad and Kubernetes.",
+      "topic_refs": [
+       "78YFahP3Fg-c27reLkuK4",
+       "M5UG-ZcyhBPbksZd0ZdNt",
+       "vYug8kcwrMoWf8ft4UDNI",
+       "uKjB2qntFTpPuYUT9sdxd",
+       "oyqw4tr-taZcxt5kREh1g",
+       "qXOGqORi3EdqwsP9Uhi9m",
+       "PP_RRBo_pThe2mgf6xzMP",
+       "ks6PFN-0Z9zH7gtWaWgxz",
+       "r1eJZDZYouUjnGwAtRbyU",
+       "RqXpX2XabtHYVjgg1EZR_"
+      ],
+      "projects": [
+       {
+        "title": "Image scan in CI",
+        "description": "Build, scan and push an image in a CI pipeline and fail on critical vulnerabilities.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Non-root hardening",
+        "description": "Run an app as a non-root user with a read-only filesystem and dropped capabilities.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Container Security",
+       "Image Security",
+       "Runtime Security",
+       "Users / Groups Permissions",
+       "Continuous Integration (CI)"
+      ],
+      "more_topics": [],
+      "global_step_index": 13,
+      "resource": null,
+      "videos": [],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Docker Security",
+        "url": "https://docs.docker.com/engine/security/",
+        "topic": "Container Security"
+       },
+       {
+        "type": "official",
+        "title": "Docker Content Trust",
+        "url": "https://docs.docker.com/engine/security/trust/content_trust/",
+        "topic": "Image Security"
+       },
+       {
+        "type": "official",
+        "title": "Docker Hub",
+        "url": "https://hub.docker.com/",
+        "topic": "Image Security"
+       },
+       {
+        "type": "official",
+        "title": "Docker Security Best Practices",
+        "url": "https://docs.docker.com/build/building/best-practices/",
+        "topic": "Runtime Security"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 3,
+    "title": "Kubernetes",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "Kubernetes Concepts and Your First Cluster",
+      "description": "Kubernetes is the standard platform for running containers at scale, and cloud roles expect you to operate it. Learn why it exists and its key terms, then run a local cluster, compare managed providers with self-managed clusters, and deploy a first app.",
+      "topic_refs": [
+       "y7KjVfSI6CAduyHd4mBFT",
+       "qLeEEwBvlGt1fP5Qcreah",
+       "q-Ky0ietZGpyUcBQfh-BJ",
+       "9oo2fxTM2_p0VYPBroqxa",
+       "3fzuXKH7az_LVnmnoXB1p",
+       "YaIs8lquWIe1D7RCUBZmC",
+       "qSatCdBTDXPu-IFWzUI99",
+       "ZrVhYTw63aVVIFAEJDG5r",
+       "M-iTb_7EWZIJ3JpdViICx",
+       "2cQKTxln3dIk5IjX2UZdM",
+       "zrbSJa3k7a3TE0aYbWi9c"
+      ],
+      "projects": [
+       {
+        "title": "Local cluster hello world",
+        "description": "Start a kind or minikube cluster and deploy, expose and scale a sample app with kubectl.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Managed provider comparison",
+        "description": "Compare EKS, GKE and AKS on control-plane cost, upgrades and node options for a small team.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Kubernetes Introduction",
+       "Kubernetes overview",
+       "Why Kubernetes",
+       "Key Concepts Terminologies",
+       "Kubernetes Alternatives"
+      ],
+      "more_topics": [
+       {
+        "node_id": "3OpGaQhyNtk1n1MLp-tlb",
+        "title": "Deploying your First Application"
+       }
+      ],
+      "global_step_index": 14,
+      "resource": {
+       "title": "Linux fundamentals",
+       "url": "https://youtube.com/watch?v=kPylihJRG70"
+      },
+      "videos": [
+       {
+        "title": "Linux fundamentals",
+        "url": "https://youtube.com/watch?v=kPylihJRG70",
+        "video_id": "kPylihJRG70",
+        "source": "roadmap.sh",
+        "topic": "Navigation Basics"
+       },
+       {
+        "title": "The Linux File System Explained in 1,233 Seconds",
+        "url": "https://youtube.com/watch?v=A3G-3hp88mo",
+        "video_id": "A3G-3hp88mo",
+        "source": "roadmap.sh",
+        "topic": "Understanding Directory Hierarchy"
+       },
+       {
+        "title": "KUBERNETES | Install Kubernetes Cluster",
+        "url": "https://youtube.com/watch?v=Ro2qeYeisZQ",
+        "video_id": "Ro2qeYeisZQ",
+        "source": "roadmap.sh",
+        "topic": "Own Cluster"
+       },
+       {
+        "title": "Tutorial - Install Control Plane Components",
+        "url": "https://youtube.com/watch?v=IUwuyZ5ReF0",
+        "video_id": "IUwuyZ5ReF0",
+        "source": "roadmap.sh",
+        "topic": "Control Plane Installation"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Creating a cluster with kubeadm",
+        "url": "https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/",
+        "topic": "Own Cluster"
+       },
+       {
+        "type": "official",
+        "title": "Initializing your control-plane node - Documentation",
+        "url": "https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#initializing-your-control-plane-node",
+        "topic": "Control Plane Installation"
+       },
+       {
+        "type": "official",
+        "title": "Node Management",
+        "url": "https://kubernetes.io/docs/concepts/architecture/nodes/#management",
+        "topic": "Managing Worker Nodes"
+       },
+       {
+        "type": "official",
+        "title": "Using kubectl to Create a Deployment",
+        "url": "https://kubernetes.io/docs/tutorials/kubernetes-basics/deploy-app/deploy-intro/",
+        "topic": "Deploying your First Application"
+       }
+      ]
+     },
+     {
+      "step_number": 2,
+      "title": "Workloads: Pods, Deployments, StatefulSets and Helm",
+      "description": "Choosing the right workload type and wiring in configuration correctly is most of everyday Kubernetes work. Run pods through ReplicaSets and Deployments, jobs for batch work, StatefulSets with storage for databases, and package apps with Helm.",
+      "topic_refs": [
+       "HGmeYvRf7_XusZl_K4x9k",
+       "-d2PIXm0V_Iehe8cws8zK",
+       "IF09l0-pryGpMbDt__ocr",
+       "TUGQX7y1gs-aKPge2F1NU",
+       "1MdrzhktCWjpmxiYYBdz7",
+       "r3fzAN5DzratAKnnT8hzb",
+       "LJUJ1NIUsajb1AUdvJjqW",
+       "AJiRBEaKU8qYEm0fqN389",
+       "55RV9psPCmcg8G_P_zQo9",
+       "u24UlZKI86vaguj_VpMv1",
+       "dj7Tb2XTX4kxRUYiTjlhM",
+       "FAEFOhLdp7xrmctHFxiOM"
+      ],
+      "projects": [
+       {
+        "title": "Helm chart for a web app",
+        "description": "Package an app with a ConfigMap, Secret and Deployment as a Helm chart with values per environment.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "PostgreSQL StatefulSet",
+        "description": "Run a database as a StatefulSet with a persistent volume and survive a pod restart.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Containers",
+       "Pods",
+       "ReplicaSets",
+       "Deployments",
+       "Running Applications"
+      ],
+      "more_topics": [
+       {
+        "node_id": "URnYf9jMprFz-o26fbU2P",
+        "title": "CSI drivers"
+       }
+      ],
+      "global_step_index": 15,
+      "resource": {
+       "title": "What is a Pod in kubernetes ? Why do you need it ?",
+       "url": "https://youtube.com/watch?v=k0fzMZgpp14"
+      },
+      "videos": [
+       {
+        "title": "What is a Pod in kubernetes ? Why do you need it ?",
+        "url": "https://youtube.com/watch?v=k0fzMZgpp14",
+        "video_id": "k0fzMZgpp14",
+        "source": "roadmap.sh",
+        "topic": "Pods"
+       },
+       {
+        "title": "ReplicaSet in Kubernetes",
+        "url": "https://youtube.com/watch?v=1WM-LsH6tKc",
+        "video_id": "1WM-LsH6tKc",
+        "source": "roadmap.sh",
+        "topic": "ReplicaSets"
+       },
+       {
+        "title": "Kubernetes Deployments | Deployment Strategies",
+        "url": "https://youtube.com/watch?v=lxc4EXZOOvE",
+        "video_id": "lxc4EXZOOvE",
+        "source": "roadmap.sh",
+        "topic": "Deployments"
+       },
+       {
+        "title": "Kubernetes 101: Deploying Your First Application!",
+        "url": "https://youtube.com/watch?v=XltFOyGanYE",
+        "video_id": "XltFOyGanYE",
+        "source": "roadmap.sh",
+        "topic": "Running Applications"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Pods Documentation",
+        "url": "https://kubernetes.io/docs/concepts/workloads/pods/",
+        "topic": "Pods"
+       },
+       {
+        "type": "official",
+        "title": "ReplicaSet Documentation",
+        "url": "https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/",
+        "topic": "ReplicaSets"
+       },
+       {
+        "type": "official",
+        "title": "Deployments Documentation",
+        "url": "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/",
+        "topic": "Deployments"
+       },
+       {
+        "type": "official",
+        "title": "Run Applications",
+        "url": "https://kubernetes.io/docs/tasks/run-application/",
+        "topic": "Running Applications"
+       }
+      ]
+     },
+     {
+      "step_number": 3,
+      "title": "Cluster Networking, RBAC and Pod Security",
+      "description": "Misconfigured networking and permissions are the most common Kubernetes security problems. Learn pod-to-pod networking and external access with services and load balancers, network policies, role-based access control, pod security and image scanning.",
+      "topic_refs": [
+       "44rhdieUCWsGFC_1__9kk",
+       "aUJ_w2L8nxNq3DfAW97Gd",
+       "jUOlITLqnIvSu97I_3nBz",
+       "Qelo1YvAcUoX5PA-RYbNp",
+       "s0gHg8CqwrSylpSPu8arA",
+       "jOq0WwLrq8tlmOgo64QDc",
+       "i7qxaFhFHPfe3fGEgsbcE",
+       "SG3wtV2rt9nmLEkgrp_zP"
+      ],
+      "projects": [
+       {
+        "title": "Network policy lockdown",
+        "description": "Allow only the frontend to reach the API and only the API to reach the database.",
+        "difficulty": "advanced",
+        "grounded": false
+       },
+       {
+        "title": "Read-only developer role",
+        "description": "Create an RBAC role that lets developers view but not change one namespace.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Networking & Pod-to-Pod Communication",
+       "Networking and Pod to Pod Communication",
+       "External Access to Services",
+       "Load Balancing",
+       "Network Security"
+      ],
+      "more_topics": [
+       {
+        "node_id": "Nja7IFWcFTLsPcqbvRNm9",
+        "title": "Container and Pod Security"
+       },
+       {
+        "node_id": "S0CwGC2gMG-SqnLNldqBD",
+        "title": "Secrets"
+       }
+      ],
+      "global_step_index": 16,
+      "resource": {
+       "title": "Kubernetes Networking Deep Dive",
+       "url": "https://youtube.com/watch?v=t98ekMiz0hQ"
+      },
+      "videos": [
+       {
+        "title": "Kubernetes Networking Deep Dive",
+        "url": "https://youtube.com/watch?v=t98ekMiz0hQ",
+        "video_id": "t98ekMiz0hQ",
+        "source": "roadmap.sh",
+        "topic": "Networking & Pod-to-Pod Communication"
+       },
+       {
+        "title": "How do I provide external access to Kubernetes services",
+        "url": "https://youtube.com/watch?v=iBYTFpoXx24",
+        "video_id": "iBYTFpoXx24",
+        "source": "roadmap.sh",
+        "topic": "External Access to Services"
+       },
+       {
+        "title": "Tutorial | Load Balancing Service in Kubernetes",
+        "url": "https://youtube.com/watch?v=xCsz9IOt-fs",
+        "video_id": "xCsz9IOt-fs",
+        "source": "roadmap.sh",
+        "topic": "Load Balancing"
+       },
+       {
+        "title": "Kubernetes Security Best Practices",
+        "url": "https://youtube.com/watch?v=oBf5lrmquYI",
+        "video_id": "oBf5lrmquYI",
+        "source": "roadmap.sh",
+        "topic": "Network Security"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Cluster Networking - Kubernetes Documentation",
+        "url": "https://kubernetes.io/docs/concepts/cluster-administration/networking/",
+        "topic": "Networking & Pod-to-Pod Communication"
+       },
+       {
+        "type": "official",
+        "title": "Network Policies - Kubernetes Documentation",
+        "url": "https://kubernetes.io/docs/concepts/services-networking/network-policies/",
+        "topic": "Networking & Pod-to-Pod Communication"
+       },
+       {
+        "type": "official",
+        "title": "Job with Pod-to-Pod Communication",
+        "url": "https://kubernetes.io/docs/tasks/job/job-with-pod-to-pod-communication/",
+        "topic": "Networking and Pod to Pod Communication"
+       },
+       {
+        "type": "official",
+        "title": "Ingress - Documentation",
+        "url": "https://kubernetes.io/docs/concepts/services-networking/ingress/",
+        "topic": "External Access to Services"
+       }
+      ]
+     },
+     {
+      "step_number": 4,
+      "title": "Scheduling, Resource Limits and Autoscaling",
+      "description": "Requests, limits and autoscalers decide both reliability and the cloud bill. Control where pods land with taints, tolerations, spread constraints and priorities, set requests, limits and quotas, and scale with the horizontal and vertical pod autoscalers.",
+      "topic_refs": [
+       "xZDXM_8qb4VL15tNGG0ws",
+       "70lTSIVh0AD6M8fMMuWzY",
+       "zXUsHAI1HFhcY2BFAcypv",
+       "CL0hKTcml40InmyVUXpY2",
+       "_Gva1eGcYqpmZNPyV03lt",
+       "TRKzlDW2PQN9bWTyz3NWL",
+       "8RLR6gRjIyTn6GCugEfgk",
+       "OHz4QMmA3lqL_C7aWL8Ga",
+       "03mGA5AyL7mpF6y3EMW7A",
+       "044IUUCgZP4oQ9UxUG2iy",
+       "c1KVczGRjh9bhMpbPP6sA",
+       "PP4ld_vvjpY3QltBBsXKD"
+      ],
+      "projects": [
+       {
+        "title": "HPA under load",
+        "description": "Autoscale a deployment on CPU, generate load and watch replicas rise and fall.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Right-sizing exercise",
+        "description": "Measure real usage of three workloads and adjust their requests and limits.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Scheduling",
+       "Scheduling Basics",
+       "Taints and Tolerations",
+       "Topology Spread Constraints",
+       "Pod Priorities"
+      ],
+      "more_topics": [
+       {
+        "node_id": "RC5MoYtG2rom-d4FW5qD2",
+        "title": "Autoscaling"
+       }
+      ],
+      "global_step_index": 17,
+      "resource": {
+       "title": "How Scheduling in Kubernetes Works",
+       "url": "https://youtube.com/watch?v=0FvQR-0tK54"
+      },
+      "videos": [
+       {
+        "title": "How Scheduling in Kubernetes Works",
+        "url": "https://youtube.com/watch?v=0FvQR-0tK54",
+        "video_id": "0FvQR-0tK54",
+        "source": "roadmap.sh",
+        "topic": "Scheduling Basics"
+       },
+       {
+        "title": "Kubernetes For Beginners: Taints & Tolerations",
+        "url": "https://youtube.com/watch?v=mo2UrkjA7FE",
+        "video_id": "mo2UrkjA7FE",
+        "source": "roadmap.sh",
+        "topic": "Taints and Tolerations"
+       },
+       {
+        "title": "Kubernetes | Topology Spread Constraints",
+        "url": "https://youtube.com/watch?v=joRrWJ6bwvE",
+        "video_id": "joRrWJ6bwvE",
+        "source": "roadmap.sh",
+        "topic": "Topology Spread Constraints"
+       },
+       {
+        "title": "Kubernetes Pod Priority (Examples)",
+        "url": "https://youtube.com/watch?v=sR_Zmvme3-0",
+        "video_id": "sR_Zmvme3-0",
+        "source": "roadmap.sh",
+        "topic": "Pod Priorities"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Kubernetes Scheduler",
+        "url": "https://kubernetes.io/docs/concepts/scheduling-eviction/kube-scheduler/",
+        "topic": "Scheduling"
+       },
+       {
+        "type": "official",
+        "title": "Scheduling Framework",
+        "url": "https://kubernetes.io/docs/concepts/scheduling-eviction/scheduling-framework/",
+        "topic": "Scheduling"
+       },
+       {
+        "type": "official",
+        "title": "Taints and Tolerations",
+        "url": "https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/",
+        "topic": "Taints and Tolerations"
+       },
+       {
+        "type": "official",
+        "title": "Topology Spread Constraints",
+        "url": "https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/",
+        "topic": "Topology Spread Constraints"
+       }
+      ]
+     },
+     {
+      "step_number": 5,
+      "title": "Rollout Strategies and GitOps",
+      "description": "Releasing without downtime and rolling back quickly are what make Kubernetes worth the complexity. Use rolling updates and rollbacks, blue-green and canary releases, CI/CD integration and GitOps, and manage multiple clusters.",
+      "topic_refs": [
+       "yMSXdwDO36CLtp2TBC7aB",
+       "9-oaTlzKmcxTfaRycz1w3",
+       "88IGeC3dAopHLGtLozxdY",
+       "Pymc9H-lRHVPy7M9eSaPD",
+       "dATdEyNWlpDNKjedCXLyb",
+       "auZgEQ6FC3nUjuyx0zANh"
+      ],
+      "projects": [
+       {
+        "title": "GitOps with Argo CD",
+        "description": "Sync a cluster from a Git repository and roll back by reverting a commit.",
+        "difficulty": "advanced",
+        "grounded": false
+       },
+       {
+        "title": "Canary release",
+        "description": "Send ten percent of traffic to a new version, check its errors, then promote it.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Rolling Updates and Rollbacks",
+       "Blue Green Deployments",
+       "Canary Deployments",
+       "CI/CD Integration",
+       "GitOps"
+      ],
+      "more_topics": [
+       {
+        "node_id": "0l0xpsabglvs_t6oAP-XG",
+        "title": "Blue Green Deployments"
+       }
+      ],
+      "global_step_index": 18,
+      "resource": {
+       "title": "Kubernetes Rollbacks Tutorial",
+       "url": "https://youtube.com/watch?v=9hK11Ov74U4"
+      },
+      "videos": [
+       {
+        "title": "Kubernetes Rollbacks Tutorial",
+        "url": "https://youtube.com/watch?v=9hK11Ov74U4",
+        "video_id": "9hK11Ov74U4",
+        "source": "roadmap.sh",
+        "topic": "Rolling Updates and Rollbacks"
+       },
+       {
+        "title": "Kubernetes - Blue/Green Deployments",
+        "url": "https://youtube.com/watch?v=jxhpTGQ484Y",
+        "video_id": "jxhpTGQ484Y",
+        "source": "roadmap.sh",
+        "topic": "Blue Green Deployments"
+       },
+       {
+        "title": "Kubernetes canary deployments Explained",
+        "url": "https://youtube.com/watch?v=sCevTD_GtvU",
+        "video_id": "sCevTD_GtvU",
+        "source": "roadmap.sh",
+        "topic": "Canary Deployments"
+       },
+       {
+        "title": "DevOps and GitOps for Kubernetes",
+        "url": "https://youtube.com/watch?v=PFLimPh5-wo",
+        "video_id": "PFLimPh5-wo",
+        "source": "roadmap.sh",
+        "topic": "GitOps"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Performing a Rolling Update",
+        "url": "https://kubernetes.io/docs/tutorials/kubernetes-basics/update/update-intro/",
+        "topic": "Rolling Updates and Rollbacks"
+       },
+       {
+        "type": "official",
+        "title": "Configure Access to Multiple Clusters - Documentation",
+        "url": "https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/",
+        "topic": "Multi Cluster Management"
+       }
+      ]
+     },
+     {
+      "step_number": 6,
+      "title": "Cluster Observability and Extending Kubernetes",
+      "description": "Operating clusters means reading logs, metrics and traces, and many platforms extend Kubernetes with their own resources. Set up observability, and learn custom resource definitions, controllers and scheduler extenders.",
+      "topic_refs": [
+       "-XxQtiLDAkXs7IFM_Ddw6",
+       "nqUBHBFUYFdYqCKZvfXBR",
+       "ldYTEPt_hI4PXxr3tgJi5",
+       "pDjNsK5vI9FmKZbQm0lDP",
+       "AgsQnQjyTLUFhFpRdcE13",
+       "UeJcKv3jhenjNzHM-0R86",
+       "9P7l-RBOkUxs3Z_UpKQO-",
+       "L9rVPEEXFwisQOwT_LQ4v",
+       "1-Nb8rCMJEZrYm20sEcRJ",
+       "t8SJbGVXsUDECxePLDk_w"
+      ],
+      "projects": [
+       {
+        "title": "Cluster monitoring stack",
+        "description": "Install Prometheus and Grafana and build a dashboard of node and pod health.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Simple custom resource",
+        "description": "Define a CRD for 'Website' objects and a small controller that creates a deployment for each.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Logs",
+       "Metrics",
+       "Traces",
+       "Resource Health",
+       "Observability Engines"
+      ],
+      "more_topics": [
+       {
+        "node_id": "eWKkdiBhD5x2sGYajmHEs",
+        "title": "Monitoring and Optimizing Resource Usage"
+       },
+       {
+        "node_id": "FANswgUhUb5Iuah2fni3L",
+        "title": "Observability Engines"
+       }
+      ],
+      "global_step_index": 19,
+      "resource": {
+       "title": "Kubernetes: Log collection explained",
+       "url": "https://youtube.com/watch?v=6kmHvXdAzIM"
+      },
+      "videos": [
+       {
+        "title": "Kubernetes: Log collection explained",
+        "url": "https://youtube.com/watch?v=6kmHvXdAzIM",
+        "video_id": "6kmHvXdAzIM",
+        "source": "roadmap.sh",
+        "topic": "Logs"
+       },
+       {
+        "title": "How to collect metrics in K8s?",
+        "url": "https://youtube.com/watch?v=JQrk6HwlN78",
+        "video_id": "JQrk6HwlN78",
+        "source": "roadmap.sh",
+        "topic": "Metrics"
+       },
+       {
+        "title": "Introduction to Tracing",
+        "url": "https://youtube.com/watch?v=idDu_jXqf4E",
+        "video_id": "idDu_jXqf4E",
+        "source": "roadmap.sh",
+        "topic": "Traces"
+       },
+       {
+        "title": "Dashboards with Grafana and Prometheus",
+        "url": "https://youtube.com/watch?v=fzny5uUaAeY",
+        "video_id": "fzny5uUaAeY",
+        "source": "roadmap.sh",
+        "topic": "Resource Health"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "System Logs",
+        "url": "https://kubernetes.io/docs/concepts/cluster-administration/system-logs/",
+        "topic": "Logs"
+       },
+       {
+        "type": "official",
+        "title": "Node Metrics Data",
+        "url": "https://kubernetes.io/docs/reference/instrumentation/node-metrics/",
+        "topic": "Metrics"
+       },
+       {
+        "type": "official",
+        "title": "Traces For Kubernetes System Components",
+        "url": "https://kubernetes.io/docs/concepts/cluster-administration/system-traces/",
+        "topic": "Traces"
+       },
+       {
+        "type": "official",
+        "title": "Extensions - Documentation",
+        "url": "https://kubernetes.io/docs/concepts/extend-kubernetes/#extensions",
+        "topic": "Kubernetes Extensions and APIs"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 4,
+    "title": "Terraform",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "Infrastructure as Code and Terraform Basics",
+      "description": "Clicking through a cloud console cannot be reviewed, repeated or rolled back, which is why teams define infrastructure as code. Learn what IaC and Terraform give you, install Terraform, and write and initialise your first HCL configuration with pinned versions.",
+      "topic_refs": [
+       "twR3k9D-qDr1CbyW6K0Fs",
+       "UsINvx84pBF1hp8XoLF4c",
+       "CU9V3iRdssamsG-xMouXT",
+       "hRIDJHIxWc5Iav7tsu8l-",
+       "h6qRrUe-bn25s0UkxU600",
+       "AYtBLFU1nowEq-EVlXrEZ",
+       "Hma2IgatFME8STHPwpeMG",
+       "qhO7CY-1_vuh2BVJYQCzh",
+       "LaD0H7XhoEEaXbcwjxAbw",
+       "GlIXmCuvR_C81RMeMM1Kz",
+       "6zFuSNOfbPaYIE_t--2nr",
+       "bnQ2YLHd7E-vRxX3PnUEX"
+      ],
+      "projects": [
+       {
+        "title": "First Terraform bucket",
+        "description": "Create an S3 bucket from Terraform, change a tag, and destroy it cleanly.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Console versus code",
+        "description": "Build the same small setup by hand and with Terraform and list what code made easier.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "What is Infrastructure as Code?",
+       "CaC vs IaC",
+       "What is Terraform?",
+       "Benefits of Terraform",
+       "Introduction"
+      ],
+      "more_topics": [],
+      "global_step_index": 20,
+      "resource": {
+       "title": "What is Infrastructure as Code?",
+       "url": "https://youtube.com/watch?v=zWw2wuiKd5o"
+      },
+      "videos": [
+       {
+        "title": "What is Infrastructure as Code?",
+        "url": "https://youtube.com/watch?v=zWw2wuiKd5o",
+        "video_id": "zWw2wuiKd5o",
+        "source": "roadmap.sh",
+        "topic": "What is Infrastructure as Code?"
+       },
+       {
+        "title": "Ansible vs. Terraform: What's the difference?",
+        "url": "https://youtube.com/watch?v=rx4Uh3jv1cA",
+        "video_id": "rx4Uh3jv1cA",
+        "source": "roadmap.sh",
+        "topic": "CaC vs IaC"
+       },
+       {
+        "title": "What is Terraform? Terraform Explained in 2 Minutes",
+        "url": "https://youtube.com/watch?v=lIaUz2GAqEQ",
+        "video_id": "lIaUz2GAqEQ",
+        "source": "roadmap.sh",
+        "topic": "What is Terraform?"
+       },
+       {
+        "title": "What are the Benefits of Using Terraform?",
+        "url": "https://youtube.com/watch?v=0M4IvedbLJ4",
+        "video_id": "0M4IvedbLJ4",
+        "source": "roadmap.sh",
+        "topic": "Benefits of Terraform"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "What is Terraform?",
+        "url": "https://developer.hashicorp.com/terraform/intro#what-is-terraform",
+        "topic": "What is Terraform?"
+       },
+       {
+        "type": "official",
+        "title": "Use Cases of Terraform",
+        "url": "https://developer.hashicorp.com/terraform/intro/use-cases#use-cases",
+        "topic": "Benefits of Terraform"
+       },
+       {
+        "type": "official",
+        "title": "Terraform Website",
+        "url": "https://www.terraform.io/",
+        "topic": "Introduction"
+       },
+       {
+        "type": "official",
+        "title": "Terraform Documentation",
+        "url": "https://developer.hashicorp.com/terraform",
+        "topic": "Introduction"
+       }
+      ]
+     },
+     {
+      "step_number": 2,
+      "title": "Providers, Resources and Meta-Arguments",
+      "description": "Every Terraform configuration is built from providers, resources and data sources, and meta-arguments control how many and in what order. Configure and authenticate providers, read existing data, and use count, for_each and depends_on.",
+      "topic_refs": [
+       "ZRVv9onD7KGz1cJLcsnwy",
+       "5FLOFTP_nCa3qi1wbV4qE",
+       "JJ-QhLWqT0luis_kVDVHW",
+       "RPcsyhIG027uP7KF0hwaY",
+       "BYydmFc2e-YPCC4MCWmh2",
+       "huXZz55P7kVJwTn5BS_Wk",
+       "BgZu7Xao5GjR8StVL7qhM",
+       "76kp98rvph_8UOXZR-PBC",
+       "TPd00dRndj1P8674KTTrm",
+       "EIsex6gNHDRYHn0o2spzi",
+       "kyScfijEntX9H1mp7tmej",
+       "gcdg_GhAacIWzv19ITTE_"
+      ],
+      "projects": [
+       {
+        "title": "Subnets with for_each",
+        "description": "Create one subnet per availability zone from a map using for_each.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Look up the latest AMI",
+        "description": "Use a data source to find the newest Ubuntu AMI and launch an instance from it.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Providers",
+       "provider",
+       "Configuring Providers",
+       "Authentication",
+       "Resources"
+      ],
+      "more_topics": [
+       {
+        "node_id": "Os6AOXp1CVI_Bh3NYnX17",
+        "title": "state replace-provider"
+       }
+      ],
+      "global_step_index": 21,
+      "resource": {
+       "title": "What are terraform providers and how to use them?",
+       "url": "https://youtube.com/watch?v=Kd7ddHBR2ec"
+      },
+      "videos": [
+       {
+        "title": "What are terraform providers and how to use them?",
+        "url": "https://youtube.com/watch?v=Kd7ddHBR2ec",
+        "video_id": "Kd7ddHBR2ec",
+        "source": "roadmap.sh",
+        "topic": "Providers"
+       },
+       {
+        "title": "Data Sources in Terraform",
+        "url": "https://youtube.com/watch?v=Y92Q5nW5-5g",
+        "video_id": "Y92Q5nW5-5g",
+        "source": "roadmap.sh",
+        "topic": "Data Sources"
+       },
+       {
+        "title": "Resource Meta Arguments",
+        "url": "https://youtube.com/watch?v=7JraLCfroyE",
+        "video_id": "7JraLCfroyE",
+        "source": "roadmap.sh",
+        "topic": "Meta Arguments"
+       },
+       {
+        "title": "How to use Terraform depends_on meta tag?",
+        "url": "https://youtube.com/watch?v=v0Qt-ltvmXU",
+        "video_id": "v0Qt-ltvmXU",
+        "source": "roadmap.sh",
+        "topic": "depends_on"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Providers Documentation",
+        "url": "https://developer.hashicorp.com/terraform/language/providers#providers",
+        "topic": "Providers"
+       },
+       {
+        "type": "official",
+        "title": "Terraform Docs - provider",
+        "url": "https://developer.hashicorp.com/terraform/language/meta-arguments/resource-provider",
+        "topic": "provider"
+       },
+       {
+        "type": "official",
+        "title": "HCP Authentication",
+        "url": "https://developer.hashicorp.com/hcp/docs/cli/commands/auth/login",
+        "topic": "Authentication"
+       },
+       {
+        "type": "official",
+        "title": "Authenticate with HCP",
+        "url": "https://registry.terraform.io/providers/hashicorp/hcp/latest/docs/guides/auth",
+        "topic": "Authentication"
+       }
+      ]
+     },
+     {
+      "step_number": 3,
+      "title": "Variables, Outputs and Local Values",
+      "description": "Reusable configurations take inputs, validate them and expose outputs other code can use. Define typed and validated variables, use variable files and environment variables, compute locals, render templates and mark sensitive outputs.",
+      "topic_refs": [
+       "AY7_xUeCl6ilqZzg1YFoP",
+       "VxMse1VTZAUtVhpKv1OHS",
+       "rdphcVd-Vq972y4H8CxIj",
+       "HUiodBFIp_rsQDkf3WgbI",
+       "U2n2BtyUrOFLnw9SZYV_w",
+       "fm8oUyNvfdGWTgLsYANUr",
+       "1mFih8uFs3Lc-1PLgwiAU",
+       "7GK4fQf1FRKrZgZkxNahj",
+       "31fa8kBzCEn-uCrTSoPM4",
+       "kw32gb4HSeCEoBwkeziS_",
+       "8giL6H5944M2L0rwxjPso",
+       "tB4zfwY4E3GmXo-XQwS-l"
+      ],
+      "projects": [
+       {
+        "title": "Environment-aware config",
+        "description": "Drive dev and prod sizes from tfvars files with validation on allowed instance types.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Templated user data",
+        "description": "Render a startup script from a template with variables and output the server URL.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Variables",
+       "Input Variables",
+       "Variable Definition File",
+       "Type Constraints",
+       "Validation Rules"
+      ],
+      "more_topics": [],
+      "global_step_index": 22,
+      "resource": {
+       "title": "Learn How to Use Terraform Variable",
+       "url": "https://youtube.com/watch?v=oArutYYvQ_Y"
+      },
+      "videos": [
+       {
+        "title": "Learn How to Use Terraform Variable",
+        "url": "https://youtube.com/watch?v=oArutYYvQ_Y",
+        "video_id": "oArutYYvQ_Y",
+        "source": "roadmap.sh",
+        "topic": "Variables"
+       },
+       {
+        "title": "You should be using tfvars vs variables in Terraform",
+        "url": "https://youtube.com/watch?v=BHWM4D2GJvI",
+        "video_id": "BHWM4D2GJvI",
+        "source": "roadmap.sh",
+        "topic": "Variable Definition File"
+       },
+       {
+        "title": "Terraform Type Constraints",
+        "url": "https://youtube.com/watch?v=hNZiZEQfV4Q",
+        "video_id": "hNZiZEQfV4Q",
+        "source": "roadmap.sh",
+        "topic": "Type Constraints"
+       },
+       {
+        "title": "Learn Terraform Outputs in 4 Minutes",
+        "url": "https://youtube.com/watch?v=i-Ky1Tut_2I",
+        "video_id": "i-Ky1Tut_2I",
+        "source": "roadmap.sh",
+        "topic": "Outputs"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Input Variables",
+        "url": "https://developer.hashicorp.com/terraform/language/values/variables",
+        "topic": "Variables"
+       },
+       {
+        "type": "official",
+        "title": "Define Input Variables",
+        "url": "https://developer.hashicorp.com/terraform/tutorials/aws-get-started/aws-variables",
+        "topic": "Input Variables"
+       },
+       {
+        "type": "official",
+        "title": "Parameterize Your Configuration",
+        "url": "https://developer.hashicorp.com/terraform/tutorials/configuration-language/variables#parameterize-your-configuration",
+        "topic": "Variable Definition File"
+       },
+       {
+        "type": "official",
+        "title": "Variable Type Constraints",
+        "url": "https://developer.hashicorp.com/terraform/language/expressions/type-constraints",
+        "topic": "Type Constraints"
+       }
+      ]
+     },
+     {
+      "step_number": 4,
+      "title": "The Plan and Apply Workflow",
+      "description": "Reading a plan carefully before applying it is what prevents accidental deletions in production. Practise fmt, validate, plan, apply and destroy, targeted replacement, the dependency graph, lifecycle rules and preconditions.",
+      "topic_refs": [
+       "wL3WWhjPEgFmumOmCPRDf",
+       "LDxAXmTKyvogvgUpvN5pT",
+       "LDpj-LY_SOXzno04D-Y25",
+       "LPI13FILvkD55hWcWbPrV",
+       "78bGm8J5Y1I8H4qioOvWb",
+       "wdYLjB-tKg76B7YcnhevQ",
+       "Xes24SqkwSaO844kLbClj",
+       "jvHtSRLuCXJrGIiesgbE-",
+       "vAFFgKSthyj_3Lxt-Z6pg",
+       "RtwZy60ruRpskmgr1qYYf",
+       "0A8zTuCXVmcruJdfH3cNu",
+       "DB-p_S4Ce4tDWF4wDiGSt"
+      ],
+      "projects": [
+       {
+        "title": "Prevent-destroy guard",
+        "description": "Protect a database with lifecycle prevent_destroy and show the plan that refuses to delete it.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Plan review exercise",
+        "description": "Make three risky changes and explain from each plan what would be created, changed or destroyed.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Deployment Workflow",
+       "terraform plan",
+       "terraform apply",
+       "terraform destroy",
+       "terraform fmt"
+      ],
+      "more_topics": [
+       {
+        "node_id": "inbTto9Qukdj6egRJ0Zh9",
+        "title": "Clean Up"
+       },
+       {
+        "node_id": "pjmOK1MEMnIV_zAlaOF01",
+        "title": "Deployment"
+       }
+      ],
+      "global_step_index": 23,
+      "resource": {
+       "title": "Terraform Basics: Core Workflow",
+       "url": "https://youtube.com/watch?v=sqLD39xqcx0"
+      },
+      "videos": [
+       {
+        "title": "Terraform Basics: Core Workflow",
+        "url": "https://youtube.com/watch?v=sqLD39xqcx0",
+        "video_id": "sqLD39xqcx0",
+        "source": "roadmap.sh",
+        "topic": "Deployment Workflow"
+       },
+       {
+        "title": "Terraform - Terraform Plan",
+        "url": "https://youtube.com/watch?v=9v08h-Oaelo",
+        "video_id": "9v08h-Oaelo",
+        "source": "roadmap.sh",
+        "topic": "terraform plan"
+       },
+       {
+        "title": "How to auto-format Terraform code",
+        "url": "https://youtube.com/watch?v=kZX3KLOZvhY",
+        "video_id": "kZX3KLOZvhY",
+        "source": "roadmap.sh",
+        "topic": "terraform fmt"
+       },
+       {
+        "title": "Terraform Taint Is Bad Actually - Use Replace Instead",
+        "url": "https://youtube.com/watch?v=v_T1fuYGjV0",
+        "video_id": "v_T1fuYGjV0",
+        "source": "roadmap.sh",
+        "topic": "-replace option in apply"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "The Core Terraform Workflow",
+        "url": "https://developer.hashicorp.com/terraform/intro/core-workflow",
+        "topic": "Deployment Workflow"
+       },
+       {
+        "type": "official",
+        "title": "Terraform Plan Documentation",
+        "url": "https://developer.hashicorp.com/terraform/cli/commands/plan",
+        "topic": "terraform plan"
+       },
+       {
+        "type": "official",
+        "title": "Terraform Apply Documentation",
+        "url": "https://developer.hashicorp.com/terraform/cli/commands/apply",
+        "topic": "terraform apply"
+       },
+       {
+        "type": "official",
+        "title": "Terraform Destroy Documentation",
+        "url": "https://developer.hashicorp.com/terraform/cli/commands/destroy",
+        "topic": "terraform destroy"
+       }
+      ]
+     },
+     {
+      "step_number": 5,
+      "title": "Managing Terraform State",
+      "description": "State is how Terraform knows what exists, and a lost or corrupted state file is one of the worst Terraform incidents. Store state remotely with locking, follow state best practices, inspect and move resources in state, and import existing infrastructure.",
+      "topic_refs": [
+       "5xAE-9viD7DP_ugQ6NE_C",
+       "pDm08NBVwGf9rAIZC_ZIR",
+       "GseYuG9wT8H9R_enxWzuQ",
+       "jas0XILqCUXjWRk3ZoSEO",
+       "KXlLlaR0_S7gE_ZB1hNEd",
+       "7DZB2VeyuouFXOdFEfeZt",
+       "Y-mgCkDpawt5NrMwDH9Ki",
+       "0xVXwjWPFXDGRw_3p6th6",
+       "uR6Vjm8cek9JRzZV0iTXh",
+       "wSh7bbPswcFAzOicX8VPx",
+       "Trpi2ZlnXZVYJCibE2bQ8",
+       "L7wAMGi_yU-Bbc9fXlmxZ"
+      ],
+      "projects": [
+       {
+        "title": "Remote state with locking",
+        "description": "Move state to an S3 backend with locking and test two people applying at once.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Import a hand-made resource",
+        "description": "Import a console-created security group into Terraform without recreating it.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "State",
+       "Remote State",
+       "State Locking",
+       "Best Practices for State",
+       "Inspect / Modify State"
+      ],
+      "more_topics": [
+       {
+        "node_id": "a0rUMnYluVUGhyhlDK5S8",
+        "title": "Splitting State Files"
+       }
+      ],
+      "global_step_index": 24,
+      "resource": {
+       "title": "Managing Terraform state files",
+       "url": "https://youtube.com/watch?v=UDBVCzg2IRo"
+      },
+      "videos": [
+       {
+        "title": "Managing Terraform state files",
+        "url": "https://youtube.com/watch?v=UDBVCzg2IRo",
+        "video_id": "UDBVCzg2IRo",
+        "source": "roadmap.sh",
+        "topic": "State"
+       },
+       {
+        "title": "Terraform remote state backends explained",
+        "url": "https://youtube.com/watch?v=jSoMQCBxp7E",
+        "video_id": "jSoMQCBxp7E",
+        "source": "roadmap.sh",
+        "topic": "Remote State"
+       },
+       {
+        "title": "Terraform - State locking",
+        "url": "https://youtube.com/watch?v=QdDCUpggmrw",
+        "video_id": "QdDCUpggmrw",
+        "source": "roadmap.sh",
+        "topic": "State Locking"
+       },
+       {
+        "title": "Managing Terraform State Files - What are your options?",
+        "url": "https://youtube.com/watch?v=keiIyarEKf8",
+        "video_id": "keiIyarEKf8",
+        "source": "roadmap.sh",
+        "topic": "Best Practices for State"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "State",
+        "url": "https://developer.hashicorp.com/terraform/language/state",
+        "topic": "State"
+       },
+       {
+        "type": "official",
+        "title": "Remote state",
+        "url": "https://developer.hashicorp.com/terraform/language/state/remote",
+        "topic": "Remote State"
+       },
+       {
+        "type": "official",
+        "title": "The terraform_remote_state Data Source",
+        "url": "https://developer.hashicorp.com/terraform/language/state/remote-state-data",
+        "topic": "Remote State"
+       },
+       {
+        "type": "official",
+        "title": "State - Locking",
+        "url": "https://developer.hashicorp.com/terraform/language/state/locking",
+        "topic": "State Locking"
+       }
+      ]
+     },
+     {
+      "step_number": 6,
+      "title": "Writing and Reusing Terraform Modules",
+      "description": "Modules let teams standardise infrastructure instead of copying configuration between projects. Build local modules with clear inputs and outputs, use published registry modules, and version modules properly.",
+      "topic_refs": [
+       "R2AORYmc1NgGTqLZY5Fu-",
+       "wQN1QrK9VB_fHlXrBzDoU",
+       "6W4_akHG9YtvN6dpbZnG-",
+       "NsBJTYH9KXvjJuhPzjE_L",
+       "AAg_iFggkEZNL12-6nkgK",
+       "iIjUG_N_mQtLHG25v4-xg",
+       "gTMPK0tfs2JYgoL7SAGW6",
+       "1T35eNO18qoyXcX7S-Jox"
+      ],
+      "projects": [
+       {
+        "title": "Reusable VPC module",
+        "description": "Package your VPC design as a module and use it for two environments.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Registry module evaluation",
+        "description": "Compare a popular registry module with your own and decide which to adopt.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Modules",
+       "Creating Local Modules",
+       "Root vs Child Modules",
+       "Inputs / Outputs",
+       "Published Modules Usage"
+      ],
+      "more_topics": [
+       {
+        "node_id": "nFq-64JQoYAKjN9YkmOfO",
+        "title": "Workspaces"
+       },
+       {
+        "node_id": "CmmoshFC1dKE4y3SMN2bl",
+        "title": "When to Use?"
+       }
+      ],
+      "global_step_index": 25,
+      "resource": {
+       "title": "Creating a module in Terraform",
+       "url": "https://youtube.com/watch?v=OeL2AlsdNaQ"
+      },
+      "videos": [
+       {
+        "title": "Creating a module in Terraform",
+        "url": "https://youtube.com/watch?v=OeL2AlsdNaQ",
+        "video_id": "OeL2AlsdNaQ",
+        "source": "roadmap.sh",
+        "topic": "Creating Local Modules"
+       },
+       {
+        "title": "Terraform - Publish modules",
+        "url": "https://youtube.com/watch?v=9vBp1D3myH8",
+        "video_id": "9vBp1D3myH8",
+        "source": "roadmap.sh",
+        "topic": "Published Modules Usage"
+       },
+       {
+        "title": "Terraform Registry Providers and Modules",
+        "url": "https://youtube.com/watch?v=q4VdvS8aXnc",
+        "video_id": "q4VdvS8aXnc",
+        "source": "roadmap.sh",
+        "topic": "Terraform Registry"
+       },
+       {
+        "title": "Best practices for modularizing a Terraform project | PlatformCon 2023",
+        "url": "https://youtube.com/watch?v=byzwaTng3ac",
+        "video_id": "byzwaTng3ac",
+        "source": "roadmap.sh",
+        "topic": "Modules Best Practices"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Modules Overview - Configuration Language | Terraform",
+        "url": "https://developer.hashicorp.com/terraform/language/modules",
+        "topic": "Modules"
+       },
+       {
+        "type": "official",
+        "title": "Modules - Terraform Registry",
+        "url": "https://registry.terraform.io/browse/modules",
+        "topic": "Modules"
+       },
+       {
+        "type": "official",
+        "title": "Build and use a local module",
+        "url": "https://developer.hashicorp.com/terraform/tutorials/modules/module-create",
+        "topic": "Creating Local Modules"
+       },
+       {
+        "type": "official",
+        "title": "The root module",
+        "url": "https://developer.hashicorp.com/terraform/language/modules#the-root-module",
+        "topic": "Root vs Child Modules"
+       }
+      ]
+     },
+     {
+      "step_number": 7,
+      "title": "Provisioners and Their Limits",
+      "description": "Provisioners run scripts during create or destroy, but they make runs fragile, so most teams treat them as a last resort. Learn the file, local-exec and remote-exec provisioners, when they run, and better alternatives.",
+      "topic_refs": [
+       "6vs1VvjeILgAPLL6g7dfy",
+       "Qch8k6e4pS8OlmG_sI0hH",
+       "g2F5-nX4Aw-xWZiypNbnL",
+       "JQE3_KakBXZdMVP_pPFNS",
+       "HEr-BBxE3jRKTqRnguds1",
+       "CJfCpRN_oVf6n_EfLNJSV"
+      ],
+      "projects": [
+       {
+        "title": "Provisioner versus user data",
+        "description": "Configure a server once with remote-exec and once with user data and compare reliability.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Local notification hook",
+        "description": "Use local-exec to post a message when an environment is created or destroyed.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Provisioners",
+       "file provisioner",
+       "local-exec provisioner",
+       "remote-exec provisioner",
+       "Custom Provisioners"
+      ],
+      "more_topics": [],
+      "global_step_index": 26,
+      "resource": {
+       "title": "Terraform - Local exec",
+       "url": "https://youtube.com/watch?v=2dVq8L2LBc0"
+      },
+      "videos": [
+       {
+        "title": "Terraform - Local exec",
+        "url": "https://youtube.com/watch?v=2dVq8L2LBc0",
+        "video_id": "2dVq8L2LBc0",
+        "source": "roadmap.sh",
+        "topic": "local-exec provisioner"
+       },
+       {
+        "title": "Terraform - remote-exec",
+        "url": "https://youtube.com/watch?v=kjDXbGeLvRw",
+        "video_id": "kjDXbGeLvRw",
+        "source": "roadmap.sh",
+        "topic": "remote-exec provisioner"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Provisioners - Terraform",
+        "url": "https://developer.hashicorp.com/terraform/language/resources/provisioners/syntax",
+        "topic": "Provisioners"
+       },
+       {
+        "type": "official",
+        "title": "Terraform File Provisioner",
+        "url": "https://developer.hashicorp.com/terraform/language/resources/provisioners/file",
+        "topic": "file provisioner"
+       },
+       {
+        "type": "official",
+        "title": "local-exec Provisioner",
+        "url": "https://developer.hashicorp.com/terraform/language/resources/provisioners/local-exec",
+        "topic": "local-exec provisioner"
+       },
+       {
+        "type": "official",
+        "title": "Remote-exec provisioner",
+        "url": "https://developer.hashicorp.com/terraform/language/resources/provisioners/remote-exec",
+        "topic": "remote-exec provisioner"
+       }
+      ]
+     },
+     {
+      "step_number": 8,
+      "title": "Testing and Scanning Terraform Code",
+      "description": "Infrastructure bugs can expose data or run up bills, so teams test and scan Terraform like application code. Write unit, contract, integration and end-to-end tests, lint with TFLint, scan with Checkov, Trivy, KICS or Terrascan, and estimate cost with Infracost.",
+      "topic_refs": [
+       "QSftI21seX6I_xPonlfmU",
+       "V7_NnDIY1MefV_xjCCsnI",
+       "bjozhkpOI9UjjNfmT5HhY",
+       "ENkLj3z6hR2cKT7rBhYp5",
+       "QqwlAtz7VfrMtNEGpT5Sa",
+       "H3_So6qX-s2131WHGR_GO",
+       "YftsQYpcqJqBKPjy5tWOq",
+       "ljj7ngl1N4ezCXQ0o6Y8x",
+       "Vxo_gNdFl3CZXV7GLPqjD",
+       "MUkbLTMzmaVWbAJj6G3aj",
+       "NSWG79dEygyl6pb54wLrE",
+       "oANePqjkwtNMwvV-_W0B7"
+      ],
+      "projects": [
+       {
+        "title": "Security scan gate",
+        "description": "Run Checkov on a configuration, fix every high finding and keep the scan in CI.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Module test suite",
+        "description": "Write terraform test cases that check a module's outputs and validation rules.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Testing",
+       "Unit Testing",
+       "Contract Testing",
+       "Integration Testing",
+       "End to End Testing"
+      ],
+      "more_topics": [],
+      "global_step_index": 27,
+      "resource": {
+       "title": "Contract testing for microservices is a must!",
+       "url": "https://youtube.com/watch?v=Fh8CqZtghQw"
+      },
+      "videos": [
+       {
+        "title": "Contract testing for microservices is a must!",
+        "url": "https://youtube.com/watch?v=Fh8CqZtghQw",
+        "video_id": "Fh8CqZtghQw",
+        "source": "roadmap.sh",
+        "topic": "Contract Testing"
+       },
+       {
+        "title": "Learn Terraform - Integration and End-to-End Testing",
+        "url": "https://youtube.com/watch?v=gdcc1WBzMwY",
+        "video_id": "gdcc1WBzMwY",
+        "source": "roadmap.sh",
+        "topic": "Integration Testing"
+       },
+       {
+        "title": "End To End Testing On Terraform With Terratest",
+        "url": "https://youtube.com/watch?v=PlzL6Bv2fSA",
+        "video_id": "PlzL6Bv2fSA",
+        "source": "roadmap.sh",
+        "topic": "End to End Testing"
+       },
+       {
+        "title": "Terraform Module Testing",
+        "url": "https://youtube.com/watch?v=1LInIWM_2UQ",
+        "video_id": "1LInIWM_2UQ",
+        "source": "roadmap.sh",
+        "topic": "Testing Modules"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Integration or Unit Testing",
+        "url": "https://developer.hashicorp.com/terraform/language/tests#integration-or-unit-testing",
+        "topic": "Unit Testing"
+       },
+       {
+        "type": "official",
+        "title": "Terraform Contract Tests",
+        "url": "https://www.hashicorp.com/blog/testing-hashicorp-terraform#contract-tests",
+        "topic": "Contract Testing"
+       },
+       {
+        "type": "official",
+        "title": "Write Terraform Tests",
+        "url": "https://developer.hashicorp.com/terraform/tutorials/configuration-language/test",
+        "topic": "Testing Modules"
+       },
+       {
+        "type": "official",
+        "title": "Terraform Test",
+        "url": "https://developer.hashicorp.com/terraform/language/tests",
+        "topic": "Testing Modules"
+       }
+      ]
+     },
+     {
+      "step_number": 9,
+      "title": "Terraform in CI/CD and at Scale",
+      "description": "In teams, Terraform runs from pipelines with secrets handled safely and state split so changes stay small. Run plans and applies in CI, use workspaces, split large state, try Terragrunt, and manage secrets and sensitive data.",
+      "topic_refs": [
+       "O194eWh529jj4VDhKxNSj",
+       "weIlGqGN15U8BH1yE9moA",
+       "fH27mGrdnkDQCrGGDFU6p",
+       "qFpaqOSoefTyKxmI-FRZt",
+       "6OoAdvikyp0byMH2oZhyQ",
+       "JoUWF6AQoreELxFHNi9oo",
+       "ECcHo0KTDN27MuVTC-Fwy",
+       "zCU02_5Pide5BZiuMuqEU",
+       "AEtW6j2GcfZz7IXk4sM6c",
+       "uVz9WwVAgMu1ZU0qjqVnc",
+       "16vLOPP9lTCuBh0q-UVMk",
+       "3MnZK2V5KhBhw67SyUVPk"
+      ],
+      "projects": [
+       {
+        "title": "Plan on pull request",
+        "description": "A pipeline that comments the plan on each pull request and applies on merge.",
+        "difficulty": "advanced",
+        "grounded": false
+       },
+       {
+        "title": "Split a monolithic state",
+        "description": "Break one large configuration into network, data and app layers with separate states.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "CI / CD Integration",
+       "GitHub Actions",
+       "GitLab CI",
+       "Jenkins",
+       "Circle CI"
+      ],
+      "more_topics": [],
+      "global_step_index": 28,
+      "resource": {
+       "title": "Automate deploying to AWS using Terraform with GitLab CICD pipeline",
+       "url": "https://youtube.com/watch?v=oqOzM_WBqZc"
+      },
+      "videos": [
+       {
+        "title": "Automate deploying to AWS using Terraform with GitLab CICD pipeline",
+        "url": "https://youtube.com/watch?v=oqOzM_WBqZc",
+        "video_id": "oqOzM_WBqZc",
+        "source": "roadmap.sh",
+        "topic": "GitLab CI"
+       },
+       {
+        "title": "How to Use Terraform and Jenkins to Automate Infrastructure Setup",
+        "url": "https://youtube.com/watch?v=kIDiP3Unj7Y",
+        "video_id": "kIDiP3Unj7Y",
+        "source": "roadmap.sh",
+        "topic": "Jenkins"
+       },
+       {
+        "title": "Organize your Terraform Cloud workspaces using Projects",
+        "url": "https://youtube.com/watch?v=J1T1tbU6wAU",
+        "video_id": "J1T1tbU6wAU",
+        "source": "roadmap.sh",
+        "topic": "Workspaces"
+       },
+       {
+        "title": "Terraform — Protecting Sensitive Data",
+        "url": "https://youtube.com/watch?v=yLc1YkB7DFo",
+        "video_id": "yLc1YkB7DFo",
+        "source": "roadmap.sh",
+        "topic": "Sensitive Data"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "GitHub Actions",
+        "url": "https://docs.github.com/en/actions",
+        "topic": "GitHub Actions"
+       },
+       {
+        "type": "official",
+        "title": "Automate Terraform with GitHub Actions",
+        "url": "https://developer.hashicorp.com/terraform/tutorials/automation/github-actions",
+        "topic": "GitHub Actions"
+       },
+       {
+        "type": "official",
+        "title": "Infrastructure as Code with Terraform and GitLab",
+        "url": "https://docs.gitlab.com/ee/user/infrastructure/iac/",
+        "topic": "GitLab CI"
+       },
+       {
+        "type": "official",
+        "title": "Deploy Infrastructure with Terraform and CircleCI",
+        "url": "https://developer.hashicorp.com/terraform/tutorials/automation/circle-ci",
+        "topic": "Circle CI"
+       }
+      ]
+     },
+     {
+      "step_number": 10,
+      "title": "HCP Terraform and Policy as Code",
+      "description": "Larger organisations run Terraform through HCP Terraform with policy checks on every run. Learn when HCP fits, VCS-driven runs, run tasks and Sentinel compliance policies.",
+      "topic_refs": [
+       "erxow5xNRj01WepdFOhVf",
+       "K_7dB-5cCYzGbwYXXaoiY",
+       "elW7IMBSF0ydmlb7rtI1o",
+       "nU1WoRtxRF9KeNhzuwNUB",
+       "z0PcbgpHbR6Fm07-On4P8",
+       "Z6dG92afC8SGwCFNTx4ac"
+      ],
+      "projects": [
+       {
+        "title": "VCS-driven workspace",
+        "description": "Connect a repository to an HCP Terraform workspace and trigger runs from commits.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Tagging policy",
+        "description": "Write a policy that blocks any resource without owner and cost-centre tags.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "HCP",
+       "What and when to use HCP?",
+       "Enterprise Features",
+       "Run Tasks",
+       "Compliance / Sentinel"
+      ],
+      "more_topics": [],
+      "global_step_index": 29,
+      "resource": {
+       "title": "How does The Infrastructure Cloud work?",
+       "url": "https://youtube.com/watch?v=zWWGsJrWj5E"
+      },
+      "videos": [
+       {
+        "title": "How does The Infrastructure Cloud work?",
+        "url": "https://youtube.com/watch?v=zWWGsJrWj5E",
+        "video_id": "zWWGsJrWj5E",
+        "source": "roadmap.sh",
+        "topic": "Enterprise Features"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Use Cases",
+        "url": "https://developer.hashicorp.com/terraform/intro/use-cases",
+        "topic": "What and when to use HCP?"
+       },
+       {
+        "type": "official",
+        "title": "HashiCorp Cloud Platform",
+        "url": "https://www.hashicorp.com/cloud",
+        "topic": "Enterprise Features"
+       },
+       {
+        "type": "official",
+        "title": "HCP Terraform Plans and Features",
+        "url": "https://developer.hashicorp.com/terraform/cloud-docs/overview",
+        "topic": "Enterprise Features"
+       },
+       {
+        "type": "official",
+        "title": "Run Tasks",
+        "url": "https://developer.hashicorp.com/terraform/cloud-docs/workspaces/settings/run-tasks",
+        "topic": "Run Tasks"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "audit": {
+  "phases": [
+   {
+    "phase_number": 1,
+    "title": "AWS",
+    "queries": [
+     "Cloud Engineering",
+     "Cloud Engineering fundamentals",
+     "Cloud Engineering: AWS"
+    ],
+    "retrieved": [
+     {
+      "source": "aws/introduction-to-aws@Dg1v9TV-wGSNLPfAals_y.md",
+      "score": 0.7436307668685913,
+      "queries": [
+       "Cloud Engineering",
+       "Cloud Engineering fundamentals",
+       "Cloud Engineering: AWS"
+      ]
+     },
+     {
+      "source": "aws/introduction@Py9nst2FDJ1_hoXeX_qSF.md",
+      "score": 0.7322598695755005,
+      "queries": [
+       "Cloud Engineering",
+       "Cloud Engineering fundamentals",
+       "Cloud Engineering: AWS"
+      ]
+     },
+     {
+      "source": "aws/ec2@cL7vis8H5L2vv6LqJ5wvC.md",
+      "score": 0.6422114372253418,
+      "queries": [
+       "Cloud Engineering",
+       "Cloud Engineering fundamentals",
+       "Cloud Engineering: AWS"
+      ]
+     },
+     {
+      "source": "aws/well-architected-framework@eKuC7VmkGVYFnbC2Rvn8D.md",
+      "score": 0.608099102973938,
+      "queries": [
+       "Cloud Engineering",
+       "Cloud Engineering fundamentals",
+       "Cloud Engineering: AWS"
+      ]
+     },
+     {
+      "source": "aws/public-vs-private-vs-hybrid-cloud@3hatcMVLDbMuz73uTx-9P.md",
+      "score": 0.6053224802017212,
+      "queries": [
+       "Cloud Engineering",
+       "Cloud Engineering fundamentals",
+       "Cloud Engineering: AWS"
+      ]
+     },
+     {
+      "source": "aws/ecs@EqUT0wpdPRDGtGAZ7nneY.md",
+      "score": 0.6013370752334595,
+      "queries": [
+       "Cloud Engineering: AWS"
+      ]
+     },
+     {
+      "source": "so_survey_2025_india/Cloud_Engineering",
+      "score": 0.4638206362724304,
+      "queries": [
+       "Cloud Engineering"
+      ]
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 1,
+      "topic_refs": [
+       "74JxgfJ_1qmVNZ_QRp9Ne",
+       "i4ijY3T5gLgNz0XqRipXe",
+       "3hatcMVLDbMuz73uTx-9P",
+       "Dg1v9TV-wGSNLPfAals_y",
+       "Py9nst2FDJ1_hoXeX_qSF",
+       "z9R1BWUGalmnw0E7QqiW6",
+       "0flGtxZmxQKxO3c3sguwp",
+       "eKuC7VmkGVYFnbC2Rvn8D",
+       "zSiSbIdBgFLBBAnp4I9vX",
+       "0ctJa-V6aenimSr5h303J",
+       "PYgs4niQRlLKCBMfM4qf9"
+      ],
+      "queries": [
+       "Cloud Engineering",
+       "Cloud Engineering fundamentals",
+       "Cloud Engineering: AWS"
+      ]
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 2,
+      "topic_refs": [
+       "xmKeB4hEi2DunmhAsvS1X",
+       "Nn2zawk6A31NwZa40jOhX",
+       "7nI202hX41mI5ms9LZonh",
+       "dO9ZfUyNia7L_fCh4d0n7",
+       "cwGuOrmbSTcSoH80skLTk",
+       "v_YmmlOk-DkzJ8mI5Ftgr",
+       "0IMdO7g_5El1elvDXJJ_0",
+       "i7X1GfOx5AZYFskepW4Zr"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 3,
+      "topic_refs": [
+       "cL7vis8H5L2vv6LqJ5wvC",
+       "VHD2ISW9WoSWjp8Hh6Zft",
+       "_U2bKjxIrAAk7TMrPttpb",
+       "8v9T6Y6JC7qaqIgkbT-nr",
+       "AfagmWcllSi81D2XIQz0V",
+       "K0GCk5_HDvP0_ZqsUc3tG",
+       "wFT-fddGn__DRoqG0joFk",
+       "Cd9gdbkCFdrTLrnJMy5F3",
+       "DCvkZSp25pjaimG0THLTu",
+       "ZKjjgXZ89zV2atWcSal-s",
+       "A0u7CJwj5ULAMiAm12vZI",
+       "3l1ji4JToj277vpgONmLw"
+      ],
+      "queries": [
+       "Cloud Engineering",
+       "Cloud Engineering fundamentals",
+       "Cloud Engineering: AWS"
+      ]
+     },
+     {
+      "step_number": 4,
+      "global_step_index": 4,
+      "topic_refs": [
+       "Sv2aT8eI1RvJhvoKVYQEX",
+       "2hFBv2fhKDYBN-9ITs82J",
+       "Y64TE0U20kllmykjdfhHp",
+       "ABCH1rATHmecyWHyK3n-m",
+       "ymuURDwW8JG3NSIXcl0FL",
+       "FCdOnwQubhOnCFFnF8uJN",
+       "Le8yOJzpzxH1xgd7XEU2B",
+       "6D-gs32jrCyvMVhr9PSAY",
+       "YAZPKMbmrxYNqF6alXMyL",
+       "LXG_znJ3XzPAlDxUH2-Xp"
+      ],
+      "queries": [
+       "Cloud Engineering",
+       "Cloud Engineering fundamentals",
+       "Cloud Engineering: AWS"
+      ]
+     },
+     {
+      "step_number": 5,
+      "global_step_index": 5,
+      "topic_refs": [
+       "dOAZG-NbjWiVdPKYEhWxj",
+       "gBKHVG7FvlCEgINKmw00s",
+       "1r2FL3OEOh0S9ee0OVnrN",
+       "fRBaiw8Qx8kapzCphmM4v",
+       "KtXww9J0znwzTwL7GKfaY",
+       "f89qL7Cg9R_LTxBEG4jUK",
+       "z-o-2cGYSM6KW_CNJyw3p",
+       "IQhPG1La7dZeSXnX23D1n",
+       "zFgnu2fL0EUKIMz9tVH1j",
+       "fAK7GRKunmoidlD32OBma",
+       "hRXbAADgRTXEFwbBXeNu7",
+       "5SF5nO94NFDkHY8UJoeAY"
+      ],
+      "queries": [
+       "Cloud Engineering",
+       "Cloud Engineering fundamentals",
+       "Cloud Engineering: AWS"
+      ]
+     },
+     {
+      "step_number": 6,
+      "global_step_index": 6,
+      "topic_refs": [
+       "PN3xAYfQ-_QgZCRCnsEca",
+       "rTgjDj5HqbjRpcJ7PR-EC",
+       "8i6zpjkMC_Pg-tDNmrx4n",
+       "Ll5FPCtkpYq_niJd7WoTC",
+       "JlkLNQ8wRzGkjaootNKOD",
+       "IikKYP58sT2H1lM8glm-g",
+       "PJaAqax4fABnkObY5UwNp",
+       "uo5HIyePegnJooortvWLu",
+       "y0CoNcEFHyz350f7pNddt",
+       "NWvasq-AcwxmOKZPDv3ue"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 7,
+      "global_step_index": 7,
+      "topic_refs": [
+       "fkMF-2PQZ00UdwxhQt1ds",
+       "l9oq3LiEd8ZrPtupPk-Fn",
+       "wGb0TEDnSe_bmv9Krx4qB",
+       "DN_iuLo9gYDqU8JleE1WJ",
+       "oWtWgaFznTPJhQIyfIIQf",
+       "aU1lv80xXNkQTD41Qfln5",
+       "0C3GCGdSXozJK2MNeWerg",
+       "yauCWo1VoG-X483-4mfdn",
+       "9TcYdsdmvKWWHoyE6uNbC"
+      ],
+      "queries": [
+       "Cloud Engineering: AWS"
+      ]
+     },
+     {
+      "step_number": 8,
+      "global_step_index": 8,
+      "topic_refs": [
+       "741vsAPTXJLVUlazFg0q4",
+       "SdCNevKjyhFcreMSWY6BT",
+       "CL93C0NGFQmScVnftnRtO",
+       "KWjIAakMIlxn_jso22h0M",
+       "75ZjuGozDfoZPLj32P2t2",
+       "EuOv19jDSj56Cy7PqvtNv",
+       "0CUfDEMwCwSHVdqkP8lOG",
+       "T0dvezPWX6rAiKweT0TkG",
+       "EqUT0wpdPRDGtGAZ7nneY",
+       "_c_Wq84yIu4ac7e0RzDtC",
+       "OI8y54RhFpfS_l1L9VTZe",
+       "kvHzEDZQV72AUjqisg8PB"
+      ],
+      "queries": [
+       "Cloud Engineering",
+       "Cloud Engineering fundamentals",
+       "Cloud Engineering: AWS"
+      ]
+     },
+     {
+      "step_number": 9,
+      "global_step_index": 9,
+      "topic_refs": [
+       "VAYxwJH10PFjGS8poKd9-",
+       "2vQPmVNk1QpMM-15RKG8b",
+       "oC6KIjWAXw0hLl4FwkB9F",
+       "tHQ6NRVDPCPEOmzgjQDLX",
+       "-bwXo6xvF1yzyWEm5oZhJ",
+       "4svXYQYmqjUZU39z8OyhD",
+       "kG7tlZjv_hJbHGooBkxS0",
+       "bTCVHXPG-LtaaFmgiB2SL",
+       "zwVd1vNm1ks6MdHZoi-5W",
+       "Vo_PBfB7LxYL27nBBVoVp",
+       "pnX1dfkjS8woWc4KGXlh_",
+       "0NWTFssjg9SbDXQRkN5kF"
+      ],
+      "queries": [
+       "Cloud Engineering",
+       "Cloud Engineering fundamentals",
+       "Cloud Engineering: AWS"
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 2,
+    "title": "Docker",
+    "queries": [
+     "Cloud Engineering",
+     "Cloud Engineering fundamentals",
+     "Cloud Engineering: Docker"
+    ],
+    "retrieved": [
+     {
+      "source": "docker/paas-options@PP_RRBo_pThe2mgf6xzMP.md",
+      "score": 0.692832887172699,
+      "queries": [
+       "Cloud Engineering",
+       "Cloud Engineering fundamentals",
+       "Cloud Engineering: Docker"
+      ]
+     },
+     {
+      "source": "docker/developer-experience@hHXTth0ZP8O-iMGR9xfu9.md",
+      "score": 0.6703649759292603,
+      "queries": [
+       "Cloud Engineering: Docker"
+      ]
+     },
+     {
+      "source": "docker/docker-engine--linux@0NKqLUWtJMlXn-m6wpA6f.md",
+      "score": 0.6613796949386597,
+      "queries": [
+       "Cloud Engineering: Docker"
+      ]
+     },
+     {
+      "source": "docker/databases@jKSE_wKYf4P9wnSh_LkMi.md",
+      "score": 0.6476552486419678,
+      "queries": [
+       "Cloud Engineering: Docker"
+      ]
+     },
+     {
+      "source": "docker/networks@w5QjzvOaciK2rotOkjvjQ.md",
+      "score": 0.6087273359298706,
+      "queries": [
+       "Cloud Engineering: Docker"
+      ]
+     },
+     {
+      "source": "so_survey_2025_india/Cloud_Engineering",
+      "score": 0.4638206362724304,
+      "queries": [
+       "Cloud Engineering"
+      ]
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 10,
+      "topic_refs": [
+       "jhwe-xfVc-C7qy8YuS5dZ",
+       "kIqx7Inf50mE9W0juwNBz",
+       "EqYWfBL5l5OOquok_OvOW",
+       "jrH1qE6EnFXL4fTyYU8gR",
+       "BvV8VCX39wRB-g8WvGF1g",
+       "fRl4EfNwlBiidzn3IV34-",
+       "vEUfw_vobshuZI0-q8RZo",
+       "43drPbTwPqJQPyzwYUdBT",
+       "0NKqLUWtJMlXn-m6wpA6f",
+       "01nDXqxVdMv4SeXc0nYHH",
+       "NCdsPRhJy7UtQFNLo1J1f",
+       "W5kX5jn49hghRgkEw6_S3"
+      ],
+      "queries": [
+       "Cloud Engineering: Docker"
+      ]
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 11,
+      "topic_refs": [
+       "b-LwyYiegbF0jIrn7HYRv",
+       "6eu5NRA1sJuaHTlHtNurc",
+       "mAaEz-bwB5DLaBbOSYGMn",
+       "LShK3-1EGGuXnEvdScFR7",
+       "jKSE_wKYf4P9wnSh_LkMi",
+       "086zZYjtzdCaDHm-MkSqg",
+       "uUPYXmwu27SBPqKZx6U_q",
+       "eHtVLB6v3h7hatJb-9cZK",
+       "wZcCW1ojGzUakHCv2AaI1",
+       "woemCQmWTR-hIoWAci3d5",
+       "w5QjzvOaciK2rotOkjvjQ",
+       "jjA9E0J8N2frfeJCNtA1m"
+      ],
+      "queries": [
+       "Cloud Engineering: Docker"
+      ]
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 12,
+      "topic_refs": [
+       "yGRQcx64S-yBGEoOeMc55",
+       "5OEfBQaYNOCi999x6QUqW",
+       "3Nsg-F3wMKEzEsXw1MBZv",
+       "frshJqVMP8D7o_7tMZMPI",
+       "-8wAzF6_3gruiM3VYMvB0",
+       "Vs4WQwgJFhA63U9Gf2ym0",
+       "3VKPiMfbGBxv9m_SljIQV",
+       "rxVR62_yXIjc-L4GFSV6u",
+       "fh5aERX7c-lY9FPsmftoF",
+       "4p5d3rzCHy4vjg2PRX-2k",
+       "LiAV9crrTHhLqeZhD25a2",
+       "Kmyo1_Mor9WHLkRhNShRZ"
+      ],
+      "queries": [
+       "Cloud Engineering: Docker"
+      ]
+     },
+     {
+      "step_number": 4,
+      "global_step_index": 13,
+      "topic_refs": [
+       "78YFahP3Fg-c27reLkuK4",
+       "M5UG-ZcyhBPbksZd0ZdNt",
+       "vYug8kcwrMoWf8ft4UDNI",
+       "uKjB2qntFTpPuYUT9sdxd",
+       "oyqw4tr-taZcxt5kREh1g",
+       "qXOGqORi3EdqwsP9Uhi9m",
+       "PP_RRBo_pThe2mgf6xzMP",
+       "ks6PFN-0Z9zH7gtWaWgxz",
+       "r1eJZDZYouUjnGwAtRbyU",
+       "RqXpX2XabtHYVjgg1EZR_"
+      ],
+      "queries": [
+       "Cloud Engineering",
+       "Cloud Engineering fundamentals",
+       "Cloud Engineering: Docker"
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 3,
+    "title": "Kubernetes",
+    "queries": [
+     "Cloud Engineering",
+     "Cloud Engineering fundamentals",
+     "Cloud Engineering: Kubernetes"
+    ],
+    "retrieved": [
+     {
+      "source": "kubernetes/introduction@y7KjVfSI6CAduyHd4mBFT.md",
+      "score": 0.7610790133476257,
+      "queries": [
+       "Cloud Engineering",
+       "Cloud Engineering: Kubernetes"
+      ]
+     },
+     {
+      "source": "kubernetes/advanced-topics@t8SJbGVXsUDECxePLDk_w.md",
+      "score": 0.73621666431427,
+      "queries": [
+       "Cloud Engineering",
+       "Cloud Engineering fundamentals",
+       "Cloud Engineering: Kubernetes"
+      ]
+     },
+     {
+      "source": "kubernetes/kubernetes-alternatives@3fzuXKH7az_LVnmnoXB1p.md",
+      "score": 0.7245671153068542,
+      "queries": [
+       "Cloud Engineering",
+       "Cloud Engineering fundamentals",
+       "Cloud Engineering: Kubernetes"
+      ]
+     },
+     {
+      "source": "kubernetes/overview-of-kubernetes@qLeEEwBvlGt1fP5Qcreah.md",
+      "score": 0.7188260555267334,
+      "queries": [
+       "Cloud Engineering: Kubernetes"
+      ]
+     },
+     {
+      "source": "kubernetes/services-and-networking@aUJ_w2L8nxNq3DfAW97Gd.md",
+      "score": 0.6847242712974548,
+      "queries": [
+       "Cloud Engineering: Kubernetes"
+      ]
+     },
+     {
+      "source": "kubernetes/key-concepts-and-terminologies@9oo2fxTM2_p0VYPBroqxa.md",
+      "score": 0.6807848811149597,
+      "queries": [
+       "Cloud Engineering: Kubernetes"
+      ]
+     },
+     {
+      "source": "so_survey_2025_india/Cloud_Engineering",
+      "score": 0.4638206362724304,
+      "queries": [
+       "Cloud Engineering"
+      ]
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 14,
+      "topic_refs": [
+       "y7KjVfSI6CAduyHd4mBFT",
+       "qLeEEwBvlGt1fP5Qcreah",
+       "q-Ky0ietZGpyUcBQfh-BJ",
+       "9oo2fxTM2_p0VYPBroqxa",
+       "3fzuXKH7az_LVnmnoXB1p",
+       "YaIs8lquWIe1D7RCUBZmC",
+       "qSatCdBTDXPu-IFWzUI99",
+       "ZrVhYTw63aVVIFAEJDG5r",
+       "M-iTb_7EWZIJ3JpdViICx",
+       "2cQKTxln3dIk5IjX2UZdM",
+       "zrbSJa3k7a3TE0aYbWi9c"
+      ],
+      "queries": [
+       "Cloud Engineering: Kubernetes"
+      ]
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 15,
+      "topic_refs": [
+       "HGmeYvRf7_XusZl_K4x9k",
+       "-d2PIXm0V_Iehe8cws8zK",
+       "IF09l0-pryGpMbDt__ocr",
+       "TUGQX7y1gs-aKPge2F1NU",
+       "1MdrzhktCWjpmxiYYBdz7",
+       "r3fzAN5DzratAKnnT8hzb",
+       "LJUJ1NIUsajb1AUdvJjqW",
+       "AJiRBEaKU8qYEm0fqN389",
+       "55RV9psPCmcg8G_P_zQo9",
+       "u24UlZKI86vaguj_VpMv1",
+       "dj7Tb2XTX4kxRUYiTjlhM",
+       "FAEFOhLdp7xrmctHFxiOM"
+      ],
+      "queries": [
+       "Cloud Engineering: Kubernetes"
+      ]
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 16,
+      "topic_refs": [
+       "44rhdieUCWsGFC_1__9kk",
+       "aUJ_w2L8nxNq3DfAW97Gd",
+       "jUOlITLqnIvSu97I_3nBz",
+       "Qelo1YvAcUoX5PA-RYbNp",
+       "s0gHg8CqwrSylpSPu8arA",
+       "jOq0WwLrq8tlmOgo64QDc",
+       "i7qxaFhFHPfe3fGEgsbcE",
+       "SG3wtV2rt9nmLEkgrp_zP"
+      ],
+      "queries": [
+       "Cloud Engineering: Kubernetes"
+      ]
+     },
+     {
+      "step_number": 4,
+      "global_step_index": 17,
+      "topic_refs": [
+       "xZDXM_8qb4VL15tNGG0ws",
+       "70lTSIVh0AD6M8fMMuWzY",
+       "zXUsHAI1HFhcY2BFAcypv",
+       "CL0hKTcml40InmyVUXpY2",
+       "_Gva1eGcYqpmZNPyV03lt",
+       "TRKzlDW2PQN9bWTyz3NWL",
+       "8RLR6gRjIyTn6GCugEfgk",
+       "OHz4QMmA3lqL_C7aWL8Ga",
+       "03mGA5AyL7mpF6y3EMW7A",
+       "044IUUCgZP4oQ9UxUG2iy",
+       "c1KVczGRjh9bhMpbPP6sA",
+       "PP4ld_vvjpY3QltBBsXKD"
+      ],
+      "queries": [
+       "Cloud Engineering: Kubernetes"
+      ]
+     },
+     {
+      "step_number": 5,
+      "global_step_index": 18,
+      "topic_refs": [
+       "yMSXdwDO36CLtp2TBC7aB",
+       "9-oaTlzKmcxTfaRycz1w3",
+       "88IGeC3dAopHLGtLozxdY",
+       "Pymc9H-lRHVPy7M9eSaPD",
+       "dATdEyNWlpDNKjedCXLyb",
+       "auZgEQ6FC3nUjuyx0zANh"
+      ],
+      "queries": [
+       "Cloud Engineering: Kubernetes"
+      ]
+     },
+     {
+      "step_number": 6,
+      "global_step_index": 19,
+      "topic_refs": [
+       "-XxQtiLDAkXs7IFM_Ddw6",
+       "nqUBHBFUYFdYqCKZvfXBR",
+       "ldYTEPt_hI4PXxr3tgJi5",
+       "pDjNsK5vI9FmKZbQm0lDP",
+       "AgsQnQjyTLUFhFpRdcE13",
+       "UeJcKv3jhenjNzHM-0R86",
+       "9P7l-RBOkUxs3Z_UpKQO-",
+       "L9rVPEEXFwisQOwT_LQ4v",
+       "1-Nb8rCMJEZrYm20sEcRJ",
+       "t8SJbGVXsUDECxePLDk_w"
+      ],
+      "queries": [
+       "Cloud Engineering",
+       "Cloud Engineering fundamentals",
+       "Cloud Engineering: Kubernetes"
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 4,
+    "title": "Terraform",
+    "queries": [
+     "Cloud Engineering",
+     "Cloud Engineering fundamentals",
+     "Cloud Engineering: Terraform"
+    ],
+    "retrieved": [
+     {
+      "source": "terraform/introduction@h6qRrUe-bn25s0UkxU600.md",
+      "score": 0.8055932521820068,
+      "queries": [
+       "Cloud Engineering",
+       "Cloud Engineering fundamentals",
+       "Cloud Engineering: Terraform"
+      ]
+     },
+     {
+      "source": "terraform/what-is-terraform@CU9V3iRdssamsG-xMouXT.md",
+      "score": 0.7622708082199097,
+      "queries": [
+       "Cloud Engineering: Terraform"
+      ]
+     },
+     {
+      "source": "terraform/usecases-and-benefits@hRIDJHIxWc5Iav7tsu8l-.md",
+      "score": 0.7072942852973938,
+      "queries": [
+       "Cloud Engineering",
+       "Cloud Engineering fundamentals",
+       "Cloud Engineering: Terraform"
+      ]
+     },
+     {
+      "source": "terraform/deployment@pjmOK1MEMnIV_zAlaOF01.md",
+      "score": 0.6676533222198486,
+      "queries": [
+       "Cloud Engineering: Terraform"
+      ]
+     },
+     {
+      "source": "terraform/ci--cd-integration@O194eWh529jj4VDhKxNSj.md",
+      "score": 0.6653227806091309,
+      "queries": [
+       "Cloud Engineering: Terraform"
+      ]
+     },
+     {
+      "source": "terraform/scaling-terraform@ECcHo0KTDN27MuVTC-Fwy.md",
+      "score": 0.6644217371940613,
+      "queries": [
+       "Cloud Engineering",
+       "Cloud Engineering fundamentals",
+       "Cloud Engineering: Terraform"
+      ]
+     },
+     {
+      "source": "so_survey_2025_india/Cloud_Engineering",
+      "score": 0.4638206362724304,
+      "queries": [
+       "Cloud Engineering"
+      ]
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 20,
+      "topic_refs": [
+       "twR3k9D-qDr1CbyW6K0Fs",
+       "UsINvx84pBF1hp8XoLF4c",
+       "CU9V3iRdssamsG-xMouXT",
+       "hRIDJHIxWc5Iav7tsu8l-",
+       "h6qRrUe-bn25s0UkxU600",
+       "AYtBLFU1nowEq-EVlXrEZ",
+       "Hma2IgatFME8STHPwpeMG",
+       "qhO7CY-1_vuh2BVJYQCzh",
+       "LaD0H7XhoEEaXbcwjxAbw",
+       "GlIXmCuvR_C81RMeMM1Kz",
+       "6zFuSNOfbPaYIE_t--2nr",
+       "bnQ2YLHd7E-vRxX3PnUEX"
+      ],
+      "queries": [
+       "Cloud Engineering",
+       "Cloud Engineering fundamentals",
+       "Cloud Engineering: Terraform"
+      ]
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 21,
+      "topic_refs": [
+       "ZRVv9onD7KGz1cJLcsnwy",
+       "5FLOFTP_nCa3qi1wbV4qE",
+       "JJ-QhLWqT0luis_kVDVHW",
+       "RPcsyhIG027uP7KF0hwaY",
+       "BYydmFc2e-YPCC4MCWmh2",
+       "huXZz55P7kVJwTn5BS_Wk",
+       "BgZu7Xao5GjR8StVL7qhM",
+       "76kp98rvph_8UOXZR-PBC",
+       "TPd00dRndj1P8674KTTrm",
+       "EIsex6gNHDRYHn0o2spzi",
+       "kyScfijEntX9H1mp7tmej",
+       "gcdg_GhAacIWzv19ITTE_"
+      ],
+      "queries": [
+       "Cloud Engineering: Terraform"
+      ]
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 22,
+      "topic_refs": [
+       "AY7_xUeCl6ilqZzg1YFoP",
+       "VxMse1VTZAUtVhpKv1OHS",
+       "rdphcVd-Vq972y4H8CxIj",
+       "HUiodBFIp_rsQDkf3WgbI",
+       "U2n2BtyUrOFLnw9SZYV_w",
+       "fm8oUyNvfdGWTgLsYANUr",
+       "1mFih8uFs3Lc-1PLgwiAU",
+       "7GK4fQf1FRKrZgZkxNahj",
+       "31fa8kBzCEn-uCrTSoPM4",
+       "kw32gb4HSeCEoBwkeziS_",
+       "8giL6H5944M2L0rwxjPso",
+       "tB4zfwY4E3GmXo-XQwS-l"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 4,
+      "global_step_index": 23,
+      "topic_refs": [
+       "wL3WWhjPEgFmumOmCPRDf",
+       "LDxAXmTKyvogvgUpvN5pT",
+       "LDpj-LY_SOXzno04D-Y25",
+       "LPI13FILvkD55hWcWbPrV",
+       "78bGm8J5Y1I8H4qioOvWb",
+       "wdYLjB-tKg76B7YcnhevQ",
+       "Xes24SqkwSaO844kLbClj",
+       "jvHtSRLuCXJrGIiesgbE-",
+       "vAFFgKSthyj_3Lxt-Z6pg",
+       "RtwZy60ruRpskmgr1qYYf",
+       "0A8zTuCXVmcruJdfH3cNu",
+       "DB-p_S4Ce4tDWF4wDiGSt"
+      ],
+      "queries": [
+       "Cloud Engineering",
+       "Cloud Engineering fundamentals",
+       "Cloud Engineering: Terraform"
+      ]
+     },
+     {
+      "step_number": 5,
+      "global_step_index": 24,
+      "topic_refs": [
+       "5xAE-9viD7DP_ugQ6NE_C",
+       "pDm08NBVwGf9rAIZC_ZIR",
+       "GseYuG9wT8H9R_enxWzuQ",
+       "jas0XILqCUXjWRk3ZoSEO",
+       "KXlLlaR0_S7gE_ZB1hNEd",
+       "7DZB2VeyuouFXOdFEfeZt",
+       "Y-mgCkDpawt5NrMwDH9Ki",
+       "0xVXwjWPFXDGRw_3p6th6",
+       "uR6Vjm8cek9JRzZV0iTXh",
+       "wSh7bbPswcFAzOicX8VPx",
+       "Trpi2ZlnXZVYJCibE2bQ8",
+       "L7wAMGi_yU-Bbc9fXlmxZ"
+      ],
+      "queries": [
+       "Cloud Engineering: Terraform"
+      ]
+     },
+     {
+      "step_number": 6,
+      "global_step_index": 25,
+      "topic_refs": [
+       "R2AORYmc1NgGTqLZY5Fu-",
+       "wQN1QrK9VB_fHlXrBzDoU",
+       "6W4_akHG9YtvN6dpbZnG-",
+       "NsBJTYH9KXvjJuhPzjE_L",
+       "AAg_iFggkEZNL12-6nkgK",
+       "iIjUG_N_mQtLHG25v4-xg",
+       "gTMPK0tfs2JYgoL7SAGW6",
+       "1T35eNO18qoyXcX7S-Jox"
+      ],
+      "queries": [
+       "Cloud Engineering: Terraform"
+      ]
+     },
+     {
+      "step_number": 7,
+      "global_step_index": 26,
+      "topic_refs": [
+       "6vs1VvjeILgAPLL6g7dfy",
+       "Qch8k6e4pS8OlmG_sI0hH",
+       "g2F5-nX4Aw-xWZiypNbnL",
+       "JQE3_KakBXZdMVP_pPFNS",
+       "HEr-BBxE3jRKTqRnguds1",
+       "CJfCpRN_oVf6n_EfLNJSV"
+      ],
+      "queries": [
+       "Cloud Engineering: Terraform"
+      ]
+     },
+     {
+      "step_number": 8,
+      "global_step_index": 27,
+      "topic_refs": [
+       "QSftI21seX6I_xPonlfmU",
+       "V7_NnDIY1MefV_xjCCsnI",
+       "bjozhkpOI9UjjNfmT5HhY",
+       "ENkLj3z6hR2cKT7rBhYp5",
+       "QqwlAtz7VfrMtNEGpT5Sa",
+       "H3_So6qX-s2131WHGR_GO",
+       "YftsQYpcqJqBKPjy5tWOq",
+       "ljj7ngl1N4ezCXQ0o6Y8x",
+       "Vxo_gNdFl3CZXV7GLPqjD",
+       "MUkbLTMzmaVWbAJj6G3aj",
+       "NSWG79dEygyl6pb54wLrE",
+       "oANePqjkwtNMwvV-_W0B7"
+      ],
+      "queries": [
+       "Cloud Engineering",
+       "Cloud Engineering fundamentals",
+       "Cloud Engineering: Terraform"
+      ]
+     },
+     {
+      "step_number": 9,
+      "global_step_index": 28,
+      "topic_refs": [
+       "O194eWh529jj4VDhKxNSj",
+       "weIlGqGN15U8BH1yE9moA",
+       "fH27mGrdnkDQCrGGDFU6p",
+       "qFpaqOSoefTyKxmI-FRZt",
+       "6OoAdvikyp0byMH2oZhyQ",
+       "JoUWF6AQoreELxFHNi9oo",
+       "ECcHo0KTDN27MuVTC-Fwy",
+       "zCU02_5Pide5BZiuMuqEU",
+       "AEtW6j2GcfZz7IXk4sM6c",
+       "uVz9WwVAgMu1ZU0qjqVnc",
+       "16vLOPP9lTCuBh0q-UVMk",
+       "3MnZK2V5KhBhw67SyUVPk"
+      ],
+      "queries": [
+       "Cloud Engineering",
+       "Cloud Engineering fundamentals",
+       "Cloud Engineering: Terraform"
+      ]
+     },
+     {
+      "step_number": 10,
+      "global_step_index": 29,
+      "topic_refs": [
+       "erxow5xNRj01WepdFOhVf",
+       "K_7dB-5cCYzGbwYXXaoiY",
+       "elW7IMBSF0ydmlb7rtI1o",
+       "nU1WoRtxRF9KeNhzuwNUB",
+       "z0PcbgpHbR6Fm07-On4P8",
+       "Z6dG92afC8SGwCFNTx4ac"
+      ],
+      "queries": [
+       "Cloud Engineering",
+       "Cloud Engineering fundamentals",
+       "Cloud Engineering: Terraform"
+      ]
+     }
+    ]
+   }
+  ]
+ }
+}

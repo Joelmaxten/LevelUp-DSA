@@ -1,0 +1,2812 @@
+{
+ "metadata": {
+  "schema_version": 1,
+  "career_path": "Machine Learning Engineering",
+  "model_id": "claude-opus-5-5",
+  "built_at": "2026-10-10T17:45:59Z",
+  "generator": {
+   "profile": "neutral",
+   "provider": "claude_authored",
+   "llm_host": null,
+   "authoring": "Every model reply in this run was written by Claude (claude-opus-5-5) in a Claude Code cloud session, answering the generator's own prompts; retrieval, topic-ref validation, duplicate check, more_topics, resources and audit are the unmodified pipeline.",
+   "phase_concurrency": 1,
+   "duplicate_similarity_threshold": 0.8,
+   "reasoning_effort": "",
+   "resources": "kb_only"
+  },
+  "inventory_fingerprint": "e9ab7763076a57dadef1bae7b58df3714f1ceaeecb510ac088f41a1da22dc2bb"
+ },
+ "roadmap": {
+  "phases": [
+   {
+    "phase_number": 1,
+    "title": "Python",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "Python Fundamentals",
+      "description": "Nearly all ML training, data preparation and serving code is written in Python, so fluent core syntax comes before any model work. Practise variables, control flow, functions, the built-in collections and exception handling until writing small scripts takes no effort.",
+      "topic_refs": [
+       "6xRncUs3_vxVbDur567QA",
+       "dEFLBGpiH6nbSMeR7ecaT",
+       "so95CO6Qw3I0S98ISENS-",
+       "NP1kjSk0ujU0Gx-ajNHlR",
+       "Dvy7BnNzK55qbh_SgOk8m",
+       "-DJgS6l2qngfwurExlmmT",
+       "UT_SR7G-LYtzqooWrEtF1",
+       "bc9CL_HMT-R6nXO1eR-gP",
+       "i7xIGiXU-k5UIKHIhQPjE",
+       "soZFqivM3YBuljeX6PoaX",
+       "Sg5w8zO2Ji-uDJKEoWey9",
+       "fNTb9y3zs1HPYclAmu_Wv"
+      ],
+      "projects": [
+       {
+        "title": "CSV statistics script",
+        "description": "Read a CSV of exam scores with the standard library and print the mean, median and top performers per subject.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Text cleaning utility",
+        "description": "Normalise case, strip punctuation and count word frequencies in a folder of review texts.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Basic Syntax",
+       "Variables",
+       "Operators",
+       "Conditionals",
+       "Loops"
+      ],
+      "more_topics": [
+       {
+        "node_id": "GISOFMKvnBys0O0IMpz2J",
+        "title": "Python"
+       },
+       {
+        "node_id": "o1wi39VnjnFfWIC8XcuAK",
+        "title": "Typing"
+       },
+       {
+        "node_id": "0-ShORjGnQlAdcwjtxdEB",
+        "title": "Python Frameworks"
+       },
+       {
+        "node_id": "0F0ppU_ClIUKZ23Q6BVZp",
+        "title": "Code Formatting"
+       },
+       {
+        "node_id": "aVclygxoA9ePU5IxaORSH",
+        "title": "Doctest"
+       },
+       {
+        "node_id": "1PXApuUpPmJjgi12cmWo4",
+        "title": "Static Typing"
+       },
+       {
+        "node_id": "jPFOiwbqfaGshaGDBWb5x",
+        "title": "Tox"
+       },
+       {
+        "node_id": "__ndo1gcuUUtzmBnMIAbR",
+        "title": "Docstrings and Comments"
+       },
+       {
+        "node_id": "WQOYjuwKIWB2meea4JnsV",
+        "title": "Testing"
+       },
+       {
+        "node_id": "3RNy7Sp28d-NMx0Yh4bdx",
+        "title": "Variable Scope"
+       },
+       {
+        "node_id": "7zcpXN3krnS3tMRWVNIVe",
+        "title": "Plotly Dash"
+       },
+       {
+        "node_id": "zey2C6BdzsHJAlb_K3qrP",
+        "title": "Tornado"
+       },
+       {
+        "node_id": "7t6mJBsaFMWPi7o9fbhhq",
+        "title": "Regular Expressions"
+       },
+       {
+        "node_id": "kLBgy_nxxjE8SxdVi04bq",
+        "title": "Recursion"
+       },
+       {
+        "node_id": "vvTmjcWCVclOPY4f_5uB0",
+        "title": "Sorting Algorithms"
+       }
+      ],
+      "global_step_index": 1,
+      "resource": {
+       "title": "Python for Beginners - Learn Python in 1 Hour",
+       "url": "https://youtube.com/watch?v=kqtD5dpn9C8"
+      },
+      "videos": [
+       {
+        "title": "Python for Beginners - Learn Python in 1 Hour",
+        "url": "https://youtube.com/watch?v=kqtD5dpn9C8",
+        "video_id": "kqtD5dpn9C8",
+        "source": "roadmap.sh",
+        "topic": "Basic Syntax"
+       },
+       {
+        "title": "Python Tutorial for Beginners | Operators in Python",
+        "url": "https://youtube.com/watch?v=v5MR5JnKcZI",
+        "video_id": "v5MR5JnKcZI",
+        "source": "roadmap.sh",
+        "topic": "Operators"
+       },
+       {
+        "title": "Control Flow in Python - If Elif Else Statements",
+        "url": "https://youtube.com/watch?v=Zp5MuPOtsSY",
+        "video_id": "Zp5MuPOtsSY",
+        "source": "roadmap.sh",
+        "topic": "Conditionals"
+       },
+       {
+        "title": "Learn Python for loops in 5 minutes!",
+        "url": "https://youtube.com/watch?v=KWgYha0clzw",
+        "video_id": "KWgYha0clzw",
+        "source": "roadmap.sh",
+        "topic": "Loops"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Built-in Functions in Python",
+        "url": "https://docs.python.org/3/library/functions.html",
+        "topic": "Functions"
+       },
+       {
+        "type": "official",
+        "title": "Python Official Documentation on Listsc",
+        "url": "https://docs.python.org/3/tutorial/introduction.html#lists",
+        "topic": "Lists in Python"
+       },
+       {
+        "type": "official",
+        "title": "Dictionaries in Python",
+        "url": "https://docs.python.org/3/tutorial/datastructures.html#dictionaries",
+        "topic": "Dictionaries"
+       },
+       {
+        "type": "official",
+        "title": "Tuples Documentation",
+        "url": "https://docs.python.org/3/tutorial/datastructures.html#tuples-and-sequences",
+        "topic": "Tuples"
+       }
+      ]
+     },
+     {
+      "step_number": 2,
+      "title": "Idiomatic Python: Classes, Modules and Iteration",
+      "description": "ML codebases rely on classes for datasets and models, generators for streaming data and context managers for files and resources. Learn object-oriented Python, modules and packages, comprehensions, decorators and file handling.",
+      "topic_refs": [
+       "AqwzR8dZKLQIoj_6KKZ3t",
+       "P_Di-XPSDITmU3xKQew8G",
+       "S0FLE70szSVUPI0CDEQK7",
+       "zAS4YiEJ6VPsyABrkIG8i",
+       "274uk28wzxn6EKWQzLpHs",
+       "l7k0qTYe42wYBTlT2-1cy",
+       "4gtmtYWYRWqwLdZRL0XMg",
+       "jnLIVRrWxcX3yq3Op91Vr",
+       "aB1LSQjDEQb_BxueOcnxU",
+       "pIluLJkySqn_gI_GykV6G",
+       "KAXF2kUAOvtBZhY8G9rkI",
+       "Nf3kRDSl_vas6QPXG7eVa"
+      ],
+      "projects": [
+       {
+        "title": "Batching data loader",
+        "description": "A class that streams records from a large file in fixed-size batches using a generator.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Timing decorator",
+        "description": "A decorator that logs how long each preprocessing function takes, packaged as a reusable module.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Classes",
+       "OOP",
+       "Inheritance",
+       "Methods and Dunder Methods",
+       "Modules"
+      ],
+      "more_topics": [
+       {
+        "node_id": "08XifLQ20c4FKI_4AWNBQ",
+        "title": "Builtin Modules"
+       },
+       {
+        "node_id": "_94NrQ3quc4t_PPOsFSN0",
+        "title": "Common Packages and Modules"
+       },
+       {
+        "node_id": "DHtskqATeAVKgaazdhXKD",
+        "title": "Pyramid"
+       },
+       {
+        "node_id": "b4he_RO17C3ScNeUd6v2b",
+        "title": "PyUnit / Unittest"
+       },
+       {
+        "node_id": "4GU5HNi3W8yFkImVY9ZpW",
+        "title": "Paradigms"
+       },
+       {
+        "node_id": "9mFR_ueXbIB2IrkqU2s85",
+        "title": "pyrefly"
+       },
+       {
+        "node_id": "HKsGyRzntjh1UbRZSWh_4",
+        "title": "Flask"
+       },
+       {
+        "node_id": "bqnwMKY4R0rirup3q_hb_",
+        "title": "Glob Module in Python"
+       },
+       {
+        "node_id": "aWHgAk959DPUZL46CeRiI",
+        "title": "Lambdas"
+       },
+       {
+        "node_id": "tsh_vbhzKz1-H9Vh69tsK",
+        "title": "yapf"
+       },
+       {
+        "node_id": "DS6nuAUhUYcqiJDmQisKM",
+        "title": "black"
+       },
+       {
+        "node_id": "x1V8GjdjANTnhP6YXMbgC",
+        "title": "Django"
+       },
+       {
+        "node_id": "3dC2o3WXdx4plFhDP2Vqk",
+        "title": "Encapsulation"
+       },
+       {
+        "node_id": "DG4fi1e5ec2BVckPLsTJS",
+        "title": "HashMaps"
+       },
+       {
+        "node_id": "VJSIbYJcy2MC6MOFBrqXi",
+        "title": "Data Structures and Algorithms"
+       },
+       {
+        "node_id": "R9DQNc0AyAQ2HLpP4HOk6",
+        "title": "Typecasting"
+       },
+       {
+        "node_id": "uXd2B01GVBEQNXQE8RATT",
+        "title": "Poetry"
+       },
+       {
+        "node_id": "maYNuTKYyZndxk1z29-UY",
+        "title": "sphinx"
+       },
+       {
+        "node_id": "0NlRczh6ZEaFLlT6LORWz",
+        "title": "Heaps, Stacks, and Queues"
+       },
+       {
+        "node_id": "uJIqgsqUbE62Tyo3K75Qx",
+        "title": "Binary Search Trees"
+       },
+       {
+        "node_id": "OPD4WdMO7q4gRZMcRCQh1",
+        "title": "Arrays and Linked lists"
+       }
+      ],
+      "global_step_index": 2,
+      "resource": {
+       "title": "Python OOP Tutorial",
+       "url": "https://youtube.com/watch?v=ZDa-Z5JzLYM"
+      },
+      "videos": [
+       {
+        "title": "Python OOP Tutorial",
+        "url": "https://youtube.com/watch?v=ZDa-Z5JzLYM",
+        "video_id": "ZDa-Z5JzLYM",
+        "source": "roadmap.sh",
+        "topic": "Classes"
+       },
+       {
+        "title": "OOP in Python One Shot",
+        "url": "https://youtube.com/watch?v=Ej_02ICOIgs",
+        "video_id": "Ej_02ICOIgs",
+        "source": "roadmap.sh",
+        "topic": "OOP"
+       },
+       {
+        "title": "Decorators in Python",
+        "url": "https://youtube.com/watch?v=FXUUSfJO_J4",
+        "video_id": "FXUUSfJO_J4",
+        "source": "roadmap.sh",
+        "topic": "Decorators"
+       },
+       {
+        "title": "Python File Handling for Beginners",
+        "url": "https://youtube.com/watch?v=BRrem1k3904",
+        "video_id": "BRrem1k3904",
+        "source": "roadmap.sh",
+        "topic": "File Handling in Python"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Classes in Python",
+        "url": "https://docs.python.org/3/tutorial/classes.html",
+        "topic": "Classes"
+       },
+       {
+        "type": "official",
+        "title": "Python Official Documentation on Inheritance",
+        "url": "https://docs.python.org/3/tutorial/classes.html#inheritance",
+        "topic": "Inheritance"
+       },
+       {
+        "type": "official",
+        "title": "Python Modules",
+        "url": "https://docs.python.org/3/tutorial/modules.html",
+        "topic": "Modules"
+       },
+       {
+        "type": "official",
+        "title": "Python List Comprehensions",
+        "url": "https://docs.python.org/3/tutorial/datastructures.html#list-comprehensions",
+        "topic": "List Comprehensions"
+       }
+      ]
+     },
+     {
+      "step_number": 3,
+      "title": "Python Tooling, Typing, Testing and Parallelism",
+      "description": "Reproducible ML work needs pinned environments, typed and tested code, and an understanding of why the GIL pushes CPU-heavy work into processes. Set up environments and packaging, add type checks and pytest, and use multiprocessing for parallel feature work.",
+      "topic_refs": [
+       "qeCMw-sJ2FR4UxvU9DDzv",
+       "iVhQnp6hpgVZDNJ0XoVra",
+       "_IXXTSwQOgYzYIUuKVWNE",
+       "uh67D1u-Iv5cZamRgFEJg",
+       "GHKAY9gOykEbxkEeR30wL",
+       "syV0DT_3ITgIFDbwPts8i",
+       "gIcJ3bUVQXqO1Wx4gUKd5",
+       "3FDwJpesfelEyJrNWtm0V",
+       "6cB0pvUO1-gvCtgqozP-Q",
+       "bS7WeVKm2kEElu3sBKcIC",
+       "HSY5OUc_M5S6OcFXPRtkx",
+       "tbR_h9NpZ5tBTYuCfwkcY"
+      ],
+      "projects": [
+       {
+        "title": "Packaged feature library",
+        "description": "Turn a set of feature functions into an installable package with pyproject.toml, type hints and pytest tests.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Parallel image resizer",
+        "description": "Resize a folder of images with a process pool and compare the run time with threads.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Package Managers",
+       "Pip",
+       "virtualenv",
+       "Conda",
+       "pyproject.toml"
+      ],
+      "more_topics": [
+       {
+        "node_id": "u4nRzWQ4zhDFMOrZ2I_uJ",
+        "title": "Concurrency"
+       },
+       {
+        "node_id": "UIx0XYaOgXXlYbbQtjiPq",
+        "title": "Threading"
+       },
+       {
+        "node_id": "IWq-tfkz-pSC1ztZl60vM",
+        "title": "pipenv"
+       },
+       {
+        "node_id": "W3VALz5evFo1qqkQbMN1R",
+        "title": "Pydantic"
+       },
+       {
+        "node_id": "9RGpqsj9jHz0_-r7EvRcw",
+        "title": "Sanic"
+       },
+       {
+        "node_id": "xDgXISgVUMRHh9hu4h6Hl",
+        "title": "PDM"
+       },
+       {
+        "node_id": "N5VaKMbgQ0V_BC5tadV65",
+        "title": "pyenv"
+       },
+       {
+        "node_id": "XeQSmvAsGSTi8dd7QVHxn",
+        "title": "FastAPI"
+       },
+       {
+        "node_id": "1q9HWgu9jDTK757hTNOmE",
+        "title": "pyright"
+       },
+       {
+        "node_id": "Mow7RvropbC4ZGDpcGZmw",
+        "title": "Asynchrony"
+       },
+       {
+        "node_id": "p3Frfs6oxpuciUzeCEsvb",
+        "title": "uv"
+       },
+       {
+        "node_id": "1dfOTOGsOk5XE3bnZs8Ht",
+        "title": "PyPI"
+       },
+       {
+        "node_id": "IBVAvFtN4mnIPbIuyUvEb",
+        "title": "AIOHTTP"
+       },
+       {
+        "node_id": "InUJIGmTnf0X4cSoLuCEQ",
+        "title": "gevent"
+       }
+      ],
+      "global_step_index": 3,
+      "resource": {
+       "title": "Pytest Tutorial – How to Test Python Code",
+       "url": "https://youtube.com/watch?v=cHYq1MRoyI0"
+      },
+      "videos": [
+       {
+        "title": "Pytest Tutorial – How to Test Python Code",
+        "url": "https://youtube.com/watch?v=cHYq1MRoyI0",
+        "video_id": "cHYq1MRoyI0",
+        "source": "roadmap.sh",
+        "topic": "pytest"
+       },
+       {
+        "title": "Pydantic Tutorial – Complete Python Data Validation (ArjanCodes)",
+        "url": "https://youtube.com/watch?v=XIdQ6gO3Anc",
+        "video_id": "XIdQ6gO3Anc",
+        "source": "roadmap.sh",
+        "topic": "Pydantic"
+       },
+       {
+        "title": "Sanic Python Framework Tutorial (Tech With Tim)",
+        "url": "https://youtube.com/watch?v=w4UQkgxKuaI",
+        "video_id": "w4UQkgxKuaI",
+        "source": "roadmap.sh",
+        "topic": "Sanic"
+       },
+       {
+        "title": "Create an API with Fast-API (Full 19 Hour Course)",
+        "url": "https://youtube.com/watch?v=0sOvCWFmrtA",
+        "video_id": "0sOvCWFmrtA",
+        "source": "roadmap.sh",
+        "topic": "FastAPI"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "pip Documentation",
+        "url": "https://pip.pypa.io/en/stable/installation/",
+        "topic": "Pip"
+       },
+       {
+        "type": "official",
+        "title": "Virtual Environments",
+        "url": "https://virtualenv.pypa.io/en/latest/",
+        "topic": "virtualenv"
+       },
+       {
+        "type": "official",
+        "title": "Conda Documentation",
+        "url": "https://docs.conda.io/en/latest/",
+        "topic": "Conda"
+       },
+       {
+        "type": "official",
+        "title": "Writing pyproject.toml files",
+        "url": "https://packaging.python.org/en/latest/guides/writing-pyproject-toml/",
+        "topic": "pyproject.toml"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 2,
+    "title": "Machine Learning",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "What ML Engineers Do and the Types of Learning",
+      "description": "An ML engineer's job is to turn models into dependable software, which is different from research or analytics work. Start by placing the role and the main learning settings (supervised, unsupervised, semi- and self-supervised) so every later step has a frame.",
+      "topic_refs": [
+       "MEL6y3vwiqwAV6FQihF34",
+       "rzhVFzl5H5MWtcvr8ayRk",
+       "FgzPlLUfGdlZPvPku0-Xl",
+       "GHO6lN3GTiIRH1P70IRaZ",
+       "BzZd-d5t63dY97SRSIb0J",
+       "Ns2zKn8BL_kTEI6O65pCp",
+       "5MUwKGfSTKlam8KCG0A1U",
+       "36ryjK5isV1MD4MgZP2Jn",
+       "ajKU5CPlbn7BbWHEhUNaB",
+       "9oWdnQd-vwVJi62JQLgJ5",
+       "Yho0zf9F-ROhEnTxRMq_M",
+       "lgO7luG7-R_FY5nwFjRE0"
+      ],
+      "projects": [
+       {
+        "title": "Role map from job postings",
+        "description": "Collect ten ML engineer postings and tabulate the skills, tools and responsibilities that recur.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Learning-type classifier quiz",
+        "description": "Write twenty real product problems and label each with the learning setting that fits it, with a reason.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Introduction to Machine Learning",
+       "Machine Learning",
+       "ML Engineer",
+       "ML Engineer vs. AI Engineer",
+       "Skills and Responsibilities"
+      ],
+      "more_topics": [],
+      "global_step_index": 4,
+      "resource": {
+       "title": "What is Machine Learning?",
+       "url": "https://youtube.com/watch?v=9gGnTQTYNaE"
+      },
+      "videos": [
+       {
+        "title": "What is Machine Learning?",
+        "url": "https://youtube.com/watch?v=9gGnTQTYNaE",
+        "video_id": "9gGnTQTYNaE",
+        "source": "roadmap.sh",
+        "topic": "Introduction to Machine Learning"
+       },
+       {
+        "title": "Complete Machine Learning in One Video | Machine Learning Tutorial For Beginners 2025 | Simplilearn",
+        "url": "https://youtube.com/watch?v=PtYRUoJRE9s",
+        "video_id": "PtYRUoJRE9s",
+        "source": "roadmap.sh",
+        "topic": "Machine Learning"
+       },
+       {
+        "title": "AI VS ML Engineer What Do They Do?",
+        "url": "https://youtube.com/watch?v=Ff8HHBITvfs",
+        "video_id": "Ff8HHBITvfs",
+        "source": "roadmap.sh",
+        "topic": "ML Engineer vs. AI Engineer"
+       },
+       {
+        "title": "Supervised Machine Learning Explained For Beginners",
+        "url": "https://youtube.com/watch?v=Mu3POlNoLdc",
+        "video_id": "Mu3POlNoLdc",
+        "source": "roadmap.sh",
+        "topic": "Supervised Learning"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 2,
+      "title": "Linear Algebra and Calculus for ML",
+      "description": "Training is matrix arithmetic plus gradient descent, so these two subjects explain what libraries do under the hood and why models fail to converge. Cover vectors, tensors, matrix operations, decompositions, derivatives and the chain rule.",
+      "topic_refs": [
+       "83UDoO1vC0LjL-qpI0Jh-",
+       "d7J8GEkut61NDGRzROJoP",
+       "1IhaXJxNREq2HA1nT-lMM",
+       "XmnWnPE1sVXheuc-M_Ew7",
+       "3p98Uwf8gyALDr-89lBEZ",
+       "yGs2h10gZcO4GMaWfI3uW",
+       "wHlEinHuRARp5OfSulpA-",
+       "GN6SnI7RXIeW8JeD-qORW",
+       "3BxbkrBp8veZj38zdwN8s",
+       "jJukG4XxfFcID_VlQKqe-",
+       "N_vLjBVdsGsoePtqlqh2w"
+      ],
+      "projects": [
+       {
+        "title": "Gradient descent from scratch",
+        "description": "Fit a line to noisy data with NumPy-only gradient descent and plot the loss falling per iteration.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Image compression with SVD",
+        "description": "Compress a greyscale photo by keeping the top-k singular values and compare quality against k.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Linear Algebra",
+       "Scalars, Vectors, and Tensors",
+       "Matrix & Matrix Operations",
+       "Determinants and Inverse of a Matrix",
+       "Eigenvalues and Diagonalization"
+      ],
+      "more_topics": [],
+      "global_step_index": 5,
+      "resource": {
+       "title": "Linear Algebra for Machine Learning",
+       "url": "https://youtube.com/watch?v=QCPJ0VdpM00"
+      },
+      "videos": [
+       {
+        "title": "Linear Algebra for Machine Learning",
+        "url": "https://youtube.com/watch?v=QCPJ0VdpM00",
+        "video_id": "QCPJ0VdpM00",
+        "source": "roadmap.sh",
+        "topic": "Linear Algebra"
+       },
+       {
+        "title": "What the HECK is a Tensor?!?",
+        "url": "https://youtube.com/watch?v=bpG3gqDM80w",
+        "video_id": "bpG3gqDM80w",
+        "source": "roadmap.sh",
+        "topic": "Scalars, Vectors, and Tensors"
+       },
+       {
+        "title": "Linear Algebra - Matrix Operations",
+        "url": "https://youtube.com/watch?v=p48uw2vFWQs",
+        "video_id": "p48uw2vFWQs",
+        "source": "roadmap.sh",
+        "topic": "Matrix & Matrix Operations"
+       },
+       {
+        "title": "Determinant of a Matrix",
+        "url": "https://youtube.com/watch?v=CcbyMH3Noow",
+        "video_id": "CcbyMH3Noow",
+        "source": "roadmap.sh",
+        "topic": "Determinants and Inverse of a Matrix"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 3,
+      "title": "Probability and Statistics for ML",
+      "description": "Model outputs are probabilities and evaluation is a statistical question, so you need these tools to judge whether a result is real. Learn descriptive and inferential statistics, distributions, random variables and Bayes' theorem.",
+      "topic_refs": [
+       "5DiaZkljhHAGPi9DkaH3b",
+       "P32Rmnln5NCFWz4LP0k05",
+       "ZaoZ2XxicKuTDn4uxe52L",
+       "DUIrJwuYHlhJvZJT2acaY",
+       "tP0oBkjvJC9hrtARkgLon",
+       "p8q1Gtt9x19jw5_-YjAGh",
+       "7o6g0wQxHH9i9MMCoDq2C",
+       "P576TdYcbE6v3RpJntiKw",
+       "WLlZE_vto-CYY5GLV_w7o"
+      ],
+      "projects": [
+       {
+        "title": "Spam filter with Bayes' theorem",
+        "description": "Hand-compute word probabilities on a small SMS dataset and classify new messages.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "A/B result checker",
+        "description": "Decide whether a change in click-through rate between two app versions is statistically significant.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Statistics",
+       "Basic Statistical Concepts",
+       "Descriptive Statistics",
+       "Inferential Statistics",
+       "Probability"
+      ],
+      "more_topics": [],
+      "global_step_index": 6,
+      "resource": {
+       "title": "Statistics - A Full University Course on Data Science Basics",
+       "url": "https://youtube.com/watch?v=xxpc-HPKN28"
+      },
+      "videos": [
+       {
+        "title": "Statistics - A Full University Course on Data Science Basics",
+        "url": "https://youtube.com/watch?v=xxpc-HPKN28",
+        "video_id": "xxpc-HPKN28",
+        "source": "roadmap.sh",
+        "topic": "Statistics"
+       },
+       {
+        "title": "Probability for Data Science & Machine Learning",
+        "url": "https://youtube.com/watch?v=sEte4hXEgJ8",
+        "video_id": "sEte4hXEgJ8",
+        "source": "roadmap.sh",
+        "topic": "Probability"
+       },
+       {
+        "title": "Bayes' Theorem EXPLAINED with Examples",
+        "url": "https://youtube.com/watch?v=cqTwHnNbc8g",
+        "video_id": "cqTwHnNbc8g",
+        "source": "roadmap.sh",
+        "topic": "Bayes' Theorem"
+       },
+       {
+        "title": "Sample Variance in Random Population Sampling",
+        "url": "https://youtube.com/watch?v=yNnUVHfX5yQ",
+        "video_id": "yNnUVHfX5yQ",
+        "source": "roadmap.sh",
+        "topic": "Random Variables and Probability Density Functions"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 4,
+      "title": "Data Sources and Data Formats",
+      "description": "Production models are fed from databases, APIs, devices and files, and each format has costs in size, speed and schema safety. Learn where training data comes from and how to read and write CSV, JSON, Parquet and Excel reliably.",
+      "topic_refs": [
+       "-oRH7LgigHcfBkNF1xwxh",
+       "cxTriSZvrmXP4axKynIZW",
+       "KeGCHoJRHp-mBX-P5to4Y",
+       "dJZqe47kzRqYIG-4AZTlz",
+       "VdMhrAi48V-JXw544YTKI",
+       "s-wUPMaagyRupT2RdfHks",
+       "U4LGIEE3igeE5Ed3EWzsu",
+       "MWfdLCb_w06A0jqwUJUxl",
+       "kagKVPUyLtx8UPAFjRvbN",
+       "tq6WRwUpaCok9fX-0bY7m",
+       "K9Si7kJe946CcGWBGmDsZ",
+       "qRHeaD2udDaItAxmiIiUg"
+      ],
+      "projects": [
+       {
+        "title": "Format benchmark",
+        "description": "Save the same one-million-row table as CSV, JSON and Parquet and compare file size and load time.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "API-to-dataset collector",
+        "description": "Pull daily records from a public API into a database table that a training job can query.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Data Sources",
+       "Internet Data Sources",
+       "IoT Data Sources",
+       "Mobile App Data",
+       "Databases (SQL, No-SQL)"
+      ],
+      "more_topics": [],
+      "global_step_index": 7,
+      "resource": {
+       "title": "What is the IoT",
+       "url": "https://youtube.com/watch?v=4FxU-xpuCww"
+      },
+      "videos": [
+       {
+        "title": "What is the IoT",
+        "url": "https://youtube.com/watch?v=4FxU-xpuCww",
+        "video_id": "4FxU-xpuCww",
+        "source": "roadmap.sh",
+        "topic": "IoT Data Sources"
+       },
+       {
+        "title": "Understanding CSV Files",
+        "url": "https://youtube.com/watch?v=UofTplCVkYI",
+        "video_id": "UofTplCVkYI",
+        "source": "roadmap.sh",
+        "topic": "CSV"
+       },
+       {
+        "title": "JSON Tutorial for Beginners",
+        "url": "https://youtube.com/watch?v=iiADhChRriM",
+        "video_id": "iiADhChRriM",
+        "source": "roadmap.sh",
+        "topic": "JSON"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Parquet",
+        "url": "https://parquet.apache.org/",
+        "topic": "Parquet"
+       }
+      ]
+     },
+     {
+      "step_number": 5,
+      "title": "Data Analysis with NumPy, Pandas and Plots",
+      "description": "Most time on an ML project goes into understanding and cleaning data, and these libraries are the standard toolkit for it. Practise array maths, dataframe wrangling, cleaning steps and the plots that reveal problems before training.",
+      "topic_refs": [
+       "ybqwtlHG4HMm5lyUKW2SO",
+       "nKE9sO-f2fdMiuLu2xby1",
+       "PnOoShqB3z4LuUvp0Gh2e",
+       "OXbATvlhBXTQ1iRGwPUfb",
+       "VYVLUxhp3XxxknNr5V966",
+       "MYZUJ1uHIaRd1Gb4ORzwG",
+       "5v0jRBYrRuVXQC90IseRG",
+       "MdhfkuKWTDCE73hczzG3D"
+      ],
+      "projects": [
+       {
+        "title": "Exploratory analysis of used-car prices",
+        "description": "Clean a listings dataset, handle missing values and outliers, and plot the price drivers.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Data quality report",
+        "description": "A script that profiles any dataframe for nulls, duplicates and skew and saves the charts.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Essential Python Libraries for Data Analysis",
+       "NumPy",
+       "Pandas",
+       "Matplotlib",
+       "Seaborn"
+      ],
+      "more_topics": [
+       {
+        "node_id": "qDn1elMoPIBgQSCWiYkLI",
+        "title": "Python"
+       },
+       {
+        "node_id": "hWA7RtuqltMTmHdcCnmES",
+        "title": "Basic Syntax in Python"
+       },
+       {
+        "node_id": "nN9BumBHi-c9HKFlgL2GH",
+        "title": "Object Oriented Programming"
+       }
+      ],
+      "global_step_index": 8,
+      "resource": {
+       "title": "Learn NumPy in 1 hour!",
+       "url": "https://youtube.com/watch?v=VXU4LSAQDSc"
+      },
+      "videos": [
+       {
+        "title": "Learn NumPy in 1 hour!",
+        "url": "https://youtube.com/watch?v=VXU4LSAQDSc",
+        "video_id": "VXU4LSAQDSc",
+        "source": "roadmap.sh",
+        "topic": "NumPy"
+       },
+       {
+        "title": "Complete Python Pandas Data Science Tutorial! (2025 Updated Edition)",
+        "url": "https://youtube.com/watch?v=2uvysYbKdjM",
+        "video_id": "2uvysYbKdjM",
+        "source": "roadmap.sh",
+        "topic": "Pandas"
+       },
+       {
+        "title": "Learn Matplotlib in 6 minutes",
+        "url": "https://youtube.com/watch?v=nzKy9GY12yo",
+        "video_id": "nzKy9GY12yo",
+        "source": "roadmap.sh",
+        "topic": "Matplotlib"
+       },
+       {
+        "title": "Seaborn Tutorial : Seaborn Full Course",
+        "url": "https://youtube.com/watch?v=6GUZXDef2U0",
+        "video_id": "6GUZXDef2U0",
+        "source": "roadmap.sh",
+        "topic": "Seaborn"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "NumPy",
+        "url": "https://numpy.org/",
+        "topic": "NumPy"
+       },
+       {
+        "type": "official",
+        "title": "pandas - Python Data Analysis Library",
+        "url": "https://pandas.pydata.org/",
+        "topic": "Pandas"
+       },
+       {
+        "type": "official",
+        "title": "Matplotlib",
+        "url": "https://matplotlib.org/",
+        "topic": "Matplotlib"
+       },
+       {
+        "type": "official",
+        "title": "Seaborn",
+        "url": "https://seaborn.pydata.org/",
+        "topic": "Seaborn"
+       }
+      ]
+     },
+     {
+      "step_number": 6,
+      "title": "Feature Engineering and Data Preparation",
+      "description": "Well-built features usually improve a model more than a fancier algorithm, and leakage between train and test data silently inflates scores. Learn scaling, selection, dimensionality reduction and correct train-test splits with scikit-learn.",
+      "topic_refs": [
+       "UmGdV94afOIbAL8MaxOWv",
+       "iBkTNbk8Xz626F_a3Bo5J",
+       "cigwKoltemM0q-M5O50Is",
+       "vQI-4uFQJ6694nm1SCpDR",
+       "K-x_L3z8JTSHwtTeHm4EG",
+       "5xxAg18h74pDAUPy6P8NQ",
+       "ZVbnAF9I1r8qWFFYG6nXv",
+       "-W2uAccH7Y2XIwhfl9mDF",
+       "bIhGv4886V4RWJD3tX0a0"
+      ],
+      "projects": [
+       {
+        "title": "Leak-free preprocessing pipeline",
+        "description": "Build a scikit-learn Pipeline with scaling and encoding fitted only on the training split.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "PCA on a wide dataset",
+        "description": "Reduce a dataset with many features using PCA and compare model accuracy and speed before and after.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Feature Engineering",
+       "Feature Scaling & Normalization",
+       "Feature Selection",
+       "Dimensionality Reduction",
+       "Principal Component Analysis"
+      ],
+      "more_topics": [
+       {
+        "node_id": "y3-nWiDjlY6ZwqmxBUvhd",
+        "title": "Dimensionality Reduction"
+       },
+       {
+        "node_id": "Ddhph9saFgfMi-uUFGK75",
+        "title": "Model Selection in Scikit-learn"
+       }
+      ],
+      "global_step_index": 9,
+      "resource": {
+       "title": "What is feature engineering | Feature Engineering Tutorial Python",
+       "url": "https://youtube.com/watch?v=pYVScuY-GPk"
+      },
+      "videos": [
+       {
+        "title": "What is feature engineering | Feature Engineering Tutorial Python",
+        "url": "https://youtube.com/watch?v=pYVScuY-GPk",
+        "video_id": "pYVScuY-GPk",
+        "source": "roadmap.sh",
+        "topic": "Feature Engineering"
+       },
+       {
+        "title": "Standardization vs Normalization Clearly Explained!",
+        "url": "https://youtube.com/watch?v=sxEqtjLC0aM",
+        "video_id": "sxEqtjLC0aM",
+        "source": "roadmap.sh",
+        "topic": "Feature Scaling & Normalization"
+       },
+       {
+        "title": "Machine Learning - Dimensionality Reduction",
+        "url": "https://youtube.com/watch?v=AU_hBML2H1c",
+        "video_id": "AU_hBML2H1c",
+        "source": "roadmap.sh",
+        "topic": "Dimensionality Reduction"
+       },
+       {
+        "title": "PCA Analysis in Python Explained (Scikit - Learn)",
+        "url": "https://youtube.com/watch?v=6uwa9EkUqpg",
+        "video_id": "6uwa9EkUqpg",
+        "source": "roadmap.sh",
+        "topic": "Principal Component Analysis"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "train_test_split",
+        "url": "https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html",
+        "topic": "Train-Test Data"
+       },
+       {
+        "type": "official",
+        "title": "scikit-learn: machine learning in Python",
+        "url": "https://scikit-learn.org/",
+        "topic": "Scikit-learn"
+       },
+       {
+        "type": "official",
+        "title": "Preprocessing data",
+        "url": "https://scikit-learn.org/stable/modules/preprocessing.html",
+        "topic": "Data Preparation in Scikit-learn"
+       },
+       {
+        "type": "official",
+        "title": "Dataset loading utilities",
+        "url": "https://scikit-learn.org/stable/datasets.html",
+        "topic": "Data Loading in Scikit-learn"
+       }
+      ]
+     },
+     {
+      "step_number": 7,
+      "title": "Supervised Learning Algorithms",
+      "description": "Regression and classification models solve most business ML problems, and knowing when a linear model beats a boosted ensemble saves compute and debugging time. Implement the main families and compare them on the same data.",
+      "topic_refs": [
+       "gKu6tnpTO2PhDDMYp2u7F",
+       "xGO1X9aZRgKcgzi6r1xq8",
+       "hfr2MU8QkVt9KhVi1Okpv",
+       "1aX_vO5zxfTV8_kUIFHkR",
+       "EXogp25SPW1bBfb1gRDAe",
+       "0-6BV-MggAyD7g3JH45B7",
+       "aHOjajXwkDMOssqW1VGrm",
+       "cffITx6oAcnvJlK1VLdi8",
+       "x7vlCNAxfJzobj9HcTaJy",
+       "_jS66rGAWecXH3zVF-5ds",
+       "arlmRF5pYglsbHb-HR-2x",
+       "JuTTbL_pm1ltGvhUsIzQd"
+      ],
+      "projects": [
+       {
+        "title": "House-price regression shoot-out",
+        "description": "Compare linear, ridge, lasso and gradient-boosted models on one housing dataset with the same splits.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Loan default classifier",
+        "description": "Train logistic regression and a random forest on loan data and explain which features drive defaults.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Regression",
+       "Linear Regression",
+       "Polynomial Regression",
+       "Ridge Regression",
+       "Lasso Regression"
+      ],
+      "more_topics": [
+       {
+        "node_id": "vBnqnIh_xSn0OuY9oQ5e-",
+        "title": "Model Prediction in Scikit-learn"
+       }
+      ],
+      "global_step_index": 10,
+      "resource": {
+       "title": "Hands-On Linear Regression with Scikit-Learn in Python",
+       "url": "https://youtube.com/watch?v=ukZn2RJb7TU"
+      },
+      "videos": [
+       {
+        "title": "Hands-On Linear Regression with Scikit-Learn in Python",
+        "url": "https://youtube.com/watch?v=ukZn2RJb7TU",
+        "video_id": "ukZn2RJb7TU",
+        "source": "roadmap.sh",
+        "topic": "Linear Regression"
+       },
+       {
+        "title": "Mastering Ridge Regression in Python with scikit-learnv",
+        "url": "https://youtube.com/watch?v=GMF4Td7KtB0",
+        "video_id": "GMF4Td7KtB0",
+        "source": "roadmap.sh",
+        "topic": "Ridge Regression"
+       },
+       {
+        "title": "Lasso Regression with Scikit-Learn (Beginner Friendly)",
+        "url": "https://youtube.com/watch?v=LmpBt0tenJE",
+        "video_id": "LmpBt0tenJE",
+        "source": "roadmap.sh",
+        "topic": "Lasso Regression"
+       },
+       {
+        "title": "https://www.youtube.com/watch?v=xl6KAAVytEk",
+        "url": "https://youtube.com/watch?v=xl6KAAVytEk",
+        "video_id": "xl6KAAVytEk",
+        "source": "roadmap.sh",
+        "topic": "Elastic Net Regularization"
+       }
+      ],
+      "resources": [
+       {
+        "type": "course",
+        "title": "Classification - Google Crash Course",
+        "url": "https://developers.google.com/machine-learning/crash-course/classification",
+        "topic": "Classification"
+       }
+      ]
+     },
+     {
+      "step_number": 8,
+      "title": "Unsupervised Learning and Clustering",
+      "description": "Plenty of real data has no labels, and clustering is used for customer segments, anomaly screening and data exploration. Learn the main clustering families and how autoencoders learn compact representations.",
+      "topic_refs": [
+       "CBSGvGPoI53p7BezXNm6M",
+       "eErzKbR8sRNlrYcwNSRSh",
+       "BzUunjJrUMlh6K1NOOD87",
+       "jJ8cXfHV2LG5PJGZRTHxB",
+       "VrLaUipVKWvwnFF0ZbIlo",
+       "kvf2CUKBe4qSbZla4Brh3"
+      ],
+      "projects": [
+       {
+        "title": "Customer segmentation",
+        "description": "Cluster shoppers by purchase behaviour with k-means and hierarchical clustering and name each segment.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Autoencoder anomaly detector",
+        "description": "Flag unusual sensor readings by their reconstruction error from a small autoencoder.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Clustering",
+       "Exclusive Clustering",
+       "Overlapping Clustering",
+       "Hierarchical Clustering",
+       "Probabilistic Clustering"
+      ],
+      "more_topics": [
+       {
+        "node_id": "owSUO9Ut9sggd1OiWr3O7",
+        "title": "Autoencoders"
+       }
+      ],
+      "global_step_index": 11,
+      "resource": {
+       "title": "Autoencoders",
+       "url": "https://youtube.com/watch?v=hZ4a4NgM3u0"
+      },
+      "videos": [
+       {
+        "title": "Autoencoders",
+        "url": "https://youtube.com/watch?v=hZ4a4NgM3u0",
+        "video_id": "hZ4a4NgM3u0",
+        "source": "roadmap.sh",
+        "topic": "Autoencoders"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 9,
+      "title": "Model Evaluation, Validation and Tuning",
+      "description": "Choosing the wrong metric or validating carelessly is how models that look good offline fail in production. Learn classification metrics, cross-validation schemes and systematic hyperparameter search.",
+      "topic_refs": [
+       "99TI95HVGrXIYr-PIDxhC",
+       "5dKl6SUQhOsZfUtVR5hzw",
+       "3wib9UH0_OLhKjqKoZEMv",
+       "mja35tndhAT5z_ysv-hDe",
+       "DH33Na9zz_WGmbD-Dxvq1",
+       "FdNY8QUbPPpeHFgD8TTaD",
+       "anEGWHVpcp75e3jQrj_LZ",
+       "7fOp3t283GeOn6Tf4kEuN",
+       "oyL0M2OP4NTNbIO3zq-Hz",
+       "vRS7DW2WUaXiHk9oJgg3z",
+       "GKMhIXEuSKdW75-24Zopb",
+       "m4vmnxRMBf7zwNnwrMEnk"
+      ],
+      "projects": [
+       {
+        "title": "Imbalanced fraud evaluation",
+        "description": "Show why accuracy misleads on fraud data and pick a threshold using precision-recall trade-offs.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Tuning report",
+        "description": "Run grid and random search with k-fold cross-validation and report the variance of each score.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Model Evaluation",
+       "Model Evaluation Metrics",
+       "Accuracy",
+       "Precision",
+       "Recall"
+      ],
+      "more_topics": [
+       {
+        "node_id": "vmERbhRIevLLNc7Ny2pWp",
+        "title": "Model Evaluation: Importance"
+       },
+       {
+        "node_id": "0hi0LdCtj9Paimgfc-l1O",
+        "title": "Validation Techniques"
+       }
+      ],
+      "global_step_index": 12,
+      "resource": {
+       "title": "Complete Guide to Cross Validation",
+       "url": "https://youtube.com/watch?v=-8s9KuNo5SA"
+      },
+      "videos": [
+       {
+        "title": "Complete Guide to Cross Validation",
+        "url": "https://youtube.com/watch?v=-8s9KuNo5SA",
+        "video_id": "-8s9KuNo5SA",
+        "source": "roadmap.sh",
+        "topic": "K-Fold Cross Validation"
+       },
+       {
+        "title": "A Comprehensive Guide to Cross-Validation with Scikit-Learn and Python",
+        "url": "https://youtube.com/watch?v=glLNo1ZnmPA",
+        "video_id": "glLNo1ZnmPA",
+        "source": "roadmap.sh",
+        "topic": "Hyperparameter Optimization in Scikit-learn"
+       },
+       {
+        "title": "Hands-On Hyperparameter Tuning with Scikit-Learn: Tips and Tricks",
+        "url": "https://youtube.com/watch?v=LrCylIe0RJM",
+        "video_id": "LrCylIe0RJM",
+        "source": "roadmap.sh",
+        "topic": "Hyperparameter Optimization in Scikit-learn"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Tuning the hyper-parameters of an estimator",
+        "url": "https://scikit-learn.org/stable/modules/grid_search.html",
+        "topic": "Hyperparameter Optimization in Scikit-learn"
+       }
+      ]
+     },
+     {
+      "step_number": 10,
+      "title": "Neural Networks and Deep Learning Frameworks",
+      "description": "Deep learning powers vision, speech and language systems, and ML engineers are expected to train and debug networks in PyTorch or TensorFlow. Learn how forward and backward passes work, then build the same network in a framework.",
+      "topic_refs": [
+       "4dxZmLg0UEaaVEORupOOC",
+       "8425N_E43Dv5mcmEcXRIa",
+       "LWLqa61GK5ukYzHpjinYi",
+       "0meihv22e11GwqnRdSJ9g",
+       "RXTci1N6i6D9HqTbsLYIy",
+       "KcfFjpxFTFxI6HR6hBPrl",
+       "_Z2miSW4PwILMRtBFajBn",
+       "A_Kx3pEj0jpnLJzdOpcQ9",
+       "7RSW-Pypf3QpZp4O21AGl",
+       "Ru8_xMyFxye1hyzCUYvnj",
+       "zoXnXI4Wf5sxddHqYwQjP",
+       "yKtRmgwrJ75VVz7_txZ-S"
+      ],
+      "projects": [
+       {
+        "title": "MLP in NumPy, then PyTorch",
+        "description": "Write a two-layer network with manual backpropagation, then rebuild it in PyTorch and compare results.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Handwritten digit classifier",
+        "description": "Train an MLP on MNIST with Keras and plot the training and validation curves.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Neural Network (NN) Basics",
+       "Perceptron and Multi-layer Perceptrons",
+       "Forward Propagation",
+       "Backpropagation",
+       "Activation Functions"
+      ],
+      "more_topics": [],
+      "global_step_index": 13,
+      "resource": {
+       "title": "Neural Networks Explained in 5 minutes",
+       "url": "https://youtube.com/watch?v=jmmW0F0biz0"
+      },
+      "videos": [
+       {
+        "title": "Neural Networks Explained in 5 minutes",
+        "url": "https://youtube.com/watch?v=jmmW0F0biz0",
+        "video_id": "jmmW0F0biz0",
+        "source": "roadmap.sh",
+        "topic": "Neural Network (NN) Basics"
+       },
+       {
+        "title": "The Perceptron Explained",
+        "url": "https://youtube.com/watch?v=i1G7PXZMnSc",
+        "video_id": "i1G7PXZMnSc",
+        "source": "roadmap.sh",
+        "topic": "Perceptron and Multi-layer Perceptrons"
+       },
+       {
+        "title": "Forward Propagation in Neural Networks",
+        "url": "https://youtube.com/watch?v=99CcviQchd8",
+        "video_id": "99CcviQchd8",
+        "source": "roadmap.sh",
+        "topic": "Forward Propagation"
+       },
+       {
+        "title": "Activation Functions In Neural Networks Explained",
+        "url": "https://youtube.com/watch?v=Fu273ovPBmQ",
+        "video_id": "Fu273ovPBmQ",
+        "source": "roadmap.sh",
+        "topic": "Activation Functions"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "PyTorch",
+        "url": "https://pytorch.org/",
+        "topic": "PyTorch"
+       },
+       {
+        "type": "official",
+        "title": "TensorFlow",
+        "url": "https://www.tensorflow.org/",
+        "topic": "TensorFlow"
+       },
+       {
+        "type": "official",
+        "title": "TensorFlow tutorials",
+        "url": "https://www.tensorflow.org/tutorials",
+        "topic": "TensorFlow"
+       },
+       {
+        "type": "official",
+        "title": "Keras",
+        "url": "https://keras.io/",
+        "topic": "Keras"
+       }
+      ]
+     },
+     {
+      "step_number": 11,
+      "title": "CNNs, Recurrent Networks and Transformers",
+      "description": "Convolutional networks dominate vision, recurrent networks handle sequences, and transformers now lead most language and many vision tasks. Learn the building blocks of each and why attention replaced recurrence.",
+      "topic_refs": [
+       "BtO2wH7YYqE25HShI6sd9",
+       "MtoYStcZBduLSbjRuPjq0",
+       "I-GEE7PvpQmhQSfZmxqwA",
+       "a2PGTDnXKp759vFZzkjSF",
+       "YWxSI45e5K_4YOrvmh6LV",
+       "E4k6WgNXdnNoApR675VKb",
+       "H0cscBaExZPNZuFubBUv7",
+       "LdUwTWfCIcowwC-e6q3ac",
+       "ZWDSLqxmfg3aPBZFH479q",
+       "-tzeA13f2jYDm4aO5JciT",
+       "oTKC1o1OOnPiTh60a8yVc",
+       "rDIg16eb6B6um1P8uMy51"
+      ],
+      "projects": [
+       {
+        "title": "Crop disease image classifier",
+        "description": "Fine-tune a small CNN on leaf images and report per-class accuracy.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "LSTM versus transformer on text",
+        "description": "Train both on a sentiment dataset and compare accuracy, training time and model size.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Convolutional Neural Networks",
+       "Convolution",
+       "Pooling",
+       "Padding",
+       "Strides"
+      ],
+      "more_topics": [
+       {
+        "node_id": "LpggrF1MMvAxtO9EJe3wY",
+        "title": "Recurrent Neural Networks"
+       },
+       {
+        "node_id": "gCGHtxqD4V_Ite_AXMspf",
+        "title": "Convolutional Neural Networks (CNNs) Applications"
+       },
+       {
+        "node_id": "jPvZdgye7cBf0bPMVGf7a",
+        "title": "Image and Video Recognition with CNNs"
+       },
+       {
+        "node_id": "_eKuBhCCwUHnEGwHNQY-g",
+        "title": "CNNs for Recommendation Systems"
+       },
+       {
+        "node_id": "iSX9YExs1gS4L2CBQux5w",
+        "title": "Image Segmentation with Convolutional Neural Networks"
+       }
+      ],
+      "global_step_index": 14,
+      "resource": {
+       "title": "Hot Dog or Not Hot Dog – Convolutional Neural Network Course for Beginners",
+       "url": "https://youtube.com/watch?v=nVhau51w6dM"
+      },
+      "videos": [
+       {
+        "title": "Hot Dog or Not Hot Dog – Convolutional Neural Network Course for Beginners",
+        "url": "https://youtube.com/watch?v=nVhau51w6dM",
+        "video_id": "nVhau51w6dM",
+        "source": "roadmap.sh",
+        "topic": "Convolutional Neural Networks"
+       },
+       {
+        "title": "But what is a convolution?",
+        "url": "https://youtube.com/watch?v=KuXjwB4LzSA",
+        "video_id": "KuXjwB4LzSA",
+        "source": "roadmap.sh",
+        "topic": "Convolution"
+       },
+       {
+        "title": "Understanding CNN | Pooling in CNNN",
+        "url": "https://youtube.com/watch?v=azRi6Bz7yc0",
+        "video_id": "azRi6Bz7yc0",
+        "source": "roadmap.sh",
+        "topic": "Pooling"
+       },
+       {
+        "title": "Convolution padding and stride",
+        "url": "https://youtube.com/watch?v=oDAPkZ53zKk",
+        "video_id": "oDAPkZ53zKk",
+        "source": "roadmap.sh",
+        "topic": "Padding"
+       }
+      ],
+      "resources": [
+       {
+        "type": "course",
+        "title": "LLM Course | HuggingFace",
+        "url": "https://huggingface.co/learn/llm-course/chapter1/1",
+        "topic": "Transformers"
+       }
+      ]
+     },
+     {
+      "step_number": 12,
+      "title": "NLP, Generative Models and Explainability",
+      "description": "Text pipelines, generative models and explanations of predictions all show up in production ML work. Learn text preprocessing and embeddings, how attention models and GANs generate data, and how to explain a model's decisions to stakeholders.",
+      "topic_refs": [
+       "JVXe2QDQaqiJYPupIMhWe",
+       "QbftToskhtBlTz1jyiRkb",
+       "UO1GEUe8e22uRB6DAxfpe",
+       "pP0VeUSK9CDodgz-BQmrP",
+       "CaHbAXDIJQXcQ9DZqziod",
+       "J1aGPkZqDZfUwpVmC88AL",
+       "sChxcuQ2OruKVx8P4wAK_",
+       "IR0wVIcu1MxOOBiLBnn8S",
+       "Tv3sZvus76dmu0X9AqCIU"
+      ],
+      "projects": [
+       {
+        "title": "Support-ticket router",
+        "description": "Tokenise and embed tickets, then train a classifier that sends each one to the right team.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Explain a credit model",
+        "description": "Produce per-prediction feature attributions for a trained model and write them up for a non-technical reader.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Natural Language Processing",
+       "Tokenization",
+       "Stemming",
+       "Lemmatization",
+       "Embeddings"
+      ],
+      "more_topics": [],
+      "global_step_index": 15,
+      "resource": {
+       "title": "What are GANs (Generative Adversarial Networks)?",
+       "url": "https://youtube.com/watch?v=TpMIssRdhco"
+      },
+      "videos": [
+       {
+        "title": "What are GANs (Generative Adversarial Networks)?",
+        "url": "https://youtube.com/watch?v=TpMIssRdhco",
+        "video_id": "TpMIssRdhco",
+        "source": "roadmap.sh",
+        "topic": "Generative Adversarial Networks"
+       },
+       {
+        "title": "Explainable AI: Demystifying AI Agents Decision-Making",
+        "url": "https://youtube.com/watch?v=yJkCuEu3K68",
+        "video_id": "yJkCuEu3K68",
+        "source": "roadmap.sh",
+        "topic": "Explainable AI"
+       }
+      ],
+      "resources": [
+       {
+        "type": "course",
+        "title": "GANs | Google",
+        "url": "https://developers.google.com/machine-learning/gan",
+        "topic": "Generative Adversarial Networks"
+       }
+      ]
+     },
+     {
+      "step_number": 13,
+      "title": "Reinforcement Learning",
+      "description": "Reinforcement learning is used where an agent learns by acting, such as recommendations, robotics and game agents, and it appears in interviews for ML roles. Learn value-based and policy-based methods and how deep networks scale them.",
+      "topic_refs": [
+       "EtU_9MOklVBvnvyg30Yfx",
+       "NC1A2SQVyc1n-KEf6yl-4",
+       "wxq5dkrpgvs3axmLmeHCk",
+       "9o-ZT9oZIE3hCXD6eWZI0",
+       "PZ-WxKGTcWTrXmYI_inD_",
+       "4Vy6lW9vF_SWwbKLU0qno"
+      ],
+      "projects": [
+       {
+        "title": "Q-learning grid world",
+        "description": "Train a tabular agent to reach a goal while avoiding traps and visualise the learned policy.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "CartPole with DQN",
+        "description": "Balance a pole with a deep Q-network and compare it against a policy-gradient agent.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "What is Reinforcement Learning?",
+       "Reinforcement Learning",
+       "Q-Learning",
+       "Deep Q-Networks (DQN)",
+       "Policy Gradient"
+      ],
+      "more_topics": [],
+      "global_step_index": 16,
+      "resource": {
+       "title": "Reinforcement Learning in 3 Hours | Full Course using Python",
+       "url": "https://youtube.com/watch?v=Mut_u40Sqz4"
+      },
+      "videos": [
+       {
+        "title": "Reinforcement Learning in 3 Hours | Full Course using Python",
+        "url": "https://youtube.com/watch?v=Mut_u40Sqz4",
+        "video_id": "Mut_u40Sqz4",
+        "source": "roadmap.sh",
+        "topic": "What is Reinforcement Learning?"
+       },
+       {
+        "title": "What is Q-Learning (back to basics)",
+        "url": "https://youtube.com/watch?v=nOBm4aYEYR4",
+        "video_id": "nOBm4aYEYR4",
+        "source": "roadmap.sh",
+        "topic": "Q-Learning"
+       },
+       {
+        "title": "Deep Q-Learning/Deep Q-Network (DQN) Explained | Python Pytorch Deep Reinforcement Learning",
+        "url": "https://youtube.com/watch?v=EUrWGTCGzlA",
+        "video_id": "EUrWGTCGzlA",
+        "source": "roadmap.sh",
+        "topic": "Deep Q-Networks (DQN)"
+       },
+       {
+        "title": "An introduction to Policy Gradient methods - Deep Reinforcement Learning",
+        "url": "https://youtube.com/watch?v=5P7I-xPq8u8",
+        "video_id": "5P7I-xPq8u8",
+        "source": "roadmap.sh",
+        "topic": "Policy Gradient"
+       }
+      ],
+      "resources": []
+     }
+    ]
+   },
+   {
+    "phase_number": 3,
+    "title": "MLOps",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "MLOps Principles and Versioning Code and Data",
+      "description": "A model nobody can reproduce or roll back is a liability, which is why MLOps starts with principles and versioning. Learn what MLOps covers, use Git and a hosted platform for code, and DVC for datasets and model files.",
+      "topic_refs": [
+       "IghGpwAFVB067uOosmoDC",
+       "iTsEHVCo6KGq7H2HMgy5S",
+       "l1xasxQy2vAY34NWaqKEe",
+       "_NPGsGEjcLekjGisdDFWt",
+       "kHDSwlSq8WkLey4EJIQSR",
+       "06T5CbZAGJU6fJhCmqCC8",
+       "7t7jSb3YgyWlhgCe8Se1I",
+       "mu56TlVkhhgVzzESDRobc",
+       "qLKM1zGUhuyBwh_uXSyJJ",
+       "mMzqJF2KQ49TDEk5F3VAI"
+      ],
+      "projects": [
+       {
+        "title": "Versioned training repo",
+        "description": "Put a training script on GitHub and track its dataset and model file with DVC across two versions.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Reproduce last month's model",
+        "description": "Check out an old commit and restore the exact data and model it produced using DVC.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "What is MLOps?",
+       "MLOps Principles",
+       "MLOps Components",
+       "Version Control Systems",
+       "Version Control"
+      ],
+      "more_topics": [
+       {
+        "node_id": "_7uvOebQUI4xaSwtMjpEd",
+        "title": "Programming Fundamentals"
+       }
+      ],
+      "global_step_index": 17,
+      "resource": {
+       "title": "What is MLOps?",
+       "url": "https://youtube.com/watch?v=OejCJL2EC3k"
+      },
+      "videos": [
+       {
+        "title": "What is MLOps?",
+        "url": "https://youtube.com/watch?v=OejCJL2EC3k",
+        "video_id": "OejCJL2EC3k",
+        "source": "roadmap.sh",
+        "topic": "What is MLOps?"
+       },
+       {
+        "title": "hat is a Version Control System and why you should always use it",
+        "url": "https://youtube.com/watch?v=IeXhYROClZk",
+        "video_id": "IeXhYROClZk",
+        "source": "roadmap.sh",
+        "topic": "Version Control Systems"
+       },
+       {
+        "title": "Git & GitHub Crash Course For Beginners",
+        "url": "https://youtube.com/watch?v=SWYqp7iY_Tc",
+        "video_id": "SWYqp7iY_Tc",
+        "source": "roadmap.sh",
+        "topic": "Git"
+       },
+       {
+        "title": "What is GitHub?",
+        "url": "https://youtube.com/watch?v=w3jLJU7DT5E",
+        "video_id": "w3jLJU7DT5E",
+        "source": "roadmap.sh",
+        "topic": "GitHub"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Git Documentation",
+        "url": "https://git-scm.com/docs",
+        "topic": "Version Control Systems"
+       },
+       {
+        "type": "official",
+        "title": "Git",
+        "url": "https://git-scm.com/",
+        "topic": "Version Control"
+       },
+       {
+        "type": "official",
+        "title": "GitHub",
+        "url": "https://github.com",
+        "topic": "GitHub"
+       },
+       {
+        "type": "official",
+        "title": "GitHub Documentation",
+        "url": "https://docs.github.com/en/get-started/quickstart",
+        "topic": "GitHub"
+       }
+      ]
+     },
+     {
+      "step_number": 2,
+      "title": "Data Pipelines and Workflow Orchestration",
+      "description": "Models are only as fresh and correct as the pipelines that feed them, and broken data is the most common cause of silent model decay. Learn ingestion, lakes and warehouses, lineage, and scheduling batch and streaming jobs.",
+      "topic_refs": [
+       "VykbCu7LWIx8fQpqKzoA7",
+       "Berd78HvnulNEGOsHCf8n",
+       "cOg3ejZRYE-u-M0c89IjM",
+       "wOogVDV4FIDLXVPwFqJ8C",
+       "6XgP_2NLuiw654zvTyueT",
+       "AjZHJcxUY29WZbCvr3zrs",
+       "fMNwzhgLgHlAZJ9NvKikR",
+       "UljuqA89_SlCSDWWMD_C_",
+       "o6GQ3-8DgDtHzdX6yeg1w",
+       "51x_5z0pHTE_yZoyvFUBy"
+      ],
+      "projects": [
+       {
+        "title": "Nightly feature pipeline in Airflow",
+        "description": "A DAG that extracts raw data, builds features with SQL and writes a training table every night.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Streaming events to features",
+        "description": "Push click events through Kafka and aggregate them into rolling features with Spark.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Data Engineering Fundamentals",
+       "Data Ingestion Architecture",
+       "Data Pipelines",
+       "Data Lakes & Warehouses",
+       "Data Lineage"
+      ],
+      "more_topics": [],
+      "global_step_index": 18,
+      "resource": {
+       "title": "Fundamentals of Data Engineering",
+       "url": "https://youtube.com/watch?v=mPSzL8Lurs0"
+      },
+      "videos": [
+       {
+        "title": "Fundamentals of Data Engineering",
+        "url": "https://youtube.com/watch?v=mPSzL8Lurs0",
+        "video_id": "mPSzL8Lurs0",
+        "source": "roadmap.sh",
+        "topic": "Data Engineering Fundamentals"
+       },
+       {
+        "title": "What is a data pipeline?",
+        "url": "https://youtube.com/watch?v=kGT4PcTEPP8",
+        "video_id": "kGT4PcTEPP8",
+        "source": "roadmap.sh",
+        "topic": "Data Ingestion Architecture"
+       },
+       {
+        "title": "What are Data Pipelines?",
+        "url": "https://youtube.com/watch?v=oKixNpz6jNo",
+        "video_id": "oKixNpz6jNo",
+        "source": "roadmap.sh",
+        "topic": "Data Pipelines"
+       },
+       {
+        "title": "What is a Data Lake?",
+        "url": "https://youtube.com/watch?v=LxcH6z8TFpI",
+        "video_id": "LxcH6z8TFpI",
+        "source": "roadmap.sh",
+        "topic": "Data Lakes & Warehouses"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Airflow",
+        "url": "https://airflow.apache.org/",
+        "topic": "Airflow"
+       },
+       {
+        "type": "official",
+        "title": "Airflow Docs",
+        "url": "https://airflow.apache.org/docs",
+        "topic": "Airflow"
+       },
+       {
+        "type": "official",
+        "title": "Apache Kafka Quickstart",
+        "url": "https://kafka.apache.org/quickstart",
+        "topic": "Kafka"
+       },
+       {
+        "type": "official",
+        "title": "ApacheSpark",
+        "url": "https://spark.apache.org/documentation.html",
+        "topic": "Spark"
+       }
+      ]
+     },
+     {
+      "step_number": 3,
+      "title": "Experiment Tracking and ML CI/CD",
+      "description": "Teams compare hundreds of runs and must retrain and ship models automatically, so tracked experiments and pipelines are standard practice. Log experiments with MLflow, then automate training and checks with CI/CD and Kubeflow.",
+      "topic_refs": [
+       "fGGWKmAJ50Ke6wWJBEgby",
+       "93MPXEulKgPnuRlp7F-Nj",
+       "MLob7b468ZgNX7-cURqmJ",
+       "a6vawajw7BpL6plH_nuAz",
+       "SCn-6w1UEQwoLQ_dOPpL5",
+       "75mlW2JoUqSNFK2IDfqFP",
+       "zsW1NRb0dMgS-KzWsI0QU",
+       "QEayqA8zYsJn0rQYz-4zv"
+      ],
+      "projects": [
+       {
+        "title": "MLflow experiment dashboard",
+        "description": "Log parameters, metrics and artefacts for twenty runs and register the best model.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Retrain on pull request",
+        "description": "A GitHub Actions workflow that retrains, evaluates and posts a metrics comment on every pull request.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Experiment Tracking",
+       "MLflow",
+       "Continuous Machine Learning (CML)",
+       "CI/CD",
+       "GitHub Actions"
+      ],
+      "more_topics": [
+       {
+        "node_id": "oUhlUoWQQ1txx_sepD5ev",
+        "title": "CI/CD"
+       },
+       {
+        "node_id": "6uGYeXZn5fW2qPfSb8GJb",
+        "title": "Machine Learning"
+       },
+       {
+        "node_id": "Zh7AfH6hJ6MMXiqSnQn7G",
+        "title": "PyTorch"
+       },
+       {
+        "node_id": "so5IQDxKibaZlgoCh8tpQ",
+        "title": "TensorFlow"
+       },
+       {
+        "node_id": "T-pybEZVvvXopCTbDykR-",
+        "title": "Scikit-learn"
+       },
+       {
+        "node_id": "1kk8KDWH-LrPt8SjkpTcX",
+        "title": "Deep Learning"
+       },
+       {
+        "node_id": "Vh81GnOUOZvDOlOyI5PwT",
+        "title": "Python"
+       }
+      ],
+      "global_step_index": 19,
+      "resource": {
+       "title": "MLFlow Tutorial | ML Ops Tutorial",
+       "url": "https://youtube.com/watch?v=6ngxBkx05Fs"
+      },
+      "videos": [
+       {
+        "title": "MLFlow Tutorial | ML Ops Tutorial",
+        "url": "https://youtube.com/watch?v=6ngxBkx05Fs",
+        "video_id": "6ngxBkx05Fs",
+        "source": "roadmap.sh",
+        "topic": "MLflow"
+       },
+       {
+        "title": "CI/CD In 5 Minutes",
+        "url": "https://youtube.com/watch?v=42UP1fxi2SY",
+        "video_id": "42UP1fxi2SY",
+        "source": "roadmap.sh",
+        "topic": "CI/CD"
+       },
+       {
+        "title": "What is GitHub Actions?",
+        "url": "https://youtube.com/watch?v=URmeTqglS58",
+        "video_id": "URmeTqglS58",
+        "source": "roadmap.sh",
+        "topic": "GitHub Actions"
+       },
+       {
+        "title": "Learn Jenkins! Complete Jenkins Course - Zero to Hero",
+        "url": "https://youtube.com/watch?v=6YZvp2GwT0A",
+        "video_id": "6YZvp2GwT0A",
+        "source": "roadmap.sh",
+        "topic": "Jenkins"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "MLFlow",
+        "url": "https://mlflow.org/",
+        "topic": "MLflow"
+       },
+       {
+        "type": "official",
+        "title": "MLFlow Docs",
+        "url": "https://mlflow.org/docs/latest/",
+        "topic": "MLflow"
+       },
+       {
+        "type": "official",
+        "title": "CML",
+        "url": "https://cml.dev/",
+        "topic": "Continuous Machine Learning (CML)"
+       },
+       {
+        "type": "official",
+        "title": "Get Started with CML",
+        "url": "https://cml.dev/doc/start",
+        "topic": "Continuous Machine Learning (CML)"
+       }
+      ]
+     },
+     {
+      "step_number": 4,
+      "title": "Containers, Kubernetes and Cloud Infrastructure for ML",
+      "description": "Serving models reliably means packaging them in containers, scaling them on Kubernetes and provisioning cloud resources as code. Learn Docker, Kubernetes deployments, managed ML services and Terraform.",
+      "topic_refs": [
+       "tKeejLv8Q7QX40UtOjpav",
+       "XIdCvT-4HyyglHJLRrHlz",
+       "XQoK9l-xtN2J8ZV8dw53X",
+       "5VuCUCfb4DEi0HKW11PIX",
+       "fes7M--Y8i08_zeP98tVV",
+       "00GZcwe25QYi7rDzaOoMt",
+       "u3E7FGW4Iwdsu61KYFxCX",
+       "kbfucfIO5KCsuv3jKbHTa",
+       "sf67bSL7HAx6iN7S6MYKs",
+       "dA9AE-3lTB6lN-X-_Byd2",
+       "-_obgPIUaZ4BVpg29xG_9"
+      ],
+      "projects": [
+       {
+        "title": "Dockerised prediction API",
+        "description": "Containerise a FastAPI model server and deploy it to a local Kubernetes cluster with two replicas.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Terraform a training environment",
+        "description": "Provision a storage bucket and a GPU-capable instance for training with Terraform, then destroy it cleanly.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Containerization",
+       "Docker",
+       "Kubernetes",
+       "Orchestration & Deployment",
+       "Orchestration"
+      ],
+      "more_topics": [
+       {
+        "node_id": "vdVq3RQvQF3mF8PQc6DMg",
+        "title": "Go"
+       }
+      ],
+      "global_step_index": 20,
+      "resource": {
+       "title": "Docker Tutorial",
+       "url": "https://youtube.com/watch?v=RqTEHSBrYFw"
+      },
+      "videos": [
+       {
+        "title": "Docker Tutorial",
+        "url": "https://youtube.com/watch?v=RqTEHSBrYFw",
+        "video_id": "RqTEHSBrYFw",
+        "source": "roadmap.sh",
+        "topic": "Docker"
+       },
+       {
+        "title": "Kubernetes Crash Course for Absolute Beginners",
+        "url": "https://youtube.com/watch?v=s_o8dwzRlu4",
+        "video_id": "s_o8dwzRlu4",
+        "source": "roadmap.sh",
+        "topic": "Kubernetes"
+       },
+       {
+        "title": "What is Data Orchestration?",
+        "url": "https://youtube.com/watch?v=iyw9puEmTrA",
+        "video_id": "iyw9puEmTrA",
+        "source": "roadmap.sh",
+        "topic": "Orchestration & Deployment"
+       },
+       {
+        "title": "What is Cloud Computing? - Amazon Web Services",
+        "url": "https://youtube.com/watch?v=mxT233EdY5c",
+        "video_id": "mxT233EdY5c",
+        "source": "roadmap.sh",
+        "topic": "Cloud Computing"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Docker Documentation",
+        "url": "https://docs.docker.com/",
+        "topic": "Docker"
+       },
+       {
+        "type": "official",
+        "title": "Kubernetes",
+        "url": "https://kubernetes.io/",
+        "topic": "Kubernetes"
+       },
+       {
+        "type": "official",
+        "title": "Kubernetes Documentation",
+        "url": "https://kubernetes.io/docs/home/",
+        "topic": "Kubernetes"
+       },
+       {
+        "type": "official",
+        "title": "Microsoft Azure",
+        "url": "https://docs.microsoft.com/en-us/learn/azure/",
+        "topic": "AWS / Azure / GCP"
+       }
+      ]
+     },
+     {
+      "step_number": 5,
+      "title": "Model Monitoring, Explanations and Edge Deployment",
+      "description": "After launch, models drift and stakeholders ask why a prediction was made, and some models must run on phones or devices. Monitor services with Prometheus and Grafana, explain predictions with SHAP and LIME, and convert models for edge hardware.",
+      "topic_refs": [
+       "fR4Qr_ifoBLTpxdkJ50rB",
+       "EIjo6iFrU8iDm36_ZtaW5",
+       "YmRN43yAFF97c7MgNaiqs",
+       "qy37ppIWDT_we-duuHwgT",
+       "JQKEWz0-vIJoLimLKvIzz",
+       "pVSlVHXIap0unFxLGM-lQ",
+       "w8z91Hlqm0sPligYD3VCk",
+       "YFo3NnwVst5EBTtLR-cJ1",
+       "qyNOEqp7hW_P7-Isz_v4o",
+       "Wpv_zRshtTFXNqp1S7m0F"
+      ],
+      "projects": [
+       {
+        "title": "Drift dashboard",
+        "description": "Export prediction and input statistics to Prometheus and alert in Grafana when the input distribution shifts.",
+        "difficulty": "advanced",
+        "grounded": false
+       },
+       {
+        "title": "On-device image model",
+        "description": "Convert a trained classifier to TFLite and measure its size and latency on a phone.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Monitoring & Observability",
+       "Prometheus",
+       "Grafana",
+       "Explainable AI",
+       "SHAP"
+      ],
+      "more_topics": [
+       {
+        "node_id": "r4fbUwD83uYumEO1X8f09",
+        "title": "Monitoring & Observability"
+       },
+       {
+        "node_id": "nS4igSghzVFwamhVOwCjm",
+        "title": "Model Evaluation"
+       },
+       {
+        "node_id": "ulka7VEVjz6ls5SnI6a6z",
+        "title": "Machine Learning Fundamentals"
+       },
+       {
+        "node_id": "C4KbkZ7c8TspXa3RBOCug",
+        "title": "Maths & Statistics"
+       }
+      ],
+      "global_step_index": 21,
+      "resource": {
+       "title": "What is observability?",
+       "url": "https://youtube.com/watch?v=--17See0KHs"
+      },
+      "videos": [
+       {
+        "title": "What is observability?",
+        "url": "https://youtube.com/watch?v=--17See0KHs",
+        "video_id": "--17See0KHs",
+        "source": "roadmap.sh",
+        "topic": "Monitoring & Observability"
+       },
+       {
+        "title": "Introduction to the Prometheus Monitoring System | Key Concepts and Features",
+        "url": "https://youtube.com/watch?v=STVMGrYIlfg",
+        "video_id": "STVMGrYIlfg",
+        "source": "roadmap.sh",
+        "topic": "Prometheus"
+       },
+       {
+        "title": "Grafana Explained in Under 5 Minutes ⏲",
+        "url": "https://youtube.com/watch?v=lILY8eSspEo",
+        "video_id": "lILY8eSspEo",
+        "source": "roadmap.sh",
+        "topic": "Grafana"
+       },
+       {
+        "title": "Explainable AI: Demystifying AI Agents Decision-Making",
+        "url": "https://youtube.com/watch?v=yJkCuEu3K68",
+        "video_id": "yJkCuEu3K68",
+        "source": "roadmap.sh",
+        "topic": "Explainable AI"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Prometheus Website",
+        "url": "https://prometheus.io/",
+        "topic": "Prometheus"
+       },
+       {
+        "type": "official",
+        "title": "Prometheus Docs",
+        "url": "https://prometheus.io/docs/introduction/overview/",
+        "topic": "Prometheus"
+       },
+       {
+        "type": "official",
+        "title": "Getting Started with Prometheus",
+        "url": "https://prometheus.io/docs/tutorials/getting_started/",
+        "topic": "Prometheus"
+       },
+       {
+        "type": "official",
+        "title": "Grafana",
+        "url": "https://grafana.com/",
+        "topic": "Grafana"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "audit": {
+  "phases": [
+   {
+    "phase_number": 1,
+    "title": "Python",
+    "queries": [
+     "Machine Learning Engineering",
+     "Machine Learning Engineering fundamentals",
+     "Machine Learning Engineering: Python"
+    ],
+    "retrieved": [
+     {
+      "source": "python/learn-the-basics@GISOFMKvnBys0O0IMpz2J.md",
+      "score": 0.4276272654533386,
+      "queries": [
+       "Machine Learning Engineering: Python"
+      ]
+     },
+     {
+      "source": "python/basic-syntax@6xRncUs3_vxVbDur567QA.md",
+      "score": 0.4171588122844696,
+      "queries": [
+       "Machine Learning Engineering: Python"
+      ]
+     },
+     {
+      "source": "python/builtin@08XifLQ20c4FKI_4AWNBQ.md",
+      "score": 0.4127059578895569,
+      "queries": []
+     },
+     {
+      "source": "python/pydantic@W3VALz5evFo1qqkQbMN1R.md",
+      "score": 0.40405893325805664,
+      "queries": []
+     },
+     {
+      "source": "python/aiohttp@IBVAvFtN4mnIPbIuyUvEb.md",
+      "score": 0.3996652662754059,
+      "queries": []
+     },
+     {
+      "source": "python/pipenv@IWq-tfkz-pSC1ztZl60vM.md",
+      "score": 0.38353294134140015,
+      "queries": []
+     },
+     {
+      "source": "so_survey_2025_india/Machine_Learning_Engineering",
+      "score": 0.32707899808883667,
+      "queries": []
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 1,
+      "topic_refs": [
+       "6xRncUs3_vxVbDur567QA",
+       "dEFLBGpiH6nbSMeR7ecaT",
+       "so95CO6Qw3I0S98ISENS-",
+       "NP1kjSk0ujU0Gx-ajNHlR",
+       "Dvy7BnNzK55qbh_SgOk8m",
+       "-DJgS6l2qngfwurExlmmT",
+       "UT_SR7G-LYtzqooWrEtF1",
+       "bc9CL_HMT-R6nXO1eR-gP",
+       "i7xIGiXU-k5UIKHIhQPjE",
+       "soZFqivM3YBuljeX6PoaX",
+       "Sg5w8zO2Ji-uDJKEoWey9",
+       "fNTb9y3zs1HPYclAmu_Wv"
+      ],
+      "queries": [
+       "Machine Learning Engineering: Python"
+      ]
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 2,
+      "topic_refs": [
+       "AqwzR8dZKLQIoj_6KKZ3t",
+       "P_Di-XPSDITmU3xKQew8G",
+       "S0FLE70szSVUPI0CDEQK7",
+       "zAS4YiEJ6VPsyABrkIG8i",
+       "274uk28wzxn6EKWQzLpHs",
+       "l7k0qTYe42wYBTlT2-1cy",
+       "4gtmtYWYRWqwLdZRL0XMg",
+       "jnLIVRrWxcX3yq3Op91Vr",
+       "aB1LSQjDEQb_BxueOcnxU",
+       "pIluLJkySqn_gI_GykV6G",
+       "KAXF2kUAOvtBZhY8G9rkI",
+       "Nf3kRDSl_vas6QPXG7eVa"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 3,
+      "topic_refs": [
+       "qeCMw-sJ2FR4UxvU9DDzv",
+       "iVhQnp6hpgVZDNJ0XoVra",
+       "_IXXTSwQOgYzYIUuKVWNE",
+       "uh67D1u-Iv5cZamRgFEJg",
+       "GHKAY9gOykEbxkEeR30wL",
+       "syV0DT_3ITgIFDbwPts8i",
+       "gIcJ3bUVQXqO1Wx4gUKd5",
+       "3FDwJpesfelEyJrNWtm0V",
+       "6cB0pvUO1-gvCtgqozP-Q",
+       "bS7WeVKm2kEElu3sBKcIC",
+       "HSY5OUc_M5S6OcFXPRtkx",
+       "tbR_h9NpZ5tBTYuCfwkcY"
+      ],
+      "queries": []
+     }
+    ]
+   },
+   {
+    "phase_number": 2,
+    "title": "Machine Learning",
+    "queries": [
+     "Machine Learning Engineering",
+     "Machine Learning Engineering fundamentals",
+     "Machine Learning Engineering: Machine Learning"
+    ],
+    "retrieved": [
+     {
+      "source": "machine-learning/what-is-machine-learning@rzhVFzl5H5MWtcvr8ayRk.md",
+      "score": 0.6878867149353027,
+      "queries": [
+       "Machine Learning Engineering",
+       "Machine Learning Engineering fundamentals",
+       "Machine Learning Engineering: Machine Learning"
+      ]
+     },
+     {
+      "source": "machine-learning/introduction@MEL6y3vwiqwAV6FQihF34.md",
+      "score": 0.6867485046386719,
+      "queries": [
+       "Machine Learning Engineering",
+       "Machine Learning Engineering fundamentals",
+       "Machine Learning Engineering: Machine Learning"
+      ]
+     },
+     {
+      "source": "machine-learning/what-is-an-ml-engineer@FgzPlLUfGdlZPvPku0-Xl.md",
+      "score": 0.5660583972930908,
+      "queries": [
+       "Machine Learning Engineering",
+       "Machine Learning Engineering fundamentals",
+       "Machine Learning Engineering: Machine Learning"
+      ]
+     },
+     {
+      "source": "machine-learning/feature-engineering@UmGdV94afOIbAL8MaxOWv.md",
+      "score": 0.5394918322563171,
+      "queries": [
+       "Machine Learning Engineering",
+       "Machine Learning Engineering fundamentals",
+       "Machine Learning Engineering: Machine Learning"
+      ]
+     },
+     {
+      "source": "machine-learning/types-of-machine-learning@Ns2zKn8BL_kTEI6O65pCp.md",
+      "score": 0.5220735669136047,
+      "queries": [
+       "Machine Learning Engineering",
+       "Machine Learning Engineering fundamentals",
+       "Machine Learning Engineering: Machine Learning"
+      ]
+     },
+     {
+      "source": "machine-learning/skills-and-responsibilities@BzZd-d5t63dY97SRSIb0J.md",
+      "score": 0.5212986469268799,
+      "queries": [
+       "Machine Learning Engineering",
+       "Machine Learning Engineering fundamentals",
+       "Machine Learning Engineering: Machine Learning"
+      ]
+     },
+     {
+      "source": "so_survey_2025_india/Machine_Learning_Engineering",
+      "score": 0.29158902168273926,
+      "queries": []
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 4,
+      "topic_refs": [
+       "MEL6y3vwiqwAV6FQihF34",
+       "rzhVFzl5H5MWtcvr8ayRk",
+       "FgzPlLUfGdlZPvPku0-Xl",
+       "GHO6lN3GTiIRH1P70IRaZ",
+       "BzZd-d5t63dY97SRSIb0J",
+       "Ns2zKn8BL_kTEI6O65pCp",
+       "5MUwKGfSTKlam8KCG0A1U",
+       "36ryjK5isV1MD4MgZP2Jn",
+       "ajKU5CPlbn7BbWHEhUNaB",
+       "9oWdnQd-vwVJi62JQLgJ5",
+       "Yho0zf9F-ROhEnTxRMq_M",
+       "lgO7luG7-R_FY5nwFjRE0"
+      ],
+      "queries": [
+       "Machine Learning Engineering",
+       "Machine Learning Engineering fundamentals",
+       "Machine Learning Engineering: Machine Learning"
+      ]
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 5,
+      "topic_refs": [
+       "83UDoO1vC0LjL-qpI0Jh-",
+       "d7J8GEkut61NDGRzROJoP",
+       "1IhaXJxNREq2HA1nT-lMM",
+       "XmnWnPE1sVXheuc-M_Ew7",
+       "3p98Uwf8gyALDr-89lBEZ",
+       "yGs2h10gZcO4GMaWfI3uW",
+       "wHlEinHuRARp5OfSulpA-",
+       "GN6SnI7RXIeW8JeD-qORW",
+       "3BxbkrBp8veZj38zdwN8s",
+       "jJukG4XxfFcID_VlQKqe-",
+       "N_vLjBVdsGsoePtqlqh2w"
+      ],
+      "queries": [
+       "Machine Learning Engineering fundamentals"
+      ]
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 6,
+      "topic_refs": [
+       "5DiaZkljhHAGPi9DkaH3b",
+       "P32Rmnln5NCFWz4LP0k05",
+       "ZaoZ2XxicKuTDn4uxe52L",
+       "DUIrJwuYHlhJvZJT2acaY",
+       "tP0oBkjvJC9hrtARkgLon",
+       "p8q1Gtt9x19jw5_-YjAGh",
+       "7o6g0wQxHH9i9MMCoDq2C",
+       "P576TdYcbE6v3RpJntiKw",
+       "WLlZE_vto-CYY5GLV_w7o"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 4,
+      "global_step_index": 7,
+      "topic_refs": [
+       "-oRH7LgigHcfBkNF1xwxh",
+       "cxTriSZvrmXP4axKynIZW",
+       "KeGCHoJRHp-mBX-P5to4Y",
+       "dJZqe47kzRqYIG-4AZTlz",
+       "VdMhrAi48V-JXw544YTKI",
+       "s-wUPMaagyRupT2RdfHks",
+       "U4LGIEE3igeE5Ed3EWzsu",
+       "MWfdLCb_w06A0jqwUJUxl",
+       "kagKVPUyLtx8UPAFjRvbN",
+       "tq6WRwUpaCok9fX-0bY7m",
+       "K9Si7kJe946CcGWBGmDsZ",
+       "qRHeaD2udDaItAxmiIiUg"
+      ],
+      "queries": [
+       "Machine Learning Engineering",
+       "Machine Learning Engineering fundamentals",
+       "Machine Learning Engineering: Machine Learning"
+      ]
+     },
+     {
+      "step_number": 5,
+      "global_step_index": 8,
+      "topic_refs": [
+       "ybqwtlHG4HMm5lyUKW2SO",
+       "nKE9sO-f2fdMiuLu2xby1",
+       "PnOoShqB3z4LuUvp0Gh2e",
+       "OXbATvlhBXTQ1iRGwPUfb",
+       "VYVLUxhp3XxxknNr5V966",
+       "MYZUJ1uHIaRd1Gb4ORzwG",
+       "5v0jRBYrRuVXQC90IseRG",
+       "MdhfkuKWTDCE73hczzG3D"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 6,
+      "global_step_index": 9,
+      "topic_refs": [
+       "UmGdV94afOIbAL8MaxOWv",
+       "iBkTNbk8Xz626F_a3Bo5J",
+       "cigwKoltemM0q-M5O50Is",
+       "vQI-4uFQJ6694nm1SCpDR",
+       "K-x_L3z8JTSHwtTeHm4EG",
+       "5xxAg18h74pDAUPy6P8NQ",
+       "ZVbnAF9I1r8qWFFYG6nXv",
+       "-W2uAccH7Y2XIwhfl9mDF",
+       "bIhGv4886V4RWJD3tX0a0"
+      ],
+      "queries": [
+       "Machine Learning Engineering",
+       "Machine Learning Engineering fundamentals",
+       "Machine Learning Engineering: Machine Learning"
+      ]
+     },
+     {
+      "step_number": 7,
+      "global_step_index": 10,
+      "topic_refs": [
+       "gKu6tnpTO2PhDDMYp2u7F",
+       "xGO1X9aZRgKcgzi6r1xq8",
+       "hfr2MU8QkVt9KhVi1Okpv",
+       "1aX_vO5zxfTV8_kUIFHkR",
+       "EXogp25SPW1bBfb1gRDAe",
+       "0-6BV-MggAyD7g3JH45B7",
+       "aHOjajXwkDMOssqW1VGrm",
+       "cffITx6oAcnvJlK1VLdi8",
+       "x7vlCNAxfJzobj9HcTaJy",
+       "_jS66rGAWecXH3zVF-5ds",
+       "arlmRF5pYglsbHb-HR-2x",
+       "JuTTbL_pm1ltGvhUsIzQd"
+      ],
+      "queries": [
+       "Machine Learning Engineering",
+       "Machine Learning Engineering fundamentals",
+       "Machine Learning Engineering: Machine Learning"
+      ]
+     },
+     {
+      "step_number": 8,
+      "global_step_index": 11,
+      "topic_refs": [
+       "CBSGvGPoI53p7BezXNm6M",
+       "eErzKbR8sRNlrYcwNSRSh",
+       "BzUunjJrUMlh6K1NOOD87",
+       "jJ8cXfHV2LG5PJGZRTHxB",
+       "VrLaUipVKWvwnFF0ZbIlo",
+       "kvf2CUKBe4qSbZla4Brh3"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 9,
+      "global_step_index": 12,
+      "topic_refs": [
+       "99TI95HVGrXIYr-PIDxhC",
+       "5dKl6SUQhOsZfUtVR5hzw",
+       "3wib9UH0_OLhKjqKoZEMv",
+       "mja35tndhAT5z_ysv-hDe",
+       "DH33Na9zz_WGmbD-Dxvq1",
+       "FdNY8QUbPPpeHFgD8TTaD",
+       "anEGWHVpcp75e3jQrj_LZ",
+       "7fOp3t283GeOn6Tf4kEuN",
+       "oyL0M2OP4NTNbIO3zq-Hz",
+       "vRS7DW2WUaXiHk9oJgg3z",
+       "GKMhIXEuSKdW75-24Zopb",
+       "m4vmnxRMBf7zwNnwrMEnk"
+      ],
+      "queries": [
+       "Machine Learning Engineering fundamentals",
+       "Machine Learning Engineering: Machine Learning"
+      ]
+     },
+     {
+      "step_number": 10,
+      "global_step_index": 13,
+      "topic_refs": [
+       "4dxZmLg0UEaaVEORupOOC",
+       "8425N_E43Dv5mcmEcXRIa",
+       "LWLqa61GK5ukYzHpjinYi",
+       "0meihv22e11GwqnRdSJ9g",
+       "RXTci1N6i6D9HqTbsLYIy",
+       "KcfFjpxFTFxI6HR6hBPrl",
+       "_Z2miSW4PwILMRtBFajBn",
+       "A_Kx3pEj0jpnLJzdOpcQ9",
+       "7RSW-Pypf3QpZp4O21AGl",
+       "Ru8_xMyFxye1hyzCUYvnj",
+       "zoXnXI4Wf5sxddHqYwQjP",
+       "yKtRmgwrJ75VVz7_txZ-S"
+      ],
+      "queries": [
+       "Machine Learning Engineering",
+       "Machine Learning Engineering fundamentals"
+      ]
+     },
+     {
+      "step_number": 11,
+      "global_step_index": 14,
+      "topic_refs": [
+       "BtO2wH7YYqE25HShI6sd9",
+       "MtoYStcZBduLSbjRuPjq0",
+       "I-GEE7PvpQmhQSfZmxqwA",
+       "a2PGTDnXKp759vFZzkjSF",
+       "YWxSI45e5K_4YOrvmh6LV",
+       "E4k6WgNXdnNoApR675VKb",
+       "H0cscBaExZPNZuFubBUv7",
+       "LdUwTWfCIcowwC-e6q3ac",
+       "ZWDSLqxmfg3aPBZFH479q",
+       "-tzeA13f2jYDm4aO5JciT",
+       "oTKC1o1OOnPiTh60a8yVc",
+       "rDIg16eb6B6um1P8uMy51"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 12,
+      "global_step_index": 15,
+      "topic_refs": [
+       "JVXe2QDQaqiJYPupIMhWe",
+       "QbftToskhtBlTz1jyiRkb",
+       "UO1GEUe8e22uRB6DAxfpe",
+       "pP0VeUSK9CDodgz-BQmrP",
+       "CaHbAXDIJQXcQ9DZqziod",
+       "J1aGPkZqDZfUwpVmC88AL",
+       "sChxcuQ2OruKVx8P4wAK_",
+       "IR0wVIcu1MxOOBiLBnn8S",
+       "Tv3sZvus76dmu0X9AqCIU"
+      ],
+      "queries": [
+       "Machine Learning Engineering",
+       "Machine Learning Engineering fundamentals",
+       "Machine Learning Engineering: Machine Learning"
+      ]
+     },
+     {
+      "step_number": 13,
+      "global_step_index": 16,
+      "topic_refs": [
+       "EtU_9MOklVBvnvyg30Yfx",
+       "NC1A2SQVyc1n-KEf6yl-4",
+       "wxq5dkrpgvs3axmLmeHCk",
+       "9o-ZT9oZIE3hCXD6eWZI0",
+       "PZ-WxKGTcWTrXmYI_inD_",
+       "4Vy6lW9vF_SWwbKLU0qno"
+      ],
+      "queries": [
+       "Machine Learning Engineering",
+       "Machine Learning Engineering: Machine Learning"
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 3,
+    "title": "MLOps",
+    "queries": [
+     "Machine Learning Engineering",
+     "Machine Learning Engineering fundamentals",
+     "Machine Learning Engineering: MLOps"
+    ],
+    "retrieved": [
+     {
+      "source": "mlops/machine-learning-fundamentals@ulka7VEVjz6ls5SnI6a6z.md",
+      "score": 0.7449229955673218,
+      "queries": [
+       "Machine Learning Engineering",
+       "Machine Learning Engineering fundamentals",
+       "Machine Learning Engineering: MLOps"
+      ]
+     },
+     {
+      "source": "mlops/what-is-mlops@IghGpwAFVB067uOosmoDC.md",
+      "score": 0.6782339811325073,
+      "queries": [
+       "Machine Learning Engineering: MLOps"
+      ]
+     },
+     {
+      "source": "mlops/machine-learning@6uGYeXZn5fW2qPfSb8GJb.md",
+      "score": 0.6552589535713196,
+      "queries": [
+       "Machine Learning Engineering",
+       "Machine Learning Engineering fundamentals",
+       "Machine Learning Engineering: MLOps"
+      ]
+     },
+     {
+      "source": "mlops/mlops-principles@iTsEHVCo6KGq7H2HMgy5S.md",
+      "score": 0.6363793611526489,
+      "queries": [
+       "Machine Learning Engineering fundamentals",
+       "Machine Learning Engineering: MLOps"
+      ]
+     },
+     {
+      "source": "mlops/mlops-components@l1xasxQy2vAY34NWaqKEe.md",
+      "score": 0.6043996810913086,
+      "queries": [
+       "Machine Learning Engineering: MLOps"
+      ]
+     },
+     {
+      "source": "mlops/mlflow@93MPXEulKgPnuRlp7F-Nj.md",
+      "score": 0.5880483388900757,
+      "queries": [
+       "Machine Learning Engineering",
+       "Machine Learning Engineering fundamentals",
+       "Machine Learning Engineering: MLOps"
+      ]
+     },
+     {
+      "source": "so_survey_2025_india/Machine_Learning_Engineering",
+      "score": 0.3549937605857849,
+      "queries": []
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 17,
+      "topic_refs": [
+       "IghGpwAFVB067uOosmoDC",
+       "iTsEHVCo6KGq7H2HMgy5S",
+       "l1xasxQy2vAY34NWaqKEe",
+       "_NPGsGEjcLekjGisdDFWt",
+       "kHDSwlSq8WkLey4EJIQSR",
+       "06T5CbZAGJU6fJhCmqCC8",
+       "7t7jSb3YgyWlhgCe8Se1I",
+       "mu56TlVkhhgVzzESDRobc",
+       "qLKM1zGUhuyBwh_uXSyJJ",
+       "mMzqJF2KQ49TDEk5F3VAI"
+      ],
+      "queries": [
+       "Machine Learning Engineering fundamentals",
+       "Machine Learning Engineering: MLOps"
+      ]
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 18,
+      "topic_refs": [
+       "VykbCu7LWIx8fQpqKzoA7",
+       "Berd78HvnulNEGOsHCf8n",
+       "cOg3ejZRYE-u-M0c89IjM",
+       "wOogVDV4FIDLXVPwFqJ8C",
+       "6XgP_2NLuiw654zvTyueT",
+       "AjZHJcxUY29WZbCvr3zrs",
+       "fMNwzhgLgHlAZJ9NvKikR",
+       "UljuqA89_SlCSDWWMD_C_",
+       "o6GQ3-8DgDtHzdX6yeg1w",
+       "51x_5z0pHTE_yZoyvFUBy"
+      ],
+      "queries": [
+       "Machine Learning Engineering",
+       "Machine Learning Engineering fundamentals",
+       "Machine Learning Engineering: MLOps"
+      ]
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 19,
+      "topic_refs": [
+       "fGGWKmAJ50Ke6wWJBEgby",
+       "93MPXEulKgPnuRlp7F-Nj",
+       "MLob7b468ZgNX7-cURqmJ",
+       "a6vawajw7BpL6plH_nuAz",
+       "SCn-6w1UEQwoLQ_dOPpL5",
+       "75mlW2JoUqSNFK2IDfqFP",
+       "zsW1NRb0dMgS-KzWsI0QU",
+       "QEayqA8zYsJn0rQYz-4zv"
+      ],
+      "queries": [
+       "Machine Learning Engineering",
+       "Machine Learning Engineering fundamentals",
+       "Machine Learning Engineering: MLOps"
+      ]
+     },
+     {
+      "step_number": 4,
+      "global_step_index": 20,
+      "topic_refs": [
+       "tKeejLv8Q7QX40UtOjpav",
+       "XIdCvT-4HyyglHJLRrHlz",
+       "XQoK9l-xtN2J8ZV8dw53X",
+       "5VuCUCfb4DEi0HKW11PIX",
+       "fes7M--Y8i08_zeP98tVV",
+       "00GZcwe25QYi7rDzaOoMt",
+       "u3E7FGW4Iwdsu61KYFxCX",
+       "kbfucfIO5KCsuv3jKbHTa",
+       "sf67bSL7HAx6iN7S6MYKs",
+       "dA9AE-3lTB6lN-X-_Byd2",
+       "-_obgPIUaZ4BVpg29xG_9"
+      ],
+      "queries": [
+       "Machine Learning Engineering",
+       "Machine Learning Engineering fundamentals",
+       "Machine Learning Engineering: MLOps"
+      ]
+     },
+     {
+      "step_number": 5,
+      "global_step_index": 21,
+      "topic_refs": [
+       "fR4Qr_ifoBLTpxdkJ50rB",
+       "EIjo6iFrU8iDm36_ZtaW5",
+       "YmRN43yAFF97c7MgNaiqs",
+       "qy37ppIWDT_we-duuHwgT",
+       "JQKEWz0-vIJoLimLKvIzz",
+       "pVSlVHXIap0unFxLGM-lQ",
+       "w8z91Hlqm0sPligYD3VCk",
+       "YFo3NnwVst5EBTtLR-cJ1",
+       "qyNOEqp7hW_P7-Isz_v4o",
+       "Wpv_zRshtTFXNqp1S7m0F"
+      ],
+      "queries": [
+       "Machine Learning Engineering",
+       "Machine Learning Engineering fundamentals",
+       "Machine Learning Engineering: MLOps"
+      ]
+     }
+    ]
+   }
+  ]
+ }
+}

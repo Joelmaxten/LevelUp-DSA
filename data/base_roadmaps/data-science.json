@@ -1,0 +1,3688 @@
+{
+ "metadata": {
+  "schema_version": 1,
+  "career_path": "Data Science",
+  "model_id": "claude-opus-5-5",
+  "built_at": "2026-10-10T17:51:13Z",
+  "generator": {
+   "profile": "neutral",
+   "provider": "claude_authored",
+   "llm_host": null,
+   "authoring": "Every model reply in this run was written by Claude (claude-opus-5-5) in a Claude Code cloud session, answering the generator's own prompts; retrieval, topic-ref validation, duplicate check, more_topics, resources and audit are the unmodified pipeline.",
+   "phase_concurrency": 1,
+   "duplicate_similarity_threshold": 0.8,
+   "reasoning_effort": "",
+   "resources": "kb_only"
+  },
+  "inventory_fingerprint": "3b0819232892dcbd826ddff009fa095ff340162a6e482521e86dcbda6f26838e"
+ },
+ "roadmap": {
+  "phases": [
+   {
+    "phase_number": 1,
+    "title": "Python for Data Analysis",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "Python Setup for Data Work",
+      "description": "Data scientists work in notebooks and isolated environments, and a clean setup avoids most install and version headaches. Set up Jupyter or Colab and VS Code, manage packages with pip or conda in virtual environments, and learn Python's basic numeric types.",
+      "topic_refs": [
+       "GISOFMKvnBys0O0IMpz2J",
+       "8Z20apU8ugXwdH8rRZAcr",
+       "2m8uQRGaVZUd4mfm7bRou",
+       "c8uLNJMr6UZfvjFwFhxvd",
+       "ObA_xZDY7PxU54NGBwyVI",
+       "j1jq5_64lBuYQQjJWKIuI",
+       "6dJaQRj2zMz00sfTiTdww",
+       "IL0fFEs4CgK_eBft-SYAl",
+       "icVUQgedEGcaPpJSV8JdI",
+       "_-bUq5jtewDmsmnzYw1-q",
+       "aLIXcqB258WNrdASuN_7G",
+       "Ze02ApxTvyQqtB3VYv3d4"
+      ],
+      "projects": [
+       {
+        "title": "Reproducible notebook environment",
+        "description": "Create a virtual environment with pinned packages and share a notebook that runs the same on another machine.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Unit converter notebook",
+        "description": "A notebook that converts and formats measurements, exercising integers, floats and booleans.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Introduction",
+       "Environment Setup",
+       "JupyterLab",
+       "Google Colab",
+       "VS Code"
+      ],
+      "more_topics": [
+       {
+        "node_id": "0w4i0aavs0j2hl9Fbqy4Y",
+        "title": "uv"
+       }
+      ],
+      "global_step_index": 1,
+      "resource": {
+       "title": "Python for Data Analytics - Full Course for Beginners",
+       "url": "https://youtube.com/watch?v=wUSDVGivd-8"
+      },
+      "videos": [
+       {
+        "title": "Python for Data Analytics - Full Course for Beginners",
+        "url": "https://youtube.com/watch?v=wUSDVGivd-8",
+        "video_id": "wUSDVGivd-8",
+        "source": "roadmap.sh",
+        "topic": "Introduction"
+       },
+       {
+        "title": "Setting Up A Python Environment for Data Analysis and Machine Learning",
+        "url": "https://youtube.com/watch?v=NDFMa5FSQuI",
+        "video_id": "NDFMa5FSQuI",
+        "source": "roadmap.sh",
+        "topic": "Environment Setup"
+       },
+       {
+        "title": "Jupyter Notebook Complete Beginner Guide",
+        "url": "https://youtube.com/watch?v=5pf0_bpNbkw",
+        "video_id": "5pf0_bpNbkw",
+        "source": "roadmap.sh",
+        "topic": "JupyterLab"
+       },
+       {
+        "title": "Google Colab Tutorial for Beginners | Get Started with Google Colab",
+        "url": "https://youtube.com/watch?v=RLYoEyIHL6A",
+        "video_id": "RLYoEyIHL6A",
+        "source": "roadmap.sh",
+        "topic": "Google Colab"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Get Started",
+        "url": "https://jupyterlab.readthedocs.io/en/stable/getting_started/overview.html",
+        "topic": "JupyterLab"
+       },
+       {
+        "type": "official",
+        "title": "Google Colab",
+        "url": "https://colab.research.google.com/",
+        "topic": "Google Colab"
+       },
+       {
+        "type": "official",
+        "title": "Python Basics in Colab",
+        "url": "https://colab.research.google.com/github/data-psl/lectures2020/blob/master/notebooks/01_python_basics.ipynb",
+        "topic": "Google Colab"
+       },
+       {
+        "type": "official",
+        "title": "Jupyter Notebooks in VS Code",
+        "url": "https://code.visualstudio.com/docs/datascience/jupyter-notebooks",
+        "topic": "VS Code"
+       }
+      ]
+     },
+     {
+      "step_number": 2,
+      "title": "Python Data Types, Collections and Functions",
+      "description": "Before pandas makes sense you need comfort with strings, lists, dictionaries and writing your own functions. Practise the core collections, operators and comparisons, and functions with arguments and lambdas.",
+      "topic_refs": [
+       "F-0Rxwu_RcNF_NOoFHoo7",
+       "Sg5w8zO2Ji-uDJKEoWey9",
+       "F4dp3Ip8G-EI1hprtv3do",
+       "olniprgaL7l-9YhwbFfmN",
+       "GvV_thqIC0yXyJbJt_Zmu",
+       "lReYQM-p8rrYcHkaqzbMr",
+       "so95CO6Qw3I0S98ISENS-",
+       "Md0yXC3JTH56Wky5jA8Fk",
+       "_0K6o-R0F2a9bpEDfRcTi",
+       "0XtKHqPS6AfhQvhH5cu7Q",
+       "7ukR74cN6lHbvhs4mFn6R",
+       "AzsZhpK-wuWtafVFJMhdY"
+      ],
+      "projects": [
+       {
+        "title": "Marks summary without pandas",
+        "description": "Store student marks in dictionaries and lists and compute grades with your own functions.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Text keyword counter",
+        "description": "Clean and count keywords across news headlines using string methods and sets.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Strings",
+       "Working with Strings",
+       "Lists",
+       "Tuples",
+       "Sets"
+      ],
+      "more_topics": [
+       {
+        "node_id": "KtV5Jl-hOcUS5L-15BUDD",
+        "title": "Built-in Functions"
+       },
+       {
+        "node_id": "XI8bvhQ3ugezTu60USUG2",
+        "title": "Casting Types"
+       },
+       {
+        "node_id": "kyrS5ez7_85AnNt8Bojz_",
+        "title": "Functions & Methods"
+       },
+       {
+        "node_id": "la9oiXURvw6AH-Vuh-WqT",
+        "title": "List Comprehensions"
+       },
+       {
+        "node_id": "NjCor7ePiZapd4f6bMZlV",
+        "title": "Type Casting"
+       }
+      ],
+      "global_step_index": 2,
+      "resource": {
+       "title": "String methods in Python are easy! 〰️",
+       "url": "https://youtube.com/watch?v=tb6EYiHtcXU"
+      },
+      "videos": [
+       {
+        "title": "String methods in Python are easy! 〰️",
+        "url": "https://youtube.com/watch?v=tb6EYiHtcXU",
+        "video_id": "tb6EYiHtcXU",
+        "source": "roadmap.sh",
+        "topic": "Working with Strings"
+       },
+       {
+        "title": "How to Use Lists in Python",
+        "url": "https://youtube.com/watch?v=9OeznAkyQz4",
+        "video_id": "9OeznAkyQz4",
+        "source": "roadmap.sh",
+        "topic": "Lists"
+       },
+       {
+        "title": "Python Tuples",
+        "url": "https://youtube.com/watch?v=w6hL_dszMxk",
+        "video_id": "w6hL_dszMxk",
+        "source": "roadmap.sh",
+        "topic": "Tuples"
+       },
+       {
+        "title": "What are Sets in Python? Python Tutorial for Absolute Beginners",
+        "url": "https://youtube.com/watch?v=t9j8lCUGZXo",
+        "video_id": "t9j8lCUGZXo",
+        "source": "roadmap.sh",
+        "topic": "Sets"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Built-in Types",
+        "url": "https://docs.python.org/3/library/stdtypes.html",
+        "topic": "Strings"
+       },
+       {
+        "type": "official",
+        "title": "string — Common string operations",
+        "url": "https://docs.python.org/3/library/string.html",
+        "topic": "Working with Strings"
+       },
+       {
+        "type": "official",
+        "title": "List",
+        "url": "https://docs.python.org/3/tutorial/datastructures.html",
+        "topic": "Lists"
+       },
+       {
+        "type": "official",
+        "title": "Tuple",
+        "url": "https://docs.python.org/3/tutorial/datastructures.html#tuples-and-sequences",
+        "topic": "Tuples"
+       }
+      ]
+     },
+     {
+      "step_number": 3,
+      "title": "NumPy and Numerical Computing",
+      "description": "NumPy arrays are the fast numeric core under pandas, scikit-learn and most data libraries. Learn array creation, vectorised operations, indexing and slicing, basic linear algebra, random sampling and SciPy routines.",
+      "topic_refs": [
+       "IO-disDSfkPau4Pd_TNwc",
+       "qiUPTXFgfukxlPhnv76jo",
+       "qOZ-T7zaPjvIT222rSV4o",
+       "PlFcaQsvFSK0Y-LKGu0eH",
+       "AAxvIAas2Sdkz9-2uNHXq",
+       "xHDrwKDE_mrSihCsPQMBF",
+       "XizmE-QroU4GJbjvqNYxe",
+       "YxA0ms9vkufKGOguRNK1B"
+      ],
+      "projects": [
+       {
+        "title": "Vectorised versus loop benchmark",
+        "description": "Compute statistics on a million numbers with Python loops and with NumPy and compare the speed.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Monte Carlo simulation",
+        "description": "Estimate the probability of a delivery arriving late by simulating random delays with NumPy.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "NumPy",
+       "Arrays & ndarray",
+       "Array Operations",
+       "Indexing & Slicing",
+       "Arithmetic"
+      ],
+      "more_topics": [
+       {
+        "node_id": "mAOljEWt_0Hb9jLBKuc-H",
+        "title": "Array Operations"
+       }
+      ],
+      "global_step_index": 3,
+      "resource": {
+       "title": "Python NumPy Tutorial for Beginners",
+       "url": "https://youtube.com/watch?v=QUT1VHiLmmI"
+      },
+      "videos": [
+       {
+        "title": "Python NumPy Tutorial for Beginners",
+        "url": "https://youtube.com/watch?v=QUT1VHiLmmI",
+        "video_id": "QUT1VHiLmmI",
+        "source": "roadmap.sh",
+        "topic": "NumPy"
+       },
+       {
+        "title": "Ultimate Guide to NumPy Arrays",
+        "url": "https://youtube.com/watch?v=lLRBYKwP8GQ",
+        "video_id": "lLRBYKwP8GQ",
+        "source": "roadmap.sh",
+        "topic": "Arrays & ndarray"
+       },
+       {
+        "title": "Pandas loc and iloc",
+        "url": "https://youtube.com/watch?v=naRQyRZrXCE",
+        "video_id": "naRQyRZrXCE",
+        "source": "roadmap.sh",
+        "topic": "Indexing & Slicing"
+       },
+       {
+        "title": "Learn NumPy in 1 hour! 🔢",
+        "url": "https://youtube.com/watch?v=VXU4LSAQDSc",
+        "video_id": "VXU4LSAQDSc",
+        "source": "roadmap.sh",
+        "topic": "Linear Algebra Basics"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "NumPy quickstart",
+        "url": "https://numpy.org/doc/stable/user/quickstart.html",
+        "topic": "NumPy"
+       },
+       {
+        "type": "official",
+        "title": "NumPy: the absolute basics for beginners",
+        "url": "https://numpy.org/doc/stable/user/absolute_beginners.html",
+        "topic": "Arrays & ndarray"
+       },
+       {
+        "type": "official",
+        "title": "numpy.array",
+        "url": "https://numpy.org/doc/stable/reference/generated/numpy.array.html",
+        "topic": "Arrays & ndarray"
+       },
+       {
+        "type": "official",
+        "title": "pandas.DataFrame.loc",
+        "url": "https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.loc.html",
+        "topic": "Indexing & Slicing"
+       }
+      ]
+     },
+     {
+      "step_number": 4,
+      "title": "Pandas: Loading, Filtering, Grouping and Joining",
+      "description": "Pandas is the everyday tool for tabular data, and most analysis questions reduce to filter, group, join and reshape. Load data from common file formats, then practise querying, aggregation, merging and reshaping on real tables.",
+      "topic_refs": [
+       "bIblb5cVNSZLqSuskmKnP",
+       "3N5N6qe8JVr0XGOFdn5-8",
+       "w2j11Jyr_qLP1Y9ST-06O",
+       "34DL5RWQtHkvgVhI9a_ZQ",
+       "nDUOJPCEzkCxX8B63HBP3",
+       "OwEBYI4u7nb9-UGOR9SQf",
+       "VEetEvKGNzAO9QdZY2g86",
+       "sBKhhjfFTpbj7TQwVnX7F",
+       "wxO7f8wh6JTXHYDiPcbmy",
+       "KnSv5dPToipoz2RF1dDnO",
+       "Rq9TFEEJnjEgVa1DiJxFz",
+       "ACr__YweG2xOAf56FK8tE"
+      ],
+      "projects": [
+       {
+        "title": "Sales by region and month",
+        "description": "Join orders with customers and produce a pivoted monthly revenue table per region.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "IPL match statistics",
+        "description": "Load ball-by-ball data and compute top run scorers and economy rates per season.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Pandas",
+       "Series and DataFrame",
+       "Reading Data",
+       "Reading Local Files",
+       "CSV"
+      ],
+      "more_topics": [
+       {
+        "node_id": "cD139cRk1xj2ip-o_078l",
+        "title": "Pandas"
+       }
+      ],
+      "global_step_index": 4,
+      "resource": {
+       "title": "Learn Pandas in 1 hour! 🐼",
+       "url": "https://youtube.com/watch?v=VXtjG_GzO7Q"
+      },
+      "videos": [
+       {
+        "title": "Learn Pandas in 1 hour! 🐼",
+        "url": "https://youtube.com/watch?v=VXtjG_GzO7Q",
+        "video_id": "VXtjG_GzO7Q",
+        "source": "roadmap.sh",
+        "topic": "Pandas"
+       },
+       {
+        "title": "Reading in Files in Pandas | Python Pandas Tutorials",
+        "url": "https://youtube.com/watch?v=dUpyC40cF6Q",
+        "video_id": "dUpyC40cF6Q",
+        "source": "roadmap.sh",
+        "topic": "Reading Data"
+       },
+       {
+        "title": "How to Navigate File Paths: Reading Data With Pandas",
+        "url": "https://youtube.com/watch?v=39pwKSJ7T1Y",
+        "video_id": "39pwKSJ7T1Y",
+        "source": "roadmap.sh",
+        "topic": "Reading Local Files"
+       },
+       {
+        "title": "How to Read a CSV file into a Pandas DataFrame",
+        "url": "https://youtube.com/watch?v=4YI9z1qUpew",
+        "video_id": "4YI9z1qUpew",
+        "source": "roadmap.sh",
+        "topic": "CSV"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "10 minutes to pandas",
+        "url": "https://pandas.pydata.org/docs/user_guide/10min.html",
+        "topic": "Pandas"
+       },
+       {
+        "type": "official",
+        "title": "pandas.Series",
+        "url": "https://pandas.pydata.org/docs/reference/api/pandas.Series.html",
+        "topic": "Series and DataFrame"
+       },
+       {
+        "type": "official",
+        "title": "pandas.DataFrame",
+        "url": "https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html",
+        "topic": "Series and DataFrame"
+       },
+       {
+        "type": "official",
+        "title": "How do I read and write tabular data?",
+        "url": "https://pandas.pydata.org/docs/getting_started/intro_tutorials/02_read_write.html",
+        "topic": "Reading Data"
+       }
+      ]
+     },
+     {
+      "step_number": 5,
+      "title": "Data Cleaning and Preparation",
+      "description": "Real datasets arrive with missing values, inconsistent text and badly formatted dates, and cleaning them well is most of the job. Detect and handle nulls, fix strings and dates, encode categories and cross-tabulate to check your work.",
+      "topic_refs": [
+       "K53X-NB1S9XXSF6j8q1qu",
+       "GidLncxwx7d1QzAOfHRLX",
+       "bcODvfBqCUwLVXa8HKOFB",
+       "xIS0cJ8ui0siBoZJr3-B_",
+       "9mFT0z5yT446_-nGdG492",
+       "1bHv3_acNts_BeOn3l6DF",
+       "L7btVRwvkEVX0K8LxnbqJ",
+       "yRHodYYqdICLZyG3J9qjc",
+       "S1EzGF-CLu7tWDb1V6RQc",
+       "oXhGEIie-MzfUSM2Ng4Zm",
+       "7XHYCVpUpvwAtaUBjTa4O"
+      ],
+      "projects": [
+       {
+        "title": "Clean a messy hospital dataset",
+        "description": "Standardise names, parse admission dates and impute missing values with a documented reason for each choice.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Reusable cleaning function",
+        "description": "A function that applies a cleaning recipe to any new monthly file and reports what it changed.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Data Cleaning",
+       "Null Values",
+       "isnull, isna",
+       "Dropping vs. Imputing",
+       "Forward / Backward Fill"
+      ],
+      "more_topics": [],
+      "global_step_index": 5,
+      "resource": {
+       "title": "Data Cleaning in Pandas | Python Pandas Tutorials",
+       "url": "https://youtube.com/watch?v=bDhvCp3_lYw"
+      },
+      "videos": [
+       {
+        "title": "Data Cleaning in Pandas | Python Pandas Tutorials",
+        "url": "https://youtube.com/watch?v=bDhvCp3_lYw",
+        "video_id": "bDhvCp3_lYw",
+        "source": "roadmap.sh",
+        "topic": "Data Cleaning"
+       },
+       {
+        "title": "Python Pandas Tutorial 5: Handle Missing Data: fillna, dropna, interpolate",
+        "url": "https://youtube.com/watch?v=EaGbS7eWSs0",
+        "video_id": "EaGbS7eWSs0",
+        "source": "roadmap.sh",
+        "topic": "Dropping vs. Imputing"
+       },
+       {
+        "title": "How do I use string methods in pandas?",
+        "url": "https://youtube.com/watch?v=bofaC0IckHo",
+        "video_id": "bofaC0IckHo",
+        "source": "roadmap.sh",
+        "topic": "Pandas String Methods"
+       },
+       {
+        "title": "Python Tutorial: re Module - How to Write and Match Regular Expressions (Regex)",
+        "url": "https://youtube.com/watch?v=K8L6KVGG-7o",
+        "video_id": "K8L6KVGG-7o",
+        "source": "roadmap.sh",
+        "topic": "re"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Working with missing data",
+        "url": "https://pandas.pydata.org/docs/user_guide/missing_data.html",
+        "topic": "isnull, isna"
+       },
+       {
+        "type": "official",
+        "title": "pandas.isnull",
+        "url": "https://pandas.pydata.org/docs/reference/api/pandas.isnull.html",
+        "topic": "isnull, isna"
+       },
+       {
+        "type": "official",
+        "title": "pandas.isna",
+        "url": "https://pandas.pydata.org/docs/reference/api/pandas.isna.html",
+        "topic": "isnull, isna"
+       },
+       {
+        "type": "official",
+        "title": "pandas.DataFrame.fillna",
+        "url": "https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.fillna.html",
+        "topic": "Dropping vs. Imputing"
+       }
+      ]
+     },
+     {
+      "step_number": 6,
+      "title": "Exploratory Data Analysis and Descriptive Statistics",
+      "description": "EDA is how you find the story, the outliers and the data problems before any modelling. Summarise distributions with centre and spread, flag outliers with IQR and z-scores, and measure relationships with correlation.",
+      "topic_refs": [
+       "eObhSoXcbqLdwegzaWmi7",
+       "UIFNQ9g5fMK-KoZCrqv27",
+       "DdA2gJKpgOHj9mqZL-c4F",
+       "nZl1ngETFxKStt0tFvOpR",
+       "ucEFYVtXIvuYKjudK3pwB",
+       "2HIeG6ywOA9BkE9W3Gu9v",
+       "YCMSjDjUCnkz2VPXfLxz5",
+       "PHfLEgeEMChsSOSIgMoWH",
+       "KLXFKVb-EC5WOigI63y09"
+      ],
+      "projects": [
+       {
+        "title": "EDA of city air quality",
+        "description": "Describe pollution levels across cities, flag outlier days and find which pollutants move together.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Outlier rule comparison",
+        "description": "Compare IQR and z-score outlier rules on skewed salary data and explain the difference.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Exploratory Data Analysis",
+       "Visual Inspection",
+       "Mean, Median, Mode",
+       "Variance & Std. Deviation",
+       "IQR"
+      ],
+      "more_topics": [],
+      "global_step_index": 6,
+      "resource": {
+       "title": "Exploratory Data Analysis in Pandas | Python Pandas Tutorials",
+       "url": "https://youtube.com/watch?v=Liv6eeb1VfE"
+      },
+      "videos": [
+       {
+        "title": "Exploratory Data Analysis in Pandas | Python Pandas Tutorials",
+        "url": "https://youtube.com/watch?v=Liv6eeb1VfE",
+        "video_id": "Liv6eeb1VfE",
+        "source": "roadmap.sh",
+        "topic": "Exploratory Data Analysis"
+       },
+       {
+        "title": "How to Calculate Standard Deviation & Variance in Python",
+        "url": "https://youtube.com/watch?v=p4H2b2x_nWc",
+        "video_id": "p4H2b2x_nWc",
+        "source": "roadmap.sh",
+        "topic": "Variance & Std. Deviation"
+       },
+       {
+        "title": "Outlier detection and removal using IQR",
+        "url": "https://youtube.com/watch?v=A3gClkblXK8",
+        "video_id": "A3gClkblXK8",
+        "source": "roadmap.sh",
+        "topic": "IQR"
+       },
+       {
+        "title": "Outlier detection and removal: z score, standard deviation",
+        "url": "https://youtube.com/watch?v=KFuEAGR3HS4",
+        "video_id": "KFuEAGR3HS4",
+        "source": "roadmap.sh",
+        "topic": "Z-score"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 7,
+      "title": "Visualisation with Matplotlib and Seaborn",
+      "description": "Clear charts are how data scientists explain findings, and the wrong chart hides the point. Build and customise distribution, categorical, relationship and heatmap charts, and arrange them into publication-ready figures.",
+      "topic_refs": [
+       "Md9Yq7bwDNo6hO_A9aa9N",
+       "zx7uCaQiCxvXMhm9FG3XG",
+       "GRg7HyeVuSwkKD5bCOFiY",
+       "j4UHICw-niFv1RRlC-vk1",
+       "mElhFGGT2GnLg2AkJFETN",
+       "oRaag-FOl50NJM0y4joBm",
+       "ij8PMz519gC9WIxlWGD7B",
+       "4ce2yYLRCSb3azsOMpE-U",
+       "Xq7Ho2kWg5AtZK0G6z02U",
+       "Dj8Ar4-NQ5mQQhNHmQJVy",
+       "PcGJMkmZrl4xc2ADT9dF3",
+       "Bk3z1CHnrnV6ii2Y0BF8G"
+      ],
+      "projects": [
+       {
+        "title": "One dataset, six charts",
+        "description": "Tell the story of a dataset in a six-panel figure, each panel answering one question.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Chart makeover",
+        "description": "Take three misleading charts and redesign them so the comparison is honest and clear.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Matplotlib",
+       "Seaborn",
+       "Subplots and figures",
+       "Customizing Plots",
+       "Saving figures"
+      ],
+      "more_topics": [
+       {
+        "node_id": "JTYST4p4O9RQbCzxsoQhA",
+        "title": "Customizing Plots"
+       }
+      ],
+      "global_step_index": 7,
+      "resource": {
+       "title": "Matplotlib Full Python Course - Data Science Fundamentals",
+       "url": "https://youtube.com/watch?v=OZOOLe2imFo"
+      },
+      "videos": [
+       {
+        "title": "Matplotlib Full Python Course - Data Science Fundamentals",
+        "url": "https://youtube.com/watch?v=OZOOLe2imFo",
+        "video_id": "OZOOLe2imFo",
+        "source": "roadmap.sh",
+        "topic": "Matplotlib"
+       },
+       {
+        "title": "Introduction to Seaborn",
+        "url": "https://youtube.com/watch?v=vaf4ir8eT38",
+        "video_id": "vaf4ir8eT38",
+        "source": "roadmap.sh",
+        "topic": "Seaborn"
+       },
+       {
+        "title": "How to save a matplotlib figure and fix text cutting off || Matplotlib Tips",
+        "url": "https://youtube.com/watch?v=C8MT-A7Mvk4",
+        "video_id": "C8MT-A7Mvk4",
+        "source": "roadmap.sh",
+        "topic": "Saving figures"
+       },
+       {
+        "title": "Matplotlib histograms in 6 minutes! 🔔",
+        "url": "https://youtube.com/watch?v=2E6fDoz7LuU",
+        "video_id": "2E6fDoz7LuU",
+        "source": "roadmap.sh",
+        "topic": "Histogram"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Matplotlib Tutorials",
+        "url": "https://matplotlib.org/stable/tutorials/index.html",
+        "topic": "Matplotlib"
+       },
+       {
+        "type": "official",
+        "title": "Seaborn Tutorials",
+        "url": "https://seaborn.pydata.org/tutorial.html",
+        "topic": "Seaborn"
+       },
+       {
+        "type": "official",
+        "title": "Introduction to Seaborn for dataviz with Python",
+        "url": "https://python-graph-gallery.com/seaborn/",
+        "topic": "Seaborn"
+       },
+       {
+        "type": "official",
+        "title": "Create multiple subplots using plt.subplots",
+        "url": "https://matplotlib.org/stable/gallery/subplots_axes_and_figures/subplots_demo.html",
+        "topic": "Subplots and figures"
+       }
+      ]
+     },
+     {
+      "step_number": 8,
+      "title": "Interactive Charts, Dashboards and Maps",
+      "description": "Stakeholders increasingly expect to explore data themselves, through interactive charts, simple web apps and BI dashboards. Build interactive plots, a Streamlit or Dash app, and a map with geospatial data.",
+      "topic_refs": [
+       "ES8zVixZ5wZ0tW6beOWxJ",
+       "J_u8yvrHEWKKmVsVgPN7L",
+       "9vgD1Sd5B3iRMPLrfMG0C",
+       "-dsafcJlA16H_ji0zQvKy",
+       "Z-inS5OKdXi6yveKgxMeC",
+       "uyhlD_ZBCCd3IvrWZ5mlh",
+       "EHVXO79NGpLC1i8x4Y7g1",
+       "5HEYmbVJ6Z7lvgqalVjxW",
+       "-Bxn2sj2NjHLhRZrPIi0n",
+       "SWrijRzSZxhnSYDwv1_pH"
+      ],
+      "projects": [
+       {
+        "title": "Streamlit data explorer",
+        "description": "An app where users upload a CSV and pick columns to chart and filter.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "District-level map",
+        "description": "Map a statistic by district with GeoPandas and add hover details with Plotly.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Interactive Visualization",
+       "Plotly",
+       "Altair",
+       "Dash",
+       "Streamlit"
+      ],
+      "more_topics": [],
+      "global_step_index": 8,
+      "resource": {
+       "title": "Plotly Tutorial - Basics in 7 Minutes!",
+       "url": "https://youtube.com/watch?v=PqUaDvbczbI"
+      },
+      "videos": [
+       {
+        "title": "Plotly Tutorial - Basics in 7 Minutes!",
+        "url": "https://youtube.com/watch?v=PqUaDvbczbI",
+        "video_id": "PqUaDvbczbI",
+        "source": "roadmap.sh",
+        "topic": "Plotly"
+       },
+       {
+        "title": "Introduction to Dash Plotly - Data Visualization in Python",
+        "url": "https://youtube.com/watch?v=hSPmj7mK6ng",
+        "video_id": "hSPmj7mK6ng",
+        "source": "roadmap.sh",
+        "topic": "Dash"
+       },
+       {
+        "title": "Streamlit: The Fastest Way To Build Python Apps?",
+        "url": "https://youtube.com/watch?v=D0D4Pa22iG0",
+        "video_id": "D0D4Pa22iG0",
+        "source": "roadmap.sh",
+        "topic": "Streamlit"
+       },
+       {
+        "title": "Learn Tableau in Under 2 hours",
+        "url": "https://youtube.com/watch?v=j8FSP8XuFyk",
+        "video_id": "j8FSP8XuFyk",
+        "source": "roadmap.sh",
+        "topic": "Power BI / Tableau"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Getting Started with Plotly in Python",
+        "url": "https://plotly.com/python/getting-started/",
+        "topic": "Plotly"
+       },
+       {
+        "type": "official",
+        "title": "Plotly Python Graphing Library Fundamentals",
+        "url": "https://plotly.com/python/plotly-fundamentals/",
+        "topic": "Plotly"
+       },
+       {
+        "type": "official",
+        "title": "Dash in 20 Minutes",
+        "url": "https://dash.plotly.com/tutorial",
+        "topic": "Dash"
+       },
+       {
+        "type": "official",
+        "title": "Tutorials",
+        "url": "https://docs.streamlit.io/develop/tutorials",
+        "topic": "Streamlit"
+       }
+      ]
+     },
+     {
+      "step_number": 9,
+      "title": "Collecting Data from the Web and Databases",
+      "description": "Much of the data you need is behind an API, on a web page or in a database rather than in a ready CSV. Call APIs with requests, scrape pages responsibly, and query databases from Python with SQLite, SQLAlchemy and DuckDB.",
+      "topic_refs": [
+       "w8iQWthKu1w75z36B8Ir3",
+       "10c4tiBOR68J3qa55LcJS",
+       "w4K_ffCUbzhGxWyoKsspu",
+       "UImXdBHQKCzp9NdjF9xMi",
+       "E_r4BLrSyHkrxpg4HDkUm",
+       "-RepeaHp66GGuM66k9JHd",
+       "k63rFXaVDUX2ZOVI_O9WG",
+       "a6HiqhsJJijqObw9pNOqb"
+      ],
+      "projects": [
+       {
+        "title": "Weather API to SQLite",
+        "description": "Fetch daily weather from a public API and store it in a SQLite table for later analysis.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Price tracker scraper",
+        "description": "Scrape product prices daily, respecting robots.txt, and chart how they change.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Reading Web Data",
+       "APIs with requests",
+       "BeautifulSoup",
+       "scrapy",
+       "SQL Fundamentals"
+      ],
+      "more_topics": [],
+      "global_step_index": 9,
+      "resource": {
+       "title": "Master Python Requests In 15 Minutes. Call Any API",
+       "url": "https://youtube.com/watch?v=Xnbef8F_Yfc"
+      },
+      "videos": [
+       {
+        "title": "Master Python Requests In 15 Minutes. Call Any API",
+        "url": "https://youtube.com/watch?v=Xnbef8F_Yfc",
+        "video_id": "Xnbef8F_Yfc",
+        "source": "roadmap.sh",
+        "topic": "APIs with requests"
+       },
+       {
+        "title": "Web Scraping with Python - Beautiful Soup Crash Course",
+        "url": "https://youtube.com/watch?v=XVv6mJpFOb0",
+        "video_id": "XVv6mJpFOb0",
+        "source": "roadmap.sh",
+        "topic": "BeautifulSoup"
+       },
+       {
+        "title": "Scrapy for Beginners - A Complete How To Example Web Scraping Project",
+        "url": "https://youtube.com/watch?v=s4jtkzHhLzY",
+        "video_id": "s4jtkzHhLzY",
+        "source": "roadmap.sh",
+        "topic": "scrapy"
+       },
+       {
+        "title": "SQL Tutorial - Full Database Course for Beginners",
+        "url": "https://youtube.com/watch?v=HXV3zeQKqGY",
+        "video_id": "HXV3zeQKqGY",
+        "source": "roadmap.sh",
+        "topic": "SQL Fundamentals"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Beautiful Soup Documentation",
+        "url": "https://beautiful-soup-4.readthedocs.io/en/latest/",
+        "topic": "BeautifulSoup"
+       },
+       {
+        "type": "official",
+        "title": "Scrapy Docs",
+        "url": "https://docs.scrapy.org/en/latest/",
+        "topic": "scrapy"
+       },
+       {
+        "type": "official",
+        "title": "sqlite3",
+        "url": "https://docs.python.org/3/library/sqlite3.html#sqlite3-tutorial",
+        "topic": "sqlite3"
+       },
+       {
+        "type": "official",
+        "title": "SQLAlchemy",
+        "url": "https://www.sqlalchemy.org/",
+        "topic": "SQLAlchemy"
+       }
+      ]
+     },
+     {
+      "step_number": 10,
+      "title": "Scaling Analysis: Big Data Tools and Pipelines",
+      "description": "When data no longer fits in memory or jobs must run every day, you need faster engines and scheduled pipelines. Try Polars, Dask and PySpark on large data, structure analysis code with classes, and schedule a pipeline with Airflow.",
+      "topic_refs": [
+       "GkxSrpOJx-SWvnDkTPcJt",
+       "18eitPvBQKdeM3K33d59g",
+       "ApowKoA3C1B8oUr4-sltZ",
+       "XTXm8aIDbRkTXoAck_m3I",
+       "f3YL32h2gbU_G8kkNC3Vc",
+       "LERo7-ggtfZ-KZyNdBwt6",
+       "hTAQSe0rHv7fuAMfxJwGp",
+       "npndQC8OIfP1wwn_iswPy"
+      ],
+      "projects": [
+       {
+        "title": "Pandas versus Polars versus DuckDB",
+        "description": "Run the same aggregation on a multi-gigabyte file with each tool and compare time and memory.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Daily report pipeline",
+        "description": "An Airflow DAG that refreshes data, recomputes metrics and saves a chart every morning.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Big Data Tools",
+       "Polars",
+       "Dask",
+       "PySpark",
+       "Data Pipelines"
+      ],
+      "more_topics": [],
+      "global_step_index": 10,
+      "resource": {
+       "title": "Learning the Polars DataFrame Library!",
+       "url": "https://youtube.com/watch?v=OTVDmA6CRlQ"
+      },
+      "videos": [
+       {
+        "title": "Learning the Polars DataFrame Library!",
+        "url": "https://youtube.com/watch?v=OTVDmA6CRlQ",
+        "video_id": "OTVDmA6CRlQ",
+        "source": "roadmap.sh",
+        "topic": "Polars"
+       },
+       {
+        "title": "Intro to Dask",
+        "url": "https://youtube.com/watch?v=z18qjLu-Mw4",
+        "video_id": "z18qjLu-Mw4",
+        "source": "roadmap.sh",
+        "topic": "Dask"
+       },
+       {
+        "title": "PySpark Tutorial",
+        "url": "https://youtube.com/watch?v=wNRjR6Cds5s",
+        "video_id": "wNRjR6Cds5s",
+        "source": "roadmap.sh",
+        "topic": "PySpark"
+       },
+       {
+        "title": "Data Pipelines Explained",
+        "url": "https://youtube.com/watch?v=6kEGUCrBEU0",
+        "video_id": "6kEGUCrBEU0",
+        "source": "roadmap.sh",
+        "topic": "Data Pipelines"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Getting started",
+        "url": "https://docs.pola.rs/user-guide/getting-started/",
+        "topic": "Polars"
+       },
+       {
+        "type": "official",
+        "title": "Dask Tutorial",
+        "url": "https://tutorial.dask.org/",
+        "topic": "Dask"
+       },
+       {
+        "type": "official",
+        "title": "PySpark Tutorials",
+        "url": "https://spark.apache.org/docs/latest/api/python/tutorial/index.html",
+        "topic": "PySpark"
+       },
+       {
+        "type": "official",
+        "title": "Airflow 101: Building Your First Workflow",
+        "url": "https://airflow.apache.org/docs/apache-airflow/stable/tutorial/fundamentals.html",
+        "topic": "Airflow"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 2,
+    "title": "SQL & AI & Data Science",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "The Data Scientist's Skill Map",
+      "description": "Data science combines coding, mathematics, statistics and modelling, and knowing how they fit together helps you plan the rest of this roadmap. Review each area, including econometrics for causal questions and MLOps for getting models used.",
+      "topic_refs": [
+       "XLDWuSt4tI4gnmqMFdpmy",
+       "aStaDENn5PhEa-cFvNzXa",
+       "4WZL_fzJ3cZdWLLDoWN8D",
+       "Gd2egqKZPnbPW1W2jw4j8",
+       "l1027SBZxTHKzqWw98Ee-",
+       "kBdt_t2SvVsY3blfubWIz",
+       "cjvVLN0XjrKPn6o20oMmc",
+       "Qa85hEVe2kz62k9Pj4QCA"
+      ],
+      "projects": [
+       {
+        "title": "Personal skill audit",
+        "description": "Rate yourself on each skill area, pick two gaps and plan one small project for each.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Job description breakdown",
+        "description": "Map ten Indian data scientist job postings to these skill areas and see which ones are asked for most.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Coding",
+       "Mathematics",
+       "Statistics",
+       "Econometrics",
+       "Exploratory Data Analysis"
+      ],
+      "more_topics": [],
+      "global_step_index": 11,
+      "resource": null,
+      "videos": [],
+      "resources": [
+       {
+        "type": "official",
+        "title": "The Python Tutorial",
+        "url": "https://docs.python.org/3/tutorial/",
+        "topic": "Coding"
+       },
+       {
+        "type": "official",
+        "title": "The R Manuals (CRAN)",
+        "url": "https://cran.r-project.org/manuals.html",
+        "topic": "Coding"
+       },
+       {
+        "type": "official",
+        "title": "Econometrics (MIT OpenCourseWare)",
+        "url": "https://ocw.mit.edu/courses/14-382-econometrics-spring-2017/",
+        "topic": "Econometrics"
+       },
+       {
+        "type": "official",
+        "title": "pandas User Guide: Essential Basic Functionality",
+        "url": "https://pandas.pydata.org/docs/user_guide/basics.html",
+        "topic": "Exploratory Data Analysis"
+       }
+      ]
+     },
+     {
+      "step_number": 2,
+      "title": "SQL Basics: Tables, SELECT and Filtering",
+      "description": "Most company data sits in relational databases, and data science interviews almost always include SQL. Learn how tables, rows and columns are organised, how SQL differs from NoSQL, and how to select, filter and sort data.",
+      "topic_refs": [
+       "nhUKKWyBH80nyKfGT8ErC",
+       "gx4KaFqKgJX9n9_ZGMqlZ",
+       "JDDG4KfhtIlw1rkNCzUli",
+       "6yoo7qC6X2jYDIjd3HIm7",
+       "R9WDMRd-3wxsKH97-sT3n",
+       "aLDl75i8gtLRA2Ud-fMmQ",
+       "wmtt-3auWLdQWuVdwZLPd",
+       "tBzMDfCMh6MIagNaxCzin",
+       "i8u8E_sne6XiKJo2FXDog",
+       "N1Racr3ZpU320gS545We8",
+       "WhYAy6f7Euk3E49-ot644",
+       "NfCiSPrL4upMssukcw3Kh"
+      ],
+      "projects": [
+       {
+        "title": "Library catalogue queries",
+        "description": "Load a books table and answer twenty filtering and sorting questions with SELECT.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "SQL drill log",
+        "description": "Solve thirty beginner SQL practice problems and keep notes on each mistake.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Learn the Basics",
+       "SQL vs NoSQL",
+       "Basic SQL Syntax",
+       "SQL keywords",
+       "Table"
+      ],
+      "more_topics": [
+       {
+        "node_id": "UDqbT1y-YzBrljfKSz_RG",
+        "title": "Advanced SQL Concepts"
+       },
+       {
+        "node_id": "rmqXH29n1oXtZ8tvmcRFn",
+        "title": "SELECT statement"
+       },
+       {
+        "node_id": "mPj6BiK5FKKkIQ9WsWEo6",
+        "title": "INSERT Statement"
+       },
+       {
+        "node_id": "88KlrMqSza9_YaD7Dv61p",
+        "title": "TIME"
+       },
+       {
+        "node_id": "vhBZqqmUcEon6-Vwvla4q",
+        "title": "DB Security Best Practices"
+       },
+       {
+        "node_id": "z5Sf0VU14ZCQ80kL1qOqc",
+        "title": "Dynamic SQL"
+       },
+       {
+        "node_id": "R1ktDJpXOz0PTllAcBrdu",
+        "title": "Data Integrity & Security"
+       },
+       {
+        "node_id": "KJJ6PYjTnr_3yU2mNPL9v",
+        "title": "UPDATE Statement"
+       },
+       {
+        "node_id": "zWnvuHJLHr03PWkrW1wZZ",
+        "title": "DELETE Statement in SQL"
+       },
+       {
+        "node_id": "BAqJQvcguhIhzyII5LRH6",
+        "title": "CEILING"
+       },
+       {
+        "node_id": "7hEqkoxkdAWmakGZsMJx-",
+        "title": "TIMESTAMP"
+       },
+       {
+        "node_id": "M4M_-vjM9GNy0NmXZneDA",
+        "title": "NOT NULL Constraint"
+       }
+      ],
+      "global_step_index": 12,
+      "resource": {
+       "title": "SQL vs NoSQL Databases in 4 mins",
+       "url": "https://youtube.com/watch?v=_Ss42Vb1SU4"
+      },
+      "videos": [
+       {
+        "title": "SQL vs NoSQL Databases in 4 mins",
+        "url": "https://youtube.com/watch?v=_Ss42Vb1SU4",
+        "video_id": "_Ss42Vb1SU4",
+        "source": "roadmap.sh",
+        "topic": "SQL vs NoSQL"
+       },
+       {
+        "title": "MySQL 101 - Data Types",
+        "url": "https://youtube.com/watch?v=vAiBa69YCnk",
+        "video_id": "vAiBa69YCnk",
+        "source": "roadmap.sh",
+        "topic": "Data Types"
+       },
+       {
+        "title": "How to write basic SQL",
+        "url": "https://youtube.com/watch?v=YfTDBA45PHk",
+        "video_id": "YfTDBA45PHk",
+        "source": "roadmap.sh",
+        "topic": "FROM Clause in SELECT Statements"
+       },
+       {
+        "title": "How to filter with the WHERE clause in SQL",
+        "url": "https://youtube.com/watch?v=4Uv0o8IBqw0",
+        "video_id": "4Uv0o8IBqw0",
+        "source": "roadmap.sh",
+        "topic": "WHERE Clause in SELECT Statements"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 3,
+      "title": "Aggregation, Grouping and Conditional Logic",
+      "description": "Summary tables such as revenue per month or users per city are built with aggregates and GROUP BY. Practise counting, summing and averaging, filtering groups with HAVING, and bucketing values with CASE.",
+      "topic_refs": [
+       "LX9nzJ4uqznHN4SksoDvr",
+       "9aHYrOQDkA84tlxcVK5aD",
+       "w4T3jFb0ilf1KNw-AvRXG",
+       "Wou6YXLYUgomvcELh851L",
+       "bFEYMlqPZtTUYtDQxqHzT",
+       "YqDJq3fPxUZlwsdq0kJg7",
+       "14TKE6KhrH1yFtHcSZSXq",
+       "HhICJpCK5__b-itUoEBES",
+       "W2ePJHdfEiEJ3ZKoRQKt_",
+       "ffwniprGJHZzJ7t3lQcXz",
+       "w53CSY53nAAN0ux-XeJ4c"
+      ],
+      "projects": [
+       {
+        "title": "Food delivery metrics",
+        "description": "Compute orders, average basket value and late-delivery rate per city and month.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Customer tiering",
+        "description": "Label customers as gold, silver or bronze by spend using CASE and count each tier.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Aggregate Queries",
+       "COUNT",
+       "SUM",
+       "AVG",
+       "MIN"
+      ],
+      "more_topics": [
+       {
+        "node_id": "Zw8IHfCCMSxmVjx5Ho5ff",
+        "title": "GROUP BY"
+       },
+       {
+        "node_id": "ytwCkSMTiTuemE0KVfAfy",
+        "title": "HAVING"
+       },
+       {
+        "node_id": "6vYFb_D1N_-tLWZftL-Az",
+        "title": "ABS"
+       }
+      ],
+      "global_step_index": 13,
+      "resource": {
+       "title": "COUNT, SUM, AVG, MIN, MAX (SQL) - Aggregating Data",
+       "url": "https://youtube.com/watch?v=muwEdPsx534"
+      },
+      "videos": [
+       {
+        "title": "COUNT, SUM, AVG, MIN, MAX (SQL) - Aggregating Data",
+        "url": "https://youtube.com/watch?v=muwEdPsx534",
+        "video_id": "muwEdPsx534",
+        "source": "roadmap.sh",
+        "topic": "MIN"
+       },
+       {
+        "title": "Basic Aggregate Functions",
+        "url": "https://youtube.com/watch?v=jcoJuc5e3RE",
+        "video_id": "jcoJuc5e3RE",
+        "source": "roadmap.sh",
+        "topic": "MAX"
+       },
+       {
+        "title": "Advanced Aggregate Functions in SQL",
+        "url": "https://youtube.com/watch?v=nNrgRVIzeHg",
+        "video_id": "nNrgRVIzeHg",
+        "source": "roadmap.sh",
+        "topic": "GROUP BY"
+       },
+       {
+        "title": "HAVING Clause",
+        "url": "https://youtube.com/watch?v=tYBOMw7Ob8E",
+        "video_id": "tYBOMw7Ob8E",
+        "source": "roadmap.sh",
+        "topic": "HAVING"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 4,
+      "title": "Joining Tables",
+      "description": "Real questions span several tables, and choosing the wrong join silently drops or duplicates rows. Learn inner, outer, self and cross joins and how to keep joins fast.",
+      "topic_refs": [
+       "4UQQYbjzwVxZOAxBuXKQS",
+       "8V6yw7kLaow-VVcv_K_pL",
+       "aaua13CkTxLOYXr8cAgPm",
+       "X9cJJ8zLZCF2cOoqxwFfY",
+       "shpgZkh1CLqUwjOaRtAFy",
+       "aS5zCyJRA779yHF0G2pje",
+       "6qG0AVYd6Y1B8LOSDoMX9",
+       "7ow6tiSSCnTpv_GYQU017",
+       "C0dhS6uLf4TUSfvcWyXhv"
+      ],
+      "projects": [
+       {
+        "title": "Students, courses and grades",
+        "description": "Join three tables to list each student's courses, including students with no enrolments.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Employee-manager report",
+        "description": "Use a self join to show each employee with their manager and the manager's department.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "JOINs",
+       "JOIN Queries",
+       "INNER JOIN",
+       "LEFT JOIN",
+       "RIGHT JOIN"
+      ],
+      "more_topics": [],
+      "global_step_index": 14,
+      "resource": {
+       "title": "SQL JOINs Tutorial for beginners",
+       "url": "https://youtube.com/watch?v=0OQJDd3QqQM"
+      },
+      "videos": [
+       {
+        "title": "SQL JOINs Tutorial for beginners",
+        "url": "https://youtube.com/watch?v=0OQJDd3QqQM",
+        "video_id": "0OQJDd3QqQM",
+        "source": "roadmap.sh",
+        "topic": "JOINs"
+       },
+       {
+        "title": "Joins are easy",
+        "url": "https://youtube.com/watch?v=G3lJAxg1cy8",
+        "video_id": "G3lJAxg1cy8",
+        "source": "roadmap.sh",
+        "topic": "JOIN Queries"
+       },
+       {
+        "title": "SQL LEFT JOIN - SQL Tutorial",
+        "url": "https://youtube.com/watch?v=giKwmtsz1U8",
+        "video_id": "giKwmtsz1U8",
+        "source": "roadmap.sh",
+        "topic": "LEFT JOIN"
+       },
+       {
+        "title": "SQL FULL OUTER JOIN",
+        "url": "https://youtube.com/watch?v=XpBkXo3DCEg",
+        "video_id": "XpBkXo3DCEg",
+        "source": "roadmap.sh",
+        "topic": "FULL OUTER JOIN"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 5,
+      "title": "Subqueries, CTEs and Window Functions",
+      "description": "Ranking, running totals and period-over-period comparisons are standard analytics questions, and window functions answer them cleanly. Learn subqueries, CTEs including recursive ones, ranking and offset window functions, and pivoting.",
+      "topic_refs": [
+       "86iZ8s8EdhSuYwgwAM_EO",
+       "xkPJ2MYiXmzC4yqQWyB_7",
+       "JZqS3Xapw6mfSPVgFW7av",
+       "tedQynR0xicVKhuR1oahw",
+       "TjgwabhEtaSoYMLNr6q9l",
+       "tBvXLLp5FKeSSN35Kj1X4",
+       "zW27ZHdLwQY-85iqbBKQZ",
+       "cucCPw3KfetAP2OMFUs0X",
+       "QM0ltgPu8lLLYc2MsTLj-",
+       "BcXdxY6bld5c0YNFSKkh-",
+       "aJJjaGunRrwyh9MjQfJt-",
+       "nwFaz9i-1s0WVrVaFsoqb"
+      ],
+      "projects": [
+       {
+        "title": "Month-over-month growth",
+        "description": "Compute each product's monthly sales and growth versus the previous month with LAG.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Top three per category",
+        "description": "Return the three best-selling items in every category using a CTE and DENSE_RANK.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Sub Queries",
+       "Nested Subqueries",
+       "Correlated Subqueries",
+       "CTEs (Common Table Expressions)",
+       "Recursive Queries"
+      ],
+      "more_topics": [
+       {
+        "node_id": "UVTgbZrqpbYl1bQvQejcF",
+        "title": "Reducing Subqueries"
+       },
+       {
+        "node_id": "vTMd0bqz4eTgLnhfgY61h",
+        "title": "Advanced Functions"
+       },
+       {
+        "node_id": "eXQ-TrTlqL5p2AdGnozkL",
+        "title": "Scalar"
+       },
+       {
+        "node_id": "OUw--8zEq6lk5-6oySVHe",
+        "title": "MOD"
+       },
+       {
+        "node_id": "o2SH4iQn1Ap2yDZ7cVYLO",
+        "title": "FLOOR"
+       }
+      ],
+      "global_step_index": 15,
+      "resource": {
+       "title": "Advanced SQL Tutorial | Subqueries",
+       "url": "https://youtube.com/watch?v=m1KcNV-Zhmc"
+      },
+      "videos": [
+       {
+        "title": "Advanced SQL Tutorial | Subqueries",
+        "url": "https://youtube.com/watch?v=m1KcNV-Zhmc",
+        "video_id": "m1KcNV-Zhmc",
+        "source": "roadmap.sh",
+        "topic": "Sub Queries"
+       },
+       {
+        "title": "MySQL Subqueries",
+        "url": "https://youtube.com/watch?v=i5acg3Hvu6g",
+        "video_id": "i5acg3Hvu6g",
+        "source": "roadmap.sh",
+        "topic": "Nested Subqueries"
+       },
+       {
+        "title": "Intro To Subqueries",
+        "url": "https://youtube.com/watch?v=TUxadt94L0M",
+        "video_id": "TUxadt94L0M",
+        "source": "roadmap.sh",
+        "topic": "Correlated Subqueries"
+       },
+       {
+        "title": "SQL Window Functions in 10 Minutes",
+        "url": "https://youtube.com/watch?v=y1KCM8vbYe4",
+        "video_id": "y1KCM8vbYe4",
+        "source": "roadmap.sh",
+        "topic": "Window Functions"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Correlated Subqueries",
+        "url": "https://dev.mysql.com/doc/refman/8.4/en/correlated-subqueries.html",
+        "topic": "Correlated Subqueries"
+       }
+      ]
+     },
+     {
+      "step_number": 6,
+      "title": "SQL Functions for Text, Numbers and Dates",
+      "description": "Raw columns rarely come in the shape you need, so cleaning and deriving fields inside SQL saves export-and-fix work. Practise string, numeric, null-handling and date functions.",
+      "topic_refs": [
+       "5inpEqafeVCfqsURHzQQg",
+       "RH8DLiQpDUWqw3U1522q5",
+       "PnG_5D6q66NAKxXVOwA6N",
+       "VNbb3YPc0FtrROylRns8h",
+       "Othfo7NvTVzfyL906PLM1",
+       "knTG6pAq2mYP24WMa29xI",
+       "9DntFiZV1AyaRPhYP5q6u",
+       "k7lZe4QRt9q4InUImFmvx",
+       "KI6vngoYcHsnpIk8ErhhS",
+       "Ivqo2wa-_NhGU3vGd0pUI",
+       "BJ4fQvagTO0B5UtXblyx8",
+       "1E1WdWOyqxbbdiIbw26dZ"
+      ],
+      "projects": [
+       {
+        "title": "Clean a contacts table in SQL",
+        "description": "Standardise names, extract email domains and fill missing cities with COALESCE.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Cohort by signup week",
+        "description": "Group users by signup week with date functions and count how many return in later weeks.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "CONCAT",
+       "LENGTH",
+       "SUBSTRING",
+       "REPLACE",
+       "UPPER"
+      ],
+      "more_topics": [],
+      "global_step_index": 16,
+      "resource": {
+       "title": "Advanced SQL Tutorial | String Functions + Use Cases",
+       "url": "https://youtube.com/watch?v=GQj6_6V_jVA"
+      },
+      "videos": [
+       {
+        "title": "Advanced SQL Tutorial | String Functions + Use Cases",
+        "url": "https://youtube.com/watch?v=GQj6_6V_jVA",
+        "video_id": "GQj6_6V_jVA",
+        "source": "roadmap.sh",
+        "topic": "SUBSTRING"
+       },
+       {
+        "title": "What is NULLIF in SQL?",
+        "url": "https://youtube.com/watch?v=Jaw53T__RRY",
+        "video_id": "Jaw53T__RRY",
+        "source": "roadmap.sh",
+        "topic": "NULLIF"
+       },
+       {
+        "title": "Working with Dates",
+        "url": "https://youtube.com/watch?v=XyZ9HwXoR7o",
+        "video_id": "XyZ9HwXoR7o",
+        "source": "roadmap.sh",
+        "topic": "DATE"
+       },
+       {
+        "title": "DATEADD Function",
+        "url": "https://youtube.com/watch?v=DYCWOzzOycU",
+        "video_id": "DYCWOzzOycU",
+        "source": "roadmap.sh",
+        "topic": "DATEADD"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 7,
+      "title": "Creating and Changing Tables",
+      "description": "Data scientists often build their own analysis tables and need to keep data consistent while doing it. Learn DDL to create and alter tables, DML to insert, update and delete rows, and keys and constraints for integrity.",
+      "topic_refs": [
+       "xPOeXK1EPBNG56vgfG-VV",
+       "epEpBxRosLhuAuKwp823r",
+       "WjXlO42WL9saDS7RIGapt",
+       "YzJ6QmY2arMfRzMAPaI0T",
+       "K5vhqTJrdPK08Txv8zaEj",
+       "WMSXi-eez_hHGDM8kUdWz",
+       "-Hew0y53ziZK3epQnGA0O",
+       "eu9dJFi6gBPMBdy08Y5Bb",
+       "ddtVaA4Ls6qRj-7OtTSIH",
+       "Jlwmyq6CUQeDAlL4dazOP",
+       "DHz6sRLYhFeCbAcNJS8hm",
+       "mBQ3Z8GlFcpIena3IB7D_"
+      ],
+      "projects": [
+       {
+        "title": "Design a small survey schema",
+        "description": "Create tables for respondents, questions and answers with keys and constraints, then load sample data.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Safe bulk update",
+        "description": "Correct a batch of wrong prices with UPDATE, checking the affected row count before committing.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Data Definition Language (DDL)",
+       "Create Table",
+       "Alter Table",
+       "Drop Table",
+       "Truncate Table"
+      ],
+      "more_topics": [
+       {
+        "node_id": "qBios3sZVhcJMpXmj9f7B",
+        "title": "Data Constraints"
+       },
+       {
+        "node_id": "Q0h9Wfnl_W9ThOkv7Q17A",
+        "title": "CHECK"
+       },
+       {
+        "node_id": "03qMopxzjx_-dZbYw9b7J",
+        "title": "GRANT and REVOKE"
+       },
+       {
+        "node_id": "5yGo8i7eplxtXOD_qfzOs",
+        "title": "Unique Constraint"
+       }
+      ],
+      "global_step_index": 17,
+      "resource": {
+       "title": "SQL Tutorial - TRUNCATE TABLE",
+       "url": "https://youtube.com/watch?v=zJidbjOQlJM"
+      },
+      "videos": [
+       {
+        "title": "SQL Tutorial - TRUNCATE TABLE",
+        "url": "https://youtube.com/watch?v=zJidbjOQlJM",
+        "video_id": "zJidbjOQlJM",
+        "source": "roadmap.sh",
+        "topic": "Truncate Table"
+       },
+       {
+        "title": "SQL INSERT Statement",
+        "url": "https://youtube.com/watch?v=Yp1MKeIG-M4",
+        "video_id": "Yp1MKeIG-M4",
+        "source": "roadmap.sh",
+        "topic": "INSERT"
+       },
+       {
+        "title": "Foreign Keys are easy (kind of)",
+        "url": "https://youtube.com/watch?v=rFssfx37UJw",
+        "video_id": "rFssfx37UJw",
+        "source": "roadmap.sh",
+        "topic": "Foreign Key"
+       },
+       {
+        "title": "CHECK Constraint",
+        "url": "https://youtube.com/watch?v=EeG2boJCXbc",
+        "video_id": "EeG2boJCXbc",
+        "source": "roadmap.sh",
+        "topic": "CHECK"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 8,
+      "title": "Views, Transactions and Query Performance",
+      "description": "Shared analysis queries need to be reusable, safe to run and fast on large tables. Learn views, transactions and ACID guarantees, indexes and query plans, and stored procedures.",
+      "topic_refs": [
+       "2tyezwOIxV6O84N-Q3Awh",
+       "PcsGK4VBh0zNQIPZvNES4",
+       "OdaBXz2XBAVLsQ-m7xtAM",
+       "igg34gLPl3HYVAmRNFGcV",
+       "3cMECz5QPVDOFrk5duObs",
+       "xbD67KVlt3UhHpKh8HLx8",
+       "LcljR70T-OnzSrJJDqOWf",
+       "9wOgP0i9G4HSeZGn2Gm7r",
+       "Ps9Yv2s-bKvEegGAbPsiA",
+       "4rqCPpTb0dAgpheBKshRG",
+       "C6P69YiFdS-ioPXMNfX07",
+       "w7FNjdwqjY7X69aJqqBy4"
+      ],
+      "projects": [
+       {
+        "title": "Speed up a slow report",
+        "description": "Read the query plan of a slow query, add an index and record the before-and-after timings.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Reporting view layer",
+        "description": "Create views that hide raw-table complexity for a weekly KPI dashboard.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Views",
+       "Creating Views",
+       "Transactions",
+       "ACID",
+       "COMMIT"
+      ],
+      "more_topics": [
+       {
+        "node_id": "3eE-l-P93nOXoWfLr8PSW",
+        "title": "Modifying Views"
+       },
+       {
+        "node_id": "7sTW1vwUhCFOMXYjScVEt",
+        "title": "BEGIN"
+       },
+       {
+        "node_id": "NtxGd6Vx-REBclry7lZuE",
+        "title": "Managing Indexes"
+       },
+       {
+        "node_id": "MIOuWWcCjLAmgzog2DBC3",
+        "title": "Dropping Views"
+       },
+       {
+        "node_id": "pJtYvXUo81aZfPuRjIbMq",
+        "title": "SAVEPOINT"
+       },
+       {
+        "node_id": "ujeq8EIFcrqkBjoFizsJM",
+        "title": "Transaction Isolation Levels"
+       }
+      ],
+      "global_step_index": 18,
+      "resource": {
+       "title": "SQL Views Tutorial",
+       "url": "https://youtube.com/watch?v=cLSxasHg9WY"
+      },
+      "videos": [
+       {
+        "title": "SQL Views Tutorial",
+        "url": "https://youtube.com/watch?v=cLSxasHg9WY",
+        "video_id": "cLSxasHg9WY",
+        "source": "roadmap.sh",
+        "topic": "Views"
+       },
+       {
+        "title": "SQL Views in 4 minutes",
+        "url": "https://youtube.com/watch?v=vLLkNI-vkV8",
+        "video_id": "vLLkNI-vkV8",
+        "source": "roadmap.sh",
+        "topic": "Creating Views"
+       },
+       {
+        "title": "ACID Explained: Atomic, Consistent, Isolated & Durable",
+        "url": "https://youtube.com/watch?v=yaQ5YMWkxq4",
+        "video_id": "yaQ5YMWkxq4",
+        "source": "roadmap.sh",
+        "topic": "ACID"
+       },
+       {
+        "title": "How to undo a mistake a in SQL: Rollback and Commit",
+        "url": "https://youtube.com/watch?v=jomsdMLiIZM",
+        "video_id": "jomsdMLiIZM",
+        "source": "roadmap.sh",
+        "topic": "ROLLBACK"
+       }
+      ],
+      "resources": []
+     }
+    ]
+   },
+   {
+    "phase_number": 3,
+    "title": "Machine Learning",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "Machine Learning Foundations and Learning Types",
+      "description": "Data scientists use machine learning to predict, segment and explain, so start by placing the main learning settings and how the data scientist, ML engineer and AI engineer roles divide the work. This frame tells you which algorithm family a business question calls for.",
+      "topic_refs": [
+       "MEL6y3vwiqwAV6FQihF34",
+       "rzhVFzl5H5MWtcvr8ayRk",
+       "BzZd-d5t63dY97SRSIb0J",
+       "GHO6lN3GTiIRH1P70IRaZ",
+       "Ns2zKn8BL_kTEI6O65pCp",
+       "5MUwKGfSTKlam8KCG0A1U",
+       "36ryjK5isV1MD4MgZP2Jn",
+       "ajKU5CPlbn7BbWHEhUNaB",
+       "9oWdnQd-vwVJi62JQLgJ5",
+       "Yho0zf9F-ROhEnTxRMq_M",
+       "lgO7luG7-R_FY5nwFjRE0",
+       "FgzPlLUfGdlZPvPku0-Xl"
+      ],
+      "projects": [
+       {
+        "title": "Business question to ML task",
+        "description": "Turn fifteen business questions into ML tasks, naming the target, the learning type and a success metric.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Baseline before modelling",
+        "description": "For one dataset, build a simple rule-based baseline that any model must beat.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Introduction to Machine Learning",
+       "Machine Learning",
+       "Skills and Responsibilities",
+       "ML Engineer vs. AI Engineer",
+       "Types of Machine Learning"
+      ],
+      "more_topics": [
+       {
+        "node_id": "cxTriSZvrmXP4axKynIZW",
+        "title": "Internet Data Sources"
+       },
+       {
+        "node_id": "KeGCHoJRHp-mBX-P5to4Y",
+        "title": "IoT Data Sources"
+       },
+       {
+        "node_id": "-oRH7LgigHcfBkNF1xwxh",
+        "title": "Data Sources"
+       },
+       {
+        "node_id": "kagKVPUyLtx8UPAFjRvbN",
+        "title": "JSON"
+       },
+       {
+        "node_id": "nN9BumBHi-c9HKFlgL2GH",
+        "title": "Object Oriented Programming"
+       }
+      ],
+      "global_step_index": 19,
+      "resource": {
+       "title": "What is Machine Learning?",
+       "url": "https://youtube.com/watch?v=9gGnTQTYNaE"
+      },
+      "videos": [
+       {
+        "title": "What is Machine Learning?",
+        "url": "https://youtube.com/watch?v=9gGnTQTYNaE",
+        "video_id": "9gGnTQTYNaE",
+        "source": "roadmap.sh",
+        "topic": "Introduction to Machine Learning"
+       },
+       {
+        "title": "Complete Machine Learning in One Video | Machine Learning Tutorial For Beginners 2025 | Simplilearn",
+        "url": "https://youtube.com/watch?v=PtYRUoJRE9s",
+        "video_id": "PtYRUoJRE9s",
+        "source": "roadmap.sh",
+        "topic": "Machine Learning"
+       },
+       {
+        "title": "AI VS ML Engineer What Do They Do?",
+        "url": "https://youtube.com/watch?v=Ff8HHBITvfs",
+        "video_id": "Ff8HHBITvfs",
+        "source": "roadmap.sh",
+        "topic": "ML Engineer vs. AI Engineer"
+       },
+       {
+        "title": "Supervised Machine Learning Explained For Beginners",
+        "url": "https://youtube.com/watch?v=Mu3POlNoLdc",
+        "video_id": "Mu3POlNoLdc",
+        "source": "roadmap.sh",
+        "topic": "Supervised Learning"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 2,
+      "title": "Linear Algebra and Calculus for ML",
+      "description": "Training is matrix arithmetic plus gradient descent, so these two subjects explain what libraries do under the hood and why models fail to converge. Cover vectors, tensors, matrix operations, decompositions, derivatives and the chain rule.",
+      "topic_refs": [
+       "83UDoO1vC0LjL-qpI0Jh-",
+       "d7J8GEkut61NDGRzROJoP",
+       "1IhaXJxNREq2HA1nT-lMM",
+       "XmnWnPE1sVXheuc-M_Ew7",
+       "3p98Uwf8gyALDr-89lBEZ",
+       "yGs2h10gZcO4GMaWfI3uW",
+       "wHlEinHuRARp5OfSulpA-",
+       "GN6SnI7RXIeW8JeD-qORW",
+       "3BxbkrBp8veZj38zdwN8s",
+       "jJukG4XxfFcID_VlQKqe-",
+       "N_vLjBVdsGsoePtqlqh2w"
+      ],
+      "projects": [
+       {
+        "title": "Gradient descent from scratch",
+        "description": "Fit a line to noisy data with NumPy-only gradient descent and plot the loss falling per iteration.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Image compression with SVD",
+        "description": "Compress a greyscale photo by keeping the top-k singular values and compare quality against k.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Linear Algebra",
+       "Scalars, Vectors, and Tensors",
+       "Matrix & Matrix Operations",
+       "Determinants and Inverse of a Matrix",
+       "Eigenvalues and Diagonalization"
+      ],
+      "more_topics": [
+       {
+        "node_id": "Dvy7BnNzK55qbh_SgOk8m",
+        "title": "Python Loops"
+       },
+       {
+        "node_id": "nKE9sO-f2fdMiuLu2xby1",
+        "title": "NumPy"
+       },
+       {
+        "node_id": "ybqwtlHG4HMm5lyUKW2SO",
+        "title": "Essential Python Libraries for Data Analysis"
+       },
+       {
+        "node_id": "hWA7RtuqltMTmHdcCnmES",
+        "title": "Basic Syntax in Python"
+       },
+       {
+        "node_id": "s-wUPMaagyRupT2RdfHks",
+        "title": "APIs"
+       },
+       {
+        "node_id": "K9Si7kJe946CcGWBGmDsZ",
+        "title": "Excel Files"
+       },
+       {
+        "node_id": "OXbATvlhBXTQ1iRGwPUfb",
+        "title": "Matplotlib"
+       },
+       {
+        "node_id": "NP1kjSk0ujU0Gx-ajNHlR",
+        "title": "Conditionals"
+       }
+      ],
+      "global_step_index": 20,
+      "resource": {
+       "title": "Linear Algebra for Machine Learning",
+       "url": "https://youtube.com/watch?v=QCPJ0VdpM00"
+      },
+      "videos": [
+       {
+        "title": "Linear Algebra for Machine Learning",
+        "url": "https://youtube.com/watch?v=QCPJ0VdpM00",
+        "video_id": "QCPJ0VdpM00",
+        "source": "roadmap.sh",
+        "topic": "Linear Algebra"
+       },
+       {
+        "title": "What the HECK is a Tensor?!?",
+        "url": "https://youtube.com/watch?v=bpG3gqDM80w",
+        "video_id": "bpG3gqDM80w",
+        "source": "roadmap.sh",
+        "topic": "Scalars, Vectors, and Tensors"
+       },
+       {
+        "title": "Linear Algebra - Matrix Operations",
+        "url": "https://youtube.com/watch?v=p48uw2vFWQs",
+        "video_id": "p48uw2vFWQs",
+        "source": "roadmap.sh",
+        "topic": "Matrix & Matrix Operations"
+       },
+       {
+        "title": "Determinant of a Matrix",
+        "url": "https://youtube.com/watch?v=CcbyMH3Noow",
+        "video_id": "CcbyMH3Noow",
+        "source": "roadmap.sh",
+        "topic": "Determinants and Inverse of a Matrix"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "NumPy",
+        "url": "https://numpy.org/",
+        "topic": "NumPy"
+       },
+       {
+        "type": "official",
+        "title": "Matplotlib",
+        "url": "https://matplotlib.org/",
+        "topic": "Matplotlib"
+       }
+      ]
+     },
+     {
+      "step_number": 3,
+      "title": "Probability and Statistics for ML",
+      "description": "Model outputs are probabilities and evaluation is a statistical question, so you need these tools to judge whether a result is real. Learn descriptive and inferential statistics, distributions, random variables and Bayes' theorem.",
+      "topic_refs": [
+       "5DiaZkljhHAGPi9DkaH3b",
+       "P32Rmnln5NCFWz4LP0k05",
+       "ZaoZ2XxicKuTDn4uxe52L",
+       "DUIrJwuYHlhJvZJT2acaY",
+       "tP0oBkjvJC9hrtARkgLon",
+       "p8q1Gtt9x19jw5_-YjAGh",
+       "7o6g0wQxHH9i9MMCoDq2C",
+       "P576TdYcbE6v3RpJntiKw",
+       "WLlZE_vto-CYY5GLV_w7o"
+      ],
+      "projects": [
+       {
+        "title": "Spam filter with Bayes' theorem",
+        "description": "Hand-compute word probabilities on a small SMS dataset and classify new messages.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "A/B result checker",
+        "description": "Decide whether a change in click-through rate between two app versions is statistically significant.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Statistics",
+       "Basic Statistical Concepts",
+       "Descriptive Statistics",
+       "Inferential Statistics",
+       "Probability"
+      ],
+      "more_topics": [
+       {
+        "node_id": "MYZUJ1uHIaRd1Gb4ORzwG",
+        "title": "Graphs & Charts"
+       },
+       {
+        "node_id": "-DJgS6l2qngfwurExlmmT",
+        "title": "Functions and Built-in Functions"
+       },
+       {
+        "node_id": "PnOoShqB3z4LuUvp0Gh2e",
+        "title": "Pandas"
+       },
+       {
+        "node_id": "dEFLBGpiH6nbSMeR7ecaT",
+        "title": "Variables and Data Types"
+       },
+       {
+        "node_id": "VYVLUxhp3XxxknNr5V966",
+        "title": "Seaborn"
+       },
+       {
+        "node_id": "VdMhrAi48V-JXw544YTKI",
+        "title": "Databases (SQL, No-SQL)"
+       }
+      ],
+      "global_step_index": 21,
+      "resource": {
+       "title": "Statistics - A Full University Course on Data Science Basics",
+       "url": "https://youtube.com/watch?v=xxpc-HPKN28"
+      },
+      "videos": [
+       {
+        "title": "Statistics - A Full University Course on Data Science Basics",
+        "url": "https://youtube.com/watch?v=xxpc-HPKN28",
+        "video_id": "xxpc-HPKN28",
+        "source": "roadmap.sh",
+        "topic": "Statistics"
+       },
+       {
+        "title": "Probability for Data Science & Machine Learning",
+        "url": "https://youtube.com/watch?v=sEte4hXEgJ8",
+        "video_id": "sEte4hXEgJ8",
+        "source": "roadmap.sh",
+        "topic": "Probability"
+       },
+       {
+        "title": "Bayes' Theorem EXPLAINED with Examples",
+        "url": "https://youtube.com/watch?v=cqTwHnNbc8g",
+        "video_id": "cqTwHnNbc8g",
+        "source": "roadmap.sh",
+        "topic": "Bayes' Theorem"
+       },
+       {
+        "title": "Sample Variance in Random Population Sampling",
+        "url": "https://youtube.com/watch?v=yNnUVHfX5yQ",
+        "video_id": "yNnUVHfX5yQ",
+        "source": "roadmap.sh",
+        "topic": "Random Variables and Probability Density Functions"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Built-in Functions in Python",
+        "url": "https://docs.python.org/3/library/functions.html",
+        "topic": "Functions"
+       },
+       {
+        "type": "official",
+        "title": "pandas - Python Data Analysis Library",
+        "url": "https://pandas.pydata.org/",
+        "topic": "Pandas"
+       },
+       {
+        "type": "official",
+        "title": "Seaborn",
+        "url": "https://seaborn.pydata.org/",
+        "topic": "Seaborn"
+       }
+      ]
+     },
+     {
+      "step_number": 4,
+      "title": "Feature Engineering and Leak-Free Splits",
+      "description": "Well-built features usually improve a model more than a fancier algorithm, and leakage between train and test data silently inflates scores. Learn scaling, selection, dimensionality reduction and correct train-test splits with scikit-learn.",
+      "topic_refs": [
+       "UmGdV94afOIbAL8MaxOWv",
+       "iBkTNbk8Xz626F_a3Bo5J",
+       "cigwKoltemM0q-M5O50Is",
+       "vQI-4uFQJ6694nm1SCpDR",
+       "K-x_L3z8JTSHwtTeHm4EG",
+       "5xxAg18h74pDAUPy6P8NQ",
+       "ZVbnAF9I1r8qWFFYG6nXv",
+       "-W2uAccH7Y2XIwhfl9mDF",
+       "bIhGv4886V4RWJD3tX0a0"
+      ],
+      "projects": [
+       {
+        "title": "Leak-free preprocessing pipeline",
+        "description": "Build a scikit-learn Pipeline with scaling and encoding fitted only on the training split.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "PCA on a wide dataset",
+        "description": "Reduce a dataset with many features using PCA and compare model accuracy and speed before and after.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Feature Engineering",
+       "Feature Scaling & Normalization",
+       "Feature Selection",
+       "Dimensionality Reduction",
+       "Principal Component Analysis"
+      ],
+      "more_topics": [
+       {
+        "node_id": "y3-nWiDjlY6ZwqmxBUvhd",
+        "title": "Dimensionality Reduction"
+       },
+       {
+        "node_id": "MdhfkuKWTDCE73hczzG3D",
+        "title": "Preprocessing Techniques"
+       }
+      ],
+      "global_step_index": 22,
+      "resource": {
+       "title": "What is feature engineering | Feature Engineering Tutorial Python",
+       "url": "https://youtube.com/watch?v=pYVScuY-GPk"
+      },
+      "videos": [
+       {
+        "title": "What is feature engineering | Feature Engineering Tutorial Python",
+        "url": "https://youtube.com/watch?v=pYVScuY-GPk",
+        "video_id": "pYVScuY-GPk",
+        "source": "roadmap.sh",
+        "topic": "Feature Engineering"
+       },
+       {
+        "title": "Standardization vs Normalization Clearly Explained!",
+        "url": "https://youtube.com/watch?v=sxEqtjLC0aM",
+        "video_id": "sxEqtjLC0aM",
+        "source": "roadmap.sh",
+        "topic": "Feature Scaling & Normalization"
+       },
+       {
+        "title": "Machine Learning - Dimensionality Reduction",
+        "url": "https://youtube.com/watch?v=AU_hBML2H1c",
+        "video_id": "AU_hBML2H1c",
+        "source": "roadmap.sh",
+        "topic": "Dimensionality Reduction"
+       },
+       {
+        "title": "PCA Analysis in Python Explained (Scikit - Learn)",
+        "url": "https://youtube.com/watch?v=6uwa9EkUqpg",
+        "video_id": "6uwa9EkUqpg",
+        "source": "roadmap.sh",
+        "topic": "Principal Component Analysis"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "train_test_split",
+        "url": "https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html",
+        "topic": "Train-Test Data"
+       },
+       {
+        "type": "official",
+        "title": "scikit-learn: machine learning in Python",
+        "url": "https://scikit-learn.org/",
+        "topic": "Scikit-learn"
+       },
+       {
+        "type": "official",
+        "title": "Preprocessing data",
+        "url": "https://scikit-learn.org/stable/modules/preprocessing.html",
+        "topic": "Data Preparation in Scikit-learn"
+       },
+       {
+        "type": "official",
+        "title": "Dataset loading utilities",
+        "url": "https://scikit-learn.org/stable/datasets.html",
+        "topic": "Data Loading in Scikit-learn"
+       }
+      ]
+     },
+     {
+      "step_number": 5,
+      "title": "Supervised Learning Algorithms",
+      "description": "Regression and classification models solve most business ML problems, and knowing when a linear model beats a boosted ensemble saves compute and debugging time. Implement the main families and compare them on the same data.",
+      "topic_refs": [
+       "gKu6tnpTO2PhDDMYp2u7F",
+       "xGO1X9aZRgKcgzi6r1xq8",
+       "hfr2MU8QkVt9KhVi1Okpv",
+       "1aX_vO5zxfTV8_kUIFHkR",
+       "EXogp25SPW1bBfb1gRDAe",
+       "0-6BV-MggAyD7g3JH45B7",
+       "aHOjajXwkDMOssqW1VGrm",
+       "cffITx6oAcnvJlK1VLdi8",
+       "x7vlCNAxfJzobj9HcTaJy",
+       "_jS66rGAWecXH3zVF-5ds",
+       "arlmRF5pYglsbHb-HR-2x",
+       "JuTTbL_pm1ltGvhUsIzQd"
+      ],
+      "projects": [
+       {
+        "title": "House-price regression shoot-out",
+        "description": "Compare linear, ridge, lasso and gradient-boosted models on one housing dataset with the same splits.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Loan default classifier",
+        "description": "Train logistic regression and a random forest on loan data and explain which features drive defaults.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Regression",
+       "Linear Regression",
+       "Polynomial Regression",
+       "Ridge Regression",
+       "Lasso Regression"
+      ],
+      "more_topics": [
+       {
+        "node_id": "Ddhph9saFgfMi-uUFGK75",
+        "title": "Model Selection in Scikit-learn"
+       },
+       {
+        "node_id": "vBnqnIh_xSn0OuY9oQ5e-",
+        "title": "Model Prediction in Scikit-learn"
+       }
+      ],
+      "global_step_index": 23,
+      "resource": {
+       "title": "Hands-On Linear Regression with Scikit-Learn in Python",
+       "url": "https://youtube.com/watch?v=ukZn2RJb7TU"
+      },
+      "videos": [
+       {
+        "title": "Hands-On Linear Regression with Scikit-Learn in Python",
+        "url": "https://youtube.com/watch?v=ukZn2RJb7TU",
+        "video_id": "ukZn2RJb7TU",
+        "source": "roadmap.sh",
+        "topic": "Linear Regression"
+       },
+       {
+        "title": "Mastering Ridge Regression in Python with scikit-learnv",
+        "url": "https://youtube.com/watch?v=GMF4Td7KtB0",
+        "video_id": "GMF4Td7KtB0",
+        "source": "roadmap.sh",
+        "topic": "Ridge Regression"
+       },
+       {
+        "title": "Lasso Regression with Scikit-Learn (Beginner Friendly)",
+        "url": "https://youtube.com/watch?v=LmpBt0tenJE",
+        "video_id": "LmpBt0tenJE",
+        "source": "roadmap.sh",
+        "topic": "Lasso Regression"
+       },
+       {
+        "title": "https://www.youtube.com/watch?v=xl6KAAVytEk",
+        "url": "https://youtube.com/watch?v=xl6KAAVytEk",
+        "video_id": "xl6KAAVytEk",
+        "source": "roadmap.sh",
+        "topic": "Elastic Net Regularization"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Supervised Learning Models",
+        "url": "https://scikit-learn.org/stable/supervised_learning.html",
+        "topic": "Model Selection in Scikit-learn"
+       },
+       {
+        "type": "official",
+        "title": "Unsupervised Learning Models",
+        "url": "https://scikit-learn.org/stable/unsupervised_learning.html",
+        "topic": "Model Selection in Scikit-learn"
+       },
+       {
+        "type": "course",
+        "title": "Classification - Google Crash Course",
+        "url": "https://developers.google.com/machine-learning/crash-course/classification",
+        "topic": "Classification"
+       }
+      ]
+     },
+     {
+      "step_number": 6,
+      "title": "Unsupervised Learning and Clustering",
+      "description": "Plenty of real data has no labels, and clustering is used for customer segments, anomaly screening and data exploration. Learn the main clustering families and how autoencoders learn compact representations.",
+      "topic_refs": [
+       "CBSGvGPoI53p7BezXNm6M",
+       "eErzKbR8sRNlrYcwNSRSh",
+       "BzUunjJrUMlh6K1NOOD87",
+       "jJ8cXfHV2LG5PJGZRTHxB",
+       "VrLaUipVKWvwnFF0ZbIlo",
+       "kvf2CUKBe4qSbZla4Brh3"
+      ],
+      "projects": [
+       {
+        "title": "Customer segmentation",
+        "description": "Cluster shoppers by purchase behaviour with k-means and hierarchical clustering and name each segment.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Autoencoder anomaly detector",
+        "description": "Flag unusual sensor readings by their reconstruction error from a small autoencoder.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Clustering",
+       "Exclusive Clustering",
+       "Overlapping Clustering",
+       "Hierarchical Clustering",
+       "Probabilistic Clustering"
+      ],
+      "more_topics": [],
+      "global_step_index": 24,
+      "resource": {
+       "title": "Autoencoders",
+       "url": "https://youtube.com/watch?v=hZ4a4NgM3u0"
+      },
+      "videos": [
+       {
+        "title": "Autoencoders",
+        "url": "https://youtube.com/watch?v=hZ4a4NgM3u0",
+        "video_id": "hZ4a4NgM3u0",
+        "source": "roadmap.sh",
+        "topic": "Autoencoders"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 7,
+      "title": "Model Evaluation, Validation and Tuning",
+      "description": "Choosing the wrong metric or validating carelessly is how models that look good offline fail in production. Learn classification metrics, cross-validation schemes and systematic hyperparameter search.",
+      "topic_refs": [
+       "99TI95HVGrXIYr-PIDxhC",
+       "5dKl6SUQhOsZfUtVR5hzw",
+       "3wib9UH0_OLhKjqKoZEMv",
+       "mja35tndhAT5z_ysv-hDe",
+       "DH33Na9zz_WGmbD-Dxvq1",
+       "FdNY8QUbPPpeHFgD8TTaD",
+       "anEGWHVpcp75e3jQrj_LZ",
+       "7fOp3t283GeOn6Tf4kEuN",
+       "oyL0M2OP4NTNbIO3zq-Hz",
+       "vRS7DW2WUaXiHk9oJgg3z",
+       "GKMhIXEuSKdW75-24Zopb",
+       "m4vmnxRMBf7zwNnwrMEnk"
+      ],
+      "projects": [
+       {
+        "title": "Imbalanced fraud evaluation",
+        "description": "Show why accuracy misleads on fraud data and pick a threshold using precision-recall trade-offs.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Tuning report",
+        "description": "Run grid and random search with k-fold cross-validation and report the variance of each score.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Model Evaluation",
+       "Model Evaluation Metrics",
+       "Accuracy",
+       "Precision",
+       "Recall"
+      ],
+      "more_topics": [
+       {
+        "node_id": "vmERbhRIevLLNc7Ny2pWp",
+        "title": "Model Evaluation: Importance"
+       },
+       {
+        "node_id": "0hi0LdCtj9Paimgfc-l1O",
+        "title": "Validation Techniques"
+       },
+       {
+        "node_id": "5v0jRBYrRuVXQC90IseRG",
+        "title": "Data Cleaning"
+       }
+      ],
+      "global_step_index": 25,
+      "resource": {
+       "title": "Complete Guide to Cross Validation",
+       "url": "https://youtube.com/watch?v=-8s9KuNo5SA"
+      },
+      "videos": [
+       {
+        "title": "Complete Guide to Cross Validation",
+        "url": "https://youtube.com/watch?v=-8s9KuNo5SA",
+        "video_id": "-8s9KuNo5SA",
+        "source": "roadmap.sh",
+        "topic": "K-Fold Cross Validation"
+       },
+       {
+        "title": "A Comprehensive Guide to Cross-Validation with Scikit-Learn and Python",
+        "url": "https://youtube.com/watch?v=glLNo1ZnmPA",
+        "video_id": "glLNo1ZnmPA",
+        "source": "roadmap.sh",
+        "topic": "Hyperparameter Optimization in Scikit-learn"
+       },
+       {
+        "title": "Hands-On Hyperparameter Tuning with Scikit-Learn: Tips and Tricks",
+        "url": "https://youtube.com/watch?v=LrCylIe0RJM",
+        "video_id": "LrCylIe0RJM",
+        "source": "roadmap.sh",
+        "topic": "Hyperparameter Optimization in Scikit-learn"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Tuning the hyper-parameters of an estimator",
+        "url": "https://scikit-learn.org/stable/modules/grid_search.html",
+        "topic": "Hyperparameter Optimization in Scikit-learn"
+       }
+      ]
+     },
+     {
+      "step_number": 8,
+      "title": "Neural Networks and Deep Learning Frameworks",
+      "description": "Deep learning handles images, text and other unstructured data that classical models struggle with, and data scientists are increasingly expected to prototype in PyTorch or TensorFlow. Learn how forward and backward passes work, then build the same network in a framework.",
+      "topic_refs": [
+       "4dxZmLg0UEaaVEORupOOC",
+       "8425N_E43Dv5mcmEcXRIa",
+       "LWLqa61GK5ukYzHpjinYi",
+       "0meihv22e11GwqnRdSJ9g",
+       "RXTci1N6i6D9HqTbsLYIy",
+       "KcfFjpxFTFxI6HR6hBPrl",
+       "_Z2miSW4PwILMRtBFajBn",
+       "A_Kx3pEj0jpnLJzdOpcQ9",
+       "7RSW-Pypf3QpZp4O21AGl",
+       "Ru8_xMyFxye1hyzCUYvnj",
+       "zoXnXI4Wf5sxddHqYwQjP",
+       "yKtRmgwrJ75VVz7_txZ-S"
+      ],
+      "projects": [
+       {
+        "title": "MLP in NumPy, then PyTorch",
+        "description": "Write a two-layer network with manual backpropagation, then rebuild it in PyTorch and compare results.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Handwritten digit classifier",
+        "description": "Train an MLP on MNIST with Keras and plot the training and validation curves.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Neural Network (NN) Basics",
+       "Perceptron and Multi-layer Perceptrons",
+       "Forward Propagation",
+       "Backpropagation",
+       "Activation Functions"
+      ],
+      "more_topics": [
+       {
+        "node_id": "LpggrF1MMvAxtO9EJe3wY",
+        "title": "Recurrent Neural Networks"
+       },
+       {
+        "node_id": "owSUO9Ut9sggd1OiWr3O7",
+        "title": "Autoencoders"
+       }
+      ],
+      "global_step_index": 26,
+      "resource": {
+       "title": "Neural Networks Explained in 5 minutes",
+       "url": "https://youtube.com/watch?v=jmmW0F0biz0"
+      },
+      "videos": [
+       {
+        "title": "Neural Networks Explained in 5 minutes",
+        "url": "https://youtube.com/watch?v=jmmW0F0biz0",
+        "video_id": "jmmW0F0biz0",
+        "source": "roadmap.sh",
+        "topic": "Neural Network (NN) Basics"
+       },
+       {
+        "title": "The Perceptron Explained",
+        "url": "https://youtube.com/watch?v=i1G7PXZMnSc",
+        "video_id": "i1G7PXZMnSc",
+        "source": "roadmap.sh",
+        "topic": "Perceptron and Multi-layer Perceptrons"
+       },
+       {
+        "title": "Forward Propagation in Neural Networks",
+        "url": "https://youtube.com/watch?v=99CcviQchd8",
+        "video_id": "99CcviQchd8",
+        "source": "roadmap.sh",
+        "topic": "Forward Propagation"
+       },
+       {
+        "title": "Activation Functions In Neural Networks Explained",
+        "url": "https://youtube.com/watch?v=Fu273ovPBmQ",
+        "video_id": "Fu273ovPBmQ",
+        "source": "roadmap.sh",
+        "topic": "Activation Functions"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "PyTorch",
+        "url": "https://pytorch.org/",
+        "topic": "PyTorch"
+       },
+       {
+        "type": "official",
+        "title": "TensorFlow",
+        "url": "https://www.tensorflow.org/",
+        "topic": "TensorFlow"
+       },
+       {
+        "type": "official",
+        "title": "TensorFlow tutorials",
+        "url": "https://www.tensorflow.org/tutorials",
+        "topic": "TensorFlow"
+       },
+       {
+        "type": "official",
+        "title": "Keras",
+        "url": "https://keras.io/",
+        "topic": "Keras"
+       }
+      ]
+     },
+     {
+      "step_number": 9,
+      "title": "CNNs, Recurrent Networks and Transformers",
+      "description": "Convolutional networks dominate vision, recurrent networks handle sequences, and transformers now lead most language and many vision tasks. Learn the building blocks of each and why attention replaced recurrence.",
+      "topic_refs": [
+       "BtO2wH7YYqE25HShI6sd9",
+       "MtoYStcZBduLSbjRuPjq0",
+       "I-GEE7PvpQmhQSfZmxqwA",
+       "a2PGTDnXKp759vFZzkjSF",
+       "YWxSI45e5K_4YOrvmh6LV",
+       "E4k6WgNXdnNoApR675VKb",
+       "H0cscBaExZPNZuFubBUv7",
+       "LdUwTWfCIcowwC-e6q3ac",
+       "ZWDSLqxmfg3aPBZFH479q",
+       "-tzeA13f2jYDm4aO5JciT",
+       "oTKC1o1OOnPiTh60a8yVc",
+       "rDIg16eb6B6um1P8uMy51"
+      ],
+      "projects": [
+       {
+        "title": "Crop disease image classifier",
+        "description": "Fine-tune a small CNN on leaf images and report per-class accuracy.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "LSTM versus transformer on text",
+        "description": "Train both on a sentiment dataset and compare accuracy, training time and model size.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Convolutional Neural Networks",
+       "Convolution",
+       "Pooling",
+       "Padding",
+       "Strides"
+      ],
+      "more_topics": [
+       {
+        "node_id": "gCGHtxqD4V_Ite_AXMspf",
+        "title": "Convolutional Neural Networks (CNNs) Applications"
+       },
+       {
+        "node_id": "jPvZdgye7cBf0bPMVGf7a",
+        "title": "Image and Video Recognition with CNNs"
+       },
+       {
+        "node_id": "_eKuBhCCwUHnEGwHNQY-g",
+        "title": "CNNs for Recommendation Systems"
+       },
+       {
+        "node_id": "iSX9YExs1gS4L2CBQux5w",
+        "title": "Image Segmentation with Convolutional Neural Networks"
+       }
+      ],
+      "global_step_index": 27,
+      "resource": {
+       "title": "Hot Dog or Not Hot Dog – Convolutional Neural Network Course for Beginners",
+       "url": "https://youtube.com/watch?v=nVhau51w6dM"
+      },
+      "videos": [
+       {
+        "title": "Hot Dog or Not Hot Dog – Convolutional Neural Network Course for Beginners",
+        "url": "https://youtube.com/watch?v=nVhau51w6dM",
+        "video_id": "nVhau51w6dM",
+        "source": "roadmap.sh",
+        "topic": "Convolutional Neural Networks"
+       },
+       {
+        "title": "But what is a convolution?",
+        "url": "https://youtube.com/watch?v=KuXjwB4LzSA",
+        "video_id": "KuXjwB4LzSA",
+        "source": "roadmap.sh",
+        "topic": "Convolution"
+       },
+       {
+        "title": "Understanding CNN | Pooling in CNNN",
+        "url": "https://youtube.com/watch?v=azRi6Bz7yc0",
+        "video_id": "azRi6Bz7yc0",
+        "source": "roadmap.sh",
+        "topic": "Pooling"
+       },
+       {
+        "title": "Convolution padding and stride",
+        "url": "https://youtube.com/watch?v=oDAPkZ53zKk",
+        "video_id": "oDAPkZ53zKk",
+        "source": "roadmap.sh",
+        "topic": "Padding"
+       }
+      ],
+      "resources": [
+       {
+        "type": "course",
+        "title": "LLM Course | HuggingFace",
+        "url": "https://huggingface.co/learn/llm-course/chapter1/1",
+        "topic": "Transformers"
+       }
+      ]
+     },
+     {
+      "step_number": 10,
+      "title": "NLP, Generative Models and Explainability",
+      "description": "Text analytics, generative models and explaining predictions to business teams are everyday data science work. Learn text preprocessing and embeddings, how attention models and GANs generate data, and how to explain a model's decisions to stakeholders.",
+      "topic_refs": [
+       "JVXe2QDQaqiJYPupIMhWe",
+       "QbftToskhtBlTz1jyiRkb",
+       "UO1GEUe8e22uRB6DAxfpe",
+       "pP0VeUSK9CDodgz-BQmrP",
+       "CaHbAXDIJQXcQ9DZqziod",
+       "J1aGPkZqDZfUwpVmC88AL",
+       "sChxcuQ2OruKVx8P4wAK_",
+       "IR0wVIcu1MxOOBiLBnn8S",
+       "Tv3sZvus76dmu0X9AqCIU"
+      ],
+      "projects": [
+       {
+        "title": "Support-ticket router",
+        "description": "Tokenise and embed tickets, then train a classifier that sends each one to the right team.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Explain a credit model",
+        "description": "Produce per-prediction feature attributions for a trained model and write them up for a non-technical reader.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Natural Language Processing",
+       "Tokenization",
+       "Stemming",
+       "Lemmatization",
+       "Embeddings"
+      ],
+      "more_topics": [
+       {
+        "node_id": "U4LGIEE3igeE5Ed3EWzsu",
+        "title": "Data Formats"
+       },
+       {
+        "node_id": "qRHeaD2udDaItAxmiIiUg",
+        "title": "Other Data Formats"
+       },
+       {
+        "node_id": "MWfdLCb_w06A0jqwUJUxl",
+        "title": "CSV"
+       },
+       {
+        "node_id": "fNTb9y3zs1HPYclAmu_Wv",
+        "title": "Exceptions"
+       },
+       {
+        "node_id": "R9DQNc0AyAQ2HLpP4HOk6",
+        "title": "Python Data Structures"
+       },
+       {
+        "node_id": "dJZqe47kzRqYIG-4AZTlz",
+        "title": "Mobile App Data"
+       },
+       {
+        "node_id": "qDn1elMoPIBgQSCWiYkLI",
+        "title": "Python"
+       },
+       {
+        "node_id": "tq6WRwUpaCok9fX-0bY7m",
+        "title": "Parquet"
+       }
+      ],
+      "global_step_index": 28,
+      "resource": {
+       "title": "What are GANs (Generative Adversarial Networks)?",
+       "url": "https://youtube.com/watch?v=TpMIssRdhco"
+      },
+      "videos": [
+       {
+        "title": "What are GANs (Generative Adversarial Networks)?",
+        "url": "https://youtube.com/watch?v=TpMIssRdhco",
+        "video_id": "TpMIssRdhco",
+        "source": "roadmap.sh",
+        "topic": "Generative Adversarial Networks"
+       },
+       {
+        "title": "Explainable AI: Demystifying AI Agents Decision-Making",
+        "url": "https://youtube.com/watch?v=yJkCuEu3K68",
+        "video_id": "yJkCuEu3K68",
+        "source": "roadmap.sh",
+        "topic": "Explainable AI"
+       },
+       {
+        "title": "Understanding CSV Files",
+        "url": "https://youtube.com/watch?v=UofTplCVkYI",
+        "video_id": "UofTplCVkYI",
+        "source": "roadmap.sh",
+        "topic": "CSV"
+       },
+       {
+        "title": "What is a relational database?",
+        "url": "https://youtube.com/watch?v=OqjJjpjDRLc",
+        "video_id": "OqjJjpjDRLc",
+        "source": "roadmap.sh",
+        "topic": "Relational Databases"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Python Website",
+        "url": "https://www.python.org/",
+        "topic": "Python"
+       },
+       {
+        "type": "official",
+        "title": "Parquet",
+        "url": "https://parquet.apache.org/",
+        "topic": "Parquet"
+       },
+       {
+        "type": "course",
+        "title": "GANs | Google",
+        "url": "https://developers.google.com/machine-learning/gan",
+        "topic": "Generative Adversarial Networks"
+       }
+      ]
+     },
+     {
+      "step_number": 11,
+      "title": "Reinforcement Learning",
+      "description": "Reinforcement learning optimises decisions over time, as in pricing, recommendations and game agents, and it comes up in data science interviews. Learn value-based and policy-based methods and how deep networks scale them.",
+      "topic_refs": [
+       "EtU_9MOklVBvnvyg30Yfx",
+       "NC1A2SQVyc1n-KEf6yl-4",
+       "wxq5dkrpgvs3axmLmeHCk",
+       "9o-ZT9oZIE3hCXD6eWZI0",
+       "PZ-WxKGTcWTrXmYI_inD_",
+       "4Vy6lW9vF_SWwbKLU0qno"
+      ],
+      "projects": [
+       {
+        "title": "Q-learning grid world",
+        "description": "Train a tabular agent to reach a goal while avoiding traps and visualise the learned policy.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "CartPole with DQN",
+        "description": "Balance a pole with a deep Q-network and compare it against a policy-gradient agent.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "What is Reinforcement Learning?",
+       "Reinforcement Learning",
+       "Q-Learning",
+       "Deep Q-Networks (DQN)",
+       "Policy Gradient"
+      ],
+      "more_topics": [],
+      "global_step_index": 29,
+      "resource": {
+       "title": "Reinforcement Learning in 3 Hours | Full Course using Python",
+       "url": "https://youtube.com/watch?v=Mut_u40Sqz4"
+      },
+      "videos": [
+       {
+        "title": "Reinforcement Learning in 3 Hours | Full Course using Python",
+        "url": "https://youtube.com/watch?v=Mut_u40Sqz4",
+        "video_id": "Mut_u40Sqz4",
+        "source": "roadmap.sh",
+        "topic": "What is Reinforcement Learning?"
+       },
+       {
+        "title": "What is Q-Learning (back to basics)",
+        "url": "https://youtube.com/watch?v=nOBm4aYEYR4",
+        "video_id": "nOBm4aYEYR4",
+        "source": "roadmap.sh",
+        "topic": "Q-Learning"
+       },
+       {
+        "title": "Deep Q-Learning/Deep Q-Network (DQN) Explained | Python Pytorch Deep Reinforcement Learning",
+        "url": "https://youtube.com/watch?v=EUrWGTCGzlA",
+        "video_id": "EUrWGTCGzlA",
+        "source": "roadmap.sh",
+        "topic": "Deep Q-Networks (DQN)"
+       },
+       {
+        "title": "An introduction to Policy Gradient methods - Deep Reinforcement Learning",
+        "url": "https://youtube.com/watch?v=5P7I-xPq8u8",
+        "video_id": "5P7I-xPq8u8",
+        "source": "roadmap.sh",
+        "topic": "Policy Gradient"
+       }
+      ],
+      "resources": []
+     }
+    ]
+   }
+  ]
+ },
+ "audit": {
+  "phases": [
+   {
+    "phase_number": 1,
+    "title": "Python for Data Analysis",
+    "queries": [
+     "Data Science",
+     "Data Science fundamentals",
+     "Data Science: Python for Data Analysis"
+    ],
+    "retrieved": [
+     {
+      "source": "python-data-analysis/introduction@GISOFMKvnBys0O0IMpz2J.md",
+      "score": 0.7563837766647339,
+      "queries": [
+       "Data Science",
+       "Data Science fundamentals",
+       "Data Science: Python for Data Analysis"
+      ]
+     },
+     {
+      "source": "python-data-analysis/statistics--ml@KLXFKVb-EC5WOigI63y09.md",
+      "score": 0.6534867286682129,
+      "queries": [
+       "Data Science",
+       "Data Science fundamentals",
+       "Data Science: Python for Data Analysis"
+      ]
+     },
+     {
+      "source": "python-data-analysis/pandas@bIblb5cVNSZLqSuskmKnP.md",
+      "score": 0.591826856136322,
+      "queries": [
+       "Data Science",
+       "Data Science fundamentals",
+       "Data Science: Python for Data Analysis"
+      ]
+     },
+     {
+      "source": "python-data-analysis/scipy@YxA0ms9vkufKGOguRNK1B.md",
+      "score": 0.5723291635513306,
+      "queries": [
+       "Data Science: Python for Data Analysis"
+      ]
+     },
+     {
+      "source": "python-data-analysis/data-cleaning@K53X-NB1S9XXSF6j8q1qu.md",
+      "score": 0.5691792964935303,
+      "queries": [
+       "Data Science",
+       "Data Science fundamentals",
+       "Data Science: Python for Data Analysis"
+      ]
+     },
+     {
+      "source": "python-data-analysis/scikit-learn@npndQC8OIfP1wwn_iswPy.md",
+      "score": 0.539649486541748,
+      "queries": [
+       "Data Science: Python for Data Analysis"
+      ]
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 1,
+      "topic_refs": [
+       "GISOFMKvnBys0O0IMpz2J",
+       "8Z20apU8ugXwdH8rRZAcr",
+       "2m8uQRGaVZUd4mfm7bRou",
+       "c8uLNJMr6UZfvjFwFhxvd",
+       "ObA_xZDY7PxU54NGBwyVI",
+       "j1jq5_64lBuYQQjJWKIuI",
+       "6dJaQRj2zMz00sfTiTdww",
+       "IL0fFEs4CgK_eBft-SYAl",
+       "icVUQgedEGcaPpJSV8JdI",
+       "_-bUq5jtewDmsmnzYw1-q",
+       "aLIXcqB258WNrdASuN_7G",
+       "Ze02ApxTvyQqtB3VYv3d4"
+      ],
+      "queries": [
+       "Data Science",
+       "Data Science fundamentals",
+       "Data Science: Python for Data Analysis"
+      ]
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 2,
+      "topic_refs": [
+       "F-0Rxwu_RcNF_NOoFHoo7",
+       "Sg5w8zO2Ji-uDJKEoWey9",
+       "F4dp3Ip8G-EI1hprtv3do",
+       "olniprgaL7l-9YhwbFfmN",
+       "GvV_thqIC0yXyJbJt_Zmu",
+       "lReYQM-p8rrYcHkaqzbMr",
+       "so95CO6Qw3I0S98ISENS-",
+       "Md0yXC3JTH56Wky5jA8Fk",
+       "_0K6o-R0F2a9bpEDfRcTi",
+       "0XtKHqPS6AfhQvhH5cu7Q",
+       "7ukR74cN6lHbvhs4mFn6R",
+       "AzsZhpK-wuWtafVFJMhdY"
+      ],
+      "queries": [
+       "Data Science: Python for Data Analysis"
+      ]
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 3,
+      "topic_refs": [
+       "IO-disDSfkPau4Pd_TNwc",
+       "qiUPTXFgfukxlPhnv76jo",
+       "qOZ-T7zaPjvIT222rSV4o",
+       "PlFcaQsvFSK0Y-LKGu0eH",
+       "AAxvIAas2Sdkz9-2uNHXq",
+       "xHDrwKDE_mrSihCsPQMBF",
+       "XizmE-QroU4GJbjvqNYxe",
+       "YxA0ms9vkufKGOguRNK1B"
+      ],
+      "queries": [
+       "Data Science: Python for Data Analysis"
+      ]
+     },
+     {
+      "step_number": 4,
+      "global_step_index": 4,
+      "topic_refs": [
+       "bIblb5cVNSZLqSuskmKnP",
+       "3N5N6qe8JVr0XGOFdn5-8",
+       "w2j11Jyr_qLP1Y9ST-06O",
+       "34DL5RWQtHkvgVhI9a_ZQ",
+       "nDUOJPCEzkCxX8B63HBP3",
+       "OwEBYI4u7nb9-UGOR9SQf",
+       "VEetEvKGNzAO9QdZY2g86",
+       "sBKhhjfFTpbj7TQwVnX7F",
+       "wxO7f8wh6JTXHYDiPcbmy",
+       "KnSv5dPToipoz2RF1dDnO",
+       "Rq9TFEEJnjEgVa1DiJxFz",
+       "ACr__YweG2xOAf56FK8tE"
+      ],
+      "queries": [
+       "Data Science",
+       "Data Science fundamentals",
+       "Data Science: Python for Data Analysis"
+      ]
+     },
+     {
+      "step_number": 5,
+      "global_step_index": 5,
+      "topic_refs": [
+       "K53X-NB1S9XXSF6j8q1qu",
+       "GidLncxwx7d1QzAOfHRLX",
+       "bcODvfBqCUwLVXa8HKOFB",
+       "xIS0cJ8ui0siBoZJr3-B_",
+       "9mFT0z5yT446_-nGdG492",
+       "1bHv3_acNts_BeOn3l6DF",
+       "L7btVRwvkEVX0K8LxnbqJ",
+       "yRHodYYqdICLZyG3J9qjc",
+       "S1EzGF-CLu7tWDb1V6RQc",
+       "oXhGEIie-MzfUSM2Ng4Zm",
+       "7XHYCVpUpvwAtaUBjTa4O"
+      ],
+      "queries": [
+       "Data Science",
+       "Data Science fundamentals",
+       "Data Science: Python for Data Analysis"
+      ]
+     },
+     {
+      "step_number": 6,
+      "global_step_index": 6,
+      "topic_refs": [
+       "eObhSoXcbqLdwegzaWmi7",
+       "UIFNQ9g5fMK-KoZCrqv27",
+       "DdA2gJKpgOHj9mqZL-c4F",
+       "nZl1ngETFxKStt0tFvOpR",
+       "ucEFYVtXIvuYKjudK3pwB",
+       "2HIeG6ywOA9BkE9W3Gu9v",
+       "YCMSjDjUCnkz2VPXfLxz5",
+       "PHfLEgeEMChsSOSIgMoWH",
+       "KLXFKVb-EC5WOigI63y09"
+      ],
+      "queries": [
+       "Data Science",
+       "Data Science fundamentals",
+       "Data Science: Python for Data Analysis"
+      ]
+     },
+     {
+      "step_number": 7,
+      "global_step_index": 7,
+      "topic_refs": [
+       "Md9Yq7bwDNo6hO_A9aa9N",
+       "zx7uCaQiCxvXMhm9FG3XG",
+       "GRg7HyeVuSwkKD5bCOFiY",
+       "j4UHICw-niFv1RRlC-vk1",
+       "mElhFGGT2GnLg2AkJFETN",
+       "oRaag-FOl50NJM0y4joBm",
+       "ij8PMz519gC9WIxlWGD7B",
+       "4ce2yYLRCSb3azsOMpE-U",
+       "Xq7Ho2kWg5AtZK0G6z02U",
+       "Dj8Ar4-NQ5mQQhNHmQJVy",
+       "PcGJMkmZrl4xc2ADT9dF3",
+       "Bk3z1CHnrnV6ii2Y0BF8G"
+      ],
+      "queries": [
+       "Data Science: Python for Data Analysis"
+      ]
+     },
+     {
+      "step_number": 8,
+      "global_step_index": 8,
+      "topic_refs": [
+       "ES8zVixZ5wZ0tW6beOWxJ",
+       "J_u8yvrHEWKKmVsVgPN7L",
+       "9vgD1Sd5B3iRMPLrfMG0C",
+       "-dsafcJlA16H_ji0zQvKy",
+       "Z-inS5OKdXi6yveKgxMeC",
+       "uyhlD_ZBCCd3IvrWZ5mlh",
+       "EHVXO79NGpLC1i8x4Y7g1",
+       "5HEYmbVJ6Z7lvgqalVjxW",
+       "-Bxn2sj2NjHLhRZrPIi0n",
+       "SWrijRzSZxhnSYDwv1_pH"
+      ],
+      "queries": [
+       "Data Science: Python for Data Analysis"
+      ]
+     },
+     {
+      "step_number": 9,
+      "global_step_index": 9,
+      "topic_refs": [
+       "w8iQWthKu1w75z36B8Ir3",
+       "10c4tiBOR68J3qa55LcJS",
+       "w4K_ffCUbzhGxWyoKsspu",
+       "UImXdBHQKCzp9NdjF9xMi",
+       "E_r4BLrSyHkrxpg4HDkUm",
+       "-RepeaHp66GGuM66k9JHd",
+       "k63rFXaVDUX2ZOVI_O9WG",
+       "a6HiqhsJJijqObw9pNOqb"
+      ],
+      "queries": [
+       "Data Science",
+       "Data Science fundamentals",
+       "Data Science: Python for Data Analysis"
+      ]
+     },
+     {
+      "step_number": 10,
+      "global_step_index": 10,
+      "topic_refs": [
+       "GkxSrpOJx-SWvnDkTPcJt",
+       "18eitPvBQKdeM3K33d59g",
+       "ApowKoA3C1B8oUr4-sltZ",
+       "XTXm8aIDbRkTXoAck_m3I",
+       "f3YL32h2gbU_G8kkNC3Vc",
+       "LERo7-ggtfZ-KZyNdBwt6",
+       "hTAQSe0rHv7fuAMfxJwGp",
+       "npndQC8OIfP1wwn_iswPy"
+      ],
+      "queries": [
+       "Data Science",
+       "Data Science fundamentals",
+       "Data Science: Python for Data Analysis"
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 2,
+    "title": "SQL & AI & Data Science",
+    "queries": [
+     "Data Science",
+     "Data Science fundamentals",
+     "Data Science: SQL & AI & Data Science"
+    ],
+    "retrieved": [
+     {
+      "source": "sql/advanced-sql@UDqbT1y-YzBrljfKSz_RG.md",
+      "score": 0.5270554423332214,
+      "queries": [
+       "Data Science fundamentals",
+       "Data Science: SQL & AI & Data Science"
+      ]
+     },
+     {
+      "source": "ai-data-scientist/coding@XLDWuSt4tI4gnmqMFdpmy.md",
+      "score": 0.4985581636428833,
+      "queries": [
+       "Data Science",
+       "Data Science fundamentals",
+       "Data Science: SQL & AI & Data Science"
+      ]
+     },
+     {
+      "source": "ai-data-scientist/exploratory-data-analysis@l1027SBZxTHKzqWw98Ee-.md",
+      "score": 0.4424207806587219,
+      "queries": [
+       "Data Science",
+       "Data Science fundamentals"
+      ]
+     },
+     {
+      "source": "sql/query-analysis-techniques@C6P69YiFdS-ioPXMNfX07.md",
+      "score": 0.43990081548690796,
+      "queries": [
+       "Data Science",
+       "Data Science fundamentals",
+       "Data Science: SQL & AI & Data Science"
+      ]
+     },
+     {
+      "source": "sql/data-integrity--security@R1ktDJpXOz0PTllAcBrdu.md",
+      "score": 0.4328601658344269,
+      "queries": [
+       "Data Science fundamentals"
+      ]
+     },
+     {
+      "source": "sql/data-constraints@qBios3sZVhcJMpXmj9f7B.md",
+      "score": 0.4292479455471039,
+      "queries": [
+       "Data Science fundamentals"
+      ]
+     },
+     {
+      "source": "so_survey_2025_india/Data_Science",
+      "score": 0.39681023359298706,
+      "queries": [
+       "Data Science: SQL & AI & Data Science"
+      ]
+     },
+     {
+      "source": "ai-data-scientist/machine-learning@kBdt_t2SvVsY3blfubWIz.md",
+      "score": 0.387814998626709,
+      "queries": [
+       "Data Science"
+      ]
+     },
+     {
+      "source": "ai-data-scientist/mathematics@aStaDENn5PhEa-cFvNzXa.md",
+      "score": 0.369559645652771,
+      "queries": []
+     },
+     {
+      "source": "ai-data-scientist/statistics@4WZL_fzJ3cZdWLLDoWN8D.md",
+      "score": 0.34844493865966797,
+      "queries": []
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 11,
+      "topic_refs": [
+       "XLDWuSt4tI4gnmqMFdpmy",
+       "aStaDENn5PhEa-cFvNzXa",
+       "4WZL_fzJ3cZdWLLDoWN8D",
+       "Gd2egqKZPnbPW1W2jw4j8",
+       "l1027SBZxTHKzqWw98Ee-",
+       "kBdt_t2SvVsY3blfubWIz",
+       "cjvVLN0XjrKPn6o20oMmc",
+       "Qa85hEVe2kz62k9Pj4QCA"
+      ],
+      "queries": [
+       "Data Science",
+       "Data Science fundamentals",
+       "Data Science: SQL & AI & Data Science"
+      ]
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 12,
+      "topic_refs": [
+       "nhUKKWyBH80nyKfGT8ErC",
+       "gx4KaFqKgJX9n9_ZGMqlZ",
+       "JDDG4KfhtIlw1rkNCzUli",
+       "6yoo7qC6X2jYDIjd3HIm7",
+       "R9WDMRd-3wxsKH97-sT3n",
+       "aLDl75i8gtLRA2Ud-fMmQ",
+       "wmtt-3auWLdQWuVdwZLPd",
+       "tBzMDfCMh6MIagNaxCzin",
+       "i8u8E_sne6XiKJo2FXDog",
+       "N1Racr3ZpU320gS545We8",
+       "WhYAy6f7Euk3E49-ot644",
+       "NfCiSPrL4upMssukcw3Kh"
+      ],
+      "queries": [
+       "Data Science fundamentals",
+       "Data Science: SQL & AI & Data Science"
+      ]
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 13,
+      "topic_refs": [
+       "LX9nzJ4uqznHN4SksoDvr",
+       "9aHYrOQDkA84tlxcVK5aD",
+       "w4T3jFb0ilf1KNw-AvRXG",
+       "Wou6YXLYUgomvcELh851L",
+       "bFEYMlqPZtTUYtDQxqHzT",
+       "YqDJq3fPxUZlwsdq0kJg7",
+       "14TKE6KhrH1yFtHcSZSXq",
+       "HhICJpCK5__b-itUoEBES",
+       "W2ePJHdfEiEJ3ZKoRQKt_",
+       "ffwniprGJHZzJ7t3lQcXz",
+       "w53CSY53nAAN0ux-XeJ4c"
+      ],
+      "queries": [
+       "Data Science: SQL & AI & Data Science"
+      ]
+     },
+     {
+      "step_number": 4,
+      "global_step_index": 14,
+      "topic_refs": [
+       "4UQQYbjzwVxZOAxBuXKQS",
+       "8V6yw7kLaow-VVcv_K_pL",
+       "aaua13CkTxLOYXr8cAgPm",
+       "X9cJJ8zLZCF2cOoqxwFfY",
+       "shpgZkh1CLqUwjOaRtAFy",
+       "aS5zCyJRA779yHF0G2pje",
+       "6qG0AVYd6Y1B8LOSDoMX9",
+       "7ow6tiSSCnTpv_GYQU017",
+       "C0dhS6uLf4TUSfvcWyXhv"
+      ],
+      "queries": [
+       "Data Science: SQL & AI & Data Science"
+      ]
+     },
+     {
+      "step_number": 5,
+      "global_step_index": 15,
+      "topic_refs": [
+       "86iZ8s8EdhSuYwgwAM_EO",
+       "xkPJ2MYiXmzC4yqQWyB_7",
+       "JZqS3Xapw6mfSPVgFW7av",
+       "tedQynR0xicVKhuR1oahw",
+       "TjgwabhEtaSoYMLNr6q9l",
+       "tBvXLLp5FKeSSN35Kj1X4",
+       "zW27ZHdLwQY-85iqbBKQZ",
+       "cucCPw3KfetAP2OMFUs0X",
+       "QM0ltgPu8lLLYc2MsTLj-",
+       "BcXdxY6bld5c0YNFSKkh-",
+       "aJJjaGunRrwyh9MjQfJt-",
+       "nwFaz9i-1s0WVrVaFsoqb"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 6,
+      "global_step_index": 16,
+      "topic_refs": [
+       "5inpEqafeVCfqsURHzQQg",
+       "RH8DLiQpDUWqw3U1522q5",
+       "PnG_5D6q66NAKxXVOwA6N",
+       "VNbb3YPc0FtrROylRns8h",
+       "Othfo7NvTVzfyL906PLM1",
+       "knTG6pAq2mYP24WMa29xI",
+       "9DntFiZV1AyaRPhYP5q6u",
+       "k7lZe4QRt9q4InUImFmvx",
+       "KI6vngoYcHsnpIk8ErhhS",
+       "Ivqo2wa-_NhGU3vGd0pUI",
+       "BJ4fQvagTO0B5UtXblyx8",
+       "1E1WdWOyqxbbdiIbw26dZ"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 7,
+      "global_step_index": 17,
+      "topic_refs": [
+       "xPOeXK1EPBNG56vgfG-VV",
+       "epEpBxRosLhuAuKwp823r",
+       "WjXlO42WL9saDS7RIGapt",
+       "YzJ6QmY2arMfRzMAPaI0T",
+       "K5vhqTJrdPK08Txv8zaEj",
+       "WMSXi-eez_hHGDM8kUdWz",
+       "-Hew0y53ziZK3epQnGA0O",
+       "eu9dJFi6gBPMBdy08Y5Bb",
+       "ddtVaA4Ls6qRj-7OtTSIH",
+       "Jlwmyq6CUQeDAlL4dazOP",
+       "DHz6sRLYhFeCbAcNJS8hm",
+       "mBQ3Z8GlFcpIena3IB7D_"
+      ],
+      "queries": [
+       "Data Science",
+       "Data Science fundamentals"
+      ]
+     },
+     {
+      "step_number": 8,
+      "global_step_index": 18,
+      "topic_refs": [
+       "2tyezwOIxV6O84N-Q3Awh",
+       "PcsGK4VBh0zNQIPZvNES4",
+       "OdaBXz2XBAVLsQ-m7xtAM",
+       "igg34gLPl3HYVAmRNFGcV",
+       "3cMECz5QPVDOFrk5duObs",
+       "xbD67KVlt3UhHpKh8HLx8",
+       "LcljR70T-OnzSrJJDqOWf",
+       "9wOgP0i9G4HSeZGn2Gm7r",
+       "Ps9Yv2s-bKvEegGAbPsiA",
+       "4rqCPpTb0dAgpheBKshRG",
+       "C6P69YiFdS-ioPXMNfX07",
+       "w7FNjdwqjY7X69aJqqBy4"
+      ],
+      "queries": [
+       "Data Science",
+       "Data Science fundamentals",
+       "Data Science: SQL & AI & Data Science"
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 3,
+    "title": "Machine Learning",
+    "queries": [
+     "Data Science",
+     "Data Science fundamentals",
+     "Data Science: Machine Learning"
+    ],
+    "retrieved": [
+     {
+      "source": "machine-learning/what-is-machine-learning@rzhVFzl5H5MWtcvr8ayRk.md",
+      "score": 0.5949041247367859,
+      "queries": [
+       "Data Science",
+       "Data Science fundamentals",
+       "Data Science: Machine Learning"
+      ]
+     },
+     {
+      "source": "machine-learning/internet@cxTriSZvrmXP4axKynIZW.md",
+      "score": 0.5299793481826782,
+      "queries": [
+       "Data Science",
+       "Data Science fundamentals",
+       "Data Science: Machine Learning"
+      ]
+     },
+     {
+      "source": "machine-learning/introduction@MEL6y3vwiqwAV6FQihF34.md",
+      "score": 0.5251758098602295,
+      "queries": [
+       "Data Science",
+       "Data Science fundamentals",
+       "Data Science: Machine Learning"
+      ]
+     },
+     {
+      "source": "machine-learning/other-data-formats@qRHeaD2udDaItAxmiIiUg.md",
+      "score": 0.5001859664916992,
+      "queries": [
+       "Data Science",
+       "Data Science fundamentals"
+      ]
+     },
+     {
+      "source": "machine-learning/data-formats@U4LGIEE3igeE5Ed3EWzsu.md",
+      "score": 0.4843016564846039,
+      "queries": [
+       "Data Science",
+       "Data Science fundamentals"
+      ]
+     },
+     {
+      "source": "sql/rdbms-benefits-and-limitations@fNTb9y3zs1HPYclAmu_Wv.md",
+      "score": 0.4590505361557007,
+      "queries": [
+       "Data Science fundamentals"
+      ]
+     },
+     {
+      "source": "sql/what-are-relational-databases@R9DQNc0AyAQ2HLpP4HOk6.md",
+      "score": 0.44145122170448303,
+      "queries": [
+       "Data Science",
+       "Data Science fundamentals"
+      ]
+     },
+     {
+      "source": "machine-learning/data-cleaning@5v0jRBYrRuVXQC90IseRG.md",
+      "score": 0.42590734362602234,
+      "queries": [
+       "Data Science",
+       "Data Science fundamentals"
+      ]
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 19,
+      "topic_refs": [
+       "MEL6y3vwiqwAV6FQihF34",
+       "rzhVFzl5H5MWtcvr8ayRk",
+       "BzZd-d5t63dY97SRSIb0J",
+       "GHO6lN3GTiIRH1P70IRaZ",
+       "Ns2zKn8BL_kTEI6O65pCp",
+       "5MUwKGfSTKlam8KCG0A1U",
+       "36ryjK5isV1MD4MgZP2Jn",
+       "ajKU5CPlbn7BbWHEhUNaB",
+       "9oWdnQd-vwVJi62JQLgJ5",
+       "Yho0zf9F-ROhEnTxRMq_M",
+       "lgO7luG7-R_FY5nwFjRE0",
+       "FgzPlLUfGdlZPvPku0-Xl"
+      ],
+      "queries": [
+       "Data Science",
+       "Data Science fundamentals",
+       "Data Science: Machine Learning"
+      ]
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 20,
+      "topic_refs": [
+       "83UDoO1vC0LjL-qpI0Jh-",
+       "d7J8GEkut61NDGRzROJoP",
+       "1IhaXJxNREq2HA1nT-lMM",
+       "XmnWnPE1sVXheuc-M_Ew7",
+       "3p98Uwf8gyALDr-89lBEZ",
+       "yGs2h10gZcO4GMaWfI3uW",
+       "wHlEinHuRARp5OfSulpA-",
+       "GN6SnI7RXIeW8JeD-qORW",
+       "3BxbkrBp8veZj38zdwN8s",
+       "jJukG4XxfFcID_VlQKqe-",
+       "N_vLjBVdsGsoePtqlqh2w"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 21,
+      "topic_refs": [
+       "5DiaZkljhHAGPi9DkaH3b",
+       "P32Rmnln5NCFWz4LP0k05",
+       "ZaoZ2XxicKuTDn4uxe52L",
+       "DUIrJwuYHlhJvZJT2acaY",
+       "tP0oBkjvJC9hrtARkgLon",
+       "p8q1Gtt9x19jw5_-YjAGh",
+       "7o6g0wQxHH9i9MMCoDq2C",
+       "P576TdYcbE6v3RpJntiKw",
+       "WLlZE_vto-CYY5GLV_w7o"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 4,
+      "global_step_index": 22,
+      "topic_refs": [
+       "UmGdV94afOIbAL8MaxOWv",
+       "iBkTNbk8Xz626F_a3Bo5J",
+       "cigwKoltemM0q-M5O50Is",
+       "vQI-4uFQJ6694nm1SCpDR",
+       "K-x_L3z8JTSHwtTeHm4EG",
+       "5xxAg18h74pDAUPy6P8NQ",
+       "ZVbnAF9I1r8qWFFYG6nXv",
+       "-W2uAccH7Y2XIwhfl9mDF",
+       "bIhGv4886V4RWJD3tX0a0"
+      ],
+      "queries": [
+       "Data Science",
+       "Data Science fundamentals",
+       "Data Science: Machine Learning"
+      ]
+     },
+     {
+      "step_number": 5,
+      "global_step_index": 23,
+      "topic_refs": [
+       "gKu6tnpTO2PhDDMYp2u7F",
+       "xGO1X9aZRgKcgzi6r1xq8",
+       "hfr2MU8QkVt9KhVi1Okpv",
+       "1aX_vO5zxfTV8_kUIFHkR",
+       "EXogp25SPW1bBfb1gRDAe",
+       "0-6BV-MggAyD7g3JH45B7",
+       "aHOjajXwkDMOssqW1VGrm",
+       "cffITx6oAcnvJlK1VLdi8",
+       "x7vlCNAxfJzobj9HcTaJy",
+       "_jS66rGAWecXH3zVF-5ds",
+       "arlmRF5pYglsbHb-HR-2x",
+       "JuTTbL_pm1ltGvhUsIzQd"
+      ],
+      "queries": [
+       "Data Science: Machine Learning"
+      ]
+     },
+     {
+      "step_number": 6,
+      "global_step_index": 24,
+      "topic_refs": [
+       "CBSGvGPoI53p7BezXNm6M",
+       "eErzKbR8sRNlrYcwNSRSh",
+       "BzUunjJrUMlh6K1NOOD87",
+       "jJ8cXfHV2LG5PJGZRTHxB",
+       "VrLaUipVKWvwnFF0ZbIlo",
+       "kvf2CUKBe4qSbZla4Brh3"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 7,
+      "global_step_index": 25,
+      "topic_refs": [
+       "99TI95HVGrXIYr-PIDxhC",
+       "5dKl6SUQhOsZfUtVR5hzw",
+       "3wib9UH0_OLhKjqKoZEMv",
+       "mja35tndhAT5z_ysv-hDe",
+       "DH33Na9zz_WGmbD-Dxvq1",
+       "FdNY8QUbPPpeHFgD8TTaD",
+       "anEGWHVpcp75e3jQrj_LZ",
+       "7fOp3t283GeOn6Tf4kEuN",
+       "oyL0M2OP4NTNbIO3zq-Hz",
+       "vRS7DW2WUaXiHk9oJgg3z",
+       "GKMhIXEuSKdW75-24Zopb",
+       "m4vmnxRMBf7zwNnwrMEnk"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 8,
+      "global_step_index": 26,
+      "topic_refs": [
+       "4dxZmLg0UEaaVEORupOOC",
+       "8425N_E43Dv5mcmEcXRIa",
+       "LWLqa61GK5ukYzHpjinYi",
+       "0meihv22e11GwqnRdSJ9g",
+       "RXTci1N6i6D9HqTbsLYIy",
+       "KcfFjpxFTFxI6HR6hBPrl",
+       "_Z2miSW4PwILMRtBFajBn",
+       "A_Kx3pEj0jpnLJzdOpcQ9",
+       "7RSW-Pypf3QpZp4O21AGl",
+       "Ru8_xMyFxye1hyzCUYvnj",
+       "zoXnXI4Wf5sxddHqYwQjP",
+       "yKtRmgwrJ75VVz7_txZ-S"
+      ],
+      "queries": [
+       "Data Science: Machine Learning"
+      ]
+     },
+     {
+      "step_number": 9,
+      "global_step_index": 27,
+      "topic_refs": [
+       "BtO2wH7YYqE25HShI6sd9",
+       "MtoYStcZBduLSbjRuPjq0",
+       "I-GEE7PvpQmhQSfZmxqwA",
+       "a2PGTDnXKp759vFZzkjSF",
+       "YWxSI45e5K_4YOrvmh6LV",
+       "E4k6WgNXdnNoApR675VKb",
+       "H0cscBaExZPNZuFubBUv7",
+       "LdUwTWfCIcowwC-e6q3ac",
+       "ZWDSLqxmfg3aPBZFH479q",
+       "-tzeA13f2jYDm4aO5JciT",
+       "oTKC1o1OOnPiTh60a8yVc",
+       "rDIg16eb6B6um1P8uMy51"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 10,
+      "global_step_index": 28,
+      "topic_refs": [
+       "JVXe2QDQaqiJYPupIMhWe",
+       "QbftToskhtBlTz1jyiRkb",
+       "UO1GEUe8e22uRB6DAxfpe",
+       "pP0VeUSK9CDodgz-BQmrP",
+       "CaHbAXDIJQXcQ9DZqziod",
+       "J1aGPkZqDZfUwpVmC88AL",
+       "sChxcuQ2OruKVx8P4wAK_",
+       "IR0wVIcu1MxOOBiLBnn8S",
+       "Tv3sZvus76dmu0X9AqCIU"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 11,
+      "global_step_index": 29,
+      "topic_refs": [
+       "EtU_9MOklVBvnvyg30Yfx",
+       "NC1A2SQVyc1n-KEf6yl-4",
+       "wxq5dkrpgvs3axmLmeHCk",
+       "9o-ZT9oZIE3hCXD6eWZI0",
+       "PZ-WxKGTcWTrXmYI_inD_",
+       "4Vy6lW9vF_SWwbKLU0qno"
+      ],
+      "queries": []
+     }
+    ]
+   }
+  ]
+ }
+}

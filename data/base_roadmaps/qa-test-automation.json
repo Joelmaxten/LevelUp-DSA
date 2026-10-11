@@ -1,0 +1,4761 @@
+{
+ "metadata": {
+  "schema_version": 1,
+  "career_path": "QA & Test Automation",
+  "model_id": "claude-opus-5-5",
+  "built_at": "2026-10-10T18:15:37Z",
+  "generator": {
+   "profile": "neutral",
+   "provider": "claude_authored",
+   "llm_host": null,
+   "authoring": "Every model reply in this run was written by Claude (claude-opus-5-5) in a Claude Code cloud session, answering the generator's own prompts; retrieval, topic-ref validation, duplicate check, more_topics, resources and audit are the unmodified pipeline.",
+   "phase_concurrency": 1,
+   "duplicate_similarity_threshold": 0.8,
+   "reasoning_effort": "",
+   "resources": "kb_only"
+  },
+  "inventory_fingerprint": "96cca4604c9efcfe16151f805cb9d634ff4261cdbe70165e15d8a12d5aae669b"
+ },
+ "roadmap": {
+  "phases": [
+   {
+    "phase_number": 1,
+    "title": "Python",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "Python Fundamentals",
+      "description": "Most automation frameworks, from pytest to Selenium and Playwright bindings, are used from Python, so automation testers need solid core syntax. Practise variables, control flow, functions, built-in collections, strings and exceptions until writing small scripts takes no effort.",
+      "topic_refs": [
+       "6xRncUs3_vxVbDur567QA",
+       "dEFLBGpiH6nbSMeR7ecaT",
+       "so95CO6Qw3I0S98ISENS-",
+       "NP1kjSk0ujU0Gx-ajNHlR",
+       "Dvy7BnNzK55qbh_SgOk8m",
+       "-DJgS6l2qngfwurExlmmT",
+       "UT_SR7G-LYtzqooWrEtF1",
+       "bc9CL_HMT-R6nXO1eR-gP",
+       "i7xIGiXU-k5UIKHIhQPjE",
+       "soZFqivM3YBuljeX6PoaX",
+       "Sg5w8zO2Ji-uDJKEoWey9",
+       "fNTb9y3zs1HPYclAmu_Wv"
+      ],
+      "projects": [
+       {
+        "title": "Test data generator",
+        "description": "A script that produces valid and invalid sample users for a sign-up form.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Log checker",
+        "description": "Scan a test log file and report how many tests passed, failed and were skipped.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Basic Syntax",
+       "Variables",
+       "Operators",
+       "Conditionals",
+       "Loops"
+      ],
+      "more_topics": [
+       {
+        "node_id": "GISOFMKvnBys0O0IMpz2J",
+        "title": "Python"
+       },
+       {
+        "node_id": "o1wi39VnjnFfWIC8XcuAK",
+        "title": "Typing"
+       },
+       {
+        "node_id": "0-ShORjGnQlAdcwjtxdEB",
+        "title": "Python Frameworks"
+       },
+       {
+        "node_id": "0F0ppU_ClIUKZ23Q6BVZp",
+        "title": "Code Formatting"
+       },
+       {
+        "node_id": "1PXApuUpPmJjgi12cmWo4",
+        "title": "Static Typing"
+       },
+       {
+        "node_id": "u4nRzWQ4zhDFMOrZ2I_uJ",
+        "title": "Concurrency"
+       },
+       {
+        "node_id": "__ndo1gcuUUtzmBnMIAbR",
+        "title": "Docstrings and Comments"
+       },
+       {
+        "node_id": "9RGpqsj9jHz0_-r7EvRcw",
+        "title": "Sanic"
+       },
+       {
+        "node_id": "InUJIGmTnf0X4cSoLuCEQ",
+        "title": "gevent"
+       },
+       {
+        "node_id": "3RNy7Sp28d-NMx0Yh4bdx",
+        "title": "Variable Scope"
+       },
+       {
+        "node_id": "tbR_h9NpZ5tBTYuCfwkcY",
+        "title": "@ (Matrix Multiplication Operator)"
+       },
+       {
+        "node_id": "7zcpXN3krnS3tMRWVNIVe",
+        "title": "Plotly Dash"
+       },
+       {
+        "node_id": "7t6mJBsaFMWPi7o9fbhhq",
+        "title": "Regular Expressions"
+       },
+       {
+        "node_id": "Mow7RvropbC4ZGDpcGZmw",
+        "title": "Asynchrony"
+       },
+       {
+        "node_id": "kLBgy_nxxjE8SxdVi04bq",
+        "title": "Recursion"
+       },
+       {
+        "node_id": "zey2C6BdzsHJAlb_K3qrP",
+        "title": "Tornado"
+       },
+       {
+        "node_id": "vvTmjcWCVclOPY4f_5uB0",
+        "title": "Sorting Algorithms"
+       }
+      ],
+      "global_step_index": 1,
+      "resource": {
+       "title": "Python for Beginners - Learn Python in 1 Hour",
+       "url": "https://youtube.com/watch?v=kqtD5dpn9C8"
+      },
+      "videos": [
+       {
+        "title": "Python for Beginners - Learn Python in 1 Hour",
+        "url": "https://youtube.com/watch?v=kqtD5dpn9C8",
+        "video_id": "kqtD5dpn9C8",
+        "source": "roadmap.sh",
+        "topic": "Basic Syntax"
+       },
+       {
+        "title": "Python Tutorial for Beginners | Operators in Python",
+        "url": "https://youtube.com/watch?v=v5MR5JnKcZI",
+        "video_id": "v5MR5JnKcZI",
+        "source": "roadmap.sh",
+        "topic": "Operators"
+       },
+       {
+        "title": "Control Flow in Python - If Elif Else Statements",
+        "url": "https://youtube.com/watch?v=Zp5MuPOtsSY",
+        "video_id": "Zp5MuPOtsSY",
+        "source": "roadmap.sh",
+        "topic": "Conditionals"
+       },
+       {
+        "title": "Learn Python for loops in 5 minutes!",
+        "url": "https://youtube.com/watch?v=KWgYha0clzw",
+        "video_id": "KWgYha0clzw",
+        "source": "roadmap.sh",
+        "topic": "Loops"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Built-in Functions in Python",
+        "url": "https://docs.python.org/3/library/functions.html",
+        "topic": "Functions"
+       },
+       {
+        "type": "official",
+        "title": "Python Official Documentation on Listsc",
+        "url": "https://docs.python.org/3/tutorial/introduction.html#lists",
+        "topic": "Lists in Python"
+       },
+       {
+        "type": "official",
+        "title": "Dictionaries in Python",
+        "url": "https://docs.python.org/3/tutorial/datastructures.html#dictionaries",
+        "topic": "Dictionaries"
+       },
+       {
+        "type": "official",
+        "title": "Tuples Documentation",
+        "url": "https://docs.python.org/3/tutorial/datastructures.html#tuples-and-sequences",
+        "topic": "Tuples"
+       }
+      ]
+     },
+     {
+      "step_number": 2,
+      "title": "Idiomatic Python: Classes, Modules and Iteration",
+      "description": "Page objects, fixtures and test helpers are built from classes, modules, decorators and context managers. Learn object-oriented Python, modules and packages, comprehensions, generators, decorators and file handling.",
+      "topic_refs": [
+       "AqwzR8dZKLQIoj_6KKZ3t",
+       "P_Di-XPSDITmU3xKQew8G",
+       "S0FLE70szSVUPI0CDEQK7",
+       "zAS4YiEJ6VPsyABrkIG8i",
+       "274uk28wzxn6EKWQzLpHs",
+       "l7k0qTYe42wYBTlT2-1cy",
+       "4gtmtYWYRWqwLdZRL0XMg",
+       "jnLIVRrWxcX3yq3Op91Vr",
+       "aB1LSQjDEQb_BxueOcnxU",
+       "pIluLJkySqn_gI_GykV6G",
+       "KAXF2kUAOvtBZhY8G9rkI",
+       "Nf3kRDSl_vas6QPXG7eVa"
+      ],
+      "projects": [
+       {
+        "title": "Page object classes",
+        "description": "Model a login page and dashboard as Python classes with methods for each user action.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Retry decorator for flaky steps",
+        "description": "A decorator that retries a test step a set number of times and logs each attempt.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Classes",
+       "OOP",
+       "Inheritance",
+       "Methods and Dunder Methods",
+       "Modules"
+      ],
+      "more_topics": [
+       {
+        "node_id": "08XifLQ20c4FKI_4AWNBQ",
+        "title": "Builtin Modules"
+       },
+       {
+        "node_id": "_94NrQ3quc4t_PPOsFSN0",
+        "title": "Common Packages and Modules"
+       },
+       {
+        "node_id": "W3VALz5evFo1qqkQbMN1R",
+        "title": "Pydantic"
+       },
+       {
+        "node_id": "9mFR_ueXbIB2IrkqU2s85",
+        "title": "pyrefly"
+       },
+       {
+        "node_id": "DHtskqATeAVKgaazdhXKD",
+        "title": "Pyramid"
+       },
+       {
+        "node_id": "aWHgAk959DPUZL46CeRiI",
+        "title": "Lambdas"
+       },
+       {
+        "node_id": "4GU5HNi3W8yFkImVY9ZpW",
+        "title": "Paradigms"
+       },
+       {
+        "node_id": "bqnwMKY4R0rirup3q_hb_",
+        "title": "Glob Module in Python"
+       },
+       {
+        "node_id": "HSY5OUc_M5S6OcFXPRtkx",
+        "title": "Multiprocessing"
+       },
+       {
+        "node_id": "XeQSmvAsGSTi8dd7QVHxn",
+        "title": "FastAPI"
+       },
+       {
+        "node_id": "HKsGyRzntjh1UbRZSWh_4",
+        "title": "Flask"
+       },
+       {
+        "node_id": "bS7WeVKm2kEElu3sBKcIC",
+        "title": "GIL"
+       },
+       {
+        "node_id": "tsh_vbhzKz1-H9Vh69tsK",
+        "title": "yapf"
+       },
+       {
+        "node_id": "DS6nuAUhUYcqiJDmQisKM",
+        "title": "black"
+       },
+       {
+        "node_id": "x1V8GjdjANTnhP6YXMbgC",
+        "title": "Django"
+       },
+       {
+        "node_id": "IBVAvFtN4mnIPbIuyUvEb",
+        "title": "AIOHTTP"
+       },
+       {
+        "node_id": "maYNuTKYyZndxk1z29-UY",
+        "title": "sphinx"
+       },
+       {
+        "node_id": "UIx0XYaOgXXlYbbQtjiPq",
+        "title": "Threading"
+       },
+       {
+        "node_id": "3dC2o3WXdx4plFhDP2Vqk",
+        "title": "Encapsulation"
+       },
+       {
+        "node_id": "DG4fi1e5ec2BVckPLsTJS",
+        "title": "HashMaps"
+       },
+       {
+        "node_id": "uXd2B01GVBEQNXQE8RATT",
+        "title": "Poetry"
+       },
+       {
+        "node_id": "R9DQNc0AyAQ2HLpP4HOk6",
+        "title": "Typecasting"
+       },
+       {
+        "node_id": "VJSIbYJcy2MC6MOFBrqXi",
+        "title": "Data Structures and Algorithms"
+       },
+       {
+        "node_id": "0NlRczh6ZEaFLlT6LORWz",
+        "title": "Heaps, Stacks, and Queues"
+       },
+       {
+        "node_id": "uJIqgsqUbE62Tyo3K75Qx",
+        "title": "Binary Search Trees"
+       },
+       {
+        "node_id": "OPD4WdMO7q4gRZMcRCQh1",
+        "title": "Arrays and Linked lists"
+       }
+      ],
+      "global_step_index": 2,
+      "resource": {
+       "title": "Python OOP Tutorial",
+       "url": "https://youtube.com/watch?v=ZDa-Z5JzLYM"
+      },
+      "videos": [
+       {
+        "title": "Python OOP Tutorial",
+        "url": "https://youtube.com/watch?v=ZDa-Z5JzLYM",
+        "video_id": "ZDa-Z5JzLYM",
+        "source": "roadmap.sh",
+        "topic": "Classes"
+       },
+       {
+        "title": "OOP in Python One Shot",
+        "url": "https://youtube.com/watch?v=Ej_02ICOIgs",
+        "video_id": "Ej_02ICOIgs",
+        "source": "roadmap.sh",
+        "topic": "OOP"
+       },
+       {
+        "title": "Decorators in Python",
+        "url": "https://youtube.com/watch?v=FXUUSfJO_J4",
+        "video_id": "FXUUSfJO_J4",
+        "source": "roadmap.sh",
+        "topic": "Decorators"
+       },
+       {
+        "title": "Python File Handling for Beginners",
+        "url": "https://youtube.com/watch?v=BRrem1k3904",
+        "video_id": "BRrem1k3904",
+        "source": "roadmap.sh",
+        "topic": "File Handling in Python"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Classes in Python",
+        "url": "https://docs.python.org/3/tutorial/classes.html",
+        "topic": "Classes"
+       },
+       {
+        "type": "official",
+        "title": "Python Official Documentation on Inheritance",
+        "url": "https://docs.python.org/3/tutorial/classes.html#inheritance",
+        "topic": "Inheritance"
+       },
+       {
+        "type": "official",
+        "title": "Python Modules",
+        "url": "https://docs.python.org/3/tutorial/modules.html",
+        "topic": "Modules"
+       },
+       {
+        "type": "official",
+        "title": "Python List Comprehensions",
+        "url": "https://docs.python.org/3/tutorial/datastructures.html#list-comprehensions",
+        "topic": "List Comprehensions"
+       }
+      ]
+     },
+     {
+      "step_number": 3,
+      "title": "Python Testing Tools and Project Setup",
+      "description": "A test suite is a software project in its own right, with pinned dependencies, linting and repeatable runs. Use pytest and unittest, doctest and tox, manage environments and packaging, and add type checks and linting.",
+      "topic_refs": [
+       "WQOYjuwKIWB2meea4JnsV",
+       "3FDwJpesfelEyJrNWtm0V",
+       "b4he_RO17C3ScNeUd6v2b",
+       "aVclygxoA9ePU5IxaORSH",
+       "jPFOiwbqfaGshaGDBWb5x",
+       "qeCMw-sJ2FR4UxvU9DDzv",
+       "iVhQnp6hpgVZDNJ0XoVra",
+       "_IXXTSwQOgYzYIUuKVWNE",
+       "GHKAY9gOykEbxkEeR30wL",
+       "syV0DT_3ITgIFDbwPts8i",
+       "gIcJ3bUVQXqO1Wx4gUKd5",
+       "6cB0pvUO1-gvCtgqozP-Q"
+      ],
+      "projects": [
+       {
+        "title": "pytest suite for a calculator module",
+        "description": "Write parametrised tests with fixtures and measure coverage.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Multi-version test runs",
+        "description": "Run the same suite against two Python versions with tox.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Testing",
+       "pytest",
+       "PyUnit / Unittest",
+       "Doctest",
+       "Tox"
+      ],
+      "more_topics": [
+       {
+        "node_id": "1q9HWgu9jDTK757hTNOmE",
+        "title": "pyright"
+       },
+       {
+        "node_id": "IWq-tfkz-pSC1ztZl60vM",
+        "title": "pipenv"
+       },
+       {
+        "node_id": "xDgXISgVUMRHh9hu4h6Hl",
+        "title": "PDM"
+       },
+       {
+        "node_id": "N5VaKMbgQ0V_BC5tadV65",
+        "title": "pyenv"
+       },
+       {
+        "node_id": "p3Frfs6oxpuciUzeCEsvb",
+        "title": "uv"
+       },
+       {
+        "node_id": "1dfOTOGsOk5XE3bnZs8Ht",
+        "title": "PyPI"
+       },
+       {
+        "node_id": "uh67D1u-Iv5cZamRgFEJg",
+        "title": "Conda"
+       }
+      ],
+      "global_step_index": 3,
+      "resource": {
+       "title": "Pytest Tutorial – How to Test Python Code",
+       "url": "https://youtube.com/watch?v=cHYq1MRoyI0"
+      },
+      "videos": [
+       {
+        "title": "Pytest Tutorial – How to Test Python Code",
+        "url": "https://youtube.com/watch?v=cHYq1MRoyI0",
+        "video_id": "cHYq1MRoyI0",
+        "source": "roadmap.sh",
+        "topic": "pytest"
+       },
+       {
+        "title": "Getting Started with Pip and PyPI in Python",
+        "url": "https://youtube.com/watch?v=bPSfNKvhooA",
+        "video_id": "bPSfNKvhooA",
+        "source": "roadmap.sh",
+        "topic": "PyPI"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Unit Testing in Python",
+        "url": "https://docs.python.org/3/library/unittest.html",
+        "topic": "Testing"
+       },
+       {
+        "type": "official",
+        "title": "Pytest Docs",
+        "url": "https://docs.pytest.org/",
+        "topic": "pytest"
+       },
+       {
+        "type": "official",
+        "title": "Doctest Module",
+        "url": "https://docs.python.org/3/library/doctest.html",
+        "topic": "Doctest"
+       },
+       {
+        "type": "official",
+        "title": "Tox Documentation",
+        "url": "https://tox.wiki/en/",
+        "topic": "Tox"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 2,
+    "title": "Git & GitHub",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "Git Fundamentals: Commits and the Staging Area",
+      "description": "Test code lives in Git next to application code, and QA engineers review and change it every day. Learn why version control exists, configure Git, and practise the working directory, staging area and commit cycle.",
+      "topic_refs": [
+       "bY6b1GV2XQQ52NOx8gWFj",
+       "dhIx1GnynvbSUriqYLUt0",
+       "_jSTrYN9G8EsGHkbusKPU",
+       "v7hCNbgPByi3YiLSs46BK",
+       "NMCWgzhhfUvFOMO5GbF_u",
+       "1iOkbO5juk2LO-WZHx_W6",
+       "Sv36oxTZwlUv-i1K28NeP",
+       "h71Tx3nkfUrnhaqcHlDkQ",
+       "2_z3R7seCvQVj-Na4H1SV",
+       "7lRUYWNSpHvJ-QyIE8RMa",
+       "IfUm5D_zNaUKMd4HX4Fi4",
+       "oz2oRAhaEQb0Fm3aRJQG8"
+      ],
+      "projects": [
+       {
+        "title": "Test suite under version control",
+        "description": "Put your pytest suite under Git with meaningful commits and a .gitignore for reports.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Commit message makeover",
+        "description": "Rewrite ten vague commit messages into clear, conventional ones.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "What is Version Control?",
+       "Why use Version Control?",
+       "Git vs Other VCS",
+       "Installing Git Locally",
+       "git config"
+      ],
+      "more_topics": [
+       {
+        "node_id": "tVvxC5JQgUb_B8kOqYpD8",
+        "title": "Local vs Global Config"
+       },
+       {
+        "node_id": "HlUUGj3dOZ68t4gIjerXh",
+        "title": "Learn the Basics"
+       },
+       {
+        "node_id": "CGj_UX5JMOOCKinedsNRc",
+        "title": "Git Attributes"
+       },
+       {
+        "node_id": "sFf1PdFfmEdQxsEntfeFq",
+        "title": "Git Patch"
+       },
+       {
+        "node_id": "4dxVN81rXWn6VZqK99yq0",
+        "title": "Git Worktree"
+       },
+       {
+        "node_id": "62E1tDMXB6K74OEN0WsS0",
+        "title": "Checkout Tags"
+       },
+       {
+        "node_id": "zdunaucVe8J1tKf_z-NQo",
+        "title": "Git LFS"
+       },
+       {
+        "node_id": "NeU38WPbEphJuJ_AMkH82",
+        "title": "Managing Tags"
+       },
+       {
+        "node_id": "jzYjHx-gIKSP8dQUTqWVw",
+        "title": "commit-msg"
+       },
+       {
+        "node_id": "q0zy_hXav5iXw8LpGVJVd",
+        "title": "Project Planning"
+       },
+       {
+        "node_id": "PtU5Qwfzn3N1i3oRlCGoR",
+        "title": "What is a Repository"
+       },
+       {
+        "node_id": "wydgCxR5VnieBpRolXt8i",
+        "title": "Teams within Organization"
+       },
+       {
+        "node_id": "V8nLIvddyOKTzEjOJX5GW",
+        "title": "HEAD"
+       },
+       {
+        "node_id": "d0-u_-_vtPK8tnUpnj_NB",
+        "title": "What and Why use?"
+       },
+       {
+        "node_id": "_ft-uvXt6s_xrcMT3fbSF",
+        "title": "Collaborators / Members"
+       },
+       {
+        "node_id": "VdoxEWaU56-QCbHFRw649",
+        "title": "Custom Domains"
+       },
+       {
+        "node_id": "fjAFNjNNbPOzme9Uk_fDV",
+        "title": "Submodules"
+       },
+       {
+        "node_id": "D2WIExwfSnkAPIa5O-Hp5",
+        "title": "Documentation"
+       },
+       {
+        "node_id": "Ddkss13_qDJTquDHbVTVs",
+        "title": "CITATION files"
+       }
+      ],
+      "global_step_index": 4,
+      "resource": {
+       "title": "What is Git? Explained in 2 minutes",
+       "url": "https://youtube.com/watch?v=2ReR1YJrNOM"
+      },
+      "videos": [
+       {
+        "title": "What is Git? Explained in 2 minutes",
+        "url": "https://youtube.com/watch?v=2ReR1YJrNOM",
+        "video_id": "2ReR1YJrNOM",
+        "source": "roadmap.sh",
+        "topic": "What is Version Control?"
+       },
+       {
+        "title": "What are Staged Changes in Git?",
+        "url": "https://youtube.com/watch?v=HyeNfWZBut8",
+        "video_id": "HyeNfWZBut8",
+        "source": "roadmap.sh",
+        "topic": "Staging Area"
+       },
+       {
+        "title": "Write git commit messages like a PRO with Conventional Commits",
+        "url": "https://youtube.com/watch?v=OJqUWvmf4gg",
+        "video_id": "OJqUWvmf4gg",
+        "source": "roadmap.sh",
+        "topic": "Commit Messages"
+       },
+       {
+        "title": "Manage Branches easily using Git Worktree",
+        "url": "https://youtube.com/watch?v=cRunWRC8ye0",
+        "video_id": "cRunWRC8ye0",
+        "source": "roadmap.sh",
+        "topic": "Git Worktree"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Git - Downloads",
+        "url": "https://git-scm.com/downloads",
+        "topic": "Installing Git Locally"
+       },
+       {
+        "type": "official",
+        "title": "Git - git-config Documentation",
+        "url": "https://git-scm.com/docs/git-config",
+        "topic": "git config"
+       },
+       {
+        "type": "official",
+        "title": "Git - git-init Documentation",
+        "url": "https://git-scm.com/docs/git-init",
+        "topic": "git init"
+       },
+       {
+        "type": "official",
+        "title": "Getting Started - What is Git? - Staging Area",
+        "url": "https://git-scm.com/book/en/v2/Getting-Started-What-is-Git%3F#:~:text=The%20staging%20area%20is%20a,area%E2%80%9D%20works%20just%20as%20well.",
+        "topic": "Staging Area"
+       }
+      ]
+     },
+     {
+      "step_number": 2,
+      "title": "Branching, Merging and Conflicts",
+      "description": "Feature branches let a team work in parallel, and resolving conflicts calmly is a skill interviewers and teammates notice. Create and switch branches, merge and rebase, stash work in progress and resolve conflicts.",
+      "topic_refs": [
+       "bXfCUG3h1TIFPgD4WUDph",
+       "OegitQ5Ngjvd3ZfMpfrkM",
+       "PtRo-wGiNAagZ6CykfvMr",
+       "ks1Pip-RM-UWD6zuF2j4n",
+       "sNuy6NMjLOEkJlqdEjFPq",
+       "agtPWS8j6i6wQPk10cy8E",
+       "0rHDUbAdXqH9zQW2VfJ8v",
+       "9Dt4Gyiiq5jteWSKxsRMK",
+       "99FVJ3Zs8n6lr8L95mG6g",
+       "HMEfUFNu_Wp_Pac7VWHr-",
+       "X9K3PBpGsMoXkJsKdJPI7",
+       "-0zQvCHG8jS_ghSjmTeIx"
+      ],
+      "projects": [
+       {
+        "title": "Conflict practice repo",
+        "description": "Create a conflict on purpose from two branches and resolve it both by merge and by rebase.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Feature-branch workflow",
+        "description": "Build three features on separate branches and merge them in with a clean history.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Branching Basics",
+       "Creating Branch",
+       "Checkout Branch",
+       "Branch Naming",
+       "Merging Basics"
+      ],
+      "more_topics": [
+       {
+        "node_id": "O-zoAWkDvyn7B8_TmY257",
+        "title": "Between Branches"
+       },
+       {
+        "node_id": "RFJgfuxoVxt22QlwLI5mW",
+        "title": "Kanban Boards"
+       },
+       {
+        "node_id": "0cLf7FiI9CX--UX45sm2f",
+        "title": "Detached HEAD"
+       },
+       {
+        "node_id": "y4DkB5NvTh41IeT0G2gr-",
+        "title": "Labelling Issues / PRs"
+       }
+      ],
+      "global_step_index": 5,
+      "resource": {
+       "title": "Git Branches Tutorial",
+       "url": "https://youtube.com/watch?v=e2IbNHi4uCI"
+      },
+      "videos": [
+       {
+        "title": "Git Branches Tutorial",
+        "url": "https://youtube.com/watch?v=e2IbNHi4uCI",
+        "video_id": "e2IbNHi4uCI",
+        "source": "roadmap.sh",
+        "topic": "Branching Basics"
+       },
+       {
+        "title": "Git Checkout. Different ways of using the checkout command in the Git Project",
+        "url": "https://youtube.com/watch?v=h_PIHOFUYuw",
+        "video_id": "h_PIHOFUYuw",
+        "source": "roadmap.sh",
+        "topic": "Checkout Branch"
+       },
+       {
+        "title": "GIT Fast Forward Visualized",
+        "url": "https://youtube.com/watch?v=DN1fNYoJgDw",
+        "video_id": "DN1fNYoJgDw",
+        "source": "roadmap.sh",
+        "topic": "Fast-Forward vs Non-FF"
+       },
+       {
+        "title": "Resolve Git MERGE CONFLICTS: The Definitive Guide",
+        "url": "https://youtube.com/watch?v=Sqsz1-o7nXk",
+        "video_id": "Sqsz1-o7nXk",
+        "source": "roadmap.sh",
+        "topic": "Handling Conflicts"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Git Branching - Basic Branching and Merging",
+        "url": "https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging",
+        "topic": "Branching Basics"
+       },
+       {
+        "type": "official",
+        "title": "Git branch documentation",
+        "url": "https://git-scm.com/docs/git-branch",
+        "topic": "Creating Branch"
+       },
+       {
+        "type": "official",
+        "title": "git-checkout",
+        "url": "https://git-scm.com/docs/git-checkout",
+        "topic": "Checkout Branch"
+       },
+       {
+        "type": "official",
+        "title": "Git Branching - Basic Merging",
+        "url": "https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging#:~:text=into%20master%20later.-,Basic%20Merging,-Suppose%20you%E2%80%99ve%20decided",
+        "topic": "Merging Basics"
+       }
+      ]
+     },
+     {
+      "step_number": 3,
+      "title": "Remotes, GitHub and Pull Requests",
+      "description": "GitHub is where hiring managers look at your work and where teams review code. Push and pull with remotes, fork and clone, open pull requests, review code and track work with issues.",
+      "topic_refs": [
+       "aWx9WHUrgofcTr8B-fQYe",
+       "1Koej79yTv-OAswVZwgGq",
+       "ZVMCh9om37ee1qsecFa-N",
+       "Gybnekbd1rJKTOf4hJ4Sh",
+       "l1Wf7Pe_ah8ycCgslfSK4",
+       "c_FO6xMixrrMo6iisfsvl",
+       "s3MzDYFPMASqiS8UnvWzW",
+       "8lXXVFkgK6n5IHaYkYe3l",
+       "xLB2fhsOm0Vu3xg_PusJB",
+       "crdllx5cH_seIpgVPvHg_",
+       "d_GNnB6PBINz1jxGNWAE-",
+       "WIVr7JxO1AJTNObW8mtY3"
+      ],
+      "projects": [
+       {
+        "title": "First open-source pull request",
+        "description": "Fork a beginner-friendly repository, fix a documentation issue and open a pull request.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Team project with reviews",
+        "description": "Work with a friend on one repo where every change goes through a reviewed pull request.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Git Remotes",
+       "Cloning Repositories",
+       "Pushing / Pulling Changes",
+       "Fetch without Merge",
+       "Forking vs Cloning"
+      ],
+      "more_topics": [
+       {
+        "node_id": "lw4zHuhtxIO4kDvbyiVfq",
+        "title": "Repository management"
+       },
+       {
+        "node_id": "sBQOInoFBU9XfkPZ-JlyT",
+        "title": "Managing Remotes"
+       },
+       {
+        "node_id": "lSCnKhmRr6xrKVYxO8idD",
+        "title": "REST API"
+       },
+       {
+        "node_id": "r-u1vTpUyuvsB0revOU0C",
+        "title": "Collaborators"
+       },
+       {
+        "node_id": "yMx3LdadPz4g25CL3N8da",
+        "title": "Working in a Team"
+       },
+       {
+        "node_id": "E3HAGNM-kXLL4Oci5JzpQ",
+        "title": "Pushing Tags"
+       },
+       {
+        "node_id": "x6eILrLCQrVpz4j8uOuy6",
+        "title": "Pull Requests"
+       },
+       {
+        "node_id": "rqPCHh25xX_ROMr-ULpaw",
+        "title": "GitHub Packages"
+       },
+       {
+        "node_id": "qZFtRABvlBbVvsy6T00J2",
+        "title": "GitHub Interface"
+       },
+       {
+        "node_id": "NV2HAXLEN7tskfgyFrbaf",
+        "title": "GitHub API"
+       },
+       {
+        "node_id": "M2_hBvXou7cCNqsMnexCt",
+        "title": "GitHub Gists"
+       },
+       {
+        "node_id": "h9cf_dh_pwjialOXOlNW-",
+        "title": "GitHub CLI"
+       },
+       {
+        "node_id": "MoG7D9kqPuA6o52-z_WDN",
+        "title": "Webhooks"
+       },
+       {
+        "node_id": "vhdGUhMAyre_Xya6IxZ-t",
+        "title": "GitHub Sponsors"
+       },
+       {
+        "node_id": "pFyMiyNQ16-kP7jKaKKEU",
+        "title": "GitHub Education"
+       },
+       {
+        "node_id": "zsU6R2zvJKnYNU2ac4o4p",
+        "title": "Client vs Server Hooks"
+       },
+       {
+        "node_id": "560GJXFTt7DPdJjKtSDOo",
+        "title": "GitHub Apps"
+       },
+       {
+        "node_id": "RMrxQLhrINO5g4Mhxh5qS",
+        "title": "GitHub Organizations"
+       },
+       {
+        "node_id": "YmnTrjJtqHPXbEVrP8vd7",
+        "title": "GitHub Releases"
+       },
+       {
+        "node_id": "4slyjdk2Eeg5VYY6gCDG6",
+        "title": "GitHub Models"
+       },
+       {
+        "node_id": "NeSvgS2yA5x8qbcJHrV__",
+        "title": "GitHub Essentials"
+       },
+       {
+        "node_id": "XstmIysIi_lWo6RzszLBt",
+        "title": "Reactions"
+       },
+       {
+        "node_id": "HEqBbw_A4ZbJI5zEy8ViN",
+        "title": "Private vs Public"
+       },
+       {
+        "node_id": "Pg6G4fzYb_RUhANeRKlRX",
+        "title": "GitHub Classroom"
+       },
+       {
+        "node_id": "GS3f1FKFVKT0-GJQrgCm8",
+        "title": "Setting up Profile"
+       },
+       {
+        "node_id": "lONqOqD-4slxa9B5i9ADX",
+        "title": "GitHub Wikis"
+       },
+       {
+        "node_id": "sxvT2hGko2PDRBoBrCGWD",
+        "title": "Roadmaps"
+       },
+       {
+        "node_id": "B1KiSOt2b8t8FYD7Jxw2A",
+        "title": "Campus Program"
+       },
+       {
+        "node_id": "vHfpoVbOW0DHNtiy0VN4X",
+        "title": "Installation and Setup"
+       }
+      ],
+      "global_step_index": 6,
+      "resource": {
+       "title": "What is a Remote Repository? \\[Beginner Git Tutorial\\]",
+       "url": "https://youtube.com/watch?v=Lb4yvfrX_7I"
+      },
+      "videos": [
+       {
+        "title": "What is a Remote Repository? \\[Beginner Git Tutorial\\]",
+        "url": "https://youtube.com/watch?v=Lb4yvfrX_7I",
+        "video_id": "Lb4yvfrX_7I",
+        "source": "roadmap.sh",
+        "topic": "Git Remotes"
+       },
+       {
+        "title": "Cloning Remote Repository into local machine",
+        "url": "https://youtube.com/watch?v=xeQih8LVtZM",
+        "video_id": "xeQih8LVtZM",
+        "source": "roadmap.sh",
+        "topic": "Cloning Repositories"
+       },
+       {
+        "title": "Git Fetch | What is Git Fetch and How to Use it | Learn Git",
+        "url": "https://youtube.com/watch?v=uEEcw1s_wWk",
+        "video_id": "uEEcw1s_wWk",
+        "source": "roadmap.sh",
+        "topic": "Fetch without Merge"
+       },
+       {
+        "title": "Git Fork vs. Git Clone: What's the Difference?",
+        "url": "https://youtube.com/watch?v=6YQxkxw8nhE",
+        "video_id": "6YQxkxw8nhE",
+        "source": "roadmap.sh",
+        "topic": "Forking vs Cloning"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "About Remote Repositories",
+        "url": "https://docs.github.com/en/get-started/getting-started-with-git/about-remote-repositories",
+        "topic": "Git Remotes"
+       },
+       {
+        "type": "official",
+        "title": "git clone",
+        "url": "https://git-scm.com/docs/git-clone",
+        "topic": "Cloning Repositories"
+       },
+       {
+        "type": "official",
+        "title": "Cloning a Repository",
+        "url": "https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository",
+        "topic": "Cloning Repositories"
+       },
+       {
+        "type": "official",
+        "title": "Pushing commits to a remote repository",
+        "url": "https://docs.github.com/en/get-started/using-git/pushing-commits-to-a-remote-repository",
+        "topic": "Pushing / Pulling Changes"
+       }
+      ]
+     },
+     {
+      "step_number": 4,
+      "title": "Undoing Changes and Rewriting History",
+      "description": "Knowing how to recover from mistakes safely, without force-pushing over teammates' work, is what makes you trustworthy with a shared repository. Learn reset modes, revert, amend, reflog, cherry-pick, squash, bisect and tags.",
+      "topic_refs": [
+       "0Yi4cryT2v2SGBjouOas3",
+       "igrR7LguU1jemg_mf_AD6",
+       "Uc7FyfAKpDFRGRNHwztFo",
+       "qis7Z5VRxMcOmbesQlegZ",
+       "V_joZNpQsS9G9PI-o-GmC",
+       "dLr55Om7IOvI53c1DgTKc",
+       "NjPnEXLf1Lt9qzgxccogv",
+       "hru0sL1-D4bJSQI1efEyU",
+       "eFf2fesrs-1aVM5tH3ORQ",
+       "Z-srOhYFGVEKDexlJ6cjt",
+       "ExXuwTQSI_lg4SRGW3Iu1",
+       "iFJBF-EEnLjQVsFSXjo_i"
+      ],
+      "projects": [
+       {
+        "title": "Recovery drills",
+        "description": "Lose a commit with reset --hard and recover it with reflog, then undo a pushed commit with revert.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Find the bad commit",
+        "description": "Use git bisect to find which of fifty commits introduced a failing test.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Undoing Changes",
+       "git reset",
+       "--soft",
+       "--mixed",
+       "--hard"
+      ],
+      "more_topics": [
+       {
+        "node_id": "i3AbARgzQtxtlB-1AS8zv",
+        "title": "Clean Git History"
+       },
+       {
+        "node_id": "sOoC-XxEoIvwKct00oKlX",
+        "title": "Rewriting History"
+       },
+       {
+        "node_id": "zen3RRdK9_nPAYgicRoHk",
+        "title": "History"
+       },
+       {
+        "node_id": "uxqJzQFRcALqatNRIWR0w",
+        "title": "Unstaged Changes"
+       },
+       {
+        "node_id": "mzjtCdpke1ayHcEuS-YUS",
+        "title": "Staged Changes"
+       },
+       {
+        "node_id": "BKVA6Q7DXemAYjyQOA0nh",
+        "title": "git filter-branch"
+       },
+       {
+        "node_id": "OQOmxg9mCfcjt80hpvXkA",
+        "title": "git push --force"
+       },
+       {
+        "node_id": "_dPOVUbxApx0pfKPH8fgr",
+        "title": "Renaming Branch"
+       },
+       {
+        "node_id": "Rwpeltygwzcf6hnuZNURE",
+        "title": "Between Commits"
+       },
+       {
+        "node_id": "qFEonbCMLri8iA0yONwuf",
+        "title": "git log options"
+       },
+       {
+        "node_id": "1uDenoQ6zu7CT69FR2iQB",
+        "title": "Deleting Branch"
+       },
+       {
+        "node_id": "lXC07j6dOa3rQixY1P-Ob",
+        "title": "Linear vs Non-Linear"
+       },
+       {
+        "node_id": "x4bnsPVTiX2xOCSyrgWpF",
+        "title": "Adding / Updating"
+       },
+       {
+        "node_id": "KbVvFVQ4k77R2_ddsc7WT",
+        "title": "Profile Readme"
+       }
+      ],
+      "global_step_index": 7,
+      "resource": {
+       "title": "Git Reset | How to Use Git Reset | Learn Git",
+       "url": "https://youtube.com/watch?v=s1idhUiCk38"
+      },
+      "videos": [
+       {
+        "title": "Git Reset | How to Use Git Reset | Learn Git",
+        "url": "https://youtube.com/watch?v=s1idhUiCk38",
+        "video_id": "s1idhUiCk38",
+        "source": "roadmap.sh",
+        "topic": "git reset"
+       },
+       {
+        "title": "Git Revert - Visualised",
+        "url": "https://youtube.com/watch?v=XJqQPNudPSY",
+        "video_id": "XJqQPNudPSY",
+        "source": "roadmap.sh",
+        "topic": "git revert"
+       },
+       {
+        "title": "Git Amend Tutorial: Rewrite Git History",
+        "url": "https://youtube.com/watch?v=q53umU5vMkk",
+        "video_id": "q53umU5vMkk",
+        "source": "roadmap.sh",
+        "topic": "git commit --amend"
+       },
+       {
+        "title": "Learn Git Essentials 12: Git Reflog",
+        "url": "https://youtube.com/watch?v=RVu8lpS7JFY",
+        "video_id": "RVu8lpS7JFY",
+        "source": "roadmap.sh",
+        "topic": "Git Reflog"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Undoing Changes",
+        "url": "https://git-scm.com/book/en/v2/Git-Tools-Reset-Demystified",
+        "topic": "Undoing Changes"
+       },
+       {
+        "type": "official",
+        "title": "--soft documentation",
+        "url": "https://git-scm.com/docs/git-reset#Documentation/git-reset.txt---soft",
+        "topic": "--soft"
+       },
+       {
+        "type": "official",
+        "title": "--mixed documentation",
+        "url": "https://git-scm.com/docs/git-reset#Documentation/git-reset.txt---mixed",
+        "topic": "--mixed"
+       },
+       {
+        "type": "official",
+        "title": "--hard documentation",
+        "url": "https://git-scm.com/docs/git-reset#Documentation/git-reset.txt---hard",
+        "topic": "--hard"
+       }
+      ]
+     },
+     {
+      "step_number": 5,
+      "title": "GitHub Actions, Hooks and Test Automation in CI",
+      "description": "Automated tests are only useful if they run on every change. Write GitHub Actions workflows with triggers, secrets and caching, publish reports with GitHub Pages, add pre-commit hooks and track test work in GitHub Projects.",
+      "topic_refs": [
+       "AmetdCURXXob5TUsikAab",
+       "p6rq3lQ9YRrTqwcc31O23",
+       "55uHPFNwYPVZx8Cy3c985",
+       "6QwlY3dEvjfAOPALcWKXQ",
+       "aflP7oWsQzAr4YPo2LLiQ",
+       "HMNhzzV6ApTKj4I_FOmUB",
+       "bnai6R6pOq_L5CPdbVwMW",
+       "ZHplGidvhxEIC3HN8KqRa",
+       "pqBV7BMAs0z6qpfZeW2XP",
+       "HhpAIzYMlMiQ9msrYZyDB",
+       "DzFJDdqnSy5GeGHWOpcVo",
+       "XRSVRl6iHncMmgSXoB7Lq"
+      ],
+      "projects": [
+       {
+        "title": "Tests on every pull request",
+        "description": "Run your automated suite in GitHub Actions on each pull request and block merges on failures.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Published test report",
+        "description": "Publish an HTML test report to GitHub Pages after each nightly run.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "GitHub Actions",
+       "YAML Syntax",
+       "Workflow Triggers",
+       "Workflow Runners",
+       "Secrets and Env Vars"
+      ],
+      "more_topics": [
+       {
+        "node_id": "PUnYNBrAZWoZiopjtNgnA",
+        "title": "Usecases"
+       },
+       {
+        "node_id": "Ni3HKVLanFvSrJ3u8i5I1",
+        "title": "What are these?"
+       },
+       {
+        "node_id": "TNBz5755PhI6iKxTQTqcS",
+        "title": "Automations"
+       },
+       {
+        "node_id": "Y0EWgPsS4kZxH3y53jNxY",
+        "title": "Use in Automation"
+       },
+       {
+        "node_id": "SANEQI2rgOtsMQyn4qUCq",
+        "title": "post-checkout"
+       },
+       {
+        "node_id": "v7uabKuMQPOD_hBIaHOVT",
+        "title": "What and Why?"
+       },
+       {
+        "node_id": "buxb5TpzQ-xxn0vqtGdS3",
+        "title": "post-update"
+       },
+       {
+        "node_id": "f2PG4t6iVtfIH8BVe5H7f",
+        "title": "GitHub Security"
+       },
+       {
+        "node_id": "uS1H9KoKGNONvETCuFBbz",
+        "title": "Scheduled Workflows"
+       },
+       {
+        "node_id": "BnPiTu1Jw2kIW560a2A5T",
+        "title": "Workflow Context"
+       },
+       {
+        "node_id": "jc4R1zhd1YeCEbVuxwJWy",
+        "title": "Workflow Status"
+       },
+       {
+        "node_id": "NdfwgwMOewiyEAFyC2l7U",
+        "title": "GitHub Codespaces"
+       },
+       {
+        "node_id": "SsogoCgJIbeTD6tk8UhTe",
+        "title": "Marketplace Actions"
+       },
+       {
+        "node_id": "5Oax1p7zIZ9HD2hmENPof",
+        "title": "Creating Apps"
+       },
+       {
+        "node_id": "qrdOARfqGPF9xhF6snbAn",
+        "title": "OAuth Apps"
+       },
+       {
+        "node_id": "iWn3zDMOfLLjSp6f1jQoE",
+        "title": "GitHub Copilot"
+       },
+       {
+        "node_id": "j5kWEUKwBFg5EMm8-61K9",
+        "title": "pre-push"
+       },
+       {
+        "node_id": "R20LXLLEzNn-SpyFDMRXj",
+        "title": "GitHub Marketplace"
+       },
+       {
+        "node_id": "i7fIIHcBEk473te8bniJ5",
+        "title": "Creating Account"
+       },
+       {
+        "node_id": "snWQHCQECZyUXHdn6ppIk",
+        "title": "GitHub Discussions"
+       },
+       {
+        "node_id": "pJ-najh7dXhhYA_0bDiR5",
+        "title": "Contribution Guidelines"
+       },
+       {
+        "node_id": "kGnZifvXbHBf5zXIsfAQw",
+        "title": "Issue Management"
+       },
+       {
+        "node_id": "oWMaOWU06juoIuzXNe-wt",
+        "title": "Mentions"
+       },
+       {
+        "node_id": "iwfNYDlAgbA_rpWYcoHCC",
+        "title": "Static Site Generators"
+       },
+       {
+        "node_id": "KlXPt-K6br8PtpLgELaCj",
+        "title": "GraphQL API"
+       },
+       {
+        "node_id": "1Ulxl4VUvRSfyCPpi-iv8",
+        "title": "Markdown"
+       },
+       {
+        "node_id": "dQS1V0zZxeKhHhUo3STBK",
+        "title": "Saved Replies"
+       },
+       {
+        "node_id": "alysXC4b1hGi9ZdQ5-40y",
+        "title": "Storing Artifacts"
+       },
+       {
+        "node_id": "GwDNk2HBjASr_NWIL4G3-",
+        "title": "PR Guidelines"
+       }
+      ],
+      "global_step_index": 8,
+      "resource": {
+       "title": "What are GitHub Actions",
+       "url": "https://youtube.com/watch?v=URmeTqglS58"
+      },
+      "videos": [
+       {
+        "title": "What are GitHub Actions",
+        "url": "https://youtube.com/watch?v=URmeTqglS58",
+        "video_id": "URmeTqglS58",
+        "source": "roadmap.sh",
+        "topic": "GitHub Actions"
+       },
+       {
+        "title": "GitHub Actions Self-hosted runners",
+        "url": "https://youtube.com/watch?v=aLHyPZO0Fy0",
+        "video_id": "aLHyPZO0Fy0",
+        "source": "roadmap.sh",
+        "topic": "Workflow Runners"
+       },
+       {
+        "title": "Secrets and Environment Variables in your GitHub Action",
+        "url": "https://youtube.com/watch?v=dPLPSaFqJmY",
+        "video_id": "dPLPSaFqJmY",
+        "source": "roadmap.sh",
+        "topic": "Secrets and Env Vars"
+       },
+       {
+        "title": "Cache Management with GitHub actions",
+        "url": "https://youtube.com/watch?v=7PVUjRXUY0o",
+        "video_id": "7PVUjRXUY0o",
+        "source": "roadmap.sh",
+        "topic": "Caching Dependencies"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "GitHub Actions",
+        "url": "https://docs.github.com/en/actions",
+        "topic": "GitHub Actions"
+       },
+       {
+        "type": "official",
+        "title": "YAML",
+        "url": "https://yaml.org/",
+        "topic": "YAML Syntax"
+       },
+       {
+        "type": "official",
+        "title": "GitHub Actions Triggers",
+        "url": "https://docs.github.com/en/actions/reference/events-that-trigger-workflows",
+        "topic": "Workflow Triggers"
+       },
+       {
+        "type": "official",
+        "title": "GitHub Actions Runners",
+        "url": "https://docs.github.com/en/actions/hosting-your-own-runners/about-self-hosted-runners",
+        "topic": "Workflow Runners"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 3,
+    "title": "SQL",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "SQL Queries: Selecting, Joining and Grouping",
+      "description": "Testers verify what the application wrote to the database, and many QA interviews include a SQL task. Practise SELECT with filtering and sorting, joins across tables, and grouped aggregates.",
+      "topic_refs": [
+       "nhUKKWyBH80nyKfGT8ErC",
+       "JDDG4KfhtIlw1rkNCzUli",
+       "tBzMDfCMh6MIagNaxCzin",
+       "i8u8E_sne6XiKJo2FXDog",
+       "WhYAy6f7Euk3E49-ot644",
+       "NfCiSPrL4upMssukcw3Kh",
+       "4UQQYbjzwVxZOAxBuXKQS",
+       "aaua13CkTxLOYXr8cAgPm",
+       "X9cJJ8zLZCF2cOoqxwFfY",
+       "6qG0AVYd6Y1B8LOSDoMX9",
+       "14TKE6KhrH1yFtHcSZSXq",
+       "LX9nzJ4uqznHN4SksoDvr"
+      ],
+      "projects": [
+       {
+        "title": "Verify an order in the database",
+        "description": "After placing an order through the UI, write queries that confirm every related row was saved correctly.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Data consistency checks",
+        "description": "Write queries that find orphan rows, duplicates and totals that do not add up.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Learn the Basics",
+       "Basic SQL Syntax",
+       "Data Types",
+       "Select Statement",
+       "WHERE Clause in SELECT Statements"
+      ],
+      "more_topics": [
+       {
+        "node_id": "rmqXH29n1oXtZ8tvmcRFn",
+        "title": "SELECT statement"
+       },
+       {
+        "node_id": "8V6yw7kLaow-VVcv_K_pL",
+        "title": "JOIN Queries"
+       },
+       {
+        "node_id": "ffwniprGJHZzJ7t3lQcXz",
+        "title": "Operators"
+       },
+       {
+        "node_id": "TjgwabhEtaSoYMLNr6q9l",
+        "title": "Recursive Queries"
+       },
+       {
+        "node_id": "UDqbT1y-YzBrljfKSz_RG",
+        "title": "Advanced SQL Concepts"
+       },
+       {
+        "node_id": "6yoo7qC6X2jYDIjd3HIm7",
+        "title": "SQL keywords"
+       },
+       {
+        "node_id": "Zw8IHfCCMSxmVjx5Ho5ff",
+        "title": "GROUP BY"
+       },
+       {
+        "node_id": "N1Racr3ZpU320gS545We8",
+        "title": "FROM Clause in SELECT Statements"
+       },
+       {
+        "node_id": "PcsGK4VBh0zNQIPZvNES4",
+        "title": "Creating Views"
+       },
+       {
+        "node_id": "xkPJ2MYiXmzC4yqQWyB_7",
+        "title": "Nested Subqueries"
+       },
+       {
+        "node_id": "HhICJpCK5__b-itUoEBES",
+        "title": "HAVING"
+       },
+       {
+        "node_id": "mPj6BiK5FKKkIQ9WsWEo6",
+        "title": "INSERT Statement"
+       },
+       {
+        "node_id": "W2ePJHdfEiEJ3ZKoRQKt_",
+        "title": "CASE"
+       },
+       {
+        "node_id": "aLDl75i8gtLRA2Ud-fMmQ",
+        "title": "Row"
+       },
+       {
+        "node_id": "R9WDMRd-3wxsKH97-sT3n",
+        "title": "Table"
+       },
+       {
+        "node_id": "eXQ-TrTlqL5p2AdGnozkL",
+        "title": "Scalar"
+       },
+       {
+        "node_id": "ytwCkSMTiTuemE0KVfAfy",
+        "title": "HAVING"
+       },
+       {
+        "node_id": "w53CSY53nAAN0ux-XeJ4c",
+        "title": "Selective Projection"
+       },
+       {
+        "node_id": "wmtt-3auWLdQWuVdwZLPd",
+        "title": "Column"
+       },
+       {
+        "node_id": "88KlrMqSza9_YaD7Dv61p",
+        "title": "TIME"
+       },
+       {
+        "node_id": "gx4KaFqKgJX9n9_ZGMqlZ",
+        "title": "SQL vs NoSQL"
+       },
+       {
+        "node_id": "zWnvuHJLHr03PWkrW1wZZ",
+        "title": "DELETE Statement in SQL"
+       },
+       {
+        "node_id": "KJJ6PYjTnr_3yU2mNPL9v",
+        "title": "UPDATE Statement"
+       },
+       {
+        "node_id": "aS5zCyJRA779yHF0G2pje",
+        "title": "FULL OUTER JOIN"
+       }
+      ],
+      "global_step_index": 9,
+      "resource": {
+       "title": "MySQL 101 - Data Types",
+       "url": "https://youtube.com/watch?v=vAiBa69YCnk"
+      },
+      "videos": [
+       {
+        "title": "MySQL 101 - Data Types",
+        "url": "https://youtube.com/watch?v=vAiBa69YCnk",
+        "video_id": "vAiBa69YCnk",
+        "source": "roadmap.sh",
+        "topic": "Data Types"
+       },
+       {
+        "title": "How to filter with the WHERE clause in SQL",
+        "url": "https://youtube.com/watch?v=4Uv0o8IBqw0",
+        "video_id": "4Uv0o8IBqw0",
+        "source": "roadmap.sh",
+        "topic": "WHERE Clause in SELECT Statements"
+       },
+       {
+        "title": "SQL ORDER BY Sorting Clause",
+        "url": "https://youtube.com/watch?v=h_HHTNjAgS8",
+        "video_id": "h_HHTNjAgS8",
+        "source": "roadmap.sh",
+        "topic": "ORDER BY"
+       },
+       {
+        "title": "SQL JOINs Tutorial for beginners",
+        "url": "https://youtube.com/watch?v=0OQJDd3QqQM",
+        "video_id": "0OQJDd3QqQM",
+        "source": "roadmap.sh",
+        "topic": "JOINs"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 2,
+      "title": "Writing Data Safely: DDL, DML and Constraints",
+      "description": "Test environments need known data, and constraint tests catch bugs that slip past the application. Create and alter tables, insert, update and delete test data, and verify that keys, uniqueness, NOT NULL and CHECK rules are enforced.",
+      "topic_refs": [
+       "epEpBxRosLhuAuKwp823r",
+       "WjXlO42WL9saDS7RIGapt",
+       "K5vhqTJrdPK08Txv8zaEj",
+       "-Hew0y53ziZK3epQnGA0O",
+       "eu9dJFi6gBPMBdy08Y5Bb",
+       "ddtVaA4Ls6qRj-7OtTSIH",
+       "Jlwmyq6CUQeDAlL4dazOP",
+       "DHz6sRLYhFeCbAcNJS8hm",
+       "5yGo8i7eplxtXOD_qfzOs",
+       "M4M_-vjM9GNy0NmXZneDA",
+       "Q0h9Wfnl_W9ThOkv7Q17A",
+       "mBQ3Z8GlFcpIena3IB7D_"
+      ],
+      "projects": [
+       {
+        "title": "Test data seed script",
+        "description": "A SQL script that resets and seeds a test database before each run.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Constraint test cases",
+        "description": "Write negative tests that try to insert invalid rows and expect the database to reject them.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Create Table",
+       "Alter Table",
+       "Truncate Table",
+       "INSERT",
+       "UPDATE Statement"
+      ],
+      "more_topics": [
+       {
+        "node_id": "qBios3sZVhcJMpXmj9f7B",
+        "title": "Data Constraints"
+       },
+       {
+        "node_id": "WMSXi-eez_hHGDM8kUdWz",
+        "title": "Data Manipulation Language (DML)"
+       },
+       {
+        "node_id": "xPOeXK1EPBNG56vgfG-VV",
+        "title": "Data Definition Language (DDL)"
+       },
+       {
+        "node_id": "YzJ6QmY2arMfRzMAPaI0T",
+        "title": "Drop Table"
+       },
+       {
+        "node_id": "igg34gLPl3HYVAmRNFGcV",
+        "title": "ACID"
+       },
+       {
+        "node_id": "3eE-l-P93nOXoWfLr8PSW",
+        "title": "Modifying Views"
+       },
+       {
+        "node_id": "Ivqo2wa-_NhGU3vGd0pUI",
+        "title": "DATE"
+       },
+       {
+        "node_id": "MIOuWWcCjLAmgzog2DBC3",
+        "title": "Dropping Views"
+       },
+       {
+        "node_id": "KI6vngoYcHsnpIk8ErhhS",
+        "title": "NULLIF"
+       },
+       {
+        "node_id": "Othfo7NvTVzfyL906PLM1",
+        "title": "UPPER"
+       }
+      ],
+      "global_step_index": 10,
+      "resource": {
+       "title": "SQL Tutorial - TRUNCATE TABLE",
+       "url": "https://youtube.com/watch?v=zJidbjOQlJM"
+      },
+      "videos": [
+       {
+        "title": "SQL Tutorial - TRUNCATE TABLE",
+        "url": "https://youtube.com/watch?v=zJidbjOQlJM",
+        "video_id": "zJidbjOQlJM",
+        "source": "roadmap.sh",
+        "topic": "Truncate Table"
+       },
+       {
+        "title": "SQL INSERT Statement",
+        "url": "https://youtube.com/watch?v=Yp1MKeIG-M4",
+        "video_id": "Yp1MKeIG-M4",
+        "source": "roadmap.sh",
+        "topic": "INSERT"
+       },
+       {
+        "title": "Foreign Keys are easy (kind of)",
+        "url": "https://youtube.com/watch?v=rFssfx37UJw",
+        "video_id": "rFssfx37UJw",
+        "source": "roadmap.sh",
+        "topic": "Foreign Key"
+       },
+       {
+        "title": "NOT NULL Constraint",
+        "url": "https://youtube.com/watch?v=unzHhq82mKU",
+        "video_id": "unzHhq82mKU",
+        "source": "roadmap.sh",
+        "topic": "NOT NULL Constraint"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 3,
+      "title": "SQL Transaction Control, Procedures and Permissions",
+      "description": "Payment and booking bugs often appear only when transactions overlap, which testers must be able to reproduce. Learn transaction control, isolation levels, stored procedures and database permissions well enough to design concurrency and access tests.",
+      "topic_refs": [
+       "OdaBXz2XBAVLsQ-m7xtAM",
+       "7sTW1vwUhCFOMXYjScVEt",
+       "3cMECz5QPVDOFrk5duObs",
+       "xbD67KVlt3UhHpKh8HLx8",
+       "pJtYvXUo81aZfPuRjIbMq",
+       "ujeq8EIFcrqkBjoFizsJM",
+       "w7FNjdwqjY7X69aJqqBy4",
+       "z5Sf0VU14ZCQ80kL1qOqc",
+       "03qMopxzjx_-dZbYw9b7J",
+       "vhBZqqmUcEon6-Vwvla4q",
+       "R1ktDJpXOz0PTllAcBrdu"
+      ],
+      "projects": [
+       {
+        "title": "Money transfer procedure",
+        "description": "Transfer funds between accounts in one transaction and test it under concurrent requests.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Least-privilege database user",
+        "description": "Create an application user that can only read and write the tables it needs.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Transactions",
+       "BEGIN",
+       "COMMIT",
+       "ROLLBACK",
+       "SAVEPOINT"
+      ],
+      "more_topics": [
+       {
+        "node_id": "7hEqkoxkdAWmakGZsMJx-",
+        "title": "TIMESTAMP"
+       },
+       {
+        "node_id": "BAqJQvcguhIhzyII5LRH6",
+        "title": "CEILING"
+       },
+       {
+        "node_id": "1E1WdWOyqxbbdiIbw26dZ",
+        "title": "DATEADD"
+       },
+       {
+        "node_id": "6vYFb_D1N_-tLWZftL-Az",
+        "title": "ABS"
+       },
+       {
+        "node_id": "o2SH4iQn1Ap2yDZ7cVYLO",
+        "title": "FLOOR"
+       }
+      ],
+      "global_step_index": 11,
+      "resource": {
+       "title": "How to undo a mistake a in SQL: Rollback and Commit",
+       "url": "https://youtube.com/watch?v=jomsdMLiIZM"
+      },
+      "videos": [
+       {
+        "title": "How to undo a mistake a in SQL: Rollback and Commit",
+        "url": "https://youtube.com/watch?v=jomsdMLiIZM",
+        "video_id": "jomsdMLiIZM",
+        "source": "roadmap.sh",
+        "topic": "ROLLBACK"
+       },
+       {
+        "title": "DBMS - Save Point",
+        "url": "https://youtube.com/watch?v=30ldSUkswGM",
+        "video_id": "30ldSUkswGM",
+        "source": "roadmap.sh",
+        "topic": "SAVEPOINT"
+       },
+       {
+        "title": "Dynamic SQL",
+        "url": "https://youtube.com/watch?v=01LZMCotcpY",
+        "video_id": "01LZMCotcpY",
+        "source": "roadmap.sh",
+        "topic": "Dynamic SQL"
+       },
+       {
+        "title": "DATEADD Function",
+        "url": "https://youtube.com/watch?v=DYCWOzzOycU",
+        "video_id": "DYCWOzzOycU",
+        "source": "roadmap.sh",
+        "topic": "DATEADD"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 4,
+      "title": "Advanced Queries and Query Tuning",
+      "description": "Testers increasingly report performance regressions, and slow queries are a common cause. Use CTEs, subqueries and window functions for complex checks, and read query plans and indexes to explain why a query got slower.",
+      "topic_refs": [
+       "tedQynR0xicVKhuR1oahw",
+       "86iZ8s8EdhSuYwgwAM_EO",
+       "JZqS3Xapw6mfSPVgFW7av",
+       "tBvXLLp5FKeSSN35Kj1X4",
+       "zW27ZHdLwQY-85iqbBKQZ",
+       "2tyezwOIxV6O84N-Q3Awh",
+       "LcljR70T-OnzSrJJDqOWf",
+       "NtxGd6Vx-REBclry7lZuE",
+       "Ps9Yv2s-bKvEegGAbPsiA",
+       "C6P69YiFdS-ioPXMNfX07",
+       "C0dhS6uLf4TUSfvcWyXhv",
+       "UVTgbZrqpbYl1bQvQejcF"
+      ],
+      "projects": [
+       {
+        "title": "Explain-plan tuning",
+        "description": "Take three slow queries, read their plans, add indexes or rewrite them, and record the timings.",
+        "difficulty": "advanced",
+        "grounded": false
+       },
+       {
+        "title": "Leaderboard query",
+        "description": "Return the top players per region with a window function behind a cached endpoint.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "CTEs (Common Table Expressions)",
+       "Sub Queries",
+       "Correlated Subqueries",
+       "Window Functions",
+       "Row_number"
+      ],
+      "more_topics": [
+       {
+        "node_id": "4rqCPpTb0dAgpheBKshRG",
+        "title": "Performance Optimization"
+       },
+       {
+        "node_id": "vTMd0bqz4eTgLnhfgY61h",
+        "title": "Advanced Functions"
+       },
+       {
+        "node_id": "9wOgP0i9G4HSeZGn2Gm7r",
+        "title": "Using Indexes"
+       },
+       {
+        "node_id": "7ow6tiSSCnTpv_GYQU017",
+        "title": "Cross Join"
+       },
+       {
+        "node_id": "BcXdxY6bld5c0YNFSKkh-",
+        "title": "lag"
+       },
+       {
+        "node_id": "k7lZe4QRt9q4InUImFmvx",
+        "title": "COALESCE"
+       },
+       {
+        "node_id": "cucCPw3KfetAP2OMFUs0X",
+        "title": "rank"
+       },
+       {
+        "node_id": "knTG6pAq2mYP24WMa29xI",
+        "title": "LOWER"
+       },
+       {
+        "node_id": "aJJjaGunRrwyh9MjQfJt-",
+        "title": "lead"
+       },
+       {
+        "node_id": "QM0ltgPu8lLLYc2MsTLj-",
+        "title": "dense_rank"
+       },
+       {
+        "node_id": "PnG_5D6q66NAKxXVOwA6N",
+        "title": "SUBSTRING"
+       },
+       {
+        "node_id": "9aHYrOQDkA84tlxcVK5aD",
+        "title": "COUNT"
+       },
+       {
+        "node_id": "VNbb3YPc0FtrROylRns8h",
+        "title": "REPLACE"
+       },
+       {
+        "node_id": "Wou6YXLYUgomvcELh851L",
+        "title": "AVG"
+       },
+       {
+        "node_id": "9DntFiZV1AyaRPhYP5q6u",
+        "title": "ROUND"
+       },
+       {
+        "node_id": "5inpEqafeVCfqsURHzQQg",
+        "title": "CONCAT"
+       },
+       {
+        "node_id": "bFEYMlqPZtTUYtDQxqHzT",
+        "title": "MIN"
+       },
+       {
+        "node_id": "nwFaz9i-1s0WVrVaFsoqb",
+        "title": "Pivot / Unpivot Operations"
+       },
+       {
+        "node_id": "OUw--8zEq6lk5-6oySVHe",
+        "title": "MOD"
+       },
+       {
+        "node_id": "YqDJq3fPxUZlwsdq0kJg7",
+        "title": "MAX"
+       },
+       {
+        "node_id": "RH8DLiQpDUWqw3U1522q5",
+        "title": "LENGTH"
+       },
+       {
+        "node_id": "w4T3jFb0ilf1KNw-AvRXG",
+        "title": "SUM"
+       },
+       {
+        "node_id": "shpgZkh1CLqUwjOaRtAFy",
+        "title": "RIGHT JOIN"
+       },
+       {
+        "node_id": "BJ4fQvagTO0B5UtXblyx8",
+        "title": "DATEPART"
+       }
+      ],
+      "global_step_index": 12,
+      "resource": {
+       "title": "Advanced SQL Tutorial | Subqueries",
+       "url": "https://youtube.com/watch?v=m1KcNV-Zhmc"
+      },
+      "videos": [
+       {
+        "title": "Advanced SQL Tutorial | Subqueries",
+        "url": "https://youtube.com/watch?v=m1KcNV-Zhmc",
+        "video_id": "m1KcNV-Zhmc",
+        "source": "roadmap.sh",
+        "topic": "Sub Queries"
+       },
+       {
+        "title": "Intro To Subqueries",
+        "url": "https://youtube.com/watch?v=TUxadt94L0M",
+        "video_id": "TUxadt94L0M",
+        "source": "roadmap.sh",
+        "topic": "Correlated Subqueries"
+       },
+       {
+        "title": "SQL Window Functions in 10 Minutes",
+        "url": "https://youtube.com/watch?v=y1KCM8vbYe4",
+        "video_id": "y1KCM8vbYe4",
+        "source": "roadmap.sh",
+        "topic": "Window Functions"
+       },
+       {
+        "title": "SQL Views Tutorial",
+        "url": "https://youtube.com/watch?v=cLSxasHg9WY",
+        "video_id": "cLSxasHg9WY",
+        "source": "roadmap.sh",
+        "topic": "Views"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Correlated Subqueries",
+        "url": "https://dev.mysql.com/doc/refman/8.4/en/correlated-subqueries.html",
+        "topic": "Correlated Subqueries"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 4,
+    "title": "QA & Testing",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "QA Fundamentals, Mindset and Development Models",
+      "description": "QA engineers are hired to think about how things break and to prevent defects, not only to find them. Learn what quality assurance is, verification versus validation and test oracles, and how testing fits into waterfall, V-model, spiral and agile processes.",
+      "topic_refs": [
+       "JInFH3JRvAxjvpIFKjUiP",
+       "m1wX27XBWKXZcTMH2U1xp",
+       "vZv4Ow5bg_PbKoF557G9S",
+       "vP76hqx-8Pri7sxdJDGV5",
+       "Zja25damM2vXMOYCyRZiq",
+       "Pb3QkhSCgRByJHuPxVAlU",
+       "7h-Xfp2Foiyn7-pI0w7ft",
+       "zELjfWwfEYSc1YO8JLoJn",
+       "IajllMZxKGa28EK88uAuh",
+       "47NXgbc1OTGE06qXxlQoh",
+       "k3xPwDzA1WUEAwJ6-Q8PW",
+       "cJyQx-LBcOL11nkK-P2JH"
+      ],
+      "projects": [
+       {
+        "title": "Bug hunt on a public site",
+        "description": "Explore a public web app for an hour and write five clear bug reports with steps and evidence.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "QA in a sprint",
+        "description": "Describe what testing happens in each Scrum event for a two-week sprint.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "What is Quality Assurance?",
+       "Learn the Fundamentals",
+       "QA Mindset",
+       "Verification and Validation",
+       "Test Oracles"
+      ],
+      "more_topics": [],
+      "global_step_index": 13,
+      "resource": {
+       "title": "Test Oracle in Software Testing",
+       "url": "https://youtube.com/watch?v=DR22zNNetp0"
+      },
+      "videos": [
+       {
+        "title": "Test Oracle in Software Testing",
+        "url": "https://youtube.com/watch?v=DR22zNNetp0",
+        "video_id": "DR22zNNetp0",
+        "source": "roadmap.sh",
+        "topic": "Test Oracles"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 2,
+      "title": "Testing Approaches, Techniques and Levels",
+      "description": "Choosing what to test and at which level is the core judgement of a tester. Learn black-, white- and grey-box approaches, test design techniques, functional versus non-functional testing, and the unit, integration, acceptance and compatibility levels.",
+      "topic_refs": [
+       "uFOVuenPyOKZGgoJXkwRZ",
+       "7xGXlwgkcGV6BrDDDN71R",
+       "gQLbDFP00itL260i1BiDe",
+       "2zfwE6uzGYc2qnvOZ47LB",
+       "y4QnZ2xQyc4x6Kr-eGBer",
+       "ZmWEG7Wu-h7bZe6pGxqDg",
+       "o4xmFhw_ilWdhpCiEotck",
+       "vYIEsjTKoO1ciypGIDlil",
+       "PMO3M33U6RuvNdINvqIAA",
+       "a_vwz-onn6QEoc27N6oBc",
+       "Ls_pezva7_ZW2HHn7RvO4",
+       "RD0vRC-OL2ReYLT1leJMs"
+      ],
+      "projects": [
+       {
+        "title": "Boundary value test design",
+        "description": "Design test cases for an age and income eligibility form with equivalence classes and boundaries.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Test pyramid for an app",
+        "description": "Map which checks belong at unit, integration and end-to-end level for a food ordering app.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Testing Approaches",
+       "Testing Methodologies",
+       "Testing Techniques",
+       "Black box testing",
+       "White Box Testing"
+      ],
+      "more_topics": [],
+      "global_step_index": 14,
+      "resource": {
+       "title": "What is Unit Testing?",
+       "url": "https://youtube.com/watch?v=3kzHmaeozDI"
+      },
+      "videos": [
+       {
+        "title": "What is Unit Testing?",
+        "url": "https://youtube.com/watch?v=3kzHmaeozDI",
+        "video_id": "3kzHmaeozDI",
+        "source": "roadmap.sh",
+        "topic": "Unit Testing"
+       },
+       {
+        "title": "How to plan your UAT",
+        "url": "https://youtube.com/watch?v=AU8SV7091-s",
+        "video_id": "AU8SV7091-s",
+        "source": "roadmap.sh",
+        "topic": "UAT"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 3,
+      "title": "Manual Testing: Plans, Cases and Bug Reports",
+      "description": "Even automation-focused teams depend on testers who can plan, prioritise and explore well. Write test plans and cases, run smoke, sanity, regression and exploratory sessions, manage test data, analyse root causes and report clearly.",
+      "topic_refs": [
+       "daUEq4xlh4PIltSdiD4F2",
+       "2U8WRKkuF-YCEWtpgTspF",
+       "ELnCFVRkO_s5qI_3Yzf5U",
+       "1976f2-opqLqV4ImPJlt0",
+       "2h6mJeIFCU72J7aggTvnQ",
+       "MVShii4LZiWW_gPTJzkty",
+       "Lve3xpC1FU91TQqoDOYv7",
+       "XCeXiKvBblmDArfbWjDvw",
+       "3Ngw17hkW2HPs-OOaHzv-",
+       "BnZDIWW4rl_N1BhWhhTpO",
+       "MyAAsHteSr4JCPEpqjsy9",
+       "pH9h2tjO6raO_g4W8EgKq"
+      ],
+      "projects": [
+       {
+        "title": "Test plan for a login feature",
+        "description": "Write a test plan with scope, risks, cases, data and exit criteria for login and password reset.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Exploratory session charter",
+        "description": "Run a timed exploratory session on a checkout flow and write up findings and coverage.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "QA Manual Testing",
+       "Test Planning",
+       "Test Cases and Scenarios",
+       "Test Prioritization",
+       "Exploratory testing"
+      ],
+      "more_topics": [],
+      "global_step_index": 15,
+      "resource": {
+       "title": "What is Regression Testing? A Software Testing FAQ - Why? How? When?",
+       "url": "https://youtube.com/watch?v=xmQuLTarGI4"
+      },
+      "videos": [
+       {
+        "title": "What is Regression Testing? A Software Testing FAQ - Why? How? When?",
+        "url": "https://youtube.com/watch?v=xmQuLTarGI4",
+        "video_id": "xmQuLTarGI4",
+        "source": "roadmap.sh",
+        "topic": "Regression Testing"
+       },
+       {
+        "title": "What is Root Cause Analysis (RCA)?",
+        "url": "https://youtube.com/watch?v=7t3lTYEd_PM",
+        "video_id": "7t3lTYEd_PM",
+        "source": "roadmap.sh",
+        "topic": "Root Cause Analysis"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 4,
+      "title": "Test Management Tools and Agile Practices",
+      "description": "Teams track cases, runs and defects in tools such as TestRail, Zephyr and Jira, and testers work within agile frameworks. Use test management and tracking tools, and understand SAFe and XP practices.",
+      "topic_refs": [
+       "5Tn6Wtw8QE56LZ9BlRAmW",
+       "o4nkmhEDGwi8yE6DSwZi5",
+       "leiCCxLJgXCpk1a--mE83",
+       "aGvbxmZCHbbt9PgXL1ooJ",
+       "FE_Wp2RPWFDHNaQIBLqH6",
+       "wVqbs8Rh0WjLQqJZ0XiF0",
+       "dmfMp6ydjtHo6oKv97AzB",
+       "6bS1YjGJHARAUKTywYMU9",
+       "xLPE9CqqiYz0miMFI3ThY",
+       "ZqgeqqZTGA-y7jVNyPCt4",
+       "Tdj051ANlwwpo03X1hjbF",
+       "4SLrNPD_No05CKeAVDFn5"
+      ],
+      "projects": [
+       {
+        "title": "Test run in a management tool",
+        "description": "Import your login test cases into a test management tool and record a full run with defects linked.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Traceability matrix",
+        "description": "Link requirements to test cases and defects for a small feature.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "TestRail",
+       "Test Rail",
+       "TestLink",
+       "Zephyr",
+       "QTest"
+      ],
+      "more_topics": [],
+      "global_step_index": 16,
+      "resource": {
+       "title": "Getting Started with qTest and Parameters",
+       "url": "https://youtube.com/watch?v=1q8vQ2XF9QE"
+      },
+      "videos": [
+       {
+        "title": "Getting Started with qTest and Parameters",
+        "url": "https://youtube.com/watch?v=1q8vQ2XF9QE",
+        "video_id": "1q8vQ2XF9QE",
+        "source": "roadmap.sh",
+        "topic": "QTest"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "TestRail",
+        "url": "https://www.gurock.com/testrail/",
+        "topic": "TestRail"
+       },
+       {
+        "type": "official",
+        "title": "Testrail Official Docs",
+        "url": "https://support.gurock.com/hc/en-us/",
+        "topic": "Test Rail"
+       },
+       {
+        "type": "official",
+        "title": "Testrail Tutorial Docs",
+        "url": "https://www.tutorialspoint.com/testrail/testrail_introduction.htm",
+        "topic": "Test Rail"
+       },
+       {
+        "type": "official",
+        "title": "TestLink",
+        "url": "https://testlink.org/",
+        "topic": "TestLink"
+       }
+      ]
+     },
+     {
+      "step_number": 5,
+      "title": "Web Fundamentals and DevTools for Testers",
+      "description": "Testing a web app well means understanding how it is built and using the browser's own tools to see what is happening. Learn enough HTML, CSS and JavaScript, Ajax and caching, rendering and app styles, responsive layouts, and DevTools for inspecting requests and errors.",
+      "topic_refs": [
+       "pYkfl-4gMHRj9wIeH8RTP",
+       "cHI05cf8fLh3XB1Bt6jNP",
+       "Xadg2WZTz6Cc_Ir9FsbgY",
+       "jn02FD5hjhZFVWaJjjNN3",
+       "qvlA7iIOvoWMXm5MCAysZ",
+       "-2RU50LUPwCQ8XRaMslY-",
+       "_2IwBNhB5SqbPRxGhZyhq",
+       "6cGPxfJ9ipij40hnmckxV",
+       "s8o5fXu3XHrMduh8snLwu",
+       "XoYsStVqfMeCHkGBlbRhD"
+      ],
+      "projects": [
+       {
+        "title": "Network-tab bug report",
+        "description": "Find a failing API call behind a UI bug with DevTools and include the request and response in the report.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Responsive layout checks",
+        "description": "Test a site across five device sizes and record layout defects with screenshots.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "HTML, CSS, JavaScript",
+       "Browser Devtools",
+       "Chrome DevTools",
+       "Ajax",
+       "Caching"
+      ],
+      "more_topics": [
+       {
+        "node_id": "CHqfXjRRdS_c6XMnfVVx-",
+        "title": "Playwright"
+       },
+       {
+        "node_id": "YKHlLKIlL-Y4ZtHTLfApu",
+        "title": "Puppeteer"
+       },
+       {
+        "node_id": "QnNUZQlQ2Jhv34daeIuW8",
+        "title": "New Relic"
+       }
+      ],
+      "global_step_index": 17,
+      "resource": {
+       "title": "What Is Ajax?",
+       "url": "https://youtube.com/watch?v=3l13qGLTgNw"
+      },
+      "videos": [
+       {
+        "title": "What Is Ajax?",
+        "url": "https://youtube.com/watch?v=3l13qGLTgNw",
+        "video_id": "3l13qGLTgNw",
+        "source": "roadmap.sh",
+        "topic": "Ajax"
+       },
+       {
+        "title": "Caching - Simply Explained",
+        "url": "https://youtube.com/watch?v=6FyXURRVmR0",
+        "video_id": "6FyXURRVmR0",
+        "source": "roadmap.sh",
+        "topic": "Caching"
+       },
+       {
+        "title": "Server Side Rendering vs Client Side Rendering",
+        "url": "https://youtube.com/watch?v=rNVcZklcmqU",
+        "video_id": "rNVcZklcmqU",
+        "source": "roadmap.sh",
+        "topic": "CSR vs SSR"
+       },
+       {
+        "title": "Version Control System (VCS)",
+        "url": "https://youtube.com/watch?v=SVkuliabq4g",
+        "video_id": "SVkuliabq4g",
+        "source": "roadmap.sh",
+        "topic": "Version Control Systems"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Chrome Dev Tools",
+        "url": "https://developer.chrome.com/docs/devtools/overview/",
+        "topic": "Chrome DevTools"
+       },
+       {
+        "type": "official",
+        "title": "Jamstack",
+        "url": "https://jamstack.org/",
+        "topic": "SWAs, PWAs, JAMStack"
+       },
+       {
+        "type": "official",
+        "title": "Playwright",
+        "url": "https://playwright.dev/",
+        "topic": "Playwright"
+       },
+       {
+        "type": "official",
+        "title": "Puppetter",
+        "url": "https://developer.chrome.com/docs/puppeteer/",
+        "topic": "Puppeteer"
+       }
+      ]
+     },
+     {
+      "step_number": 6,
+      "title": "TDD, BDD and Unit Test Frameworks",
+      "description": "Many teams write tests before or alongside code, and QA engineers help shape those tests. Learn test-driven, behaviour-driven and acceptance-test-driven development, mocking, and unit frameworks such as Jest, Jasmine, JUnit and Robot Framework.",
+      "topic_refs": [
+       "M78baCVYpsk7C6j-VPvPZ",
+       "VQOrMKGC-dBJ7CzLclviT",
+       "isNJ0To1bBJvn899DITei",
+       "Rj7bQRZZ5CGVO_b1Wwy8X",
+       "ZeJSeYs8fkZLQ-Pc3TqEM",
+       "HP55XWH18THmCNjCq-gBl",
+       "5bNdrymdzqL0VbTqWt8r2",
+       "nf76o_NYm0-pSIVBFm7IH"
+      ],
+      "projects": [
+       {
+        "title": "BDD scenarios for checkout",
+        "description": "Write Gherkin scenarios for a checkout and automate two of them.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "TDD kata",
+        "description": "Build a string calculator test first and commit after each red-green-refactor cycle.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "TDD - Test Driven Development",
+       "Behavior-Driven Development",
+       "Acceptance Test-Driven Development (ATDD)",
+       "Mocking",
+       "Jest"
+      ],
+      "more_topics": [],
+      "global_step_index": 18,
+      "resource": {
+       "title": "What is Mocking? - Concepts and Best Practices - Software Testing Series #2",
+       "url": "https://youtube.com/watch?v=-VOfK5-FScI"
+      },
+      "videos": [
+       {
+        "title": "What is Mocking? - Concepts and Best Practices - Software Testing Series #2",
+        "url": "https://youtube.com/watch?v=-VOfK5-FScI",
+        "video_id": "-VOfK5-FScI",
+        "source": "roadmap.sh",
+        "topic": "Mocking"
+       },
+       {
+        "title": "Jest Crash Course - Unit Testing in JavaScript",
+        "url": "https://youtube.com/watch?v=7r4xVDI2vho",
+        "video_id": "7r4xVDI2vho",
+        "source": "roadmap.sh",
+        "topic": "Jest"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Jest",
+        "url": "https://jestjs.io/",
+        "topic": "Jest"
+       },
+       {
+        "type": "official",
+        "title": "Jest Documentation",
+        "url": "https://jestjs.io/docs/getting-started",
+        "topic": "Jest"
+       },
+       {
+        "type": "official",
+        "title": "Jasmines",
+        "url": "https://jasmine.github.io/",
+        "topic": "Jasmine"
+       },
+       {
+        "type": "official",
+        "title": "Robot Framework Official Website",
+        "url": "https://robotframework.org/",
+        "topic": "Robot"
+       }
+      ]
+     },
+     {
+      "step_number": 7,
+      "title": "UI Automation with Selenium, Playwright and Cypress",
+      "description": "Browser automation is the skill most automation tester job postings in India ask for. Automate web flows with Selenium, Playwright, Cypress, WebdriverIO and Puppeteer, and run them headless.",
+      "topic_refs": [
+       "hU5OCnEe3tG206xuGsVFd",
+       "s3HMrqNEVogftCIOZYO61",
+       "_3HfVT8IDlcgvUM4h6A0_",
+       "cFhOYHgq1_MUSXjDI_fFN",
+       "0TUq4KRbWTLsLuYI9sgi0",
+       "5cMhZ-7YMQ6ccs-AaIi-0",
+       "sHyFCf7XQKxGxchaYxp2B",
+       "Ta1leBdu-Y9LryB-0U-CT",
+       "Pm-Wx7Z3jCUFcafetsQYi",
+       "JO--NVMs3saUNjh3mcd7z",
+       "ryoSezFNeiunCAZygCbaQ",
+       "-Sf7DLr8Ywoorrmsx3bfd"
+      ],
+      "projects": [
+       {
+        "title": "Login and search suite in Playwright",
+        "description": "Automate login, search and logout with page objects and stable selectors.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Selenium versus Cypress",
+        "description": "Automate the same flow in Selenium and Cypress and compare speed, flakiness and debugging.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Frontend automation",
+       "Selenium",
+       "Selenium IDE",
+       "Webdriver.io",
+       "Playwright"
+      ],
+      "more_topics": [
+       {
+        "node_id": "ZKOU7dWcrkKzTdt0wxwuO",
+        "title": "Playwright"
+       },
+       {
+        "node_id": "D7zGshmgwqWluF-W7OTWe",
+        "title": "Cypress"
+       },
+       {
+        "node_id": "iQ7xwiA6xmbLyRIkI7tXM",
+        "title": "Cypress"
+       },
+       {
+        "node_id": "V54fh772XfHHIFQoyMCOo",
+        "title": "Delphix"
+       }
+      ],
+      "global_step_index": 19,
+      "resource": {
+       "title": "WebdriverIO Tutorial",
+       "url": "https://youtube.com/watch?v=e8goAKb6CC0"
+      },
+      "videos": [
+       {
+        "title": "WebdriverIO Tutorial",
+        "url": "https://youtube.com/watch?v=e8goAKb6CC0",
+        "video_id": "e8goAKb6CC0",
+        "source": "roadmap.sh",
+        "topic": "Webdriver.io"
+       },
+       {
+        "title": "Cypress Tips & Tricks",
+        "url": "https://youtube.com/watch?v=PZ2OsLBts1E",
+        "video_id": "PZ2OsLBts1E",
+        "source": "roadmap.sh",
+        "topic": "Cypress"
+       },
+       {
+        "title": "Cypress End-to-End Testing",
+        "url": "https://youtube.com/watch?v=7N63cMKosIE",
+        "video_id": "7N63cMKosIE",
+        "source": "roadmap.sh",
+        "topic": "Cypress"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Selenium",
+        "url": "https://www.selenium.dev/",
+        "topic": "Selenium"
+       },
+       {
+        "type": "official",
+        "title": "Selenium IDE",
+        "url": "https://www.selenium.dev/selenium-ide/",
+        "topic": "Selenium IDE"
+       },
+       {
+        "type": "official",
+        "title": "WebdriverIO",
+        "url": "https://webdriver.io/",
+        "topic": "Webdriver.io"
+       },
+       {
+        "type": "official",
+        "title": "A brief overview of WebdriverIO",
+        "url": "https://webdriver.io/docs/what-is-webdriverio",
+        "topic": "Webdriver.io"
+       }
+      ]
+     },
+     {
+      "step_number": 8,
+      "title": "Test Reporting, Email Testing and No-Code Tools",
+      "description": "Stakeholders read test reports, not code, and some flows such as emails need special tooling. Produce readable reports with Allure, test email flows with disposable inboxes, and evaluate no-code and AI-assisted automation tools.",
+      "topic_refs": [
+       "jaHOo-vZGjTnABxQKMT3_",
+       "mX7bNNP7WjFdlsRK6qIgy",
+       "wUq-qEIh-tazYhgQQUqGG",
+       "414xO4PX9rU0f39aC7awu",
+       "m0gT774b59xsSJKrrjTxq",
+       "G-F6jQTOAZ2kQ36F-VrBB",
+       "mIM9ausl_tSUNPUerIfEr",
+       "rFjtp3-cnaUmHiKfjPZBn"
+      ],
+      "projects": [
+       {
+        "title": "Allure report for your suite",
+        "description": "Attach screenshots and steps to failing tests and publish an Allure report.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Sign-up email verification test",
+        "description": "Automate sign-up and confirm the verification email arrives and its link works.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Allure",
+       "Ghost Inspector",
+       "BugBug",
+       "QA Wolf",
+       "Zombie.js"
+      ],
+      "more_topics": [
+       {
+        "node_id": "DJDegO78Elo83eHjq8IHN",
+        "title": "Pager Duty"
+       },
+       {
+        "node_id": "Y2I_dcVZb4xZremXoajjx",
+        "title": "Datadog"
+       }
+      ],
+      "global_step_index": 20,
+      "resource": {
+       "title": "BugBug.io Tutorial – The Best No-Code Selenium IDE Alternative for Browser Test Automation",
+       "url": "https://youtube.com/watch?v=p09L8bD_Kh0"
+      },
+      "videos": [
+       {
+        "title": "BugBug.io Tutorial – The Best No-Code Selenium IDE Alternative for Browser Test Automation",
+        "url": "https://youtube.com/watch?v=p09L8bD_Kh0",
+        "video_id": "p09L8bD_Kh0",
+        "source": "roadmap.sh",
+        "topic": "BugBug"
+       },
+       {
+        "title": "QA Wolf Tutorial",
+        "url": "https://youtube.com/watch?v=BRxVu0De-4k",
+        "video_id": "BRxVu0De-4k",
+        "source": "roadmap.sh",
+        "topic": "QA Wolf"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Allure",
+        "url": "https://qameta.io/",
+        "topic": "Allure"
+       },
+       {
+        "type": "official",
+        "title": "Allure Docs",
+        "url": "https://docs.qameta.io/allure-report/",
+        "topic": "Allure"
+       },
+       {
+        "type": "official",
+        "title": "Ghost Inspector",
+        "url": "https://ghostinspector.com/",
+        "topic": "Ghost Inspector"
+       },
+       {
+        "type": "official",
+        "title": "bugbug",
+        "url": "https://bugbug.io/v2/",
+        "topic": "BugBug"
+       }
+      ]
+     },
+     {
+      "step_number": 9,
+      "title": "API, Backend and Mobile Test Automation",
+      "description": "API tests are faster and more stable than UI tests, and mobile apps need their own automation stack. Automate API and backend checks with REST Assured, Karate, Postman's Newman and SoapUI, and mobile apps with Appium, Espresso, Detox and Swift testing.",
+      "topic_refs": [
+       "mPaMQ5h8ZcXKOfcuSwB2-",
+       "gECIgOii7C5MzilSbQP9t",
+       "8zXn8R9OGWTmreBpstj03",
+       "X_nLwzc1QmShivEjfy6v9",
+       "eE9F3YviSpmgor6V5NMj5",
+       "iceaqeXRYXoGtagWn_B7b",
+       "ITtBvrJ8dsW-5LQV8tWgO",
+       "UIKUiCfSw5MkrRJZ3Ah3x",
+       "stMeB1U3SfuefZ-yS8wGF",
+       "gZnNHDjFMI003Od7u2RNa",
+       "Q6eNkuRI6dPa9X44pwrea"
+      ],
+      "projects": [
+       {
+        "title": "API regression collection",
+        "description": "Build a Postman collection with assertions for a public API and run it with Newman in CI.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Appium smoke test",
+        "description": "Automate launch, login and one key action on an Android app with Appium.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Backend Automation",
+       "REST Assured",
+       "Karateframework",
+       "Newman",
+       "SoapUI"
+      ],
+      "more_topics": [],
+      "global_step_index": 21,
+      "resource": {
+       "title": "karate for beginner",
+       "url": "https://youtube.com/watch?v=1f6xtJpRx4k"
+      },
+      "videos": [
+       {
+        "title": "karate for beginner",
+        "url": "https://youtube.com/watch?v=1f6xtJpRx4k",
+        "video_id": "1f6xtJpRx4k",
+        "source": "roadmap.sh",
+        "topic": "Karateframework"
+       },
+       {
+        "title": "API Testing with Postman",
+        "url": "https://youtube.com/watch?v=VywxIQ2ZXw4",
+        "video_id": "VywxIQ2ZXw4",
+        "source": "roadmap.sh",
+        "topic": "Newman"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "REST-assured Website",
+        "url": "https://rest-assured.io",
+        "topic": "REST Assured"
+       },
+       {
+        "type": "official",
+        "title": "Karate Framework",
+        "url": "https://www.karatelabs.io/",
+        "topic": "Karateframework"
+       },
+       {
+        "type": "official",
+        "title": "Postman",
+        "url": "https://www.postman.com",
+        "topic": "Newman"
+       },
+       {
+        "type": "official",
+        "title": "SoapUI",
+        "url": "https://www.soapui.org/",
+        "topic": "SoapUI"
+       }
+      ]
+     },
+     {
+      "step_number": 10,
+      "title": "Performance and Load Testing",
+      "description": "Apps that work for one user can collapse during a sale or result day, so performance testing is a valued QA skill. Run load and stress tests with JMeter, Gatling, k6, Locust and others, and measure front-end performance with Lighthouse and WebPageTest.",
+      "topic_refs": [
+       "wTfvbS62eyitDT8pLsVhj",
+       "bapKhjye4oWQxTEZ4fl_c",
+       "wmMIL-0ytz7a3JygyB-wc",
+       "skrOrieK1T0hHj_mJBNsW",
+       "UeeDNUPZ61_HHgcaF9-__",
+       "J1Yx1VcO20Lc3r3PdGpUW",
+       "Jcp29_ASj9QZ_DjDBIapJ",
+       "QjAJIfSQe7WjbyYdGWSP8",
+       "j1DYOQbIUT1tw_9WIPBkE",
+       "LGZlOPNYQp0O_vapnciEI",
+       "fkUxhrP3LhtIVgIP9Dxar",
+       "igbQfUpmMSKYyAOVkSCLM"
+      ],
+      "projects": [
+       {
+        "title": "k6 load test",
+        "description": "Ramp to two hundred virtual users against a test API and report latency percentiles and errors.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Find the breaking point",
+        "description": "Stress a service until it fails and describe what broke first.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Load & Performance Testing",
+       "Performance Testing",
+       "Load Testing",
+       "Stress Testing",
+       "JMeter"
+      ],
+      "more_topics": [
+       {
+        "node_id": "DCZyXcx8H2MTPcyKOhn2_",
+        "title": "Kibana"
+       }
+      ],
+      "global_step_index": 22,
+      "resource": null,
+      "videos": [],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Apache JMeter",
+        "url": "https://jmeter.apache.org/",
+        "topic": "JMeter"
+       },
+       {
+        "type": "official",
+        "title": "Gatling",
+        "url": "https://gatling.io/",
+        "topic": "Gatling"
+       },
+       {
+        "type": "official",
+        "title": "Grafana k6 Website",
+        "url": "https://k6.io/",
+        "topic": "k6"
+       },
+       {
+        "type": "official",
+        "title": "Locust",
+        "url": "https://locust.io/",
+        "topic": "Locust"
+       }
+      ]
+     },
+     {
+      "step_number": 11,
+      "title": "Security and Accessibility Testing",
+      "description": "Security holes and inaccessible screens are expensive defects that functional tests miss. Test against the OWASP Top 10 and common attack vectors, scan for vulnerabilities, check authentication and secrets handling, and audit accessibility with Axe and WAVE.",
+      "topic_refs": [
+       "MahtxMJD3ETHfgk_PQabQ",
+       "JR-MkszNvv96-S3DpyLeX",
+       "x3HEti8-xF9Mxe5ELBM9T",
+       "mKM27KrX1CEViOwz1EDtQ",
+       "75-XdVA4BL6UrcvpC9grx",
+       "YV6ST78AH4J0i2Rw9zhZj",
+       "zGzpjxz3nvVH9Eu3NOPbk",
+       "mmDIqSD6MU3ZhWREGI5E2",
+       "_4jJ8YQeLcaT-z38kxRRR",
+       "Lb1ctvpMcKIvsC0WQ5q43"
+      ],
+      "projects": [
+       {
+        "title": "OWASP checks on a test app",
+        "description": "Test a deliberately vulnerable app for injection, broken access control and XSS and report each issue.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Automated accessibility checks",
+        "description": "Add Axe checks to your UI suite and fail the build on serious violations.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Security Testing",
+       "OWASP 10",
+       "Attack vectors",
+       "Vulnerability Scanning",
+       "Authentication / Authorization"
+      ],
+      "more_topics": [
+       {
+        "node_id": "wsJXMvRbOTh_VXKhmhPmQ",
+        "title": "Security Testing"
+       }
+      ],
+      "global_step_index": 23,
+      "resource": null,
+      "videos": [],
+      "resources": [
+       {
+        "type": "official",
+        "title": "OWASP Top 10",
+        "url": "https://owasp.org/www-project-top-ten/",
+        "topic": "OWASP 10"
+       },
+       {
+        "type": "official",
+        "title": "NIST Website",
+        "url": "https://csrc.nist.gov/glossary/term/vulnerability_scanning",
+        "topic": "Vulnerability Scanning"
+       },
+       {
+        "type": "official",
+        "title": "Axe Website",
+        "url": "https://www.deque.com/axe/",
+        "topic": "Axe"
+       },
+       {
+        "type": "official",
+        "title": "Wave",
+        "url": "https://wave.webaim.org/",
+        "topic": "Wave"
+       }
+      ]
+     },
+     {
+      "step_number": 12,
+      "title": "Test Pipelines and Production Monitoring",
+      "description": "Automation pays off when it runs on every build and when production problems are caught quickly. Run suites in Jenkins, GitLab CI, CircleCI and other CI servers, and use monitoring and error tracking such as Sentry, Grafana, Datadog and PagerDuty.",
+      "topic_refs": [
+       "-n2yAprKdWg3YVi2vp25d",
+       "3l2dkN1vBy9johFhAgZhT",
+       "iW3oaTl7c3a1kNlCKy-13",
+       "z1kZkWTL_RRPZY59aWylU",
+       "Rz1E97EQCxESu44dTQd5t",
+       "k3TBVtepeQEGzKGceDkPJ",
+       "j4J5OhHEf7t-LVNkNVW3M",
+       "3oDyxhhbCCqxuCh1sT9VC",
+       "u0tKd7HZVN2gGv9Cz3jHz",
+       "pJvijtG-a0vOq16EFu3Gr",
+       "H-2wWlKxD_Q1xVv99GlBj",
+       "8CztIu0BOPZZRZsqR9asW"
+      ],
+      "projects": [
+       {
+        "title": "Nightly regression in Jenkins",
+        "description": "Schedule the full UI and API suite nightly in Jenkins with reports and failure notifications.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Error tracking review",
+        "description": "Connect an app to Sentry, trigger errors and turn the top issue into a regression test.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "CI / CD",
+       "Jenkins",
+       "GitLab CI",
+       "CircleCI",
+       "Travis CI"
+      ],
+      "more_topics": [
+       {
+        "node_id": "RfwyTgwfb_xu5H9N-8_s9",
+        "title": "GitLab"
+       },
+       {
+        "node_id": "WrqKdOTRUiOnc1aIhTZeB",
+        "title": "Git"
+       },
+       {
+        "node_id": "v4gjV1qolrFXdESrY9bzG",
+        "title": "GitHub"
+       },
+       {
+        "node_id": "4xlbvY7NS3cemSZsEQAkD",
+        "title": "Bitbucket"
+       }
+      ],
+      "global_step_index": 24,
+      "resource": {
+       "title": "Git & GitHub Crash Course For Beginners",
+       "url": "https://youtube.com/watch?v=SWYqp7iY_Tc"
+      },
+      "videos": [
+       {
+        "title": "Git & GitHub Crash Course For Beginners",
+        "url": "https://youtube.com/watch?v=SWYqp7iY_Tc",
+        "video_id": "SWYqp7iY_Tc",
+        "source": "roadmap.sh",
+        "topic": "Git"
+       },
+       {
+        "title": "Git vs. GitHub: What's the difference?",
+        "url": "https://youtube.com/watch?v=wpISo9TNjfU",
+        "video_id": "wpISo9TNjfU",
+        "source": "roadmap.sh",
+        "topic": "GitHub"
+       },
+       {
+        "title": "How to Use Bitbucket Cloud",
+        "url": "https://youtube.com/watch?v=M44nEyd_5To",
+        "video_id": "M44nEyd_5To",
+        "source": "roadmap.sh",
+        "topic": "Bitbucket"
+       },
+       {
+        "title": "Complete Git and GitHub Tutorial",
+        "url": "https://youtube.com/watch?v=apGV9Kg7ics",
+        "video_id": "apGV9Kg7ics",
+        "source": "roadmap.sh",
+        "topic": "Git"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Jenkins",
+        "url": "https://www.jenkins.io/",
+        "topic": "Jenkins"
+       },
+       {
+        "type": "official",
+        "title": "Official Jenkins Handbook",
+        "url": "https://www.jenkins.io/doc/book/",
+        "topic": "Jenkins"
+       },
+       {
+        "type": "official",
+        "title": "Jenkins Getting Started Guide",
+        "url": "https://www.jenkins.io/doc/pipeline/tour/getting-started/",
+        "topic": "Jenkins"
+       },
+       {
+        "type": "official",
+        "title": "GitLab Documentation",
+        "url": "https://docs.gitlab.com/",
+        "topic": "GitLab CI"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 5,
+    "title": "API Design",
+    "steps": [
+     {
+      "step_number": 1,
+      "title": "What APIs Are and How HTTP Works",
+      "description": "API testers have to read raw requests and responses, so HTTP details such as methods, status codes, headers and cookies are basic knowledge. Learn what APIs are and their main styles, the network underneath, and how HTTP messages, CORS and cookies behave.",
+      "topic_refs": [
+       "r8M3quACGO2piu0u_R4hO",
+       "duKkpzPjUU_-8kyJGHqRX",
+       "o8i093VQv-T5Qf1yGqU0R",
+       "KG3wO86F8Of27fU7QRcsn",
+       "v4nJYD9yiIEUviLPhVTCD",
+       "2HdKzAIQi15pr3YHHrbPp",
+       "ACALE93mL4gnX5ThRIdRp",
+       "rADHM-6NAxEjzmgiHefDX",
+       "7szYyzLifKsepNU0c2KnN",
+       "rE-0yibRH6B2UBKp351cf",
+       "UFuX8wcxZQ7dvaQF_2Yp8",
+       "GRlsBogOlOwuqhMMPyHN3"
+      ],
+      "projects": [
+       {
+        "title": "Status code catalogue",
+        "description": "Trigger and document at least ten different status codes from a public API with curl.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "Header inspection",
+        "description": "Compare request and response headers for three APIs and explain caching and CORS headers.",
+        "difficulty": "beginner",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "What are APIs",
+       "Learn the Basics of API Design",
+       "Different API Styles",
+       "Understand TCP / IP",
+       "Basics of DNS"
+      ],
+      "more_topics": [],
+      "global_step_index": 25,
+      "resource": {
+       "title": "What is an API?",
+       "url": "https://youtube.com/watch?v=s7wmiS2mSXY"
+      },
+      "videos": [
+       {
+        "title": "What is an API?",
+        "url": "https://youtube.com/watch?v=s7wmiS2mSXY",
+        "video_id": "s7wmiS2mSXY",
+        "source": "roadmap.sh",
+        "topic": "What are APIs"
+       },
+       {
+        "title": "Top API Styles",
+        "url": "https://youtube.com/watch?v=4vLxWqE94l4",
+        "video_id": "4vLxWqE94l4",
+        "source": "roadmap.sh",
+        "topic": "Different API Styles"
+       },
+       {
+        "title": "what is TCP/IP and OSI?",
+        "url": "https://youtube.com/watch?v=CRdL1PcherM",
+        "video_id": "CRdL1PcherM",
+        "source": "roadmap.sh",
+        "topic": "Understand TCP / IP"
+       },
+       {
+        "title": "DNS explained in 100 seconds",
+        "url": "https://youtube.com/watch?v=UVR9lhUGAyU",
+        "video_id": "UVR9lhUGAyU",
+        "source": "roadmap.sh",
+        "topic": "Basics of DNS"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 2,
+      "title": "RESTful API Design and Resource Modelling",
+      "description": "Knowing how a well-designed REST API should behave tells you what to test and which inconsistencies to report. Learn REST principles, resource and URI design, query and path parameters, CRUD handling, filtering, sorting, pagination and content negotiation.",
+      "topic_refs": [
+       "BvwdASMvuNQ9DNgzdSZ4o",
+       "9WI_z34jIFXwoUQuChyRU",
+       "awdoiCHz7Yc3kYac_iy-a",
+       "TVR-SkErlOHbDKLBGfxep",
+       "8IDks2DNFZ5nER7wK2Bu4",
+       "b3qRTLwCC_9uDoPGrd9Bu",
+       "P-rGIk50Bg7nFmWieAW07",
+       "0yY_lWzWVOC_WmPoyHw8W",
+       "zXxEiM5HeOn7W-Vue0tQf",
+       "dL3YellfAszBeJnm8KEYE",
+       "pgJDzP3pJjhjr5wTRtPJO",
+       "TX_hg7EobNJhmWKsMCaT1"
+      ],
+      "projects": [
+       {
+        "title": "API design review",
+        "description": "Review a public API's endpoints against REST conventions and list inconsistencies as defects.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Pagination edge cases",
+        "description": "Test page size limits, empty pages and sort stability on a paginated endpoint.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "RESTful APIs",
+       "REST Principles in API Design",
+       "Building JSON / RESTful APIs",
+       "Simple JSON APIs",
+       "Resource Modeling"
+      ],
+      "more_topics": [
+       {
+        "node_id": "PPeBbooE121zrgNwpVTiA",
+        "title": "Microservices Architecture"
+       },
+       {
+        "node_id": "R3aRhqCslwhegMfHtxg5z",
+        "title": "API Integration Patterns"
+       }
+      ],
+      "global_step_index": 26,
+      "resource": {
+       "title": "Understanding RESTful APIs",
+       "url": "https://youtube.com/watch?v=lsMQRaeKNDk"
+      },
+      "videos": [
+       {
+        "title": "Understanding RESTful APIs",
+        "url": "https://youtube.com/watch?v=lsMQRaeKNDk",
+        "video_id": "lsMQRaeKNDk",
+        "source": "roadmap.sh",
+        "topic": "RESTful APIs"
+       },
+       {
+        "title": "JSON API: Explained in 4 Minutes",
+        "url": "https://youtube.com/watch?v=N-4prIh7t38",
+        "video_id": "N-4prIh7t38",
+        "source": "roadmap.sh",
+        "topic": "Simple JSON APIs"
+       },
+       {
+        "title": "Modeling RESTful API Resources",
+        "url": "https://youtube.com/watch?v=E7WSBLHEvbI",
+        "video_id": "E7WSBLHEvbI",
+        "source": "roadmap.sh",
+        "topic": "Resource Modeling"
+       },
+       {
+        "title": "Good APIs Vs Bad APIs: 7 Tips for API Design",
+        "url": "https://youtube.com/watch?v=_gQaygjm_hg",
+        "video_id": "_gQaygjm_hg",
+        "source": "roadmap.sh",
+        "topic": "Naming Conventions"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Specification for Building APIs in JSON",
+        "url": "https://jsonapi.org/",
+        "topic": "Building JSON / RESTful APIs"
+       }
+      ]
+     },
+     {
+      "step_number": 3,
+      "title": "Errors, Idempotency, Versioning and API Docs",
+      "description": "Many API defects hide in error handling, retries and version changes, and the OpenAPI spec is your test oracle. Learn standard error formats, retries and idempotency, versioning strategies, HATEOAS, lifecycle management and documentation tools such as Swagger.",
+      "topic_refs": [
+       "8tELdagrOaGCf3nMVs8t3",
+       "5CxU3inGcSHp-TDg3BQiY",
+       "XD1vDtrRQFbLyKJaD1AlA",
+       "20KEgZH6cu_UokqWpV-9I",
+       "itILK2SXvLvAjk1Kul7EK",
+       "LByD1vhzunhY1uY1YGZHP",
+       "q1yaf-RbHIQsOqfzjn4k4",
+       "At5exN7ZAx2IzY3cTCzHm",
+       "5RY7AlfRQydjxWK65Z4cv",
+       "5R9yKfN1vItuv__HgCwP7",
+       "OpS2NX1lPTOtfjV1wKtC4",
+       "LxWHkhlikUaMT2G8YmVDQ"
+      ],
+      "projects": [
+       {
+        "title": "Spec-versus-reality check",
+        "description": "Compare an API's OpenAPI spec with its real responses and report every mismatch.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Idempotency test",
+        "description": "Send the same payment request twice with an idempotency key and confirm only one charge.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Error Handling in API Design",
+       "RFC 7807 - Problem Details for HTTP APIs in Error Handling",
+       "Error Handling / Retries",
+       "Idempotency in API Design",
+       "Versioning Strategies in API Design"
+      ],
+      "more_topics": [],
+      "global_step_index": 27,
+      "resource": {
+       "title": "Handling HTTP API Errors with Problem Details",
+       "url": "https://youtube.com/watch?v=uvTT_0hqhyY"
+      },
+      "videos": [
+       {
+        "title": "Handling HTTP API Errors with Problem Details",
+        "url": "https://youtube.com/watch?v=uvTT_0hqhyY",
+        "video_id": "uvTT_0hqhyY",
+        "source": "roadmap.sh",
+        "topic": "Error Handling in API Design"
+       },
+       {
+        "title": "How to Make Resilient Web Applications with Retries",
+        "url": "https://youtube.com/watch?v=Gly94hp3Eec",
+        "video_id": "Gly94hp3Eec",
+        "source": "roadmap.sh",
+        "topic": "Error Handling / Retries"
+       },
+       {
+        "title": "Versioning your APIs",
+        "url": "https://youtube.com/watch?v=Np_Jr6AvCOc",
+        "video_id": "Np_Jr6AvCOc",
+        "source": "roadmap.sh",
+        "topic": "Versioning Strategies in API Design"
+       },
+       {
+        "title": "What Happened To HATEOAS in RESTful API?",
+        "url": "https://youtube.com/watch?v=HNTSrytKCoQ",
+        "video_id": "HNTSrytKCoQ",
+        "source": "roadmap.sh",
+        "topic": "HATEOAS in API Design"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Swagger Website",
+        "url": "https://swagger.io/",
+        "topic": "Swagger / Open API"
+       },
+       {
+        "type": "official",
+        "title": "OpenAPI Initiative",
+        "url": "https://www.openapis.org/",
+        "topic": "Swagger / Open API"
+       },
+       {
+        "type": "official",
+        "title": "Stoplight Website",
+        "url": "https://stoplight.io/",
+        "topic": "Stoplight API Design"
+       },
+       {
+        "type": "official",
+        "title": "ReadMe Website",
+        "url": "https://readme.com",
+        "topic": "Readme.com in the Context of API Design"
+       }
+      ]
+     },
+     {
+      "step_number": 4,
+      "title": "API Authentication and Authorisation",
+      "description": "Access-control bugs are among the most serious API defects, and testers must check every role and token path. Learn basic, session, token, JWT and OAuth 2.0 authentication, API key management and rotation, and RBAC, ABAC and scope-based authorisation.",
+      "topic_refs": [
+       "cQnQ9v3mH27MGNwetz3JW",
+       "0FzHERK5AeYL5wv1FBJbH",
+       "eQWoy4CpYP3TJL2bbhPB_",
+       "QTH7sy9uQZWl6ieBz7erY",
+       "tWg68AHLIr1gIZA1za3jp",
+       "TLuNtQ6HKYQXmglyVk8-t",
+       "tzUJwXu_scwQHnPPT0oY-",
+       "0fSfFtskcJ0HNUZPf998l",
+       "nHbn8_sMY7J8o6ckbD-ER",
+       "wFsbmMi5Ey9UyDADdbdPW",
+       "dZTe_kxIUQsc9N3w920aR",
+       "qjawwRcMl2-IDwk8ExpPL"
+      ],
+      "projects": [
+       {
+        "title": "Role matrix tests",
+        "description": "Automate checks that each role can call only its allowed endpoints.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Expired token tests",
+        "description": "Test expired, tampered and missing JWTs and confirm each is rejected correctly.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "Authentication Methods in API Design",
+       "Basic Auth in API Design",
+       "Session Based Authentication in API Design",
+       "Token Based Auth in API Design",
+       "JSON Web Token (JWT) in API Design"
+      ],
+      "more_topics": [
+       {
+        "node_id": "jWekRGRa1131w92oS1HeW",
+        "title": "undefined"
+       },
+       {
+        "node_id": "CCcY8UsGdd2pdBYHt9L4o",
+        "title": "ReBAC"
+       }
+      ],
+      "global_step_index": 28,
+      "resource": {
+       "title": "Session Based Authentication - Roadmap.sh",
+       "url": "https://youtube.com/watch?v=gKkBEOq_shs"
+      },
+      "videos": [
+       {
+        "title": "Session Based Authentication - Roadmap.sh",
+        "url": "https://youtube.com/watch?v=gKkBEOq_shs",
+        "video_id": "gKkBEOq_shs",
+        "source": "roadmap.sh",
+        "topic": "Session Based Authentication in API Design"
+       },
+       {
+        "title": "Session vs Token Authentication in 100 Seconds",
+        "url": "https://youtube.com/watch?v=UBUNrFtufWo",
+        "video_id": "UBUNrFtufWo",
+        "source": "roadmap.sh",
+        "topic": "Token Based Auth in API Design"
+       },
+       {
+        "title": "Why is JWT popular?",
+        "url": "https://youtube.com/watch?v=P2CPd9ynFLg",
+        "video_id": "P2CPd9ynFLg",
+        "source": "roadmap.sh",
+        "topic": "JSON Web Token (JWT) in API Design"
+       },
+       {
+        "title": "OAuth 2 Explained In Simple Terms",
+        "url": "https://youtube.com/watch?v=ZV5yTm4pT8g",
+        "video_id": "ZV5yTm4pT8g",
+        "source": "roadmap.sh",
+        "topic": "OAuth 2.0"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Introduction to JSON Web Tokens",
+        "url": "https://jwt.io/introduction",
+        "topic": "JSON Web Token (JWT) in API Design"
+       },
+       {
+        "type": "official",
+        "title": "OAuth Website",
+        "url": "https://oauth.net/2/",
+        "topic": "OAuth 2.0"
+       },
+       {
+        "type": "official",
+        "title": "What is OAuth 2.0?",
+        "url": "https://auth0.com/intro-to-iam/what-is-oauth-2",
+        "topic": "OAuth 2.0"
+       }
+      ]
+     },
+     {
+      "step_number": 5,
+      "title": "API Security, Rate Limits and Compliance",
+      "description": "APIs that leak personal data or lack rate limits can fail audits and harm users. Test for common API vulnerabilities and rate limiting, and learn the compliance rules, such as GDPR, PCI DSS and HIPAA, and access-control models that shape what must be tested.",
+      "topic_refs": [
+       "qIJ6dUppjAjOTA8eQbp0n",
+       "G70wvcOM1Isrx5ZBvS2xP",
+       "O7wjldZ3yTA2s_F-UnJw_",
+       "tPVtRV818D8zAAuNbqPNa",
+       "yvdfoly5WHHTq2Puss355",
+       "vZxdswGLHCPi5GSuXEcHJ",
+       "J0enF8UTVzY3H4n3pbPIF",
+       "W4WwTmgZGnWmiYsB0ezml",
+       "a-_iIE7UdoXzD00fD9MxN",
+       "mXCKtLUvwVJkHrpHzOecq",
+       "tl1wXmOaj_zHL2o38VygO",
+       "nJWtUyn9bljh3T-q_adJK"
+      ],
+      "projects": [
+       {
+        "title": "Rate limit verification",
+        "description": "Fire requests past the documented limit and check the status codes and retry headers.",
+        "difficulty": "beginner",
+        "grounded": false
+       },
+       {
+        "title": "PII exposure check",
+        "description": "Scan API responses for personal data that should be masked and report each leak.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "API Security",
+       "Common Vulnerabilities in API Design",
+       "Rate Limiting in API Design",
+       "Rate Limiting / Throttling in API Design",
+       "Standards and Compliance in API Design"
+      ],
+      "more_topics": [
+       {
+        "node_id": "_BXgYUlaYfpYrryXTw5n2",
+        "title": "Discretionary Access Control (DAC)"
+       }
+      ],
+      "global_step_index": 29,
+      "resource": {
+       "title": "What is Rate Limiting / API Throttling? | System Design Concepts",
+       "url": "https://youtube.com/watch?v=9CIjoWPwAhU"
+      },
+      "videos": [
+       {
+        "title": "What is Rate Limiting / API Throttling? | System Design Concepts",
+        "url": "https://youtube.com/watch?v=9CIjoWPwAhU",
+        "video_id": "9CIjoWPwAhU",
+        "source": "roadmap.sh",
+        "topic": "Rate Limiting / Throttling in API Design"
+       },
+       {
+        "title": "The 11 MOST Common HIPAA Violations",
+        "url": "https://youtube.com/watch?v=sN-zLAqYoTo",
+        "video_id": "sN-zLAqYoTo",
+        "source": "roadmap.sh",
+        "topic": "HIPAA in API Design"
+       },
+       {
+        "title": "Mandatory Access Control",
+        "url": "https://youtube.com/watch?v=E4CsEDEyauY",
+        "video_id": "E4CsEDEyauY",
+        "source": "roadmap.sh",
+        "topic": "Mandatory Access Control (MAC)"
+       },
+       {
+        "title": "What is PBAC? Policy Based Access Control Explainer by PlainID",
+        "url": "https://youtube.com/watch?v=b7Nc5LzByuc",
+        "video_id": "b7Nc5LzByuc",
+        "source": "roadmap.sh",
+        "topic": "Policy-Based Access Control (PBAC)"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "GDPR",
+        "url": "https://gdpr-info.eu/",
+        "topic": "GDPR in API Design"
+       },
+       {
+        "type": "official",
+        "title": "HIPAA",
+        "url": "https://www.hhs.gov/hipaa/index.html",
+        "topic": "HIPAA in API Design"
+       },
+       {
+        "type": "official",
+        "title": "California Consumer Privacy Act (CCPA)",
+        "url": "https://oag.ca.gov/privacy/ccpa",
+        "topic": "CCPA Under Standards and Compliance in API Design"
+       }
+      ]
+     },
+     {
+      "step_number": 6,
+      "title": "Testing APIs: Contract, Integration and Load",
+      "description": "API tests give fast, reliable coverage below the UI, which is why automation roles weight them heavily. Write unit, functional, integration and contract tests, mock dependencies, use Postman, and load- and performance-test endpoints.",
+      "topic_refs": [
+       "Wpk4TvxcZOJgAoXjrOsZF",
+       "JvmW78cDm84GNhq8VEYZp",
+       "6lm3wy9WTAERTqXCn6pFt",
+       "qZELS5vw2feS7QfyD7spX",
+       "NqeBglhzukVMMEF9p2CXc",
+       "bEVCT5QGY3uw0kIfAELKh",
+       "KQAus72RGqx5f-3-YeJby",
+       "7JNEx_cbqnAx3esvwZMOd",
+       "DQcAV59vr1-ZRnMfbLXpu"
+      ],
+      "projects": [
+       {
+        "title": "Consumer contract tests",
+        "description": "Write contract tests so a frontend fails fast when the API changes a field.",
+        "difficulty": "advanced",
+        "grounded": false
+       },
+       {
+        "title": "Mock server for flaky dependency",
+        "description": "Replace a third-party API with a mock in tests and cover its error responses.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "API Testing",
+       "Unit Testing in API Design",
+       "Functional Testing in API Design",
+       "Integration Testing in API Design",
+       "Contract Testing in API Design"
+      ],
+      "more_topics": [],
+      "global_step_index": 30,
+      "resource": {
+       "title": "What Is API Functional Testing?",
+       "url": "https://youtube.com/watch?v=CvJHDKMWofk"
+      },
+      "videos": [
+       {
+        "title": "What Is API Functional Testing?",
+        "url": "https://youtube.com/watch?v=CvJHDKMWofk",
+        "video_id": "CvJHDKMWofk",
+        "source": "roadmap.sh",
+        "topic": "Functional Testing in API Design"
+       },
+       {
+        "title": "How to Mock RESTFUL APIs - The Easy way!",
+        "url": "https://youtube.com/watch?v=tJRN5WBF5Wc",
+        "video_id": "tJRN5WBF5Wc",
+        "source": "roadmap.sh",
+        "topic": "Mocking APIs under API Testing"
+       },
+       {
+        "title": "Postman Tutorial for Beginners",
+        "url": "https://youtube.com/watch?v=MFxk5BZulVU",
+        "video_id": "MFxk5BZulVU",
+        "source": "roadmap.sh",
+        "topic": "Postman in API Design"
+       },
+       {
+        "title": "Load Testing API's",
+        "url": "https://youtube.com/watch?v=a5hWE4hMOoY",
+        "video_id": "a5hWE4hMOoY",
+        "source": "roadmap.sh",
+        "topic": "Load Testing in API Design"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "Postman Website",
+        "url": "https://www.postman.com/",
+        "topic": "Postman in API Design"
+       },
+       {
+        "type": "official",
+        "title": "Postman Docs",
+        "url": "https://www.postman.com/api-documentation-tool/",
+        "topic": "Postman in API Design"
+       }
+      ]
+     },
+     {
+      "step_number": 7,
+      "title": "API Performance, Caching and Gateways",
+      "description": "Slow APIs are defects too, and testers need to know where latency comes from. Learn API performance metrics, caching and HTTP caching, load balancing, profiling and monitoring, observability and API gateways.",
+      "topic_refs": [
+       "d9ZXdU73jiCdeNHQv1_DH",
+       "nQpczZUcn-TvrfT80dv0Q",
+       "PrvRCR4HCdGar0vcUbG_a",
+       "qAolZHf_jp8hCdtqHZwC8",
+       "p5wsniYnOS7cbHd92RxGk",
+       "-qdwBg7HvwlbLy3IKCRij",
+       "oIZimEuBHCBGsK6b-s57f",
+       "MJeUD4fOHaJu1oxk4uQ-x"
+      ],
+      "projects": [
+       {
+        "title": "Cache behaviour tests",
+        "description": "Verify ETag and Cache-Control behaviour and that stale data is refreshed.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Latency budget report",
+        "description": "Measure p50, p95 and p99 latency for key endpoints and flag any over budget.",
+        "difficulty": "intermediate",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "API Performance",
+       "Performance Metrics in API Design",
+       "Caching Strategies in API Design",
+       "HTTP Caching in API Design",
+       "Load Balancing in API Design"
+      ],
+      "more_topics": [
+       {
+        "node_id": "X68HXAAV-nKo-V4Fu1o72",
+        "title": "Batch Processing in API Design"
+       }
+      ],
+      "global_step_index": 31,
+      "resource": {
+       "title": "Top 7 Ways to 10x Your API Performance",
+       "url": "https://youtube.com/watch?v=zvWKqUiovAM"
+      },
+      "videos": [
+       {
+        "title": "Top 7 Ways to 10x Your API Performance",
+        "url": "https://youtube.com/watch?v=zvWKqUiovAM",
+        "video_id": "zvWKqUiovAM",
+        "source": "roadmap.sh",
+        "topic": "API Performance"
+       },
+       {
+        "title": "Cache Systems Every Developer Should Know",
+        "url": "https://youtube.com/watch?v=dGAgxozNWFE",
+        "video_id": "dGAgxozNWFE",
+        "source": "roadmap.sh",
+        "topic": "Caching Strategies in API Design"
+       },
+       {
+        "title": "What is a Load Balancer?",
+        "url": "https://youtube.com/watch?v=sCR3SAVdyCc",
+        "video_id": "sCR3SAVdyCc",
+        "source": "roadmap.sh",
+        "topic": "Load Balancing in API Design"
+       },
+       {
+        "title": "Observability for APIs | Postman Intergalactic",
+        "url": "https://youtube.com/watch?v=Wkng1VXQAaU",
+        "video_id": "Wkng1VXQAaU",
+        "source": "roadmap.sh",
+        "topic": "Observability"
+       }
+      ],
+      "resources": []
+     },
+     {
+      "step_number": 8,
+      "title": "GraphQL, gRPC, Real-Time and Event-Driven APIs",
+      "description": "Not every API is REST, and each style needs different test approaches. Learn GraphQL, gRPC and SOAP, real-time APIs with websockets, server-sent events and webhooks, and asynchronous messaging with queues and Kafka.",
+      "topic_refs": [
+       "MKVcPM2EzAr2_Ieyp9Fu3",
+       "1DrqtOwxCuFtWQXQ6ZALp",
+       "Wwd-0PjrtViMFWxRGaQey",
+       "JE12g5cqnwmgeTle14Vxw",
+       "UQ8N7gcVpRLAYXgUNHBt5",
+       "iNsXTtcIHsI_i-mCfjGYn",
+       "75NVxS0iwoQXxOHCkWQxH",
+       "zeYJPEduAmLQHqq4kNBdx",
+       "--mmTKhG58_elbUqyn90G",
+       "IkPZel5zxXWIx90Qx7fZI",
+       "boYX1QcJullypfX4sevdy",
+       "oMfOBkVsgiLvFLicOUdx6"
+      ],
+      "projects": [
+       {
+        "title": "GraphQL query tests",
+        "description": "Test queries, mutations and error cases of a public GraphQL API.",
+        "difficulty": "intermediate",
+        "grounded": false
+       },
+       {
+        "title": "Webhook delivery test",
+        "description": "Receive webhooks in a test server and check retries and signature validation.",
+        "difficulty": "advanced",
+        "grounded": false
+       }
+      ],
+      "subtopics": [
+       "GraphQL APIs",
+       "gRPC",
+       "SOAP APIs",
+       "Real-time APIs",
+       "Web Sockets in API Design"
+      ],
+      "more_topics": [
+       {
+        "node_id": "H22jAI2W5QLL-b1rq-c56",
+        "title": "RabbitMQ in API Design"
+       },
+       {
+        "node_id": "v8iYctF_k40ES0_hHXS9N",
+        "title": "BFF Pattern"
+       }
+      ],
+      "global_step_index": 32,
+      "resource": {
+       "title": "GraphQL Explained in 100 Seconds",
+       "url": "https://youtube.com/watch?v=eIQh02xuVw4"
+      },
+      "videos": [
+       {
+        "title": "GraphQL Explained in 100 Seconds",
+        "url": "https://youtube.com/watch?v=eIQh02xuVw4",
+        "video_id": "eIQh02xuVw4",
+        "source": "roadmap.sh",
+        "topic": "GraphQL APIs"
+       },
+       {
+        "title": "Stephane Maarek - gRPC Introduction",
+        "url": "https://youtube.com/watch?v=XRXTsQwyZSU",
+        "video_id": "XRXTsQwyZSU",
+        "source": "roadmap.sh",
+        "topic": "gRPC"
+       },
+       {
+        "title": "How Web Sockets Work",
+        "url": "https://youtube.com/watch?v=pnj3Jbho5Ck",
+        "video_id": "pnj3Jbho5Ck",
+        "source": "roadmap.sh",
+        "topic": "Web Sockets in API Design"
+       },
+       {
+        "title": "Server-Sent Events | Postman Level Up",
+        "url": "https://youtube.com/watch?v=KrE044J8jEQ",
+        "video_id": "KrE044J8jEQ",
+        "source": "roadmap.sh",
+        "topic": "Server Sent Events under Real-time APIs"
+       }
+      ],
+      "resources": [
+       {
+        "type": "official",
+        "title": "GraphQL Website",
+        "url": "https://graphql.org/",
+        "topic": "GraphQL APIs"
+       },
+       {
+        "type": "official",
+        "title": "gRPC Introduction",
+        "url": "https://grpc.io/docs/what-is-grpc/introduction/",
+        "topic": "gRPC"
+       },
+       {
+        "type": "official",
+        "title": "gRPC Core Concepts",
+        "url": "https://grpc.io/docs/what-is-grpc/core-concepts/",
+        "topic": "gRPC"
+       },
+       {
+        "type": "official",
+        "title": "Kafka Website",
+        "url": "https://kafka.apache.org/",
+        "topic": "Kafka in API Design"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "audit": {
+  "phases": [
+   {
+    "phase_number": 1,
+    "title": "Python",
+    "queries": [
+     "QA & Test Automation",
+     "QA & Test Automation fundamentals",
+     "QA & Test Automation: Python"
+    ],
+    "retrieved": [
+     {
+      "source": "python/unittest--pyunit@b4he_RO17C3ScNeUd6v2b.md",
+      "score": 0.6025301218032837,
+      "queries": [
+       "QA & Test Automation: Python"
+      ]
+     },
+     {
+      "source": "python/pytest@3FDwJpesfelEyJrNWtm0V.md",
+      "score": 0.5175775289535522,
+      "queries": [
+       "QA & Test Automation: Python"
+      ]
+     },
+     {
+      "source": "python/doctest@aVclygxoA9ePU5IxaORSH.md",
+      "score": 0.51200270652771,
+      "queries": [
+       "QA & Test Automation: Python"
+      ]
+     },
+     {
+      "source": "python/basic-syntax@6xRncUs3_vxVbDur567QA.md",
+      "score": 0.4681156277656555,
+      "queries": [
+       "QA & Test Automation: Python"
+      ]
+     },
+     {
+      "source": "python/pydantic@W3VALz5evFo1qqkQbMN1R.md",
+      "score": 0.43544191122055054,
+      "queries": [
+       "QA & Test Automation: Python"
+      ]
+     },
+     {
+      "source": "python/testing@WQOYjuwKIWB2meea4JnsV.md",
+      "score": 0.4149511456489563,
+      "queries": [
+       "QA & Test Automation fundamentals"
+      ]
+     },
+     {
+      "source": "so_survey_2025_india/QA_&_Test_Automation",
+      "score": 0.36153459548950195,
+      "queries": []
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 1,
+      "topic_refs": [
+       "6xRncUs3_vxVbDur567QA",
+       "dEFLBGpiH6nbSMeR7ecaT",
+       "so95CO6Qw3I0S98ISENS-",
+       "NP1kjSk0ujU0Gx-ajNHlR",
+       "Dvy7BnNzK55qbh_SgOk8m",
+       "-DJgS6l2qngfwurExlmmT",
+       "UT_SR7G-LYtzqooWrEtF1",
+       "bc9CL_HMT-R6nXO1eR-gP",
+       "i7xIGiXU-k5UIKHIhQPjE",
+       "soZFqivM3YBuljeX6PoaX",
+       "Sg5w8zO2Ji-uDJKEoWey9",
+       "fNTb9y3zs1HPYclAmu_Wv"
+      ],
+      "queries": [
+       "QA & Test Automation: Python"
+      ]
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 2,
+      "topic_refs": [
+       "AqwzR8dZKLQIoj_6KKZ3t",
+       "P_Di-XPSDITmU3xKQew8G",
+       "S0FLE70szSVUPI0CDEQK7",
+       "zAS4YiEJ6VPsyABrkIG8i",
+       "274uk28wzxn6EKWQzLpHs",
+       "l7k0qTYe42wYBTlT2-1cy",
+       "4gtmtYWYRWqwLdZRL0XMg",
+       "jnLIVRrWxcX3yq3Op91Vr",
+       "aB1LSQjDEQb_BxueOcnxU",
+       "pIluLJkySqn_gI_GykV6G",
+       "KAXF2kUAOvtBZhY8G9rkI",
+       "Nf3kRDSl_vas6QPXG7eVa"
+      ],
+      "queries": [
+       "QA & Test Automation: Python"
+      ]
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 3,
+      "topic_refs": [
+       "WQOYjuwKIWB2meea4JnsV",
+       "3FDwJpesfelEyJrNWtm0V",
+       "b4he_RO17C3ScNeUd6v2b",
+       "aVclygxoA9ePU5IxaORSH",
+       "jPFOiwbqfaGshaGDBWb5x",
+       "qeCMw-sJ2FR4UxvU9DDzv",
+       "iVhQnp6hpgVZDNJ0XoVra",
+       "_IXXTSwQOgYzYIUuKVWNE",
+       "GHKAY9gOykEbxkEeR30wL",
+       "syV0DT_3ITgIFDbwPts8i",
+       "gIcJ3bUVQXqO1Wx4gUKd5",
+       "6cB0pvUO1-gvCtgqozP-Q"
+      ],
+      "queries": [
+       "QA & Test Automation fundamentals",
+       "QA & Test Automation: Python"
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 2,
+    "title": "Git & GitHub",
+    "queries": [
+     "QA & Test Automation",
+     "QA & Test Automation fundamentals",
+     "QA & Test Automation: Git & GitHub"
+    ],
+    "retrieved": [
+     {
+      "source": "git-github/automations@TNBz5755PhI6iKxTQTqcS.md",
+      "score": 0.7122126221656799,
+      "queries": [
+       "QA & Test Automation",
+       "QA & Test Automation fundamentals",
+       "QA & Test Automation: Git & GitHub"
+      ]
+     },
+     {
+      "source": "git-github/use-in-automation@Y0EWgPsS4kZxH3y53jNxY.md",
+      "score": 0.6012988686561584,
+      "queries": [
+       "QA & Test Automation: Git & GitHub"
+      ]
+     },
+     {
+      "source": "git-github/github-education@pFyMiyNQ16-kP7jKaKKEU.md",
+      "score": 0.5768155455589294,
+      "queries": [
+       "QA & Test Automation: Git & GitHub"
+      ]
+     },
+     {
+      "source": "git-github/usecases@PUnYNBrAZWoZiopjtNgnA.md",
+      "score": 0.5762585401535034,
+      "queries": [
+       "QA & Test Automation: Git & GitHub"
+      ]
+     },
+     {
+      "source": "git-github/github-essentials@NeSvgS2yA5x8qbcJHrV__.md",
+      "score": 0.5673387050628662,
+      "queries": [
+       "QA & Test Automation: Git & GitHub"
+      ]
+     },
+     {
+      "source": "git-github/github-api@NV2HAXLEN7tskfgyFrbaf.md",
+      "score": 0.5638399124145508,
+      "queries": [
+       "QA & Test Automation: Git & GitHub"
+      ]
+     },
+     {
+      "source": "so_survey_2025_india/QA_&_Test_Automation",
+      "score": 0.36153459548950195,
+      "queries": []
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 4,
+      "topic_refs": [
+       "bY6b1GV2XQQ52NOx8gWFj",
+       "dhIx1GnynvbSUriqYLUt0",
+       "_jSTrYN9G8EsGHkbusKPU",
+       "v7hCNbgPByi3YiLSs46BK",
+       "NMCWgzhhfUvFOMO5GbF_u",
+       "1iOkbO5juk2LO-WZHx_W6",
+       "Sv36oxTZwlUv-i1K28NeP",
+       "h71Tx3nkfUrnhaqcHlDkQ",
+       "2_z3R7seCvQVj-Na4H1SV",
+       "7lRUYWNSpHvJ-QyIE8RMa",
+       "IfUm5D_zNaUKMd4HX4Fi4",
+       "oz2oRAhaEQb0Fm3aRJQG8"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 5,
+      "topic_refs": [
+       "bXfCUG3h1TIFPgD4WUDph",
+       "OegitQ5Ngjvd3ZfMpfrkM",
+       "PtRo-wGiNAagZ6CykfvMr",
+       "ks1Pip-RM-UWD6zuF2j4n",
+       "sNuy6NMjLOEkJlqdEjFPq",
+       "agtPWS8j6i6wQPk10cy8E",
+       "0rHDUbAdXqH9zQW2VfJ8v",
+       "9Dt4Gyiiq5jteWSKxsRMK",
+       "99FVJ3Zs8n6lr8L95mG6g",
+       "HMEfUFNu_Wp_Pac7VWHr-",
+       "X9K3PBpGsMoXkJsKdJPI7",
+       "-0zQvCHG8jS_ghSjmTeIx"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 6,
+      "topic_refs": [
+       "aWx9WHUrgofcTr8B-fQYe",
+       "1Koej79yTv-OAswVZwgGq",
+       "ZVMCh9om37ee1qsecFa-N",
+       "Gybnekbd1rJKTOf4hJ4Sh",
+       "l1Wf7Pe_ah8ycCgslfSK4",
+       "c_FO6xMixrrMo6iisfsvl",
+       "s3MzDYFPMASqiS8UnvWzW",
+       "8lXXVFkgK6n5IHaYkYe3l",
+       "xLB2fhsOm0Vu3xg_PusJB",
+       "crdllx5cH_seIpgVPvHg_",
+       "d_GNnB6PBINz1jxGNWAE-",
+       "WIVr7JxO1AJTNObW8mtY3"
+      ],
+      "queries": [
+       "QA & Test Automation: Git & GitHub"
+      ]
+     },
+     {
+      "step_number": 4,
+      "global_step_index": 7,
+      "topic_refs": [
+       "0Yi4cryT2v2SGBjouOas3",
+       "igrR7LguU1jemg_mf_AD6",
+       "Uc7FyfAKpDFRGRNHwztFo",
+       "qis7Z5VRxMcOmbesQlegZ",
+       "V_joZNpQsS9G9PI-o-GmC",
+       "dLr55Om7IOvI53c1DgTKc",
+       "NjPnEXLf1Lt9qzgxccogv",
+       "hru0sL1-D4bJSQI1efEyU",
+       "eFf2fesrs-1aVM5tH3ORQ",
+       "Z-srOhYFGVEKDexlJ6cjt",
+       "ExXuwTQSI_lg4SRGW3Iu1",
+       "iFJBF-EEnLjQVsFSXjo_i"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 5,
+      "global_step_index": 8,
+      "topic_refs": [
+       "AmetdCURXXob5TUsikAab",
+       "p6rq3lQ9YRrTqwcc31O23",
+       "55uHPFNwYPVZx8Cy3c985",
+       "6QwlY3dEvjfAOPALcWKXQ",
+       "aflP7oWsQzAr4YPo2LLiQ",
+       "HMNhzzV6ApTKj4I_FOmUB",
+       "bnai6R6pOq_L5CPdbVwMW",
+       "ZHplGidvhxEIC3HN8KqRa",
+       "pqBV7BMAs0z6qpfZeW2XP",
+       "HhpAIzYMlMiQ9msrYZyDB",
+       "DzFJDdqnSy5GeGHWOpcVo",
+       "XRSVRl6iHncMmgSXoB7Lq"
+      ],
+      "queries": [
+       "QA & Test Automation: Git & GitHub"
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 3,
+    "title": "SQL",
+    "queries": [
+     "QA & Test Automation",
+     "QA & Test Automation fundamentals",
+     "QA & Test Automation: SQL"
+    ],
+    "retrieved": [
+     {
+      "source": "sql/basic-sql-syntax@JDDG4KfhtIlw1rkNCzUli.md",
+      "score": 0.40559419989585876,
+      "queries": [
+       "QA & Test Automation: SQL"
+      ]
+     },
+     {
+      "source": "sql/advanced-sql@UDqbT1y-YzBrljfKSz_RG.md",
+      "score": 0.3767983317375183,
+      "queries": [
+       "QA & Test Automation: SQL"
+      ]
+     },
+     {
+      "source": "sql/dynamic-sql@z5Sf0VU14ZCQ80kL1qOqc.md",
+      "score": 0.37120601534843445,
+      "queries": [
+       "QA & Test Automation: SQL"
+      ]
+     },
+     {
+      "source": "sql/learn-the-basics@nhUKKWyBH80nyKfGT8ErC.md",
+      "score": 0.3625713884830475,
+      "queries": [
+       "QA & Test Automation: SQL"
+      ]
+     },
+     {
+      "source": "so_survey_2025_india/QA_&_Test_Automation",
+      "score": 0.36153459548950195,
+      "queries": []
+     },
+     {
+      "source": "sql/common-table-expressions@tedQynR0xicVKhuR1oahw.md",
+      "score": 0.3478955030441284,
+      "queries": [
+       "QA & Test Automation: SQL"
+      ]
+     },
+     {
+      "source": "sql/advanced-functions@vTMd0bqz4eTgLnhfgY61h.md",
+      "score": 0.3224523365497589,
+      "queries": []
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 9,
+      "topic_refs": [
+       "nhUKKWyBH80nyKfGT8ErC",
+       "JDDG4KfhtIlw1rkNCzUli",
+       "tBzMDfCMh6MIagNaxCzin",
+       "i8u8E_sne6XiKJo2FXDog",
+       "WhYAy6f7Euk3E49-ot644",
+       "NfCiSPrL4upMssukcw3Kh",
+       "4UQQYbjzwVxZOAxBuXKQS",
+       "aaua13CkTxLOYXr8cAgPm",
+       "X9cJJ8zLZCF2cOoqxwFfY",
+       "6qG0AVYd6Y1B8LOSDoMX9",
+       "14TKE6KhrH1yFtHcSZSXq",
+       "LX9nzJ4uqznHN4SksoDvr"
+      ],
+      "queries": [
+       "QA & Test Automation: SQL"
+      ]
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 10,
+      "topic_refs": [
+       "epEpBxRosLhuAuKwp823r",
+       "WjXlO42WL9saDS7RIGapt",
+       "K5vhqTJrdPK08Txv8zaEj",
+       "-Hew0y53ziZK3epQnGA0O",
+       "eu9dJFi6gBPMBdy08Y5Bb",
+       "ddtVaA4Ls6qRj-7OtTSIH",
+       "Jlwmyq6CUQeDAlL4dazOP",
+       "DHz6sRLYhFeCbAcNJS8hm",
+       "5yGo8i7eplxtXOD_qfzOs",
+       "M4M_-vjM9GNy0NmXZneDA",
+       "Q0h9Wfnl_W9ThOkv7Q17A",
+       "mBQ3Z8GlFcpIena3IB7D_"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 11,
+      "topic_refs": [
+       "OdaBXz2XBAVLsQ-m7xtAM",
+       "7sTW1vwUhCFOMXYjScVEt",
+       "3cMECz5QPVDOFrk5duObs",
+       "xbD67KVlt3UhHpKh8HLx8",
+       "pJtYvXUo81aZfPuRjIbMq",
+       "ujeq8EIFcrqkBjoFizsJM",
+       "w7FNjdwqjY7X69aJqqBy4",
+       "z5Sf0VU14ZCQ80kL1qOqc",
+       "03qMopxzjx_-dZbYw9b7J",
+       "vhBZqqmUcEon6-Vwvla4q",
+       "R1ktDJpXOz0PTllAcBrdu"
+      ],
+      "queries": [
+       "QA & Test Automation: SQL"
+      ]
+     },
+     {
+      "step_number": 4,
+      "global_step_index": 12,
+      "topic_refs": [
+       "tedQynR0xicVKhuR1oahw",
+       "86iZ8s8EdhSuYwgwAM_EO",
+       "JZqS3Xapw6mfSPVgFW7av",
+       "tBvXLLp5FKeSSN35Kj1X4",
+       "zW27ZHdLwQY-85iqbBKQZ",
+       "2tyezwOIxV6O84N-Q3Awh",
+       "LcljR70T-OnzSrJJDqOWf",
+       "NtxGd6Vx-REBclry7lZuE",
+       "Ps9Yv2s-bKvEegGAbPsiA",
+       "C6P69YiFdS-ioPXMNfX07",
+       "C0dhS6uLf4TUSfvcWyXhv",
+       "UVTgbZrqpbYl1bQvQejcF"
+      ],
+      "queries": [
+       "QA & Test Automation: SQL"
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 4,
+    "title": "QA & Testing",
+    "queries": [
+     "QA & Test Automation",
+     "QA & Test Automation fundamentals",
+     "QA & Test Automation: QA & Testing"
+    ],
+    "retrieved": [
+     {
+      "source": "qa/learn-the-fundamentals@m1wX27XBWKXZcTMH2U1xp.md",
+      "score": 0.664246678352356,
+      "queries": [
+       "QA & Test Automation",
+       "QA & Test Automation fundamentals",
+       "QA & Test Automation: QA & Testing"
+      ]
+     },
+     {
+      "source": "qa/manual-testing@daUEq4xlh4PIltSdiD4F2.md",
+      "score": 0.6495827436447144,
+      "queries": [
+       "QA & Test Automation",
+       "QA & Test Automation fundamentals",
+       "QA & Test Automation: QA & Testing"
+      ]
+     },
+     {
+      "source": "qa/qtest@FE_Wp2RPWFDHNaQIBLqH6.md",
+      "score": 0.6136700510978699,
+      "queries": [
+       "QA & Test Automation",
+       "QA & Test Automation fundamentals",
+       "QA & Test Automation: QA & Testing"
+      ]
+     },
+     {
+      "source": "qa/what-is-quality-assurance@JInFH3JRvAxjvpIFKjUiP.md",
+      "score": 0.5426879525184631,
+      "queries": [
+       "QA & Test Automation",
+       "QA & Test Automation fundamentals",
+       "QA & Test Automation: QA & Testing"
+      ]
+     },
+     {
+      "source": "qa/qa-mindset@vZv4Ow5bg_PbKoF557G9S.md",
+      "score": 0.5165067911148071,
+      "queries": [
+       "QA & Test Automation",
+       "QA & Test Automation fundamentals",
+       "QA & Test Automation: QA & Testing"
+      ]
+     },
+     {
+      "source": "qa/accessibility-tests@mmDIqSD6MU3ZhWREGI5E2.md",
+      "score": 0.5091382265090942,
+      "queries": [
+       "QA & Test Automation",
+       "QA & Test Automation fundamentals",
+       "QA & Test Automation: QA & Testing"
+      ]
+     },
+     {
+      "source": "so_survey_2025_india/QA_&_Test_Automation",
+      "score": 0.36153459548950195,
+      "queries": []
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 13,
+      "topic_refs": [
+       "JInFH3JRvAxjvpIFKjUiP",
+       "m1wX27XBWKXZcTMH2U1xp",
+       "vZv4Ow5bg_PbKoF557G9S",
+       "vP76hqx-8Pri7sxdJDGV5",
+       "Zja25damM2vXMOYCyRZiq",
+       "Pb3QkhSCgRByJHuPxVAlU",
+       "7h-Xfp2Foiyn7-pI0w7ft",
+       "zELjfWwfEYSc1YO8JLoJn",
+       "IajllMZxKGa28EK88uAuh",
+       "47NXgbc1OTGE06qXxlQoh",
+       "k3xPwDzA1WUEAwJ6-Q8PW",
+       "cJyQx-LBcOL11nkK-P2JH"
+      ],
+      "queries": [
+       "QA & Test Automation",
+       "QA & Test Automation fundamentals",
+       "QA & Test Automation: QA & Testing"
+      ]
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 14,
+      "topic_refs": [
+       "uFOVuenPyOKZGgoJXkwRZ",
+       "7xGXlwgkcGV6BrDDDN71R",
+       "gQLbDFP00itL260i1BiDe",
+       "2zfwE6uzGYc2qnvOZ47LB",
+       "y4QnZ2xQyc4x6Kr-eGBer",
+       "ZmWEG7Wu-h7bZe6pGxqDg",
+       "o4xmFhw_ilWdhpCiEotck",
+       "vYIEsjTKoO1ciypGIDlil",
+       "PMO3M33U6RuvNdINvqIAA",
+       "a_vwz-onn6QEoc27N6oBc",
+       "Ls_pezva7_ZW2HHn7RvO4",
+       "RD0vRC-OL2ReYLT1leJMs"
+      ],
+      "queries": [
+       "QA & Test Automation",
+       "QA & Test Automation fundamentals",
+       "QA & Test Automation: QA & Testing"
+      ]
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 15,
+      "topic_refs": [
+       "daUEq4xlh4PIltSdiD4F2",
+       "2U8WRKkuF-YCEWtpgTspF",
+       "ELnCFVRkO_s5qI_3Yzf5U",
+       "1976f2-opqLqV4ImPJlt0",
+       "2h6mJeIFCU72J7aggTvnQ",
+       "MVShii4LZiWW_gPTJzkty",
+       "Lve3xpC1FU91TQqoDOYv7",
+       "XCeXiKvBblmDArfbWjDvw",
+       "3Ngw17hkW2HPs-OOaHzv-",
+       "BnZDIWW4rl_N1BhWhhTpO",
+       "MyAAsHteSr4JCPEpqjsy9",
+       "pH9h2tjO6raO_g4W8EgKq"
+      ],
+      "queries": [
+       "QA & Test Automation",
+       "QA & Test Automation fundamentals",
+       "QA & Test Automation: QA & Testing"
+      ]
+     },
+     {
+      "step_number": 4,
+      "global_step_index": 16,
+      "topic_refs": [
+       "5Tn6Wtw8QE56LZ9BlRAmW",
+       "o4nkmhEDGwi8yE6DSwZi5",
+       "leiCCxLJgXCpk1a--mE83",
+       "aGvbxmZCHbbt9PgXL1ooJ",
+       "FE_Wp2RPWFDHNaQIBLqH6",
+       "wVqbs8Rh0WjLQqJZ0XiF0",
+       "dmfMp6ydjtHo6oKv97AzB",
+       "6bS1YjGJHARAUKTywYMU9",
+       "xLPE9CqqiYz0miMFI3ThY",
+       "ZqgeqqZTGA-y7jVNyPCt4",
+       "Tdj051ANlwwpo03X1hjbF",
+       "4SLrNPD_No05CKeAVDFn5"
+      ],
+      "queries": [
+       "QA & Test Automation",
+       "QA & Test Automation fundamentals",
+       "QA & Test Automation: QA & Testing"
+      ]
+     },
+     {
+      "step_number": 5,
+      "global_step_index": 17,
+      "topic_refs": [
+       "pYkfl-4gMHRj9wIeH8RTP",
+       "cHI05cf8fLh3XB1Bt6jNP",
+       "Xadg2WZTz6Cc_Ir9FsbgY",
+       "jn02FD5hjhZFVWaJjjNN3",
+       "qvlA7iIOvoWMXm5MCAysZ",
+       "-2RU50LUPwCQ8XRaMslY-",
+       "_2IwBNhB5SqbPRxGhZyhq",
+       "6cGPxfJ9ipij40hnmckxV",
+       "s8o5fXu3XHrMduh8snLwu",
+       "XoYsStVqfMeCHkGBlbRhD"
+      ],
+      "queries": [
+       "QA & Test Automation",
+       "QA & Test Automation fundamentals",
+       "QA & Test Automation: QA & Testing"
+      ]
+     },
+     {
+      "step_number": 6,
+      "global_step_index": 18,
+      "topic_refs": [
+       "M78baCVYpsk7C6j-VPvPZ",
+       "VQOrMKGC-dBJ7CzLclviT",
+       "isNJ0To1bBJvn899DITei",
+       "Rj7bQRZZ5CGVO_b1Wwy8X",
+       "ZeJSeYs8fkZLQ-Pc3TqEM",
+       "HP55XWH18THmCNjCq-gBl",
+       "5bNdrymdzqL0VbTqWt8r2",
+       "nf76o_NYm0-pSIVBFm7IH"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 7,
+      "global_step_index": 19,
+      "topic_refs": [
+       "hU5OCnEe3tG206xuGsVFd",
+       "s3HMrqNEVogftCIOZYO61",
+       "_3HfVT8IDlcgvUM4h6A0_",
+       "cFhOYHgq1_MUSXjDI_fFN",
+       "0TUq4KRbWTLsLuYI9sgi0",
+       "5cMhZ-7YMQ6ccs-AaIi-0",
+       "sHyFCf7XQKxGxchaYxp2B",
+       "Ta1leBdu-Y9LryB-0U-CT",
+       "Pm-Wx7Z3jCUFcafetsQYi",
+       "JO--NVMs3saUNjh3mcd7z",
+       "ryoSezFNeiunCAZygCbaQ",
+       "-Sf7DLr8Ywoorrmsx3bfd"
+      ],
+      "queries": [
+       "QA & Test Automation",
+       "QA & Test Automation fundamentals",
+       "QA & Test Automation: QA & Testing"
+      ]
+     },
+     {
+      "step_number": 8,
+      "global_step_index": 20,
+      "topic_refs": [
+       "jaHOo-vZGjTnABxQKMT3_",
+       "mX7bNNP7WjFdlsRK6qIgy",
+       "wUq-qEIh-tazYhgQQUqGG",
+       "414xO4PX9rU0f39aC7awu",
+       "m0gT774b59xsSJKrrjTxq",
+       "G-F6jQTOAZ2kQ36F-VrBB",
+       "mIM9ausl_tSUNPUerIfEr",
+       "rFjtp3-cnaUmHiKfjPZBn"
+      ],
+      "queries": [
+       "QA & Test Automation",
+       "QA & Test Automation fundamentals",
+       "QA & Test Automation: QA & Testing"
+      ]
+     },
+     {
+      "step_number": 9,
+      "global_step_index": 21,
+      "topic_refs": [
+       "mPaMQ5h8ZcXKOfcuSwB2-",
+       "gECIgOii7C5MzilSbQP9t",
+       "8zXn8R9OGWTmreBpstj03",
+       "X_nLwzc1QmShivEjfy6v9",
+       "eE9F3YviSpmgor6V5NMj5",
+       "iceaqeXRYXoGtagWn_B7b",
+       "ITtBvrJ8dsW-5LQV8tWgO",
+       "UIKUiCfSw5MkrRJZ3Ah3x",
+       "stMeB1U3SfuefZ-yS8wGF",
+       "gZnNHDjFMI003Od7u2RNa",
+       "Q6eNkuRI6dPa9X44pwrea"
+      ],
+      "queries": [
+       "QA & Test Automation",
+       "QA & Test Automation fundamentals",
+       "QA & Test Automation: QA & Testing"
+      ]
+     },
+     {
+      "step_number": 10,
+      "global_step_index": 22,
+      "topic_refs": [
+       "wTfvbS62eyitDT8pLsVhj",
+       "bapKhjye4oWQxTEZ4fl_c",
+       "wmMIL-0ytz7a3JygyB-wc",
+       "skrOrieK1T0hHj_mJBNsW",
+       "UeeDNUPZ61_HHgcaF9-__",
+       "J1Yx1VcO20Lc3r3PdGpUW",
+       "Jcp29_ASj9QZ_DjDBIapJ",
+       "QjAJIfSQe7WjbyYdGWSP8",
+       "j1DYOQbIUT1tw_9WIPBkE",
+       "LGZlOPNYQp0O_vapnciEI",
+       "fkUxhrP3LhtIVgIP9Dxar",
+       "igbQfUpmMSKYyAOVkSCLM"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 11,
+      "global_step_index": 23,
+      "topic_refs": [
+       "MahtxMJD3ETHfgk_PQabQ",
+       "JR-MkszNvv96-S3DpyLeX",
+       "x3HEti8-xF9Mxe5ELBM9T",
+       "mKM27KrX1CEViOwz1EDtQ",
+       "75-XdVA4BL6UrcvpC9grx",
+       "YV6ST78AH4J0i2Rw9zhZj",
+       "zGzpjxz3nvVH9Eu3NOPbk",
+       "mmDIqSD6MU3ZhWREGI5E2",
+       "_4jJ8YQeLcaT-z38kxRRR",
+       "Lb1ctvpMcKIvsC0WQ5q43"
+      ],
+      "queries": [
+       "QA & Test Automation",
+       "QA & Test Automation fundamentals",
+       "QA & Test Automation: QA & Testing"
+      ]
+     },
+     {
+      "step_number": 12,
+      "global_step_index": 24,
+      "topic_refs": [
+       "-n2yAprKdWg3YVi2vp25d",
+       "3l2dkN1vBy9johFhAgZhT",
+       "iW3oaTl7c3a1kNlCKy-13",
+       "z1kZkWTL_RRPZY59aWylU",
+       "Rz1E97EQCxESu44dTQd5t",
+       "k3TBVtepeQEGzKGceDkPJ",
+       "j4J5OhHEf7t-LVNkNVW3M",
+       "3oDyxhhbCCqxuCh1sT9VC",
+       "u0tKd7HZVN2gGv9Cz3jHz",
+       "pJvijtG-a0vOq16EFu3Gr",
+       "H-2wWlKxD_Q1xVv99GlBj",
+       "8CztIu0BOPZZRZsqR9asW"
+      ],
+      "queries": [
+       "QA & Test Automation",
+       "QA & Test Automation fundamentals",
+       "QA & Test Automation: QA & Testing"
+      ]
+     }
+    ]
+   },
+   {
+    "phase_number": 5,
+    "title": "API Design",
+    "queries": [
+     "QA & Test Automation",
+     "QA & Test Automation fundamentals",
+     "QA & Test Automation: API Design"
+    ],
+    "retrieved": [
+     {
+      "source": "api-design/api-testing@Wpk4TvxcZOJgAoXjrOsZF.md",
+      "score": 0.5839565992355347,
+      "queries": [
+       "QA & Test Automation fundamentals",
+       "QA & Test Automation: API Design"
+      ]
+     },
+     {
+      "source": "api-design/integration-testing@qZELS5vw2feS7QfyD7spX.md",
+      "score": 0.5806020498275757,
+      "queries": [
+       "QA & Test Automation",
+       "QA & Test Automation fundamentals",
+       "QA & Test Automation: API Design"
+      ]
+     },
+     {
+      "source": "api-design/mocking-apis@bEVCT5QGY3uw0kIfAELKh.md",
+      "score": 0.5643535852432251,
+      "queries": [
+       "QA & Test Automation: API Design"
+      ]
+     },
+     {
+      "source": "api-design/contract-testing@NqeBglhzukVMMEF9p2CXc.md",
+      "score": 0.5179563164710999,
+      "queries": [
+       "QA & Test Automation: API Design"
+      ]
+     },
+     {
+      "source": "api-design/functional-testing@6lm3wy9WTAERTqXCn6pFt.md",
+      "score": 0.5174325108528137,
+      "queries": [
+       "QA & Test Automation: API Design"
+      ]
+     },
+     {
+      "source": "api-design/postman@KQAus72RGqx5f-3-YeJby.md",
+      "score": 0.5095158219337463,
+      "queries": [
+       "QA & Test Automation: API Design"
+      ]
+     },
+     {
+      "source": "so_survey_2025_india/QA_&_Test_Automation",
+      "score": 0.36153459548950195,
+      "queries": []
+     }
+    ],
+    "steps": [
+     {
+      "step_number": 1,
+      "global_step_index": 25,
+      "topic_refs": [
+       "r8M3quACGO2piu0u_R4hO",
+       "duKkpzPjUU_-8kyJGHqRX",
+       "o8i093VQv-T5Qf1yGqU0R",
+       "KG3wO86F8Of27fU7QRcsn",
+       "v4nJYD9yiIEUviLPhVTCD",
+       "2HdKzAIQi15pr3YHHrbPp",
+       "ACALE93mL4gnX5ThRIdRp",
+       "rADHM-6NAxEjzmgiHefDX",
+       "7szYyzLifKsepNU0c2KnN",
+       "rE-0yibRH6B2UBKp351cf",
+       "UFuX8wcxZQ7dvaQF_2Yp8",
+       "GRlsBogOlOwuqhMMPyHN3"
+      ],
+      "queries": [
+       "QA & Test Automation: API Design"
+      ]
+     },
+     {
+      "step_number": 2,
+      "global_step_index": 26,
+      "topic_refs": [
+       "BvwdASMvuNQ9DNgzdSZ4o",
+       "9WI_z34jIFXwoUQuChyRU",
+       "awdoiCHz7Yc3kYac_iy-a",
+       "TVR-SkErlOHbDKLBGfxep",
+       "8IDks2DNFZ5nER7wK2Bu4",
+       "b3qRTLwCC_9uDoPGrd9Bu",
+       "P-rGIk50Bg7nFmWieAW07",
+       "0yY_lWzWVOC_WmPoyHw8W",
+       "zXxEiM5HeOn7W-Vue0tQf",
+       "dL3YellfAszBeJnm8KEYE",
+       "pgJDzP3pJjhjr5wTRtPJO",
+       "TX_hg7EobNJhmWKsMCaT1"
+      ],
+      "queries": [
+       "QA & Test Automation: API Design"
+      ]
+     },
+     {
+      "step_number": 3,
+      "global_step_index": 27,
+      "topic_refs": [
+       "8tELdagrOaGCf3nMVs8t3",
+       "5CxU3inGcSHp-TDg3BQiY",
+       "XD1vDtrRQFbLyKJaD1AlA",
+       "20KEgZH6cu_UokqWpV-9I",
+       "itILK2SXvLvAjk1Kul7EK",
+       "LByD1vhzunhY1uY1YGZHP",
+       "q1yaf-RbHIQsOqfzjn4k4",
+       "At5exN7ZAx2IzY3cTCzHm",
+       "5RY7AlfRQydjxWK65Z4cv",
+       "5R9yKfN1vItuv__HgCwP7",
+       "OpS2NX1lPTOtfjV1wKtC4",
+       "LxWHkhlikUaMT2G8YmVDQ"
+      ],
+      "queries": [
+       "QA & Test Automation: API Design"
+      ]
+     },
+     {
+      "step_number": 4,
+      "global_step_index": 28,
+      "topic_refs": [
+       "cQnQ9v3mH27MGNwetz3JW",
+       "0FzHERK5AeYL5wv1FBJbH",
+       "eQWoy4CpYP3TJL2bbhPB_",
+       "QTH7sy9uQZWl6ieBz7erY",
+       "tWg68AHLIr1gIZA1za3jp",
+       "TLuNtQ6HKYQXmglyVk8-t",
+       "tzUJwXu_scwQHnPPT0oY-",
+       "0fSfFtskcJ0HNUZPf998l",
+       "nHbn8_sMY7J8o6ckbD-ER",
+       "wFsbmMi5Ey9UyDADdbdPW",
+       "dZTe_kxIUQsc9N3w920aR",
+       "qjawwRcMl2-IDwk8ExpPL"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 5,
+      "global_step_index": 29,
+      "topic_refs": [
+       "qIJ6dUppjAjOTA8eQbp0n",
+       "G70wvcOM1Isrx5ZBvS2xP",
+       "O7wjldZ3yTA2s_F-UnJw_",
+       "tPVtRV818D8zAAuNbqPNa",
+       "yvdfoly5WHHTq2Puss355",
+       "vZxdswGLHCPi5GSuXEcHJ",
+       "J0enF8UTVzY3H4n3pbPIF",
+       "W4WwTmgZGnWmiYsB0ezml",
+       "a-_iIE7UdoXzD00fD9MxN",
+       "mXCKtLUvwVJkHrpHzOecq",
+       "tl1wXmOaj_zHL2o38VygO",
+       "nJWtUyn9bljh3T-q_adJK"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 6,
+      "global_step_index": 30,
+      "topic_refs": [
+       "Wpk4TvxcZOJgAoXjrOsZF",
+       "JvmW78cDm84GNhq8VEYZp",
+       "6lm3wy9WTAERTqXCn6pFt",
+       "qZELS5vw2feS7QfyD7spX",
+       "NqeBglhzukVMMEF9p2CXc",
+       "bEVCT5QGY3uw0kIfAELKh",
+       "KQAus72RGqx5f-3-YeJby",
+       "7JNEx_cbqnAx3esvwZMOd",
+       "DQcAV59vr1-ZRnMfbLXpu"
+      ],
+      "queries": [
+       "QA & Test Automation",
+       "QA & Test Automation fundamentals",
+       "QA & Test Automation: API Design"
+      ]
+     },
+     {
+      "step_number": 7,
+      "global_step_index": 31,
+      "topic_refs": [
+       "d9ZXdU73jiCdeNHQv1_DH",
+       "nQpczZUcn-TvrfT80dv0Q",
+       "PrvRCR4HCdGar0vcUbG_a",
+       "qAolZHf_jp8hCdtqHZwC8",
+       "p5wsniYnOS7cbHd92RxGk",
+       "-qdwBg7HvwlbLy3IKCRij",
+       "oIZimEuBHCBGsK6b-s57f",
+       "MJeUD4fOHaJu1oxk4uQ-x"
+      ],
+      "queries": []
+     },
+     {
+      "step_number": 8,
+      "global_step_index": 32,
+      "topic_refs": [
+       "MKVcPM2EzAr2_Ieyp9Fu3",
+       "1DrqtOwxCuFtWQXQ6ZALp",
+       "Wwd-0PjrtViMFWxRGaQey",
+       "JE12g5cqnwmgeTle14Vxw",
+       "UQ8N7gcVpRLAYXgUNHBt5",
+       "iNsXTtcIHsI_i-mCfjGYn",
+       "75NVxS0iwoQXxOHCkWQxH",
+       "zeYJPEduAmLQHqq4kNBdx",
+       "--mmTKhG58_elbUqyn90G",
+       "IkPZel5zxXWIx90Qx7fZI",
+       "boYX1QcJullypfX4sevdy",
+       "oMfOBkVsgiLvFLicOUdx6"
+      ],
+      "queries": [
+       "QA & Test Automation: API Design"
+      ]
+     }
+    ]
+   }
+  ]
+ }
+}
