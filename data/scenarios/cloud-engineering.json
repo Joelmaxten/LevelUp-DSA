@@ -4,7 +4,24 @@
   "map": {
     "scene_id": "cloud-engineering",
     "theme": "A sky city of floating islands tethered by cable cars above the clouds, where a schoolhouse island, a market island with glowing kiosks, a busy railway terminus in the mist, a clinic island inside a protective ring and a festival stage on the highest island are linked by humming cable lines. The palette is sky blue, silver and sunrise orange, and the mood moves from bright first steps at the schoolhouse to soaring confidence at the festival stage.",
-    "edges": [["cle-1", "cle-2"], ["cle-2", "cle-3"], ["cle-3", "cle-4"], ["cle-4", "cle-5"]]
+    "edges": [
+      [
+        "cle-1",
+        "cle-2"
+      ],
+      [
+        "cle-2",
+        "cle-3"
+      ],
+      [
+        "cle-3",
+        "cle-4"
+      ],
+      [
+        "cle-4",
+        "cle-5"
+      ]
+    ]
   },
   "scenarios": [
     {
@@ -26,19 +43,37 @@
         "Choosing storage services",
         "Cloud service models"
       ],
-      "map_node": {"x": 0.1, "y": 0.84, "label": "Schoolhouse Island"},
+      "map_node": {
+        "x": 0.1,
+        "y": 0.84,
+        "label": "Schoolhouse Island"
+      },
       "questions": [
         {
           "id": "cle-1-q1",
           "type": "single_choice",
           "prompt": "The team rents a virtual machine and installs the website on it. Who is responsible for installing operating system security patches on that machine?",
           "options": [
-            {"id": "a", "text": "The cloud provider, because it owns the physical servers"},
-            {"id": "b", "text": "Pathshala's team, because the guest OS is the customer's job"},
-            {"id": "c", "text": "Nobody, because cloud virtual machines never need any patches"},
-            {"id": "d", "text": "The students, because they are the people using the website"}
+            {
+              "id": "a",
+              "text": "The cloud provider, because it owns the physical servers"
+            },
+            {
+              "id": "b",
+              "text": "Pathshala's team, because the guest OS is the customer's job"
+            },
+            {
+              "id": "c",
+              "text": "Nobody, because cloud virtual machines never need any patches"
+            },
+            {
+              "id": "d",
+              "text": "The students, because they are the people using the website"
+            }
           ],
-          "correct": ["b"],
+          "correct": [
+            "b"
+          ],
           "explanation": "Under the shared responsibility model for a rented virtual machine, the provider secures the buildings, hardware and virtualisation layer, while the customer is responsible for the operating system, its patches, the applications and the data. Managed services shift more of that work to the provider.",
           "why_others_wrong": {
             "a": "The provider manages the hardware and hypervisor, not the operating system inside a customer's virtual machine.",
@@ -53,12 +88,26 @@
           "type": "single_choice",
           "prompt": "The site must keep running if one data centre fails. Which setup meets that?",
           "options": [
-            {"id": "a", "text": "One much larger virtual machine, with twice the CPU and memory"},
-            {"id": "b", "text": "Two virtual machines placed side by side in one availability zone"},
-            {"id": "c", "text": "Machines in two availability zones behind a load balancer"},
-            {"id": "d", "text": "One machine, with a full copy taken to another region monthly"}
+            {
+              "id": "a",
+              "text": "One much larger virtual machine, with twice the CPU and memory"
+            },
+            {
+              "id": "b",
+              "text": "Two virtual machines placed side by side in one availability zone"
+            },
+            {
+              "id": "c",
+              "text": "Machines in two availability zones behind a load balancer"
+            },
+            {
+              "id": "d",
+              "text": "One machine, with a full copy taken to another region monthly"
+            }
           ],
-          "correct": ["c"],
+          "correct": [
+            "c"
+          ],
           "explanation": "An availability zone is one or more separate data centres within a region, with independent power and networking. Running the site in two zones behind a load balancer means that if one zone fails, traffic goes to the healthy machines in the other.",
           "why_others_wrong": {
             "a": "A bigger machine is still a single point of failure.",
@@ -73,13 +122,31 @@
           "type": "multi_select",
           "prompt": "Where should the lecture videos and the student records be stored? Choose the two right services.",
           "options": [
-            {"id": "a", "text": "Object storage for the lecture videos and other course files"},
-            {"id": "b", "text": "The local disk of one web server for all the lecture videos"},
-            {"id": "c", "text": "A managed relational database service for student records"},
-            {"id": "d", "text": "A spreadsheet file, kept in object storage, as the database"},
-            {"id": "e", "text": "A database running on the IT team leader's office laptop"}
+            {
+              "id": "a",
+              "text": "Object storage for the lecture videos and other course files"
+            },
+            {
+              "id": "b",
+              "text": "The local disk of one web server for all the lecture videos"
+            },
+            {
+              "id": "c",
+              "text": "A managed relational database service for student records"
+            },
+            {
+              "id": "d",
+              "text": "A spreadsheet file, kept in object storage, as the database"
+            },
+            {
+              "id": "e",
+              "text": "A database running on the IT team leader's office laptop"
+            }
           ],
-          "correct": ["a", "c"],
+          "correct": [
+            "a",
+            "c"
+          ],
           "explanation": "Object storage holds large files cheaply, grows without limit and keeps several copies for durability, which suits terabytes of video. A managed relational database handles backups, patching and failover for structured records such as students and marks.",
           "why_others_wrong": {
             "b": "One server's disk is limited and is lost if that server fails.",
@@ -94,18 +161,47 @@
           "type": "match",
           "prompt": "Match each cloud service model to an example of it.",
           "items": [
-            {"id": "i1", "text": "Infrastructure as a Service (IaaS)"},
-            {"id": "i2", "text": "Platform as a Service (PaaS)"},
-            {"id": "i3", "text": "Software as a Service (SaaS)"},
-            {"id": "i4", "text": "Functions as a Service (serverless)"}
+            {
+              "id": "i1",
+              "text": "Infrastructure as a Service (IaaS)"
+            },
+            {
+              "id": "i2",
+              "text": "Platform as a Service (PaaS)"
+            },
+            {
+              "id": "i3",
+              "text": "Software as a Service (SaaS)"
+            },
+            {
+              "id": "i4",
+              "text": "Functions as a Service (serverless)"
+            }
           ],
           "targets": [
-            {"id": "t1", "text": "Using a ready-made email and office suite in the browser"},
-            {"id": "t2", "text": "Code that runs on each event and is billed per call"},
-            {"id": "t3", "text": "Renting a virtual machine and installing everything on it"},
-            {"id": "t4", "text": "Uploading app code that the platform runs and scales"}
+            {
+              "id": "t1",
+              "text": "Using a ready-made email and office suite in the browser"
+            },
+            {
+              "id": "t2",
+              "text": "Code that runs on each event and is billed per call"
+            },
+            {
+              "id": "t3",
+              "text": "Renting a virtual machine and installing everything on it"
+            },
+            {
+              "id": "t4",
+              "text": "Uploading app code that the platform runs and scales"
+            }
           ],
-          "correct": {"i1": "t3", "i2": "t4", "i3": "t1", "i4": "t2"},
+          "correct": {
+            "i1": "t3",
+            "i2": "t4",
+            "i3": "t1",
+            "i4": "t2"
+          },
           "explanation": "IaaS gives raw machines that the customer sets up and manages. PaaS runs the customer's application code without them managing servers, SaaS is finished software used directly, and serverless functions run small pieces of code on demand, billed per call.",
           "why_others_wrong": {
             "common_mistake": "Confusing PaaS with serverless: both hide servers, but PaaS runs a whole application continuously, while serverless runs individual functions only when an event triggers them."
@@ -134,19 +230,37 @@
         "Secrets management",
         "Core cloud networking terms"
       ],
-      "map_node": {"x": 0.3, "y": 0.66, "label": "Kiosk Market Island"},
+      "map_node": {
+        "x": 0.3,
+        "y": 0.66,
+        "label": "Kiosk Market Island"
+      },
       "questions": [
         {
           "id": "cle-2-q1",
           "type": "single_choice",
           "prompt": "How should the web servers and the database be placed in the virtual network?",
           "options": [
-            {"id": "a", "text": "Put every server in a public subnet so they are easier to reach"},
-            {"id": "b", "text": "Load balancer public; app servers and database in private subnets"},
-            {"id": "c", "text": "Put the database in a public subnet with a long, strong password"},
-            {"id": "d", "text": "Put the web servers in a private subnet with no route for users"}
+            {
+              "id": "a",
+              "text": "Put every server in a public subnet so they are easier to reach"
+            },
+            {
+              "id": "b",
+              "text": "Load balancer public; app servers and database in private subnets"
+            },
+            {
+              "id": "c",
+              "text": "Put the database in a public subnet with a long, strong password"
+            },
+            {
+              "id": "d",
+              "text": "Put the web servers in a private subnet with no route for users"
+            }
           ],
-          "correct": ["b"],
+          "correct": [
+            "b"
+          ],
           "explanation": "Only the load balancer needs to accept traffic from the internet. App servers and the database sit in private subnets with no public addresses, and the database accepts connections only from the app servers, so it cannot be reached from outside at all.",
           "why_others_wrong": {
             "a": "Exposing every server gives attackers many more targets, including the database.",
@@ -161,12 +275,26 @@
           "type": "single_choice",
           "prompt": "A developer only needs to upload product photos to one bucket. What access should they get?",
           "options": [
-            {"id": "a", "text": "The account's root credentials, since they are already shared"},
-            {"id": "b", "text": "Full administrator access, in case they need more in the future"},
-            {"id": "c", "text": "A role allowing only uploads to that bucket and nothing more"},
-            {"id": "d", "text": "Read and write access to every bucket in the account for ease"}
+            {
+              "id": "a",
+              "text": "The account's root credentials, since they are already shared"
+            },
+            {
+              "id": "b",
+              "text": "Full administrator access, in case they need more in the future"
+            },
+            {
+              "id": "c",
+              "text": "A role allowing only uploads to that bucket and nothing more"
+            },
+            {
+              "id": "d",
+              "text": "Read and write access to every bucket in the account for ease"
+            }
           ],
-          "correct": ["c"],
+          "correct": [
+            "c"
+          ],
           "explanation": "The principle of least privilege gives each person or service only the permissions its job needs. A role or policy that allows uploading objects to that single bucket limits the damage if the developer's credentials are leaked or misused.",
           "why_others_wrong": {
             "a": "Root credentials can do anything in the account, including deleting it, and should be locked away.",
@@ -181,12 +309,26 @@
           "type": "single_choice",
           "prompt": "The database password is in a config file in the Git repository. What should the team do?",
           "options": [
-            {"id": "a", "text": "Base64-encode the password and keep it in the same config file"},
-            {"id": "b", "text": "Move the password into the README so that it is easier to find"},
-            {"id": "c", "text": "Make the repository private and keep the same password in the file"},
-            {"id": "d", "text": "Rotate it and load it at runtime from a secrets manager by role"}
+            {
+              "id": "a",
+              "text": "Base64-encode the password and keep it in the same config file"
+            },
+            {
+              "id": "b",
+              "text": "Move the password into the README so that it is easier to find"
+            },
+            {
+              "id": "c",
+              "text": "Make the repository private and keep the same password in the file"
+            },
+            {
+              "id": "d",
+              "text": "Rotate it and load it at runtime from a secrets manager by role"
+            }
           ],
-          "correct": ["d"],
+          "correct": [
+            "d"
+          ],
           "explanation": "A password that has been in Git must be treated as exposed, so it is changed first. Keeping the new one in a secrets manager, which the app reads at runtime using its machine's role, means no copy lives in the code or its history.",
           "why_others_wrong": {
             "a": "Base64 is an encoding that anyone can reverse instantly.",
@@ -201,13 +343,31 @@
           "type": "multi_select",
           "prompt": "Which two firewall (security group) rules are correct for the PostgreSQL database?",
           "options": [
-            {"id": "a", "text": "Allow port 5432 only from the app servers' security group"},
-            {"id": "b", "text": "Allow port 5432 from 0.0.0.0/0 so testing works from anywhere"},
-            {"id": "c", "text": "Allow no other inbound traffic to the database servers at all"},
-            {"id": "d", "text": "Allow SSH on port 22 from the whole internet for maintenance"},
-            {"id": "e", "text": "Allow every port from anywhere inside the virtual network"}
+            {
+              "id": "a",
+              "text": "Allow port 5432 only from the app servers' security group"
+            },
+            {
+              "id": "b",
+              "text": "Allow port 5432 from 0.0.0.0/0 so testing works from anywhere"
+            },
+            {
+              "id": "c",
+              "text": "Allow no other inbound traffic to the database servers at all"
+            },
+            {
+              "id": "d",
+              "text": "Allow SSH on port 22 from the whole internet for maintenance"
+            },
+            {
+              "id": "e",
+              "text": "Allow every port from anywhere inside the virtual network"
+            }
           ],
-          "correct": ["a", "c"],
+          "correct": [
+            "a",
+            "c"
+          ],
           "explanation": "Referencing the app servers' security group lets only those servers reach the database port, even as servers are added or replaced. Allowing nothing else inbound keeps every other path closed by default.",
           "why_others_wrong": {
             "b": "0.0.0.0/0 means the whole internet, which is exactly the exposure to avoid.",
@@ -222,24 +382,271 @@
           "type": "match",
           "prompt": "Match each cloud networking term to its purpose.",
           "items": [
-            {"id": "i1", "text": "Region"},
-            {"id": "i2", "text": "Availability zone"},
-            {"id": "i3", "text": "Virtual private cloud (VPC)"},
-            {"id": "i4", "text": "Load balancer"}
+            {
+              "id": "i1",
+              "text": "Region"
+            },
+            {
+              "id": "i2",
+              "text": "Availability zone"
+            },
+            {
+              "id": "i3",
+              "text": "Virtual private cloud (VPC)"
+            },
+            {
+              "id": "i4",
+              "text": "Load balancer"
+            }
           ],
           "targets": [
-            {"id": "t1", "text": "An isolated data centre group inside a region"},
-            {"id": "t2", "text": "A private network that holds your cloud resources"},
-            {"id": "t3", "text": "Spreads incoming traffic across healthy servers"},
-            {"id": "t4", "text": "A geographic area, chosen for latency and residency"}
+            {
+              "id": "t1",
+              "text": "An isolated data centre group inside a region"
+            },
+            {
+              "id": "t2",
+              "text": "A private network that holds your cloud resources"
+            },
+            {
+              "id": "t3",
+              "text": "Spreads incoming traffic across healthy servers"
+            },
+            {
+              "id": "t4",
+              "text": "A geographic area, chosen for latency and residency"
+            }
           ],
-          "correct": {"i1": "t4", "i2": "t1", "i3": "t2", "i4": "t3"},
+          "correct": {
+            "i1": "t4",
+            "i2": "t1",
+            "i3": "t2",
+            "i4": "t3"
+          },
           "explanation": "A region is a geographic area such as Mumbai, chosen for latency to users and for where data may legally live. Availability zones are isolated data centres within it, a VPC is the private network the team's resources live in, and a load balancer spreads requests across healthy servers.",
           "why_others_wrong": {
             "common_mistake": "Treating regions and availability zones as the same thing: a region contains several zones, and spreading across zones protects against a data centre failure within one region."
           },
           "key_justification": "Regions, zones, VPCs and load balancers are the building blocks of cloud network design.",
           "points": 10
+        }
+      ],
+      "code_pool": [
+        {
+          "id": "cle-2-c1",
+          "prompt": "Kirana Konnect is replacing root credentials with roles, and wants each role to keep only what it uses. The first line is n, then n grants `role action resource`; then m, then m entries `role action resource` from 90 days of access logs (repeats are possible). Complete `unused_grants`. The program prints every grant that was never used, sorted, one per line (these are candidates to remove), or `LEAST PRIVILEGE OK`.",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef unused_grants(grants, used):\n    \"\"\"grants: list of (role, action, resource) the roles are allowed. used: (role, action, resource) seen in 90 days of access logs. Return the grants never used, sorted, each once.\"\"\"\n    # Write your code here.\n    return []\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    grants = [tuple(data[1 + i].split()) for i in range(n)]\n    m = int(data[1 + n])\n    used = [tuple(data[2 + n + i].split()) for i in range(m)]\n    unused = unused_grants(grants, used)\n    print(\"\\n\".join(\" \".join(g) for g in unused) if unused else \"LEAST PRIVILEGE OK\")\n\n\nmain()\n",
+          "reference_solution": "import sys\n\n\ndef unused_grants(grants, used):\n    \"\"\"grants: list of (role, action, resource) the roles are allowed. used: (role, action, resource) seen in 90 days of access logs. Return the grants never used, sorted, each once.\"\"\"\n    seen = set(used)                         # O(1) look-ups instead of scanning the log for every grant\n    return sorted({g for g in grants if g not in seen})\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    grants = [tuple(data[1 + i].split()) for i in range(n)]\n    m = int(data[1 + n])\n    used = [tuple(data[2 + n + i].split()) for i in range(m)]\n    unused = unused_grants(grants, used)\n    print(\"\\n\".join(\" \".join(g) for g in unused) if unused else \"LEAST PRIVILEGE OK\")\n\n\nmain()\n",
+          "ds_topic": "hash_map",
+          "difficulty": 1,
+          "skills": [
+            "Python",
+            "Amazon Web Services (AWS)"
+          ],
+          "explanation": "Putting the used (role, action, resource) triples in a set makes each check O(1); comparing grants with real usage is how access analysers propose least-privilege policies. A grant nobody used in 90 days is pure risk: if the role's credentials leak, the attacker gets it too.",
+          "key_justification": "Set difference between granted and used permissions.",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "3\nweb s3:GetObject photos-bucket\nweb s3:DeleteObject photos-bucket\nworker rds:Connect orders-db\n2\nweb s3:GetObject photos-bucket\nworker rds:Connect orders-db\n",
+                  "expected_stdout": "web s3:DeleteObject photos-bucket\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "4\ndeploy ec2:RunInstances orders-db\nworker rds:Connect orders-db\nworker s3:GetObject orders-db\nworker secrets:Read orders-db\n6\nworker s3:GetObject orders-db\nworker s3:GetObject orders-db\ndeploy s3:GetObject photos-bucket\nworker secrets:Read orders-db\nworker secrets:Read orders-db\ndeploy s3:GetObject photos-bucket\n",
+                  "expected_stdout": "deploy ec2:RunInstances orders-db\nworker rds:Connect orders-db\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "12\nanalytics rds:Connect photos-bucket\nanalytics s3:DeleteObject orders-db\nanalytics s3:GetObject db-password\nanalytics s3:GetObject web-fleet\nanalytics s3:PutObject db-password\nanalytics s3:PutObject photos-bucket\ndeploy s3:GetObject photos-bucket\ndeploy s3:GetObject web-fleet\nweb ec2:RunInstances web-fleet\nweb s3:DeleteObject orders-db\nweb s3:DeleteObject web-fleet\nworker rds:Connect photos-bucket\n10\nweb s3:DeleteObject orders-db\ndeploy s3:GetObject web-fleet\nworker s3:GetObject photos-bucket\ndeploy s3:GetObject web-fleet\nweb s3:DeleteObject web-fleet\nanalytics rds:Connect photos-bucket\nanalytics rds:Connect photos-bucket\nworker s3:GetObject photos-bucket\nweb s3:DeleteObject web-fleet\nweb s3:DeleteObject orders-db\n",
+                  "expected_stdout": "analytics s3:DeleteObject orders-db\nanalytics s3:GetObject db-password\nanalytics s3:GetObject web-fleet\nanalytics s3:PutObject db-password\nanalytics s3:PutObject photos-bucket\ndeploy s3:GetObject photos-bucket\nweb ec2:RunInstances web-fleet\nworker rds:Connect photos-bucket\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "17\nanalytics s3:GetObject db-password\nanalytics s3:GetObject web-fleet\nanalytics secrets:Read orders-db\ndeploy ec2:RunInstances photos-bucket\ndeploy rds:Connect photos-bucket\ndeploy s3:DeleteObject orders-db\ndeploy s3:DeleteObject photos-bucket\ndeploy s3:PutObject web-fleet\ndeploy secrets:Read db-password\nweb ec2:RunInstances photos-bucket\nweb s3:DeleteObject db-password\nweb s3:PutObject orders-db\nweb s3:PutObject photos-bucket\nweb s3:PutObject web-fleet\nweb secrets:Read db-password\nworker s3:PutObject orders-db\nworker secrets:Read orders-db\n10\nweb s3:GetObject photos-bucket\nweb secrets:Read db-password\nweb s3:PutObject photos-bucket\ndeploy ec2:RunInstances photos-bucket\ndeploy s3:PutObject web-fleet\nweb s3:PutObject web-fleet\ndeploy secrets:Read db-password\ndeploy s3:DeleteObject photos-bucket\nweb ec2:RunInstances photos-bucket\nworker secrets:Read orders-db\n",
+                  "expected_stdout": "analytics s3:GetObject db-password\nanalytics s3:GetObject web-fleet\nanalytics secrets:Read orders-db\ndeploy rds:Connect photos-bucket\ndeploy s3:DeleteObject orders-db\nweb s3:DeleteObject db-password\nweb s3:PutObject orders-db\nworker s3:PutObject orders-db\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1\nweb secrets:Read db-password\n1\nworker secrets:Read db-password\n",
+                  "expected_stdout": "web secrets:Read db-password\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "1\ndeploy ec2:RunInstances web-fleet\n1\ndeploy ec2:RunInstances web-fleet\n",
+                  "expected_stdout": "LEAST PRIVILEGE OK\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "4\nanalytics s3:PutObject orders-db\nanalytics secrets:Read db-password\ndeploy s3:PutObject web-fleet\nworker ec2:RunInstances photos-bucket\n8\nanalytics s3:GetObject photos-bucket\nworker ec2:RunInstances photos-bucket\nanalytics secrets:Read db-password\nworker ec2:RunInstances photos-bucket\ndeploy s3:PutObject web-fleet\nanalytics secrets:Read db-password\ndeploy s3:PutObject web-fleet\nanalytics s3:GetObject photos-bucket\n",
+                  "expected_stdout": "analytics s3:PutObject orders-db\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "11\nanalytics ec2:RunInstances web-fleet\nanalytics s3:GetObject web-fleet\nanalytics secrets:Read orders-db\ndeploy ec2:RunInstances orders-db\ndeploy rds:Connect web-fleet\ndeploy s3:GetObject orders-db\ndeploy s3:GetObject photos-bucket\ndeploy s3:PutObject web-fleet\nweb rds:Connect orders-db\nworker s3:PutObject db-password\nworker secrets:Read orders-db\n7\ndeploy ec2:RunInstances orders-db\nanalytics s3:GetObject web-fleet\nworker s3:PutObject db-password\ndeploy s3:GetObject photos-bucket\ndeploy s3:GetObject orders-db\nworker s3:GetObject photos-bucket\ndeploy s3:PutObject web-fleet\n",
+                  "expected_stdout": "analytics ec2:RunInstances web-fleet\nanalytics secrets:Read orders-db\ndeploy rds:Connect web-fleet\nweb rds:Connect orders-db\nworker secrets:Read orders-db\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "20\nanalytics rds:Connect db-password\nanalytics rds:Connect web-fleet\nanalytics s3:GetObject photos-bucket\ndeploy ec2:RunInstances web-fleet\ndeploy s3:DeleteObject photos-bucket\ndeploy s3:DeleteObject web-fleet\ndeploy s3:GetObject db-password\ndeploy s3:GetObject orders-db\ndeploy s3:GetObject web-fleet\nweb s3:GetObject orders-db\nweb s3:GetObject photos-bucket\nweb s3:GetObject web-fleet\nweb s3:PutObject orders-db\nweb secrets:Read orders-db\nworker ec2:RunInstances photos-bucket\nworker rds:Connect web-fleet\nworker s3:DeleteObject web-fleet\nworker s3:GetObject web-fleet\nworker secrets:Read db-password\nworker secrets:Read orders-db\n30\nanalytics s3:GetObject photos-bucket\nweb secrets:Read orders-db\nworker secrets:Read orders-db\nworker secrets:Read db-password\nanalytics s3:GetObject photos-bucket\nworker s3:DeleteObject web-fleet\nworker ec2:RunInstances photos-bucket\nweb s3:GetObject orders-db\ndeploy s3:DeleteObject photos-bucket\ndeploy s3:GetObject db-password\ndeploy s3:GetObject orders-db\ndeploy s3:GetObject db-password\nworker s3:GetObject web-fleet\ndeploy s3:DeleteObject web-fleet\nworker ec2:RunInstances photos-bucket\nweb s3:PutObject orders-db\nanalytics s3:GetObject photos-bucket\nanalytics rds:Connect db-password\nworker secrets:Read orders-db\ndeploy s3:DeleteObject web-fleet\nanalytics rds:Connect db-password\nworker secrets:Read db-password\nweb secrets:Read orders-db\ndeploy s3:GetObject orders-db\nworker s3:DeleteObject web-fleet\nanalytics s3:GetObject photos-bucket\nweb s3:PutObject orders-db\nweb s3:GetObject orders-db\ndeploy s3:DeleteObject photos-bucket\nworker s3:GetObject web-fleet\n",
+                  "expected_stdout": "analytics rds:Connect web-fleet\ndeploy ec2:RunInstances web-fleet\ndeploy s3:GetObject web-fleet\nweb s3:GetObject photos-bucket\nweb s3:GetObject web-fleet\nworker rds:Connect web-fleet\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "2\nr a x\nr a x\n0\n",
+                  "expected_stdout": "r a x\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "2\nb x r\na x r\n0\n",
+                  "expected_stdout": "a x r\nb x r\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "4\nanalytics ec2:RunInstances orders-db\nanalytics s3:GetObject db-password\nweb secrets:Read db-password\nworker ec2:RunInstances photos-bucket\n6\nweb secrets:Read db-password\nanalytics s3:GetObject photos-bucket\nworker ec2:RunInstances photos-bucket\nworker ec2:RunInstances photos-bucket\nanalytics s3:GetObject photos-bucket\nweb secrets:Read db-password\n",
+                  "expected_stdout": "analytics ec2:RunInstances orders-db\nanalytics s3:GetObject db-password\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "11\nanalytics rds:Connect db-password\nanalytics s3:DeleteObject orders-db\nanalytics s3:GetObject db-password\nanalytics secrets:Read db-password\ndeploy s3:GetObject db-password\ndeploy s3:GetObject web-fleet\ndeploy s3:PutObject orders-db\ndeploy secrets:Read db-password\nworker s3:PutObject orders-db\nworker secrets:Read orders-db\nworker secrets:Read web-fleet\n14\nanalytics secrets:Read db-password\nanalytics secrets:Read db-password\ndeploy s3:GetObject db-password\nweb s3:GetObject photos-bucket\nworker secrets:Read orders-db\nworker s3:PutObject orders-db\nanalytics s3:GetObject db-password\ndeploy secrets:Read db-password\nweb s3:GetObject photos-bucket\nanalytics s3:GetObject db-password\ndeploy secrets:Read db-password\ndeploy s3:GetObject db-password\nworker secrets:Read orders-db\nworker s3:PutObject orders-db\n",
+                  "expected_stdout": "analytics rds:Connect db-password\nanalytics s3:DeleteObject orders-db\ndeploy s3:GetObject web-fleet\ndeploy s3:PutObject orders-db\nworker secrets:Read web-fleet\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "20\nanalytics rds:Connect photos-bucket\nanalytics s3:DeleteObject db-password\nanalytics s3:DeleteObject orders-db\nanalytics s3:GetObject orders-db\ndeploy ec2:RunInstances photos-bucket\ndeploy rds:Connect db-password\ndeploy rds:Connect photos-bucket\ndeploy s3:DeleteObject web-fleet\ndeploy s3:PutObject web-fleet\nweb ec2:RunInstances orders-db\nweb rds:Connect photos-bucket\nweb s3:DeleteObject orders-db\nweb s3:DeleteObject photos-bucket\nweb s3:PutObject db-password\nweb s3:PutObject photos-bucket\nworker ec2:RunInstances photos-bucket\nworker s3:DeleteObject db-password\nworker s3:GetObject orders-db\nworker s3:PutObject orders-db\nworker s3:PutObject web-fleet\n11\nweb s3:PutObject photos-bucket\nweb s3:PutObject db-password\nanalytics s3:GetObject photos-bucket\nworker s3:PutObject web-fleet\nworker s3:DeleteObject db-password\ndeploy s3:DeleteObject web-fleet\nweb s3:DeleteObject photos-bucket\ndeploy rds:Connect db-password\nworker ec2:RunInstances photos-bucket\nworker s3:PutObject orders-db\ndeploy s3:PutObject web-fleet\n",
+                  "expected_stdout": "analytics rds:Connect photos-bucket\nanalytics s3:DeleteObject db-password\nanalytics s3:DeleteObject orders-db\nanalytics s3:GetObject orders-db\ndeploy ec2:RunInstances photos-bucket\ndeploy rds:Connect photos-bucket\nweb ec2:RunInstances orders-db\nweb rds:Connect photos-bucket\nweb s3:DeleteObject orders-db\nworker s3:GetObject orders-db\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "0\n1\nr a x\n",
+                  "expected_stdout": "LEAST PRIVILEGE OK\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "cle-2-c2",
+          "prompt": "Some of Kirana Konnect's servers ended up in the wrong subnet, so the database was reachable from the internet. Work out where each address lives. The first line is n, then n subnets `name cidr` (IPv4, like 10.0.1.0/24; subnets may be nested); then m, then m IP addresses. Complete `which_subnet` with your own bit arithmetic (convert each address to a 32-bit number and compare the network bits): an address belongs to the matching subnet with the longest prefix, ties by name. The program prints `ip subnet` or `ip none`.",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef which_subnet(subnets, ip):\n    \"\"\"subnets: list of (name, IPv4 CIDR like '10.0.1.0/24'). Return the name of the subnet containing ip with the LONGEST prefix (most specific), ties by name, or None. Do the bit arithmetic yourself.\"\"\"\n    # Write your code here.\n    return None\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    subnets = [tuple(data[1 + i].split()) for i in range(n)]\n    m = int(data[1 + n])\n    for i in range(m):\n        ip = data[2 + n + i].strip()\n        print(ip, which_subnet(subnets, ip) or \"none\")\n\n\nmain()\n",
+          "reference_solution": "import sys\n\n\ndef to_int(address):\n    a, b, c, d = (int(part) for part in address.split(\".\"))\n    return (a << 24) | (b << 16) | (c << 8) | d\n\n\ndef which_subnet(subnets, ip):\n    \"\"\"subnets: list of (name, IPv4 CIDR like '10.0.1.0/24'). Return the name of the subnet containing ip with the LONGEST prefix (most specific), ties by name, or None. Do the bit arithmetic yourself.\"\"\"\n    address = to_int(ip)\n    best = None\n    for name, cidr in subnets:\n        network, bits = cidr.split(\"/\")\n        bits = int(bits)\n        mask = 0 if bits == 0 else (0xFFFFFFFF << (32 - bits)) & 0xFFFFFFFF\n        if address & mask == to_int(network) & mask:          # same network bits\n            key = (-bits, name)\n            if best is None or key < best:\n                best = key\n    return best[1] if best else None\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    subnets = [tuple(data[1 + i].split()) for i in range(n)]\n    m = int(data[1 + n])\n    for i in range(m):\n        ip = data[2 + n + i].strip()\n        print(ip, which_subnet(subnets, ip) or \"none\")\n\n\nmain()\n",
+          "ds_topic": "string",
+          "difficulty": 2,
+          "skills": [
+            "Python",
+            "Amazon Web Services (AWS)"
+          ],
+          "explanation": "An IPv4 address is a 32-bit number and a /n prefix keeps its first n bits, so membership is 'address AND mask equals network AND mask'. When subnets nest (a /25 database subnet inside a /24), the longest prefix is the most specific match, the same rule route tables use.",
+          "key_justification": "Parse dotted IPs and match with bit masks (longest prefix).",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "3\nvpc 10.0.0.0/16\nprivate-a 10.0.2.0/24\ndb 10.0.2.128/25\n4\n10.0.2.200\n10.0.2.5\n10.0.9.9\n10.1.0.1\n",
+                  "expected_stdout": "10.0.2.200 db\n10.0.2.5 private-a\n10.0.9.9 vpc\n10.1.0.1 none\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "3\npublic-a 10.0.1.0/24\nmgmt 10.0.200.0/22\npublic-b 10.0.11.0/24\n3\n10.0.203.160\n10.0.203.38\n10.0.1.76\n",
+                  "expected_stdout": "10.0.203.160 mgmt\n10.0.203.38 mgmt\n10.0.1.76 public-a\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "5\nmgmt 10.0.200.0/22\nvpc 10.0.0.0/16\ndb 10.0.2.128/25\nprivate-a 10.0.2.0/24\npublic-b 10.0.11.0/24\n10\n10.0.200.69\n10.0.203.143\n10.1.9.185\n10.0.201.226\n10.0.1.209\n10.1.203.178\n10.0.203.36\n10.0.9.98\n10.0.9.2\n10.0.2.253\n",
+                  "expected_stdout": "10.0.200.69 mgmt\n10.0.203.143 mgmt\n10.1.9.185 none\n10.0.201.226 mgmt\n10.0.1.209 vpc\n10.1.203.178 none\n10.0.203.36 mgmt\n10.0.9.98 vpc\n10.0.9.2 vpc\n10.0.2.253 db\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "6\nvpc 10.0.0.0/16\ndb 10.0.2.128/25\npublic-b 10.0.11.0/24\nmgmt 10.0.200.0/22\npublic-a 10.0.1.0/24\nprivate-a 10.0.2.0/24\n25\n10.0.9.2\n10.1.203.219\n10.0.1.236\n10.1.200.206\n10.0.2.185\n10.0.11.154\n10.0.200.21\n10.1.203.142\n10.0.11.237\n10.0.1.171\n10.0.201.12\n10.0.2.49\n10.1.203.144\n10.0.1.32\n10.0.9.76\n10.0.203.120\n10.0.9.110\n10.0.1.244\n10.1.203.188\n10.0.2.222\n10.0.9.25\n10.0.1.226\n10.0.200.169\n10.0.201.163\n10.0.11.41\n",
+                  "expected_stdout": "10.0.9.2 vpc\n10.1.203.219 none\n10.0.1.236 public-a\n10.1.200.206 none\n10.0.2.185 db\n10.0.11.154 public-b\n10.0.200.21 mgmt\n10.1.203.142 none\n10.0.11.237 public-b\n10.0.1.171 public-a\n10.0.201.12 mgmt\n10.0.2.49 private-a\n10.1.203.144 none\n10.0.1.32 public-a\n10.0.9.76 vpc\n10.0.203.120 mgmt\n10.0.9.110 vpc\n10.0.1.244 public-a\n10.1.203.188 none\n10.0.2.222 db\n10.0.9.25 vpc\n10.0.1.226 public-a\n10.0.200.169 mgmt\n10.0.201.163 mgmt\n10.0.11.41 public-b\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1\nhost 10.0.0.5/32\n2\n10.0.0.5\n10.0.0.6\n",
+                  "expected_stdout": "10.0.0.5 host\n10.0.0.6 none\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "2\nall 0.0.0.0/0\nhome 192.168.1.0/24\n2\n192.168.1.77\n8.8.8.8\n",
+                  "expected_stdout": "192.168.1.77 home\n8.8.8.8 all\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "3\npublic-b 10.0.11.0/24\nmgmt 10.0.200.0/22\nprivate-a 10.0.2.0/24\n3\n10.0.11.11\n10.0.9.5\n10.1.200.107\n",
+                  "expected_stdout": "10.0.11.11 public-b\n10.0.9.5 none\n10.1.200.107 none\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "5\npublic-b 10.0.11.0/24\nmgmt 10.0.200.0/22\nprivate-a 10.0.2.0/24\ndb 10.0.2.128/25\nvpc 10.0.0.0/16\n10\n10.0.11.194\n10.0.200.198\n10.0.2.24\n10.0.201.181\n10.1.9.33\n10.0.11.55\n10.1.203.72\n10.1.201.192\n10.0.203.106\n10.1.203.125\n",
+                  "expected_stdout": "10.0.11.194 public-b\n10.0.200.198 mgmt\n10.0.2.24 private-a\n10.0.201.181 mgmt\n10.1.9.33 none\n10.0.11.55 public-b\n10.1.203.72 none\n10.1.201.192 none\n10.0.203.106 mgmt\n10.1.203.125 none\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "6\ndb 10.0.2.128/25\nprivate-a 10.0.2.0/24\nvpc 10.0.0.0/16\nmgmt 10.0.200.0/22\npublic-a 10.0.1.0/24\npublic-b 10.0.11.0/24\n25\n10.1.9.141\n10.1.11.154\n10.0.1.98\n10.0.201.13\n10.1.200.105\n10.0.201.120\n10.0.201.36\n10.0.1.203\n10.0.9.254\n10.1.9.59\n10.0.203.208\n10.1.203.13\n10.0.201.197\n10.1.11.120\n10.1.201.69\n10.1.2.58\n10.1.201.118\n10.0.11.141\n10.1.2.92\n10.0.200.225\n10.0.2.63\n10.0.2.236\n10.0.11.148\n10.0.2.165\n10.0.200.158\n",
+                  "expected_stdout": "10.1.9.141 none\n10.1.11.154 none\n10.0.1.98 public-a\n10.0.201.13 mgmt\n10.1.200.105 none\n10.0.201.120 mgmt\n10.0.201.36 mgmt\n10.0.1.203 public-a\n10.0.9.254 vpc\n10.1.9.59 none\n10.0.203.208 mgmt\n10.1.203.13 none\n10.0.201.197 mgmt\n10.1.11.120 none\n10.1.201.69 none\n10.1.2.58 none\n10.1.201.118 none\n10.0.11.141 public-b\n10.1.2.92 none\n10.0.200.225 mgmt\n10.0.2.63 private-a\n10.0.2.236 db\n10.0.11.148 public-b\n10.0.2.165 db\n10.0.200.158 mgmt\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1\nx 10.0.1.0/24\n1\n10.0.1.255\n",
+                  "expected_stdout": "10.0.1.255 x\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "2\nb 10.0.0.0/8\na 10.0.0.0/8\n1\n10.20.30.40\n",
+                  "expected_stdout": "10.20.30.40 a\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "3\ndb 10.0.2.128/25\nmgmt 10.0.200.0/22\nvpc 10.0.0.0/16\n3\n10.1.201.97\n10.0.1.90\n10.0.203.177\n",
+                  "expected_stdout": "10.1.201.97 none\n10.0.1.90 vpc\n10.0.203.177 mgmt\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "5\nmgmt 10.0.200.0/22\ndb 10.0.2.128/25\nprivate-a 10.0.2.0/24\nvpc 10.0.0.0/16\npublic-b 10.0.11.0/24\n10\n10.0.203.127\n10.1.2.37\n10.0.201.55\n10.1.201.6\n10.0.203.151\n10.0.200.1\n10.0.201.24\n10.1.200.198\n10.0.1.62\n10.0.200.114\n",
+                  "expected_stdout": "10.0.203.127 mgmt\n10.1.2.37 none\n10.0.201.55 mgmt\n10.1.201.6 none\n10.0.203.151 mgmt\n10.0.200.1 mgmt\n10.0.201.24 mgmt\n10.1.200.198 none\n10.0.1.62 vpc\n10.0.200.114 mgmt\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "6\ndb 10.0.2.128/25\npublic-b 10.0.11.0/24\npublic-a 10.0.1.0/24\nmgmt 10.0.200.0/22\nprivate-a 10.0.2.0/24\nvpc 10.0.0.0/16\n25\n10.1.9.78\n10.1.2.221\n10.0.203.24\n10.0.201.184\n10.0.9.251\n10.0.203.79\n10.1.203.85\n10.0.9.228\n10.0.11.32\n10.0.2.146\n10.0.11.10\n10.0.11.230\n10.0.203.179\n10.0.9.13\n10.0.201.192\n10.1.11.242\n10.0.1.7\n10.1.203.68\n10.0.203.230\n10.1.2.182\n10.0.201.242\n10.0.201.19\n10.0.2.49\n10.0.9.232\n10.0.201.63\n",
+                  "expected_stdout": "10.1.9.78 none\n10.1.2.221 none\n10.0.203.24 mgmt\n10.0.201.184 mgmt\n10.0.9.251 vpc\n10.0.203.79 mgmt\n10.1.203.85 none\n10.0.9.228 vpc\n10.0.11.32 public-b\n10.0.2.146 db\n10.0.11.10 public-b\n10.0.11.230 public-b\n10.0.203.179 mgmt\n10.0.9.13 vpc\n10.0.201.192 mgmt\n10.1.11.242 none\n10.0.1.7 public-a\n10.1.203.68 none\n10.0.203.230 mgmt\n10.1.2.182 none\n10.0.201.242 mgmt\n10.0.201.19 mgmt\n10.0.2.49 private-a\n10.0.9.232 vpc\n10.0.201.63 mgmt\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "2\nwide 172.16.0.0/12\nnarrow 172.31.0.0/16\n2\n172.31.5.5\n172.15.0.1\n",
+                  "expected_stdout": "172.31.5.5 narrow\n172.15.0.1 none\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -262,19 +669,37 @@
         "Outbound connectivity",
         "Storage security incidents"
       ],
-      "map_node": {"x": 0.5, "y": 0.5, "label": "Misty Railway Terminus"},
+      "map_node": {
+        "x": 0.5,
+        "y": 0.5,
+        "label": "Misty Railway Terminus"
+      },
       "questions": [
         {
           "id": "cle-3-q1",
           "type": "single_choice",
           "prompt": "The billing report shows 40 development machines running nights and weekends, plus many disks not attached to any machine. What should the team do?",
           "options": [
-            {"id": "a", "text": "Tag resources by owner, stop dev machines off-hours, and delete orphaned disks"},
-            {"id": "b", "text": "Move every one of the development machines over to a bigger instance size"},
-            {"id": "c", "text": "Delete every disk in the account that is more than a single month old"},
-            {"id": "d", "text": "Ask the provider to cancel the bill, because the extra spending was a mistake"}
+            {
+              "id": "a",
+              "text": "Tag resources by owner, stop dev machines off-hours, and delete orphaned disks"
+            },
+            {
+              "id": "b",
+              "text": "Move every one of the development machines over to a bigger instance size"
+            },
+            {
+              "id": "c",
+              "text": "Delete every disk in the account that is more than a single month old"
+            },
+            {
+              "id": "d",
+              "text": "Ask the provider to cancel the bill, because the extra spending was a mistake"
+            }
           ],
-          "correct": ["a"],
+          "correct": [
+            "a"
+          ],
           "explanation": "Development machines are needed only during working hours, so scheduling them to stop at night and at weekends cuts about two thirds of their cost. Tagging by owner shows who uses what, and disks attached to nothing can be snapshotted if needed and deleted.",
           "why_others_wrong": {
             "b": "Bigger instances cost more per hour and still run all night.",
@@ -289,12 +714,26 @@
           "type": "single_choice",
           "prompt": "Autoscaling adds servers when CPU rises at 10 am, but each new server takes 10 minutes to install software and become ready, and the rush peaks in five. What fixes this?",
           "options": [
-            {"id": "a", "text": "Lower the CPU threshold from 70% to 69% so that scaling starts sooner"},
-            {"id": "b", "text": "Turn autoscaling off and run the minimum number of servers all day"},
-            {"id": "c", "text": "Use pre-built server images and scale out on a schedule before 10 am"},
-            {"id": "d", "text": "Use one large server instead, since it has no time to start new ones"}
+            {
+              "id": "a",
+              "text": "Lower the CPU threshold from 70% to 69% so that scaling starts sooner"
+            },
+            {
+              "id": "b",
+              "text": "Turn autoscaling off and run the minimum number of servers all day"
+            },
+            {
+              "id": "c",
+              "text": "Use pre-built server images and scale out on a schedule before 10 am"
+            },
+            {
+              "id": "d",
+              "text": "Use one large server instead, since it has no time to start new ones"
+            }
           ],
-          "correct": ["c"],
+          "correct": [
+            "c"
+          ],
           "explanation": "Reactive scaling is too slow when servers take longer to start than the spike takes to arrive. Baking the software into a pre-built machine image cuts start-up time, and because the 10 am rush is predictable, scheduled scaling can add servers just before it.",
           "why_others_wrong": {
             "a": "Starting scaling a moment sooner does not fix a 10-minute start-up time.",
@@ -309,12 +748,26 @@
           "type": "single_choice",
           "prompt": "A new service in a private subnet times out calling the external payment gateway. Its security group allows all outbound traffic. What is missing?",
           "options": [
-            {"id": "a", "text": "An inbound rule allowing port 443 from the internet to the service"},
-            {"id": "b", "text": "A route sending outbound traffic through a NAT gateway"},
-            {"id": "c", "text": "A public IP address on the database used by the service"},
-            {"id": "d", "text": "A larger server size, so that the call can finish in time"}
+            {
+              "id": "a",
+              "text": "An inbound rule allowing port 443 from the internet to the service"
+            },
+            {
+              "id": "b",
+              "text": "A route sending outbound traffic through a NAT gateway"
+            },
+            {
+              "id": "c",
+              "text": "A public IP address on the database used by the service"
+            },
+            {
+              "id": "d",
+              "text": "A larger server size, so that the call can finish in time"
+            }
           ],
-          "correct": ["b"],
+          "correct": [
+            "b"
+          ],
           "explanation": "A private subnet has no direct route to the internet. Adding a route through a NAT gateway lets the service make outbound connections, such as calls to the payment gateway, while still blocking anyone on the internet from connecting in.",
           "why_others_wrong": {
             "a": "The service starts the connection, so an inbound rule is not what is missing, and opening one would expose it.",
@@ -329,13 +782,31 @@
           "type": "multi_select",
           "prompt": "An audit finds the bucket of customer ID photos is publicly readable. Which two actions come first?",
           "options": [
-            {"id": "a", "text": "Block public access and make the bucket private at once"},
-            {"id": "b", "text": "Rename the bucket so that old links break, leaving it public"},
-            {"id": "c", "text": "Check access logs for what was downloaded, and by whom"},
-            {"id": "d", "text": "Delete the access logs to reduce the account's storage bill"},
-            {"id": "e", "text": "Leave it as it is until the next scheduled security review"}
+            {
+              "id": "a",
+              "text": "Block public access and make the bucket private at once"
+            },
+            {
+              "id": "b",
+              "text": "Rename the bucket so that old links break, leaving it public"
+            },
+            {
+              "id": "c",
+              "text": "Check access logs for what was downloaded, and by whom"
+            },
+            {
+              "id": "d",
+              "text": "Delete the access logs to reduce the account's storage bill"
+            },
+            {
+              "id": "e",
+              "text": "Leave it as it is until the next scheduled security review"
+            }
           ],
-          "correct": ["a", "c"],
+          "correct": [
+            "a",
+            "c"
+          ],
           "explanation": "Stopping the exposure comes first, by blocking public access to the bucket. The access logs then show whether outsiders downloaded files and which ones, which decides who must be told and what else must follow, such as notifying affected customers.",
           "why_others_wrong": {
             "b": "A new name does not stop anyone from listing or reading a bucket that is still public.",
@@ -350,24 +821,271 @@
           "type": "match",
           "prompt": "Match each symptom to its most likely cause.",
           "items": [
-            {"id": "i1", "text": "Servers in one zone go unhealthy while the others stay fine"},
-            {"id": "i2", "text": "The app gets 403 Access Denied writing to a bucket after a role change"},
-            {"id": "i3", "text": "New app servers time out connecting to the database"},
-            {"id": "i4", "text": "Users still see the old stylesheet hours after a deploy"}
+            {
+              "id": "i1",
+              "text": "Servers in one zone go unhealthy while the others stay fine"
+            },
+            {
+              "id": "i2",
+              "text": "The app gets 403 Access Denied writing to a bucket after a role change"
+            },
+            {
+              "id": "i3",
+              "text": "New app servers time out connecting to the database"
+            },
+            {
+              "id": "i4",
+              "text": "Users still see the old stylesheet hours after a deploy"
+            }
           ],
           "targets": [
-            {"id": "t1", "text": "The database security group does not allow the new servers"},
-            {"id": "t2", "text": "The CDN is still serving its cached copy of the old file"},
-            {"id": "t3", "text": "A problem limited to that one availability zone"},
-            {"id": "t4", "text": "The new role's policy is missing the write permission"}
+            {
+              "id": "t1",
+              "text": "The database security group does not allow the new servers"
+            },
+            {
+              "id": "t2",
+              "text": "The CDN is still serving its cached copy of the old file"
+            },
+            {
+              "id": "t3",
+              "text": "A problem limited to that one availability zone"
+            },
+            {
+              "id": "t4",
+              "text": "The new role's policy is missing the write permission"
+            }
           ],
-          "correct": {"i1": "t3", "i2": "t4", "i3": "t1", "i4": "t2"},
+          "correct": {
+            "i1": "t3",
+            "i2": "t4",
+            "i3": "t1",
+            "i4": "t2"
+          },
           "explanation": "Failure confined to one zone points to that zone, which is why spreading across zones matters. A 403 right after a role change means the new policy lacks a permission, timeouts from new servers alone mean a firewall rule does not include them, and an old stylesheet after a deploy is a cached copy at the CDN.",
           "why_others_wrong": {
             "common_mistake": "Reading the database timeout as a wrong password: an authentication failure is rejected quickly with an error, while a timeout means the connection never got through the firewall."
           },
           "key_justification": "Error type and scope point to zone failures, permissions, firewall rules or caching.",
           "points": 10
+        }
+      ],
+      "code_pool": [
+        {
+          "id": "cle-3-c1",
+          "prompt": "Yatri Seva's bill doubled in a month. Find what grew. The first line is k, the second is n, then n line items `resource cost` for last month; then m, then m line items for this month (a resource can appear on several lines, in rupees). Complete `biggest_increases`: total each resource per month (a resource missing last month counts as 0) and return those whose cost went up. The program prints up to k lines `resource increase`, largest first, ties by resource, or `NO INCREASES`.",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef biggest_increases(last, this, k):\n    \"\"\"last, this: lists of (resource, cost in rupees) line items for last month and this month; a resource can have several lines. Return up to k (resource, increase) with an increase above 0, largest first, ties by resource. A resource missing last month counts as 0 then.\"\"\"\n    # Write your code here.\n    return []\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    k = int(data[0])\n    n = int(data[1])\n    last = [tuple(data[2 + i].split()) for i in range(n)]\n    m = int(data[2 + n])\n    this = [tuple(data[3 + n + i].split()) for i in range(m)]\n    rows = biggest_increases(last, this, k)\n    if not rows:\n        print(\"NO INCREASES\")\n    for resource, increase in rows:\n        print(resource, increase)\n\n\nmain()\n",
+          "reference_solution": "import sys\n\n\ndef biggest_increases(last, this, k):\n    \"\"\"last, this: lists of (resource, cost in rupees) line items for last month and this month; a resource can have several lines. Return up to k (resource, increase) with an increase above 0, largest first, ties by resource. A resource missing last month counts as 0 then.\"\"\"\n    change = {}\n    for resource, cost in this:\n        change[resource] = change.get(resource, 0) + int(cost)\n    for resource, cost in last:\n        change[resource] = change.get(resource, 0) - int(cost)\n    grew = [(r, d) for r, d in change.items() if d > 0]\n    return sorted(grew, key=lambda x: (-x[1], x[0]))[:k]\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    k = int(data[0])\n    n = int(data[1])\n    last = [tuple(data[2 + i].split()) for i in range(n)]\n    m = int(data[2 + n])\n    this = [tuple(data[3 + n + i].split()) for i in range(m)]\n    rows = biggest_increases(last, this, k)\n    if not rows:\n        print(\"NO INCREASES\")\n    for resource, increase in rows:\n        print(resource, increase)\n\n\nmain()\n",
+          "ds_topic": "sorting",
+          "difficulty": 1,
+          "skills": [
+            "Python",
+            "Amazon Web Services (AWS)"
+          ],
+          "explanation": "Netting this month against last month per resource in one dictionary, then sorting by the increase, points straight at what changed (here often a NAT gateway carrying traffic that should use a free gateway endpoint). Investigating the biggest deltas first is how cost reviews stay short.",
+          "key_justification": "Aggregate per key, then sort by the month-on-month delta.",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "2\n3\nnat-gateway 4000\nrds-primary 20000\ns3-photos 1000\n4\nnat-gateway 30000\nrds-primary 21000\ns3-photos 900\nlambda-pnr 2500\n",
+                  "expected_stdout": "nat-gateway 26000\nlambda-pnr 2500\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "2\n4\nelb-public 5942\nelb-public 36475\nnat-gateway 7072\nlambda-pnr 9735\n7\nec2-booking 10929\ncloudwatch-logs 2475\nelb-public 52686\nelb-public 51980\nec2-booking 54347\nebs-snapshots 19275\nrds-primary 32280\n",
+                  "expected_stdout": "ec2-booking 65276\nelb-public 62249\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "4\n12\ns3-id-photos 6701\nebs-snapshots 15254\nrds-primary 8067\nec2-booking 2955\nec2-booking 26570\ncloudwatch-logs 19664\nebs-snapshots 1928\ndata-transfer 1342\nelb-public 5931\nrds-primary 12812\ns3-id-photos 10874\nelb-public 12811\n12\nelb-public 15228\ncloudwatch-logs 2779\ncloudwatch-logs 40079\nelb-public 36966\nelb-public 27803\nnat-gateway 39976\nnat-gateway 50755\nnat-gateway 5394\ns3-id-photos 38496\nlambda-pnr 56996\nlambda-pnr 2477\ncloudwatch-logs 56607\n",
+                  "expected_stdout": "nat-gateway 96125\ncloudwatch-logs 79801\nelb-public 61255\nlambda-pnr 59473\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "3\n25\nebs-snapshots 35130\nec2-booking 30181\nebs-snapshots 23160\nnat-gateway 28506\nec2-booking 18541\nrds-primary 19049\nlambda-pnr 29764\ns3-id-photos 9899\nlambda-pnr 39755\ns3-id-photos 24918\ndata-transfer 37075\ns3-id-photos 14287\nec2-booking 32362\nebs-snapshots 35598\nlambda-pnr 1043\nnat-gateway 5441\nlambda-pnr 33160\nelb-public 14496\ncloudwatch-logs 24534\nrds-primary 26619\nnat-gateway 30687\ndata-transfer 38896\ndata-transfer 10641\nnat-gateway 32844\nec2-booking 39033\n25\nec2-booking 36959\ndata-transfer 7077\ncloudwatch-logs 16477\nelb-public 13875\nelb-public 45253\nnat-gateway 783\nnat-gateway 19300\nrds-primary 13821\nnat-gateway 20725\ncloudwatch-logs 19054\ncloudwatch-logs 16448\ns3-id-photos 51937\ndata-transfer 54875\nlambda-pnr 17963\ncloudwatch-logs 1417\nebs-snapshots 17655\nlambda-pnr 39409\nebs-snapshots 45657\nelb-public 20708\nebs-snapshots 12702\nrds-primary 29853\ns3-id-photos 26894\ns3-id-photos 5473\nec2-booking 49782\nec2-booking 2455\n",
+                  "expected_stdout": "elb-public 65340\ns3-id-photos 35200\ncloudwatch-logs 28862\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "3\n0\n1\nnew 1\n",
+                  "expected_stdout": "new 1\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "5\n2\na 100\na 100\n1\na 150\n",
+                  "expected_stdout": "NO INCREASES\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "3\n4\nlambda-pnr 32416\ndata-transfer 35751\nelb-public 37974\nec2-booking 14538\n8\nrds-primary 7370\nrds-primary 53701\ncloudwatch-logs 58277\nrds-primary 11112\nelb-public 40947\nrds-primary 28173\nrds-primary 37462\nec2-booking 28288\n",
+                  "expected_stdout": "rds-primary 137818\ncloudwatch-logs 58277\nec2-booking 13750\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "2\n12\ndata-transfer 28979\ncloudwatch-logs 19400\ndata-transfer 8827\nnat-gateway 9941\nrds-primary 21362\nlambda-pnr 2123\nrds-primary 18041\nec2-booking 4133\ns3-id-photos 29732\nelb-public 6964\nlambda-pnr 6861\nebs-snapshots 24630\n16\nlambda-pnr 37028\ns3-id-photos 29282\nelb-public 27821\nelb-public 30172\ndata-transfer 20435\ndata-transfer 8097\ns3-id-photos 20856\nelb-public 26554\ncloudwatch-logs 13415\nlambda-pnr 44805\nebs-snapshots 5784\nebs-snapshots 46056\nebs-snapshots 47991\nec2-booking 40458\nelb-public 14196\ncloudwatch-logs 39969\n",
+                  "expected_stdout": "elb-public 91779\nebs-snapshots 75201\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "3\n25\nnat-gateway 25299\nec2-booking 21982\ns3-id-photos 27935\nrds-primary 31023\nebs-snapshots 21029\ncloudwatch-logs 10628\ns3-id-photos 31361\nec2-booking 17911\ncloudwatch-logs 15714\nlambda-pnr 18577\nnat-gateway 25695\nec2-booking 14675\nnat-gateway 30643\nelb-public 13215\nec2-booking 39608\nebs-snapshots 19473\ncloudwatch-logs 30467\nebs-snapshots 34711\ns3-id-photos 35728\nebs-snapshots 38860\ns3-id-photos 8127\ns3-id-photos 20211\ns3-id-photos 20527\nnat-gateway 19881\nebs-snapshots 3314\n27\nrds-primary 14692\nlambda-pnr 23992\nec2-booking 41611\ns3-id-photos 20697\nrds-primary 6770\nnat-gateway 1366\nec2-booking 33774\nebs-snapshots 41191\nelb-public 28720\nec2-booking 15157\ndata-transfer 46534\ncloudwatch-logs 50882\nec2-booking 32784\ncloudwatch-logs 43645\ndata-transfer 11129\nec2-booking 50747\ncloudwatch-logs 48015\ndata-transfer 3359\nec2-booking 16678\ncloudwatch-logs 16536\nrds-primary 58028\nec2-booking 37603\ncloudwatch-logs 36335\nec2-booking 58158\ns3-id-photos 40229\nebs-snapshots 14678\ns3-id-photos 18836\n",
+                  "expected_stdout": "ec2-booking 192336\ncloudwatch-logs 138604\ndata-transfer 61022\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "2\n2\nb 1\na 1\n2\nb 3\na 3\n",
+                  "expected_stdout": "a 2\nb 2\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "1\n1\nx 10\n2\ny 5\nz 5\n",
+                  "expected_stdout": "y 5\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "2\n4\nebs-snapshots 7905\nelb-public 37102\nec2-booking 16523\nrds-primary 28802\n4\ncloudwatch-logs 41526\nlambda-pnr 29183\nec2-booking 33868\nlambda-pnr 28237\n",
+                  "expected_stdout": "lambda-pnr 57420\ncloudwatch-logs 41526\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "3\n12\nnat-gateway 5937\ns3-id-photos 8733\nec2-booking 30000\ndata-transfer 24506\nlambda-pnr 36006\nec2-booking 14081\ns3-id-photos 20493\ndata-transfer 8099\ndata-transfer 37067\nelb-public 39698\nebs-snapshots 38477\nrds-primary 29960\n15\nelb-public 40827\ncloudwatch-logs 58187\nebs-snapshots 36155\nnat-gateway 23847\nnat-gateway 809\nec2-booking 1949\ns3-id-photos 39993\nec2-booking 58595\nebs-snapshots 48363\nelb-public 38012\ndata-transfer 54584\nec2-booking 56261\ns3-id-photos 6746\nlambda-pnr 18377\nebs-snapshots 53249\n",
+                  "expected_stdout": "ebs-snapshots 99290\nec2-booking 72724\ncloudwatch-logs 58187\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "2\n25\nelb-public 11053\ncloudwatch-logs 20013\nelb-public 8335\nlambda-pnr 27123\nnat-gateway 28215\nec2-booking 28417\ns3-id-photos 18586\nnat-gateway 32687\nlambda-pnr 35802\nebs-snapshots 504\nlambda-pnr 7429\ns3-id-photos 27678\nrds-primary 30888\nelb-public 21704\nrds-primary 22501\ns3-id-photos 35230\nlambda-pnr 16677\nelb-public 19854\ndata-transfer 35705\ndata-transfer 23326\nnat-gateway 21404\ncloudwatch-logs 35425\ncloudwatch-logs 32714\nlambda-pnr 5160\nec2-booking 25786\n25\nebs-snapshots 41577\nebs-snapshots 24271\ns3-id-photos 2130\nebs-snapshots 5749\ncloudwatch-logs 43870\nec2-booking 31893\nrds-primary 37327\nlambda-pnr 21342\nrds-primary 25806\nnat-gateway 2440\ncloudwatch-logs 30210\nlambda-pnr 50075\nrds-primary 33588\nebs-snapshots 12878\nlambda-pnr 1764\nelb-public 46658\ndata-transfer 8382\nlambda-pnr 22043\nebs-snapshots 13985\nec2-booking 22908\nelb-public 46627\nelb-public 55064\nnat-gateway 9514\ns3-id-photos 19013\nlambda-pnr 28952\n",
+                  "expected_stdout": "ebs-snapshots 97956\nelb-public 87403\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1\n1\nq 9\n0\n",
+                  "expected_stdout": "NO INCREASES\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "cle-3-c2",
+          "prompt": "Autoscaling could not keep up with the morning ticket rush because new servers take minutes to warm up. Simulate it. The first line is `capacity warmup initial` (requests per second one instance serves, minutes before a new instance serves, instances at the start); the second line has the load for each minute. Complete `simulate`: each minute m, instances launched earlier with ready minute <= m start serving; the minute is short if load > running x capacity; then desired = max(1, ceil(load / capacity)): launch the difference if desired > running + launching (ready at m + warmup), or drop to desired if desired < running and nothing is launching. The program prints `shortfall_minutes`, `max_shortfall` and `peak_instances`.",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef simulate(loads, capacity, warmup, initial):\n    \"\"\"loads: requests per second for minutes 1, 2, ... Each running instance serves `capacity`. Each minute m: instances launched earlier whose ready minute <= m start serving; if load > running x capacity, that minute is short by the difference; then desired = max(1, ceil(load / capacity)): if desired > running + launching, launch the difference, ready at m + warmup; if desired < running and nothing is launching, running drops to desired. Return (short minutes, largest shortfall, most instances running at once).\"\"\"\n    # Write your code here.\n    return 0, 0, initial\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    capacity, warmup, initial = map(int, data[0].split())\n    loads = list(map(int, data[1].split()))\n    short_minutes, worst, peak = simulate(loads, capacity, warmup, initial)\n    print(\"shortfall_minutes\", short_minutes)\n    print(\"max_shortfall\", worst)\n    print(\"peak_instances\", peak)\n\n\nmain()\n",
+          "reference_solution": "from collections import deque\nimport sys\n\n\ndef simulate(loads, capacity, warmup, initial):\n    \"\"\"loads: requests per second for minutes 1, 2, ... Each running instance serves `capacity`. Each minute m: instances launched earlier whose ready minute <= m start serving; if load > running x capacity, that minute is short by the difference; then desired = max(1, ceil(load / capacity)): if desired > running + launching, launch the difference, ready at m + warmup; if desired < running and nothing is launching, running drops to desired. Return (short minutes, largest shortfall, most instances running at once).\"\"\"\n    running, launching = initial, deque()     # ready minutes, oldest first (all launches share the same warmup)\n    short = worst = 0\n    peak = initial\n    for minute, load in enumerate(loads, 1):\n        while launching and launching[0] <= minute:\n            launching.popleft()\n            running += 1\n        peak = max(peak, running)\n        if load > running * capacity:\n            short += 1\n            worst = max(worst, load - running * capacity)\n        desired = max(1, -(-load // capacity))           # ceil without floats\n        if desired > running + len(launching):\n            launching.extend([minute + warmup] * (desired - running - len(launching)))\n        elif desired < running and not launching:\n            running = desired\n    return short, worst, peak\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    capacity, warmup, initial = map(int, data[0].split())\n    loads = list(map(int, data[1].split()))\n    short_minutes, worst, peak = simulate(loads, capacity, warmup, initial)\n    print(\"shortfall_minutes\", short_minutes)\n    print(\"max_shortfall\", worst)\n    print(\"peak_instances\", peak)\n\n\nmain()\n",
+          "ds_topic": "queue",
+          "difficulty": 2,
+          "skills": [
+            "Python",
+            "Amazon Web Services (AWS)"
+          ],
+          "explanation": "Launched instances join a FIFO queue by ready time; because warm-up is the same for all, the front of the queue is always the next to become ready. The simulation shows the cost of reacting late: every minute of warm-up during a rush is lost capacity, which is why scheduled or predictive scaling (scale before 6 am) beats purely reactive scaling here.",
+          "key_justification": "Discrete-time simulation with a FIFO queue of launching instances.",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "100 2 1\n50 250 250 250 50\n",
+                  "expected_stdout": "shortfall_minutes 2\nmax_shortfall 150\npeak_instances 3\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "200 2 3\n153 149 510 145 163 102\n",
+                  "expected_stdout": "shortfall_minutes 1\nmax_shortfall 310\npeak_instances 3\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "200 3 1\n218 292 253 215 211 256 259 206 240 204 929 1007 934 953 927 204 277 260 292 239 220 279 209 255 213 212 282 196 280 250\n",
+                  "expected_stdout": "shortfall_minutes 8\nmax_shortfall 607\npeak_instances 6\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "100 1 1\n253 271 280 214 236 275 268 248 238 261 204 257 259 250 208 263 236 225 255 200 232 202 298 229 281 285 224 274 223 282 969 989 970 981 958 1029 1040 954 1037 957 1000 965 981 1035 981 280 248 269 208 242 253 220 296 248 256 267 235 217 262 233 213 259 243 224 217 236 279 229 286 223 274 222 209 258 270 265 287 252 213 201 289 237 238 265 289 268 213 219 254 224\n",
+                  "expected_stdout": "shortfall_minutes 6\nmax_shortfall 669\npeak_instances 11\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "100 1 1\n0 0 0\n",
+                  "expected_stdout": "shortfall_minutes 0\nmax_shortfall 0\npeak_instances 1\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "200 1 2\n100 100 100\n",
+                  "expected_stdout": "shortfall_minutes 0\nmax_shortfall 0\npeak_instances 2\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "200 3 3\n240 246 1011 277 235 278\n",
+                  "expected_stdout": "shortfall_minutes 1\nmax_shortfall 611\npeak_instances 6\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "100 3 1\n165 151 125 169 208 167 219 202 209 199 700 689 666 671 727 140 160 212 134 212 216 172 214 197 182 152 157 154 151 137\n",
+                  "expected_stdout": "shortfall_minutes 11\nmax_shortfall 500\npeak_instances 8\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "200 4 2\n120 96 127 136 83 157 150 159 79 112 148 85 94 77 134 71 124 121 78 114 59 106 62 129 157 136 72 59 141 65 451 486 423 467 435 413 472 418 447 389 410 401 412 401 478 152 139 140 138 109 149 151 118 106 80 135 107 156 88 122 92 64 152 111 76 123 125 97 108 137 65 98 66 78 85 153 59 91 105 88 122 62 133 101 94 151 118 152 74 148\n",
+                  "expected_stdout": "shortfall_minutes 8\nmax_shortfall 286\npeak_instances 3\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "10 1 1\n100 100 100 100\n",
+                  "expected_stdout": "shortfall_minutes 1\nmax_shortfall 90\npeak_instances 10\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "50 3 1\n500\n",
+                  "expected_stdout": "shortfall_minutes 1\nmax_shortfall 450\npeak_instances 1\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "100 3 1\n283 233 1018 259 292 226\n",
+                  "expected_stdout": "shortfall_minutes 3\nmax_shortfall 918\npeak_instances 11\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "100 3 2\n113 84 149 66 89 98 112 106 104 67 412 400 408 362 413 98 107 114 131 81 90 105 139 112 101 140 92 74 95 67\n",
+                  "expected_stdout": "shortfall_minutes 11\nmax_shortfall 312\npeak_instances 5\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "100 5 3\n250 198 181 171 211 165 203 208 170 203 241 206 220 222 181 169 182 232 211 195 175 250 253 171 223 164 206 209 181 200 836 865 810 841 859 804 873 885 895 858 808 867 874 885 816 249 215 173 169 227 226 209 199 220 168 250 216 207 200 197 168 190 177 226 194 167 236 212 204 213 238 187 220 234 258 173 199 247 238 248 246 176 223 210 200 172 257 246 226 222\n",
+                  "expected_stdout": "shortfall_minutes 30\nmax_shortfall 665\npeak_instances 9\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "100 5 4\n50 50 50 1000 1000\n",
+                  "expected_stdout": "shortfall_minutes 2\nmax_shortfall 900\npeak_instances 4\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -390,19 +1108,37 @@
         "Managed versus self-managed services",
         "Data residency"
       ],
-      "map_node": {"x": 0.7, "y": 0.36, "label": "Ringed Clinic Island"},
+      "map_node": {
+        "x": 0.7,
+        "y": 0.36,
+        "label": "Ringed Clinic Island"
+      },
       "questions": [
         {
           "id": "cle-4-q1",
           "type": "single_choice",
           "prompt": "Which database setup meets a 15-minute recovery point objective and a one-hour recovery time objective?",
           "options": [
-            {"id": "a", "text": "A nightly full backup that is copied to object storage each day"},
-            {"id": "b", "text": "A weekly backup that someone restores by hand if disaster strikes"},
-            {"id": "c", "text": "Point-in-time recovery plus a standby replica in a second zone"},
-            {"id": "d", "text": "No backups at all, because cloud disks are said never to fail"}
+            {
+              "id": "a",
+              "text": "A nightly full backup that is copied to object storage each day"
+            },
+            {
+              "id": "b",
+              "text": "A weekly backup that someone restores by hand if disaster strikes"
+            },
+            {
+              "id": "c",
+              "text": "Point-in-time recovery plus a standby replica in a second zone"
+            },
+            {
+              "id": "d",
+              "text": "No backups at all, because cloud disks are said never to fail"
+            }
           ],
-          "correct": ["c"],
+          "correct": [
+            "c"
+          ],
           "explanation": "The recovery point objective is how much data may be lost, and the recovery time objective is how long recovery may take. Continuous transaction-log backups allow point-in-time recovery to within minutes, and a synchronous standby in another zone can take over automatically, well within an hour.",
           "why_others_wrong": {
             "a": "A nightly backup can lose up to 24 hours of data, far beyond 15 minutes.",
@@ -417,12 +1153,26 @@
           "type": "single_choice",
           "prompt": "Twenty servers run around the clock, and nightly report jobs can be interrupted and retried. Which pricing approach costs least?",
           "options": [
-            {"id": "a", "text": "Pay on-demand prices for everything, with no commitment at all"},
-            {"id": "b", "text": "Run all twenty servers and every report job on spot capacity"},
-            {"id": "c", "text": "Buy a three-year commitment sized for double the current load"},
-            {"id": "d", "text": "Commit to discounts for the twenty, and use spot for the reports"}
+            {
+              "id": "a",
+              "text": "Pay on-demand prices for everything, with no commitment at all"
+            },
+            {
+              "id": "b",
+              "text": "Run all twenty servers and every report job on spot capacity"
+            },
+            {
+              "id": "c",
+              "text": "Buy a three-year commitment sized for double the current load"
+            },
+            {
+              "id": "d",
+              "text": "Commit to discounts for the twenty, and use spot for the reports"
+            }
           ],
-          "correct": ["d"],
+          "correct": [
+            "d"
+          ],
           "explanation": "Steady, always-on load is cheapest with committed-use discounts such as reserved instances or savings plans. Report jobs that can be interrupted and retried suit spot capacity, which is much cheaper but can be reclaimed at short notice.",
           "why_others_wrong": {
             "a": "On-demand prices are the most expensive way to run a steady, predictable load.",
@@ -437,12 +1187,26 @@
           "type": "single_choice",
           "prompt": "The two-person ops team patches the self-managed database by hand. Should it move to the provider's managed database service?",
           "options": [
-            {"id": "a", "text": "No, because managed services can never meet health-data needs"},
-            {"id": "b", "text": "Yes; it costs more per hour but frees time and handles failover"},
-            {"id": "c", "text": "No; hire four more operators to keep patching databases by hand"},
-            {"id": "d", "text": "Yes, and switch off backups too, since managed services never fail"}
+            {
+              "id": "a",
+              "text": "No, because managed services can never meet health-data needs"
+            },
+            {
+              "id": "b",
+              "text": "Yes; it costs more per hour but frees time and handles failover"
+            },
+            {
+              "id": "c",
+              "text": "No; hire four more operators to keep patching databases by hand"
+            },
+            {
+              "id": "d",
+              "text": "Yes, and switch off backups too, since managed services never fail"
+            }
           ],
-          "correct": ["b"],
+          "correct": [
+            "b"
+          ],
           "explanation": "A managed database handles patching, backups, point-in-time recovery and standby failover. Its higher hourly price is usually far less than the cost of a small team's time and the risk of manual mistakes, and it helps meet the recovery objectives.",
           "why_others_wrong": {
             "a": "Managed database services are widely used for regulated data when configured properly.",
@@ -457,13 +1221,31 @@
           "type": "multi_select",
           "prompt": "Health data must stay in India. Which two steps make sure it does?",
           "options": [
-            {"id": "a", "text": "Deploy all databases and storage in Indian cloud regions only"},
-            {"id": "b", "text": "Use whichever region in the world is cheapest this month"},
-            {"id": "c", "text": "Keep backups, replicas and logs with data in Indian regions too"},
-            {"id": "d", "text": "Replicate the database to the United States for recovery"},
-            {"id": "e", "text": "Trust the provider's default settings without checking them"}
+            {
+              "id": "a",
+              "text": "Deploy all databases and storage in Indian cloud regions only"
+            },
+            {
+              "id": "b",
+              "text": "Use whichever region in the world is cheapest this month"
+            },
+            {
+              "id": "c",
+              "text": "Keep backups, replicas and logs with data in Indian regions too"
+            },
+            {
+              "id": "d",
+              "text": "Replicate the database to the United States for recovery"
+            },
+            {
+              "id": "e",
+              "text": "Trust the provider's default settings without checking them"
+            }
           ],
-          "correct": ["a", "c"],
+          "correct": [
+            "a",
+            "c"
+          ],
           "explanation": "Data residency covers every copy, not just the main database. Primary systems must run in Indian regions such as Mumbai or Hyderabad, and backups, replicas and logs that contain health data must stay in Indian regions as well.",
           "why_others_wrong": {
             "b": "The cheapest region may be outside India, which breaks the requirement.",
@@ -472,6 +1254,224 @@
           },
           "key_justification": "Data residency applies to primary data and to every backup, replica and log.",
           "points": 10
+        }
+      ],
+      "code_pool": [
+        {
+          "id": "cle-4-c1",
+          "prompt": "Arogya Records' contracts promise at most 15 minutes of lost data (RPO) and service back within an hour (RTO). Check a disaster drill. The first line is `rpo rto` in minutes, the second is `failure restore` (the minute the database is lost, and how long the restore takes), the third lists the minutes at which backups or log copies completed, in any order. Complete `disaster`: data written after the last backup completed at or before the failure is lost. The program prints `data_loss x min` (or `data_loss all` if there was no backup yet), `downtime y min`, then `rpo MET` or `rpo BREACHED`, and the same for rto.",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef disaster(backups, failure, restore):\n    \"\"\"backups: minutes at which a backup or log copy COMPLETED (any order). failure: the minute the database is lost. restore: minutes the restore takes. Data since the last backup completed at or before the failure is lost. Return (minutes of data lost, or None if no backup existed; downtime = restore).\"\"\"\n    # Write your code here.\n    return 0, restore\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    rpo, rto = map(int, data[0].split())\n    failure, restore = map(int, data[1].split())\n    backups = list(map(int, data[2].split())) if data[2].strip() else []\n    loss, downtime = disaster(backups, failure, restore)\n    print(\"data_loss\", \"all\" if loss is None else f\"{loss} min\")\n    print(\"downtime\", downtime, \"min\")\n    print(\"rpo\", \"MET\" if loss is not None and loss <= rpo else \"BREACHED\")\n    print(\"rto\", \"MET\" if downtime <= rto else \"BREACHED\")\n\n\nmain()\n",
+          "reference_solution": "import sys\n\n\ndef disaster(backups, failure, restore):\n    \"\"\"backups: minutes at which a backup or log copy COMPLETED (any order). failure: the minute the database is lost. restore: minutes the restore takes. Data since the last backup completed at or before the failure is lost. Return (minutes of data lost, or None if no backup existed; downtime = restore).\"\"\"\n    usable = [b for b in backups if b <= failure]       # a backup finished after the failure cannot help\n    loss = failure - max(usable) if usable else None\n    return loss, restore\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    rpo, rto = map(int, data[0].split())\n    failure, restore = map(int, data[1].split())\n    backups = list(map(int, data[2].split())) if data[2].strip() else []\n    loss, downtime = disaster(backups, failure, restore)\n    print(\"data_loss\", \"all\" if loss is None else f\"{loss} min\")\n    print(\"downtime\", downtime, \"min\")\n    print(\"rpo\", \"MET\" if loss is not None and loss <= rpo else \"BREACHED\")\n    print(\"rto\", \"MET\" if downtime <= rto else \"BREACHED\")\n\n\nmain()\n",
+          "ds_topic": "array",
+          "difficulty": 1,
+          "skills": [
+            "Python",
+            "Amazon Web Services (AWS)"
+          ],
+          "explanation": "Data loss is the gap back to the last completed backup, so only backups at or before the failure count; the list need not be sorted, a max does it. Nightly backups give up to a day of loss, far over a 15-minute RPO, which is why the contract needs continuous log shipping or a replica, not just snapshots.",
+          "key_justification": "Filter and max over an array to compute RPO and RTO.",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "15 60\n100 45\n0 30 60 90 120\n",
+                  "expected_stdout": "data_loss 10 min\ndowntime 45 min\nrpo MET\nrto MET\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "15 60\n2370 20\n1090 2285 825\n",
+                  "expected_stdout": "data_loss 85 min\ndowntime 20 min\nrpo BREACHED\nrto MET\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "15 60\n1491 240\n2880 0 1440\n",
+                  "expected_stdout": "data_loss 51 min\ndowntime 240 min\nrpo BREACHED\nrto BREACHED\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "15 60\n1521 45\n840 1320 660 1920 1800 2160 180 2460 1260 2580 1860 1380 0 1620 1080 2100 2400 2700 1440 420 2940 540 2340 1980 960 360 1560 2220 2820 300 780 1680 2640 600 2040 60 120 1740 720 240 1500 2520 1140 480 1020 900 2880 2760 2280 1200\n",
+                  "expected_stdout": "data_loss 21 min\ndowntime 45 min\nrpo BREACHED\nrto MET\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "15 60\n50 60\n50\n",
+                  "expected_stdout": "data_loss 0 min\ndowntime 60 min\nrpo MET\nrto MET\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "15 60\n1500 90\n1440 0\n",
+                  "expected_stdout": "data_loss 60 min\ndowntime 90 min\nrpo BREACHED\nrto BREACHED\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "15 60\n1742 60\n1620 975 900\n",
+                  "expected_stdout": "data_loss 122 min\ndowntime 60 min\nrpo BREACHED\nrto MET\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "15 60\n2986 90\n2880 0 1440\n",
+                  "expected_stdout": "data_loss 106 min\ndowntime 90 min\nrpo BREACHED\nrto BREACHED\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "15 60\n1138 45\n2880 1440 0\n",
+                  "expected_stdout": "data_loss 1138 min\ndowntime 45 min\nrpo BREACHED\nrto MET\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "5 10\n100 11\n96 94\n",
+                  "expected_stdout": "data_loss 4 min\ndowntime 11 min\nrpo MET\nrto BREACHED\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "15 60\n10 5\n20 30\n",
+                  "expected_stdout": "data_loss all\ndowntime 5 min\nrpo BREACHED\nrto MET\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "15 60\n611 45\n2125 2855 1375\n",
+                  "expected_stdout": "data_loss all\ndowntime 45 min\nrpo BREACHED\nrto MET\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "15 60\n2631 20\n10 360 770 1265 1530 1720 1395 2445 1710 720 1190 425 90 1195 1235 1295 430 2750 755 1330\n",
+                  "expected_stdout": "data_loss 186 min\ndowntime 20 min\nrpo BREACHED\nrto MET\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "15 60\n748 20\n480 1200 1020 2640 540 300 2760 600 2880 1800 1380 1560 900 240 720 1980 840 60 2520 2580 2820 2100 180 1500 0 2700 2460 1740 1920 960 2220 420 660 2160 2040 1860 2280 780 1080 120 2340 1320 2940 1440 1680 2400 1260 360 1620 1140\n",
+                  "expected_stdout": "data_loss 28 min\ndowntime 20 min\nrpo BREACHED\nrto MET\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "15 60\n0 1\n\n",
+                  "expected_stdout": "data_loss all\ndowntime 1 min\nrpo BREACHED\nrto MET\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "cle-4-c2",
+          "prompt": "Twenty servers run around the clock, but the evening peak needs more. Reserved servers are cheaper per hour but are paid for every hour, used or not. The first line is `on_demand reserved` (paise per server-hour), the second lists the servers needed in each hour. Complete `best_reservation`: with R reserved servers, the cost is R x reserved x hours plus on_demand for every server-hour above R. Return the R with the lowest cost (smallest R on a tie). Sort the hourly usage once rather than recomputing the whole cost for every R. The program prints `reserve R` and `cost C`.",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef best_reservation(usage, on_demand, reserved):\n    \"\"\"usage: servers needed in each hour. A reserved server costs `reserved` paise every hour whether used or not; any server above the reserved count costs `on_demand` paise for that hour. Return (the number of servers to reserve with the lowest total cost, smallest number on a tie; that cost).\"\"\"\n    # Write your code here.\n    return 0, 0\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    on_demand, reserved = map(int, data[0].split())\n    usage = list(map(int, data[1].split()))\n    count, cost = best_reservation(usage, on_demand, reserved)\n    print(\"reserve\", count)\n    print(\"cost\", cost)\n\n\nmain()\n",
+          "reference_solution": "import sys\n\n\ndef best_reservation(usage, on_demand, reserved):\n    \"\"\"usage: servers needed in each hour. A reserved server costs `reserved` paise every hour whether used or not; any server above the reserved count costs `on_demand` paise for that hour. Return (the number of servers to reserve with the lowest total cost, smallest number on a tie; that cost).\"\"\"\n    hours = len(usage)\n    ordered = sorted(usage)\n    extra = sum(usage)                  # server-hours paid on demand when nothing is reserved\n    best_r, best_cost = 0, extra * on_demand\n    above = hours                       # hours whose usage is at least the next server number\n    i = 0\n    for r in range(1, ordered[-1] + 1):\n        while i < hours and ordered[i] < r:\n            i += 1\n        above = hours - i               # hours that need server number r\n        extra -= above                  # reserving server r removes those on-demand hours\n        cost = r * reserved * hours + extra * on_demand\n        if cost < best_cost:\n            best_r, best_cost = r, cost\n    return best_r, best_cost\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    on_demand, reserved = map(int, data[0].split())\n    usage = list(map(int, data[1].split()))\n    count, cost = best_reservation(usage, on_demand, reserved)\n    print(\"reserve\", count)\n    print(\"cost\", cost)\n\n\nmain()\n",
+          "ds_topic": "sorting",
+          "difficulty": 2,
+          "skills": [
+            "Python",
+            "Amazon Web Services (AWS)"
+          ],
+          "explanation": "Reserving one more server saves on-demand cost only in the hours that use it. With the hours sorted, the count of hours needing at least r servers falls out of a single pass, so every R is priced in O(hours log hours) total. The rule of thumb that emerges: reserve a server if it is busy for more than reserved / on_demand of the hours.",
+          "key_justification": "Sort usage, then sweep reservation levels with running totals.",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "1000 600\n2 2 2 4\n",
+                  "expected_stdout": "reserve 2\ncost 6800\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "800 480\n21 22 22 21 21 21 20 20 22 20 22 20\n",
+                  "expected_stdout": "reserve 21\ncost 124160\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1200 720\n15 13 14 16 16 16 15 15 14 13 15 16 13 16 13 15 16 15 13 24 16 24 16 16 13 16 16 14 14 13 15 15 13 14 14 15 15 13 14 14 14 14 19 20 17 15 16 14\n",
+                  "expected_stdout": "reserve 14\ncost 566640\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1000 400\n21 20 21 19 19 19 22 22 22 19 19 19 21 19 19 21 19 19 24 19 24 23 20 21 19 19 19 21 21 22 20 21 22 21 20 22 19 19 21 19 22 21 31 31 27 22 21 22 22 21 20 20 20 19 20 21 21 20 19 19 19 22 20 19 21 22 27 21 22 27 19 19 20 19 20 20 19 20 21 22 22 22 21 21 20 22 20 20 19 22 21 26 20 22 19 20 19 21 22 21 22 20 21 22 22 21 20 22 19 20 19 21 21 20 26 25 21 20 22 19 20 20 20 21 22 19 21 21 19 22 22 20 19 21 19 20 20 20 22 19 31 20 19 21 20 22 21 19 21 20 19 19 22 22 20 21 22 19 22 22 22 22 31 28 22 27 20 19\n",
+                  "expected_stdout": "reserve 21\ncost 1542200\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "500 400\n5\n",
+                  "expected_stdout": "reserve 5\ncost 2000\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "100 90\n1 1 1 1\n",
+                  "expected_stdout": "reserve 1\ncost 360\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "800 320\n13 15 15 15 13 14 15 12 12 13 14 12\n",
+                  "expected_stdout": "reserve 14\ncost 56960\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1200 720\n14 15 14 15 16 15 13 15 13 16 15 14 14 16 15 16 13 15 15 16 22 21 13 14 14 13 13 13 16 14 13 15 13 14 13 14 14 16 15 16 15 13 18 20 15 18 16 15\n",
+                  "expected_stdout": "reserve 14\ncost 555840\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "800 600\n23 21 20 23 20 22 22 20 22 21 23 22 22 23 21 20 23 22 20 31 32 20 20 23 22 22 20 23 22 23 21 21 23 20 23 23 21 23 20 23 20 21 21 24 21 22 20 23 23 20 23 21 22 21 20 23 20 20 21 22 21 20 20 20 21 23 21 29 21 26 21 22 22 23 22 22 20 20 22 23 22 21 23 21 23 23 21 20 21 21 20 20 21 30 21 23 21 20 22 20 22 22 20 21 22 21 23 23 21 23 23 21 20 21 22 24 21 26 20 22 20 23 23 23 21 23 20 20 22 22 21 22 21 22 23 21 23 21 21 26 24 25 20 23 20 20 20 22 22 21 20 21 22 21 23 20 20 22 22 20 22 22 32 30 28 26 23 23\n",
+                  "expected_stdout": "reserve 21\ncost 2284000\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1000 999\n0 0 0\n",
+                  "expected_stdout": "reserve 0\ncost 0\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "100 100\n0 3\n",
+                  "expected_stdout": "reserve 0\ncost 300\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "800 480\n20 19 19 17 19 20 18 17 20 19 18 20\n",
+                  "expected_stdout": "reserve 19\ncost 112640\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1200 900\n14 16 16 15 13 16 15 16 15 13 15 13 16 15 16 13 13 13 14 19 21 15 15 15 13 14 13 14 15 15 15 14 13 15 15 15 15 16 15 15 13 13 19 20 25 22 15 13\n",
+                  "expected_stdout": "reserve 13\ncost 693600\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1200 480\n15 17 16 15 17 18 15 15 16 16 16 15 18 16 17 18 18 15 18 27 24 18 18 16 17 15 17 15 15 16 18 16 17 15 15 16 18 17 18 17 17 17 18 15 24 26 17 16 18 15 15 16 17 17 16 17 18 18 17 17 15 16 18 15 16 16 26 17 23 17 17 17 17 15 15 16 16 18 16 18 15 18 17 17 17 18 16 16 15 16 24 23 23 23 15 17 16 18 17 16 16 18 16 15 15 18 18 16 16 15 16 15 18 15 23 26 16 19 17 18 17 15 15 17 17 18 17 15 17 15 18 16 15 18 16 17 16 18 16 27 20 19 15 15 17 16 18 15 17 17 15 15 15 15 17 18 17 15 18 15 18 18 19 25 23 26 18 15\n",
+                  "expected_stdout": "reserve 17\ncost 1568880\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "100 50\n1 2 3 4\n",
+                  "expected_stdout": "reserve 2\ncost 700\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -494,20 +1494,45 @@
         "Alerting",
         "Choosing cloud services"
       ],
-      "map_node": {"x": 0.88, "y": 0.16, "label": "Festival Stage Island"},
+      "map_node": {
+        "x": 0.88,
+        "y": 0.16,
+        "label": "Festival Stage Island"
+      },
       "questions": [
         {
           "id": "cle-5-q1",
           "type": "order",
           "prompt": "Put the steps for changing the platform's infrastructure in order.",
           "options": [
-            {"id": "a", "text": "Apply the change to production"},
-            {"id": "b", "text": "Write the change as infrastructure code"},
-            {"id": "c", "text": "Apply it to staging and test it there"},
-            {"id": "d", "text": "Watch dashboards and alarms after release"},
-            {"id": "e", "text": "Get the change reviewed in a pull request"}
+            {
+              "id": "a",
+              "text": "Apply the change to production"
+            },
+            {
+              "id": "b",
+              "text": "Write the change as infrastructure code"
+            },
+            {
+              "id": "c",
+              "text": "Apply it to staging and test it there"
+            },
+            {
+              "id": "d",
+              "text": "Watch dashboards and alarms after release"
+            },
+            {
+              "id": "e",
+              "text": "Get the change reviewed in a pull request"
+            }
           ],
-          "correct": ["b", "e", "c", "a", "d"],
+          "correct": [
+            "b",
+            "e",
+            "c",
+            "a",
+            "d"
+          ],
           "explanation": "Writing the change as code makes it reviewable, and a pull request lets a teammate catch mistakes before anything changes. It is applied to staging first so it can be tested, then to production, and then watched closely in case something behaves differently under real traffic.",
           "why_others_wrong": {
             "common_mistake": "Applying the change to production before staging, which turns production into the test environment and puts viewers at risk."
@@ -520,12 +1545,26 @@
           "type": "single_choice",
           "prompt": "Why should the team define its environments with infrastructure as code, using a tool such as Terraform, instead of clicking in the console?",
           "options": [
-            {"id": "a", "text": "Environments become reproducible, reviewable and version controlled"},
-            {"id": "b", "text": "Infrastructure code always makes the monthly cloud bill much lower"},
-            {"id": "c", "text": "Console clicks are banned by every cloud provider's terms of use"},
-            {"id": "d", "text": "Infrastructure code removes the need for any testing in staging"}
+            {
+              "id": "a",
+              "text": "Environments become reproducible, reviewable and version controlled"
+            },
+            {
+              "id": "b",
+              "text": "Infrastructure code always makes the monthly cloud bill much lower"
+            },
+            {
+              "id": "c",
+              "text": "Console clicks are banned by every cloud provider's terms of use"
+            },
+            {
+              "id": "d",
+              "text": "Infrastructure code removes the need for any testing in staging"
+            }
           ],
-          "correct": ["a"],
+          "correct": [
+            "a"
+          ],
           "explanation": "With infrastructure as code, staging and production are built from the same reviewed files, so they match, and any change is recorded in version control. Drift between what is written and what exists can also be detected, which manual console changes make impossible.",
           "why_others_wrong": {
             "b": "Infrastructure code can help find waste, but it does not lower costs by itself.",
@@ -540,12 +1579,26 @@
           "type": "single_choice",
           "prompt": "How should video reach up to 2 million viewers across India?",
           "options": [
-            {"id": "a", "text": "Every viewer streams straight from a few origin servers in Mumbai"},
-            {"id": "b", "text": "Viewers download the full recording before they start to watch it"},
-            {"id": "c", "text": "One large video server streams to everyone at a single fixed quality"},
-            {"id": "d", "text": "A CDN caches the streams near viewers, with several quality levels"}
+            {
+              "id": "a",
+              "text": "Every viewer streams straight from a few origin servers in Mumbai"
+            },
+            {
+              "id": "b",
+              "text": "Viewers download the full recording before they start to watch it"
+            },
+            {
+              "id": "c",
+              "text": "One large video server streams to everyone at a single fixed quality"
+            },
+            {
+              "id": "d",
+              "text": "A CDN caches the streams near viewers, with several quality levels"
+            }
           ],
-          "correct": ["d"],
+          "correct": [
+            "d"
+          ],
           "explanation": "A content delivery network caches video segments on servers close to viewers, so the origin is not overwhelmed and playback starts quickly. Offering several quality levels lets each viewer's player switch to what their connection can handle, which is called adaptive bitrate streaming.",
           "why_others_wrong": {
             "a": "A few origin servers cannot serve millions of viewers, and distant viewers buffer.",
@@ -560,13 +1613,31 @@
           "type": "multi_select",
           "prompt": "The only alert today is an email for every CPU spike. Which two alerts should replace it?",
           "options": [
-            {"id": "a", "text": "Error rate seen by viewers stays above a set level for 5 minutes"},
-            {"id": "b", "text": "Any single server's CPU goes above 50% for even one second"},
-            {"id": "c", "text": "Stream start-up time at the 95th percentile exceeds its target"},
-            {"id": "d", "text": "An email is sent for every single line that is written to logs"},
-            {"id": "e", "text": "Disk usage on any server rises above 10% of the full capacity"}
+            {
+              "id": "a",
+              "text": "Error rate seen by viewers stays above a set level for 5 minutes"
+            },
+            {
+              "id": "b",
+              "text": "Any single server's CPU goes above 50% for even one second"
+            },
+            {
+              "id": "c",
+              "text": "Stream start-up time at the 95th percentile exceeds its target"
+            },
+            {
+              "id": "d",
+              "text": "An email is sent for every single line that is written to logs"
+            },
+            {
+              "id": "e",
+              "text": "Disk usage on any server rises above 10% of the full capacity"
+            }
           ],
-          "correct": ["a", "c"],
+          "correct": [
+            "a",
+            "c"
+          ],
           "explanation": "Good alerts fire on symptoms that viewers actually feel, such as sustained errors or slow stream starts, and need a person to act. Waiting for a few minutes of sustained trouble avoids being woken for a brief blip.",
           "why_others_wrong": {
             "b": "Brief CPU spikes are normal and do not always affect viewers, so this alert fires constantly.",
@@ -581,24 +1652,270 @@
           "type": "match",
           "prompt": "Match each platform need to the cloud service type that fits it best.",
           "items": [
-            {"id": "i1", "text": "Resize every event poster as soon as it is uploaded"},
-            {"id": "i2", "text": "Keep years of recorded streams at the lowest cost"},
-            {"id": "i3", "text": "Look up viewer session data in about a millisecond"},
-            {"id": "i4", "text": "Run the main web app so it scales with the traffic"}
+            {
+              "id": "i1",
+              "text": "Resize every event poster as soon as it is uploaded"
+            },
+            {
+              "id": "i2",
+              "text": "Keep years of recorded streams at the lowest cost"
+            },
+            {
+              "id": "i3",
+              "text": "Look up viewer session data in about a millisecond"
+            },
+            {
+              "id": "i4",
+              "text": "Run the main web app so it scales with the traffic"
+            }
           ],
           "targets": [
-            {"id": "t1", "text": "A managed in-memory cache service"},
-            {"id": "t2", "text": "Containers in an autoscaling service"},
-            {"id": "t3", "text": "A serverless function run on an upload event"},
-            {"id": "t4", "text": "An archive tier of object storage"}
+            {
+              "id": "t1",
+              "text": "A managed in-memory cache service"
+            },
+            {
+              "id": "t2",
+              "text": "Containers in an autoscaling service"
+            },
+            {
+              "id": "t3",
+              "text": "A serverless function run on an upload event"
+            },
+            {
+              "id": "t4",
+              "text": "An archive tier of object storage"
+            }
           ],
-          "correct": {"i1": "t3", "i2": "t4", "i3": "t1", "i4": "t2"},
+          "correct": {
+            "i1": "t3",
+            "i2": "t4",
+            "i3": "t1",
+            "i4": "t2"
+          },
           "explanation": "A short task triggered by each upload is a natural fit for a serverless function. Rarely accessed recordings belong in a low-cost archive storage tier, session lookups need an in-memory cache, and the main web app runs as containers that autoscale with demand.",
           "why_others_wrong": {
             "common_mistake": "Keeping old recordings in standard storage: archive tiers cost far less per gigabyte for data that is rarely read, which suits recordings kept for years."
           },
           "key_justification": "Match each workload to the service built for its pattern: events, archives, fast lookups or scaling apps.",
           "points": 10
+        }
+      ],
+      "code_pool": [
+        {
+          "id": "cle-5-c1",
+          "prompt": "Utsav Live's environments were built by clicking in the console, so nobody can say what changed. With infrastructure as code, a plan compares the code with the cloud. The first line is n, then n lines `resource key value` from the code; then m, then m lines from the real account. Complete `drift_plan`. Sorted by resource then key, list `create R` for resources only in the code, `delete R` for resources only in the account, and `update R KEY actual->desired` for each key that differs on a resource in both (a missing value shows as `-`). Print the plan, or `NO CHANGES`.",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef drift_plan(desired, actual):\n    \"\"\"desired (from code) and actual (in the cloud): lists of (resource, key, value). Return, sorted by resource then key: 'create R' for resources only desired, 'delete R' for resources only actual, and 'update R KEY old->new' for a resource in both whose key differs (a missing value shows as '-').\"\"\"\n    # Write your code here.\n    return []\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    desired = [tuple(data[1 + i].split()) for i in range(n)]\n    m = int(data[1 + n])\n    actual = [tuple(data[2 + n + i].split()) for i in range(m)]\n    plan = drift_plan(desired, actual)\n    print(\"\\n\".join(plan) if plan else \"NO CHANGES\")\n\n\nmain()\n",
+          "reference_solution": "import sys\n\n\ndef drift_plan(desired, actual):\n    \"\"\"desired (from code) and actual (in the cloud): lists of (resource, key, value). Return, sorted by resource then key: 'create R' for resources only desired, 'delete R' for resources only actual, and 'update R KEY old->new' for a resource in both whose key differs (a missing value shows as '-').\"\"\"\n    want, have = {}, {}\n    for resource, key, value in desired:\n        want.setdefault(resource, {})[key] = value\n    for resource, key, value in actual:\n        have.setdefault(resource, {})[key] = value\n    plan = []\n    for resource in sorted(set(want) | set(have)):\n        if resource not in have:\n            plan.append(f\"create {resource}\")\n        elif resource not in want:\n            plan.append(f\"delete {resource}\")\n        else:\n            for key in sorted(set(want[resource]) | set(have[resource])):\n                old, new = have[resource].get(key, \"-\"), want[resource].get(key, \"-\")\n                if old != new:\n                    plan.append(f\"update {resource} {key} {old}->{new}\")\n    return plan\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    desired = [tuple(data[1 + i].split()) for i in range(n)]\n    m = int(data[1 + n])\n    actual = [tuple(data[2 + n + i].split()) for i in range(m)]\n    plan = drift_plan(desired, actual)\n    print(\"\\n\".join(plan) if plan else \"NO CHANGES\")\n\n\nmain()\n",
+          "ds_topic": "hash_map",
+          "difficulty": 1,
+          "skills": [
+            "Python",
+            "Amazon Web Services (AWS)"
+          ],
+          "explanation": "Nested dictionaries (resource, then key) for both sides make the diff a pair of set operations. This is what a Terraform plan does: code is the source of truth, and any manual console change shows up as drift to be reverted or written back into code.",
+          "key_justification": "Diff two nested maps into create, delete and update actions.",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "4\ncdn ttl 60\ncdn tier standard\nencoder size large\ndns ttl 300\n3\ncdn ttl 300\ncdn tier standard\nold_vm size small\n",
+                  "expected_stdout": "update cdn ttl 300->60\ncreate dns\ncreate encoder\ndelete old_vm\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "3\napi_lb size small\norigin_bucket region large\nalerts region 60\n4\napi_lb size small\norigin_bucket region large\nalerts region 60\napi_lb tier archive\n",
+                  "expected_stdout": "update api_lb tier archive->-\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "9\napi_lb tier standard\ncdn tier off\ncdn size archive\norigin_bucket ttl on\nencoder size 300\nencoder replicas 300\norigin_bucket tier 4\nencoder tier archive\ndns versioning 60\n9\ncdn tier 2\ncdn size archive\norigin_bucket ttl on\nencoder size 300\nencoder replicas 300\norigin_bucket tier 4\nencoder tier archive\ndns ttl archive\ndns versioning small\n",
+                  "expected_stdout": "create api_lb\nupdate cdn tier 2->off\nupdate dns ttl archive->-\nupdate dns versioning small->60\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "15\norigin_bucket replicas off\napi_lb versioning mumbai\nvod_bucket tier large\ndns replicas archive\nalerts tier small\ndns ttl 4\napi_lb replicas mumbai\nencoder replicas mumbai\nalerts replicas off\nalerts ttl mumbai\nvod_bucket ttl 300\nalerts size on\nalerts versioning 60\nencoder tier archive\napi_lb ttl on\n16\norigin_bucket replicas off\napi_lb versioning mumbai\nvod_bucket tier large\ndns replicas archive\nalerts tier 4\ndns ttl 4\napi_lb replicas mumbai\nencoder replicas mumbai\nalerts replicas archive\nalerts ttl 4\nvod_bucket ttl off\nalerts size on\nalerts versioning 60\nencoder tier archive\napi_lb tier mumbai\norigin_bucket ttl 2\n",
+                  "expected_stdout": "update alerts replicas archive->off\nupdate alerts tier 4->small\nupdate alerts ttl 4->mumbai\nupdate api_lb tier mumbai->-\nupdate api_lb ttl -->on\nupdate origin_bucket ttl 2->-\nupdate vod_bucket ttl off->300\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "0\n0\n",
+                  "expected_stdout": "NO CHANGES\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "1\nbucket versioning on\n1\nbucket versioning on\n",
+                  "expected_stdout": "NO CHANGES\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "3\nalerts region off\napi_lb replicas 60\nencoder ttl 2\n2\nalerts region off\nencoder ttl 2\n",
+                  "expected_stdout": "create api_lb\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "9\norigin_bucket size 2\napi_lb size small\nvod_bucket tier archive\nalerts tier 2\norigin_bucket replicas off\nalerts size small\ncdn ttl large\norigin_bucket region 300\ncdn tier archive\n9\norigin_bucket size 2\napi_lb size mumbai\nvod_bucket tier archive\nalerts tier 2\norigin_bucket replicas off\nalerts size off\ncdn ttl large\norigin_bucket region 2\nencoder region off\n",
+                  "expected_stdout": "update alerts size off->small\nupdate api_lb size mumbai->small\nupdate cdn tier -->archive\ndelete encoder\nupdate origin_bucket region 2->300\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "16\nencoder replicas off\norigin_bucket tier large\nalerts ttl large\napi_lb tier large\nencoder ttl mumbai\nalerts size archive\nvod_bucket ttl small\nalerts replicas 4\nvod_bucket region 60\nencoder size large\napi_lb size 300\norigin_bucket versioning off\nalerts tier small\nvod_bucket size 2\ncdn size small\nvod_bucket replicas mumbai\n15\nencoder replicas archive\norigin_bucket tier large\nalerts ttl 300\napi_lb tier small\nalerts size standard\nvod_bucket ttl small\nalerts replicas 4\nvod_bucket region 60\nencoder size mumbai\napi_lb size 300\nalerts tier mumbai\nvod_bucket size 4\ncdn size off\nvod_bucket replicas mumbai\napi_lb versioning 4\n",
+                  "expected_stdout": "update alerts size standard->archive\nupdate alerts tier mumbai->small\nupdate alerts ttl 300->large\nupdate api_lb tier small->large\nupdate api_lb versioning 4->-\nupdate cdn size off->small\nupdate encoder replicas archive->off\nupdate encoder size mumbai->large\nupdate encoder ttl -->mumbai\nupdate origin_bucket versioning -->off\nupdate vod_bucket size 4->2\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1\na k v\n0\n",
+                  "expected_stdout": "create a\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "1\nlb replicas 2\n2\nlb replicas 2\nlb region mumbai\n",
+                  "expected_stdout": "update lb region mumbai->-\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "4\norigin_bucket tier small\ndns size mumbai\nencoder replicas small\nalerts region standard\n4\norigin_bucket tier 60\ndns size mumbai\nencoder replicas small\nalerts region standard\n",
+                  "expected_stdout": "update origin_bucket tier 60->small\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "7\napi_lb replicas 60\norigin_bucket size 2\nencoder versioning small\nalerts size mumbai\nencoder region small\norigin_bucket tier 2\ndns tier small\n6\norigin_bucket size 2\nencoder versioning small\nalerts size mumbai\nencoder region small\norigin_bucket tier 300\ndns tier archive\n",
+                  "expected_stdout": "create api_lb\nupdate dns tier archive->small\nupdate origin_bucket tier 300->2\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "16\ndns tier 2\nalerts tier archive\nencoder size large\napi_lb size 300\ndns ttl mumbai\napi_lb region small\ncdn region standard\ndns size on\nvod_bucket size large\nalerts versioning standard\norigin_bucket size archive\norigin_bucket replicas off\nencoder versioning 2\norigin_bucket tier 4\nvod_bucket region on\ncdn versioning off\n12\nalerts tier archive\ndns ttl mumbai\napi_lb region small\ncdn region 4\ndns size 300\nvod_bucket size mumbai\norigin_bucket replicas mumbai\nencoder versioning 300\norigin_bucket tier on\nvod_bucket region on\ncdn versioning off\nalerts versioning 4\n",
+                  "expected_stdout": "update alerts versioning 4->standard\nupdate api_lb size -->300\nupdate cdn region 4->standard\nupdate dns size 300->on\nupdate dns tier -->2\nupdate encoder size -->large\nupdate encoder versioning 300->2\nupdate origin_bucket replicas mumbai->off\nupdate origin_bucket size -->archive\nupdate origin_bucket tier on->4\nupdate vod_bucket size mumbai->large\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "2\nx b 1\nx a 2\n2\nx a 3\nx c 4\n",
+                  "expected_stdout": "update x a 3->2\nupdate x b -->1\nupdate x c 4->-\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "cle-5-c2",
+          "prompt": "For reliability, each live segment is ingested by several servers, and the recorder must turn their feeds into one clean playlist. The first line is k, then k lines, each a sorted list of segment timestamps from one server (a line may be empty); the same timestamp can come from several servers. Complete `merge_feeds` with a k-way merge using a heap (do not join all lists and re-sort). The program prints the merged timestamps once each, in order (or `-`), then `duplicates d`, the number of dropped copies.",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef merge_feeds(feeds):\n    \"\"\"feeds: k lists of segment timestamps, each already sorted, from different ingest servers; the same timestamp can arrive from several servers. Return (one sorted playlist with each timestamp once, how many copies were dropped). Merge them; do not concatenate and re-sort.\"\"\"\n    # Write your code here.\n    return [], 0\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    k = int(data[0])\n    feeds = [list(map(int, data[1 + i].split())) if data[1 + i].strip() else [] for i in range(k)]\n    playlist, duplicates = merge_feeds(feeds)\n    print(\" \".join(map(str, playlist)) if playlist else \"-\")\n    print(\"duplicates\", duplicates)\n\n\nmain()\n",
+          "reference_solution": "import heapq\nimport sys\n\n\ndef merge_feeds(feeds):\n    \"\"\"feeds: k lists of segment timestamps, each already sorted, from different ingest servers; the same timestamp can arrive from several servers. Return (one sorted playlist with each timestamp once, how many copies were dropped). Merge them; do not concatenate and re-sort.\"\"\"\n    heap = [(feed[0], i, 0) for i, feed in enumerate(feeds) if feed]\n    heapq.heapify(heap)\n    playlist, duplicates = [], 0\n    while heap:\n        value, i, j = heapq.heappop(heap)\n        if playlist and playlist[-1] == value:\n            duplicates += 1                       # the same segment from another server\n        else:\n            playlist.append(value)\n        if j + 1 < len(feeds[i]):\n            heapq.heappush(heap, (feeds[i][j + 1], i, j + 1))\n    return playlist, duplicates\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    k = int(data[0])\n    feeds = [list(map(int, data[1 + i].split())) if data[1 + i].strip() else [] for i in range(k)]\n    playlist, duplicates = merge_feeds(feeds)\n    print(\" \".join(map(str, playlist)) if playlist else \"-\")\n    print(\"duplicates\", duplicates)\n\n\nmain()\n",
+          "ds_topic": "heap",
+          "difficulty": 2,
+          "skills": [
+            "Python"
+          ],
+          "explanation": "A min-heap holding the next timestamp from each feed always yields the globally smallest one, so k sorted feeds merge in O(n log k) while streaming, without loading everything first. Equal timestamps come out next to each other, which makes dropping replica copies a comparison with the last item written.",
+          "key_justification": "K-way merge of sorted streams with a min-heap.",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "3\n0 2 4 6\n2 4 8\n6 10\n",
+                  "expected_stdout": "0 2 4 6 8 10\nduplicates 3\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "2\n\n36\n",
+                  "expected_stdout": "36\nduplicates 0\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "4\n6 10 12 18 22 46 54 56 58 72 86 96 118 140 146 150\n50 94 104 106 110 112 138 156\n0 4 10 22 24 26 34 40 42 46 52 62 64 70 72 82 94 96 104 112 114 126 130 132\n2 8 18 36 38 42 52 54 72 76 92 106 110 138 142 152 154\n",
+                  "expected_stdout": "0 2 4 6 8 10 12 18 22 24 26 34 36 38 40 42 46 50 52 54 56 58 62 64 70 72 76 82 86 92 94 96 104 106 110 112 114 118 126 130 132 138 140 142 146 150 152 154 156\nduplicates 16\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "6\n0 34 38 70 72 82 98 104 112 122 132 150 166 170 172 200 210 234\n8 18 26 44 58 66 70 82 88 92 110 116 118 130 144 146 164 172 184 200 214 222 224 230\n0 2 16 34 36 38 40 48 52 60 68 86 90 92 98 100 102 106 108 116 118 122 126 130 138 148 160 184 208 210 214 232 234\n8 32 40 44 48 58 62 66 68 76 78 82 84 88 100 104 110 114 130 136 140 152 156 168 172 182 198 216 228 230\n12 22 168\n46 50 54 62 110 112 146 166 172 190 194 232\n",
+                  "expected_stdout": "0 2 8 12 16 18 22 26 32 34 36 38 40 44 46 48 50 52 54 58 60 62 66 68 70 72 76 78 82 84 86 88 90 92 98 100 102 104 106 108 110 112 114 116 118 122 126 130 132 136 138 140 144 146 148 150 152 156 160 164 166 168 170 172 182 184 190 194 198 200 208 210 214 216 222 224 228 230 232 234\nduplicates 40\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1\n7\n",
+                  "expected_stdout": "7\nduplicates 0\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "2\n1 3 5\n\n",
+                  "expected_stdout": "1 3 5\nduplicates 0\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "2\n4 12 18 20 22 24 40 42 44 52\n16\n",
+                  "expected_stdout": "4 12 16 18 20 22 24 40 42 44 52\nduplicates 0\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "4\n2 16 44 50 54 70 74 76 78 80 82 100 108 110 120 122 130 134 136 140 146 154 156\n22 36 52 60 72 74 92 124 136 158\n4 112 126 136 140\n2 6 8 12 18 26 36 74 104 144 146 154\n",
+                  "expected_stdout": "2 4 6 8 12 16 18 22 26 36 44 50 52 54 60 70 72 74 76 78 80 82 92 100 104 108 110 112 120 122 124 126 130 134 136 140 144 146 154 156 158\nduplicates 9\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "6\n2 4 32 48 96 104 108 116 130 134 158 164 218 228 230\n8 22 32 58 66 78 86 88 100 112 120 126 136 144 148 176 182 184 190 226 232 234 238\n42 156 204\n2 22 50 56 64 126 144 156 164 166 170 202 210 212 214 222\n12 44 96 114 152 164 198 204 212\n6 62 164 176 236\n",
+                  "expected_stdout": "2 4 6 8 12 22 32 42 44 48 50 56 58 62 64 66 78 86 88 96 100 104 108 112 114 116 120 126 130 134 136 144 148 152 156 158 164 166 170 176 182 184 190 198 202 204 210 212 214 218 222 226 228 230 232 234 236 238\nduplicates 13\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "3\n5 5\n5\n5\n",
+                  "expected_stdout": "5\nduplicates 3\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "2\n\n\n",
+                  "expected_stdout": "-\nduplicates 0\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "2\n20 22 40 42 50 52\n24 26 30\n",
+                  "expected_stdout": "20 22 24 26 30 40 42 50 52\nduplicates 0\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "4\n12 14 32 38 48 58 78 86 96 100 132\n\n14 18 30 34 36 40 52 54 58 60 68 72 80 84 94 98 120 122 124 128 134 136 140 146 154 156\n44 56 58 62 68 78 82 88 98 106 108 120 128 132 140 142\n",
+                  "expected_stdout": "12 14 18 30 32 34 36 38 40 44 48 52 54 56 58 60 62 68 72 78 80 82 84 86 88 94 96 98 100 106 108 120 122 124 128 132 134 136 140 142 146 154 156\nduplicates 10\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "6\n10 30 54 76 78 96 104 126 170 176 180 198 204 234 236\n2 10 12 26 28 34 36 52 72 82 92 100 122 124 164 174 192 198 214 228\n14 22 64 68 148 160\n20 24 38 40 42 56 86 88 96 100 106 126 146 172 174 184 188 192 198 208 220 222 228\n2 6 8 12 18 20 24 28 34 48 54 56 72 76 80 88 90 92 108 112 114 128 136 160 164 166 168 178 186 190 194 198 206 214 216 220 226 236\n2 6 8 12 22 30 46 52 54 60 62 70 74 86 96 114 118 138 146 158 160 172 184 198 204 206 214 218 224 226 230\n",
+                  "expected_stdout": "2 6 8 10 12 14 18 20 22 24 26 28 30 34 36 38 40 42 46 48 52 54 56 60 62 64 68 70 72 74 76 78 80 82 86 88 90 92 96 100 104 106 108 112 114 118 122 124 126 128 136 138 146 148 158 160 164 166 168 170 172 174 176 178 180 184 186 188 190 192 194 198 204 206 208 214 216 218 220 222 224 226 228 230 234 236\nduplicates 47\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "2\n1 2 3\n4 5 6\n",
+                  "expected_stdout": "1 2 3 4 5 6\nduplicates 0\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
         }
       ]
     }

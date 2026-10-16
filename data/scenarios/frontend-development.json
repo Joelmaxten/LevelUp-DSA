@@ -4,7 +4,24 @@
   "map": {
     "scene_id": "frontend-development",
     "theme": "A rooftop city of shopfront windows and glowing signboards, where a sweet shop with a striped awning, a travel agency full of paper maps, a bookshop with rolling ladders, an office tower of glass dashboards and a concert ground with festoon lights are linked by footbridges between the rooftops. The palette is marigold, violet and fresh white, and the mood moves from cosy craft at the sweet shop to electric excitement at the concert ground.",
-    "edges": [["fed-1", "fed-2"], ["fed-2", "fed-3"], ["fed-3", "fed-4"], ["fed-4", "fed-5"]]
+    "edges": [
+      [
+        "fed-1",
+        "fed-2"
+      ],
+      [
+        "fed-2",
+        "fed-3"
+      ],
+      [
+        "fed-3",
+        "fed-4"
+      ],
+      [
+        "fed-4",
+        "fed-5"
+      ]
+    ]
   },
   "scenarios": [
     {
@@ -26,19 +43,37 @@
         "Image performance",
         "Core CSS concepts"
       ],
-      "map_node": {"x": 0.1, "y": 0.84, "label": "Sweet Shop Awning"},
+      "map_node": {
+        "x": 0.1,
+        "y": 0.84,
+        "label": "Sweet Shop Awning"
+      },
       "questions": [
         {
           "id": "fed-1-q1",
           "type": "single_choice",
           "prompt": "The 'Order on WhatsApp' control is a div with a click handler. Keyboard users cannot reach it, and screen readers do not announce it. What is the best fix?",
           "options": [
-            {"id": "a", "text": "Give the div a bright colour so the control stands out from the rest"},
-            {"id": "b", "text": "Add a title attribute to the div that describes what the click does"},
-            {"id": "c", "text": "Use a real link or button, which brings keyboard and reader support"},
-            {"id": "d", "text": "Add a mouseover handler so the div reacts whenever it is hovered"}
+            {
+              "id": "a",
+              "text": "Give the div a bright colour so the control stands out from the rest"
+            },
+            {
+              "id": "b",
+              "text": "Add a title attribute to the div that describes what the click does"
+            },
+            {
+              "id": "c",
+              "text": "Use a real link or button, which brings keyboard and reader support"
+            },
+            {
+              "id": "d",
+              "text": "Add a mouseover handler so the div reacts whenever it is hovered"
+            }
           ],
-          "correct": ["c"],
+          "correct": [
+            "c"
+          ],
           "explanation": "Native elements carry built-in behaviour: links and buttons can be focused with the Tab key, activated with Enter, and are announced with their role by screen readers. Since this control opens WhatsApp, a link to the WhatsApp URL is the natural element, and it gets all that for free.",
           "why_others_wrong": {
             "a": "Colour changes appearance only; the div still cannot be focused or announced.",
@@ -53,12 +88,26 @@
           "type": "single_choice",
           "prompt": "Three product cards sit side by side with fixed 400-pixel widths and overflow on phones. How should the layout be built?",
           "options": [
-            {"id": "a", "text": "Use CSS Grid with repeat(auto-fit, minmax(250px, 1fr)) for the cards"},
-            {"id": "b", "text": "Put the cards in an HTML table with three columns and fixed widths"},
-            {"id": "c", "text": "Position each card absolutely using exact pixel offsets from the top"},
-            {"id": "d", "text": "Make a separate phone-only copy of the page with different HTML"}
+            {
+              "id": "a",
+              "text": "Use CSS Grid with repeat(auto-fit, minmax(250px, 1fr)) for the cards"
+            },
+            {
+              "id": "b",
+              "text": "Put the cards in an HTML table with three columns and fixed widths"
+            },
+            {
+              "id": "c",
+              "text": "Position each card absolutely using exact pixel offsets from the top"
+            },
+            {
+              "id": "d",
+              "text": "Make a separate phone-only copy of the page with different HTML"
+            }
           ],
-          "correct": ["a"],
+          "correct": [
+            "a"
+          ],
           "explanation": "A grid with auto-fit and minmax fits as many cards per row as there is space for, each at least 250 pixels wide, and wraps them onto new rows on narrow screens. One fluid layout then works from small phones to wide desktops without overflow.",
           "why_others_wrong": {
             "b": "Tables are for tabular data, and fixed column widths overflow on phones in the same way.",
@@ -73,13 +122,31 @@
           "type": "multi_select",
           "prompt": "The camera photos make the page very slow on mobile data. Which two changes help most?",
           "options": [
-            {"id": "a", "text": "Serve resized images with srcset, in a modern format like WebP"},
-            {"id": "b", "text": "Keep the 4,000-pixel PNGs and shrink them using CSS widths"},
-            {"id": "c", "text": "Lazy-load the photos further down with loading=\"lazy\""},
-            {"id": "d", "text": "Embed every photo as a base64 string inside the HTML file"},
-            {"id": "e", "text": "Add more photos so that the page looks fuller while it loads"}
+            {
+              "id": "a",
+              "text": "Serve resized images with srcset, in a modern format like WebP"
+            },
+            {
+              "id": "b",
+              "text": "Keep the 4,000-pixel PNGs and shrink them using CSS widths"
+            },
+            {
+              "id": "c",
+              "text": "Lazy-load the photos further down with loading=\"lazy\""
+            },
+            {
+              "id": "d",
+              "text": "Embed every photo as a base64 string inside the HTML file"
+            },
+            {
+              "id": "e",
+              "text": "Add more photos so that the page looks fuller while it loads"
+            }
           ],
-          "correct": ["a", "c"],
+          "correct": [
+            "a",
+            "c"
+          ],
           "explanation": "Resized images in an efficient format, with srcset letting the browser pick a size that matches the screen, often cut each download by more than 90%. Lazy-loading photos that are below the visible area means they download only when the visitor scrolls near them.",
           "why_others_wrong": {
             "b": "CSS changes the display size but the full multi-megabyte file still downloads.",
@@ -94,18 +161,47 @@
           "type": "match",
           "prompt": "Match each CSS feature to what it does.",
           "items": [
-            {"id": "i1", "text": "box-sizing: border-box"},
-            {"id": "i2", "text": "position: sticky"},
-            {"id": "i3", "text": "z-index"},
-            {"id": "i4", "text": "rem units"}
+            {
+              "id": "i1",
+              "text": "box-sizing: border-box"
+            },
+            {
+              "id": "i2",
+              "text": "position: sticky"
+            },
+            {
+              "id": "i3",
+              "text": "z-index"
+            },
+            {
+              "id": "i4",
+              "text": "rem units"
+            }
           ],
           "targets": [
-            {"id": "t1", "text": "Sets which overlapping element is drawn on top"},
-            {"id": "t2", "text": "Counts padding and border inside the set width"},
-            {"id": "t3", "text": "Scales sizes with the root element's font size"},
-            {"id": "t4", "text": "Holds an element in place once you scroll to it"}
+            {
+              "id": "t1",
+              "text": "Sets which overlapping element is drawn on top"
+            },
+            {
+              "id": "t2",
+              "text": "Counts padding and border inside the set width"
+            },
+            {
+              "id": "t3",
+              "text": "Scales sizes with the root element's font size"
+            },
+            {
+              "id": "t4",
+              "text": "Holds an element in place once you scroll to it"
+            }
           ],
-          "correct": {"i1": "t2", "i2": "t4", "i3": "t1", "i4": "t3"},
+          "correct": {
+            "i1": "t2",
+            "i2": "t4",
+            "i3": "t1",
+            "i4": "t3"
+          },
           "explanation": "With border-box, a 300-pixel-wide box stays 300 pixels however much padding it has. Sticky positioning scrolls an element normally until it reaches an edge and then holds it there, z-index orders overlapping positioned elements, and rem units scale with the root font size, so they respect a user's text-size setting.",
           "why_others_wrong": {
             "common_mistake": "Confusing sticky with fixed positioning: a fixed element is always pinned to the screen, while a sticky one scrolls with the page until it reaches its set edge."
@@ -134,19 +230,37 @@
         "List keys",
         "Validation and state management"
       ],
-      "map_node": {"x": 0.3, "y": 0.66, "label": "Map-Filled Travel Agency"},
+      "map_node": {
+        "x": 0.3,
+        "y": 0.66,
+        "label": "Map-Filled Travel Agency"
+      },
       "questions": [
         {
           "id": "fed-2-q1",
           "type": "single_choice",
           "prompt": "Typing 'Jodhpur' in the search box fires seven API requests, one per letter, and hits the rate limit. What should change?",
           "options": [
-            {"id": "a", "text": "Debounce the input and search once typing has paused for ~300 ms"},
-            {"id": "b", "text": "Ask the API team to remove the rate limit for the search endpoint"},
-            {"id": "c", "text": "Send each keystroke's request but hide every result except the last"},
-            {"id": "d", "text": "Load the full timetable for every route when the app first opens"}
+            {
+              "id": "a",
+              "text": "Debounce the input and search once typing has paused for ~300 ms"
+            },
+            {
+              "id": "b",
+              "text": "Ask the API team to remove the rate limit for the search endpoint"
+            },
+            {
+              "id": "c",
+              "text": "Send each keystroke's request but hide every result except the last"
+            },
+            {
+              "id": "d",
+              "text": "Load the full timetable for every route when the app first opens"
+            }
           ],
-          "correct": ["a"],
+          "correct": [
+            "a"
+          ],
           "explanation": "Debouncing waits until the user pauses typing before sending a request, so a burst of keystrokes becomes one search. Cancelling any in-flight request when a new one starts, for example with an AbortController, saves even more work.",
           "why_others_wrong": {
             "b": "The limit protects the backend; removing it shifts the overload onto the API team.",
@@ -161,12 +275,26 @@
           "type": "single_choice",
           "prompt": "Users lose their filters on refresh, and links shared on WhatsApp open an empty search. Where should the filter state live?",
           "options": [
-            {"id": "a", "text": "In component state only, which resets when the page is reloaded"},
-            {"id": "b", "text": "In the URL's query parameters, read when the page first loads"},
-            {"id": "c", "text": "In a cookie that the server reads only when users are logged in"},
-            {"id": "d", "text": "In a global variable on the window object, set when filters change"}
+            {
+              "id": "a",
+              "text": "In component state only, which resets when the page is reloaded"
+            },
+            {
+              "id": "b",
+              "text": "In the URL's query parameters, read when the page first loads"
+            },
+            {
+              "id": "c",
+              "text": "In a cookie that the server reads only when users are logged in"
+            },
+            {
+              "id": "d",
+              "text": "In a global variable on the window object, set when filters change"
+            }
           ],
-          "correct": ["b"],
+          "correct": [
+            "b"
+          ],
           "explanation": "Putting search filters in the URL, such as ?from=JP&to=JU&date=2026-11-02, means a refresh restores them, the back button works, and a shared link opens the same search for the person who receives it.",
           "why_others_wrong": {
             "a": "Component state lives only in memory, so a refresh or a shared link loses it.",
@@ -181,12 +309,26 @@
           "type": "single_choice",
           "prompt": "The passenger list uses each row's array index as its React key. After deleting the second row, the third row shows the deleted passenger's name in its input. Why, and what is the fix?",
           "options": [
-            {"id": "a", "text": "React is buggy with forms; replace every input with plain text"},
-            {"id": "b", "text": "The names are too long; trim them before they are put in state"},
-            {"id": "c", "text": "Index keys shift on delete; key each row by a stable unique id"},
-            {"id": "d", "text": "The list needs a re-render; reload the page after each delete"}
+            {
+              "id": "a",
+              "text": "React is buggy with forms; replace every input with plain text"
+            },
+            {
+              "id": "b",
+              "text": "The names are too long; trim them before they are put in state"
+            },
+            {
+              "id": "c",
+              "text": "Index keys shift on delete; key each row by a stable unique id"
+            },
+            {
+              "id": "d",
+              "text": "The list needs a re-render; reload the page after each delete"
+            }
           ],
-          "correct": ["c"],
+          "correct": [
+            "c"
+          ],
           "explanation": "React uses keys to match rows between renders. When a row is deleted, every later row's index shifts, so React reuses the wrong row's input state for the remaining passengers. Giving each passenger a stable unique id as its key keeps state attached to the right row.",
           "why_others_wrong": {
             "a": "React handles forms reliably when keys are stable; the bug is in the key choice.",
@@ -201,13 +343,31 @@
           "type": "multi_select",
           "prompt": "The booking form collects passenger names and ages. Which two validation practices are correct?",
           "options": [
-            {"id": "a", "text": "Validate in the browser so mistakes are shown as soon as possible"},
-            {"id": "b", "text": "Rely on the browser checks alone, since users cannot get past them"},
-            {"id": "c", "text": "Validate again on the server, because browser checks can be skipped"},
-            {"id": "d", "text": "Allow only English letters A to Z in passenger name fields"},
-            {"id": "e", "text": "Validate on the server only and show no messages in the browser"}
+            {
+              "id": "a",
+              "text": "Validate in the browser so mistakes are shown as soon as possible"
+            },
+            {
+              "id": "b",
+              "text": "Rely on the browser checks alone, since users cannot get past them"
+            },
+            {
+              "id": "c",
+              "text": "Validate again on the server, because browser checks can be skipped"
+            },
+            {
+              "id": "d",
+              "text": "Allow only English letters A to Z in passenger name fields"
+            },
+            {
+              "id": "e",
+              "text": "Validate on the server only and show no messages in the browser"
+            }
           ],
-          "correct": ["a", "c"],
+          "correct": [
+            "a",
+            "c"
+          ],
           "explanation": "Checks in the browser give instant, friendly feedback, such as 'Age must be a number'. They can be bypassed by anyone sending requests directly, so the server must validate everything again before booking.",
           "why_others_wrong": {
             "b": "Browser checks are easily bypassed with developer tools or direct API calls.",
@@ -222,24 +382,271 @@
           "type": "match",
           "prompt": "Match each front-end problem to the technique that fixes it.",
           "items": [
-            {"id": "i1", "text": "An older search's results arrive late and overwrite the newer ones"},
-            {"id": "i2", "text": "The user's currency is passed down through six component layers"},
-            {"id": "i3", "text": "A 5,000-row results list re-renders slowly as the user scrolls"},
-            {"id": "i4", "text": "Four components each fetch the same station list separately"}
+            {
+              "id": "i1",
+              "text": "An older search's results arrive late and overwrite the newer ones"
+            },
+            {
+              "id": "i2",
+              "text": "The user's currency is passed down through six component layers"
+            },
+            {
+              "id": "i3",
+              "text": "A 5,000-row results list re-renders slowly as the user scrolls"
+            },
+            {
+              "id": "i4",
+              "text": "Four components each fetch the same station list separately"
+            }
           ],
           "targets": [
-            {"id": "t1", "text": "Render only the visible rows with a virtualised list"},
-            {"id": "t2", "text": "Use a shared data-fetching cache keyed by the request"},
-            {"id": "t3", "text": "Cancel or ignore responses that are not for the latest request"},
-            {"id": "t4", "text": "Provide the value through React context or a state store"}
+            {
+              "id": "t1",
+              "text": "Render only the visible rows with a virtualised list"
+            },
+            {
+              "id": "t2",
+              "text": "Use a shared data-fetching cache keyed by the request"
+            },
+            {
+              "id": "t3",
+              "text": "Cancel or ignore responses that are not for the latest request"
+            },
+            {
+              "id": "t4",
+              "text": "Provide the value through React context or a state store"
+            }
           ],
-          "correct": {"i1": "t3", "i2": "t4", "i3": "t1", "i4": "t2"},
+          "correct": {
+            "i1": "t3",
+            "i2": "t4",
+            "i3": "t1",
+            "i4": "t2"
+          },
           "explanation": "Out-of-order responses are a race, fixed by cancelling stale requests or ignoring responses that do not match the latest query. Values needed deep in the tree come from context or a store instead of being passed through every layer, long lists render only the visible rows, and repeated fetches share one cached request.",
           "why_others_wrong": {
             "common_mistake": "Fixing the out-of-order results with a debounce: debouncing reduces how many requests are sent, but two requests can still finish in the wrong order."
           },
           "key_justification": "Races, deep props, long lists and repeated fetches each have a standard fix.",
           "points": 10
+        }
+      ],
+      "code_pool": [
+        {
+          "id": "fed-2-c1",
+          "prompt": "Yatra Kosh's search box called the API on every keystroke. With debouncing, each keystroke restarts a timer and the search runs only when the user pauses. The first line is `delay n`, the second has n keystroke times in milliseconds, in order. Complete `debounce`: each keystroke starts a fresh timer of `delay` ms that replaces the previous one; a call fires when a timer runs out, and a keystroke at or after that moment does not cancel it. The program prints `calls k` and `at` with the firing times, or `at -`.",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef debounce(keys, delay):\n    \"\"\"keys: keystroke times in ms, in order. Each keystroke (re)starts a timer of `delay` ms; the search call fires when a timer runs out. A keystroke at or after the moment a timer runs out does not cancel it. Return the times the call fires.\"\"\"\n    # Write your code here.\n    return [t + delay for t in keys]\n\n\ndef main():\n    data = sys.stdin.read().split()\n    delay, n = int(data[0]), int(data[1])\n    keys = list(map(int, data[2:2 + n]))\n    calls = debounce(keys, delay)\n    print(\"calls\", len(calls))\n    print(\"at\", \" \".join(map(str, calls)) if calls else \"-\")\n\n\nmain()\n",
+          "reference_solution": "import sys\n\n\ndef debounce(keys, delay):\n    \"\"\"keys: keystroke times in ms, in order. Each keystroke (re)starts a timer of `delay` ms; the search call fires when a timer runs out. A keystroke at or after the moment a timer runs out does not cancel it. Return the times the call fires.\"\"\"\n    calls = []\n    for i, t in enumerate(keys):\n        is_last = i == len(keys) - 1\n        if is_last or keys[i + 1] >= t + delay:     # nobody typed before this timer ran out\n            calls.append(t + delay)\n    return calls\n\n\ndef main():\n    data = sys.stdin.read().split()\n    delay, n = int(data[0]), int(data[1])\n    keys = list(map(int, data[2:2 + n]))\n    calls = debounce(keys, delay)\n    print(\"calls\", len(calls))\n    print(\"at\", \" \".join(map(str, calls)) if calls else \"-\")\n\n\nmain()\n",
+          "ds_topic": "array",
+          "difficulty": 1,
+          "skills": [
+            "JavaScript",
+            "Python"
+          ],
+          "explanation": "A keystroke's timer survives only if the next keystroke comes at or after it expires, so one look at the next time decides each one. Debouncing turns a burst of typing into one request, cutting load on the API and avoiding out-of-order results for half-typed queries.",
+          "key_justification": "Debounce as a scan comparing each event with the next.",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "300 6\n0 100 250 700 1100 1350\n",
+                  "expected_stdout": "calls 3\nat 550 1000 1650\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "300 6\n900 940 1140 2040 2160 2310\n",
+                  "expected_stdout": "calls 2\nat 1440 2610\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "150 25\n40 240 280 1180 1330 1370 1770 2670 2710 2830 2950 3030 3430 3830 4030 4070 4190 4310 4710 4910 5060 5180 6080 6280 6430\n",
+                  "expected_stdout": "calls 15\nat 190 430 1330 1520 1920 3180 3580 3980 4460 4860 5060 5330 6230 6430 6580\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "300 80\n80 280 680 830 1030 1930 2080 2980 3060 3140 3340 4240 5140 5220 6120 6520 6920 7070 7150 7300 7340 7460 7860 8260 8660 8860 8980 9180 10080 10480 10880 10920 11820 11900 11940 11980 12100 12300 12700 12780 13680 13760 13840 14040 14120 14160 14200 14600 15000 15200 15280 16180 16300 16500 16540 17440 17560 17600 17800 17950 18350 18470 18870 19770 19810 20210 20250 20450 20600 20680 20760 21160 21360 21400 21800 21840 22240 22640 22760 22800\n",
+                  "expected_stdout": "calls 30\nat 580 1330 2380 3640 4540 5520 6420 6820 7760 8160 8560 9480 10380 10780 11220 12600 13080 14500 14900 15580 16840 18250 18770 19170 20110 21060 21700 22140 22540 23100\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "200 1\n5\n",
+                  "expected_stdout": "calls 1\nat 205\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "100 3\n0 100 200\n",
+                  "expected_stdout": "calls 3\nat 100 200 300\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "250 6\n120 1020 1420 1500 1700 1780\n",
+                  "expected_stdout": "calls 3\nat 370 1270 2030\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "150 25\n200 350 390 1290 1690 2590 3490 3890 4290 4490 4530 4650 4850 4930 4970 5870 6270 7170 7570 7610 7760 8160 8280 8360 8400\n",
+                  "expected_stdout": "calls 16\nat 350 540 1440 1840 2740 3640 4040 4440 4800 5120 6020 6420 7320 7760 7910 8550\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "300 80\n400 1300 2200 2240 2360 2400 2550 2950 3030 3070 3150 3350 3500 4400 4520 4640 4680 5080 5280 5680 5880 6000 6400 6520 7420 7820 7900 8100 8300 8450 9350 9500 9580 9700 9740 9860 10060 10100 10220 10300 10450 10650 10690 10840 11040 11120 11520 11920 12320 13220 14120 14160 14560 15460 15580 15780 16680 17080 17200 17350 17750 17830 18030 18150 18350 18500 18580 19480 19560 19960 20110 20230 20310 21210 21330 22230 22270 22420 23320 23520\n",
+                  "expected_stdout": "calls 26\nat 700 1600 2850 3800 4980 5580 6300 6820 7720 8750 11420 11820 12220 12620 13520 14460 14860 16080 16980 17650 18880 19860 20610 21630 22720 23820\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "100 2\n0 99\n",
+                  "expected_stdout": "calls 1\nat 199\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "500 4\n0 10 20 30\n",
+                  "expected_stdout": "calls 1\nat 530\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "250 6\n150 230 430 1330 1530 1930\n",
+                  "expected_stdout": "calls 3\nat 680 1780 2180\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "150 25\n900 1100 1300 1380 1420 1540 1740 2640 2720 2920 3320 3720 3800 3880 4030 4150 4300 4500 4580 4980 5100 5250 5400 5440 5640\n",
+                  "expected_stdout": "calls 15\nat 1050 1250 1690 1890 2870 3070 3470 4030 4300 4450 4730 5250 5400 5590 5790\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "500 80\n900 940 1090 1170 1290 1410 1530 1930 2130 2210 2330 2480 2680 3080 3480 3880 4780 4930 5080 5480 5520 5920 6120 6200 6600 7000 7200 7350 7500 7620 7740 8140 8340 9240 9280 9680 10580 10780 10980 11060 11210 11330 11370 12270 12390 12510 12910 13810 14710 15610 15760 16160 16560 16960 17110 18010 18090 18130 18530 18610 18810 18890 19040 19160 19280 19400 19600 20500 20580 20980 21180 21300 21500 21540 21620 21700 21740 21820 21970 22010\n",
+                  "expected_stdout": "calls 10\nat 4380 8840 10180 11870 13410 14310 15210 17610 20100 22510\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "50 3\n0 50 51\n",
+                  "expected_stdout": "calls 2\nat 50 101\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "fed-2-c2",
+          "prompt": "Users lose their filters when they refresh or share a link, so the search state moves into the URL. Write the reading side. The input is one URL or query string. Complete `parse_query`: take the part after the first `?` (or the whole line if there is none), split on `&` and skip empty pieces; each piece is `key=value` (no `=` means an empty value); decode `+` as a space and `%XX` as the character with that hex code. A key can repeat (class=sleeper&class=3A). The program prints `key=v1,v2` per key, sorted by key, values in the order they appeared, or EMPTY.",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef parse_query(url):\n    \"\"\"Take the part after the first '?' (or the whole text if there is none) and split it on '&', skipping empty pieces. Each piece is key=value (no '=' means an empty value). Decode '+' as a space and %XX as the character with that hex code, in keys and values. Return {key: [values in order]}.\"\"\"\n    # Write your code here.\n    return {}\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    params = parse_query(data[0].strip())\n    if not params:\n        print(\"EMPTY\")\n    for key in sorted(params):\n        print(key + \"=\" + \",\".join(params[key]))\n\n\nmain()\n",
+          "reference_solution": "import sys\n\n\ndef decode(text):\n    out, i = [], 0\n    while i < len(text):\n        ch = text[i]\n        if ch == \"+\":\n            out.append(\" \")\n        elif ch == \"%\" and i + 2 < len(text) + 0 and all(c in \"0123456789abcdefABCDEF\" for c in text[i + 1:i + 3]) \\\n                and len(text[i + 1:i + 3]) == 2:\n            out.append(chr(int(text[i + 1:i + 3], 16)))\n            i += 2\n        else:\n            out.append(ch)\n        i += 1\n    return \"\".join(out)\n\n\ndef parse_query(url):\n    \"\"\"Take the part after the first '?' (or the whole text if there is none) and split it on '&', skipping empty pieces. Each piece is key=value (no '=' means an empty value). Decode '+' as a space and %XX as the character with that hex code, in keys and values. Return {key: [values in order]}.\"\"\"\n    query = url.split(\"?\", 1)[1] if \"?\" in url else url\n    params = {}\n    for piece in query.split(\"&\"):\n        if not piece:\n            continue\n        key, _, value = piece.partition(\"=\")\n        params.setdefault(decode(key), []).append(decode(value))\n    return params\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    params = parse_query(data[0].strip())\n    if not params:\n        print(\"EMPTY\")\n    for key in sorted(params):\n        print(key + \"=\" + \",\".join(params[key]))\n\n\nmain()\n",
+          "ds_topic": "string",
+          "difficulty": 2,
+          "skills": [
+            "JavaScript",
+            "Python"
+          ],
+          "explanation": "Splitting on '&' and then on the first '=' gives key-value pairs; a dictionary of lists keeps repeated keys (multi-select filters) in order. Decoding must happen after splitting, so an encoded '&' (%26) inside a value is not mistaken for a separator. URLSearchParams does the same in the browser.",
+          "key_justification": "Tokenise and percent-decode a query string into a multi-map.",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "https://yatrakosh.in/search?from=Jaipur&to=New%20Delhi&class=sleeper&class=3A&q=a+b\n",
+                  "expected_stdout": "class=sleeper,3A\nfrom=Jaipur\nq=a b\nto=New Delhi\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "https://yatrakosh.in/search?to=New%20Delhi&&from=Jaipur\n",
+                  "expected_stdout": "from=Jaipur\nto=New Delhi\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "date=2026-11-01&ac&sort=price&sort=price&page=2\n",
+                  "expected_stdout": "ac=\ndate=2026-11-01\npage=2\nsort=price,price\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "?class=sleeper&&sort=price&to=New%20Delhi&date=2026-11-01&to=New%20Delhi&to=New%20Delhi&to=Agra&date=2026-11-01&sort=price\n",
+                  "expected_stdout": "class=sleeper\ndate=2026-11-01,2026-11-01\nsort=price,price\nto=New Delhi,New Delhi,New Delhi,Agra\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "?a=1&a=2&a=3\n",
+                  "expected_stdout": "a=1,2,3\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "/search?\n",
+                  "expected_stdout": "EMPTY\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "?sort=price&q=a+b\n",
+                  "expected_stdout": "q=a b\nsort=price\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "to=New%20Delhi&seat=%2B&to=Agra&from=Jaipur&seat=%2B\n",
+                  "expected_stdout": "from=Jaipur\nseat=+,+\nto=New Delhi,Agra\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "?date=2026-11-01&seat=%2B&to=Agra&ac&to=New%20Delhi&to=Agra&class=sleeper&to=New%20Delhi&q=a+b\n",
+                  "expected_stdout": "ac=\nclass=sleeper\ndate=2026-11-01\nq=a b\nseat=+\nto=Agra,New Delhi,Agra,New Delhi\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "x=%41%42\n",
+                  "expected_stdout": "x=AB\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "ac&seat=%2B&&note=R%26D\n",
+                  "expected_stdout": "ac=\nnote=R&D\nseat=+\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "https://yatrakosh.in/search?from=Jaipur&class=3A\n",
+                  "expected_stdout": "class=3A\nfrom=Jaipur\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "/search?to=New%20Delhi&&sort=price&from=Jaipur&ac&to=Agra\n",
+                  "expected_stdout": "ac=\nfrom=Jaipur\nsort=price\nto=New Delhi,Agra\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "https://yatrakosh.in/search?from=Kota&ac&name=Ravi%20K&q=a+b&class=3A&sort=price&name=Ravi%20K&name=Ravi%20K&from=Kota\n",
+                  "expected_stdout": "ac=\nclass=3A\nfrom=Kota,Kota\nname=Ravi K,Ravi K,Ravi K\nq=a b\nsort=price\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "?k=v=w\n",
+                  "expected_stdout": "k=v=w\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -262,19 +669,37 @@
         "CORS",
         "Memory leaks and browser DevTools"
       ],
-      "map_node": {"x": 0.5, "y": 0.5, "label": "Bookshop Ladders"},
+      "map_node": {
+        "x": 0.5,
+        "y": 0.5,
+        "label": "Bookshop Ladders"
+      },
       "questions": [
         {
           "id": "fed-3-q1",
           "type": "single_choice",
           "prompt": "Text jumps down the page as book covers and an ad slot load, and readers tap the wrong links. What fixes this layout shift?",
           "options": [
-            {"id": "a", "text": "Load the covers and the ad last, after the rest of the page"},
-            {"id": "b", "text": "Hide the whole page until every single image has loaded"},
-            {"id": "c", "text": "Set width, height or aspect-ratio and reserve space for the ad"},
-            {"id": "d", "text": "Add a CSS fade-in animation to each image as it finishes loading"}
+            {
+              "id": "a",
+              "text": "Load the covers and the ad last, after the rest of the page"
+            },
+            {
+              "id": "b",
+              "text": "Hide the whole page until every single image has loaded"
+            },
+            {
+              "id": "c",
+              "text": "Set width, height or aspect-ratio and reserve space for the ad"
+            },
+            {
+              "id": "d",
+              "text": "Add a CSS fade-in animation to each image as it finishes loading"
+            }
           ],
-          "correct": ["c"],
+          "correct": [
+            "c"
+          ],
           "explanation": "Content shifts when the browser does not know how much space an image or ad will take until it arrives. Giving images width and height attributes or a CSS aspect-ratio, and giving the ad slot a fixed minimum size, reserves the space up front, so nothing moves when they load.",
           "why_others_wrong": {
             "a": "Loading them later still pushes content down when they appear, possibly while the reader is reading.",
@@ -289,12 +714,26 @@
           "type": "single_choice",
           "prompt": "The hero image is the page's largest element, but it is added by JavaScript after a 900 KB bundle runs, so it appears late. What helps most?",
           "options": [
-            {"id": "a", "text": "Add the image in an even later script, after analytics has run"},
-            {"id": "b", "text": "Put the image in the HTML with high fetch priority, compressed"},
-            {"id": "c", "text": "Load the image with loading=\"lazy\" so it downloads only on scroll"},
-            {"id": "d", "text": "Turn the image into a CSS background that the bundle sets later"}
+            {
+              "id": "a",
+              "text": "Add the image in an even later script, after analytics has run"
+            },
+            {
+              "id": "b",
+              "text": "Put the image in the HTML with high fetch priority, compressed"
+            },
+            {
+              "id": "c",
+              "text": "Load the image with loading=\"lazy\" so it downloads only on scroll"
+            },
+            {
+              "id": "d",
+              "text": "Turn the image into a CSS background that the bundle sets later"
+            }
           ],
-          "correct": ["b"],
+          "correct": [
+            "b"
+          ],
           "explanation": "Largest Contentful Paint measures when the biggest visible element appears. Placing the hero image directly in the HTML lets the browser find and fetch it immediately, and fetchpriority=\"high\" plus a compressed modern format makes it arrive sooner, instead of waiting for the bundle.",
           "why_others_wrong": {
             "a": "Delaying the image further makes the largest element appear even later.",
@@ -309,12 +748,26 @@
           "type": "single_choice",
           "prompt": "The browser blocks fetch calls from shop.pustakghar.in to api.pustakghar.in with a CORS error. What is the correct fix?",
           "options": [
-            {"id": "a", "text": "Ask customers to install a browser extension that disables CORS"},
-            {"id": "b", "text": "Set mode: 'no-cors' on every fetch call made by the shop page"},
-            {"id": "c", "text": "Wrap the fetch in try-catch and quietly ignore the CORS errors"},
-            {"id": "d", "text": "Have the API allow the shop's origin with CORS response headers"}
+            {
+              "id": "a",
+              "text": "Ask customers to install a browser extension that disables CORS"
+            },
+            {
+              "id": "b",
+              "text": "Set mode: 'no-cors' on every fetch call made by the shop page"
+            },
+            {
+              "id": "c",
+              "text": "Wrap the fetch in try-catch and quietly ignore the CORS errors"
+            },
+            {
+              "id": "d",
+              "text": "Have the API allow the shop's origin with CORS response headers"
+            }
           ],
-          "correct": ["d"],
+          "correct": [
+            "d"
+          ],
           "explanation": "Browsers block cross-origin reads unless the server says they are allowed. The API must answer with Access-Control-Allow-Origin set to https://shop.pustakghar.in, and handle preflight requests for methods and headers it accepts, so the browser lets the shop read the responses.",
           "why_others_wrong": {
             "a": "Customers will not install extensions, and turning off browser security is dangerous.",
@@ -329,13 +782,31 @@
           "type": "multi_select",
           "prompt": "The admin app gets slower the longer it stays open. Which two causes are most likely?",
           "options": [
-            {"id": "a", "text": "Event listeners added each time a view mounts and never removed"},
-            {"id": "b", "text": "The CSS file is a little larger than it was at the last release"},
-            {"id": "c", "text": "Timers started with setInterval that are not cleared on unmount"},
-            {"id": "d", "text": "HTML comments that are left in the page's markup by developers"},
-            {"id": "e", "text": "The app's favicon is a PNG image rather than an SVG image"}
+            {
+              "id": "a",
+              "text": "Event listeners added each time a view mounts and never removed"
+            },
+            {
+              "id": "b",
+              "text": "The CSS file is a little larger than it was at the last release"
+            },
+            {
+              "id": "c",
+              "text": "Timers started with setInterval that are not cleared on unmount"
+            },
+            {
+              "id": "d",
+              "text": "HTML comments that are left in the page's markup by developers"
+            },
+            {
+              "id": "e",
+              "text": "The app's favicon is a PNG image rather than an SVG image"
+            }
           ],
-          "correct": ["a", "c"],
+          "correct": [
+            "a",
+            "c"
+          ],
           "explanation": "A slowdown that grows with time points to something accumulating. Listeners added on every mount without cleanup, and intervals that keep running after their view is gone, pile up work and memory each time staff navigate around the app.",
           "why_others_wrong": {
             "b": "A slightly larger CSS file loads once; it does not grow worse over time.",
@@ -350,24 +821,271 @@
           "type": "match",
           "prompt": "Match each debugging task to the DevTools panel that answers it.",
           "items": [
-            {"id": "i1", "text": "Find which API request is returning a 500 error"},
-            {"id": "i2", "text": "See why a CSS rule is not being applied to a button"},
-            {"id": "i3", "text": "Find the long tasks that make clicks feel slow"},
-            {"id": "i4", "text": "Check a stored cookie's value and its security flags"}
+            {
+              "id": "i1",
+              "text": "Find which API request is returning a 500 error"
+            },
+            {
+              "id": "i2",
+              "text": "See why a CSS rule is not being applied to a button"
+            },
+            {
+              "id": "i3",
+              "text": "Find the long tasks that make clicks feel slow"
+            },
+            {
+              "id": "i4",
+              "text": "Check a stored cookie's value and its security flags"
+            }
           ],
           "targets": [
-            {"id": "t1", "text": "Application panel"},
-            {"id": "t2", "text": "Performance panel"},
-            {"id": "t3", "text": "Network panel"},
-            {"id": "t4", "text": "Elements panel with its Styles pane"}
+            {
+              "id": "t1",
+              "text": "Application panel"
+            },
+            {
+              "id": "t2",
+              "text": "Performance panel"
+            },
+            {
+              "id": "t3",
+              "text": "Network panel"
+            },
+            {
+              "id": "t4",
+              "text": "Elements panel with its Styles pane"
+            }
           ],
-          "correct": {"i1": "t3", "i2": "t4", "i3": "t2", "i4": "t1"},
+          "correct": {
+            "i1": "t3",
+            "i2": "t4",
+            "i3": "t2",
+            "i4": "t1"
+          },
           "explanation": "The Network panel lists every request with its status code and response. The Elements panel's Styles pane shows which rules apply and which are overridden, the Performance panel records long tasks on the main thread, and the Application panel shows cookies, storage and their flags.",
           "why_others_wrong": {
             "common_mistake": "Looking for slow clicks in the Network panel: if requests are fast, the delay is JavaScript blocking the main thread, which the Performance panel shows."
           },
           "key_justification": "Each DevTools panel answers a different kind of front-end question.",
           "points": 10
+        }
+      ],
+      "code_pool": [
+        {
+          "id": "fed-3-c1",
+          "prompt": "The shop at https://shop.pustakghar.in calls an API on another origin, and the browser blocks it unless the API allows that origin. Check the API's CORS settings against real requests. The first line lists the allowed origins (exactly scheme://host[:port], or `*` for any), the second the allowed methods, the third is n, then n requests `origin method`. Complete `cors_allows`: a request is allowed only if the origin matches exactly (http and https, and different ports, are different origins) or `*` is listed, and the method is allowed. The program prints `origin method ALLOW|BLOCK` per request, then `blocked k`.",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef cors_allows(origins, methods, origin, method):\n    \"\"\"origins: allowed origins exactly as scheme://host[:port], or '*' for any. methods: allowed methods. Return True if this cross-origin request is allowed: the origin matches exactly (or '*' is listed) and the method is allowed.\"\"\"\n    # Write your code here.\n    return True\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    origins = data[0].split()\n    methods = data[1].split()\n    n = int(data[2])\n    blocked = 0\n    for i in range(n):\n        origin, method = data[3 + i].split()\n        ok = cors_allows(origins, methods, origin, method)\n        blocked += not ok\n        print(origin, method, \"ALLOW\" if ok else \"BLOCK\")\n    print(\"blocked\", blocked)\n\n\nmain()\n",
+          "reference_solution": "import sys\n\n\ndef cors_allows(origins, methods, origin, method):\n    \"\"\"origins: allowed origins exactly as scheme://host[:port], or '*' for any. methods: allowed methods. Return True if this cross-origin request is allowed: the origin matches exactly (or '*' is listed) and the method is allowed.\"\"\"\n    allowed_origins, allowed_methods = set(origins), set(methods)\n    origin_ok = \"*\" in allowed_origins or origin in allowed_origins     # exact match: scheme, host and port\n    return origin_ok and method in allowed_methods\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    origins = data[0].split()\n    methods = data[1].split()\n    n = int(data[2])\n    blocked = 0\n    for i in range(n):\n        origin, method = data[3 + i].split()\n        ok = cors_allows(origins, methods, origin, method)\n        blocked += not ok\n        print(origin, method, \"ALLOW\" if ok else \"BLOCK\")\n    print(\"blocked\", blocked)\n\n\nmain()\n",
+          "ds_topic": "hash_map",
+          "difficulty": 1,
+          "skills": [
+            "JavaScript",
+            "Python"
+          ],
+          "explanation": "An origin is the exact triple of scheme, host and port, so set membership on the full string is the right test; 'shop.pustakghar.in' over http is a different origin from https. The fix belongs on the API, which must list the shop's origin; nothing in the front end can make the browser skip this check.",
+          "key_justification": "Exact-match set look-ups for an origin and method allow-list.",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "https://shop.pustakghar.in\nGET POST\n3\nhttps://shop.pustakghar.in GET\nhttp://shop.pustakghar.in GET\nhttps://shop.pustakghar.in DELETE\n",
+                  "expected_stdout": "https://shop.pustakghar.in GET ALLOW\nhttp://shop.pustakghar.in GET BLOCK\nhttps://shop.pustakghar.in DELETE BLOCK\nblocked 2\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "https://pustakghar.in\nGET POST DELETE\n3\nhttps://shop.pustakghar.in PUT\nhttps://pustakghar.in DELETE\nhttps://pustakghar.in PUT\n",
+                  "expected_stdout": "https://shop.pustakghar.in PUT BLOCK\nhttps://pustakghar.in DELETE ALLOW\nhttps://pustakghar.in PUT BLOCK\nblocked 2\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "https://pustakghar.in https://shop.pustakghar.in:8443\nDELETE\n10\nhttp://localhost:3000 PUT\nhttps://pustakghar.in PATCH\nhttp://localhost:3000 POST\nhttps://shop.pustakghar.in:8443 PUT\nhttp://localhost:3000 DELETE\nhttp://shop.pustakghar.in PATCH\nhttps://pustakghar.in PATCH\nhttps://shop.pustakghar.in:8443 DELETE\nhttp://shop.pustakghar.in DELETE\nhttp://shop.pustakghar.in PATCH\n",
+                  "expected_stdout": "http://localhost:3000 PUT BLOCK\nhttps://pustakghar.in PATCH BLOCK\nhttp://localhost:3000 POST BLOCK\nhttps://shop.pustakghar.in:8443 PUT BLOCK\nhttp://localhost:3000 DELETE BLOCK\nhttp://shop.pustakghar.in PATCH BLOCK\nhttps://pustakghar.in PATCH BLOCK\nhttps://shop.pustakghar.in:8443 DELETE ALLOW\nhttp://shop.pustakghar.in DELETE BLOCK\nhttp://shop.pustakghar.in PATCH BLOCK\nblocked 9\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "http://localhost:3000 https://pustakghar.in\nPOST PUT\n25\nhttp://localhost:3000 PATCH\nhttps://shop.pustakghar.in:8443 DELETE\nhttps://evil.example PATCH\nhttps://pustakghar.in GET\nhttp://shop.pustakghar.in PUT\nhttp://localhost:3000 POST\nhttps://shop.pustakghar.in DELETE\nhttps://evil.example PATCH\nhttp://localhost:3000 GET\nhttps://pustakghar.in PATCH\nhttps://shop.pustakghar.in DELETE\nhttps://shop.pustakghar.in DELETE\nhttps://evil.example PUT\nhttps://shop.pustakghar.in:8443 PATCH\nhttp://shop.pustakghar.in PATCH\nhttps://shop.pustakghar.in DELETE\nhttps://pustakghar.in POST\nhttp://localhost:3000 PUT\nhttps://pustakghar.in DELETE\nhttps://shop.pustakghar.in:8443 DELETE\nhttp://localhost:3000 DELETE\nhttps://evil.example PUT\nhttps://evil.example PUT\nhttps://pustakghar.in DELETE\nhttps://pustakghar.in GET\n",
+                  "expected_stdout": "http://localhost:3000 PATCH BLOCK\nhttps://shop.pustakghar.in:8443 DELETE BLOCK\nhttps://evil.example PATCH BLOCK\nhttps://pustakghar.in GET BLOCK\nhttp://shop.pustakghar.in PUT BLOCK\nhttp://localhost:3000 POST ALLOW\nhttps://shop.pustakghar.in DELETE BLOCK\nhttps://evil.example PATCH BLOCK\nhttp://localhost:3000 GET BLOCK\nhttps://pustakghar.in PATCH BLOCK\nhttps://shop.pustakghar.in DELETE BLOCK\nhttps://shop.pustakghar.in DELETE BLOCK\nhttps://evil.example PUT BLOCK\nhttps://shop.pustakghar.in:8443 PATCH BLOCK\nhttp://shop.pustakghar.in PATCH BLOCK\nhttps://shop.pustakghar.in DELETE BLOCK\nhttps://pustakghar.in POST ALLOW\nhttp://localhost:3000 PUT ALLOW\nhttps://pustakghar.in DELETE BLOCK\nhttps://shop.pustakghar.in:8443 DELETE BLOCK\nhttp://localhost:3000 DELETE BLOCK\nhttps://evil.example PUT BLOCK\nhttps://evil.example PUT BLOCK\nhttps://pustakghar.in DELETE BLOCK\nhttps://pustakghar.in GET BLOCK\nblocked 22\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "http://localhost:3000\nGET\n1\nhttp://localhost:3000 GET\n",
+                  "expected_stdout": "http://localhost:3000 GET ALLOW\nblocked 0\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "*\nGET\n2\nhttps://evil.example GET\nhttps://evil.example POST\n",
+                  "expected_stdout": "https://evil.example GET ALLOW\nhttps://evil.example POST BLOCK\nblocked 1\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "*\nPOST\n3\nhttps://shop.pustakghar.in:8443 DELETE\nhttps://shop.pustakghar.in POST\nhttps://evil.example PATCH\n",
+                  "expected_stdout": "https://shop.pustakghar.in:8443 DELETE BLOCK\nhttps://shop.pustakghar.in POST ALLOW\nhttps://evil.example PATCH BLOCK\nblocked 2\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "http://shop.pustakghar.in http://localhost:3000 https://pustakghar.in\nPUT DELETE\n10\nhttp://localhost:3000 DELETE\nhttps://pustakghar.in PUT\nhttps://pustakghar.in GET\nhttps://pustakghar.in POST\nhttps://evil.example POST\nhttps://shop.pustakghar.in DELETE\nhttps://pustakghar.in POST\nhttps://pustakghar.in PUT\nhttps://evil.example PUT\nhttp://shop.pustakghar.in POST\n",
+                  "expected_stdout": "http://localhost:3000 DELETE ALLOW\nhttps://pustakghar.in PUT ALLOW\nhttps://pustakghar.in GET BLOCK\nhttps://pustakghar.in POST BLOCK\nhttps://evil.example POST BLOCK\nhttps://shop.pustakghar.in DELETE BLOCK\nhttps://pustakghar.in POST BLOCK\nhttps://pustakghar.in PUT ALLOW\nhttps://evil.example PUT BLOCK\nhttp://shop.pustakghar.in POST BLOCK\nblocked 7\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "https://shop.pustakghar.in https://shop.pustakghar.in:8443 https://pustakghar.in\nGET\n25\nhttps://shop.pustakghar.in PUT\nhttp://shop.pustakghar.in PUT\nhttp://shop.pustakghar.in GET\nhttp://shop.pustakghar.in PATCH\nhttps://evil.example GET\nhttps://shop.pustakghar.in GET\nhttp://shop.pustakghar.in POST\nhttps://pustakghar.in PATCH\nhttps://pustakghar.in POST\nhttps://shop.pustakghar.in DELETE\nhttps://shop.pustakghar.in PATCH\nhttps://pustakghar.in GET\nhttps://shop.pustakghar.in:8443 PUT\nhttps://pustakghar.in DELETE\nhttp://shop.pustakghar.in GET\nhttps://pustakghar.in PUT\nhttps://evil.example PUT\nhttp://shop.pustakghar.in GET\nhttps://shop.pustakghar.in:8443 POST\nhttps://evil.example POST\nhttp://localhost:3000 PUT\nhttps://shop.pustakghar.in DELETE\nhttps://shop.pustakghar.in:8443 PATCH\nhttp://localhost:3000 DELETE\nhttps://pustakghar.in POST\n",
+                  "expected_stdout": "https://shop.pustakghar.in PUT BLOCK\nhttp://shop.pustakghar.in PUT BLOCK\nhttp://shop.pustakghar.in GET BLOCK\nhttp://shop.pustakghar.in PATCH BLOCK\nhttps://evil.example GET BLOCK\nhttps://shop.pustakghar.in GET ALLOW\nhttp://shop.pustakghar.in POST BLOCK\nhttps://pustakghar.in PATCH BLOCK\nhttps://pustakghar.in POST BLOCK\nhttps://shop.pustakghar.in DELETE BLOCK\nhttps://shop.pustakghar.in PATCH BLOCK\nhttps://pustakghar.in GET ALLOW\nhttps://shop.pustakghar.in:8443 PUT BLOCK\nhttps://pustakghar.in DELETE BLOCK\nhttp://shop.pustakghar.in GET BLOCK\nhttps://pustakghar.in PUT BLOCK\nhttps://evil.example PUT BLOCK\nhttp://shop.pustakghar.in GET BLOCK\nhttps://shop.pustakghar.in:8443 POST BLOCK\nhttps://evil.example POST BLOCK\nhttp://localhost:3000 PUT BLOCK\nhttps://shop.pustakghar.in DELETE BLOCK\nhttps://shop.pustakghar.in:8443 PATCH BLOCK\nhttp://localhost:3000 DELETE BLOCK\nhttps://pustakghar.in POST BLOCK\nblocked 23\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "a b\nX\n0\n",
+                  "expected_stdout": "blocked 0\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "https://shop.pustakghar.in:8443\nPUT\n1\nhttps://shop.pustakghar.in PUT\n",
+                  "expected_stdout": "https://shop.pustakghar.in PUT BLOCK\nblocked 1\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "https://shop.pustakghar.in:8443 https://shop.pustakghar.in http://localhost:3000\nDELETE PUT\n3\nhttps://pustakghar.in PATCH\nhttps://evil.example POST\nhttp://shop.pustakghar.in PATCH\n",
+                  "expected_stdout": "https://pustakghar.in PATCH BLOCK\nhttps://evil.example POST BLOCK\nhttp://shop.pustakghar.in PATCH BLOCK\nblocked 3\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "http://localhost:3000 https://shop.pustakghar.in\nDELETE\n10\nhttps://shop.pustakghar.in:8443 GET\nhttps://shop.pustakghar.in:8443 DELETE\nhttps://pustakghar.in POST\nhttps://evil.example DELETE\nhttp://shop.pustakghar.in PUT\nhttps://pustakghar.in GET\nhttps://shop.pustakghar.in POST\nhttp://shop.pustakghar.in POST\nhttps://shop.pustakghar.in:8443 PUT\nhttps://shop.pustakghar.in:8443 PATCH\n",
+                  "expected_stdout": "https://shop.pustakghar.in:8443 GET BLOCK\nhttps://shop.pustakghar.in:8443 DELETE BLOCK\nhttps://pustakghar.in POST BLOCK\nhttps://evil.example DELETE BLOCK\nhttp://shop.pustakghar.in PUT BLOCK\nhttps://pustakghar.in GET BLOCK\nhttps://shop.pustakghar.in POST BLOCK\nhttp://shop.pustakghar.in POST BLOCK\nhttps://shop.pustakghar.in:8443 PUT BLOCK\nhttps://shop.pustakghar.in:8443 PATCH BLOCK\nblocked 10\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "*\nPOST GET PUT\n25\nhttps://evil.example DELETE\nhttps://shop.pustakghar.in POST\nhttp://localhost:3000 POST\nhttps://shop.pustakghar.in:8443 PATCH\nhttps://shop.pustakghar.in DELETE\nhttp://localhost:3000 PATCH\nhttps://shop.pustakghar.in:8443 PUT\nhttps://shop.pustakghar.in DELETE\nhttps://evil.example PATCH\nhttps://pustakghar.in DELETE\nhttps://pustakghar.in POST\nhttps://shop.pustakghar.in:8443 DELETE\nhttp://localhost:3000 PUT\nhttps://pustakghar.in POST\nhttp://localhost:3000 PUT\nhttps://evil.example PUT\nhttps://pustakghar.in PATCH\nhttp://localhost:3000 PUT\nhttps://pustakghar.in PATCH\nhttps://shop.pustakghar.in:8443 PUT\nhttp://localhost:3000 POST\nhttp://shop.pustakghar.in DELETE\nhttp://localhost:3000 POST\nhttps://pustakghar.in POST\nhttp://localhost:3000 DELETE\n",
+                  "expected_stdout": "https://evil.example DELETE BLOCK\nhttps://shop.pustakghar.in POST ALLOW\nhttp://localhost:3000 POST ALLOW\nhttps://shop.pustakghar.in:8443 PATCH BLOCK\nhttps://shop.pustakghar.in DELETE BLOCK\nhttp://localhost:3000 PATCH BLOCK\nhttps://shop.pustakghar.in:8443 PUT ALLOW\nhttps://shop.pustakghar.in DELETE BLOCK\nhttps://evil.example PATCH BLOCK\nhttps://pustakghar.in DELETE BLOCK\nhttps://pustakghar.in POST ALLOW\nhttps://shop.pustakghar.in:8443 DELETE BLOCK\nhttp://localhost:3000 PUT ALLOW\nhttps://pustakghar.in POST ALLOW\nhttp://localhost:3000 PUT ALLOW\nhttps://evil.example PUT ALLOW\nhttps://pustakghar.in PATCH BLOCK\nhttp://localhost:3000 PUT ALLOW\nhttps://pustakghar.in PATCH BLOCK\nhttps://shop.pustakghar.in:8443 PUT ALLOW\nhttp://localhost:3000 POST ALLOW\nhttp://shop.pustakghar.in DELETE BLOCK\nhttp://localhost:3000 POST ALLOW\nhttps://pustakghar.in POST ALLOW\nhttp://localhost:3000 DELETE BLOCK\nblocked 12\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "https://pustakghar.in\nGET\n1\nhttps://shop.pustakghar.in GET\n",
+                  "expected_stdout": "https://shop.pustakghar.in GET BLOCK\nblocked 1\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "fed-3-c2",
+          "prompt": "Book pages jump as images and ad slots load. Cumulative Layout Shift (CLS) measures this. The first line is n, then n layout shifts `time_ms score had_recent_input` (score in ten-thousandths, so 1250 is 0.125; had_recent_input is 1 for shifts just after the user clicked or typed). Complete `cls`: ignore shifts after input; group the others into session windows, where a shift starts a new window if it comes more than 1000 ms after the previous counted shift or more than 5000 ms after the window's first shift. CLS is the largest window sum. The program prints `cls` with four decimals and `windows k`.",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef cls(shifts):\n    \"\"\"shifts: (time ms, score in ten-thousandths, had_recent_input 0/1) in time order. Ignore shifts right after user input. Group the rest into session windows: a shift starts a new window if it comes more than 1000 ms after the previous counted shift, or more than 5000 ms after the window's first shift. Return (the largest window sum, number of windows).\"\"\"\n    # Write your code here.\n    return sum(s for _, s, _ in shifts), 1\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    shifts = [tuple(map(int, data[1 + i].split())) for i in range(n)]\n    best, windows = cls(shifts)\n    print(\"cls\", f\"{best / 10000:.4f}\")\n    print(\"windows\", windows)\n\n\nmain()\n",
+          "reference_solution": "import sys\n\n\ndef cls(shifts):\n    \"\"\"shifts: (time ms, score in ten-thousandths, had_recent_input 0/1) in time order. Ignore shifts right after user input. Group the rest into session windows: a shift starts a new window if it comes more than 1000 ms after the previous counted shift, or more than 5000 ms after the window's first shift. Return (the largest window sum, number of windows).\"\"\"\n    best = windows = 0\n    start = last = None\n    total = 0\n    for t, score, had_input in shifts:\n        if had_input:\n            continue                                  # expected shifts after a click do not count\n        if start is None or t - last > 1000 or t - start > 5000:\n            windows += 1\n            start, total = t, 0\n        total += score\n        last = t\n        best = max(best, total)\n    return best, windows\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    shifts = [tuple(map(int, data[1 + i].split())) for i in range(n)]\n    best, windows = cls(shifts)\n    print(\"cls\", f\"{best / 10000:.4f}\")\n    print(\"windows\", windows)\n\n\nmain()\n",
+          "ds_topic": "array",
+          "difficulty": 2,
+          "skills": [
+            "JavaScript",
+            "Python"
+          ],
+          "explanation": "One pass with the current window's start, last time and sum is enough: a gap over a second or a window older than five seconds starts a new one, and CLS keeps the worst window, not the total. Reserving space for images and ad slots (width and height, aspect-ratio) is what actually removes these shifts.",
+          "key_justification": "Session windows over a time-ordered array (CLS definition).",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "5\n100 500 0\n400 300 0\n2000 800 0\n2500 100 1\n2600 200 0\n",
+                  "expected_stdout": "cls 0.1000\nwindows 2\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "5\n200 48 0\n1100 354 0\n1300 137 0\n2200 157 1\n5200 788 0\n",
+                  "expected_stdout": "cls 0.0788\nwindows 2\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "20\n3000 240 0\n3050 632 0\n3450 164 0\n4550 654 0\n4950 412 0\n5350 445 0\n6250 561 0\n7150 518 0\n8250 627 0\n11250 489 0\n11650 691 0\n14650 119 0\n17650 449 0\n18050 488 0\n19150 320 0\n19200 237 0\n22200 696 0\n22250 130 0\n23350 809 0\n24250 384 0\n",
+                  "expected_stdout": "cls 0.2590\nwindows 9\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "50\n400 108 0\n1500 25 0\n4500 539 0\n4550 660 0\n7550 884 0\n8450 786 0\n8850 828 0\n9950 307 0\n12950 352 0\n13150 658 1\n14250 500 0\n14300 605 1\n14350 115 0\n14750 460 0\n17750 635 0\n20750 496 0\n21850 543 0\n22950 362 1\n23150 532 0\n23350 403 0\n23400 664 1\n23450 890 1\n23500 585 0\n23550 401 1\n23600 619 0\n23650 880 0\n26650 41 0\n27750 784 0\n28150 794 0\n28350 355 0\n28750 416 0\n31750 886 0\n31800 59 0\n34800 88 0\n35200 124 0\n35600 828 0\n36000 37 0\n36900 73 0\n37100 397 0\n37500 708 0\n38600 548 0\n39500 868 0\n40400 767 0\n40800 593 0\n41700 132 0\n41900 893 0\n44900 687 0\n45800 18 1\n45850 873 0\n48850 871 0\n",
+                  "expected_stdout": "cls 0.3801\nwindows 18\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1\n0 1250 0\n",
+                  "expected_stdout": "cls 0.1250\nwindows 1\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "6\n0 100 0\n900 100 0\n1800 100 0\n2700 100 0\n3600 100 0\n5100 100 0\n",
+                  "expected_stdout": "cls 0.0500\nwindows 2\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "5\n1100 157 1\n1300 130 0\n2400 815 1\n2450 506 0\n5450 37 0\n",
+                  "expected_stdout": "cls 0.0506\nwindows 3\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "20\n1100 371 0\n1300 764 0\n1350 618 0\n2450 154 0\n2500 127 0\n3400 126 0\n3450 94 0\n4350 18 0\n5250 724 0\n5300 892 0\n8300 210 0\n9400 584 0\n9600 782 0\n10700 249 0\n11600 812 0\n11650 23 1\n11700 661 0\n14700 391 0\n15800 494 0\n16700 307 0\n",
+                  "expected_stdout": "cls 0.2135\nwindows 7\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "50\n900 89 0\n1300 672 0\n1700 518 0\n4700 751 0\n4900 844 0\n7900 62 0\n8800 702 0\n11800 338 0\n12200 847 0\n13100 421 0\n14000 162 0\n17000 282 0\n18100 398 1\n18300 280 1\n18700 428 0\n21700 547 1\n22800 157 0\n22850 18 0\n23750 579 0\n24650 549 0\n24850 834 1\n27850 383 0\n27900 725 0\n27950 680 0\n28150 458 0\n28350 400 0\n28750 349 0\n28950 67 0\n31950 719 0\n32350 86 0\n33450 79 0\n33500 599 0\n34600 89 0\n35700 535 0\n35750 660 0\n38750 830 0\n39650 274 1\n42650 487 1\n42700 885 0\n43600 248 0\n46600 552 1\n47500 533 0\n47550 15 1\n47750 859 1\n47950 141 0\n48000 339 0\n48200 540 1\n48250 150 0\n49150 620 0\n50250 18 0\n",
+                  "expected_stdout": "cls 0.3062\nwindows 16\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "3\n0 10 0\n1000 10 0\n2001 10 0\n",
+                  "expected_stdout": "cls 0.0020\nwindows 2\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "2\n10 999 1\n20 1 1\n",
+                  "expected_stdout": "cls 0.0000\nwindows 0\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "5\n1100 894 0\n1300 233 0\n1500 630 0\n4500 149 0\n5400 689 0\n",
+                  "expected_stdout": "cls 0.1757\nwindows 2\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "20\n900 879 0\n2000 20 1\n5000 252 0\n8000 796 1\n9100 246 0\n12100 10 0\n12300 884 0\n12350 188 0\n15350 652 0\n16250 203 0\n17150 602 0\n17200 399 0\n18100 437 0\n19200 776 0\n22200 106 0\n22400 569 1\n22800 488 0\n23900 69 0\n24300 393 0\n24350 728 0\n",
+                  "expected_stdout": "cls 0.2293\nwindows 8\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "50\n3000 145 0\n4100 314 1\n4500 722 0\n5400 683 0\n5600 549 0\n6500 367 0\n6700 43 0\n7800 559 0\n7850 611 0\n7900 240 0\n8100 536 0\n8300 692 0\n8700 513 0\n8750 160 0\n9150 55 0\n9200 242 0\n10300 541 0\n10500 504 0\n10900 695 0\n11800 694 0\n14800 593 0\n15700 436 1\n15900 190 0\n16100 502 0\n16150 853 0\n16350 423 0\n17250 304 0\n18150 611 0\n19050 101 0\n22050 66 0\n22450 669 0\n25450 512 0\n26550 109 0\n27450 249 0\n27500 291 0\n28400 732 0\n28800 417 1\n31800 318 0\n32900 342 0\n32950 205 0\n35950 497 0\n36150 368 0\n39150 623 0\n40050 289 0\n40450 185 0\n43450 436 0\n46450 451 0\n47350 733 0\n47550 254 0\n50550 675 1\n",
+                  "expected_stdout": "cls 0.3608\nwindows 15\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "3\n0 5 0\n5000 5 0\n5001 5 0\n",
+                  "expected_stdout": "cls 0.0010\nwindows 2\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -390,19 +1108,37 @@
         "Front-end testing strategy",
         "Browser support"
       ],
-      "map_node": {"x": 0.7, "y": 0.36, "label": "Glass Dashboard Tower"},
+      "map_node": {
+        "x": 0.7,
+        "y": 0.36,
+        "label": "Glass Dashboard Tower"
+      },
       "questions": [
         {
           "id": "fed-4-q1",
           "type": "single_choice",
           "prompt": "The 3 MB bundle includes the charting library even on the login page. What is the best fix?",
           "options": [
-            {"id": "a", "text": "Minify the bundle once more and keep shipping it as a single file"},
-            {"id": "b", "text": "Split code by route and load the charts only on the reports pages"},
-            {"id": "c", "text": "Remove every chart from the app to make the bundle a lot smaller"},
-            {"id": "d", "text": "Ask users to keep the app open all day so it rarely needs to load"}
+            {
+              "id": "a",
+              "text": "Minify the bundle once more and keep shipping it as a single file"
+            },
+            {
+              "id": "b",
+              "text": "Split code by route and load the charts only on the reports pages"
+            },
+            {
+              "id": "c",
+              "text": "Remove every chart from the app to make the bundle a lot smaller"
+            },
+            {
+              "id": "d",
+              "text": "Ask users to keep the app open all day so it rarely needs to load"
+            }
           ],
-          "correct": ["b"],
+          "correct": [
+            "b"
+          ],
           "explanation": "Route-based code splitting with dynamic import() loads each page's code only when it is visited. The login page then downloads a small bundle, and the charting library arrives only when a user opens a report.",
           "why_others_wrong": {
             "a": "The bundle is presumably already minified, so another pass saves little while every page still loads everything.",
@@ -417,12 +1153,26 @@
           "type": "single_choice",
           "prompt": "Should the four developers build their own component library from scratch?",
           "options": [
-            {"id": "a", "text": "Yes, because a custom library is always faster than any other"},
-            {"id": "b", "text": "Yes, and they should also build their own date and number logic"},
-            {"id": "c", "text": "No; avoid shared components and write each screen's widgets fresh"},
-            {"id": "d", "text": "No; theme a mature, accessible open-source library to match the brand"}
+            {
+              "id": "a",
+              "text": "Yes, because a custom library is always faster than any other"
+            },
+            {
+              "id": "b",
+              "text": "Yes, and they should also build their own date and number logic"
+            },
+            {
+              "id": "c",
+              "text": "No; avoid shared components and write each screen's widgets fresh"
+            },
+            {
+              "id": "d",
+              "text": "No; theme a mature, accessible open-source library to match the brand"
+            }
           ],
-          "correct": ["d"],
+          "correct": [
+            "d"
+          ],
           "explanation": "Accessible dropdowns, dialogs and date pickers take a lot of work to get right. A small team gets more value from a well-tested open-source component library themed to its brand, and can spend its time on the accounting features customers pay for.",
           "why_others_wrong": {
             "a": "Custom components are not inherently faster, and building them costs months of a small team's time.",
@@ -437,12 +1187,26 @@
           "type": "single_choice",
           "prompt": "The app keeps breaking in production. Which testing strategy should the team adopt?",
           "options": [
-            {"id": "a", "text": "Only end-to-end browser tests, covering every screen in the app"},
-            {"id": "b", "text": "Many unit tests, component tests that act like users, few E2E"},
-            {"id": "c", "text": "Manual testing by the developers just before each release only"},
-            {"id": "d", "text": "Snapshot tests of every component's HTML and nothing besides"}
+            {
+              "id": "a",
+              "text": "Only end-to-end browser tests, covering every screen in the app"
+            },
+            {
+              "id": "b",
+              "text": "Many unit tests, component tests that act like users, few E2E"
+            },
+            {
+              "id": "c",
+              "text": "Manual testing by the developers just before each release only"
+            },
+            {
+              "id": "d",
+              "text": "Snapshot tests of every component's HTML and nothing besides"
+            }
           ],
-          "correct": ["b"],
+          "correct": [
+            "b"
+          ],
           "explanation": "Fast unit tests cover logic such as tax calculations, component tests check behaviour the way a user interacts, with tools like Testing Library, and a small set of end-to-end tests covers critical journeys such as creating an invoice. This mix gives broad coverage that runs quickly and fails for meaningful reasons.",
           "why_others_wrong": {
             "a": "Testing everything end to end is slow and flaky, so developers stop trusting and running the tests.",
@@ -457,13 +1221,31 @@
           "type": "multi_select",
           "prompt": "15% of users are on old Android browsers that lack some modern features. Which two approaches fit best?",
           "options": [
-            {"id": "a", "text": "Make core tasks work without the newest browser features"},
-            {"id": "b", "text": "Block old browsers and show an 'upgrade your phone' page"},
-            {"id": "c", "text": "Transpile and polyfill based on a target browser list"},
-            {"id": "d", "text": "Send every polyfill that exists to every user's browser"},
-            {"id": "e", "text": "Ignore old browsers, since they are only a small group"}
+            {
+              "id": "a",
+              "text": "Make core tasks work without the newest browser features"
+            },
+            {
+              "id": "b",
+              "text": "Block old browsers and show an 'upgrade your phone' page"
+            },
+            {
+              "id": "c",
+              "text": "Transpile and polyfill based on a target browser list"
+            },
+            {
+              "id": "d",
+              "text": "Send every polyfill that exists to every user's browser"
+            },
+            {
+              "id": "e",
+              "text": "Ignore old browsers, since they are only a small group"
+            }
           ],
-          "correct": ["a", "c"],
+          "correct": [
+            "a",
+            "c"
+          ],
           "explanation": "Progressive enhancement keeps core tasks such as recording a sale working on older browsers while adding extras where they are supported. A target browser list tells the build tools exactly which syntax to transpile and which features to polyfill, so older browsers work without bloating the code for everyone else.",
           "why_others_wrong": {
             "b": "Blocking 15% of paying shop owners loses customers who cannot easily buy a new phone.",
@@ -472,6 +1254,224 @@
           },
           "key_justification": "Support older browsers with progressive enhancement and targeted transpiling and polyfills.",
           "points": 10
+        }
+      ],
+      "code_pool": [
+        {
+          "id": "fed-4-c1",
+          "prompt": "The team argues about which browsers to support. Decide from data. The first line is the target share as a percent (like 90 or 99.5), the second is n, then n lines `browser version share` (share as a percent with one decimal). Complete `cover`: take browsers in order of share, largest first (ties by browser then version), until their combined share reaches the target. Add shares in tenths of a percent, not floats. The program prints the chosen `browser version` lines, `browsers k` and `covered x%` (one decimal).",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef cover(rows, target):\n    \"\"\"rows: (browser, version, share %) with shares like '12.5'. target: percent like '90'. Take browsers by share, largest first (ties by browser then version), until the total reaches the target. Return (the chosen (browser, version), total share in tenths of a percent).\"\"\"\n    # Write your code here.\n    return [], 0\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    target = data[0].strip()\n    n = int(data[1])\n    rows = [tuple(data[2 + i].split()) for i in range(n)]\n    chosen, covered = cover(rows, target)\n    for name, version in chosen:\n        print(name, version)\n    print(\"browsers\", len(chosen))\n    print(\"covered\", f\"{covered // 10}.{covered % 10}%\")\n\n\nmain()\n",
+          "reference_solution": "import sys\n\n\ndef tenths(text):\n    whole, _, frac = text.partition(\".\")\n    return int(whole) * 10 + int((frac + \"0\")[:1])\n\n\ndef cover(rows, target):\n    \"\"\"rows: (browser, version, share %) with shares like '12.5'. target: percent like '90'. Take browsers by share, largest first (ties by browser then version), until the total reaches the target. Return (the chosen (browser, version), total share in tenths of a percent).\"\"\"\n    goal = tenths(target)\n    ranked = sorted(rows, key=lambda r: (-tenths(r[2]), r[0], r[1]))\n    chosen, total = [], 0\n    for browser, version, share in ranked:\n        if total >= goal:\n            break\n        chosen.append((browser, version))\n        total += tenths(share)\n    return chosen, total\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    target = data[0].strip()\n    n = int(data[1])\n    rows = [tuple(data[2 + i].split()) for i in range(n)]\n    chosen, covered = cover(rows, target)\n    for name, version in chosen:\n        print(name, version)\n    print(\"browsers\", len(chosen))\n    print(\"covered\", f\"{covered // 10}.{covered % 10}%\")\n\n\nmain()\n",
+          "ds_topic": "sorting",
+          "difficulty": 1,
+          "skills": [
+            "JavaScript",
+            "Python"
+          ],
+          "explanation": "Sorting by share and taking from the top until the target is reached gives the smallest set that covers it (the greedy choice is optimal here because each browser only adds share). Doing the sums in tenths keeps 90.0 from turning into 89.99999. It turns a debate into a support policy anyone can recheck when the analytics change.",
+          "key_justification": "Sort by share, then a cumulative cut-off.",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "90\n6\nchrome 120 60.0\nsafari 17 20.0\nsamsung 23 8.0\nfirefox 121 5.0\nuc 15 4.0\nopera 100 3.0\n",
+                  "expected_stdout": "chrome 120\nsafari 17\nsamsung 23\nfirefox 121\nbrowsers 4\ncovered 93.0%\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "80\n4\nmiui 113 8.0\nsamsung 99 14.1\nfirefox 93 15.5\nfirefox 113 26.0\n",
+                  "expected_stdout": "firefox 113\nfirefox 93\nsamsung 99\nmiui 113\nbrowsers 4\ncovered 63.6%\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "99.5\n10\nuc 112 11.7\nsafari 109 10.7\nedge 118 26.7\nfirefox 91 26.7\nuc 102 21.8\nsamsung 110 7.1\nedge 96 19.1\nsafari 102 21.0\nfirefox 107 15.0\nuc 123 15.1\n",
+                  "expected_stdout": "edge 118\nfirefox 91\nuc 102\nsafari 102\nedge 96\nbrowsers 5\ncovered 115.3%\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "99.5\n20\nfirefox 116 27.3\nsamsung 97 2.4\nuc 114 3.0\nmiui 90 25.4\nuc 123 29.0\nedge 107 9.8\nchrome 124 10.6\nsamsung 111 1.4\nsamsung 104 27.4\nuc 99 8.0\nedge 114 5.2\nmiui 122 8.7\nedge 105 23.4\nsafari 113 4.1\nsafari 112 3.0\nfirefox 120 24.8\nsafari 96 24.7\nuc 111 22.0\nsamsung 122 6.4\nopera 96 11.6\n",
+                  "expected_stdout": "uc 123\nsamsung 104\nfirefox 116\nmiui 90\nbrowsers 4\ncovered 109.1%\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "0\n1\nz 1 5.0\n",
+                  "expected_stdout": "browsers 0\ncovered 0.0%\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "50\n2\nb 1 50.0\na 1 50.0\n",
+                  "expected_stdout": "a 1\nbrowsers 1\ncovered 50.0%\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "95\n4\nopera 123 17.1\nchrome 117 10.4\nuc 101 23.6\nsafari 120 13.1\n",
+                  "expected_stdout": "uc 101\nopera 123\nsafari 120\nchrome 117\nbrowsers 4\ncovered 64.2%\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "90\n10\nsafari 115 19.4\nuc 90 27.8\nmiui 104 30.0\nsamsung 98 18.7\nopera 101 29.1\nopera 90 8.7\nmiui 120 5.7\nuc 109 7.6\nopera 101 5.0\nuc 122 22.4\n",
+                  "expected_stdout": "miui 104\nopera 101\nuc 90\nuc 122\nbrowsers 4\ncovered 109.3%\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "80\n20\nsafari 116 14.0\nsafari 96 7.2\nuc 120 21.0\nmiui 90 11.3\nchrome 98 0.9\nsamsung 114 21.8\nchrome 106 6.0\nchrome 100 1.4\nmiui 107 3.7\nuc 113 8.6\nfirefox 94 2.3\nsafari 93 24.6\nuc 92 4.6\nuc 108 24.2\nchrome 101 16.8\nsafari 108 0.7\nfirefox 92 12.0\nfirefox 90 9.7\nfirefox 123 14.8\nmiui 107 29.2\n",
+                  "expected_stdout": "miui 107\nsafari 93\nuc 108\nsamsung 114\nbrowsers 4\ncovered 99.8%\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "10\n3\nc 1 3.3\nc 2 3.3\nc 3 3.4\n",
+                  "expected_stdout": "c 3\nc 1\nc 2\nbrowsers 3\ncovered 10.0%\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "99.5\n2\nx 1 60.2\ny 2 30.1\n",
+                  "expected_stdout": "x 1\ny 2\nbrowsers 2\ncovered 90.3%\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "80\n4\nuc 121 22.7\nedge 125 17.3\nmiui 93 17.2\nedge 106 7.0\n",
+                  "expected_stdout": "uc 121\nedge 125\nmiui 93\nedge 106\nbrowsers 4\ncovered 64.2%\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "99.5\n10\nuc 100 14.0\nfirefox 93 10.1\nuc 123 7.9\nfirefox 104 20.3\nsamsung 125 8.5\nmiui 117 21.1\nfirefox 125 17.1\nedge 93 8.2\nchrome 100 26.3\nsamsung 115 22.2\n",
+                  "expected_stdout": "chrome 100\nsamsung 115\nmiui 117\nfirefox 104\nfirefox 125\nbrowsers 5\ncovered 107.0%\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "99.5\n20\nuc 120 17.8\nsafari 94 10.8\nsafari 124 12.2\nedge 90 10.0\nmiui 116 26.6\nchrome 121 13.8\nmiui 123 27.0\nsafari 98 21.3\nedge 118 13.4\nmiui 125 21.2\nsafari 105 28.7\nuc 122 13.5\nuc 93 7.6\nopera 92 20.1\nsamsung 94 10.5\nfirefox 123 0.1\nmiui 118 20.1\nmiui 97 6.4\nchrome 104 10.7\nmiui 111 5.5\n",
+                  "expected_stdout": "safari 105\nmiui 123\nmiui 116\nsafari 98\nbrowsers 4\ncovered 103.6%\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "100\n1\nonly 1 100\n",
+                  "expected_stdout": "only 1\nbrowsers 1\ncovered 100.0%\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "fed-4-c2",
+          "prompt": "Dhanda Dost's bundle reached 3 MB because the charting library is pulled into the login page. Find out what each page really loads. The first line is n, then n lines `module kb imports` (imports comma-separated, or -; imports can form cycles), then a line of entry points. Complete `bundle_size`: the total size of every module reachable from the entry through imports, each counted once, including the entry. The program prints `entry kb` for each entry point, in the order given.",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef bundle_size(modules, entry):\n    \"\"\"modules: {name: (size in KB, [modules it imports])}; imports can form cycles. Return the total KB of every module reachable from entry, counting each module once, including entry itself.\"\"\"\n    # Write your code here.\n    return modules[entry][0]\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    modules = {}\n    for i in range(n):\n        name, kb, deps = data[1 + i].split()\n        modules[name] = (int(kb), [] if deps == \"-\" else deps.split(\",\"))\n    for entry in data[1 + n].split():\n        print(entry, bundle_size(modules, entry))\n\n\nmain()\n",
+          "reference_solution": "import sys\n\n\ndef bundle_size(modules, entry):\n    \"\"\"modules: {name: (size in KB, [modules it imports])}; imports can form cycles. Return the total KB of every module reachable from entry, counting each module once, including entry itself.\"\"\"\n    seen, stack = {entry}, [entry]\n    while stack:                                   # depth-first search; `seen` stops cycles\n        for dep in modules[stack.pop()][1]:\n            if dep not in seen:\n                seen.add(dep)\n                stack.append(dep)\n    return sum(modules[m][0] for m in seen)\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    modules = {}\n    for i in range(n):\n        name, kb, deps = data[1 + i].split()\n        modules[name] = (int(kb), [] if deps == \"-\" else deps.split(\",\"))\n    for entry in data[1 + n].split():\n        print(entry, bundle_size(modules, entry))\n\n\nmain()\n",
+          "ds_topic": "graph",
+          "difficulty": 2,
+          "skills": [
+            "JavaScript",
+            "Python"
+          ],
+          "explanation": "Imports form a directed graph, and a page's bundle is everything reachable from its entry. A traversal with a visited set counts shared modules once and survives import cycles. Seeing 'login 445 KB' with charts in it is the evidence for code-splitting charts behind a dynamic import on the dashboard.",
+          "key_justification": "Graph reachability with a visited set (bundle analysis).",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "5\nlogin 20 auth\nauth 15 http\ndashboard 30 charts,http\ncharts 400 -\nhttp 10 -\nlogin dashboard\n",
+                  "expected_stdout": "login 45\ndashboard 440\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "5\ncharts 400 -\ninvoices 8 pdf\nutils 70 dashboard,invoices\ndashboard 17 utils\npdf 79 invoices,utils\ninvoices charts\n",
+                  "expected_stdout": "invoices 174\ncharts 400\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "8\ninvoices 38 datepicker\ndatepicker 43 invoices,utils\ncharts 400 auth,utils\nutils 13 invoices,auth\ni18n 63 auth,login\nauth 80 invoices\nhttp 23 login,datepicker\nlogin 11 charts\nutils charts\n",
+                  "expected_stdout": "utils 174\ncharts 574\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "11\ndatepicker 69 i18n,auth\nutils 77 auth\ninvoices 77 utils,forms\ncharts 400 -\nhttp 34 dashboard\nauth 42 -\ni18n 37 http\npdf 10 dashboard,utils\ndashboard 18 forms,pdf\nforms 53 -\nlogin 42 forms,invoices\nutils auth\n",
+                  "expected_stdout": "utils 119\nauth 42\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1\nsolo 9 -\nsolo\n",
+                  "expected_stdout": "solo 9\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "3\na 1 b\nb 2 a\nc 4 a\nc a\n",
+                  "expected_stdout": "c 7\na 3\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "5\nhttp 57 dashboard,auth\nauth 10 -\ndashboard 46 auth\ninvoices 71 datepicker\ndatepicker 78 -\ndashboard http\n",
+                  "expected_stdout": "dashboard 56\nhttp 113\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "8\ndashboard 43 i18n,http\nutils 38 -\npdf 42 -\nforms 59 -\nlogin 36 i18n\ninvoices 69 login\ni18n 73 -\nhttp 33 pdf\nhttp pdf\n",
+                  "expected_stdout": "http 75\npdf 42\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "11\ndatepicker 43 -\nforms 22 login,auth\npdf 72 login\nlogin 53 charts\nauth 12 pdf,forms\ninvoices 37 i18n,forms\ndashboard 65 -\nutils 60 invoices\ncharts 400 i18n\nhttp 9 -\ni18n 74 utils,login\ndashboard pdf\n",
+                  "expected_stdout": "dashboard 65\npdf 730\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "3\na 1 b,c\nb 1 c\nc 1 -\na\n",
+                  "expected_stdout": "a 3\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "2\nlogin 5 utils\nutils 50 -\nutils\n",
+                  "expected_stdout": "utils 50\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "5\ndatepicker 11 -\nlogin 56 -\ni18n 61 dashboard,login\ndashboard 78 i18n,login\ncharts 400 -\ncharts login\n",
+                  "expected_stdout": "charts 400\nlogin 56\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "8\ncharts 400 -\nforms 39 datepicker,auth\ndashboard 45 datepicker\ndatepicker 14 login\nlogin 71 auth\nauth 4 forms,dashboard\nhttp 17 login,datepicker\nutils 20 dashboard\ncharts dashboard\n",
+                  "expected_stdout": "charts 400\ndashboard 173\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "11\ncharts 400 auth\npdf 45 datepicker,utils\ni18n 63 datepicker,auth\nhttp 57 dashboard\nauth 28 -\ndatepicker 16 -\nforms 23 utils\ninvoices 35 login,pdf\nlogin 34 invoices,auth\nutils 9 datepicker,http\ndashboard 57 -\ninvoices http\n",
+                  "expected_stdout": "invoices 281\nhttp 114\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "2\nx 3 x\ny 4 -\nx y\n",
+                  "expected_stdout": "x 3\ny 4\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -494,20 +1494,45 @@
         "Monitoring in production",
         "Accessible interactive widgets"
       ],
-      "map_node": {"x": 0.88, "y": 0.16, "label": "Festoon Concert Ground"},
+      "map_node": {
+        "x": 0.88,
+        "y": 0.16,
+        "label": "Festoon Concert Ground"
+      },
       "questions": [
         {
           "id": "fed-5-q1",
           "type": "order",
           "prompt": "Put the steps for shipping the new seat map in order.",
           "options": [
-            {"id": "a", "text": "Deploy a preview build for QA and design review"},
-            {"id": "b", "text": "Build the components from the shared design tokens"},
-            {"id": "c", "text": "Release to production while watching real-user metrics"},
-            {"id": "d", "text": "Write component and integration tests for the seat map"},
-            {"id": "e", "text": "Run automated performance and accessibility checks in CI"}
+            {
+              "id": "a",
+              "text": "Deploy a preview build for QA and design review"
+            },
+            {
+              "id": "b",
+              "text": "Build the components from the shared design tokens"
+            },
+            {
+              "id": "c",
+              "text": "Release to production while watching real-user metrics"
+            },
+            {
+              "id": "d",
+              "text": "Write component and integration tests for the seat map"
+            },
+            {
+              "id": "e",
+              "text": "Run automated performance and accessibility checks in CI"
+            }
           ],
-          "correct": ["b", "d", "e", "a", "c"],
+          "correct": [
+            "b",
+            "d",
+            "e",
+            "a",
+            "c"
+          ],
           "explanation": "The seat map is built from shared tokens and covered by tests, and CI then checks performance and accessibility automatically on every change. A preview deployment lets QA and designers review the real build, and the release goes out with real-user monitoring watching how it behaves.",
           "why_others_wrong": {
             "common_mistake": "Sending the build for QA review before the automated checks run, which spends people's time on problems a machine would have caught in minutes."
@@ -520,12 +1545,26 @@
           "type": "single_choice",
           "prompt": "100,000 fans will load the site in the same minute. How should the front end's static files be served?",
           "options": [
-            {"id": "a", "text": "From the main app server, with caching turned off to stay fresh"},
-            {"id": "b", "text": "Via a CDN, with hashed filenames and long cache times"},
-            {"id": "c", "text": "From one server in Mumbai that is upgraded for the sale day"},
-            {"id": "d", "text": "As one huge HTML file with all scripts and styles inlined"}
+            {
+              "id": "a",
+              "text": "From the main app server, with caching turned off to stay fresh"
+            },
+            {
+              "id": "b",
+              "text": "Via a CDN, with hashed filenames and long cache times"
+            },
+            {
+              "id": "c",
+              "text": "From one server in Mumbai that is upgraded for the sale day"
+            },
+            {
+              "id": "d",
+              "text": "As one huge HTML file with all scripts and styles inlined"
+            }
           ],
-          "correct": ["b"],
+          "correct": [
+            "b"
+          ],
           "explanation": "A CDN serves files from servers close to each fan and absorbs the spike. Content-hashed filenames, such as app.3f9a1c.js, can be cached for a year because every new build gets new names, while the small HTML page is cached briefly so it always points to the latest files.",
           "why_others_wrong": {
             "a": "Serving every file from the app server without caching overloads it in the first seconds.",
@@ -540,12 +1579,26 @@
           "type": "single_choice",
           "prompt": "Last year, fans saw blank screens, but the team only heard about it on social media. What should be in place this year?",
           "options": [
-            {"id": "a", "text": "Ask fans to email screenshots whenever they run into a problem"},
-            {"id": "b", "text": "Rely on the developers' own laptops showing no console errors"},
-            {"id": "c", "text": "Track JS errors with source maps, plus real-user monitoring"},
-            {"id": "d", "text": "Check the server's CPU graph in the hours after the sale ends"}
+            {
+              "id": "a",
+              "text": "Ask fans to email screenshots whenever they run into a problem"
+            },
+            {
+              "id": "b",
+              "text": "Rely on the developers' own laptops showing no console errors"
+            },
+            {
+              "id": "c",
+              "text": "Track JS errors with source maps, plus real-user monitoring"
+            },
+            {
+              "id": "d",
+              "text": "Check the server's CPU graph in the hours after the sale ends"
+            }
           ],
-          "correct": ["c"],
+          "correct": [
+            "c"
+          ],
           "explanation": "An error-tracking service records JavaScript errors from real visitors, and source maps turn them back into readable code locations. Real-user monitoring of load times and Core Web Vitals shows slowdowns as they happen, so the team learns about problems in seconds rather than from social media.",
           "why_others_wrong": {
             "a": "Few fans email, and screenshots arrive far too late during a one-minute rush.",
@@ -560,13 +1613,31 @@
           "type": "multi_select",
           "prompt": "Which two choices make the seat map accessible?",
           "options": [
-            {"id": "a", "text": "Make seats keyboard-reachable with arrow keys and a visible focus"},
-            {"id": "b", "text": "Show seat details only in tooltips that appear on mouse hover"},
-            {"id": "c", "text": "Give each seat a name like 'Row F, seat 12, available, 1,500 rupees'"},
-            {"id": "d", "text": "Mark available and sold seats by colour alone to keep it simple"},
-            {"id": "e", "text": "Disable pinch-to-zoom so the map always stays at a single size"}
+            {
+              "id": "a",
+              "text": "Make seats keyboard-reachable with arrow keys and a visible focus"
+            },
+            {
+              "id": "b",
+              "text": "Show seat details only in tooltips that appear on mouse hover"
+            },
+            {
+              "id": "c",
+              "text": "Give each seat a name like 'Row F, seat 12, available, 1,500 rupees'"
+            },
+            {
+              "id": "d",
+              "text": "Mark available and sold seats by colour alone to keep it simple"
+            },
+            {
+              "id": "e",
+              "text": "Disable pinch-to-zoom so the map always stays at a single size"
+            }
           ],
-          "correct": ["a", "c"],
+          "correct": [
+            "a",
+            "c"
+          ],
           "explanation": "Keyboard navigation with a clear focus indicator lets people who cannot use a mouse or touch screen pick seats. A descriptive accessible name for each seat tells screen-reader users its row, number, status and price.",
           "why_others_wrong": {
             "b": "Hover does not exist for keyboard, touch or screen-reader users.",
@@ -581,24 +1652,271 @@
           "type": "match",
           "prompt": "Match each requirement to the technique that delivers it.",
           "items": [
-            {"id": "i1", "text": "Seats taken by others should disappear within a second"},
-            {"id": "i2", "text": "The site must stay usable on a slow 3G connection"},
-            {"id": "i3", "text": "Prices and dates appear in English, Kannada and Tamil"},
-            {"id": "i4", "text": "A crash in the seat map must not blank the whole page"}
+            {
+              "id": "i1",
+              "text": "Seats taken by others should disappear within a second"
+            },
+            {
+              "id": "i2",
+              "text": "The site must stay usable on a slow 3G connection"
+            },
+            {
+              "id": "i3",
+              "text": "Prices and dates appear in English, Kannada and Tamil"
+            },
+            {
+              "id": "i4",
+              "text": "A crash in the seat map must not blank the whole page"
+            }
           ],
           "targets": [
-            {"id": "t1", "text": "An error boundary around the seat map component"},
-            {"id": "t2", "text": "Live updates over WebSocket or server-sent events"},
-            {"id": "t3", "text": "Translation files and locale-aware Intl formatting"},
-            {"id": "t4", "text": "A performance budget that limits JavaScript size"}
+            {
+              "id": "t1",
+              "text": "An error boundary around the seat map component"
+            },
+            {
+              "id": "t2",
+              "text": "Live updates over WebSocket or server-sent events"
+            },
+            {
+              "id": "t3",
+              "text": "Translation files and locale-aware Intl formatting"
+            },
+            {
+              "id": "t4",
+              "text": "A performance budget that limits JavaScript size"
+            }
           ],
-          "correct": {"i1": "t2", "i2": "t4", "i3": "t3", "i4": "t1"},
+          "correct": {
+            "i1": "t2",
+            "i2": "t4",
+            "i3": "t3",
+            "i4": "t1"
+          },
           "explanation": "Pushing seat changes over a WebSocket or server-sent events updates the map almost instantly. A performance budget keeps the code light enough for slow connections, translation files with Intl formatting show text, prices and dates correctly for each language, and an error boundary contains a crash so the rest of the page keeps working.",
           "why_others_wrong": {
             "common_mistake": "Polling the server every second for seat changes: with 100,000 fans this creates a flood of requests, while a pushed stream sends only the changes."
           },
           "key_justification": "Real-time pushes, budgets, internationalisation and error boundaries each meet a launch need.",
           "points": 10
+        }
+      ],
+      "code_pool": [
+        {
+          "id": "fed-5-c1",
+          "prompt": "100,000 fans will load the seat map in the same minute, so static files must come from the CDN's cache, while a new release must still reach everyone at once. The first line is n, then n file paths. Complete `cache_header`: `.html` files get `no-cache` (always revalidate, so a new release is picked up); files with a content hash in the name, a part of exactly 8 lowercase hex characters between dots before the extension (like `app.3f9a1c2b.js`), get `public, max-age=31536000, immutable`; everything else gets `public, max-age=3600`. The program prints `file header` per file.",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef cache_header(name):\n    \"\"\"Return the Cache-Control value for a file: .html files get 'no-cache'; files whose name has a content hash, a part of exactly 8 lowercase hex characters between dots before the extension (app.3f9a1c2b.js), get 'public, max-age=31536000, immutable'; everything else gets 'public, max-age=3600'.\"\"\"\n    # Write your code here.\n    return \"public, max-age=3600\"\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    for i in range(n):\n        name = data[1 + i].strip()\n        print(name, cache_header(name))\n\n\nmain()\n",
+          "reference_solution": "import re\nimport sys\n\n\ndef cache_header(name):\n    \"\"\"Return the Cache-Control value for a file: .html files get 'no-cache'; files whose name has a content hash, a part of exactly 8 lowercase hex characters between dots before the extension (app.3f9a1c2b.js), get 'public, max-age=31536000, immutable'; everything else gets 'public, max-age=3600'.\"\"\"\n    if name.endswith(\".html\"):\n        return \"no-cache\"\n    base = name.rsplit(\"/\", 1)[-1]\n    if re.search(r\"\\.[0-9a-f]{8}\\.\", base):          # .3f9a1c2b. : the content changes the name\n        return \"public, max-age=31536000, immutable\"\n    return \"public, max-age=3600\"\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    for i in range(n):\n        name = data[1 + i].strip()\n        print(name, cache_header(name))\n\n\nmain()\n",
+          "ds_topic": "string",
+          "difficulty": 1,
+          "skills": [
+            "JavaScript",
+            "Python"
+          ],
+          "explanation": "A file whose name contains a hash of its content can be cached forever: a new version gets a new name. The HTML that references those names must not be cached long, or users keep loading the old release. Everything else gets a short, safe lifetime. The rule is a small pattern match on the file name.",
+          "key_justification": "Classify file names with a pattern to choose cache headers.",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "3\nindex.html\napp.3f9a1c2b.js\nlogo.svg\n",
+                  "expected_stdout": "index.html no-cache\napp.3f9a1c2b.js public, max-age=31536000, immutable\nlogo.svg public, max-age=3600\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "3\napp.3f9a1c2b.js\nvendor.0d4e5f6a.js\napp.js\n",
+                  "expected_stdout": "app.3f9a1c2b.js public, max-age=31536000, immutable\nvendor.0d4e5f6a.js public, max-age=31536000, immutable\napp.js public, max-age=3600\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "8\nindex.html\nfonts/inter.5e6f7a8b.woff2\nmanifest.json\nseatmap.ABCDEF12.js\nlogo.svg\nchunk.12ab34cd.min.js\nvendor.0d4e5f6a.js\nseats.html\n",
+                  "expected_stdout": "index.html no-cache\nfonts/inter.5e6f7a8b.woff2 public, max-age=31536000, immutable\nmanifest.json public, max-age=3600\nseatmap.ABCDEF12.js public, max-age=3600\nlogo.svg public, max-age=3600\nchunk.12ab34cd.min.js public, max-age=31536000, immutable\nvendor.0d4e5f6a.js public, max-age=31536000, immutable\nseats.html no-cache\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "12\nmanifest.json\napp.3f9a1c2b.js\napp.js\nstyles.9c8b7a6d.css\nindex.html\nchunk.12ab34cd.min.js\nseatmap.ABCDEF12.js\nseats.html\nvendor.0d4e5f6a.js\nlogo.svg\nfonts/inter.5e6f7a8b.woff2\nimg/hall.1a2b3c.png\n",
+                  "expected_stdout": "manifest.json public, max-age=3600\napp.3f9a1c2b.js public, max-age=31536000, immutable\napp.js public, max-age=3600\nstyles.9c8b7a6d.css public, max-age=31536000, immutable\nindex.html no-cache\nchunk.12ab34cd.min.js public, max-age=31536000, immutable\nseatmap.ABCDEF12.js public, max-age=3600\nseats.html no-cache\nvendor.0d4e5f6a.js public, max-age=31536000, immutable\nlogo.svg public, max-age=3600\nfonts/inter.5e6f7a8b.woff2 public, max-age=31536000, immutable\nimg/hall.1a2b3c.png public, max-age=3600\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1\nfonts/inter.5e6f7a8b.woff2\n",
+                  "expected_stdout": "fonts/inter.5e6f7a8b.woff2 public, max-age=31536000, immutable\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "2\nseatmap.ABCDEF12.js\nchunk.12ab34cd.min.js\n",
+                  "expected_stdout": "seatmap.ABCDEF12.js public, max-age=3600\nchunk.12ab34cd.min.js public, max-age=31536000, immutable\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "3\nimg/hall.1a2b3c.png\napp.3f9a1c2b.js\nindex.html\n",
+                  "expected_stdout": "img/hall.1a2b3c.png public, max-age=3600\napp.3f9a1c2b.js public, max-age=31536000, immutable\nindex.html no-cache\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "8\nlogo.svg\nindex.html\nfonts/inter.5e6f7a8b.woff2\napp.js\nchunk.12ab34cd.min.js\nimg/hall.1a2b3c.png\nmanifest.json\nseatmap.ABCDEF12.js\n",
+                  "expected_stdout": "logo.svg public, max-age=3600\nindex.html no-cache\nfonts/inter.5e6f7a8b.woff2 public, max-age=31536000, immutable\napp.js public, max-age=3600\nchunk.12ab34cd.min.js public, max-age=31536000, immutable\nimg/hall.1a2b3c.png public, max-age=3600\nmanifest.json public, max-age=3600\nseatmap.ABCDEF12.js public, max-age=3600\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "12\napp.js\nindex.html\nmanifest.json\nfonts/inter.5e6f7a8b.woff2\nstyles.9c8b7a6d.css\nlogo.svg\nvendor.0d4e5f6a.js\nchunk.12ab34cd.min.js\napp.3f9a1c2b.js\nseatmap.ABCDEF12.js\nseats.html\nimg/hall.1a2b3c.png\n",
+                  "expected_stdout": "app.js public, max-age=3600\nindex.html no-cache\nmanifest.json public, max-age=3600\nfonts/inter.5e6f7a8b.woff2 public, max-age=31536000, immutable\nstyles.9c8b7a6d.css public, max-age=31536000, immutable\nlogo.svg public, max-age=3600\nvendor.0d4e5f6a.js public, max-age=31536000, immutable\nchunk.12ab34cd.min.js public, max-age=31536000, immutable\napp.3f9a1c2b.js public, max-age=31536000, immutable\nseatmap.ABCDEF12.js public, max-age=3600\nseats.html no-cache\nimg/hall.1a2b3c.png public, max-age=3600\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "2\nmanifest.json\nseats.html\n",
+                  "expected_stdout": "manifest.json public, max-age=3600\nseats.html no-cache\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "1\nimg/hall.1a2b3c.png\n",
+                  "expected_stdout": "img/hall.1a2b3c.png public, max-age=3600\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "3\nindex.html\nimg/hall.1a2b3c.png\nseats.html\n",
+                  "expected_stdout": "index.html no-cache\nimg/hall.1a2b3c.png public, max-age=3600\nseats.html no-cache\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "8\nseatmap.ABCDEF12.js\nindex.html\nstyles.9c8b7a6d.css\nlogo.svg\napp.js\nvendor.0d4e5f6a.js\napp.3f9a1c2b.js\nimg/hall.1a2b3c.png\n",
+                  "expected_stdout": "seatmap.ABCDEF12.js public, max-age=3600\nindex.html no-cache\nstyles.9c8b7a6d.css public, max-age=31536000, immutable\nlogo.svg public, max-age=3600\napp.js public, max-age=3600\nvendor.0d4e5f6a.js public, max-age=31536000, immutable\napp.3f9a1c2b.js public, max-age=31536000, immutable\nimg/hall.1a2b3c.png public, max-age=3600\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "12\napp.js\nseatmap.ABCDEF12.js\nstyles.9c8b7a6d.css\nindex.html\nlogo.svg\nseats.html\nmanifest.json\nfonts/inter.5e6f7a8b.woff2\napp.3f9a1c2b.js\nchunk.12ab34cd.min.js\nvendor.0d4e5f6a.js\nimg/hall.1a2b3c.png\n",
+                  "expected_stdout": "app.js public, max-age=3600\nseatmap.ABCDEF12.js public, max-age=3600\nstyles.9c8b7a6d.css public, max-age=31536000, immutable\nindex.html no-cache\nlogo.svg public, max-age=3600\nseats.html no-cache\nmanifest.json public, max-age=3600\nfonts/inter.5e6f7a8b.woff2 public, max-age=31536000, immutable\napp.3f9a1c2b.js public, max-age=31536000, immutable\nchunk.12ab34cd.min.js public, max-age=31536000, immutable\nvendor.0d4e5f6a.js public, max-age=31536000, immutable\nimg/hall.1a2b3c.png public, max-age=3600\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1\nx.0000000a.css\n",
+                  "expected_stdout": "x.0000000a.css public, max-age=31536000, immutable\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "fed-5-c2",
+          "prompt": "On the seat map, a fan holds a seat while paying, and the hold must expire so abandoned seats return to the sale. The first line is the hold time in seconds, the second is n, then n events `second action seat user` in time order (action HOLD, RELEASE or BUY). Complete `run_sale`: a hold expires at second >= start + hold time. HOLD works if the seat is not sold and nobody else holds it (holding your own seat again restarts the timer); RELEASE works only for the current holder; BUY works only for the current holder of an unexpired hold and sells the seat. Everything else is rejected. The program prints `seat buyer` for sold seats, sorted, then `rejected k`.",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef run_sale(events, hold):\n    \"\"\"events: (second, HOLD|RELEASE|BUY, seat, user) in time order. A hold lasts `hold` seconds (it has expired at second >= start + hold). HOLD works if the seat is not sold and nobody else holds it (holding your own seat again restarts the timer). RELEASE works only for the current holder. BUY works only for the current holder of an unexpired hold, and sells the seat. Anything else is rejected. Return ([(seat, buyer)] sorted by seat, number of rejected events).\"\"\"\n    # Write your code here.\n    return [], 0\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    hold = int(data[0])\n    n = int(data[1])\n    events = []\n    for i in range(n):\n        t, action, seat, user = data[2 + i].split()\n        events.append((int(t), action, seat, user))\n    sold, rejected = run_sale(events, hold)\n    for seat, user in sold:\n        print(seat, user)\n    print(\"rejected\", rejected)\n\n\nmain()\n",
+          "reference_solution": "import sys\n\n\ndef run_sale(events, hold):\n    \"\"\"events: (second, HOLD|RELEASE|BUY, seat, user) in time order. A hold lasts `hold` seconds (it has expired at second >= start + hold). HOLD works if the seat is not sold and nobody else holds it (holding your own seat again restarts the timer). RELEASE works only for the current holder. BUY works only for the current holder of an unexpired hold, and sells the seat. Anything else is rejected. Return ([(seat, buyer)] sorted by seat, number of rejected events).\"\"\"\n    holder, expires, sold = {}, {}, {}\n    rejected = 0\n    for t, action, seat, user in events:\n        held_by = holder.get(seat) if seat in holder and t < expires[seat] else None   # expired holds vanish\n        if seat in sold:\n            rejected += 1\n        elif action == \"HOLD\" and held_by in (None, user):\n            holder[seat], expires[seat] = user, t + hold\n        elif action == \"RELEASE\" and held_by == user:\n            del holder[seat], expires[seat]\n        elif action == \"BUY\" and held_by == user:\n            sold[seat] = user\n        else:\n            rejected += 1\n    return sorted(sold.items()), rejected\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    hold = int(data[0])\n    n = int(data[1])\n    events = []\n    for i in range(n):\n        t, action, seat, user = data[2 + i].split()\n        events.append((int(t), action, seat, user))\n    sold, rejected = run_sale(events, hold)\n    for seat, user in sold:\n        print(seat, user)\n    print(\"rejected\", rejected)\n\n\nmain()\n",
+          "ds_topic": "hash_map",
+          "difficulty": 2,
+          "skills": [
+            "JavaScript",
+            "Python"
+          ],
+          "explanation": "Per-seat dictionaries for the holder, the expiry time and the buyer make every event an O(1) check. Treating an expired hold as absent, rather than running a cleanup job, means a seat frees itself at exactly the right second. The server must enforce this; the seat map in the browser only displays it.",
+          "key_justification": "State per seat in hash maps with lazy expiry.",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "600\n7\n0 HOLD A1 u1\n10 HOLD A1 u2\n20 BUY A1 u1\n30 HOLD A2 u2\n700 BUY A2 u2\n710 HOLD A2 u3\n720 BUY A2 u3\n",
+                  "expected_stdout": "A1 u1\nA2 u3\nrejected 2\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "300\n8\n1 HOLD B3 u2\n6 BUY A1 u2\n126 RELEASE B2 u1\n131 HOLD B3 u1\n136 HOLD A1 u4\n141 RELEASE B3 u4\n171 BUY B4 u4\n291 RELEASE A1 u1\n",
+                  "expected_stdout": "rejected 6\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "300\n30\n5 HOLD A2 u2\n10 BUY B4 u4\n11 HOLD B1 u3\n12 HOLD B3 u2\n17 BUY B3 u1\n47 BUY B4 u2\n77 HOLD A1 u1\n197 RELEASE A3 u3\n317 HOLD B4 u3\n437 RELEASE A1 u4\n442 HOLD B2 u2\n447 HOLD A2 u1\n452 HOLD B3 u3\n457 RELEASE A3 u4\n462 HOLD A1 u4\n862 HOLD A4 u2\n867 BUY B2 u3\n872 RELEASE A4 u4\n1272 BUY B3 u2\n1672 HOLD B1 u3\n2072 BUY A3 u2\n2073 RELEASE A4 u2\n2074 HOLD A3 u4\n2075 HOLD A1 u3\n2195 HOLD A2 u2\n2225 HOLD B4 u1\n2226 RELEASE B4 u2\n2231 HOLD B4 u4\n2261 HOLD B2 u4\n2661 HOLD A3 u1\n",
+                  "expected_stdout": "rejected 13\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "600\n60\n400 HOLD B4 u4\n401 RELEASE B2 u3\n406 BUY A4 u2\n407 RELEASE B2 u4\n807 HOLD B3 u1\n1207 RELEASE B2 u1\n1237 HOLD B1 u1\n1242 RELEASE B3 u1\n1243 HOLD B3 u4\n1363 RELEASE A3 u4\n1483 HOLD A3 u4\n1603 HOLD A1 u1\n1608 RELEASE A2 u4\n1609 HOLD B2 u2\n1729 HOLD B3 u4\n1730 RELEASE A2 u3\n1731 BUY A4 u2\n2131 HOLD A1 u3\n2531 HOLD A4 u3\n2536 RELEASE A3 u2\n2936 HOLD B1 u3\n2941 RELEASE A4 u4\n3061 HOLD A4 u4\n3091 HOLD B2 u2\n3121 HOLD B3 u4\n3241 HOLD A1 u3\n3361 BUY A1 u3\n3481 RELEASE A2 u2\n3482 RELEASE B3 u4\n3487 RELEASE A2 u2\n3492 HOLD B1 u1\n3892 BUY A3 u4\n4292 HOLD B1 u2\n4322 RELEASE A4 u4\n4352 HOLD B2 u2\n4353 HOLD A2 u1\n4753 RELEASE A3 u1\n4783 HOLD B4 u1\n5183 HOLD B4 u3\n5184 HOLD A3 u3\n5584 RELEASE B1 u3\n5589 HOLD B3 u4\n5709 RELEASE B4 u4\n5829 HOLD A2 u1\n5859 HOLD A4 u1\n5864 HOLD B1 u2\n5869 BUY A3 u1\n5874 HOLD B1 u1\n5994 HOLD B2 u4\n6024 RELEASE A1 u1\n6025 RELEASE B4 u3\n6425 BUY B1 u3\n6825 HOLD B2 u1\n6945 RELEASE B4 u4\n6950 HOLD B3 u2\n6951 RELEASE A1 u4\n6952 RELEASE B4 u1\n7072 HOLD B4 u2\n7077 HOLD B4 u1\n7078 BUY B1 u1\n",
+                  "expected_stdout": "A1 u3\nrejected 31\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "5\n2\n0 HOLD Z u\n5 BUY Z u\n",
+                  "expected_stdout": "rejected 1\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "100\n3\n0 HOLD B1 u1\n50 RELEASE B1 u2\n60 RELEASE B1 u1\n",
+                  "expected_stdout": "rejected 1\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "300\n8\n120 RELEASE B1 u1\n125 HOLD B1 u2\n525 HOLD B2 u4\n555 HOLD A3 u2\n675 HOLD A3 u3\n795 HOLD A3 u1\n1195 BUY B4 u1\n1595 HOLD A2 u1\n",
+                  "expected_stdout": "rejected 4\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "600\n30\n5 RELEASE B1 u2\n6 HOLD A1 u3\n7 RELEASE A2 u2\n407 HOLD B1 u1\n437 HOLD A2 u4\n442 RELEASE A4 u2\n443 BUY A2 u1\n448 BUY A1 u4\n568 HOLD B1 u2\n598 BUY A2 u2\n603 HOLD B3 u3\n633 HOLD B3 u4\n634 HOLD B2 u3\n664 HOLD B1 u2\n669 BUY A3 u2\n670 HOLD B4 u3\n675 HOLD B1 u3\n705 BUY B1 u4\n706 HOLD A2 u3\n711 RELEASE A1 u2\n741 BUY A1 u2\n861 BUY A4 u3\n862 BUY B4 u2\n892 BUY B3 u4\n922 RELEASE A2 u1\n927 BUY B2 u3\n932 BUY B4 u1\n1052 HOLD B2 u4\n1082 RELEASE A1 u1\n1112 BUY A4 u1\n",
+                  "expected_stdout": "B2 u3\nrejected 23\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "600\n60\n5 RELEASE A3 u1\n6 HOLD B4 u1\n36 HOLD B2 u1\n436 BUY A3 u3\n466 HOLD A2 u2\n471 RELEASE A2 u4\n501 HOLD B3 u1\n502 HOLD A4 u3\n503 BUY A2 u1\n903 RELEASE A2 u2\n1303 HOLD A4 u4\n1703 HOLD A1 u3\n2103 HOLD A1 u1\n2108 RELEASE A1 u4\n2508 RELEASE A1 u3\n2538 BUY A3 u3\n2543 BUY B4 u2\n2943 HOLD B4 u3\n2944 RELEASE B3 u3\n2974 RELEASE A1 u3\n3004 RELEASE A4 u1\n3404 BUY B1 u1\n3524 BUY A2 u2\n3924 RELEASE A1 u3\n4324 RELEASE A2 u3\n4354 BUY B3 u4\n4754 BUY B3 u1\n4784 BUY A1 u4\n4789 BUY B2 u4\n4790 HOLD B2 u3\n4910 BUY B4 u3\n4940 BUY B4 u4\n4970 HOLD A3 u1\n5090 HOLD B3 u4\n5120 RELEASE B4 u3\n5520 HOLD A3 u4\n5640 BUY A4 u2\n5641 HOLD B1 u3\n6041 HOLD A1 u4\n6071 HOLD A3 u3\n6101 RELEASE A3 u4\n6221 HOLD A4 u1\n6251 HOLD A3 u3\n6256 HOLD B3 u4\n6257 HOLD A1 u3\n6287 BUY A4 u4\n6407 RELEASE B2 u2\n6807 HOLD B3 u3\n6837 RELEASE A3 u3\n6842 HOLD B1 u2\n7242 HOLD B3 u2\n7272 BUY A4 u4\n7273 HOLD B2 u3\n7673 BUY A2 u2\n7674 HOLD A3 u1\n7794 HOLD B1 u2\n7824 BUY A1 u2\n7829 HOLD B4 u3\n7859 HOLD B3 u3\n7979 RELEASE A3 u2\n",
+                  "expected_stdout": "rejected 34\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "5\n1\n0 BUY Z u\n",
+                  "expected_stdout": "rejected 1\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "10\n4\n0 HOLD C1 u1\n9 HOLD C1 u1\n18 BUY C1 u1\n19 HOLD C1 u2\n",
+                  "expected_stdout": "C1 u1\nrejected 1\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "600\n8\n120 HOLD A1 u3\n121 HOLD A1 u1\n241 HOLD B3 u4\n641 RELEASE A3 u2\n1041 RELEASE A2 u3\n1161 HOLD B3 u2\n1191 HOLD A3 u3\n1591 HOLD A1 u2\n",
+                  "expected_stdout": "rejected 3\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "600\n30\n400 BUY A3 u3\n520 RELEASE A3 u2\n550 HOLD A1 u1\n580 RELEASE A2 u3\n700 BUY A2 u1\n705 BUY B1 u2\n1105 HOLD B1 u1\n1135 HOLD A1 u4\n1165 HOLD B3 u3\n1285 HOLD A3 u3\n1685 HOLD B1 u2\n1805 HOLD A3 u4\n1835 HOLD A4 u2\n1865 HOLD A4 u4\n1985 RELEASE A2 u3\n2385 HOLD A4 u4\n2386 RELEASE B3 u3\n2786 HOLD A1 u2\n3186 BUY B3 u1\n3216 BUY A3 u1\n3616 HOLD A2 u3\n3621 HOLD B4 u1\n3626 RELEASE B3 u2\n3656 HOLD B2 u1\n3657 BUY A4 u3\n4057 BUY A2 u4\n4457 BUY A4 u3\n4857 RELEASE A2 u3\n5257 RELEASE A3 u2\n5262 HOLD A4 u3\n",
+                  "expected_stdout": "rejected 20\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "600\n60\n400 RELEASE A4 u1\n800 RELEASE B4 u2\n830 RELEASE B3 u1\n860 RELEASE B4 u3\n980 HOLD B2 u1\n985 BUY B2 u3\n1105 RELEASE A2 u1\n1505 RELEASE A2 u4\n1506 BUY A4 u4\n1507 HOLD A3 u2\n1627 RELEASE B1 u1\n1657 RELEASE B2 u4\n1777 BUY B1 u4\n1778 HOLD B4 u2\n2178 RELEASE B4 u4\n2183 RELEASE B2 u3\n2184 HOLD B1 u4\n2185 HOLD A2 u1\n2585 HOLD B1 u1\n2615 RELEASE A3 u1\n2645 HOLD B3 u4\n2675 BUY B3 u4\n2705 HOLD B4 u1\n2825 HOLD A2 u3\n2826 RELEASE A1 u1\n2831 HOLD B1 u1\n2951 BUY A2 u4\n2956 HOLD A4 u3\n3076 HOLD B2 u4\n3077 HOLD A2 u1\n3078 HOLD A3 u1\n3198 HOLD A4 u2\n3199 BUY B4 u3\n3229 BUY B1 u1\n3629 RELEASE A1 u2\n3634 BUY B4 u1\n3754 HOLD B1 u3\n3755 HOLD B2 u3\n3875 HOLD A1 u3\n3995 HOLD A2 u2\n4395 HOLD B3 u3\n4515 RELEASE A2 u2\n4520 RELEASE B2 u3\n4640 BUY B1 u2\n4645 HOLD A4 u4\n4646 HOLD A3 u4\n5046 RELEASE A4 u1\n5051 RELEASE B3 u1\n5171 RELEASE B4 u3\n5172 HOLD B4 u1\n5572 HOLD B2 u2\n5577 RELEASE A4 u4\n5578 RELEASE B3 u4\n5608 HOLD B3 u3\n5638 RELEASE A2 u4\n5639 HOLD A4 u1\n5759 BUY B2 u1\n5789 RELEASE B2 u3\n6189 RELEASE A3 u3\n6589 HOLD B1 u1\n",
+                  "expected_stdout": "B1 u1\nB3 u4\nrejected 37\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "60\n3\n0 HOLD A u1\n60 HOLD A u2\n61 BUY A u2\n",
+                  "expected_stdout": "A u2\nrejected 0\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
         }
       ]
     }
