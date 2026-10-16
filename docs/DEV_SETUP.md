@@ -225,6 +225,7 @@ For these tests run `pip install -r requirements-dev.txt` once (adds fpdf2).
 | `smoke_test_generator.py` | roadmap generator with a fake LLM: golden comparison for 3 paths, coverage/duplicate/index/allowlist/shape invariants at concurrency 1 and 3, thread hygiene, failure handling, duplicate rewrite, warm-up | no (fake LLM, local embeddings only; ~1.5 min, mostly model load) |
 | `smoke_test_profile_flow.py` | quiz then conversation then `CareerProfile` row; prints rather than counts | no |
 | `smoke_test_code_questions.py` | code questions: runner adapter (OneCompiler shape, Cloudflare page, timeouts, caps, error codes), validator, public view, grading, Run and Check routes | no (fake runner or stubbed HTTP) |
+| `smoke_test_gamification.py` | gamification: XP rules (best score only, one-off bonuses, retries add nothing), levels, IST streak maths, every badge rule, rewards between two summaries, `GET /gamification` (401, per user, no writes, fixed error code), rewards on scenario submit (and a failure there never breaks the grade), pages load the script | no (code runs with local Python) |
 | `smoke_test_code_pools.py` | code pools: content shape of the 5 paths, validator rejections, materialise, the personalised pick rules, no secret field in any of the 120 variants, grading with the real reference solutions, Start/Run/Check/Submit end to end, retry gets the other problem, readiness counts the code question, dashboard scenario summary, no page links to `/dsa` | no (runs code with this machine's Python: `CODE_RUNNER=local`) |
 | `smoke_test_resume.py` | upload, extraction, gap analysis, AI feedback | yes: Gemini |
 | `smoke_test_roadmap.py` | `/roadmap/generate` end to end | yes: Gemini |
@@ -239,7 +240,7 @@ last four only deliberately: they spend quota.
 
 Current check counts (run on 2026-10-11 unless marked): `smoke_test_scenarios.py` 213,
 `smoke_test_readiness.py` 70, `smoke_test_resume_rules.py` 59, `smoke_test_cached_roadmaps.py` 95,
-`smoke_test_code_questions.py` 164, `smoke_test_code_pools.py` 78 (the last two were run in a cloud copy with an empty
+`smoke_test_code_questions.py` 164, `smoke_test_code_pools.py` 78, `smoke_test_gamification.py` 49 (the last two were run in a cloud copy with an empty
 survey table, where readiness shows 69 and resume_rules 58; on the laptop's database they should show 70 and 59)
 (the 95 is from the earlier biography entry and was not re-run for this update). All of these
 call no external service, but they use the development database, so PostgreSQL must be running.
@@ -480,6 +481,28 @@ scenario's **`code_pool`** instead: 1-4 problems (ids `<scenario id>-cK`), each 
 - **Old skill-map tables.** The app no longer uses them. `PYTHONPATH=. python scripts/drop_old_dsa_tables.py` lists
   them and their row counts; `--drop` removes them (cannot be undone; the script's docstring has a `pg_dump` line for
   a backup). `cleanup_demo_users.py` still clears rows in them first if they exist.
+
+### Gamification (XP, levels, streak, badges)
+
+Rules: `app/pipeline/gamification.py` (pure). Route: `GET /gamification` in `app/routes/gamification.py`. Front end:
+`app/static/js/gamification.js`, loaded by the dashboard (level card, badge grid) and the scenarios page (level bar,
+reward card after a submit). **Nothing is stored**: every number is recomputed from submitted `scenario_attempts` and
+`roadmap_progress` rows, so there is no table to migrate and nothing can drift.
+
+- **XP** (`XP_RULES`): the best score on each scenario (10 per correct question), +20 the first time a scenario is
+  passed, +10 for a scenario ever scored 100%, +15 per different coding problem solved, +5 per ticked roadmap step.
+  Only bests and distinct achievements count, so retrying or re-ticking cannot farm XP.
+- **Levels** (`LEVELS`): Intern 0, Trainee 100, Junior Engineer 250, Engineer 500, Senior Engineer 850, Lead
+  Engineer 1300, Principal Engineer 2000.
+- **Streak:** consecutive IST calendar days with a submitted scenario or a ticked roadmap step; still alive today if the
+  last active day was yesterday. (The readiness score's "last 30 days" still counts UTC days, as before.)
+- **Badges** (`BADGES`, 13): each has a rule and a target, and locked badges show progress towards the target.
+- **Rewards on submit:** `POST /scenarios/<id>/submit` returns `rewards` (XP gained, level, level-up, new badges,
+  streak), computed as the summary with and without that attempt. If anything there fails, `rewards` is `null` and the
+  grade is returned as normal.
+- **Change a rule:** edit `XP_RULES`, `LEVELS` or `BADGES` and re-run `smoke_test_gamification.py`; because nothing is
+  stored, every student's numbers follow the new rules on their next page load.
+- **No leaderboard** by design (privacy, and a near-empty board in a demo).
 
 ### Cleaning up test users
 

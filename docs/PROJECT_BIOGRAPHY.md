@@ -2128,6 +2128,39 @@ the embedding model are only on the laptop). **Not verified:** the code editor a
 OneCompiler run of the new problems; the laptop-only suites on this branch.
 
 ---
+## Gamification Layer: XP, Levels, Streak, Badges, Rewards
+
+**Why.** After the redesign the only game-like parts were the scenario map's unlocking, best scores and a pass mark;
+there was no XP, level, visible streak, badge or reward moment, which the project owner flagged as a gap. Built in a cloud
+Claude Code session (Opus) on branch `gamification-1`, on top of `coding-content-1`.
+
+**Design decision: derive, never store.** XP, level, streak and badges are recomputed on every request from submitted
+scenario attempts and ticked roadmap steps (`app/pipeline/gamification.py`, pure). There is no new table, nothing can get
+out of sync with the attempts, and any number can be explained by listing the attempts behind it. The cost is a few queries
+per request, which is negligible at this scale.
+
+**Rules.** XP = best score per scenario + 20 for a first pass + 10 for a perfect score + 15 per different coding problem
+solved + 5 per ticked roadmap step; only bests and distinct achievements count, so retries cannot farm XP (a re-submit with
+an equal score earns 0, and the reward card says why). Seven levels named after a career ladder (Intern to Principal
+Engineer). Streak days are counted in IST so a late-evening submit in India lands on the right day. Thirteen badges
+(first scenario, first pass, perfect score, first and fifth coding problem, three data structures, a heap/graph/tree/linked
+list problem, comeback after a fail, a whole path passed, two paths tried, 3- and 7-day streaks, ten roadmap steps), each
+with a target and visible progress. No leaderboard, on purpose: privacy, and a near-empty board in a demo.
+
+**Where it shows.** A level card (title, XP bar to the next level, streak, badges earned) and a badge grid on the dashboard;
+a one-line level bar above the scenario map; and after each scenario submit a reward card with the XP gained, any level-up
+and any new badges (announced to screen readers too). The submit route computes rewards as the summary with and without the
+new attempt; a failure there returns `rewards: null` and never changes the grade.
+
+**Verification (cloud copy).** `smoke_test_gamification.py` 49/49 (rules, streak edge cases, every badge, rewards, the route's
+auth, per-user data, no writes, fixed error code, submit unaffected by a failure). Existing suites unchanged:
+code_pools 78, code_questions 164, scenarios 213, security 30, quiz 33, llm 84, async_generation 25, readiness 69 and
+resume_rules 58 (one lower than on the laptop because of the empty survey table, as before). The dashboard, the scenario map
+and the reward card were rendered in headless Chromium at 1280 px and 360 px (no horizontal scroll at 360 px) with a seeded
+student. **Not verified:** the pages on the owner's laptop and real database; the XP thresholds have not been tuned against
+real students, so the pace of levelling is a guess.
+
+---
 ## Still To Build
 
 - Real-model check of parallel generation: run `scripts/inspect_roadmap.py` for a few
@@ -2139,6 +2172,7 @@ OneCompiler run of the new problems; the laptop-only suites on this branch.
 - Phase 3 Stage 2 / Stage 3 (skill map, bandits): superseded by scenarios with coding questions; the skill map was removed
 - Scenario scene artwork (the maps use a gradient)
 - Coding problems for the other 10 paths (5 paths have them)
+- Tune the XP level thresholds once real students have used it
 - Run the new coding problems once on OneCompiler (`validate_code_questions.py --run`) and check the editor in a browser
 - Deployment on Render (see "Known Issues / Deployment Backlog" in DEV_SETUP.md); no deployment is recorded in the repo (not verified)
 - Advisor bot
