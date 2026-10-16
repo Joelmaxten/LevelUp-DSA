@@ -14,6 +14,7 @@ const STAGE_LABEL = { foundations: "Foundations", core_decision: "Core decisions
 let paths = null;       // /scenarios/paths
 let mapData = null;     // /scenarios/<slug>
 let run = null;         // the scenario being played
+let gam = null;         // /gamification (XP, level, streak, badges); null if it could not be loaded
 
 function announce(message) {
     live.textContent = "";
@@ -80,9 +81,10 @@ async function loadPaths() {
 
 async function loadMap(slug) {
     box.replaceChildren(skeleton("Loading the map", 2));
-    const result = await request(`/scenarios/${encodeURIComponent(slug)}`);
+    const [result, g] = await Promise.all([request(`/scenarios/${encodeURIComponent(slug)}`), request("/gamification")]);
     if (!result.ok) return showError(result, () => loadMap(slug));
     mapData = result.data;
+    gam = g.ok ? g.data : null;     // extra: the map works without it
     renderMap();
 }
 
@@ -169,6 +171,7 @@ function scenarioRow(s) {
 
 function renderMap() {
     const kids = [];
+    if (gam) kids.push(gamBar(gam));
     const picker = pathPicker();
     if (picker) kids.push(picker);
     kids.push(el("h2", { className: "scen-path-title", text: mapData.path }));
@@ -553,6 +556,7 @@ function renderSummary(data) {
             el("h2", { className: "scen-title", id: "scen-title", tabindex: "-1", text: data.passed ? "Scenario passed" : "Not passed yet" }),
             el("p", { className: "scen-score", text: `${data.score} of ${data.max_score} points (${data.percent}%)` }),
             el("p", { text: data.passed ? "You passed. The pass mark is 70%." : "The pass mark is 70%. Read the explanations and try again whenever you like." })),
+        gamRewardsCard(data.rewards),
     ];
     if (data.weak_topics.length) {
         kids.push(el("div", { className: "card card-pad" }, el("h3", { className: "scen-sub", text: "Topics to revisit" }),
@@ -564,7 +568,7 @@ function renderSummary(data) {
     box.replaceChildren(...kids);
     const t = document.getElementById("scen-title");
     if (t) t.focus();
-    announce(data.passed ? "Scenario passed." : "Scenario not passed yet.");
+    announce(`${data.passed ? "Scenario passed." : "Scenario not passed yet."} ${gamRewardsAnnouncement(data.rewards)}`.trim());
 }
 
 loadPaths();

@@ -61,6 +61,9 @@ def create_app(config_name=None):
     from app.routes.readiness import readiness_bp
     app.register_blueprint(readiness_bp)
 
+    from app.routes.gamification import gamification_bp
+    app.register_blueprint(gamification_bp)
+
     from functools import wraps
 
     from flask import redirect, render_template, request, url_for

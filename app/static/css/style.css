@@ -1243,3 +1243,30 @@ a.job-link:hover .job-title { text-decoration: underline; }
 .scen-code:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
 .scen-code-wrap .btn { min-height: var(--tap); }
 .scen-run-out > * + * { margin-top: var(--sp-3); }
+
+/* ---------- Gamification: level card, level bar, badges, rewards (app/static/js/gamification.js) ----------
+   Ink for earned and "done", the dashed line for locked; marker yellow stays reserved for "do this next". */
+.gam-xp { font-size: var(--fs-xl); font-weight: 800; }
+.gam-bar { display: grid; gap: var(--sp-2) var(--sp-4); grid-template-columns: auto 1fr auto; align-items: center; }
+.gam-bar-title { margin: 0; }
+.gam-bar-meter { min-width: 6rem; }
+@media (max-width: 40rem) { .gam-bar { grid-template-columns: 1fr; } }
+.gam-badges-card > summary { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3);
+    min-height: var(--tap); cursor: pointer; }
+.gam-badges, .gam-new-badges { list-style: none; margin: var(--sp-4) 0 0; padding: 0; display: grid; gap: var(--sp-3);
+    grid-template-columns: repeat(auto-fill, minmax(10.5rem, 1fr)); }
+.gam-badge { border: 1.5px dashed var(--line); border-radius: var(--r); padding: var(--sp-3); display: grid; gap: var(--sp-1);
+    align-content: start; background: var(--surface); }
+.gam-badge.is-earned { border-style: solid; border-color: var(--ink); background: var(--tint); }
+.gam-medal { width: 2rem; height: 2rem; color: var(--line); }
+.gam-medal.is-earned { color: var(--ink); }
+.gam-badge-name { margin: 0; font-weight: 700; }
+.gam-badge-how { margin: 0; font-size: var(--fs-xs); color: var(--pencil); }
+.gam-badge-state { margin: 0; font-size: var(--fs-xs); font-weight: 600; display: inline-flex; gap: var(--sp-1); align-items: center; }
+.gam-rewards { border: 2px solid var(--ink); }
+.gam-gain { margin: 0; font-size: var(--fs-2xl); font-weight: 800; }
+.gam-levelup { margin: 0; font-size: var(--fs-lg); }
+@media (prefers-reduced-motion: no-preference) {
+    .gam-rewards { animation: gam-pop 260ms var(--ease) both; }
+    @keyframes gam-pop { from { transform: translateY(6px); opacity: 0; } to { transform: none; opacity: 1; } }
+}

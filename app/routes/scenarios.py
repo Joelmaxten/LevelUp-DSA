@@ -372,4 +372,18 @@ def submit(scenario_id):
         "results": graded["results"], "score": graded["score"], "max_score": graded["max_score"],
         "percent": graded["percent"], "passed": graded["passed"],
         "weak_topics": weak, "scenarios": entries,
+        "rewards": _rewards(attempt.id),
     }), 200
+
+
+def _rewards(attempt_id):
+    """XP gained, level-up and new badges from this submit, or None: the grade never depends on the extras."""
+    from app.pipeline import gamification
+    from app.routes.gamification import summary_for
+    try:
+        before = summary_for(current_user.id, exclude_attempt_id=attempt_id)
+        after = summary_for(current_user.id)
+        return gamification.rewards(before, after)
+    except Exception:
+        current_app.logger.exception("scenario rewards failed")
+        return None
