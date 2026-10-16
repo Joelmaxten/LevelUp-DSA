@@ -226,7 +226,7 @@ For these tests run `pip install -r requirements-dev.txt` once (adds fpdf2).
 | `smoke_test_profile_flow.py` | quiz then conversation then `CareerProfile` row; prints rather than counts | no |
 | `smoke_test_code_questions.py` | code questions: runner adapter (OneCompiler shape, Cloudflare page, timeouts, caps, error codes), validator, public view, grading, Run and Check routes | no (fake runner or stubbed HTTP) |
 | `smoke_test_gamification.py` | gamification: XP rules (best score only, one-off bonuses, retries add nothing), levels, IST streak maths, every badge rule, rewards between two summaries, `GET /gamification` (401, per user, no writes, fixed error code), rewards on scenario submit (and a failure there never breaks the grade), pages load the script | no (code runs with local Python) |
-| `smoke_test_code_pools.py` | code pools: content shape of the 5 paths, validator rejections, materialise, the personalised pick rules, no secret field in any of the 120 variants, grading with the real reference solutions, Start/Run/Check/Submit end to end, retry gets the other problem, readiness counts the code question, dashboard scenario summary, no page links to `/dsa` | no (runs code with this machine's Python: `CODE_RUNNER=local`) |
+| `smoke_test_code_pools.py` | code pools: content shape of all 15 paths (skill tags only Python / SQL), validator rejections, materialise, the personalised pick rules, no secret field and no hidden test leaked in any of the 360 variants, grading with the real reference solutions, Start/Run/Check/Submit end to end, retry gets the other problem, readiness counts the code question, dashboard scenario summary, no page links to `/dsa` | no (runs code with this machine's Python: `CODE_RUNNER=local`) |
 | `smoke_test_resume.py` | upload, extraction, gap analysis, AI feedback | yes: Gemini |
 | `smoke_test_roadmap.py` | `/roadmap/generate` end to end | yes: Gemini |
 | `smoke_test_youtube.py` | `/roadmap/<id>/resources` | yes: Gemini and YouTube |
@@ -240,7 +240,7 @@ last four only deliberately: they spend quota.
 
 Current check counts (run on 2026-10-11 unless marked): `smoke_test_scenarios.py` 213,
 `smoke_test_readiness.py` 70, `smoke_test_resume_rules.py` 59, `smoke_test_cached_roadmaps.py` 95,
-`smoke_test_code_questions.py` 164, `smoke_test_code_pools.py` 78, `smoke_test_gamification.py` 49 (the last two were run in a cloud copy with an empty
+`smoke_test_code_questions.py` 164, `smoke_test_code_pools.py` 118 (2026-10-16), `smoke_test_gamification.py` 49 (the last two were run in a cloud copy with an empty
 survey table, where readiness shows 69 and resume_rules 58; on the laptop's database they should show 70 and 59)
 (the 95 is from the earlier biography entry and was not re-run for this update). All of these
 call no external service, but they use the development database, so PostgreSQL must be running.
@@ -367,7 +367,7 @@ All styling is in one file, `app/static/css/style.css`, in this order: (1) token
 `aria-busy="true"` for the loading state), `.card`, `.chip` / `.badge`, `.pbar` and `.ring`, `.seg` / `.tabs`, `.empty`, `.skel`,
 `.alert`, `.disclosure` (a `<details>` used for every "How this works"); (4) page rules (landing, quiz and goals, roadmap, resume,
 dashboard); (5) the legacy "sheet" layout (`.sheet`, `.row`, `.margin`, `.main`), which only the legacy career-path picker
-still uses (the skill-map page that also used it was removed; its "Skill map" rules are now unused).
+still uses (the skill-map page that also used it was removed, and so were its CSS rules).
 
 The JS builders for the components are in `app/static/js/ui.js`: `skeleton()`, `alertEl()`, `emptyState()`, `disclosure()`, `pbar()`,
 `ring()`, `sectionTabs()` (tabs on a wide screen, accordion on a narrow one), `questionForm()` (option cards, keys 1-9, Enter) and
@@ -450,8 +450,9 @@ A scenario can end with a Python coding problem. Questions of type `code` carry 
 `tests` (`stdin`, `expected_stdout`, `hidden`), `reference_solution` and `ds_topic`. Most code problems live in a
 scenario's **`code_pool`** instead: 1-4 problems (ids `<scenario id>-cK`), each with `difficulty` (1-3), `skills`
 (e.g. Python, SQL) and 1-5 data **variants** (`params` filled into `{placeholders}` in the prompt, and that variant's
-`tests`). Full-Stack, Data Science, Data Analytics, Backend and AI Engineering have 2 problems on each of scenarios 2-5
-(40 problems, 3 variants each); the other 10 paths have none yet.
+`tests`). All 15 paths have 2 problems on each of scenarios 2-5 (120 problems, 3 variants each, 1 visible and 4
+hidden tests per variant). Every problem is in Python; `skills` only ever says Python, or Python and SQL, because
+that is all the student actually writes. Backticks in a prompt are shown as inline code in the player.
 
 - **One problem per attempt, picked per student.** When an attempt starts, `scenario_engine.choose_code_pick` picks one
   problem and one variant and stores the pick on the attempt (`answers["_pick"]`; the browser can never set it). Rules:
@@ -465,8 +466,9 @@ scenario's **`code_pool`** instead: 1-4 problems (ids `<scenario id>-cK`), each 
   counts. A runner failure locks nothing. Code questions count 10 points like any other, so they are part of the
   scenario score and therefore of the readiness score's scenario component, with no separate formula.
 - **Code runner** (`app/pipeline/code_runner.py`, `CODE_RUNNER` in `.env`): `onecompiler` (default; needs
-  `ONECOMPILER_API_KEY`; one batch of up to 10 tests = one credit; needs the browser-style User-Agent the adapter
-  already sends), `fake` (tests only) or `local` (runs the code with this machine's Python in a subprocess with a
+  `ONECOMPILER_API_KEY`; the adapter sends up to 10 tests in one call and needs the browser-style User-Agent it
+  already sends. Billing is NOT settled: the first probes showed one credit per call, but 100 credits ran out after
+  about 20 problems, so it may be one credit per test; check the dashboard before any big run), `fake` (tests only) or `local` (runs the code with this machine's Python in a subprocess with a
   5-second limit). `local` is for an offline demo on your own laptop ONLY: it is not a sandbox, so never enable it on
   a server other people can reach.
 - **Authoring and checking problems.** Sources are in `scripts/code_pools/<path_slug>.py`. Then:
@@ -474,10 +476,12 @@ scenario's **`code_pool`** instead: 1-4 problems (ids `<scenario id>-cK`), each 
   `data/scenarios/<slug>.json` (add `--paths full-stack-development` for one path). The build runs every reference
   solution on every test with local Python and uses its output as the expected output, compares each visible example
   with a hand-worked answer, compares every test with a second independent implementation (`alt`), and refuses a
-  starter that already passes. Any mismatch writes nothing.
+  starter that already passes. A problem with no `alt` is refused. Any mismatch writes nothing. Shared helpers
+  (`program`, `stub`, `variants`) are in `scripts/code_pools/_kit.py`.
 - **Checking against the real provider:** `PYTHONPATH=. python scripts/validate_code_questions.py` is a dry run that
-  prints the credit cost; `--run` checks the first variant of every pool problem (40 credits for the current files),
-  `--all-variants` checks all 120, `--max-credits N` stops after N calls.
+  prints the credit cost; `--run` checks the first variant of every pool problem (120 calls for the current files),
+  `--all-variants` checks all 360, `--max-credits N` stops after N calls. If billing turns out to be per test, multiply
+  by 5. The problems have all been checked with local Python; running them on OneCompiler is optional.
 - **Old skill-map tables.** The app no longer uses them. `PYTHONPATH=. python scripts/drop_old_dsa_tables.py` lists
   them and their row counts; `--drop` removes them (cannot be undone; the script's docstring has a `pg_dump` line for
   a backup). `cleanup_demo_users.py` still clears rows in them first if they exist.

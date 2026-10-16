@@ -2161,6 +2161,62 @@ student. **Not verified:** the pages on the owner's laptop and real database; th
 real students, so the pace of levelling is a guess.
 
 ---
+## Coding Problems for All 15 Paths, Honest Skill Tags, Cleanup
+
+**Why.** After `coding-content-1` only 5 of the 15 paths had coding problems. The project owner asked to finish the rest of
+the software before testing it on his laptop. Built in a cloud Claude Code session (Opus) on branch `coding-content-2`, on top
+of `gamification-1` (commits 7d163f2 to 0002354).
+
+**Content.** 80 new Python problems for Machine Learning, Cybersecurity, Data Engineering, DevOps, Cloud, Frontend, Game
+Development, Mobile, QA & Test Automation and UI/UX Design. Like the first five paths, each path has two on each of scenarios
+2-5 (one gentler, one harder), each with 3 data variants of 1 visible and 4 hidden tests. That makes 120 problems and 360 test
+sets across all 15 paths. Each problem is tied to its scenario's story, for example a deploy order, log parsing, a sprite
+z-order, a colour-contrast check or a usability (SUS) score. The problems were written by Claude, and no person has reviewed
+them for difficulty or wording (not verified).
+
+**Honest skill tags.** The first drafts tagged some problems with JavaScript, C#, AWS or Bash because of the path's theme,
+but every problem is written in Python. The tags now only say Python, or Python and SQL. A test enforces this, so the
+"missing skill" part of the pick cannot claim to practise a language the student never writes.
+
+**How it was checked.** The same build as before: the reference solution was run on every test, each visible example was
+compared with a hand-worked answer, every test was compared with a second, independent implementation, and the starter code
+had to fail at least one test.
+- The build now refuses a problem with no second implementation. It used to crash with an unclear error, which is how the one
+  missing case was found.
+- The re-checks and the build caught several hand-worked answers that were wrong in the draft: a tax example (2999 is really
+  1009), a contrast ratio (16.02), a SUS score (80.0), a threshold pick and a patch order. All were fixed before writing.
+- Generators that produced tests over the 2 KB cap were shrunk.
+
+**Leak test made exact.** The pool test now checks that the tests the browser receives are exactly the visible ones. It only
+searches the page text for hidden inputs of 8 or more characters. Before, a hidden input like `0\n` matched by chance. A
+deliberately planted leak is still caught.
+
+**Cleanup.**
+- Backticks in a question prompt now show as inline code. The text is split into text nodes and `<code>` elements, so no
+  `innerHTML` is used.
+- The 74 lines of skill-map CSS left over from the removed page are gone.
+- An invalid option in the Goals chat now returns a fixed message instead of repeating the internal error text.
+- The backlog item "remove detail from 500 responses" turned out to be stale: every 500 response already returned a fixed
+  message.
+
+**OneCompiler billing is uncertain.** The probes showed one credit per call, but 100 credits ran out after about 20 of the 40
+first-batch problems. Billing may be per test, which would make a full first-variant run about 600 credits instead of 120.
+This is not confirmed. The owner's dashboard numbers will settle it. Every problem has been checked with local Python, so a
+OneCompiler run is optional.
+
+**Verification (cloud copy, empty survey table, 2026-10-16).**
+- `smoke_test_code_pools.py` 118/118 (all 15 paths), `smoke_test_gamification.py` 49/49, `smoke_test_code_questions.py`
+  164/164 and `smoke_test_scenarios.py` 213/213.
+- Earlier in the session: security 30, quiz 33, llm 84, async_generation 25, readiness 69 and resume_rules 58. The last two are
+  one lower than on the laptop because of the empty survey table.
+- `build_code_pools.py`: all 15 paths OK.
+- In headless Chromium with `CODE_RUNNER=local`, a DevOps attempt showed the pick reason; Run passed; Check showed "Hidden
+  tests: 4 of 4"; a retry got the other problem; there was no horizontal scroll at 360 px.
+
+**Not verified:** the owner's laptop and real database on this branch; the laptop-only suites; any OneCompiler run of the
+80 new problems.
+
+---
 ## Still To Build
 
 - Real-model check of parallel generation: run `scripts/inspect_roadmap.py` for a few
@@ -2171,10 +2227,9 @@ real students, so the pace of levelling is a guess.
   v2 entry; not re-checked since the career-path restructuring)
 - Phase 3 Stage 2 / Stage 3 (skill map, bandits): superseded by scenarios with coding questions; the skill map was removed
 - Scenario scene artwork (the maps use a gradient)
-- Coding problems for the other 10 paths (5 paths have them)
 - Tune the XP level thresholds once real students have used it
-- Run the new coding problems once on OneCompiler (`validate_code_questions.py --run`) and check the editor in a browser
+- Test `coding-content-2` on the laptop (suites, browser check), merge into `dev`, then run `drop_old_dsa_tables.py --drop`
+- Confirm OneCompiler billing (per call or per test) before any big `validate_code_questions.py --run`; a run is optional because all problems were checked with local Python
 - Deployment on Render (see "Known Issues / Deployment Backlog" in DEV_SETUP.md); no deployment is recorded in the repo (not verified)
 - Advisor bot
 - ML path prediction
-- Remove detail from 500 responses (error bodies should stop exposing internals)
