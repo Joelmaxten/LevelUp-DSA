@@ -4,7 +4,24 @@
   "map": {
     "scene_id": "qa-test-automation",
     "theme": "A mountain observatory town of telescopes and measuring instruments, where an exam hall with ticking clocks, a tax office of tidy ledgers, a travel depot with departure boards, an insurance vault with balance scales and an auction square under a great bell are linked by stone steps. The palette is slate, lime and clean ivory, and the mood moves from careful checking at the exam hall to sharp-eyed confidence at the auction square.",
-    "edges": [["qat-1", "qat-2"], ["qat-2", "qat-3"], ["qat-3", "qat-4"], ["qat-4", "qat-5"]]
+    "edges": [
+      [
+        "qat-1",
+        "qat-2"
+      ],
+      [
+        "qat-2",
+        "qat-3"
+      ],
+      [
+        "qat-3",
+        "qat-4"
+      ],
+      [
+        "qat-4",
+        "qat-5"
+      ]
+    ]
   },
   "scenarios": [
     {
@@ -26,19 +43,37 @@
         "Test levels",
         "Types of testing"
       ],
-      "map_node": {"x": 0.1, "y": 0.84, "label": "Ticking Exam Hall"},
+      "map_node": {
+        "x": 0.1,
+        "y": 0.84,
+        "label": "Ticking Exam Hall"
+      },
       "questions": [
         {
           "id": "qat-1-q1",
           "type": "single_choice",
           "prompt": "The age field must accept applicants aged 18 to 60 inclusive. Which set of ages best tests the boundaries?",
           "options": [
-            {"id": "a", "text": "25, 35 and 45, which are typical ages of real applicants"},
-            {"id": "b", "text": "17, 18, 60 and 61, on and just outside each boundary"},
-            {"id": "c", "text": "0 and 100, the most extreme values anyone might type"},
-            {"id": "d", "text": "Every whole age from 1 to 100, checked one after another"}
+            {
+              "id": "a",
+              "text": "25, 35 and 45, which are typical ages of real applicants"
+            },
+            {
+              "id": "b",
+              "text": "17, 18, 60 and 61, on and just outside each boundary"
+            },
+            {
+              "id": "c",
+              "text": "0 and 100, the most extreme values anyone might type"
+            },
+            {
+              "id": "d",
+              "text": "Every whole age from 1 to 100, checked one after another"
+            }
           ],
-          "correct": ["b"],
+          "correct": [
+            "b"
+          ],
           "explanation": "Bugs cluster at the edges of ranges, for example a developer writing 'greater than 18' instead of 'at least 18'. Testing the boundary values themselves and the values just outside them, 17, 18, 60 and 61, catches these off-by-one mistakes with very few tests.",
           "why_others_wrong": {
             "a": "Values in the middle of the range rarely reveal mistakes at the edges.",
@@ -53,12 +88,26 @@
           "type": "single_choice",
           "prompt": "Which bug report will help the developers most?",
           "options": [
-            {"id": "a", "text": "'Results page broken. Please fix urgently, students are waiting.'"},
-            {"id": "b", "text": "'The results feature does not work properly on the portal, sometimes.'"},
-            {"id": "c", "text": "'I think the percentage maths is wrong. The developer should check it.'"},
-            {"id": "d", "text": "Steps, expected 72.5% vs actual 7.25%, browser, roll no. and a screenshot"}
+            {
+              "id": "a",
+              "text": "'Results page broken. Please fix urgently, students are waiting.'"
+            },
+            {
+              "id": "b",
+              "text": "'The results feature does not work properly on the portal, sometimes.'"
+            },
+            {
+              "id": "c",
+              "text": "'I think the percentage maths is wrong. The developer should check it.'"
+            },
+            {
+              "id": "d",
+              "text": "Steps, expected 72.5% vs actual 7.25%, browser, roll no. and a screenshot"
+            }
           ],
-          "correct": ["d"],
+          "correct": [
+            "d"
+          ],
           "explanation": "A useful bug report lets a developer reproduce the problem without asking questions: the exact steps, the expected and actual results, the environment such as browser and test account, and evidence such as a screenshot. Here it also reveals the likely cause, a misplaced decimal point.",
           "why_others_wrong": {
             "a": "Urgency without details leaves the developer guessing what is broken and where.",
@@ -73,13 +122,31 @@
           "type": "multi_select",
           "prompt": "Which two checks are best written as unit tests?",
           "options": [
-            {"id": "a", "text": "The function that turns marks into a percentage"},
-            {"id": "b", "text": "A browser journey from login all the way to results"},
-            {"id": "c", "text": "The check that a roll number has the right format"},
-            {"id": "d", "text": "A load test with 10,000 students checking results"},
-            {"id": "e", "text": "An unscripted exploratory session on the results page"}
+            {
+              "id": "a",
+              "text": "The function that turns marks into a percentage"
+            },
+            {
+              "id": "b",
+              "text": "A browser journey from login all the way to results"
+            },
+            {
+              "id": "c",
+              "text": "The check that a roll number has the right format"
+            },
+            {
+              "id": "d",
+              "text": "A load test with 10,000 students checking results"
+            },
+            {
+              "id": "e",
+              "text": "An unscripted exploratory session on the results page"
+            }
           ],
-          "correct": ["a", "c"],
+          "correct": [
+            "a",
+            "c"
+          ],
           "explanation": "Unit tests check small pieces of logic in isolation, quickly and many times, such as calculating a percentage or validating a roll number format. They can cover many input cases in milliseconds.",
           "why_others_wrong": {
             "b": "A full browser journey is an end-to-end test that crosses many components.",
@@ -94,18 +161,47 @@
           "type": "match",
           "prompt": "Match each type of testing to its purpose.",
           "items": [
-            {"id": "i1", "text": "Smoke testing"},
-            {"id": "i2", "text": "Regression testing"},
-            {"id": "i3", "text": "Exploratory testing"},
-            {"id": "i4", "text": "Acceptance testing"}
+            {
+              "id": "i1",
+              "text": "Smoke testing"
+            },
+            {
+              "id": "i2",
+              "text": "Regression testing"
+            },
+            {
+              "id": "i3",
+              "text": "Exploratory testing"
+            },
+            {
+              "id": "i4",
+              "text": "Acceptance testing"
+            }
           ],
           "targets": [
-            {"id": "t1", "text": "Confirm the system meets the business's requirements before sign-off"},
-            {"id": "t2", "text": "Quickly confirm a new build's key features work at all"},
-            {"id": "t3", "text": "Learn about the product and test it at once, without scripts"},
-            {"id": "t4", "text": "Check that existing features still work after a change"}
+            {
+              "id": "t1",
+              "text": "Confirm the system meets the business's requirements before sign-off"
+            },
+            {
+              "id": "t2",
+              "text": "Quickly confirm a new build's key features work at all"
+            },
+            {
+              "id": "t3",
+              "text": "Learn about the product and test it at once, without scripts"
+            },
+            {
+              "id": "t4",
+              "text": "Check that existing features still work after a change"
+            }
           ],
-          "correct": {"i1": "t2", "i2": "t4", "i3": "t3", "i4": "t1"},
+          "correct": {
+            "i1": "t2",
+            "i2": "t4",
+            "i3": "t3",
+            "i4": "t1"
+          },
           "explanation": "A smoke test is a fast check that a build is not fundamentally broken before deeper testing. Regression tests protect existing behaviour after changes, exploratory testing uses a tester's skill to find unexpected problems, and acceptance testing confirms the system does what the business asked for.",
           "why_others_wrong": {
             "common_mistake": "Confusing smoke and regression testing: a smoke test is a quick, shallow check of key features, while regression testing is a broader check that nothing that used to work has broken."
@@ -134,19 +230,37 @@
         "The page object pattern",
         "Test design techniques and test data"
       ],
-      "map_node": {"x": 0.3, "y": 0.66, "label": "Ledger Tax Office"},
+      "map_node": {
+        "x": 0.3,
+        "y": 0.66,
+        "label": "Ledger Tax Office"
+      },
       "questions": [
         {
           "id": "qat-2-q1",
           "type": "single_choice",
           "prompt": "What should the team automate first?",
           "options": [
-            {"id": "a", "text": "Every screen in the product, including rarely used admin pages"},
-            {"id": "b", "text": "Stable, high-value flows repeated each release, like filing"},
-            {"id": "c", "text": "A brand-new page whose design will change again next week"},
-            {"id": "d", "text": "A one-time data migration check that runs once and is retired"}
+            {
+              "id": "a",
+              "text": "Every screen in the product, including rarely used admin pages"
+            },
+            {
+              "id": "b",
+              "text": "Stable, high-value flows repeated each release, like filing"
+            },
+            {
+              "id": "c",
+              "text": "A brand-new page whose design will change again next week"
+            },
+            {
+              "id": "d",
+              "text": "A one-time data migration check that runs once and is retired"
+            }
           ],
-          "correct": ["b"],
+          "correct": [
+            "b"
+          ],
           "explanation": "Automation pays off where the same checks run every release and failures would be costly, such as logging in, filing a return and paying tax. Those flows are also fairly stable, so the tests will not need constant rewriting.",
           "why_others_wrong": {
             "a": "Automating everything at once spreads effort thin and includes low-value pages.",
@@ -161,12 +275,26 @@
           "type": "single_choice",
           "prompt": "Tests keep breaking because they find buttons by generated CSS classes like .btn-x7f2a or by XPath position. How should elements be located?",
           "options": [
-            {"id": "a", "text": "Use the full absolute XPath copied from the browser's DevTools"},
-            {"id": "b", "text": "Find elements by their pixel coordinates on a fixed screen size"},
-            {"id": "c", "text": "Use the generated CSS class names, but update them every release"},
-            {"id": "d", "text": "Use dedicated test ids, or roles and labels that users see"}
+            {
+              "id": "a",
+              "text": "Use the full absolute XPath copied from the browser's DevTools"
+            },
+            {
+              "id": "b",
+              "text": "Find elements by their pixel coordinates on a fixed screen size"
+            },
+            {
+              "id": "c",
+              "text": "Use the generated CSS class names, but update them every release"
+            },
+            {
+              "id": "d",
+              "text": "Use dedicated test ids, or roles and labels that users see"
+            }
           ],
-          "correct": ["d"],
+          "correct": [
+            "d"
+          ],
           "explanation": "Attributes such as data-testid exist only for testing and do not change when the layout or styling is redesigned. Locating elements by their accessible role and visible label, such as the 'Submit return' button, also keeps tests close to how users find things.",
           "why_others_wrong": {
             "a": "Absolute XPaths break as soon as any element above the target moves.",
@@ -181,12 +309,26 @@
           "type": "single_choice",
           "prompt": "The login page's layout is about to change, and 120 tests interact with it. How should the suite be structured so the change is cheap?",
           "options": [
-            {"id": "a", "text": "Copy the login steps into each test so that tests are independent"},
-            {"id": "b", "text": "Delete all the login tests and check the login page by hand instead"},
-            {"id": "c", "text": "Put the login page's actions in one page object the tests all use"},
-            {"id": "d", "text": "Record each test with a recorder tool and re-record any that break"}
+            {
+              "id": "a",
+              "text": "Copy the login steps into each test so that tests are independent"
+            },
+            {
+              "id": "b",
+              "text": "Delete all the login tests and check the login page by hand instead"
+            },
+            {
+              "id": "c",
+              "text": "Put the login page's actions in one page object the tests all use"
+            },
+            {
+              "id": "d",
+              "text": "Record each test with a recorder tool and re-record any that break"
+            }
           ],
-          "correct": ["c"],
+          "correct": [
+            "c"
+          ],
           "explanation": "The page object pattern keeps each page's locators and actions, such as logIn(user), in one class. When the login page changes, only that class is updated, and all 120 tests keep working unchanged.",
           "why_others_wrong": {
             "a": "Copied steps mean 120 places to update when the page changes.",
@@ -201,13 +343,31 @@
           "type": "multi_select",
           "prompt": "Which two test-data practices should the suite follow?",
           "options": [
-            {"id": "a", "text": "Each test creates the data it needs, via the API, and cleans up"},
-            {"id": "b", "text": "All tests share one taxpayer account, running at the same time"},
-            {"id": "c", "text": "Use made-up taxpayers with fake PANs and fake bank details"},
-            {"id": "d", "text": "Copy the production database, real taxpayer data and all"},
-            {"id": "e", "text": "Rely on tests running in a fixed order to set up each other"}
+            {
+              "id": "a",
+              "text": "Each test creates the data it needs, via the API, and cleans up"
+            },
+            {
+              "id": "b",
+              "text": "All tests share one taxpayer account, running at the same time"
+            },
+            {
+              "id": "c",
+              "text": "Use made-up taxpayers with fake PANs and fake bank details"
+            },
+            {
+              "id": "d",
+              "text": "Copy the production database, real taxpayer data and all"
+            },
+            {
+              "id": "e",
+              "text": "Rely on tests running in a fixed order to set up each other"
+            }
           ],
-          "correct": ["a", "c"],
+          "correct": [
+            "a",
+            "c"
+          ],
           "explanation": "Tests that create and clean up their own data can run in any order and in parallel without interfering with each other. Synthetic taxpayers keep real personal and financial data out of test environments, where it is less protected.",
           "why_others_wrong": {
             "b": "Tests running at the same time on one account overwrite each other's data and fail randomly.",
@@ -222,24 +382,269 @@
           "type": "match",
           "prompt": "Match each test design technique to an example from the tax rules.",
           "items": [
-            {"id": "i1", "text": "Equivalence partitioning"},
-            {"id": "i2", "text": "Boundary value analysis"},
-            {"id": "i3", "text": "Decision table testing"},
-            {"id": "i4", "text": "State transition testing"}
+            {
+              "id": "i1",
+              "text": "Equivalence partitioning"
+            },
+            {
+              "id": "i2",
+              "text": "Boundary value analysis"
+            },
+            {
+              "id": "i3",
+              "text": "Decision table testing"
+            },
+            {
+              "id": "i4",
+              "text": "State transition testing"
+            }
           ],
           "targets": [
-            {"id": "t1", "text": "Test every combination of age group, residency and deductions"},
-            {"id": "t2", "text": "Test one income from inside each tax slab"},
-            {"id": "t3", "text": "Check returns move from draft to filed and block invalid moves"},
-            {"id": "t4", "text": "Test incomes exactly at each slab's limit and one rupee over"}
+            {
+              "id": "t1",
+              "text": "Test every combination of age group, residency and deductions"
+            },
+            {
+              "id": "t2",
+              "text": "Test one income from inside each tax slab"
+            },
+            {
+              "id": "t3",
+              "text": "Check returns move from draft to filed and block invalid moves"
+            },
+            {
+              "id": "t4",
+              "text": "Test incomes exactly at each slab's limit and one rupee over"
+            }
           ],
-          "correct": {"i1": "t2", "i2": "t4", "i3": "t1", "i4": "t3"},
+          "correct": {
+            "i1": "t2",
+            "i2": "t4",
+            "i3": "t1",
+            "i4": "t3"
+          },
           "explanation": "Equivalence partitioning picks one value per group that should behave the same, such as one income per slab. Boundary value analysis targets the edges of those groups, decision tables cover combinations of conditions, and state transition testing checks allowed and forbidden moves between a return's states.",
           "why_others_wrong": {
             "common_mistake": "Mixing up partitioning and boundaries: partitioning tests one value from the middle of each group, while boundary analysis tests the edges where the groups meet."
           },
           "key_justification": "Each technique reduces the test count while targeting a different kind of defect.",
           "points": 10
+        }
+      ],
+      "code_pool": [
+        {
+          "id": "qat-2-c1",
+          "prompt": "Tax bugs hide at slab edges: an income exactly at a limit is taxed by the wrong slab. Boundary value analysis tests just below, at and just above every edge. The input is one line with the slab upper limits, in any order. Complete `boundary_values`: return 0 plus, for each limit b, the values b - 1, b and b + 1 (never below 0), each once and sorted. The program prints them on one line.",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef boundary_values(limits):\n    \"\"\"limits: the upper limits of the income slabs, in any order. Return the test incomes for boundary value analysis: 0, and for every limit b the values b - 1, b and b + 1 (never below 0), sorted, each once.\"\"\"\n    # Write your code here.\n    return sorted(limits)\n\n\ndef main():\n    limits = list(map(int, sys.stdin.read().split()))\n    print(\" \".join(map(str, boundary_values(limits))))\n\n\nmain()\n",
+          "reference_solution": "import sys\n\n\ndef boundary_values(limits):\n    \"\"\"limits: the upper limits of the income slabs, in any order. Return the test incomes for boundary value analysis: 0, and for every limit b the values b - 1, b and b + 1 (never below 0), sorted, each once.\"\"\"\n    values = {0}\n    for b in limits:\n        values.update(v for v in (b - 1, b, b + 1) if v >= 0)\n    return sorted(values)\n\n\ndef main():\n    limits = list(map(int, sys.stdin.read().split()))\n    print(\" \".join(map(str, boundary_values(limits))))\n\n\nmain()\n",
+          "ds_topic": "sorting",
+          "difficulty": 1,
+          "skills": [
+            "Python"
+          ],
+          "explanation": "Errors cluster at boundaries (a < written where <= was meant), so three values around each edge catch them with very few tests. A set removes overlaps when two limits are close, and sorting makes the list easy to review and to turn into a data-driven test.",
+          "key_justification": "Boundary value analysis: generate, de-duplicate and sort test inputs.",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "700000 300000\n",
+                  "expected_stdout": "0 299999 300000 300001 699999 700000 700001\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "1500000 500000\n",
+                  "expected_stdout": "0 499999 500000 500001 1499999 1500000 1500001\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "0 700000 500000 250000 1\n",
+                  "expected_stdout": "0 1 2 249999 250000 250001 499999 500000 500001 699999 700000 700001\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1200000 300000 0 2400000 1500000 1000000 700000 250000 1\n",
+                  "expected_stdout": "0 1 2 249999 250000 250001 299999 300000 300001 699999 700000 700001 999999 1000000 1000001 1199999 1200000 1200001 1499999 1500000 1500001 2399999 2400000 2400001\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "0\n",
+                  "expected_stdout": "0 1\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "1\n",
+                  "expected_stdout": "0 1 2\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "250000 1500000\n",
+                  "expected_stdout": "0 249999 250000 250001 1499999 1500000 1500001\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1500000 500000 700000 250000 1\n",
+                  "expected_stdout": "0 1 2 249999 250000 250001 499999 500000 500001 699999 700000 700001 1499999 1500000 1500001\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1500000 1000000 700000 0 250000 300000 500000 1 1200000\n",
+                  "expected_stdout": "0 1 2 249999 250000 250001 299999 300000 300001 499999 500000 500001 699999 700000 700001 999999 1000000 1000001 1199999 1200000 1200001 1499999 1500000 1500001\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "5 5\n",
+                  "expected_stdout": "0 4 5 6\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "10 11\n",
+                  "expected_stdout": "0 9 10 11 12\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "1200000 1000000\n",
+                  "expected_stdout": "0 999999 1000000 1000001 1199999 1200000 1200001\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "0 1 1500000 2400000 250000\n",
+                  "expected_stdout": "0 1 2 249999 250000 250001 1499999 1500000 1500001 2399999 2400000 2400001\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "300000 2400000 700000 250000 1000000 1500000 0 500000 1200000\n",
+                  "expected_stdout": "0 1 249999 250000 250001 299999 300000 300001 499999 500000 500001 699999 700000 700001 999999 1000000 1000001 1199999 1200000 1200001 1499999 1500000 1500001 2399999 2400000 2400001\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "2400000 250000 1500000\n",
+                  "expected_stdout": "0 249999 250000 250001 1499999 1500000 1500001 2399999 2400000 2400001\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "qat-2-c2",
+          "prompt": "An automated test needs an oracle: an independent way to know the right answer. Write the tax oracle for Saral Tax. The first line is n, then n slabs `limit rate` in increasing order (rate is a whole percent; the last limit is `inf`); then m, then m incomes in rupees. Complete `tax_due`: each slab taxes only the part of the income that falls inside it (this is not a flat rate on the whole income). Work in integers and round the tax down to whole rupees. The program prints `income tax` per income.",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef tax_due(slabs, income):\n    \"\"\"slabs: (upper limit, rate %) in increasing order; the last limit is None (no upper limit). Each slab taxes only the part of the income inside it. Return the tax in whole rupees, rounded down.\"\"\"\n    # Write your code here.\n    return 0\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    slabs = []\n    for i in range(n):\n        limit, rate = data[1 + i].split()\n        slabs.append((None if limit == \"inf\" else int(limit), int(rate)))\n    m = int(data[1 + n])\n    for i in range(m):\n        income = int(data[2 + n + i])\n        print(income, tax_due(slabs, income))\n\n\nmain()\n",
+          "reference_solution": "import sys\n\n\ndef tax_due(slabs, income):\n    \"\"\"slabs: (upper limit, rate %) in increasing order; the last limit is None (no upper limit). Each slab taxes only the part of the income inside it. Return the tax in whole rupees, rounded down.\"\"\"\n    paise, lower = 0, 0\n    for limit, rate in slabs:\n        upper = income if limit is None else min(income, limit)\n        if upper > lower:\n            paise += (upper - lower) * rate        # rupees x percent = paise\n        if limit is None or income <= limit:\n            break\n        lower = limit\n    return paise // 100\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    slabs = []\n    for i in range(n):\n        limit, rate = data[1 + i].split()\n        slabs.append((None if limit == \"inf\" else int(limit), int(rate)))\n    m = int(data[1 + n])\n    for i in range(m):\n        income = int(data[2 + n + i])\n        print(income, tax_due(slabs, income))\n\n\nmain()\n",
+          "ds_topic": "array",
+          "difficulty": 2,
+          "skills": [
+            "Python"
+          ],
+          "explanation": "Walking the slabs in order and taxing only the slice inside each one is progressive taxation; rupees x percent is exactly paise, so integer arithmetic avoids rounding drift. A test suite then compares the website's answer for the boundary incomes with this oracle.",
+          "key_justification": "Slab-wise accumulation over an ordered array (a test oracle).",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "4\n300000 0\n700000 5\n1000000 10\ninf 15\n3\n250000\n700000\n1200000\n",
+                  "expected_stdout": "250000 0\n700000 20000\n1200000 80000\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "6\n400000 0\n800000 5\n1200000 10\n1600000 15\n2000000 20\ninf 30\n3\n700001\n299999\n1600000\n",
+                  "expected_stdout": "700001 15000\n299999 0\n1600000 120000\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "6\n400000 0\n800000 5\n1200000 10\n1600000 15\n2000000 20\ninf 30\n8\n914532\n300000\n700001\n71959\n1\n300001\n300000\n1\n",
+                  "expected_stdout": "914532 31453\n300000 0\n700001 15000\n71959 0\n1 0\n300001 0\n300000 0\n1 0\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "4\n300000 0\n700000 5\n1000000 10\ninf 15\n20\n1234567\n0\n300000\n300001\n0\n1\n1600000\n300000\n700001\n400000\n0\n1600000\n300001\n400000\n1\n2500000\n2500000\n0\n300000\n299999\n",
+                  "expected_stdout": "1234567 85185\n0 0\n300000 0\n300001 0\n0 0\n1 0\n1600000 140000\n300000 0\n700001 20000\n400000 5000\n0 0\n1600000 140000\n300001 0\n400000 5000\n1 0\n2500000 275000\n2500000 275000\n0 0\n300000 0\n299999 0\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1\ninf 7\n1\n0\n",
+                  "expected_stdout": "0 0\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "2\n100 0\ninf 10\n2\n100\n101\n",
+                  "expected_stdout": "100 0\n101 0\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "6\n400000 0\n800000 5\n1200000 10\n1600000 15\n2000000 20\ninf 30\n3\n299999\n2500000\n2500000\n",
+                  "expected_stdout": "299999 0\n2500000 350000\n2500000 350000\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "6\n400000 0\n800000 5\n1200000 10\n1600000 15\n2000000 20\ninf 30\n8\n0\n300000\n0\n2091082\n700001\n1600000\n300000\n0\n",
+                  "expected_stdout": "0 0\n300000 0\n0 0\n2091082 227324\n700001 15000\n1600000 120000\n300000 0\n0 0\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "4\n300000 0\n700000 5\n1000000 10\ninf 15\n20\n1822998\n0\n1600000\n2500000\n299999\n300000\n1600000\n1234567\n0\n1\n2500000\n0\n700001\n1\n1600000\n700001\n1600000\n300000\n0\n300001\n",
+                  "expected_stdout": "1822998 173449\n0 0\n1600000 140000\n2500000 275000\n299999 0\n300000 0\n1600000 140000\n1234567 85185\n0 0\n1 0\n2500000 275000\n0 0\n700001 20000\n1 0\n1600000 140000\n700001 20000\n1600000 140000\n300000 0\n0 0\n300001 0\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "3\n10 0\n20 10\ninf 20\n1\n35\n",
+                  "expected_stdout": "35 4\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "2\n1000 1\ninf 50\n1\n2999\n",
+                  "expected_stdout": "2999 1009\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "6\n400000 0\n800000 5\n1200000 10\n1600000 15\n2000000 20\ninf 30\n3\n400000\n400000\n300001\n",
+                  "expected_stdout": "400000 0\n400000 0\n300001 0\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "4\n300000 0\n700000 5\n1000000 10\ninf 15\n8\n300000\n300000\n2500000\n400000\n299999\n0\n299999\n300001\n",
+                  "expected_stdout": "300000 0\n300000 0\n2500000 275000\n400000 5000\n299999 0\n0 0\n299999 0\n300001 0\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "6\n400000 0\n800000 5\n1200000 10\n1600000 15\n2000000 20\ninf 30\n20\n0\n300000\n1234567\n299999\n1\n0\n300000\n300001\n1159161\n300001\n400000\n0\n1600000\n400000\n1234567\n700001\n700001\n300000\n1234567\n1793452\n",
+                  "expected_stdout": "0 0\n300000 0\n1234567 65185\n299999 0\n1 0\n0 0\n300000 0\n300001 0\n1159161 55916\n300001 0\n400000 0\n0 0\n1600000 120000\n400000 0\n1234567 65185\n700001 15000\n700001 15000\n300000 0\n1234567 65185\n1793452 158690\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "2\n1 100\ninf 0\n1\n50\n",
+                  "expected_stdout": "50 1\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -262,19 +667,37 @@
         "Cross-browser coverage",
         "Diagnosing test failures"
       ],
-      "map_node": {"x": 0.5, "y": 0.5, "label": "Departure Board Depot"},
+      "map_node": {
+        "x": 0.5,
+        "y": 0.5,
+        "label": "Departure Board Depot"
+      },
       "questions": [
         {
           "id": "qat-3-q1",
           "type": "single_choice",
           "prompt": "Search tests fail at random with 'element not found'. Results load asynchronously, and the tests use sleep(2) before checking them. What is the fix?",
           "options": [
-            {"id": "a", "text": "Increase every sleep from 2 seconds to 10 seconds across the suite"},
-            {"id": "b", "text": "Wait for the specific condition, such as the results being visible"},
-            {"id": "c", "text": "Rerun each failing test automatically, up to five times in a row"},
-            {"id": "d", "text": "Remove the result checks so the search tests can no longer fail"}
+            {
+              "id": "a",
+              "text": "Increase every sleep from 2 seconds to 10 seconds across the suite"
+            },
+            {
+              "id": "b",
+              "text": "Wait for the specific condition, such as the results being visible"
+            },
+            {
+              "id": "c",
+              "text": "Rerun each failing test automatically, up to five times in a row"
+            },
+            {
+              "id": "d",
+              "text": "Remove the result checks so the search tests can no longer fail"
+            }
           ],
-          "correct": ["b"],
+          "correct": [
+            "b"
+          ],
           "explanation": "A fixed sleep is either too short on a slow run or wasted time on a fast one. Waiting explicitly until a condition is true, such as the results list being visible or the search request finishing, makes the test as fast as the app and reliable when it is slow.",
           "why_others_wrong": {
             "a": "Longer sleeps make the suite much slower and still fail when loading takes longer than 10 seconds.",
@@ -289,12 +712,26 @@
           "type": "single_choice",
           "prompt": "Some tests pass when run alone but fail in the full parallel run. What is the most likely cause?",
           "options": [
-            {"id": "a", "text": "The CI machines are too slow to run tests one at a time on"},
-            {"id": "b", "text": "Tests share state, like one account or cart, and interfere"},
-            {"id": "c", "text": "The tests were written in the wrong programming language"},
-            {"id": "d", "text": "The test names are too long for the test runner to handle"}
+            {
+              "id": "a",
+              "text": "The CI machines are too slow to run tests one at a time on"
+            },
+            {
+              "id": "b",
+              "text": "Tests share state, like one account or cart, and interfere"
+            },
+            {
+              "id": "c",
+              "text": "The tests were written in the wrong programming language"
+            },
+            {
+              "id": "d",
+              "text": "The test names are too long for the test runner to handle"
+            }
           ],
-          "correct": ["b"],
+          "correct": [
+            "b"
+          ],
           "explanation": "Passing alone but failing together is the classic sign of tests depending on shared state: one test changes a shared account, cart or database row that another relies on. Giving each test its own data and resetting state between tests removes the interference.",
           "why_others_wrong": {
             "a": "Slowness would affect tests run alone too, not only the combined run.",
@@ -309,12 +746,26 @@
           "type": "single_choice",
           "prompt": "Every test passed, but a payment bug reached Safari users. The suite runs only on Chrome. What should change?",
           "options": [
-            {"id": "a", "text": "Tell customers to switch to Chrome for booking their holidays"},
-            {"id": "b", "text": "Add more Chrome tests for the payment page and its flows"},
-            {"id": "c", "text": "Run the critical flows like payment on WebKit/Safari too"},
-            {"id": "d", "text": "Run the entire suite on every browser for every commit"}
+            {
+              "id": "a",
+              "text": "Tell customers to switch to Chrome for booking their holidays"
+            },
+            {
+              "id": "b",
+              "text": "Add more Chrome tests for the payment page and its flows"
+            },
+            {
+              "id": "c",
+              "text": "Run the critical flows like payment on WebKit/Safari too"
+            },
+            {
+              "id": "d",
+              "text": "Run the entire suite on every browser for every commit"
+            }
           ],
-          "correct": ["c"],
+          "correct": [
+            "c"
+          ],
           "explanation": "Browsers differ in their engines, so a flow that works in Chrome can fail in Safari. Running the most important journeys, such as search, booking and payment, on WebKit or real Safari as well as Chrome covers the browsers many customers actually use, without multiplying the whole suite.",
           "why_others_wrong": {
             "a": "Customers will not change browsers, and the site must work for them.",
@@ -329,13 +780,31 @@
           "type": "multi_select",
           "prompt": "A test that checks 'today's bookings' fails only when CI runs between midnight and 5:30 am Indian time. Which two fixes address the cause?",
           "options": [
-            {"id": "a", "text": "Have the test control the clock with a fixed date and time zone"},
-            {"id": "b", "text": "Run the test suite only during office hours to avoid the window"},
-            {"id": "c", "text": "Work out 'today' in the same time zone the application uses"},
-            {"id": "d", "text": "Delete the date checks from this test so it can always pass"},
-            {"id": "e", "text": "Rerun the test each night until it eventually passes again"}
+            {
+              "id": "a",
+              "text": "Have the test control the clock with a fixed date and time zone"
+            },
+            {
+              "id": "b",
+              "text": "Run the test suite only during office hours to avoid the window"
+            },
+            {
+              "id": "c",
+              "text": "Work out 'today' in the same time zone the application uses"
+            },
+            {
+              "id": "d",
+              "text": "Delete the date checks from this test so it can always pass"
+            },
+            {
+              "id": "e",
+              "text": "Rerun the test each night until it eventually passes again"
+            }
           ],
-          "correct": ["a", "c"],
+          "correct": [
+            "a",
+            "c"
+          ],
           "explanation": "Between midnight and 5:30 am in India it is still the previous day in UTC, so a test that works out 'today' on the UTC server disagrees with the app, which uses Indian time. Fixing the clock and time zone in the test, and calculating dates in the app's own time zone, removes the dependence on when the test runs.",
           "why_others_wrong": {
             "b": "Avoiding the time window hides a real time-zone bug that customers may also hit.",
@@ -350,24 +819,269 @@
           "type": "match",
           "prompt": "Match each failure to its most likely cause.",
           "items": [
-            {"id": "i1", "text": "Clicks fail with 'element click intercepted by another element'"},
-            {"id": "i2", "text": "A test stays green even though the feature it covers is broken"},
-            {"id": "i3", "text": "API tests start failing with 401 an hour into the suite"},
-            {"id": "i4", "text": "Screenshot comparisons fail on every single run by a few pixels"}
+            {
+              "id": "i1",
+              "text": "Clicks fail with 'element click intercepted by another element'"
+            },
+            {
+              "id": "i2",
+              "text": "A test stays green even though the feature it covers is broken"
+            },
+            {
+              "id": "i3",
+              "text": "API tests start failing with 401 an hour into the suite"
+            },
+            {
+              "id": "i4",
+              "text": "Screenshot comparisons fail on every single run by a few pixels"
+            }
           ],
           "targets": [
-            {"id": "t1", "text": "The test never asserts the outcome that actually matters"},
-            {"id": "t2", "text": "The screen includes changing content such as live timestamps"},
-            {"id": "t3", "text": "A cookie banner or overlay is covering the target button"},
-            {"id": "t4", "text": "The auth token expires partway through the test run"}
+            {
+              "id": "t1",
+              "text": "The test never asserts the outcome that actually matters"
+            },
+            {
+              "id": "t2",
+              "text": "The screen includes changing content such as live timestamps"
+            },
+            {
+              "id": "t3",
+              "text": "A cookie banner or overlay is covering the target button"
+            },
+            {
+              "id": "t4",
+              "text": "The auth token expires partway through the test run"
+            }
           ],
-          "correct": {"i1": "t3", "i2": "t1", "i3": "t4", "i4": "t2"},
+          "correct": {
+            "i1": "t3",
+            "i2": "t1",
+            "i3": "t4",
+            "i4": "t2"
+          },
           "explanation": "An intercepted click means something is on top of the button, often a banner or modal. A test that passes while the feature is broken is not checking the right result, 401s after a fixed time point to an expiring token, and screenshots that never match usually contain content that changes on every run.",
           "why_others_wrong": {
             "common_mistake": "Treating the always-green test as healthy: a test that cannot fail gives false confidence, so its assertions must be checked by deliberately breaking the feature."
           },
           "key_justification": "Each failure pattern points to a specific test or environment cause.",
           "points": 10
+        }
+      ],
+      "code_pool": [
+        {
+          "id": "qat-3-c1",
+          "prompt": "1,400 tests fail in so many slightly different ways that nobody reads the failures any more. Group them. The first line is n, then n failure messages. Complete `group_failures`: replace every quoted part ('...' or \"...\") with S, then every run of digits with N, so `Timeout after 3000 ms` and `Timeout after 5000 ms` become the same. The program prints `count message` for each distinct normalised message, most frequent first, ties by message.",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef group_failures(messages):\n    \"\"\"Normalise each failure message: replace every part in single or double quotes with S, then every run of digits with N. Return [(count, normalised message)] for each distinct one, most frequent first, ties by message.\"\"\"\n    # Write your code here.\n    return [(1, m) for m in messages]\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    for count, message in group_failures(data[1:1 + n]):\n        print(count, message)\n\n\nmain()\n",
+          "reference_solution": "import re\nimport sys\n\n\ndef group_failures(messages):\n    \"\"\"Normalise each failure message: replace every part in single or double quotes with S, then every run of digits with N. Return [(count, normalised message)] for each distinct one, most frequent first, ties by message.\"\"\"\n    counts = {}\n    for message in messages:\n        shape = re.sub(r\"'[^']*'|\\\"[^\\\"]*\\\"\", \"S\", message)     # quoted selectors, names, dates\n        shape = re.sub(r\"\\d+\", \"N\", shape)                         # timings, ids, counts\n        counts[shape] = counts.get(shape, 0) + 1\n    return sorted(((c, m) for m, c in counts.items()), key=lambda x: (-x[0], x[1]))\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    for count, message in group_failures(data[1:1 + n]):\n        print(count, message)\n\n\nmain()\n",
+          "ds_topic": "string",
+          "difficulty": 1,
+          "skills": [
+            "Python"
+          ],
+          "explanation": "Replacing the parts that change between runs (numbers, quoted values) leaves the shape of each failure, and counting shapes turns 1,400 red lines into a handful of distinct problems. Quotes go first so a date inside quotes becomes one S, not several N.",
+          "key_justification": "Normalise strings with patterns, then count by shape.",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "3\nTimeout after 3000 ms waiting for '#pay-btn'\nTimeout after 5000 ms waiting for '#pay-btn'\nElement 'Book now' not found\n",
+                  "expected_stdout": "2 Timeout after N ms waiting for S\n1 Element S not found\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "4\nTimeout after 3602 ms waiting for \"#search\"\nTimeout after 4892 ms waiting for \"#search\"\nDate mismatch: expected '2026-4219-01' got '2026-95-02'\nDate mismatch: expected '2026-3481-01' got '2026-75-02'\n",
+                  "expected_stdout": "2 Date mismatch: expected S got S\n2 Timeout after N ms waiting for S\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "15\nHTTP 2809 from /api/hotels/59\nElement 'Confirm' not found\nElement 'Book now' not found\nDate mismatch: expected '2026-1267-01' got '2026-84-02'\nDate mismatch: expected '2026-3303-01' got '2026-24-02'\nExpected 4967 rooms but got 50\nExpected 2392 rooms but got 30\nTimeout after 2606 ms waiting for '#pay-btn'\nDate mismatch: expected '2026-3126-01' got '2026-78-02'\nExpected 1702 rooms but got 30\nTimeout after 2570 ms waiting for \"#search\"\nTimeout after 2237 ms waiting for \"#search\"\nTimeout after 4118 ms waiting for \"#search\"\nTimeout after 3540 ms waiting for '#pay-btn'\nElement 'Confirm' not found\n",
+                  "expected_stdout": "5 Timeout after N ms waiting for S\n3 Date mismatch: expected S got S\n3 Element S not found\n3 Expected N rooms but got N\n1 HTTP N from /api/hotels/N\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "35\nDate mismatch: expected '2026-4559-01' got '2026-44-02'\nElement 'Confirm' not found\nTimeout after 1236 ms waiting for \"#search\"\nTimeout after 4770 ms waiting for \"#search\"\nElement 'Book now' not found\nTimeout after 2839 ms waiting for \"#search\"\nExpected 3557 rooms but got 55\nDate mismatch: expected '2026-1726-01' got '2026-40-02'\nTimeout after 3357 ms waiting for '#pay-btn'\nElement 'Confirm' not found\nHTTP 3782 from /api/hotels/79\nExpected 2887 rooms but got 47\nTimeout after 184 ms waiting for \"#search\"\nElement 'Book now' not found\nDate mismatch: expected '2026-2390-01' got '2026-28-02'\nElement 'Confirm' not found\nTimeout after 791 ms waiting for '#pay-btn'\nElement 'Confirm' not found\nTimeout after 4750 ms waiting for '#pay-btn'\nTimeout after 4819 ms waiting for \"#search\"\nHTTP 4112 from /api/hotels/21\nElement 'Confirm' not found\nDate mismatch: expected '2026-3553-01' got '2026-52-02'\nTimeout after 4593 ms waiting for \"#search\"\nExpected 1090 rooms but got 23\nElement 'Confirm' not found\nExpected 2497 rooms but got 10\nElement 'Book now' not found\nElement 'Confirm' not found\nElement 'Confirm' not found\nElement 'Confirm' not found\nExpected 2732 rooms but got 44\nTimeout after 911 ms waiting for '#pay-btn'\nDate mismatch: expected '2026-2631-01' got '2026-5-02'\nHTTP 343 from /api/hotels/80\n",
+                  "expected_stdout": "12 Element S not found\n10 Timeout after N ms waiting for S\n5 Date mismatch: expected S got S\n5 Expected N rooms but got N\n3 HTTP N from /api/hotels/N\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1\nno numbers here\n",
+                  "expected_stdout": "1 no numbers here\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "2\nHTTP 500 from /api/hotels/12\nHTTP 502 from /api/hotels/7\n",
+                  "expected_stdout": "2 HTTP N from /api/hotels/N\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "4\nElement 'Book now' not found\nHTTP 3054 from /api/hotels/95\nElement 'Confirm' not found\nHTTP 1529 from /api/hotels/77\n",
+                  "expected_stdout": "2 Element S not found\n2 HTTP N from /api/hotels/N\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "15\nDate mismatch: expected '2026-157-01' got '2026-99-02'\nTimeout after 3176 ms waiting for '#pay-btn'\nElement 'Book now' not found\nElement 'Confirm' not found\nElement 'Book now' not found\nHTTP 3828 from /api/hotels/97\nExpected 2047 rooms but got 78\nElement 'Book now' not found\nElement 'Confirm' not found\nElement 'Confirm' not found\nTimeout after 3680 ms waiting for \"#search\"\nExpected 2211 rooms but got 79\nTimeout after 3778 ms waiting for \"#search\"\nTimeout after 224 ms waiting for \"#search\"\nHTTP 3489 from /api/hotels/97\n",
+                  "expected_stdout": "6 Element S not found\n4 Timeout after N ms waiting for S\n2 Expected N rooms but got N\n2 HTTP N from /api/hotels/N\n1 Date mismatch: expected S got S\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "35\nElement 'Confirm' not found\nDate mismatch: expected '2026-1202-01' got '2026-5-02'\nHTTP 4829 from /api/hotels/95\nExpected 3564 rooms but got 26\nExpected 2835 rooms but got 65\nExpected 3126 rooms but got 94\nDate mismatch: expected '2026-2453-01' got '2026-31-02'\nHTTP 3723 from /api/hotels/86\nTimeout after 3829 ms waiting for '#pay-btn'\nHTTP 965 from /api/hotels/95\nElement 'Book now' not found\nExpected 1923 rooms but got 27\nDate mismatch: expected '2026-3255-01' got '2026-93-02'\nElement 'Confirm' not found\nElement 'Confirm' not found\nTimeout after 3016 ms waiting for \"#search\"\nHTTP 2014 from /api/hotels/77\nElement 'Book now' not found\nElement 'Book now' not found\nTimeout after 4512 ms waiting for '#pay-btn'\nHTTP 1828 from /api/hotels/71\nHTTP 2202 from /api/hotels/4\nTimeout after 2040 ms waiting for '#pay-btn'\nTimeout after 3200 ms waiting for '#pay-btn'\nTimeout after 1518 ms waiting for \"#search\"\nElement 'Confirm' not found\nElement 'Book now' not found\nTimeout after 949 ms waiting for \"#search\"\nDate mismatch: expected '2026-4822-01' got '2026-7-02'\nTimeout after 952 ms waiting for '#pay-btn'\nElement 'Confirm' not found\nTimeout after 4184 ms waiting for \"#search\"\nHTTP 3741 from /api/hotels/7\nExpected 93 rooms but got 69\nDate mismatch: expected '2026-2753-01' got '2026-45-02'\n",
+                  "expected_stdout": "9 Element S not found\n9 Timeout after N ms waiting for S\n7 HTTP N from /api/hotels/N\n5 Date mismatch: expected S got S\n5 Expected N rooms but got N\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "2\nit's 5\nit's 6\n",
+                  "expected_stdout": "2 it's N\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "2\nExpected 3 rooms but got 2\nDate mismatch: expected '2026-11-01' got '2026-11-02'\n",
+                  "expected_stdout": "1 Date mismatch: expected S got S\n1 Expected N rooms but got N\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "4\nTimeout after 2920 ms waiting for '#pay-btn'\nTimeout after 3808 ms waiting for '#pay-btn'\nHTTP 1527 from /api/hotels/96\nTimeout after 777 ms waiting for '#pay-btn'\n",
+                  "expected_stdout": "3 Timeout after N ms waiting for S\n1 HTTP N from /api/hotels/N\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "15\nExpected 4814 rooms but got 88\nElement 'Book now' not found\nExpected 1902 rooms but got 27\nElement 'Confirm' not found\nTimeout after 2598 ms waiting for '#pay-btn'\nDate mismatch: expected '2026-2652-01' got '2026-11-02'\nHTTP 3759 from /api/hotels/68\nExpected 2759 rooms but got 56\nElement 'Confirm' not found\nDate mismatch: expected '2026-4220-01' got '2026-77-02'\nExpected 1980 rooms but got 11\nDate mismatch: expected '2026-4336-01' got '2026-86-02'\nElement 'Confirm' not found\nDate mismatch: expected '2026-4868-01' got '2026-53-02'\nExpected 406 rooms but got 28\n",
+                  "expected_stdout": "5 Expected N rooms but got N\n4 Date mismatch: expected S got S\n4 Element S not found\n1 HTTP N from /api/hotels/N\n1 Timeout after N ms waiting for S\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "35\nDate mismatch: expected '2026-1667-01' got '2026-4-02'\nElement 'Confirm' not found\nHTTP 247 from /api/hotels/38\nDate mismatch: expected '2026-4770-01' got '2026-94-02'\nDate mismatch: expected '2026-3080-01' got '2026-57-02'\nTimeout after 4407 ms waiting for \"#search\"\nElement 'Confirm' not found\nElement 'Confirm' not found\nHTTP 2925 from /api/hotels/61\nTimeout after 1310 ms waiting for '#pay-btn'\nElement 'Book now' not found\nExpected 3025 rooms but got 25\nTimeout after 3652 ms waiting for '#pay-btn'\nElement 'Book now' not found\nTimeout after 2271 ms waiting for \"#search\"\nElement 'Confirm' not found\nDate mismatch: expected '2026-2938-01' got '2026-45-02'\nTimeout after 583 ms waiting for \"#search\"\nDate mismatch: expected '2026-4304-01' got '2026-62-02'\nDate mismatch: expected '2026-468-01' got '2026-42-02'\nHTTP 1490 from /api/hotels/5\nElement 'Book now' not found\nTimeout after 594 ms waiting for \"#search\"\nDate mismatch: expected '2026-2680-01' got '2026-38-02'\nHTTP 1658 from /api/hotels/99\nElement 'Book now' not found\nDate mismatch: expected '2026-433-01' got '2026-7-02'\nDate mismatch: expected '2026-2324-01' got '2026-64-02'\nElement 'Book now' not found\nHTTP 2888 from /api/hotels/40\nTimeout after 4313 ms waiting for '#pay-btn'\nElement 'Book now' not found\nTimeout after 1077 ms waiting for \"#search\"\nTimeout after 3441 ms waiting for '#pay-btn'\nTimeout after 4299 ms waiting for \"#search\"\n",
+                  "expected_stdout": "10 Element S not found\n10 Timeout after N ms waiting for S\n9 Date mismatch: expected S got S\n5 HTTP N from /api/hotels/N\n1 Expected N rooms but got N\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "2\n\"a\" 1\n'b' 22\n",
+                  "expected_stdout": "2 S N\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "qat-3-c2",
+          "prompt": "Some tests pass alone but fail in the full run because they quietly rely on data another test left behind. Find those hidden dependencies. The first line is n, then n steps in run order, `test READ key` or `test WRITE key`. Complete `hidden_dependencies`: a test depends on another when it READs a key whose latest write came from a different test, and it has not written that key itself earlier. The program prints each distinct `reader <- writer key`, sorted, or ISOLATED.",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef hidden_dependencies(steps):\n    \"\"\"steps: (test, READ or WRITE, key) in run order. A test depends on another when it READs a key whose latest write came from a different test and it has not written that key itself earlier. Return the distinct (reader, writer, key) triples, sorted.\"\"\"\n    # Write your code here.\n    return []\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    steps = [tuple(data[1 + i].split()) for i in range(n)]\n    pairs = hidden_dependencies(steps)\n    if not pairs:\n        print(\"ISOLATED\")\n    for reader, writer, key in pairs:\n        print(reader, \"<-\", writer, key)\n\n\nmain()\n",
+          "reference_solution": "import sys\n\n\ndef hidden_dependencies(steps):\n    \"\"\"steps: (test, READ or WRITE, key) in run order. A test depends on another when it READs a key whose latest write came from a different test and it has not written that key itself earlier. Return the distinct (reader, writer, key) triples, sorted.\"\"\"\n    last_writer, wrote = {}, set()\n    found = set()\n    for test, op, key in steps:\n        if op == \"WRITE\":\n            last_writer[key] = test\n            wrote.add((test, key))\n        elif key in last_writer and last_writer[key] != test and (test, key) not in wrote:\n            found.add((test, last_writer[key], key))      # it reads someone else's leftovers\n    return sorted(found)\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    steps = [tuple(data[1 + i].split()) for i in range(n)]\n    pairs = hidden_dependencies(steps)\n    if not pairs:\n        print(\"ISOLATED\")\n    for reader, writer, key in pairs:\n        print(reader, \"<-\", writer, key)\n\n\nmain()\n",
+          "ds_topic": "hash_map",
+          "difficulty": 2,
+          "skills": [
+            "Python"
+          ],
+          "explanation": "Tracking the last writer of each key in a dictionary while replaying the run shows exactly which test reads another test's data. Each such pair is an isolation bug: the fix is for the reader to create its own data (a fixture), so tests pass in any order and in parallel.",
+          "key_justification": "Replay steps with a last-writer map to find order dependencies.",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "6\nlogin_test WRITE session\nbooking_test READ session\nbooking_test WRITE cart\npayment_test READ cart\npayment_test WRITE session\nrefund_test READ session\n",
+                  "expected_stdout": "booking_test <- login_test session\npayment_test <- booking_test cart\nrefund_test <- payment_test session\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "6\npayment_test WRITE wallet\nprofile_test WRITE wallet\nbooking_test READ wallet\npayment_test READ wallet\nprofile_test WRITE cart\nlogin_test READ wallet\n",
+                  "expected_stdout": "booking_test <- profile_test wallet\nlogin_test <- profile_test wallet\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "20\nbooking_test WRITE wallet\nprofile_test WRITE session\nrefund_test WRITE wallet\npayment_test READ session\nlogin_test WRITE wallet\npayment_test WRITE session\nprofile_test WRITE session\nbooking_test WRITE wallet\nbooking_test WRITE cart\nlogin_test READ wallet\nlogin_test READ cart\nbooking_test READ wallet\nprofile_test WRITE cart\npayment_test READ session\nsearch_test WRITE session\npayment_test WRITE session\npayment_test WRITE session\npayment_test READ wallet\nsearch_test READ session\npayment_test WRITE cart\n",
+                  "expected_stdout": "login_test <- booking_test cart\npayment_test <- booking_test wallet\npayment_test <- profile_test session\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "45\nlogin_test READ cart\nprofile_test READ cart\nrefund_test READ cart\nlogin_test READ session\nbooking_test READ session\nrefund_test WRITE booking_id\npayment_test WRITE session\nlogin_test READ wallet\nbooking_test READ cart\nlogin_test WRITE wallet\nrefund_test WRITE wallet\nrefund_test WRITE booking_id\nprofile_test READ cart\nsearch_test WRITE session\npayment_test READ booking_id\nbooking_test WRITE booking_id\nprofile_test WRITE wallet\nbooking_test READ wallet\nlogin_test READ wallet\nprofile_test WRITE booking_id\nsearch_test READ booking_id\nsearch_test WRITE wallet\nprofile_test READ wallet\nlogin_test WRITE session\npayment_test READ booking_id\nprofile_test READ wallet\nlogin_test WRITE cart\nbooking_test READ wallet\nrefund_test WRITE cart\nbooking_test WRITE booking_id\nprofile_test WRITE session\nlogin_test READ wallet\nbooking_test READ wallet\npayment_test WRITE wallet\nlogin_test WRITE booking_id\nrefund_test WRITE cart\nsearch_test READ booking_id\nrefund_test WRITE wallet\nbooking_test READ wallet\nlogin_test WRITE session\npayment_test READ wallet\nsearch_test READ cart\nbooking_test READ booking_id\nrefund_test READ booking_id\npayment_test READ session\n",
+                  "expected_stdout": "booking_test <- profile_test wallet\nbooking_test <- refund_test wallet\nbooking_test <- search_test wallet\npayment_test <- profile_test booking_id\npayment_test <- refund_test booking_id\nsearch_test <- login_test booking_id\nsearch_test <- profile_test booking_id\nsearch_test <- refund_test cart\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1\nx READ k\n",
+                  "expected_stdout": "ISOLATED\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "3\na WRITE k\na READ k\nb WRITE k\n",
+                  "expected_stdout": "ISOLATED\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "6\nrefund_test READ session\nrefund_test WRITE cart\nlogin_test READ booking_id\nsearch_test READ wallet\nprofile_test READ cart\nbooking_test WRITE session\n",
+                  "expected_stdout": "profile_test <- refund_test cart\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "20\nrefund_test READ cart\nsearch_test READ wallet\npayment_test READ booking_id\nrefund_test READ session\nrefund_test READ booking_id\nlogin_test READ booking_id\nprofile_test READ booking_id\npayment_test WRITE booking_id\npayment_test READ wallet\nrefund_test READ booking_id\nrefund_test READ wallet\npayment_test READ booking_id\npayment_test WRITE cart\nbooking_test WRITE wallet\nlogin_test WRITE booking_id\nlogin_test WRITE cart\nsearch_test WRITE wallet\nsearch_test READ session\nrefund_test WRITE cart\nlogin_test WRITE session\n",
+                  "expected_stdout": "refund_test <- payment_test booking_id\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "45\nbooking_test READ wallet\nlogin_test WRITE wallet\nsearch_test READ booking_id\nprofile_test READ booking_id\nrefund_test WRITE wallet\nprofile_test WRITE session\npayment_test WRITE wallet\nsearch_test WRITE wallet\npayment_test READ wallet\npayment_test READ session\nlogin_test READ cart\nbooking_test WRITE cart\nbooking_test READ booking_id\nrefund_test READ cart\nsearch_test WRITE cart\nbooking_test READ wallet\nsearch_test READ booking_id\nprofile_test READ wallet\nbooking_test READ booking_id\nsearch_test READ cart\nsearch_test WRITE session\nbooking_test WRITE cart\nlogin_test READ session\nbooking_test READ booking_id\nrefund_test READ booking_id\nsearch_test READ wallet\nrefund_test READ wallet\nlogin_test READ cart\nbooking_test WRITE session\nprofile_test READ wallet\nlogin_test WRITE cart\nprofile_test READ session\nsearch_test WRITE booking_id\nsearch_test WRITE session\nsearch_test READ wallet\nlogin_test READ cart\npayment_test WRITE cart\nbooking_test WRITE session\npayment_test WRITE cart\nlogin_test READ booking_id\nprofile_test WRITE booking_id\nprofile_test WRITE wallet\nsearch_test WRITE session\npayment_test WRITE cart\nbooking_test WRITE wallet\n",
+                  "expected_stdout": "booking_test <- search_test wallet\nlogin_test <- booking_test cart\nlogin_test <- search_test booking_id\nlogin_test <- search_test session\npayment_test <- profile_test session\nprofile_test <- search_test wallet\nrefund_test <- booking_test cart\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "3\na WRITE k\nb READ k\nb READ k\n",
+                  "expected_stdout": "b <- a k\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "4\na WRITE k\nb WRITE k\nb READ k\nc READ k\n",
+                  "expected_stdout": "c <- b k\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "6\nsearch_test WRITE cart\nrefund_test READ wallet\nbooking_test WRITE wallet\nrefund_test WRITE booking_id\nsearch_test WRITE wallet\npayment_test WRITE cart\n",
+                  "expected_stdout": "ISOLATED\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "20\npayment_test READ booking_id\nsearch_test WRITE cart\nrefund_test READ session\nbooking_test READ wallet\nlogin_test WRITE booking_id\npayment_test READ cart\nlogin_test READ booking_id\nrefund_test READ cart\nbooking_test READ wallet\npayment_test READ wallet\nlogin_test WRITE booking_id\nsearch_test WRITE booking_id\nlogin_test READ booking_id\nprofile_test WRITE wallet\nbooking_test WRITE cart\npayment_test READ cart\nsearch_test READ booking_id\npayment_test READ session\nsearch_test WRITE booking_id\nprofile_test READ wallet\n",
+                  "expected_stdout": "payment_test <- booking_test cart\npayment_test <- search_test cart\nrefund_test <- search_test cart\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "45\nprofile_test WRITE cart\nlogin_test WRITE booking_id\nlogin_test READ booking_id\nbooking_test WRITE session\npayment_test READ wallet\nsearch_test WRITE wallet\npayment_test READ booking_id\nrefund_test WRITE booking_id\nsearch_test WRITE wallet\npayment_test WRITE wallet\nsearch_test READ wallet\nlogin_test WRITE booking_id\nbooking_test WRITE session\nprofile_test WRITE wallet\nprofile_test READ cart\nlogin_test WRITE booking_id\nlogin_test READ wallet\npayment_test READ cart\nlogin_test WRITE wallet\nsearch_test WRITE cart\nprofile_test READ booking_id\nrefund_test READ wallet\nprofile_test WRITE booking_id\nlogin_test WRITE booking_id\nbooking_test READ session\npayment_test WRITE wallet\nbooking_test WRITE session\nrefund_test WRITE session\nsearch_test WRITE session\nlogin_test READ wallet\nsearch_test READ wallet\nsearch_test WRITE booking_id\nsearch_test READ cart\nrefund_test READ wallet\npayment_test WRITE session\nsearch_test READ cart\nrefund_test READ wallet\npayment_test WRITE booking_id\nlogin_test WRITE booking_id\nsearch_test READ cart\nrefund_test WRITE session\nprofile_test WRITE session\nsearch_test READ cart\nrefund_test WRITE session\nlogin_test WRITE booking_id\n",
+                  "expected_stdout": "login_test <- profile_test wallet\npayment_test <- login_test booking_id\npayment_test <- profile_test cart\nprofile_test <- login_test booking_id\nrefund_test <- login_test wallet\nrefund_test <- payment_test wallet\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "4\nb WRITE k\na WRITE k\nb READ k\nc READ j\n",
+                  "expected_stdout": "ISOLATED\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -390,19 +1104,37 @@
         "Contract testing",
         "Release decisions"
       ],
-      "map_node": {"x": 0.7, "y": 0.36, "label": "Balance-Scale Vault"},
+      "map_node": {
+        "x": 0.7,
+        "y": 0.36,
+        "label": "Balance-Scale Vault"
+      },
       "questions": [
         {
           "id": "qat-4-q1",
           "type": "single_choice",
           "prompt": "There is less testing time than usual before the release. How should the QA lead decide what to test?",
           "options": [
-            {"id": "a", "text": "Test every feature equally lightly, so that nothing is skipped"},
-            {"id": "b", "text": "Test only the features that are easiest and quickest to check"},
-            {"id": "c", "text": "Focus on high-impact, high-risk areas like payments, and changes"},
-            {"id": "d", "text": "Test only the parts the developers say they are worried about"}
+            {
+              "id": "a",
+              "text": "Test every feature equally lightly, so that nothing is skipped"
+            },
+            {
+              "id": "b",
+              "text": "Test only the features that are easiest and quickest to check"
+            },
+            {
+              "id": "c",
+              "text": "Focus on high-impact, high-risk areas like payments, and changes"
+            },
+            {
+              "id": "d",
+              "text": "Test only the parts the developers say they are worried about"
+            }
           ],
-          "correct": ["c"],
+          "correct": [
+            "c"
+          ],
           "explanation": "Risk-based testing ranks areas by how bad a failure would be and how likely it is. Payments and policy issuing carry the highest impact, and recently changed code is the most likely to break, so the limited time goes there first.",
           "why_others_wrong": {
             "a": "Spreading effort evenly leaves the riskiest flows under-tested.",
@@ -417,12 +1149,26 @@
           "type": "single_choice",
           "prompt": "Management demands 90% code coverage. What should the QA lead explain about coverage?",
           "options": [
-            {"id": "a", "text": "It is a full measure of quality, so 90% coverage means 90% bug-free"},
-            {"id": "b", "text": "It shows which code ran, not which behaviour was actually checked"},
-            {"id": "c", "text": "It can only be measured accurately for frontend code, not services"},
-            {"id": "d", "text": "It should be pushed to 100% at any cost before the next release"}
+            {
+              "id": "a",
+              "text": "It is a full measure of quality, so 90% coverage means 90% bug-free"
+            },
+            {
+              "id": "b",
+              "text": "It shows which code ran, not which behaviour was actually checked"
+            },
+            {
+              "id": "c",
+              "text": "It can only be measured accurately for frontend code, not services"
+            },
+            {
+              "id": "d",
+              "text": "It should be pushed to 100% at any cost before the next release"
+            }
           ],
-          "correct": ["b"],
+          "correct": [
+            "b"
+          ],
           "explanation": "Coverage counts which lines were executed, so a test can run code without asserting anything useful. It is valuable for finding untested areas, while the quality of assertions, checked for example with mutation testing, shows whether tests would actually catch bugs.",
           "why_others_wrong": {
             "a": "High coverage with weak assertions can still let serious bugs through.",
@@ -437,12 +1183,26 @@
           "type": "single_choice",
           "prompt": "The three-hour end-to-end suite across eight services is slow and flaky, and teams deploy independently. What should replace most of it?",
           "options": [
-            {"id": "a", "text": "Consumer-driven contract tests, plus a few end-to-end journeys"},
-            {"id": "b", "text": "An even larger end-to-end suite, run once a week on weekends"},
-            {"id": "c", "text": "Manual regression testing of all eight services before releases"},
-            {"id": "d", "text": "No integration testing at all, only unit tests in each service"}
+            {
+              "id": "a",
+              "text": "Consumer-driven contract tests, plus a few end-to-end journeys"
+            },
+            {
+              "id": "b",
+              "text": "An even larger end-to-end suite, run once a week on weekends"
+            },
+            {
+              "id": "c",
+              "text": "Manual regression testing of all eight services before releases"
+            },
+            {
+              "id": "d",
+              "text": "No integration testing at all, only unit tests in each service"
+            }
           ],
-          "correct": ["a"],
+          "correct": [
+            "a"
+          ],
           "explanation": "Contract tests check that each service provides exactly what its consumers expect, and they run quickly within each team's own pipeline whenever that service changes. A small number of end-to-end tests then covers the most critical journeys, such as buying a policy.",
           "why_others_wrong": {
             "b": "A bigger, weekly suite gives even slower feedback and stays flaky.",
@@ -457,13 +1217,31 @@
           "type": "multi_select",
           "prompt": "Three minor known bugs remain open before the release. Which two practices should guide the decision?",
           "options": [
-            {"id": "a", "text": "QA lays out each bug's severity, impact and workaround"},
-            {"id": "b", "text": "QA blocks any release that still has an open bug of any kind"},
-            {"id": "c", "text": "Decide against release criteria that were agreed in advance"},
-            {"id": "d", "text": "Hide the open bugs from management so the date is still met"},
-            {"id": "e", "text": "Release without telling the support team about the open bugs"}
+            {
+              "id": "a",
+              "text": "QA lays out each bug's severity, impact and workaround"
+            },
+            {
+              "id": "b",
+              "text": "QA blocks any release that still has an open bug of any kind"
+            },
+            {
+              "id": "c",
+              "text": "Decide against release criteria that were agreed in advance"
+            },
+            {
+              "id": "d",
+              "text": "Hide the open bugs from management so the date is still met"
+            },
+            {
+              "id": "e",
+              "text": "Release without telling the support team about the open bugs"
+            }
           ],
-          "correct": ["a", "c"],
+          "correct": [
+            "a",
+            "c"
+          ],
           "explanation": "QA's role is to give a clear picture of risk: how severe each bug is, who it affects and whether there is a workaround. Comparing that with exit criteria agreed before testing began, such as no open critical or high bugs, makes the release decision objective rather than a last-minute argument.",
           "why_others_wrong": {
             "b": "Almost every release has some minor known bugs; blocking on any bug means never shipping.",
@@ -472,6 +1250,222 @@
           },
           "key_justification": "Inform release decisions with transparent risk and agreed exit criteria.",
           "points": 10
+        }
+      ],
+      "code_pool": [
+        {
+          "id": "qat-4-c1",
+          "prompt": "A release is due in two days with less test time than usual, so the team tests by risk. The first line is the minutes available, the second is n, then n features `name likelihood impact minutes` (likelihood and impact 1-5). Complete `plan_tests`: risk = likelihood x impact; go through the features by risk from high to low (ties: fewer minutes, then name) and test each one that still fits the remaining time, skipping any that don't. The program prints `test name` for each chosen feature, then `covered_risk x of y` and `minutes_used z`.",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef plan_tests(features, budget):\n    \"\"\"features: (name, likelihood 1-5, impact 1-5, minutes to test). Risk = likelihood x impact. Go through the features by risk high to low (ties: fewer minutes, then name) and test each one that still fits the remaining minutes. Return (names chosen in that order, risk covered, total risk, minutes used).\"\"\"\n    # Write your code here.\n    return [], 0, 0, 0\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    budget = int(data[0])\n    n = int(data[1])\n    features = []\n    for i in range(n):\n        name, likelihood, impact, minutes = data[2 + i].split()\n        features.append((name, int(likelihood), int(impact), int(minutes)))\n    chosen, covered, total, used = plan_tests(features, budget)\n    for name in chosen:\n        print(\"test\", name)\n    print(\"covered_risk\", covered, \"of\", total)\n    print(\"minutes_used\", used)\n\n\nmain()\n",
+          "reference_solution": "import sys\n\n\ndef plan_tests(features, budget):\n    \"\"\"features: (name, likelihood 1-5, impact 1-5, minutes to test). Risk = likelihood x impact. Go through the features by risk high to low (ties: fewer minutes, then name) and test each one that still fits the remaining minutes. Return (names chosen in that order, risk covered, total risk, minutes used).\"\"\"\n    ranked = sorted(features, key=lambda f: (-f[1] * f[2], f[3], f[0]))\n    left, covered, chosen = budget, 0, []\n    for name, likelihood, impact, minutes in ranked:\n        if minutes <= left:                 # skip what doesn't fit, keep going\n            left -= minutes\n            covered += likelihood * impact\n            chosen.append(name)\n    total = sum(l * i for _, l, i, _ in features)\n    return chosen, covered, total, budget - left\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    budget = int(data[0])\n    n = int(data[1])\n    features = []\n    for i in range(n):\n        name, likelihood, impact, minutes = data[2 + i].split()\n        features.append((name, int(likelihood), int(impact), int(minutes)))\n    chosen, covered, total, used = plan_tests(features, budget)\n    for name in chosen:\n        print(\"test\", name)\n    print(\"covered_risk\", covered, \"of\", total)\n    print(\"minutes_used\", used)\n\n\nmain()\n",
+          "ds_topic": "sorting",
+          "difficulty": 1,
+          "skills": [
+            "Python"
+          ],
+          "explanation": "Ranking by likelihood x impact and filling the time greedily puts testing where a failure would hurt most. Reporting covered risk out of total risk makes the trade-off explicit for the release decision, which is more honest than a coverage percentage.",
+          "key_justification": "Rank by a risk score, then greedily fill a time budget.",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "60\n4\npayments 5 5 40\nclaims 4 5 30\nquotes 3 2 10\nprofile 1 1 5\n",
+                  "expected_stdout": "test payments\ntest quotes\ntest profile\ncovered_risk 32 of 52\nminutes_used 55\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "120\n4\nquotes 2 5 45\nreports 2 2 10\nkyc 3 3 30\ndocuments 3 1 30\n",
+                  "expected_stdout": "test quotes\ntest kyc\ntest reports\ntest documents\ncovered_risk 26 of 26\nminutes_used 115\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "60\n7\npayments 4 1 5\nnominee 4 4 30\nprofile 1 5 30\nkyc 3 1 20\ndocuments 2 1 10\nquotes 4 3 45\nrenewals 2 2 20\n",
+                  "expected_stdout": "test nominee\ntest profile\ncovered_risk 21 of 46\nminutes_used 60\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "60\n10\nkyc 3 4 10\nnominee 2 3 30\nrenewals 3 4 10\npayments 3 5 10\npolicies 2 1 10\ndocuments 5 4 30\nprofile 3 1 20\nclaims 4 4 45\nquotes 4 2 30\nreports 5 1 20\n",
+                  "expected_stdout": "test documents\ntest payments\ntest kyc\ntest renewals\ncovered_risk 59 of 99\nminutes_used 60\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "0\n1\nx 1 1 0\n",
+                  "expected_stdout": "test x\ncovered_risk 1 of 1\nminutes_used 0\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "10\n2\nb 2 2 5\na 2 2 5\n",
+                  "expected_stdout": "test a\ntest b\ncovered_risk 8 of 8\nminutes_used 10\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "60\n4\nreports 2 5 5\ndocuments 5 3 5\nrenewals 5 1 30\nkyc 2 4 45\n",
+                  "expected_stdout": "test documents\ntest reports\ntest kyc\ncovered_risk 33 of 38\nminutes_used 55\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "120\n7\nprofile 3 1 5\npayments 4 2 45\nreports 2 5 30\nnominee 4 5 20\npolicies 2 4 30\nclaims 5 4 5\nquotes 1 2 5\n",
+                  "expected_stdout": "test claims\ntest nominee\ntest reports\ntest policies\ntest profile\ntest quotes\ncovered_risk 63 of 71\nminutes_used 95\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "120\n10\nnominee 4 4 20\nprofile 4 5 10\ndocuments 5 5 5\npayments 3 3 30\nreports 1 2 20\nkyc 3 5 5\nquotes 3 5 45\npolicies 3 5 5\nclaims 5 2 20\nrenewals 5 3 10\n",
+                  "expected_stdout": "test documents\ntest profile\ntest nominee\ntest kyc\ntest policies\ntest renewals\ntest quotes\ntest claims\ncovered_risk 131 of 142\nminutes_used 120\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "30\n3\na 3 3 20\nb 3 3 10\nc 1 1 10\n",
+                  "expected_stdout": "test b\ntest a\ncovered_risk 18 of 19\nminutes_used 30\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "5\n1\nkyc 5 5 6\n",
+                  "expected_stdout": "covered_risk 0 of 25\nminutes_used 0\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "120\n4\nprofile 2 5 30\ndocuments 5 1 20\nnominee 4 1 45\nclaims 3 3 45\n",
+                  "expected_stdout": "test profile\ntest claims\ntest documents\ncovered_risk 24 of 28\nminutes_used 95\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "30\n7\nprofile 4 1 45\nreports 3 1 45\npayments 1 4 10\nclaims 2 2 30\nkyc 1 3 10\nnominee 4 1 20\npolicies 4 3 20\n",
+                  "expected_stdout": "test policies\ntest payments\ncovered_risk 16 of 34\nminutes_used 30\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "30\n10\nnominee 1 5 20\nquotes 2 1 5\npolicies 5 4 10\nkyc 5 5 20\nclaims 4 3 30\ndocuments 1 5 5\nprofile 3 4 5\nreports 3 5 45\npayments 1 5 30\nrenewals 3 1 10\n",
+                  "expected_stdout": "test kyc\ntest policies\ncovered_risk 45 of 104\nminutes_used 30\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "100\n0\n",
+                  "expected_stdout": "covered_risk 0 of 0\nminutes_used 0\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "qat-4-c2",
+          "prompt": "The end-to-end suite across eight services is slow and flaky. Contract tests check each service's response shape on its own instead. The first line is n, then n contract lines `path type` (a dotted path through objects; type one of string, number, boolean, object, array, null), then one line of JSON: the provider's response. Complete `verify`: report `missing PATH` if the path does not exist, or `type PATH expected=T got=U` if the value has the wrong type (true and false are boolean, never number), in contract order. The program prints the problems, or PASS.",
+          "language": "python",
+          "starter_code": "import json\nimport sys\n\n\ndef verify(contract, response):\n    \"\"\"contract: (dotted path, type) with type one of string, number, boolean, object, array, null. response: parsed JSON. Follow each path through objects. Return, in contract order, 'missing PATH' or 'type PATH expected=T got=U'. true/false are boolean, never number.\"\"\"\n    # Write your code here.\n    return []\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    contract = [tuple(data[1 + i].split()) for i in range(n)]\n    response = json.loads(data[1 + n])\n    problems = verify(contract, response)\n    print(\"\\n\".join(problems) if problems else \"PASS\")\n\n\nmain()\n",
+          "reference_solution": "import json\nimport sys\n\n\ndef json_type(value):\n    if value is None:\n        return \"null\"\n    if isinstance(value, bool):                 # check bool before number: True is an int in Python\n        return \"boolean\"\n    if isinstance(value, (int, float)):\n        return \"number\"\n    return {str: \"string\", dict: \"object\", list: \"array\"}[type(value)]\n\n\ndef verify(contract, response):\n    \"\"\"contract: (dotted path, type) with type one of string, number, boolean, object, array, null. response: parsed JSON. Follow each path through objects. Return, in contract order, 'missing PATH' or 'type PATH expected=T got=U'. true/false are boolean, never number.\"\"\"\n    problems = []\n    for path, expected in contract:\n        node, found = response, True\n        for part in path.split(\".\"):\n            if isinstance(node, dict) and part in node:\n                node = node[part]\n            else:\n                found = False\n                break\n        if not found:\n            problems.append(f\"missing {path}\")\n        elif json_type(node) != expected:\n            problems.append(f\"type {path} expected={expected} got={json_type(node)}\")\n    return problems\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    contract = [tuple(data[1 + i].split()) for i in range(n)]\n    response = json.loads(data[1 + n])\n    problems = verify(contract, response)\n    print(\"\\n\".join(problems) if problems else \"PASS\")\n\n\nmain()\n",
+          "ds_topic": "hash_map",
+          "difficulty": 2,
+          "skills": [
+            "Python"
+          ],
+          "explanation": "Walking each dotted path through nested dictionaries and comparing JSON types is the core of consumer-driven contract testing: it fails fast, in seconds, when a provider changes a field, without starting all eight services. The bool-before-number check matters because Python treats True as the integer 1.",
+          "key_justification": "Navigate nested maps by path and check JSON types.",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "4\npolicy.id string\npolicy.premium number\npolicy.active boolean\nholder.name string\n{\"policy\": {\"id\": \"P1\", \"premium\": \"1200\", \"active\": true}, \"holder\": {}}\n",
+                  "expected_stdout": "type policy.premium expected=number got=string\nmissing holder.name\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "3\nholder.name string\npolicy.premium number\nclaims array\n{\"policy\": {\"id\": \"P1\", \"premium\": \"1200\", \"active\": 1, \"end_date\": \"2027-01-01\"}, \"holder\": {}, \"claims\": null, \"meta\": {}}\n",
+                  "expected_stdout": "missing holder.name\ntype policy.premium expected=number got=string\ntype claims expected=array got=null\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "5\npolicy.end_date null\nmeta object\npolicy.id string\npolicy.active boolean\nholder.nominees array\n{\"holder\": {\"name\": null}, \"claims\": {}, \"meta\": {}}\n",
+                  "expected_stdout": "missing policy.end_date\nmissing policy.id\nmissing policy.active\nmissing holder.nominees\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "8\npolicy.end_date null\nholder.nominees array\npolicy.active boolean\npolicy.premium number\nholder.name string\nclaims array\nmeta object\npolicy.id string\n{\"policy\": {\"id\": \"P1\", \"premium\": \"1200\", \"active\": true, \"end_date\": \"2027-01-01\"}, \"holder\": {\"name\": null}, \"claims\": {}, \"meta\": {}}\n",
+                  "expected_stdout": "type policy.end_date expected=null got=string\nmissing holder.nominees\ntype policy.premium expected=number got=string\ntype holder.name expected=string got=null\ntype claims expected=array got=object\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1\na.b.c null\n{\"a\": {\"b\": {\"c\": null}}}\n",
+                  "expected_stdout": "PASS\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "2\nclaims array\nmeta object\n{\"claims\": [], \"meta\": {}}\n",
+                  "expected_stdout": "PASS\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "3\nholder.name string\nmeta object\npolicy.id string\n{\"policy\": {\"id\": 101, \"premium\": 99.5, \"active\": true, \"end_date\": \"2027-01-01\"}, \"holder\": {\"name\": null}, \"claims\": [], \"meta\": {}}\n",
+                  "expected_stdout": "type holder.name expected=string got=null\ntype policy.id expected=string got=number\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "5\nclaims array\nholder.name string\nholder.nominees array\npolicy.id string\npolicy.end_date null\n{\"holder\": {\"name\": null}, \"claims\": {}, \"meta\": []}\n",
+                  "expected_stdout": "type claims expected=array got=object\ntype holder.name expected=string got=null\nmissing holder.nominees\nmissing policy.id\nmissing policy.end_date\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "8\npolicy.active boolean\npolicy.end_date null\nclaims array\npolicy.id string\nholder.nominees array\npolicy.premium number\nholder.name string\nmeta object\n{\"policy\": {\"id\": \"P1\", \"premium\": 1200, \"active\": \"yes\", \"end_date\": \"2027-01-01\"}, \"holder\": {}, \"claims\": null, \"meta\": {}}\n",
+                  "expected_stdout": "type policy.active expected=boolean got=string\ntype policy.end_date expected=null got=string\ntype claims expected=array got=null\nmissing holder.nominees\nmissing holder.name\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1\na.b string\n{\"a\": \"text\"}\n",
+                  "expected_stdout": "missing a.b\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "2\nflag boolean\ncount number\n{\"flag\": 1, \"count\": true}\n",
+                  "expected_stdout": "type flag expected=boolean got=number\ntype count expected=number got=boolean\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "3\nholder.nominees array\nmeta object\nholder.name string\n{\"policy\": {\"id\": \"P1\", \"premium\": \"1200\", \"active\": 1, \"end_date\": null}, \"holder\": {\"name\": null}, \"claims\": [], \"meta\": []}\n",
+                  "expected_stdout": "missing holder.nominees\ntype meta expected=object got=array\ntype holder.name expected=string got=null\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "5\nholder.nominees array\nclaims array\npolicy.end_date null\nmeta object\npolicy.active boolean\n{\"holder\": {\"name\": null}, \"claims\": {}, \"meta\": []}\n",
+                  "expected_stdout": "missing holder.nominees\ntype claims expected=array got=object\nmissing policy.end_date\ntype meta expected=object got=array\nmissing policy.active\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "8\npolicy.id string\nholder.name string\nclaims array\npolicy.end_date null\npolicy.premium number\nmeta object\npolicy.active boolean\nholder.nominees array\n{\"policy\": {\"id\": \"P1\", \"premium\": 99.5, \"active\": true, \"end_date\": \"2027-01-01\"}, \"holder\": {}, \"claims\": {}, \"meta\": {}}\n",
+                  "expected_stdout": "missing holder.name\ntype claims expected=array got=object\ntype policy.end_date expected=null got=string\nmissing holder.nominees\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1\nx number\n{\"x\": 2.5}\n",
+                  "expected_stdout": "PASS\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -494,20 +1488,45 @@
         "Shift-left testing",
         "Accessibility and risk-based test types"
       ],
-      "map_node": {"x": 0.88, "y": 0.16, "label": "Great Bell Auction Square"},
+      "map_node": {
+        "x": 0.88,
+        "y": 0.16,
+        "label": "Great Bell Auction Square"
+      },
       "questions": [
         {
           "id": "qat-5-q1",
           "type": "order",
           "prompt": "Put QA's activities within one sprint in order.",
           "options": [
-            {"id": "a", "text": "Automate the tests alongside the feature's development"},
-            {"id": "b", "text": "Review the story and agree testable acceptance criteria"},
-            {"id": "c", "text": "Run exploratory testing on the finished feature before release"},
-            {"id": "d", "text": "Run the automated tests in CI on every change"},
-            {"id": "e", "text": "Design the test cases and the test data they need"}
+            {
+              "id": "a",
+              "text": "Automate the tests alongside the feature's development"
+            },
+            {
+              "id": "b",
+              "text": "Review the story and agree testable acceptance criteria"
+            },
+            {
+              "id": "c",
+              "text": "Run exploratory testing on the finished feature before release"
+            },
+            {
+              "id": "d",
+              "text": "Run the automated tests in CI on every change"
+            },
+            {
+              "id": "e",
+              "text": "Design the test cases and the test data they need"
+            }
           ],
-          "correct": ["b", "e", "a", "d", "c"],
+          "correct": [
+            "b",
+            "e",
+            "a",
+            "d",
+            "c"
+          ],
           "explanation": "QA starts by making the requirement testable, then designs cases and data from it. Tests are automated while the feature is built and run in CI on every change, and exploratory testing of the finished feature catches what scripts did not anticipate before it ships.",
           "why_others_wrong": {
             "common_mistake": "Writing automated tests only after the feature is finished, which pushes testing to the end of the sprint and delays feedback to developers."
@@ -520,12 +1539,26 @@
           "type": "single_choice",
           "prompt": "How should the team test the final minute of an auction with 50,000 bidders?",
           "options": [
-            {"id": "a", "text": "Ask ten colleagues to bid at the same moment from their phones"},
-            {"id": "b", "text": "Test on a developer laptop with one simulated bidder at a time"},
-            {"id": "c", "text": "Wait to see how the real launch-day auction performs, then fix it"},
-            {"id": "d", "text": "Ramp realistic load and spikes to peak in a production-like setup"}
+            {
+              "id": "a",
+              "text": "Ask ten colleagues to bid at the same moment from their phones"
+            },
+            {
+              "id": "b",
+              "text": "Test on a developer laptop with one simulated bidder at a time"
+            },
+            {
+              "id": "c",
+              "text": "Wait to see how the real launch-day auction performs, then fix it"
+            },
+            {
+              "id": "d",
+              "text": "Ramp realistic load and spikes to peak in a production-like setup"
+            }
           ],
-          "correct": ["d"],
+          "correct": [
+            "d"
+          ],
           "explanation": "A load test with realistic bidding patterns, ramping up to the expected peak plus a sudden spike, shows how the system behaves where it matters. Running it in a production-like environment and measuring 95th-percentile response times and error rates shows whether bids are accepted in time.",
           "why_others_wrong": {
             "a": "Ten people are thousands of times below the real load.",
@@ -540,12 +1573,26 @@
           "type": "single_choice",
           "prompt": "The company wants to 'shift testing left'. What does that look like in practice?",
           "options": [
-            {"id": "a", "text": "QA helps refine stories into testable Given-When-Then criteria"},
-            {"id": "b", "text": "QA tests everything in a longer phase just before each release"},
-            {"id": "c", "text": "Developers stop testing so that QA owns all quality on their own"},
-            {"id": "d", "text": "Testing moves to after release, guided by customer complaints"}
+            {
+              "id": "a",
+              "text": "QA helps refine stories into testable Given-When-Then criteria"
+            },
+            {
+              "id": "b",
+              "text": "QA tests everything in a longer phase just before each release"
+            },
+            {
+              "id": "c",
+              "text": "Developers stop testing so that QA owns all quality on their own"
+            },
+            {
+              "id": "d",
+              "text": "Testing moves to after release, guided by customer complaints"
+            }
           ],
-          "correct": ["a"],
+          "correct": [
+            "a"
+          ],
           "explanation": "Shifting left means building quality in earlier, so problems are prevented or caught when they are cheapest to fix. When QA helps write clear acceptance criteria during refinement, misunderstandings are cleared up before any code is written.",
           "why_others_wrong": {
             "b": "A longer testing phase at the end is the approach shift-left moves away from.",
@@ -560,13 +1607,31 @@
           "type": "multi_select",
           "prompt": "Some farmers rely on screen readers. Which two accessibility testing practices should be in place?",
           "options": [
-            {"id": "a", "text": "Run an automated accessibility checker such as axe in CI"},
-            {"id": "b", "text": "Look at the screens and judge whether they seem accessible"},
-            {"id": "c", "text": "Test key flows by hand with a screen reader and the keyboard"},
-            {"id": "d", "text": "Skip accessibility testing, since few users seem to need it"},
-            {"id": "e", "text": "Check only that the colours chosen match the brand guide"}
+            {
+              "id": "a",
+              "text": "Run an automated accessibility checker such as axe in CI"
+            },
+            {
+              "id": "b",
+              "text": "Look at the screens and judge whether they seem accessible"
+            },
+            {
+              "id": "c",
+              "text": "Test key flows by hand with a screen reader and the keyboard"
+            },
+            {
+              "id": "d",
+              "text": "Skip accessibility testing, since few users seem to need it"
+            },
+            {
+              "id": "e",
+              "text": "Check only that the colours chosen match the brand guide"
+            }
           ],
-          "correct": ["a", "c"],
+          "correct": [
+            "a",
+            "c"
+          ],
           "explanation": "Automated checkers catch common issues such as missing labels and low contrast on every change. They find only part of the problems, so manual testing of key flows with a screen reader and keyboard is needed to confirm farmers can actually list produce and follow auctions.",
           "why_others_wrong": {
             "b": "Visual inspection misses problems that only appear with assistive technology.",
@@ -581,24 +1646,269 @@
           "type": "match",
           "prompt": "Match each launch risk to the type of testing that addresses it.",
           "items": [
-            {"id": "i1", "text": "The auction must accept 50,000 bids in its final minute"},
-            {"id": "i2", "text": "Traders must never see another trader's bank details"},
-            {"id": "i3", "text": "Prices must update on the app over slow 2G connections"},
-            {"id": "i4", "text": "A new release must not break bidding that already works"}
+            {
+              "id": "i1",
+              "text": "The auction must accept 50,000 bids in its final minute"
+            },
+            {
+              "id": "i2",
+              "text": "Traders must never see another trader's bank details"
+            },
+            {
+              "id": "i3",
+              "text": "Prices must update on the app over slow 2G connections"
+            },
+            {
+              "id": "i4",
+              "text": "A new release must not break bidding that already works"
+            }
           ],
           "targets": [
-            {"id": "t1", "text": "Testing on real devices with throttled network speeds"},
-            {"id": "t2", "text": "An automated regression suite run on every change"},
-            {"id": "t3", "text": "Load and spike testing at the expected peak"},
-            {"id": "t4", "text": "Security testing of access control between accounts"}
+            {
+              "id": "t1",
+              "text": "Testing on real devices with throttled network speeds"
+            },
+            {
+              "id": "t2",
+              "text": "An automated regression suite run on every change"
+            },
+            {
+              "id": "t3",
+              "text": "Load and spike testing at the expected peak"
+            },
+            {
+              "id": "t4",
+              "text": "Security testing of access control between accounts"
+            }
           ],
-          "correct": {"i1": "t3", "i2": "t4", "i3": "t1", "i4": "t2"},
+          "correct": {
+            "i1": "t3",
+            "i2": "t4",
+            "i3": "t1",
+            "i4": "t2"
+          },
           "explanation": "Peak bidding is a performance risk, covered by load and spike tests. Seeing other traders' data is an authorisation risk, covered by security testing, slow-network behaviour needs real devices with throttled connections, and protecting existing features is the job of an automated regression suite.",
           "why_others_wrong": {
             "common_mistake": "Expecting functional tests to catch the bank-details risk: a normal test logs in as one trader and sees correct data, while access-control testing deliberately tries to reach another trader's records."
           },
           "key_justification": "Each risk calls for a matching test type: performance, security, network or regression.",
           "points": 10
+        }
+      ],
+      "code_pool": [
+        {
+          "id": "qat-5-c1",
+          "prompt": "A load test fired bids at the auction like the final minute of a sale. Summarise the results. The first line is n, then n requests `time_ms status` (time since the test started). Complete `load_summary`: group requests by whole second (time // 1000). The program prints `peak_rps r at second s` (the busiest second, the earliest on a tie), `error_rate x%` (status 500 or above, two decimals) and `verdict PASS` if at most 1% failed, else `verdict FAIL`.",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef load_summary(requests):\n    \"\"\"requests: (time in ms since the test started, HTTP status). Group by whole second (time // 1000). Return (the most requests in one second, that second (the earliest on a tie), number of responses with status 500 or above).\"\"\"\n    # Write your code here.\n    return len(requests), 0, 0\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    requests = [tuple(map(int, data[1 + i].split())) for i in range(n)]\n    peak, second, errors = load_summary(requests)\n    print(\"peak_rps\", peak, \"at second\", second)\n    print(\"error_rate\", f\"{100 * errors / n:.2f}%\")\n    print(\"verdict\", \"PASS\" if errors * 100 <= n else \"FAIL\")\n\n\nmain()\n",
+          "reference_solution": "import sys\n\n\ndef load_summary(requests):\n    \"\"\"requests: (time in ms since the test started, HTTP status). Group by whole second (time // 1000). Return (the most requests in one second, that second (the earliest on a tie), number of responses with status 500 or above).\"\"\"\n    per_second, errors = {}, 0\n    for t, status in requests:\n        per_second[t // 1000] = per_second.get(t // 1000, 0) + 1\n        errors += status >= 500                 # 429 is throttling, not a server error\n    second = min(per_second, key=lambda s: (-per_second[s], s))\n    return per_second[second], second, errors\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    requests = [tuple(map(int, data[1 + i].split())) for i in range(n)]\n    peak, second, errors = load_summary(requests)\n    print(\"peak_rps\", peak, \"at second\", second)\n    print(\"error_rate\", f\"{100 * errors / n:.2f}%\")\n    print(\"verdict\", \"PASS\" if errors * 100 <= n else \"FAIL\")\n\n\nmain()\n",
+          "ds_topic": "hash_map",
+          "difficulty": 1,
+          "skills": [
+            "Python"
+          ],
+          "explanation": "Bucketing timestamps by second in a dictionary gives the throughput curve, and its peak is what the auction must survive at closing time. Counting only 5xx as errors keeps deliberate throttling (429) separate from real failures; the pass rule is an integer check, not a float.",
+          "key_justification": "Bucket events by time in a hash map; summarise peak and errors.",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "5\n0 200\n400 200\n999 500\n1000 200\n2500 200\n",
+                  "expected_stdout": "peak_rps 3 at second 0\nerror_rate 20.00%\nverdict FAIL\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "10\n19 200\n502 200\n832 200\n1383 200\n2776 200\n2853 200\n3323 200\n3733 200\n3741 429\n4951 200\n",
+                  "expected_stdout": "peak_rps 3 at second 0\nerror_rate 0.00%\nverdict PASS\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "60\n65 200\n72 200\n101 200\n479 200\n511 200\n579 200\n631 200\n672 200\n680 200\n718 200\n737 200\n789 200\n885 200\n929 200\n1135 200\n1301 200\n1635 200\n1677 200\n1731 200\n2025 200\n2045 200\n2162 200\n2163 200\n2200 200\n2492 200\n2538 200\n2554 200\n2667 200\n2674 200\n2712 200\n2713 200\n2814 200\n2880 200\n2942 200\n2977 200\n3012 200\n3076 200\n3131 200\n3204 200\n3254 200\n3654 200\n3786 200\n3909 200\n3911 503\n4094 200\n4143 200\n4261 200\n4280 200\n4601 200\n4708 200\n4806 200\n4831 429\n4905 200\n5147 200\n5384 200\n5386 200\n5720 200\n5833 200\n5864 200\n5925 200\n",
+                  "expected_stdout": "peak_rps 16 at second 2\nerror_rate 1.67%\nverdict FAIL\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "150\n8 200\n16 500\n58 200\n130 200\n130 200\n137 200\n221 201\n240 429\n251 429\n300 200\n310 200\n370 200\n407 200\n466 200\n549 200\n570 200\n592 200\n621 500\n645 200\n646 200\n683 200\n688 200\n742 200\n743 200\n755 200\n780 200\n797 200\n800 200\n852 200\n874 200\n915 200\n923 200\n963 200\n1029 200\n1034 200\n1113 503\n1138 200\n1142 200\n1228 500\n1240 200\n1272 200\n1336 200\n1393 200\n1533 200\n1553 200\n1555 503\n1561 200\n1573 200\n1598 200\n1600 200\n1608 200\n1623 200\n1637 200\n1638 200\n1647 200\n1687 429\n1749 200\n1783 200\n1793 200\n1808 200\n1904 200\n1965 200\n1986 200\n2036 200\n2107 200\n2108 200\n2175 200\n2277 200\n2293 200\n2397 200\n2425 200\n2452 200\n2481 200\n2500 200\n2558 200\n2662 200\n2794 200\n2857 200\n2922 200\n2930 429\n2961 200\n2993 200\n3007 200\n3080 200\n3139 200\n3175 200\n3192 200\n3195 200\n3215 200\n3224 200\n3263 429\n3295 503\n3418 200\n3497 200\n3553 200\n3819 200\n3856 200\n3935 200\n3989 200\n4030 200\n4070 200\n4076 201\n4128 200\n4145 200\n4233 200\n4277 500\n4296 200\n4302 200\n4408 200\n4438 200\n4472 200\n4519 200\n4525 500\n4533 200\n4569 200\n4594 200\n4683 200\n4688 500\n4708 200\n4748 200\n4795 200\n4799 200\n4806 200\n4816 200\n4864 200\n4869 200\n4890 200\n4905 201\n4926 200\n5018 500\n5067 200\n5074 200\n5106 200\n5166 200\n5186 200\n5188 200\n5214 200\n5223 503\n5314 200\n5330 429\n5389 200\n5532 200\n5561 500\n5588 200\n5660 200\n5724 200\n5728 200\n5837 503\n5913 200\n5916 200\n",
+                  "expected_stdout": "peak_rps 33 at second 0\nerror_rate 8.67%\nverdict FAIL\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "2\n0 200\n1000 200\n",
+                  "expected_stdout": "peak_rps 1 at second 0\nerror_rate 0.00%\nverdict PASS\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "4\n1500 200\n1600 429\n3000 200\n3100 201\n",
+                  "expected_stdout": "peak_rps 2 at second 1\nerror_rate 0.00%\nverdict PASS\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "10\n528 200\n867 200\n961 200\n1758 500\n1857 200\n2014 201\n2068 200\n4165 200\n4898 200\n5542 503\n",
+                  "expected_stdout": "peak_rps 3 at second 0\nerror_rate 20.00%\nverdict FAIL\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "60\n127 200\n319 201\n464 200\n480 200\n548 200\n556 200\n697 200\n699 200\n756 200\n766 201\n1215 200\n1502 200\n1701 200\n1793 200\n1865 200\n2045 200\n2096 200\n2268 200\n2430 200\n2567 200\n2627 200\n2809 200\n2938 200\n3080 200\n3194 200\n3231 200\n3313 200\n3358 200\n3778 200\n3951 200\n4072 200\n4162 200\n4162 201\n4231 200\n4252 200\n4380 200\n4452 200\n4475 200\n4635 200\n4671 429\n4710 200\n4720 200\n4863 200\n4890 200\n4901 200\n5051 503\n5058 200\n5077 200\n5130 200\n5168 200\n5286 201\n5440 200\n5467 503\n5615 200\n5668 500\n5704 200\n5751 503\n5788 200\n5849 429\n5912 200\n",
+                  "expected_stdout": "peak_rps 15 at second 4\nerror_rate 6.67%\nverdict FAIL\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "150\n2 200\n46 200\n137 200\n172 200\n218 200\n220 200\n239 200\n283 201\n304 200\n342 200\n349 201\n382 200\n387 200\n484 200\n525 200\n580 200\n593 503\n670 200\n672 500\n846 500\n860 503\n893 201\n898 200\n904 200\n954 200\n982 200\n1084 200\n1087 200\n1115 200\n1179 200\n1204 200\n1218 200\n1259 200\n1286 503\n1333 200\n1342 200\n1365 200\n1416 200\n1471 200\n1510 200\n1520 500\n1546 429\n1594 200\n1685 200\n1688 200\n1762 200\n1763 200\n1767 200\n1799 200\n1903 200\n1920 200\n1931 200\n1997 200\n2010 200\n2011 200\n2071 200\n2072 200\n2086 200\n2094 200\n2131 200\n2155 200\n2210 200\n2229 200\n2365 200\n2371 200\n2383 200\n2424 200\n2450 201\n2455 200\n2456 200\n2486 201\n2544 200\n2562 200\n2576 200\n2611 200\n2624 200\n2662 200\n2682 200\n2751 200\n2810 200\n2839 200\n2881 200\n2904 500\n3070 200\n3206 200\n3210 200\n3213 200\n3262 200\n3395 200\n3450 200\n3454 200\n3563 200\n3590 200\n3595 200\n3623 200\n3636 200\n3647 200\n3653 200\n3665 200\n3674 201\n3684 200\n3749 200\n3766 200\n3803 200\n3918 429\n3991 429\n4042 200\n4075 200\n4105 200\n4153 200\n4223 200\n4273 200\n4281 200\n4355 200\n4361 200\n4368 503\n4375 200\n4412 200\n4435 200\n4460 200\n4475 200\n4532 200\n4561 200\n4575 200\n4588 200\n4682 200\n4685 200\n4702 200\n4925 200\n4931 200\n5013 200\n5088 200\n5160 200\n5211 200\n5218 200\n5251 200\n5254 200\n5292 200\n5409 200\n5493 200\n5596 200\n5622 200\n5672 200\n5698 200\n5798 200\n5802 200\n5812 500\n5939 200\n5966 200\n5968 200\n",
+                  "expected_stdout": "peak_rps 30 at second 2\nerror_rate 6.00%\nverdict FAIL\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "3\n100 500\n200 200\n300 200\n",
+                  "expected_stdout": "peak_rps 3 at second 0\nerror_rate 33.33%\nverdict FAIL\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "1\n5 503\n",
+                  "expected_stdout": "peak_rps 1 at second 0\nerror_rate 100.00%\nverdict FAIL\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "10\n800 200\n1783 200\n2229 200\n2361 201\n3486 200\n3539 200\n3597 200\n4069 200\n4996 200\n5737 503\n",
+                  "expected_stdout": "peak_rps 3 at second 3\nerror_rate 10.00%\nverdict FAIL\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "60\n170 200\n271 503\n316 200\n398 200\n432 200\n565 200\n603 200\n808 200\n877 200\n878 200\n881 200\n1109 429\n1268 200\n1274 200\n1397 200\n1422 200\n1453 200\n1468 200\n1683 200\n1783 201\n1932 200\n1936 200\n2202 200\n2277 200\n2621 200\n2632 200\n2723 200\n2892 200\n2953 200\n3022 429\n3060 200\n3063 200\n3074 200\n3102 200\n3104 503\n3191 200\n3514 200\n3598 200\n3659 200\n3816 200\n3917 200\n3990 200\n4078 200\n4105 200\n4135 200\n4209 200\n4376 200\n4422 200\n4478 200\n4496 200\n4651 200\n4658 503\n4934 200\n5158 200\n5381 200\n5736 200\n5750 200\n5933 200\n5956 200\n5996 200\n",
+                  "expected_stdout": "peak_rps 13 at second 3\nerror_rate 5.00%\nverdict FAIL\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "150\n140 200\n167 200\n204 200\n308 200\n452 200\n454 200\n459 200\n498 429\n502 200\n535 200\n551 200\n575 201\n576 200\n593 200\n613 200\n622 200\n634 200\n652 200\n687 200\n730 200\n842 200\n847 200\n867 200\n885 200\n896 200\n902 200\n937 200\n1003 200\n1079 200\n1111 200\n1157 200\n1245 200\n1264 503\n1305 200\n1316 200\n1401 200\n1476 200\n1479 200\n1501 200\n1515 200\n1530 503\n1565 200\n1635 200\n1696 200\n1732 200\n1753 200\n1798 200\n1827 200\n2003 200\n2020 200\n2023 200\n2083 200\n2153 200\n2208 200\n2259 200\n2260 200\n2265 200\n2266 500\n2272 200\n2324 200\n2346 200\n2480 200\n2506 429\n2556 200\n2572 200\n2633 200\n2691 200\n2807 200\n2817 200\n2832 200\n2848 200\n2857 200\n2869 200\n2944 429\n2957 200\n3122 200\n3167 200\n3178 200\n3237 200\n3252 429\n3302 200\n3305 200\n3342 200\n3434 200\n3447 200\n3473 200\n3494 200\n3677 200\n3712 200\n3722 200\n3784 200\n3790 200\n3827 200\n3857 200\n3917 200\n3923 200\n3951 429\n4063 200\n4109 429\n4112 200\n4159 200\n4216 200\n4221 200\n4262 200\n4262 200\n4319 200\n4325 200\n4341 200\n4410 200\n4412 200\n4416 200\n4457 200\n4464 200\n4485 200\n4487 200\n4549 200\n4571 200\n4624 200\n4684 200\n4781 200\n4836 200\n4992 200\n5027 200\n5051 200\n5063 200\n5110 200\n5166 200\n5213 200\n5232 200\n5246 200\n5273 200\n5312 500\n5393 200\n5434 201\n5473 200\n5480 200\n5480 200\n5528 200\n5560 200\n5735 200\n5761 200\n5765 200\n5773 200\n5843 503\n5859 200\n5864 200\n5889 200\n5900 200\n5983 200\n5995 200\n",
+                  "expected_stdout": "peak_rps 28 at second 5\nerror_rate 3.33%\nverdict FAIL\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "2\n7000 200\n7999 200\n",
+                  "expected_stdout": "peak_rps 2 at second 7\nerror_rate 0.00%\nverdict PASS\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "qat-5-c2",
+          "prompt": "At closing time 50,000 traders bid in the last minute. Model one bid-processing worker to see how long bids wait. The first line is `service sla n` (ms per bid, the acceptable wait in ms, number of bids), the second has the n arrival times in ms, in order. Complete `bid_queue`: the worker takes bids first come, first served, each for `service` ms; a bid waits from its arrival until the worker starts it. The program prints `max_wait`, `over_sla` (bids that waited longer than the SLA) and `last_finish`.",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef bid_queue(arrivals, service, sla):\n    \"\"\"arrivals: bid times in ms, in order. One worker handles bids first come, first served; each takes `service` ms. A bid waits from its arrival until the worker starts it. Return (longest wait, number of bids that waited more than `sla` ms, time the last bid finishes).\"\"\"\n    # Write your code here.\n    return 0, 0, arrivals[-1] + service\n\n\ndef main():\n    data = sys.stdin.read().split()\n    service, sla, n = int(data[0]), int(data[1]), int(data[2])\n    arrivals = list(map(int, data[3:3 + n]))\n    worst, over, finish = bid_queue(arrivals, service, sla)\n    print(\"max_wait\", worst)\n    print(\"over_sla\", over)\n    print(\"last_finish\", finish)\n\n\nmain()\n",
+          "reference_solution": "from collections import deque\nimport sys\n\n\ndef bid_queue(arrivals, service, sla):\n    \"\"\"arrivals: bid times in ms, in order. One worker handles bids first come, first served; each takes `service` ms. A bid waits from its arrival until the worker starts it. Return (longest wait, number of bids that waited more than `sla` ms, time the last bid finishes).\"\"\"\n    queue = deque(arrivals)\n    free_at = worst = over = 0\n    while queue:\n        arrived = queue.popleft()               # first come, first served\n        start = max(arrived, free_at)\n        wait = start - arrived\n        worst = max(worst, wait)\n        over += wait > sla\n        free_at = start + service\n    return worst, over, free_at\n\n\ndef main():\n    data = sys.stdin.read().split()\n    service, sla, n = int(data[0]), int(data[1]), int(data[2])\n    arrivals = list(map(int, data[3:3 + n]))\n    worst, over, finish = bid_queue(arrivals, service, sla)\n    print(\"max_wait\", worst)\n    print(\"over_sla\", over)\n    print(\"last_finish\", finish)\n\n\nmain()\n",
+          "ds_topic": "queue",
+          "difficulty": 2,
+          "skills": [
+            "Python"
+          ],
+          "explanation": "A FIFO queue with one server is the simplest performance model: each bid starts when it arrives or when the worker frees up, whichever is later. When arrivals come faster than service, waits grow without limit; the model shows how many workers (or how much faster processing) the final minute needs before any load test is run.",
+          "key_justification": "Single-server FIFO queue simulation.",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "100 150 5\n0 10 20 30 500\n",
+                  "expected_stdout": "max_wait 270\nover_sla 2\nlast_finish 600\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "40 100 6\n50 250 450 451 651 656\n",
+                  "expected_stdout": "max_wait 39\nover_sla 0\nlast_finish 731\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "25 50 40\n1 51 101 151 201 201 201 206 211 212 412 612 662 862 863 868 918 923 924 929 930 950 950 951 956 1006 1007 1057 1057 1062 1063 1063 1113 1163 1183 1188 1189 1209 1409 1410\n",
+                  "expected_stdout": "max_wait 253\nover_sla 25\nlast_finish 1537\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "40 50 150\n1 21 26 76 276 296 297 297 347 347 547 567 617 637 657 677 678 728 928 929 979 1029 1229 1429 1479 1479 1484 1484 1684 1684 1684 1684 1884 1889 1939 1940 1990 1990 2010 2030 2035 2085 2135 2185 2186 2187 2188 2388 2389 2589 2789 2789 2789 2839 2859 2909 3109 3159 3179 3180 3380 3385 3435 3485 3490 3491 3691 3711 3711 3712 3717 3717 3767 3768 3773 3793 3798 3798 3998 4003 4053 4058 4058 4258 4259 4260 4310 4310 4330 4380 4580 4600 4620 4625 4630 4635 4635 4655 4660 4665 4665 4666 4671 4671 4721 4726 4727 4728 4733 4734 4934 4935 4935 4955 5005 5010 5030 5050 5055 5105 5125 5130 5135 5155 5205 5405 5455 5455 5456 5506 5706 5726 5726 5776 5781 5831 6031 6231 6236 6256 6257 6257 6258 6259 6309 6359 6559 6559 6559 6609\n",
+                  "expected_stdout": "max_wait 816\nover_sla 114\nlast_finish 7051\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "5 5 1\n100\n",
+                  "expected_stdout": "max_wait 0\nover_sla 0\nlast_finish 105\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "10 0 3\n0 10 20\n",
+                  "expected_stdout": "max_wait 0\nover_sla 0\nlast_finish 30\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "25 500 6\n200 220 420 470 490 690\n",
+                  "expected_stdout": "max_wait 5\nover_sla 0\nlast_finish 715\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "10 100 40\n5 5 55 56 61 111 111 131 132 332 382 382 582 782 802 1002 1052 1053 1053 1073 1074 1124 1124 1174 1374 1374 1374 1375 1575 1580 1581 1581 1631 1831 1851 1901 1921 1926 2126 2127\n",
+                  "expected_stdout": "max_wait 29\nover_sla 0\nlast_finish 2146\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "25 50 150\n200 220 225 275 475 495 515 565 585 586 606 656 661 861 911 1111 1116 1316 1366 1386 1386 1436 1456 1656 1856 1876 2076 2081 2131 2131 2331 2351 2351 2371 2376 2381 2381 2581 2586 2586 2606 2656 2856 2876 2896 3096 3101 3121 3171 3176 3376 3426 3427 3447 3647 3697 3697 3697 3717 3737 3787 3787 3807 3807 3857 3907 3908 4108 4128 4128 4328 4378 4428 4428 4448 4448 4498 4518 4718 4718 4718 4918 4938 4943 4993 4993 5013 5033 5034 5234 5234 5234 5234 5284 5284 5484 5484 5504 5504 5505 5525 5526 5576 5626 5676 5726 5926 5927 5977 5982 5982 5982 6002 6002 6007 6008 6008 6008 6008 6208 6213 6214 6214 6214 6264 6314 6319 6369 6419 6469 6489 6490 6540 6560 6565 6570 6570 6590 6591 6596 6601 6621 6671 6672 6673 6723 6923 6943 7143 7343\n",
+                  "expected_stdout": "max_wait 219\nover_sla 50\nlast_finish 7368\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "10 10 3\n0 0 0\n",
+                  "expected_stdout": "max_wait 20\nover_sla 1\nlast_finish 30\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "50 49 2\n0 0\n",
+                  "expected_stdout": "max_wait 50\nover_sla 1\nlast_finish 100\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "10 500 6\n50 51 101 301 321 371\n",
+                  "expected_stdout": "max_wait 9\nover_sla 0\nlast_finish 381\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "25 100 40\n5 55 75 76 76 96 116 121 141 191 191 391 411 461 466 466 467 472 477 482 487 492 542 742 762 762 782 783 784 789 809 809 810 810 830 830 835 840 890 1090\n",
+                  "expected_stdout": "max_wait 252\nover_sla 15\nlast_finish 1167\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "40 100 150\n20 70 71 76 276 277 297 347 348 353 354 354 404 404 604 609 629 630 650 670 675 875 875 895 1095 1095 1100 1100 1101 1102 1107 1107 1307 1327 1328 1328 1348 1349 1369 1370 1420 1470 1670 1870 1870 1870 1870 2070 2071 2091 2291 2491 2691 2741 2746 2746 2946 2946 2996 3001 3021 3022 3222 3422 3442 3443 3463 3464 3469 3474 3674 3674 3679 3680 3680 3680 3730 3750 3750 3950 3955 3955 3956 4156 4161 4211 4231 4232 4282 4282 4287 4287 4337 4387 4387 4587 4592 4792 4842 4842 4862 5062 5262 5262 5267 5268 5468 5518 5519 5539 5739 5744 5764 5784 5785 5805 5855 6055 6075 6095 6295 6345 6350 6550 6570 6770 6790 6840 6890 6940 6945 7145 7195 7245 7295 7345 7395 7396 7397 7597 7598 7798 7803 7803 7803 7804 7804 7805 7855 7905\n",
+                  "expected_stdout": "max_wait 325\nover_sla 67\nlast_finish 8158\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1 0 4\n0 0 5 5\n",
+                  "expected_stdout": "max_wait 1\nover_sla 2\nlast_finish 7\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
         }
       ]
     }

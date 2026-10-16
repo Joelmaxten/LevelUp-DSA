@@ -4,7 +4,24 @@
   "map": {
     "scene_id": "ui-ux-design",
     "theme": "A garden city of painted courtyards, where a bus shelter covered in hand-drawn maps, a research tea house, a loan office with a winding queue, a bank lobby hung with pattern swatches and a citizens' hall with open doors are connected by tiled paths. The palette is terracotta, leaf green and chalk white, and the mood moves from friendly curiosity at the bus shelter to welcoming clarity at the citizens' hall.",
-    "edges": [["uxd-1", "uxd-2"], ["uxd-2", "uxd-3"], ["uxd-3", "uxd-4"], ["uxd-4", "uxd-5"]]
+    "edges": [
+      [
+        "uxd-1",
+        "uxd-2"
+      ],
+      [
+        "uxd-2",
+        "uxd-3"
+      ],
+      [
+        "uxd-3",
+        "uxd-4"
+      ],
+      [
+        "uxd-4",
+        "uxd-5"
+      ]
+    ]
   },
   "scenarios": [
     {
@@ -26,19 +43,37 @@
         "Feedback and error prevention",
         "Usability heuristics"
       ],
-      "map_node": {"x": 0.1, "y": 0.84, "label": "Map-Painted Bus Shelter"},
+      "map_node": {
+        "x": 0.1,
+        "y": 0.84,
+        "label": "Map-Painted Bus Shelter"
+      },
       "questions": [
         {
           "id": "uxd-1-q1",
           "type": "single_choice",
           "prompt": "Most riders open the app to buy a ticket, but they struggle to find the small grey 'Buy ticket' link. What should the intern change?",
           "options": [
-            {"id": "a", "text": "Add an animated banner that says 'Tickets available here'"},
-            {"id": "b", "text": "Make 'Buy ticket' the largest, highest-contrast button on top"},
-            {"id": "c", "text": "Move 'Buy ticket' into a menu that opens from a hamburger icon"},
-            {"id": "d", "text": "Give all eight home-screen items the same bright orange colour"}
+            {
+              "id": "a",
+              "text": "Add an animated banner that says 'Tickets available here'"
+            },
+            {
+              "id": "b",
+              "text": "Make 'Buy ticket' the largest, highest-contrast button on top"
+            },
+            {
+              "id": "c",
+              "text": "Move 'Buy ticket' into a menu that opens from a hamburger icon"
+            },
+            {
+              "id": "d",
+              "text": "Give all eight home-screen items the same bright orange colour"
+            }
           ],
-          "correct": ["b"],
+          "correct": [
+            "b"
+          ],
           "explanation": "Visual hierarchy guides attention through size, contrast and position, so the most frequent task should be the most prominent thing on the screen. Making 'Buy ticket' a large, high-contrast primary button near the top lets riders find it at a glance.",
           "why_others_wrong": {
             "a": "A banner adds noise and moving distraction while the actual action stays small and hard to tap.",
@@ -53,12 +88,26 @@
           "type": "single_choice",
           "prompt": "Riders cannot read the light grey body text outdoors. What is the right standard to apply?",
           "options": [
-            {"id": "a", "text": "A contrast ratio of at least 4.5:1 for normal-size body text"},
-            {"id": "b", "text": "Any grey text is acceptable as long as the font is a modern one"},
-            {"id": "c", "text": "Make the text lighter still, so the whole screen looks cleaner"},
-            {"id": "d", "text": "Use a contrast ratio of about 2:1 to keep a soft, calm feeling"}
+            {
+              "id": "a",
+              "text": "A contrast ratio of at least 4.5:1 for normal-size body text"
+            },
+            {
+              "id": "b",
+              "text": "Any grey text is acceptable as long as the font is a modern one"
+            },
+            {
+              "id": "c",
+              "text": "Make the text lighter still, so the whole screen looks cleaner"
+            },
+            {
+              "id": "d",
+              "text": "Use a contrast ratio of about 2:1 to keep a soft, calm feeling"
+            }
           ],
-          "correct": ["a"],
+          "correct": [
+            "a"
+          ],
           "explanation": "WCAG level AA asks for a contrast ratio of at least 4.5:1 between normal-size text and its background, and 3:1 for large text. Meeting it makes text readable for people with weaker eyesight and in bright sunlight.",
           "why_others_wrong": {
             "b": "A typeface does not fix low contrast; the colours still need enough difference.",
@@ -73,13 +122,31 @@
           "type": "multi_select",
           "prompt": "After tapping 'Pay', nothing happens for five seconds and riders pay twice. Which two changes fix this?",
           "options": [
-            {"id": "a", "text": "Show a clear 'Processing payment' state right after the tap"},
-            {"id": "b", "text": "Add a second confirmation pop-up after the payment completes"},
-            {"id": "c", "text": "Disable the Pay button once it is tapped until the result arrives"},
-            {"id": "d", "text": "Hide the ticket price so that riders feel less anxious about it"},
-            {"id": "e", "text": "Change the Pay button's colour every second while riders wait"}
+            {
+              "id": "a",
+              "text": "Show a clear 'Processing payment' state right after the tap"
+            },
+            {
+              "id": "b",
+              "text": "Add a second confirmation pop-up after the payment completes"
+            },
+            {
+              "id": "c",
+              "text": "Disable the Pay button once it is tapped until the result arrives"
+            },
+            {
+              "id": "d",
+              "text": "Hide the ticket price so that riders feel less anxious about it"
+            },
+            {
+              "id": "e",
+              "text": "Change the Pay button's colour every second while riders wait"
+            }
           ],
-          "correct": ["a", "c"],
+          "correct": [
+            "a",
+            "c"
+          ],
           "explanation": "Immediate feedback tells riders their tap worked, which is the heuristic of making system status visible. Disabling the button while the payment is in progress prevents the duplicate tap outright, which is error prevention.",
           "why_others_wrong": {
             "b": "A pop-up after completion comes too late; the double tap has already happened.",
@@ -94,18 +161,47 @@
           "type": "match",
           "prompt": "Match each design choice to the usability heuristic it follows.",
           "items": [
-            {"id": "i1", "text": "A back arrow lets riders leave a wrong route screen at once"},
-            {"id": "i2", "text": "Labels say 'bus stop' rather than technical words like 'node'"},
-            {"id": "i3", "text": "The 'Buy' button looks and behaves the same on every screen"},
-            {"id": "i4", "text": "Recent stops are listed so riders do not have to type them again"}
+            {
+              "id": "i1",
+              "text": "A back arrow lets riders leave a wrong route screen at once"
+            },
+            {
+              "id": "i2",
+              "text": "Labels say 'bus stop' rather than technical words like 'node'"
+            },
+            {
+              "id": "i3",
+              "text": "The 'Buy' button looks and behaves the same on every screen"
+            },
+            {
+              "id": "i4",
+              "text": "Recent stops are listed so riders do not have to type them again"
+            }
           ],
           "targets": [
-            {"id": "t1", "text": "Recognition rather than recall"},
-            {"id": "t2", "text": "Match between the system and the real world"},
-            {"id": "t3", "text": "User control and freedom"},
-            {"id": "t4", "text": "Consistency and standards"}
+            {
+              "id": "t1",
+              "text": "Recognition rather than recall"
+            },
+            {
+              "id": "t2",
+              "text": "Match between the system and the real world"
+            },
+            {
+              "id": "t3",
+              "text": "User control and freedom"
+            },
+            {
+              "id": "t4",
+              "text": "Consistency and standards"
+            }
           ],
-          "correct": {"i1": "t3", "i2": "t2", "i3": "t4", "i4": "t1"},
+          "correct": {
+            "i1": "t3",
+            "i2": "t2",
+            "i3": "t4",
+            "i4": "t1"
+          },
           "explanation": "An easy way out of a wrong screen gives riders control and freedom. Everyday words match how riders think about the real world, a button that behaves the same everywhere follows consistency, and showing recent stops lets riders recognise an option instead of recalling and typing it.",
           "why_others_wrong": {
             "common_mistake": "Calling the recent stops list 'consistency': the point is that riders pick from what they see instead of remembering it, which is recognition rather than recall."
@@ -134,19 +230,37 @@
         "Information architecture",
         "Choosing research methods"
       ],
-      "map_node": {"x": 0.3, "y": 0.66, "label": "Research Tea House"},
+      "map_node": {
+        "x": 0.3,
+        "y": 0.66,
+        "label": "Research Tea House"
+      },
       "questions": [
         {
           "id": "uxd-2-q1",
           "type": "single_choice",
           "prompt": "The team does not know why most people leave during sign-up. What is the best first research step?",
           "options": [
-            {"id": "a", "text": "Send a survey to 5,000 users asking them to rate sign-up out of ten"},
-            {"id": "b", "text": "Ask the founders why they think people are leaving at sign-up"},
-            {"id": "c", "text": "Watch five target users try to sign up while thinking aloud"},
-            {"id": "d", "text": "Redesign the sign-up flow with no research and compare numbers"}
+            {
+              "id": "a",
+              "text": "Send a survey to 5,000 users asking them to rate sign-up out of ten"
+            },
+            {
+              "id": "b",
+              "text": "Ask the founders why they think people are leaving at sign-up"
+            },
+            {
+              "id": "c",
+              "text": "Watch five target users try to sign up while thinking aloud"
+            },
+            {
+              "id": "d",
+              "text": "Redesign the sign-up flow with no research and compare numbers"
+            }
           ],
-          "correct": ["c"],
+          "correct": [
+            "c"
+          ],
           "explanation": "Watching a handful of real users attempt the task while they think aloud shows exactly where and why they get stuck. Around five participants usually uncover most of the major problems in a single flow, which fits the budget.",
           "why_others_wrong": {
             "a": "A rating shows that people are unhappy, not what confuses them or where.",
@@ -161,12 +275,26 @@
           "type": "single_choice",
           "prompt": "Which interview question will give the most honest, useful answer?",
           "options": [
-            {"id": "a", "text": "'Wouldn't you love an app that tracks every symptom for you?'"},
-            {"id": "b", "text": "'Tell me about the last time you looked for health advice.'"},
-            {"id": "c", "text": "'Do you agree that our period tracker is easy to use?'"},
-            {"id": "d", "text": "'How much would you pay each month for our video consultations?'"}
+            {
+              "id": "a",
+              "text": "'Wouldn't you love an app that tracks every symptom for you?'"
+            },
+            {
+              "id": "b",
+              "text": "'Tell me about the last time you looked for health advice.'"
+            },
+            {
+              "id": "c",
+              "text": "'Do you agree that our period tracker is easy to use?'"
+            },
+            {
+              "id": "d",
+              "text": "'How much would you pay each month for our video consultations?'"
+            }
           ],
-          "correct": ["b"],
+          "correct": [
+            "b"
+          ],
           "explanation": "An open question about a real past event lets the participant describe what actually happened in her own words, revealing needs and habits the team had not imagined. It avoids suggesting an answer or asking her to predict the future.",
           "why_others_wrong": {
             "a": "This leads the participant toward 'yes', so her answer reflects politeness more than need.",
@@ -181,12 +309,26 @@
           "type": "single_choice",
           "prompt": "The team wants the 60 articles grouped in a way that makes sense to users. Which method fits best?",
           "options": [
-            {"id": "a", "text": "Group them by the departments the company's doctors work in"},
-            {"id": "b", "text": "Put all 60 articles in alphabetical order on a single long list"},
-            {"id": "c", "text": "Copy the menu structure that a large hospital's website uses"},
-            {"id": "d", "text": "Run a card sort where target users group the article topics"}
+            {
+              "id": "a",
+              "text": "Group them by the departments the company's doctors work in"
+            },
+            {
+              "id": "b",
+              "text": "Put all 60 articles in alphabetical order on a single long list"
+            },
+            {
+              "id": "c",
+              "text": "Copy the menu structure that a large hospital's website uses"
+            },
+            {
+              "id": "d",
+              "text": "Run a card sort where target users group the article topics"
+            }
           ],
-          "correct": ["d"],
+          "correct": [
+            "d"
+          ],
           "explanation": "In a card sort, participants group topic cards in the way that makes sense to them and often name the groups, which reveals their mental model. The menu can then be built around the groupings users actually expect.",
           "why_others_wrong": {
             "a": "Medical departments reflect the company's structure, not how users think about their health questions.",
@@ -201,13 +343,31 @@
           "type": "multi_select",
           "prompt": "The team wants personas to guide design decisions. Which two qualities make a persona useful?",
           "options": [
-            {"id": "a", "text": "It is based on patterns seen in real interviews and data"},
-            {"id": "b", "text": "It is invented in a brainstorm, with a stock photo and hobbies"},
-            {"id": "c", "text": "It describes her goals, frustrations and the context she lives in"},
-            {"id": "d", "text": "It tries to describe every possible user in one single profile"},
-            {"id": "e", "text": "It reflects the CEO's personal idea of who the ideal user is"}
+            {
+              "id": "a",
+              "text": "It is based on patterns seen in real interviews and data"
+            },
+            {
+              "id": "b",
+              "text": "It is invented in a brainstorm, with a stock photo and hobbies"
+            },
+            {
+              "id": "c",
+              "text": "It describes her goals, frustrations and the context she lives in"
+            },
+            {
+              "id": "d",
+              "text": "It tries to describe every possible user in one single profile"
+            },
+            {
+              "id": "e",
+              "text": "It reflects the CEO's personal idea of who the ideal user is"
+            }
           ],
-          "correct": ["a", "c"],
+          "correct": [
+            "a",
+            "c"
+          ],
           "explanation": "A persona is only as good as the evidence behind it, so it should summarise patterns seen across real participants. Its goals, frustrations and context, such as sharing one phone with family, are what help the team decide between design options.",
           "why_others_wrong": {
             "b": "A made-up persona encodes the team's assumptions instead of real users.",
@@ -222,24 +382,269 @@
           "type": "match",
           "prompt": "Match each research question to the method that answers it best.",
           "items": [
-            {"id": "i1", "text": "Which of two sign-up button labels gets more completed sign-ups?"},
-            {"id": "i2", "text": "Where in the menu do users expect to find the period tracker?"},
-            {"id": "i3", "text": "How do daily routines shape when women look for health advice?"},
-            {"id": "i4", "text": "Can a first-time user book a video consultation without help?"}
+            {
+              "id": "i1",
+              "text": "Which of two sign-up button labels gets more completed sign-ups?"
+            },
+            {
+              "id": "i2",
+              "text": "Where in the menu do users expect to find the period tracker?"
+            },
+            {
+              "id": "i3",
+              "text": "How do daily routines shape when women look for health advice?"
+            },
+            {
+              "id": "i4",
+              "text": "Can a first-time user book a video consultation without help?"
+            }
           ],
           "targets": [
-            {"id": "t1", "text": "A diary study over two weeks"},
-            {"id": "t2", "text": "A moderated usability test"},
-            {"id": "t3", "text": "An A/B test with live traffic"},
-            {"id": "t4", "text": "A tree test of the menu structure"}
+            {
+              "id": "t1",
+              "text": "A diary study over two weeks"
+            },
+            {
+              "id": "t2",
+              "text": "A moderated usability test"
+            },
+            {
+              "id": "t3",
+              "text": "An A/B test with live traffic"
+            },
+            {
+              "id": "t4",
+              "text": "A tree test of the menu structure"
+            }
           ],
-          "correct": {"i1": "t3", "i2": "t4", "i3": "t1", "i4": "t2"},
+          "correct": {
+            "i1": "t3",
+            "i2": "t4",
+            "i3": "t1",
+            "i4": "t2"
+          },
           "explanation": "Comparing two labels on real behaviour needs an A/B test with enough traffic. A tree test checks whether people can find items in a proposed menu, a diary study captures habits over time in daily life, and a usability test shows whether a first-time user can complete a task.",
           "why_others_wrong": {
             "common_mistake": "Using a usability test to choose between button labels: five participants cannot show which label produces more sign-ups, which needs an A/B test at scale."
           },
           "key_justification": "Match the method to whether the question is about behaviour at scale, findability, context or task success.",
           "points": 10
+        }
+      ],
+      "code_pool": [
+        {
+          "id": "uxd-2-c1",
+          "prompt": "Most people leave Saheli during sign-up and nobody knows why, so the team ran usability tests. Summarise them. The first line is n, then n sessions `participant task outcome seconds` (outcome success, fail or abandon). Complete `task_results`: per task, sorted by name, the success rate as a whole percent rounded down, and the median time of the successful attempts only (the mean of the two middle values when there is an even number), to one decimal, or `-` if nobody succeeded. The program prints `task pct% median`.",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef task_results(sessions):\n    \"\"\"sessions: (participant, task, success|fail|abandon, seconds). Per task, sorted by task: the success rate as a whole percent rounded down, and the median time of the SUCCESSFUL attempts (the mean of the two middle values for an even count), or None if nobody succeeded. Return [(task, pct, median)].\"\"\"\n    # Write your code here.\n    return []\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    sessions = []\n    for i in range(n):\n        participant, task, outcome, seconds = data[1 + i].split()\n        sessions.append((participant, task, outcome, int(seconds)))\n    for task, pct, median in task_results(sessions):\n        print(task, f\"{pct}%\", \"-\" if median is None else format(median, \".1f\"))\n\n\nmain()\n",
+          "reference_solution": "import sys\n\n\ndef task_results(sessions):\n    \"\"\"sessions: (participant, task, success|fail|abandon, seconds). Per task, sorted by task: the success rate as a whole percent rounded down, and the median time of the SUCCESSFUL attempts (the mean of the two middle values for an even count), or None if nobody succeeded. Return [(task, pct, median)].\"\"\"\n    attempts, times = {}, {}\n    for _, task, outcome, seconds in sessions:\n        attempts[task] = attempts.get(task, 0) + 1\n        if outcome == \"success\":\n            times.setdefault(task, []).append(seconds)\n    out = []\n    for task in sorted(attempts):\n        ok = sorted(times.get(task, []))\n        median = None\n        if ok:\n            mid = len(ok) // 2\n            median = ok[mid] if len(ok) % 2 else (ok[mid - 1] + ok[mid]) / 2\n        out.append((task, 100 * len(ok) // attempts[task], median))\n    return out\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    sessions = []\n    for i in range(n):\n        participant, task, outcome, seconds = data[1 + i].split()\n        sessions.append((participant, task, outcome, int(seconds)))\n    for task, pct, median in task_results(sessions):\n        print(task, f\"{pct}%\", \"-\" if median is None else format(median, \".1f\"))\n\n\nmain()\n",
+          "ds_topic": "hash_map",
+          "difficulty": 1,
+          "skills": [
+            "Python"
+          ],
+          "explanation": "Grouping sessions by task gives the completion rate, the first number in any usability report. The median time is used rather than the mean because one participant who got stuck for minutes would drag a mean far away from the typical experience; and only successful attempts count, since a give-up time is not a task time.",
+          "key_justification": "Group by task; success rate and median of successful times.",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "5\np1 signup success 40\np2 signup abandon 90\np3 signup success 60\np4 signup success 50\np1 tracker fail 30\n",
+                  "expected_stdout": "signup 75% 50.0\ntracker 0% -\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "5\np7 log_period success 121\np5 find_article abandon 51\np2 find_article abandon 55\np4 book_consult success 129\np4 book_consult abandon 80\n",
+                  "expected_stdout": "book_consult 50% 129.0\nfind_article 0% -\nlog_period 100% 121.0\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "20\np6 find_article fail 97\np11 signup success 226\np6 find_article success 64\np3 find_article abandon 64\np5 book_consult abandon 118\np3 book_consult fail 125\np3 signup success 194\np5 log_period success 189\np3 find_article success 146\np12 find_article success 204\np8 find_article success 158\np6 book_consult success 53\np3 book_consult fail 120\np6 find_article abandon 187\np2 find_article success 165\np9 find_article success 144\np9 find_article success 33\np9 find_article fail 84\np5 signup abandon 121\np6 find_article abandon 100\n",
+                  "expected_stdout": "book_consult 25% 53.0\nfind_article 58% 146.0\nlog_period 100% 189.0\nsignup 66% 210.0\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "50\np2 find_article success 235\np9 log_period success 229\np8 find_article fail 122\np10 log_period success 210\np12 signup success 38\np11 signup abandon 152\np3 log_period fail 107\np1 log_period fail 32\np8 log_period success 93\np7 signup success 55\np7 log_period fail 93\np12 log_period fail 150\np4 log_period fail 79\np10 find_article success 118\np4 find_article success 229\np11 book_consult success 118\np7 log_period abandon 169\np8 book_consult success 79\np10 signup fail 224\np6 signup success 219\np5 book_consult success 230\np12 signup success 42\np10 signup fail 136\np9 book_consult success 173\np7 find_article abandon 86\np12 book_consult fail 176\np1 book_consult success 167\np12 signup fail 126\np10 book_consult success 36\np2 log_period abandon 222\np9 log_period abandon 79\np9 signup fail 26\np5 signup success 236\np1 find_article abandon 154\np10 book_consult success 189\np6 book_consult success 185\np5 book_consult abandon 73\np12 book_consult fail 235\np10 log_period success 94\np8 find_article fail 65\np3 book_consult success 15\np2 book_consult success 175\np2 log_period success 234\np4 log_period abandon 16\np8 signup success 36\np4 log_period fail 207\np11 log_period success 87\np6 log_period abandon 196\np4 find_article abandon 46\np7 book_consult success 108\n",
+                  "expected_stdout": "book_consult 78% 167.0\nfind_article 37% 229.0\nlog_period 35% 152.0\nsignup 54% 48.5\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1\np t fail 1\n",
+                  "expected_stdout": "t 0% -\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "2\na consult success 30\nb consult success 45\n",
+                  "expected_stdout": "consult 100% 37.5\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "5\np5 find_article success 61\np6 log_period abandon 200\np7 book_consult success 136\np12 find_article success 34\np4 log_period success 21\n",
+                  "expected_stdout": "book_consult 100% 136.0\nfind_article 100% 47.5\nlog_period 50% 21.0\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "20\np2 find_article success 112\np2 log_period success 105\np11 book_consult fail 76\np7 signup success 125\np7 signup fail 92\np2 book_consult abandon 85\np11 find_article success 237\np9 signup success 111\np12 log_period abandon 173\np7 log_period fail 93\np6 book_consult abandon 216\np6 find_article success 41\np12 book_consult success 180\np11 book_consult success 148\np10 signup fail 180\np12 signup fail 78\np9 signup fail 124\np5 signup abandon 84\np9 book_consult success 220\np12 signup abandon 202\n",
+                  "expected_stdout": "book_consult 50% 180.0\nfind_article 100% 112.0\nlog_period 33% 105.0\nsignup 25% 118.0\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "50\np2 log_period fail 110\np12 signup success 184\np9 log_period abandon 122\np1 signup fail 123\np10 find_article abandon 52\np1 signup abandon 41\np5 log_period fail 182\np10 book_consult success 238\np4 log_period abandon 40\np10 find_article success 207\np4 book_consult success 108\np7 find_article success 135\np2 find_article abandon 123\np2 log_period success 52\np6 signup success 55\np1 log_period abandon 173\np11 find_article success 39\np8 find_article fail 204\np11 signup success 182\np5 signup fail 219\np10 log_period abandon 135\np6 log_period success 174\np9 log_period success 118\np12 log_period abandon 183\np4 book_consult success 140\np2 log_period success 121\np11 book_consult fail 162\np12 book_consult abandon 168\np9 find_article success 51\np4 find_article fail 216\np1 find_article abandon 39\np6 signup success 139\np3 signup fail 236\np2 find_article success 125\np6 book_consult success 97\np8 find_article success 18\np11 signup success 54\np1 book_consult abandon 163\np6 find_article fail 224\np9 find_article success 92\np9 book_consult fail 17\np2 book_consult success 237\np5 find_article success 157\np7 find_article success 64\np1 book_consult success 112\np2 log_period success 209\np12 book_consult success 112\np5 book_consult success 186\np4 book_consult success 220\np8 book_consult abandon 115\n",
+                  "expected_stdout": "book_consult 64% 140.0\nfind_article 60% 92.0\nlog_period 41% 121.0\nsignup 55% 139.0\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "4\na t success 4\nb t success 1\nc t success 3\nd t success 2\n",
+                  "expected_stdout": "t 100% 2.5\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "3\nx find success 10\ny find fail 99\nz find abandon 5\n",
+                  "expected_stdout": "find 33% 10.0\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "5\np4 signup success 168\np9 signup success 239\np9 book_consult abandon 222\np3 book_consult abandon 107\np3 book_consult abandon 104\n",
+                  "expected_stdout": "book_consult 0% -\nsignup 100% 203.5\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "20\np9 log_period success 55\np2 find_article fail 102\np4 book_consult fail 239\np12 log_period success 120\np3 find_article fail 66\np1 signup success 43\np11 log_period success 220\np11 signup abandon 80\np5 book_consult abandon 92\np10 log_period fail 77\np9 book_consult fail 50\np4 log_period fail 25\np2 signup success 233\np10 log_period success 183\np8 log_period abandon 48\np12 signup success 224\np3 log_period abandon 30\np6 log_period success 174\np4 book_consult success 54\np8 signup success 58\n",
+                  "expected_stdout": "book_consult 25% 54.0\nfind_article 0% -\nlog_period 55% 174.0\nsignup 80% 141.0\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "50\np4 signup success 118\np7 find_article success 17\np6 book_consult success 72\np6 find_article success 43\np5 signup success 172\np9 signup fail 194\np8 signup abandon 23\np7 book_consult success 175\np2 find_article fail 192\np1 log_period abandon 213\np6 signup abandon 115\np7 find_article success 41\np10 find_article fail 163\np1 log_period success 133\np1 signup abandon 64\np10 find_article fail 197\np4 signup success 68\np4 find_article success 95\np3 log_period success 157\np12 signup success 178\np10 signup fail 22\np11 book_consult success 159\np12 signup success 88\np2 log_period fail 149\np7 find_article fail 181\np10 signup abandon 200\np10 log_period success 136\np3 signup abandon 175\np7 log_period success 240\np8 signup success 84\np11 find_article success 216\np2 log_period success 196\np7 log_period fail 204\np12 book_consult abandon 37\np4 find_article success 93\np9 signup fail 88\np11 signup success 108\np6 log_period success 21\np1 find_article abandon 207\np12 signup abandon 186\np9 find_article success 74\np1 signup abandon 149\np9 book_consult abandon 128\np12 log_period success 101\np6 log_period fail 105\np9 log_period success 125\np6 find_article success 115\np5 signup success 200\np7 signup success 94\np2 signup success 76\n",
+                  "expected_stdout": "book_consult 60% 159.0\nfind_article 61% 83.5\nlog_period 66% 134.5\nsignup 50% 101.0\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "2\na b success 7\na a success 9\n",
+                  "expected_stdout": "a 100% 9.0\nb 100% 7.0\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "uxd-2-c2",
+          "prompt": "Before redesigning Saheli's menus, participants sorted topic cards into piles that made sense to them (an open card sort). Find the groups they agree on. The first line is `participants threshold` (threshold as a percent), the second is n, then n piles `participant pile_name card,card,...`. Complete `card_clusters`: two cards are linked when at least threshold% of participants put them in the same pile; clusters are connected groups of linked cards, and a card with no links is a cluster of its own. The program prints each cluster as `card, card` (sorted), clusters ordered by their first card.",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef card_clusters(groups, participants, threshold):\n    \"\"\"groups: (participant, [cards in one pile]). Two cards are linked when at least `threshold` percent of participants put them in the same pile. Clusters are the connected groups of linked cards (a card with no links is a cluster on its own). Return clusters, each sorted, ordered by their first card.\"\"\"\n    # Write your code here.\n    return [[c] for _, pile in groups for c in pile]\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    participants, threshold = map(int, data[0].split())\n    n = int(data[1])\n    groups = []\n    for i in range(n):\n        participant, _, cards = data[2 + i].split()\n        groups.append((participant, cards.split(\",\")))\n    for cluster in card_clusters(groups, participants, threshold):\n        print(\", \".join(cluster))\n\n\nmain()\n",
+          "reference_solution": "import sys\n\n\ndef card_clusters(groups, participants, threshold):\n    \"\"\"groups: (participant, [cards in one pile]). Two cards are linked when at least `threshold` percent of participants put them in the same pile. Clusters are the connected groups of linked cards (a card with no links is a cluster on its own). Return clusters, each sorted, ordered by their first card.\"\"\"\n    together = {}                                  # (card a, card b) -> participants who grouped them\n    cards = set()\n    for participant, pile in groups:\n        cards.update(pile)\n        for i, a in enumerate(pile):\n            for b in pile[i + 1:]:\n                together.setdefault(tuple(sorted((a, b))), set()).add(participant)\n    links = {c: [] for c in cards}\n    for (a, b), people in together.items():\n        if len(people) * 100 >= threshold * participants:\n            links[a].append(b)\n            links[b].append(a)\n    seen, clusters = set(), []\n    for card in sorted(cards):                      # connected components by depth-first search\n        if card in seen:\n            continue\n        stack, group = [card], []\n        seen.add(card)\n        while stack:\n            c = stack.pop()\n            group.append(c)\n            for nxt in links[c]:\n                if nxt not in seen:\n                    seen.add(nxt)\n                    stack.append(nxt)\n        clusters.append(sorted(group))\n    return clusters\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    participants, threshold = map(int, data[0].split())\n    n = int(data[1])\n    groups = []\n    for i in range(n):\n        participant, _, cards = data[2 + i].split()\n        groups.append((participant, cards.split(\",\")))\n    for cluster in card_clusters(groups, participants, threshold):\n        print(\", \".join(cluster))\n\n\nmain()\n",
+          "ds_topic": "graph",
+          "difficulty": 2,
+          "skills": [
+            "Python"
+          ],
+          "explanation": "Counting, for every pair of cards, how many people piled them together gives a similarity matrix; keeping strong pairs as edges and taking connected components turns it into the menu groups users expect. It replaces the founders' opinions with evidence of how users think.",
+          "key_justification": "Pair co-occurrence, then connected components in a graph.",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "3 60\n7\np1 g1 periods,tracker\np1 g2 doctors,video\np2 a periods,tracker,pregnancy\np2 b doctors,video\np3 x tracker,pregnancy\np3 y doctors\np3 z video,periods\n",
+                  "expected_stdout": "doctors, video\nperiods, pregnancy, tracker\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "3 75\n8\np1 g0 doctors\np1 g1 profile\np1 g2 tracker,pcos,nutrition\np2 g0 tracker,doctors\np2 g1 pcos,nutrition\np2 g2 profile\np3 g0 pcos,doctors\np3 g1 tracker,nutrition,profile\n",
+                  "expected_stdout": "doctors\nnutrition\npcos\nprofile\ntracker\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "5 50\n18\np1 g0 pcos\np1 g1 articles,video,doctors\np1 g2 periods,nutrition,tracker\np2 g0 tracker\np2 g1 nutrition,articles,doctors\np2 g2 periods\np2 g3 pcos,video\np3 g0 pcos\np3 g1 nutrition\np3 g2 articles,video,tracker\np3 g3 doctors,periods\np4 g0 pcos,articles,doctors\np4 g1 video,tracker\np4 g2 periods\np4 g3 nutrition\np5 g0 pcos,tracker,doctors\np5 g1 video\np5 g2 nutrition,articles,periods\n",
+                  "expected_stdout": "articles, doctors\nnutrition\npcos\nperiods\ntracker\nvideo\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "8 60\n22\np1 g0 payments,doctors\np1 g1 articles,video,profile,pregnancy\np1 g2 periods,tracker,pcos,nutrition\np2 g0 video,pregnancy,periods,profile\np2 g1 doctors,tracker,nutrition,articles,pcos\np2 g2 payments\np3 g0 pcos,periods\np3 g1 doctors,video,profile,articles,pregnancy,tracker,payments,nutrition\np4 g0 tracker\np4 g1 nutrition,pregnancy,doctors,articles,payments,pcos,profile,video\np4 g2 periods\np5 g0 doctors,pcos,articles,nutrition\np5 g1 pregnancy,video,profile,tracker,payments,periods\np6 g0 payments,pcos,tracker\np6 g1 pregnancy,nutrition,doctors\np6 g2 articles\np6 g3 periods,profile,video\np7 g0 pcos,profile,articles\np7 g1 tracker,pregnancy,periods,nutrition,payments\np7 g2 doctors,video\np8 g0 profile,pregnancy,video,articles,doctors\np8 g1 nutrition,payments,periods,pcos,tracker\n",
+                  "expected_stdout": "articles, doctors, nutrition, payments, pcos, pregnancy, profile, tracker, video\nperiods\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1 100\n1\np1 g only\n",
+                  "expected_stdout": "only\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "2 100\n2\np1 a x,y\np2 b x\n",
+                  "expected_stdout": "x\ny\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "3 50\n6\np1 g0 nutrition,pregnancy\np1 g1 video,doctors,articles\np2 g0 video,articles\np2 g1 pregnancy,nutrition,doctors\np3 g0 video,pregnancy,doctors,articles\np3 g1 nutrition\n",
+                  "expected_stdout": "articles, doctors, nutrition, pregnancy, video\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "5 60\n13\np1 g0 video\np1 g1 articles,payments,profile,doctors,pcos,periods\np2 g0 doctors,articles,profile,video\np2 g1 pcos,periods,payments\np3 g0 pcos,payments,periods\np3 g1 video,doctors\np3 g2 profile,articles\np4 g0 payments,doctors\np4 g1 articles,profile,video,pcos,periods\np5 g0 doctors\np5 g1 video,periods,articles,pcos\np5 g2 profile\np5 g3 payments\n",
+                  "expected_stdout": "articles, payments, pcos, periods, profile, video\ndoctors\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "8 60\n26\np1 g0 pregnancy,doctors\np1 g1 tracker,articles,payments,nutrition,profile,pcos,periods,video\np2 g0 articles,nutrition,periods,profile,pcos,pregnancy,payments,tracker\np2 g1 video,doctors\np3 g0 pregnancy\np3 g1 tracker,articles\np3 g2 periods,video,pcos\np3 g3 doctors,profile,payments,nutrition\np4 g0 pcos,doctors,periods\np4 g1 payments\np4 g2 tracker,articles,nutrition\np4 g3 profile,video,pregnancy\np5 g0 pregnancy,profile\np5 g1 tracker,video\np5 g2 pcos,periods,articles,doctors\np5 g3 nutrition,payments\np6 g0 pregnancy,pcos\np6 g1 profile,nutrition,articles,video,doctors\np6 g2 tracker\np6 g3 payments,periods\np7 g0 pregnancy\np7 g1 periods,pcos,payments,tracker,nutrition\np7 g2 profile,articles,video,doctors\np8 g0 pregnancy,tracker,periods\np8 g1 payments,nutrition,pcos,doctors,video,profile\np8 g2 articles\n",
+                  "expected_stdout": "articles\ndoctors\nnutrition, payments, profile, video\npcos, periods\npregnancy\ntracker\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "2 50\n2\np1 g a,b,c\np2 g c,d\n",
+                  "expected_stdout": "a, b, c, d\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "1 50\n2\np1 a c,b\np1 b a\n",
+                  "expected_stdout": "a\nb, c\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "3 75\n6\np1 g0 periods,doctors\np1 g1 payments,tracker,profile\np2 g0 doctors,payments,periods,profile\np2 g1 tracker\np3 g0 doctors,periods,payments\np3 g1 profile,tracker\n",
+                  "expected_stdout": "doctors, periods\npayments\nprofile\ntracker\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "5 50\n15\np1 g0 articles\np1 g1 nutrition\np1 g2 pregnancy,payments\np1 g3 video,tracker,pcos\np2 g0 pregnancy,pcos,articles\np2 g1 nutrition,video,payments,tracker\np3 g0 pregnancy,tracker,articles\np3 g1 pcos\np3 g2 video,payments,nutrition\np4 g0 nutrition\np4 g1 articles,video,payments,pregnancy,tracker,pcos\np5 g0 nutrition,tracker,pregnancy\np5 g1 articles\np5 g2 video\np5 g3 pcos,payments\n",
+                  "expected_stdout": "articles, payments, pregnancy, tracker, video\nnutrition\npcos\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "8 50\n25\np1 g0 payments,articles,pcos,pregnancy,periods,video\np1 g1 tracker,nutrition,profile,doctors\np2 g0 nutrition\np2 g1 tracker,video,doctors,profile,periods,payments\np2 g2 pregnancy,articles\np2 g3 pcos\np3 g0 articles,doctors,payments,tracker\np3 g1 periods,pcos,profile\np3 g2 nutrition\np3 g3 pregnancy,video\np4 g0 pregnancy,video\np4 g1 profile,articles,pcos\np4 g2 doctors,periods,nutrition,tracker,payments\np5 g0 nutrition,articles,pcos,profile,periods\np5 g1 payments\np5 g2 tracker,video,doctors,pregnancy\np6 g0 doctors\np6 g1 pregnancy,profile,pcos,payments\np6 g2 video\np6 g3 articles,tracker,periods,nutrition\np7 g0 articles,profile,pregnancy,pcos\np7 g1 nutrition,doctors,tracker,payments,video\np7 g2 periods\np8 g0 periods,articles,doctors\np8 g1 payments,profile,video,pcos,pregnancy,nutrition,tracker\n",
+                  "expected_stdout": "articles, doctors, nutrition, payments, pcos, periods, pregnancy, profile, tracker, video\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "4 75\n4\na g x,y\nb g x,y\nc g x\nd g y\n",
+                  "expected_stdout": "x\ny\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -262,19 +667,37 @@
         "Touch targets",
         "Diagnosing usability problems"
       ],
-      "map_node": {"x": 0.5, "y": 0.5, "label": "Loan Office Queue"},
+      "map_node": {
+        "x": 0.5,
+        "y": 0.5,
+        "label": "Loan Office Queue"
+      },
       "questions": [
         {
           "id": "uxd-3-q1",
           "type": "single_choice",
           "prompt": "Most applicants quit the 25-field form on its single long screen. What should the designer try first?",
           "options": [
-            {"id": "a", "text": "Make every field smaller so the whole form fits on one phone screen"},
-            {"id": "b", "text": "Split it into short steps with a progress bar, asking only what is needed"},
-            {"id": "c", "text": "Add a pop-up that warns applicants how long the form is going to take"},
-            {"id": "d", "text": "Remove some legally required fields to make the form shorter for all"}
+            {
+              "id": "a",
+              "text": "Make every field smaller so the whole form fits on one phone screen"
+            },
+            {
+              "id": "b",
+              "text": "Split it into short steps with a progress bar, asking only what is needed"
+            },
+            {
+              "id": "c",
+              "text": "Add a pop-up that warns applicants how long the form is going to take"
+            },
+            {
+              "id": "d",
+              "text": "Remove some legally required fields to make the form shorter for all"
+            }
           ],
-          "correct": ["b"],
+          "correct": [
+            "b"
+          ],
           "explanation": "A long wall of fields looks overwhelming, so grouping them into short, logical steps with a progress indicator makes the task feel manageable. Removing questions that are not truly required, or filling them from data the bank already has, shortens the form further.",
           "why_others_wrong": {
             "a": "Tiny fields are harder to read and tap, especially for older applicants outdoors.",
@@ -289,12 +712,26 @@
           "type": "single_choice",
           "prompt": "Errors appear only after submitting, in a red banner at the top: 'Invalid input in form'. How should errors be shown?",
           "options": [
-            {"id": "a", "text": "Make the red banner bigger and keep it at the top of the page"},
-            {"id": "b", "text": "Next to each field, saying what is wrong and how to fix it"},
-            {"id": "c", "text": "In a pop-up that lists the code of every error that occurred"},
-            {"id": "d", "text": "Clear all fields after a failed submit so applicants start over"}
+            {
+              "id": "a",
+              "text": "Make the red banner bigger and keep it at the top of the page"
+            },
+            {
+              "id": "b",
+              "text": "Next to each field, saying what is wrong and how to fix it"
+            },
+            {
+              "id": "c",
+              "text": "In a pop-up that lists the code of every error that occurred"
+            },
+            {
+              "id": "d",
+              "text": "Clear all fields after a failed submit so applicants start over"
+            }
           ],
-          "correct": ["b"],
+          "correct": [
+            "b"
+          ],
           "explanation": "Errors are easiest to fix when they appear beside the field, in plain words that say what is needed, such as 'Enter your date of birth as DD/MM/YYYY'. Checking a field when the applicant leaves it catches mistakes early instead of after a long form is finished.",
           "why_others_wrong": {
             "a": "A bigger banner is still far from the field and still does not say which entry is wrong or how to fix it.",
@@ -309,12 +746,26 @@
           "type": "single_choice",
           "prompt": "Applicants keep tapping 'Cancel' when they mean 'Submit', because the two small buttons sit side by side. What is the best fix?",
           "options": [
-            {"id": "a", "text": "Make both buttons smaller so there is more space between them"},
-            {"id": "b", "text": "Give both buttons the same colour so the screen looks balanced"},
-            {"id": "c", "text": "Make Submit a large primary button and Cancel a separate link"},
-            {"id": "d", "text": "Swap the positions of the two buttons in every new release"}
+            {
+              "id": "a",
+              "text": "Make both buttons smaller so there is more space between them"
+            },
+            {
+              "id": "b",
+              "text": "Give both buttons the same colour so the screen looks balanced"
+            },
+            {
+              "id": "c",
+              "text": "Make Submit a large primary button and Cancel a separate link"
+            },
+            {
+              "id": "d",
+              "text": "Swap the positions of the two buttons in every new release"
+            }
           ],
-          "correct": ["c"],
+          "correct": [
+            "c"
+          ],
           "explanation": "Large, well-spaced touch targets reduce mis-taps, and clearly different styles for the main action and the escape route stop them being confused. A full-width primary Submit button with a lighter, separated Cancel makes the right choice obvious.",
           "why_others_wrong": {
             "a": "Smaller buttons are harder to hit, which increases mis-taps.",
@@ -329,13 +780,31 @@
           "type": "multi_select",
           "prompt": "Older applicants do not understand the icon-only bottom navigation. Which two steps should the designer take?",
           "options": [
-            {"id": "a", "text": "Add short text labels under each of the navigation icons"},
-            {"id": "b", "text": "Add more icons to the navigation bar so that there is more choice"},
-            {"id": "c", "text": "Test the labelled navigation with older applicants before release"},
-            {"id": "d", "text": "Animate each icon so it catches the eye whenever the screen loads"},
-            {"id": "e", "text": "Hide the navigation bar until the applicant scrolls down the page"}
+            {
+              "id": "a",
+              "text": "Add short text labels under each of the navigation icons"
+            },
+            {
+              "id": "b",
+              "text": "Add more icons to the navigation bar so that there is more choice"
+            },
+            {
+              "id": "c",
+              "text": "Test the labelled navigation with older applicants before release"
+            },
+            {
+              "id": "d",
+              "text": "Animate each icon so it catches the eye whenever the screen loads"
+            },
+            {
+              "id": "e",
+              "text": "Hide the navigation bar until the applicant scrolls down the page"
+            }
           ],
-          "correct": ["a", "c"],
+          "correct": [
+            "a",
+            "c"
+          ],
           "explanation": "Icons alone are often ambiguous, and labels make each destination clear without guesswork. Testing the change with the people who struggled confirms it works for them before it ships.",
           "why_others_wrong": {
             "b": "More unlabelled icons add more guessing.",
@@ -350,24 +819,269 @@
           "type": "match",
           "prompt": "Match each observed behaviour to the design problem behind it.",
           "items": [
-            {"id": "i1", "text": "Applicants tap underlined text that is not actually a link"},
-            {"id": "i2", "text": "Applicants never notice the error banner at the top of the page"},
-            {"id": "i3", "text": "Applicants keep calling support to ask how to change the language"},
-            {"id": "i4", "text": "Applicants in the field cannot read the screen at all in sunlight"}
+            {
+              "id": "i1",
+              "text": "Applicants tap underlined text that is not actually a link"
+            },
+            {
+              "id": "i2",
+              "text": "Applicants never notice the error banner at the top of the page"
+            },
+            {
+              "id": "i3",
+              "text": "Applicants keep calling support to ask how to change the language"
+            },
+            {
+              "id": "i4",
+              "text": "Applicants in the field cannot read the screen at all in sunlight"
+            }
           ],
           "targets": [
-            {"id": "t1", "text": "The setting is buried and hard to discover"},
-            {"id": "t2", "text": "Text and background have too little contrast"},
-            {"id": "t3", "text": "A false affordance suggests it can be tapped"},
-            {"id": "t4", "text": "The message appears far from where attention is"}
+            {
+              "id": "t1",
+              "text": "The setting is buried and hard to discover"
+            },
+            {
+              "id": "t2",
+              "text": "Text and background have too little contrast"
+            },
+            {
+              "id": "t3",
+              "text": "A false affordance suggests it can be tapped"
+            },
+            {
+              "id": "t4",
+              "text": "The message appears far from where attention is"
+            }
           ],
-          "correct": {"i1": "t3", "i2": "t4", "i3": "t1", "i4": "t2"},
+          "correct": {
+            "i1": "t3",
+            "i2": "t4",
+            "i3": "t1",
+            "i4": "t2"
+          },
           "explanation": "Underlined text signals 'this is a link', so it invites taps that do nothing, which is a false affordance. An error far from where the applicant is looking goes unseen, a setting that generates support calls is hard to discover, and an unreadable screen in sunlight points to low contrast.",
           "why_others_wrong": {
             "common_mistake": "Treating the missed banner as a colour problem: the banner is bright red, but it sits at the top while the applicant is looking at the field near the bottom."
           },
           "key_justification": "Observed behaviour points to affordance, placement, discoverability or contrast problems.",
           "points": 10
+        }
+      ],
+      "code_pool": [
+        {
+          "id": "uxd-3-c1",
+          "prompt": "Analytics say 60% of applicants abandon the loan form, but not where. Build the funnel. The first line is n, then n steps `step reached` in form order (people who reached each step). Complete `funnel`: kept = reached / reached at the previous step x 100 (100 for the first step). The program prints `step reached kept%` per step (one decimal), then `biggest_drop step x%`, the step losing the largest share of the people who reached the step before it (the earliest on a tie).",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef funnel(steps):\n    \"\"\"steps: (step, people who reached it), in form order. kept = reached / previous step's reached x 100 (the first step is 100). Return ([(step, reached, kept)], (step with the biggest drop = 100 - kept, that drop)), the earliest step on a tie; the first step never counts as a drop.\"\"\"\n    # Write your code here.\n    return [(s, r, 100.0) for s, r in steps], (steps[-1][0], 0.0)\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    steps = []\n    for i in range(n):\n        name, reached = data[1 + i].split()\n        steps.append((name, int(reached)))\n    rows, worst = funnel(steps)\n    for name, reached, kept in rows:\n        print(name, reached, format(kept, \".1f\") + \"%\")\n    print(\"biggest_drop\", worst[0], format(worst[1], \".1f\") + \"%\")\n\n\nmain()\n",
+          "reference_solution": "import sys\n\n\ndef funnel(steps):\n    \"\"\"steps: (step, people who reached it), in form order. kept = reached / previous step's reached x 100 (the first step is 100). Return ([(step, reached, kept)], (step with the biggest drop = 100 - kept, that drop)), the earliest step on a tie; the first step never counts as a drop.\"\"\"\n    rows, worst = [], None\n    for i, (name, reached) in enumerate(steps):\n        kept = 100.0 if i == 0 else 100 * reached / steps[i - 1][1]   # relative to the step before\n        rows.append((name, reached, kept))\n        if i and (worst is None or 100 - kept > worst[1]):\n            worst = (name, 100 - kept)\n    return rows, worst\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    steps = []\n    for i in range(n):\n        name, reached = data[1 + i].split()\n        steps.append((name, int(reached)))\n    rows, worst = funnel(steps)\n    for name, reached, kept in rows:\n        print(name, reached, format(kept, \".1f\") + \"%\")\n    print(\"biggest_drop\", worst[0], format(worst[1], \".1f\") + \"%\")\n\n\nmain()\n",
+          "ds_topic": "array",
+          "difficulty": 1,
+          "skills": [
+            "Python"
+          ],
+          "explanation": "Comparing each step with the one before it (not with the first) shows where people actually leave. The step with the biggest relative drop is the first place to redesign; a funnel turns '60% abandon' into 'the bank details screen loses more than half'.",
+          "key_justification": "Step-over-step ratios across an ordered array.",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "5\nopen 1000\npersonal 800\nland 700\nbank 300\nsubmit 280\n",
+                  "expected_stdout": "open 1000 100.0%\npersonal 800 80.0%\nland 700 87.5%\nbank 300 42.9%\nsubmit 280 93.3%\nbiggest_drop bank 57.1%\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "3\nopen 2237\npersonal 2131\naadhaar 801\n",
+                  "expected_stdout": "open 2237 100.0%\npersonal 2131 95.3%\naadhaar 801 37.6%\nbiggest_drop aadhaar 62.4%\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "6\nopen 3649\npersonal 1732\naadhaar 1146\nland 870\ncrop 437\nbank 349\n",
+                  "expected_stdout": "open 3649 100.0%\npersonal 1732 47.5%\naadhaar 1146 66.2%\nland 870 75.9%\ncrop 437 50.2%\nbank 349 79.9%\nbiggest_drop personal 52.5%\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "9\nopen 2540\npersonal 1192\naadhaar 547\nland 361\ncrop 235\nbank 229\ndocuments 218\nreview 126\nsubmit 93\n",
+                  "expected_stdout": "open 2540 100.0%\npersonal 1192 46.9%\naadhaar 547 45.9%\nland 361 66.0%\ncrop 235 65.1%\nbank 229 97.4%\ndocuments 218 95.2%\nreview 126 57.8%\nsubmit 93 73.8%\nbiggest_drop aadhaar 54.1%\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "2\nx 3\ny 1\n",
+                  "expected_stdout": "x 3 100.0%\ny 1 33.3%\nbiggest_drop y 66.7%\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "2\nstart 10\nend 10\n",
+                  "expected_stdout": "start 10 100.0%\nend 10 100.0%\nbiggest_drop end 0.0%\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "3\nopen 3494\npersonal 1280\naadhaar 738\n",
+                  "expected_stdout": "open 3494 100.0%\npersonal 1280 36.6%\naadhaar 738 57.7%\nbiggest_drop personal 63.4%\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "6\nopen 1721\npersonal 1154\naadhaar 528\nland 403\ncrop 225\nbank 185\n",
+                  "expected_stdout": "open 1721 100.0%\npersonal 1154 67.1%\naadhaar 528 45.8%\nland 403 76.3%\ncrop 225 55.8%\nbank 185 82.2%\nbiggest_drop aadhaar 54.2%\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "9\nopen 3285\npersonal 3070\naadhaar 1659\nland 1439\ncrop 769\nbank 412\ndocuments 247\nreview 147\nsubmit 85\n",
+                  "expected_stdout": "open 3285 100.0%\npersonal 3070 93.5%\naadhaar 1659 54.0%\nland 1439 86.7%\ncrop 769 53.4%\nbank 412 53.6%\ndocuments 247 60.0%\nreview 147 59.5%\nsubmit 85 57.8%\nbiggest_drop crop 46.6%\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "3\na 9\nb 9\nc 3\n",
+                  "expected_stdout": "a 9 100.0%\nb 9 100.0%\nc 3 33.3%\nbiggest_drop c 66.7%\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "3\na 100\nb 50\nc 25\n",
+                  "expected_stdout": "a 100 100.0%\nb 50 50.0%\nc 25 50.0%\nbiggest_drop b 50.0%\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "3\nopen 4805\npersonal 4546\naadhaar 4333\n",
+                  "expected_stdout": "open 4805 100.0%\npersonal 4546 94.6%\naadhaar 4333 95.3%\nbiggest_drop personal 5.4%\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "6\nopen 4943\npersonal 4042\naadhaar 2654\nland 1444\ncrop 1150\nbank 611\n",
+                  "expected_stdout": "open 4943 100.0%\npersonal 4042 81.8%\naadhaar 2654 65.7%\nland 1444 54.4%\ncrop 1150 79.6%\nbank 611 53.1%\nbiggest_drop bank 46.9%\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "9\nopen 3587\npersonal 1903\naadhaar 1486\nland 1228\ncrop 585\nbank 533\ndocuments 498\nreview 335\nsubmit 172\n",
+                  "expected_stdout": "open 3587 100.0%\npersonal 1903 53.1%\naadhaar 1486 78.1%\nland 1228 82.6%\ncrop 585 47.6%\nbank 533 91.1%\ndocuments 498 93.4%\nreview 335 67.3%\nsubmit 172 51.3%\nbiggest_drop crop 52.4%\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "4\na 7\nb 6\nc 5\nd 4\n",
+                  "expected_stdout": "a 7 100.0%\nb 6 85.7%\nc 5 83.3%\nd 4 80.0%\nbiggest_drop d 20.0%\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "uxd-3-c2",
+          "prompt": "Error messages appeared only after submitting, in a red banner at the top. Inline validation tells the farmer what to fix, next to the field, in plain words. The first line is n, then n lines `field value` (the value may be empty or contain spaces). Complete `check_field` for these fields: name must not be empty (`Enter your name`); aadhaar must be 12 digits, spaces allowed between them (`Aadhaar must be 12 digits`); mobile must be 10 digits starting with 6, 7, 8 or 9 (`Mobile must be 10 digits starting with 6, 7, 8 or 9`); ifsc is 4 capital letters, a 0, then 6 capital letters or digits (`IFSC looks like SBIN0001234`); acres is a number above 0 with at most 2 decimals (`Enter land in acres, like 2.5`). The program prints `field OK` or `field - message`.",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef check_field(field, value):\n    \"\"\"Return None if valid, else the friendly message. name: not empty -> 'Enter your name'. aadhaar: 12 digits (spaces allowed between them) -> 'Aadhaar must be 12 digits'. mobile: 10 digits starting with 6-9 -> 'Mobile must be 10 digits starting with 6, 7, 8 or 9'. ifsc: 4 capital letters, a 0, then 6 capital letters or digits -> 'IFSC looks like SBIN0001234'. acres: a number above 0 with at most 2 decimals -> 'Enter land in acres, like 2.5'.\"\"\"\n    # Write your code here.\n    return None\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    for i in range(n):\n        field, _, value = data[1 + i].partition(\" \")\n        message = check_field(field, value.strip())\n        print(field, \"OK\" if message is None else \"- \" + message)\n\n\nmain()\n",
+          "reference_solution": "import re\nimport sys\n\n\ndef check_field(field, value):\n    \"\"\"Return None if valid, else the friendly message. name: not empty -> 'Enter your name'. aadhaar: 12 digits (spaces allowed between them) -> 'Aadhaar must be 12 digits'. mobile: 10 digits starting with 6-9 -> 'Mobile must be 10 digits starting with 6, 7, 8 or 9'. ifsc: 4 capital letters, a 0, then 6 capital letters or digits -> 'IFSC looks like SBIN0001234'. acres: a number above 0 with at most 2 decimals -> 'Enter land in acres, like 2.5'.\"\"\"\n    rules = {\n        \"name\": (lambda v: v != \"\", \"Enter your name\"),\n        \"aadhaar\": (lambda v: re.fullmatch(r\"[0-9]{12}\", v.replace(\" \", \"\")), \"Aadhaar must be 12 digits\"),\n        \"mobile\": (lambda v: re.fullmatch(r\"[6-9][0-9]{9}\", v), \"Mobile must be 10 digits starting with 6, 7, 8 or 9\"),\n        \"ifsc\": (lambda v: re.fullmatch(r\"[A-Z]{4}0[A-Z0-9]{6}\", v), \"IFSC looks like SBIN0001234\"),\n        \"acres\": (lambda v: re.fullmatch(r\"[0-9]+(\\.[0-9]{1,2})?\", v) and float(v) > 0, \"Enter land in acres, like 2.5\"),\n    }\n    check, message = rules[field]\n    return None if check(value) else message\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    for i in range(n):\n        field, _, value = data[1 + i].partition(\" \")\n        message = check_field(field, value.strip())\n        print(field, \"OK\" if message is None else \"- \" + message)\n\n\nmain()\n",
+          "ds_topic": "string",
+          "difficulty": 2,
+          "skills": [
+            "Python"
+          ],
+          "explanation": "Each field gets a precise rule (a small pattern) and a message that says how to fix it, shown next to that field as soon as it is filled. Accepting spaces in an Aadhaar number, as people write it on the card, is kinder than rejecting it; the rule should fit the user, not the database.",
+          "key_justification": "Field validation with patterns and actionable messages.",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "5\nname Sakharam Patil\naadhaar 1234 5678 9012\nmobile 5876543210\nifsc sbin0001234\nacres 2.5\n",
+                  "expected_stdout": "name OK\naadhaar OK\nmobile - Mobile must be 10 digits starting with 6, 7, 8 or 9\nifsc - IFSC looks like SBIN0001234\nacres OK\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "5\nifsc sbin0001234\nmobile 987654321\naadhaar 1234-5678-9012\naadhaar 12345678901\nname Sakharam Patil\n",
+                  "expected_stdout": "ifsc - IFSC looks like SBIN0001234\nmobile - Mobile must be 10 digits starting with 6, 7, 8 or 9\naadhaar - Aadhaar must be 12 digits\naadhaar - Aadhaar must be 12 digits\nname OK\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "12\nname Sakharam Patil\naadhaar 1234-5678-9012\nifsc SBIN1001234\naadhaar 123456789012\naadhaar 123456789012\naadhaar 1234 5678 9012\nifsc SBIN0001234\nifsc SBIN0001234\nmobile 9876543210\nacres 2.\naadhaar 1234 5678 9012\nacres 0.01\n",
+                  "expected_stdout": "name OK\naadhaar - Aadhaar must be 12 digits\nifsc - IFSC looks like SBIN0001234\naadhaar OK\naadhaar OK\naadhaar OK\nifsc OK\nifsc OK\nmobile OK\nacres - Enter land in acres, like 2.5\naadhaar OK\nacres OK\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "25\nacres 3\naadhaar 1234 5678 9012\nname Sakharam Patil\nifsc SBIN0001234\nacres 0.01\nifsc SBIN0001234\naadhaar 1234 5678 9012\nifsc sbin0001234\nifsc SBIN0001234\nacres abc\nmobile 987654321\nname\nacres 1.255\naadhaar 1234-5678-9012\nname Sakharam Patil\nmobile 5876543210\nmobile 5876543210\nmobile 9876543210\naadhaar 123456789012\nifsc HDFC0ABC123\nacres 2.\nmobile 9876543210\naadhaar 12345678901\nacres 2.\nacres -2\n",
+                  "expected_stdout": "acres OK\naadhaar OK\nname OK\nifsc OK\nacres OK\nifsc OK\naadhaar OK\nifsc - IFSC looks like SBIN0001234\nifsc OK\nacres - Enter land in acres, like 2.5\nmobile - Mobile must be 10 digits starting with 6, 7, 8 or 9\nname - Enter your name\nacres - Enter land in acres, like 2.5\naadhaar - Aadhaar must be 12 digits\nname OK\nmobile - Mobile must be 10 digits starting with 6, 7, 8 or 9\nmobile - Mobile must be 10 digits starting with 6, 7, 8 or 9\nmobile OK\naadhaar OK\nifsc OK\nacres - Enter land in acres, like 2.5\nmobile OK\naadhaar - Aadhaar must be 12 digits\nacres - Enter land in acres, like 2.5\nacres - Enter land in acres, like 2.5\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1\nmobile 9876543210\n",
+                  "expected_stdout": "mobile OK\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "3\nname\nacres 0\naadhaar 12345678901\n",
+                  "expected_stdout": "name - Enter your name\nacres - Enter land in acres, like 2.5\naadhaar - Aadhaar must be 12 digits\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "5\naadhaar 123456789012\nname Sakharam Patil\nacres 2.5\nifsc HDFC0ABC123\naadhaar 12345678901\n",
+                  "expected_stdout": "aadhaar OK\nname OK\nacres OK\nifsc OK\naadhaar - Aadhaar must be 12 digits\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "12\naadhaar 1234 5678 9012\nmobile 98765 43210\nname\nmobile 987654321\nacres 3\nifsc SBIN1001234\nmobile 9876543210\nifsc SBI0001234\naadhaar 12345678901\nmobile 98765 43210\nmobile 987654321\nmobile 987654321\n",
+                  "expected_stdout": "aadhaar OK\nmobile - Mobile must be 10 digits starting with 6, 7, 8 or 9\nname - Enter your name\nmobile - Mobile must be 10 digits starting with 6, 7, 8 or 9\nacres OK\nifsc - IFSC looks like SBIN0001234\nmobile OK\nifsc - IFSC looks like SBIN0001234\naadhaar - Aadhaar must be 12 digits\nmobile - Mobile must be 10 digits starting with 6, 7, 8 or 9\nmobile - Mobile must be 10 digits starting with 6, 7, 8 or 9\nmobile - Mobile must be 10 digits starting with 6, 7, 8 or 9\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "25\nname Sakharam Patil\nmobile 98765 43210\naadhaar 1234-5678-9012\nacres -2\nacres 2.\nacres 1.255\nname Sakharam Patil\naadhaar 123456789012\nname\naadhaar 1234-5678-9012\nacres 0.01\naadhaar 123456789012\nacres 2.5\nname Sakharam Patil\naadhaar 12345678901\nifsc SBI0001234\nacres 0\nacres 2.\nmobile 98765 43210\nacres 1.255\nifsc HDFC0ABC123\nifsc sbin0001234\nifsc HDFC0ABC123\nname\nacres abc\n",
+                  "expected_stdout": "name OK\nmobile - Mobile must be 10 digits starting with 6, 7, 8 or 9\naadhaar - Aadhaar must be 12 digits\nacres - Enter land in acres, like 2.5\nacres - Enter land in acres, like 2.5\nacres - Enter land in acres, like 2.5\nname OK\naadhaar OK\nname - Enter your name\naadhaar - Aadhaar must be 12 digits\nacres OK\naadhaar OK\nacres OK\nname OK\naadhaar - Aadhaar must be 12 digits\nifsc - IFSC looks like SBIN0001234\nacres - Enter land in acres, like 2.5\nacres - Enter land in acres, like 2.5\nmobile - Mobile must be 10 digits starting with 6, 7, 8 or 9\nacres - Enter land in acres, like 2.5\nifsc OK\nifsc - IFSC looks like SBIN0001234\nifsc OK\nname - Enter your name\nacres - Enter land in acres, like 2.5\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "2\nacres 2.\nifsc SBIN1001234\n",
+                  "expected_stdout": "acres - Enter land in acres, like 2.5\nifsc - IFSC looks like SBIN0001234\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "2\nifsc HDFC0ABC123\nacres 1.255\n",
+                  "expected_stdout": "ifsc OK\nacres - Enter land in acres, like 2.5\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "5\nifsc SBI0001234\naadhaar 12345678901\nacres 1.255\nifsc sbin0001234\nacres -2\n",
+                  "expected_stdout": "ifsc - IFSC looks like SBIN0001234\naadhaar - Aadhaar must be 12 digits\nacres - Enter land in acres, like 2.5\nifsc - IFSC looks like SBIN0001234\nacres - Enter land in acres, like 2.5\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "12\nname\nifsc HDFC0ABC123\nmobile 987654321\nname Sakharam Patil\naadhaar 123456789012\naadhaar 1234 5678 9012\nmobile 5876543210\nname Sakharam Patil\nmobile 987654321\nacres -2\nname Sakharam Patil\nname Sakharam Patil\n",
+                  "expected_stdout": "name - Enter your name\nifsc OK\nmobile - Mobile must be 10 digits starting with 6, 7, 8 or 9\nname OK\naadhaar OK\naadhaar OK\nmobile - Mobile must be 10 digits starting with 6, 7, 8 or 9\nname OK\nmobile - Mobile must be 10 digits starting with 6, 7, 8 or 9\nacres - Enter land in acres, like 2.5\nname OK\nname OK\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "25\nifsc SBIN0001234\nmobile 987654321\naadhaar 1234-5678-9012\nifsc SBI0001234\naadhaar 1234-5678-9012\nmobile 98765 43210\nname\nifsc SBIN0001234\nifsc SBI0001234\naadhaar 123456789012\nname\naadhaar 1234 5678 9012\nname Sakharam Patil\nacres -2\nacres 0.01\nifsc SBI0001234\nifsc SBIN1001234\naadhaar 1234-5678-9012\nifsc HDFC0ABC123\nifsc SBI0001234\naadhaar 12345678901\nname\nmobile 9876543210\naadhaar 123456789012\nmobile 98765 43210\n",
+                  "expected_stdout": "ifsc OK\nmobile - Mobile must be 10 digits starting with 6, 7, 8 or 9\naadhaar - Aadhaar must be 12 digits\nifsc - IFSC looks like SBIN0001234\naadhaar - Aadhaar must be 12 digits\nmobile - Mobile must be 10 digits starting with 6, 7, 8 or 9\nname - Enter your name\nifsc OK\nifsc - IFSC looks like SBIN0001234\naadhaar OK\nname - Enter your name\naadhaar OK\nname OK\nacres - Enter land in acres, like 2.5\nacres OK\nifsc - IFSC looks like SBIN0001234\nifsc - IFSC looks like SBIN0001234\naadhaar - Aadhaar must be 12 digits\nifsc OK\nifsc - IFSC looks like SBIN0001234\naadhaar - Aadhaar must be 12 digits\nname - Enter your name\nmobile OK\naadhaar OK\nmobile - Mobile must be 10 digits starting with 6, 7, 8 or 9\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1\naadhaar 1234-5678-9012\n",
+                  "expected_stdout": "aadhaar - Aadhaar must be 12 digits\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -390,19 +1104,37 @@
         "Transparency versus minimalism",
         "Designing for localisation"
       ],
-      "map_node": {"x": 0.7, "y": 0.36, "label": "Swatch-Hung Bank Lobby"},
+      "map_node": {
+        "x": 0.7,
+        "y": 0.36,
+        "label": "Swatch-Hung Bank Lobby"
+      },
       "questions": [
         {
           "id": "uxd-4-q1",
           "type": "single_choice",
           "prompt": "Marketing wants the insurance add-on box pre-ticked when customers open an account. What should the design lead recommend?",
           "options": [
-            {"id": "a", "text": "Pre-tick it, as most people will not notice and revenue goes up"},
-            {"id": "b", "text": "Leave it unticked, explain the cost and benefit, and let them opt in"},
-            {"id": "c", "text": "Pre-tick it but put the monthly price in small grey text below"},
-            {"id": "d", "text": "Pre-tick it and only let customers remove it by calling support"}
+            {
+              "id": "a",
+              "text": "Pre-tick it, as most people will not notice and revenue goes up"
+            },
+            {
+              "id": "b",
+              "text": "Leave it unticked, explain the cost and benefit, and let them opt in"
+            },
+            {
+              "id": "c",
+              "text": "Pre-tick it but put the monthly price in small grey text below"
+            },
+            {
+              "id": "d",
+              "text": "Pre-tick it and only let customers remove it by calling support"
+            }
           ],
-          "correct": ["b"],
+          "correct": [
+            "b"
+          ],
           "explanation": "A pre-ticked paid add-on relies on people not noticing, which is a dark pattern that breaks trust and invites complaints. An unticked box with a clear explanation of price and benefit means everyone who buys it chose it, which is fairer to customers and safer for the bank.",
           "why_others_wrong": {
             "a": "Revenue from customers who did not notice turns into refunds, complaints and lost trust.",
@@ -417,12 +1149,26 @@
           "type": "single_choice",
           "prompt": "Six teams have produced three button styles and two date pickers. What is the best long-term fix?",
           "options": [
-            {"id": "a", "text": "Let each team keep its own style so it can move as fast as it likes"},
-            {"id": "b", "text": "Have one designer review and redraw every screen from every team"},
-            {"id": "c", "text": "Build a shared design system of tokens and documented components"},
-            {"id": "d", "text": "Freeze all design changes until every screen in the app matches"}
+            {
+              "id": "a",
+              "text": "Let each team keep its own style so it can move as fast as it likes"
+            },
+            {
+              "id": "b",
+              "text": "Have one designer review and redraw every screen from every team"
+            },
+            {
+              "id": "c",
+              "text": "Build a shared design system of tokens and documented components"
+            },
+            {
+              "id": "d",
+              "text": "Freeze all design changes until every screen in the app matches"
+            }
           ],
-          "correct": ["c"],
+          "correct": [
+            "c"
+          ],
           "explanation": "A design system gives every team the same colours, type, spacing and documented components, so consistency comes from reuse rather than policing. It takes upfront effort, but each team then ships faster because common pieces are already designed and built.",
           "why_others_wrong": {
             "a": "Inconsistent controls confuse customers and multiply the work of maintaining the app.",
@@ -437,12 +1183,26 @@
           "type": "single_choice",
           "prompt": "Marketing wants fee details removed from the transfer confirmation screen to keep it minimal. What should the design lead do?",
           "options": [
-            {"id": "a", "text": "Remove the fees entirely, as a clean screen converts more customers"},
-            {"id": "b", "text": "Show fees only after the money has already been transferred"},
-            {"id": "c", "text": "Move the fees into a help article that is linked from the footer"},
-            {"id": "d", "text": "Show the fee and total clearly before confirming, styled simply"}
+            {
+              "id": "a",
+              "text": "Remove the fees entirely, as a clean screen converts more customers"
+            },
+            {
+              "id": "b",
+              "text": "Show fees only after the money has already been transferred"
+            },
+            {
+              "id": "c",
+              "text": "Move the fees into a help article that is linked from the footer"
+            },
+            {
+              "id": "d",
+              "text": "Show the fee and total clearly before confirming, styled simply"
+            }
           ],
-          "correct": ["d"],
+          "correct": [
+            "d"
+          ],
           "explanation": "Customers need to know what a transfer will cost before agreeing to it, and regulators expect fees to be disclosed clearly. Good layout and typography can keep the screen calm while still showing the fee and the total right before the confirm button.",
           "why_others_wrong": {
             "a": "Hiding costs damages trust and conflicts with disclosure expectations.",
@@ -457,13 +1217,31 @@
           "type": "multi_select",
           "prompt": "The app will launch in six Indian languages. Which two design practices prepare it best?",
           "options": [
-            {"id": "a", "text": "Design layouts that allow for longer and taller translated text"},
-            {"id": "b", "text": "Fix every button's width to fit the English wording exactly"},
-            {"id": "c", "text": "Review translations with native speakers in real screens"},
-            {"id": "d", "text": "Machine-translate every screen and ship it without a review"},
-            {"id": "e", "text": "Put the interface text inside images to keep fonts consistent"}
+            {
+              "id": "a",
+              "text": "Design layouts that allow for longer and taller translated text"
+            },
+            {
+              "id": "b",
+              "text": "Fix every button's width to fit the English wording exactly"
+            },
+            {
+              "id": "c",
+              "text": "Review translations with native speakers in real screens"
+            },
+            {
+              "id": "d",
+              "text": "Machine-translate every screen and ship it without a review"
+            },
+            {
+              "id": "e",
+              "text": "Put the interface text inside images to keep fonts consistent"
+            }
           ],
-          "correct": ["a", "c"],
+          "correct": [
+            "a",
+            "c"
+          ],
           "explanation": "Translated text is often longer than English, and some scripts need more line height, so flexible layouts prevent clipped or overlapping labels. Native speakers reviewing text in context catch awkward or wrong translations, especially for financial terms.",
           "why_others_wrong": {
             "b": "English-sized buttons cut off longer translations.",
@@ -472,6 +1250,222 @@
           },
           "key_justification": "Localisation needs flexible layouts and native-speaker review in context.",
           "points": 10
+        }
+      ],
+      "code_pool": [
+        {
+          "id": "uxd-4-c1",
+          "prompt": "Six product teams designed their own screens, so Bachat Bank has three button styles and two date pickers. Audit before building a design system. The first line is n, then n lines `screen component style`. Complete `style_audit`. The program prints, per component sorted by name, `component k: style style` with its distinct styles sorted, then `to_fix x`, the number of components that have more than one style.",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef style_audit(rows):\n    \"\"\"rows: (screen, component, style) found across the app. Return ([(component, its distinct styles sorted)] sorted by component, number of components with more than one style).\"\"\"\n    # Write your code here.\n    return [], 0\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    rows = [tuple(data[1 + i].split()) for i in range(n)]\n    report, to_fix = style_audit(rows)\n    for component, styles in report:\n        print(f\"{component} {len(styles)}:\", \" \".join(styles))\n    print(\"to_fix\", to_fix)\n\n\nmain()\n",
+          "reference_solution": "import sys\n\n\ndef style_audit(rows):\n    \"\"\"rows: (screen, component, style) found across the app. Return ([(component, its distinct styles sorted)] sorted by component, number of components with more than one style).\"\"\"\n    styles = {}\n    for _, component, style in rows:\n        styles.setdefault(component, set()).add(style)\n    report = [(c, sorted(styles[c])) for c in sorted(styles)]\n    return report, sum(1 for _, s in report if len(s) > 1)\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    rows = [tuple(data[1 + i].split()) for i in range(n)]\n    report, to_fix = style_audit(rows)\n    for component, styles in report:\n        print(f\"{component} {len(styles)}:\", \" \".join(styles))\n    print(\"to_fix\", to_fix)\n\n\nmain()\n",
+          "ds_topic": "hash_map",
+          "difficulty": 1,
+          "skills": [
+            "Python"
+          ],
+          "explanation": "A dictionary of sets, from component to the styles seen, makes inconsistency countable. The components with more than one style are where a shared design system pays off first, and the count gives the teams a measurable target instead of an opinion.",
+          "key_justification": "Group into sets per key to measure inconsistency.",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "5\nlogin button primary_blue\ntransfer button primary_green\nloans button pill_dark\nlogin input outlined\ncards date_picker calendar\n",
+                  "expected_stdout": "button 3: pill_dark primary_blue primary_green\ndate_picker 1: calendar\ninput 1: outlined\nto_fix 1\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "5\ntransfer input outlined\nloans button pill_dark\nloans input outlined\nprofile button pill_dark\ncards input outlined\n",
+                  "expected_stdout": "button 1: pill_dark\ninput 1: outlined\nto_fix 0\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "20\nprofile date_picker dropdowns\ncards input outlined\ntransfer card flat\ncards input outlined\nloans toast top\nlogin button pill_dark\ntransfer button primary_green\ncards input outlined\ncards input outlined\nprofile card flat\nlogin toast top\nlogin date_picker calendar\nprofile button primary_green\nlogin card shadow\nopen_account date_picker dropdowns\nprofile input outlined\nprofile card shadow\nloans toast top\nprofile button pill_dark\nloans toast top\n",
+                  "expected_stdout": "button 2: pill_dark primary_green\ncard 2: flat shadow\ndate_picker 2: calendar dropdowns\ninput 1: outlined\ntoast 1: top\nto_fix 3\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "50\nprofile input outlined\nlogin toast top\nlogin card flat\ncards date_picker calendar\ntransfer date_picker calendar\nopen_account input outlined\ncards date_picker calendar\nopen_account card flat\ncards date_picker dropdowns\ntransfer card flat\nloans input outlined\nloans date_picker calendar\nloans toast bottom\nlogin input outlined\ncards button primary_green\nopen_account input outlined\ntransfer toast top\nlogin button primary_green\nopen_account button primary_blue\nloans date_picker calendar\ncards toast top\ntransfer toast top\nopen_account input outlined\nlogin input outlined\ncards date_picker calendar\ntransfer date_picker dropdowns\nloans button pill_dark\ntransfer date_picker dropdowns\ncards button primary_green\ncards button primary_green\nopen_account card shadow\ncards date_picker calendar\ntransfer button primary_green\ncards toast top\nopen_account toast top\ntransfer date_picker calendar\nlogin toast top\nlogin date_picker dropdowns\nopen_account date_picker calendar\nloans date_picker calendar\nlogin card shadow\nopen_account toast top\ntransfer card shadow\nopen_account button pill_dark\nopen_account card shadow\nloans date_picker calendar\nlogin input outlined\nopen_account input outlined\nloans date_picker calendar\nloans card shadow\n",
+                  "expected_stdout": "button 3: pill_dark primary_blue primary_green\ncard 2: flat shadow\ndate_picker 2: calendar dropdowns\ninput 1: outlined\ntoast 2: bottom top\nto_fix 4\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1\ns c v\n",
+                  "expected_stdout": "c 1: v\nto_fix 0\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "2\na card flat\nb card flat\n",
+                  "expected_stdout": "card 1: flat\nto_fix 0\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "5\ntransfer button primary_green\ntransfer input outlined\nlogin input outlined\ntransfer card shadow\ntransfer date_picker dropdowns\n",
+                  "expected_stdout": "button 1: primary_green\ncard 1: shadow\ndate_picker 1: dropdowns\ninput 1: outlined\nto_fix 0\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "20\nlogin date_picker calendar\ncards toast top\nopen_account card shadow\ntransfer button pill_dark\nlogin card flat\nloans card flat\nlogin toast top\ntransfer button pill_dark\nopen_account date_picker dropdowns\ncards card flat\nloans toast bottom\ntransfer button pill_dark\nopen_account date_picker calendar\ntransfer button primary_blue\ntransfer card shadow\nopen_account toast bottom\nloans date_picker dropdowns\nopen_account date_picker dropdowns\nlogin card flat\nprofile toast top\n",
+                  "expected_stdout": "button 2: pill_dark primary_blue\ncard 2: flat shadow\ndate_picker 2: calendar dropdowns\ntoast 2: bottom top\nto_fix 4\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "50\nprofile input outlined\ncards toast top\ncards card flat\nprofile input outlined\nopen_account date_picker dropdowns\nprofile card flat\nprofile date_picker dropdowns\ncards button primary_blue\ncards toast top\nlogin input outlined\nprofile date_picker dropdowns\nopen_account button pill_dark\ntransfer button primary_blue\nprofile card flat\nopen_account button pill_dark\ntransfer input outlined\nprofile card flat\nloans button primary_blue\ntransfer input outlined\nlogin date_picker dropdowns\nlogin button primary_green\nprofile card shadow\ntransfer input outlined\nopen_account input outlined\nopen_account card flat\nprofile button pill_dark\nopen_account date_picker calendar\ntransfer toast bottom\nloans date_picker calendar\ncards input outlined\nloans button pill_dark\nprofile button primary_blue\nlogin card flat\ncards toast bottom\nprofile button pill_dark\ntransfer button pill_dark\ntransfer date_picker dropdowns\nloans button primary_blue\nlogin button primary_green\nloans date_picker dropdowns\nopen_account button primary_blue\nlogin button primary_green\nopen_account input outlined\nopen_account button pill_dark\nopen_account toast top\nprofile toast top\nlogin toast bottom\ncards card shadow\ncards button primary_green\ncards date_picker dropdowns\n",
+                  "expected_stdout": "button 3: pill_dark primary_blue primary_green\ncard 2: flat shadow\ndate_picker 2: calendar dropdowns\ninput 1: outlined\ntoast 2: bottom top\nto_fix 4\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "3\ns b z\ns b a\ns b z\n",
+                  "expected_stdout": "b 2: a z\nto_fix 1\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "4\nx toast top\ny toast bottom\nx card flat\ny card shadow\n",
+                  "expected_stdout": "card 2: flat shadow\ntoast 2: bottom top\nto_fix 2\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "5\nopen_account button pill_dark\nlogin card shadow\ntransfer input outlined\nprofile input outlined\nlogin toast top\n",
+                  "expected_stdout": "button 1: pill_dark\ncard 1: shadow\ninput 1: outlined\ntoast 1: top\nto_fix 0\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "20\nprofile date_picker calendar\nlogin toast top\nopen_account button primary_green\ntransfer card shadow\nopen_account card flat\ncards button primary_blue\nloans toast top\nlogin card flat\nopen_account input outlined\nloans input outlined\nopen_account toast top\ntransfer card shadow\nopen_account card flat\nloans input outlined\ncards date_picker dropdowns\ntransfer toast bottom\nopen_account input outlined\nlogin input outlined\nlogin input outlined\nloans button pill_dark\n",
+                  "expected_stdout": "button 3: pill_dark primary_blue primary_green\ncard 2: flat shadow\ndate_picker 2: calendar dropdowns\ninput 1: outlined\ntoast 2: bottom top\nto_fix 4\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "50\nprofile toast bottom\nloans card flat\ntransfer button primary_blue\nopen_account card flat\ntransfer card flat\nopen_account input outlined\ntransfer toast top\ncards card flat\ncards date_picker dropdowns\ncards input outlined\ntransfer input outlined\nopen_account toast bottom\nprofile button primary_blue\ncards input outlined\nprofile toast top\nopen_account toast top\nopen_account card flat\ncards toast bottom\nprofile input outlined\nlogin toast bottom\nlogin button pill_dark\nlogin button primary_green\ncards toast top\nlogin card shadow\nprofile card flat\nlogin card shadow\ncards date_picker dropdowns\nprofile button primary_green\nopen_account card flat\nlogin input outlined\nloans button primary_green\nlogin button primary_green\nopen_account date_picker dropdowns\nloans toast top\nlogin input outlined\nloans toast top\nopen_account toast bottom\ntransfer toast bottom\ncards card flat\ncards toast top\nopen_account date_picker dropdowns\nopen_account card flat\nprofile card shadow\nopen_account date_picker calendar\nopen_account button primary_green\nopen_account input outlined\ncards card flat\nloans button primary_green\ncards button primary_blue\nopen_account input outlined\n",
+                  "expected_stdout": "button 3: pill_dark primary_blue primary_green\ncard 2: flat shadow\ndate_picker 2: calendar dropdowns\ninput 1: outlined\ntoast 2: bottom top\nto_fix 4\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "2\ns q 1\ns p 2\n",
+                  "expected_stdout": "p 1: 2\nq 1: 1\nto_fix 0\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "uxd-4-c2",
+          "prompt": "Marketing wants pale grey fee details 'to keep the screen clean', but users must be able to read them. Check colour contrast with the WCAG formula. The first line is n, then n lines `#RRGGBB #RRGGBB` (text, background). Complete `contrast_ratio`: for each colour, each channel c = value / 255 is made linear as c / 12.92 if c <= 0.04045, else ((c + 0.055) / 1.055) ** 2.4; luminance L = 0.2126 R + 0.7152 G + 0.0722 B; ratio = (lighter L + 0.05) / (darker L + 0.05). The program prints `fg bg ratio x.xx normal PASS|FAIL large PASS|FAIL` (normal text needs 4.5, large text 3, compared before rounding).",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef contrast_ratio(fg, bg):\n    \"\"\"fg, bg: colours '#RRGGBB'. WCAG: each channel c = value / 255, made linear as c / 12.92 if c <= 0.04045 else ((c + 0.055) / 1.055) ** 2.4; luminance L = 0.2126 R + 0.7152 G + 0.0722 B; ratio = (lighter L + 0.05) / (darker L + 0.05).\"\"\"\n    # Write your code here.\n    return 1.0\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    for i in range(n):\n        fg, bg = data[1 + i].split()\n        r = contrast_ratio(fg, bg)\n        print(f\"{fg} {bg} ratio {r:.2f} normal\", \"PASS\" if r >= 4.5 else \"FAIL\", \"large\", \"PASS\" if r >= 3 else \"FAIL\")\n\n\nmain()\n",
+          "reference_solution": "import sys\n\n\ndef luminance(colour):\n    channels = []\n    for i in (1, 3, 5):                                   # 'RR', 'GG', 'BB' after the '#'\n        c = int(colour[i:i + 2], 16) / 255\n        channels.append(c / 12.92 if c <= 0.04045 else ((c + 0.055) / 1.055) ** 2.4)\n    r, g, b = channels\n    return 0.2126 * r + 0.7152 * g + 0.0722 * b\n\n\ndef contrast_ratio(fg, bg):\n    \"\"\"fg, bg: colours '#RRGGBB'. WCAG: each channel c = value / 255, made linear as c / 12.92 if c <= 0.04045 else ((c + 0.055) / 1.055) ** 2.4; luminance L = 0.2126 R + 0.7152 G + 0.0722 B; ratio = (lighter L + 0.05) / (darker L + 0.05).\"\"\"\n    a, b = luminance(fg), luminance(bg)\n    lighter, darker = max(a, b), min(a, b)\n    return (lighter + 0.05) / (darker + 0.05)\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    for i in range(n):\n        fg, bg = data[1 + i].split()\n        r = contrast_ratio(fg, bg)\n        print(f\"{fg} {bg} ratio {r:.2f} normal\", \"PASS\" if r >= 4.5 else \"FAIL\", \"large\", \"PASS\" if r >= 3 else \"FAIL\")\n\n\nmain()\n",
+          "ds_topic": "string",
+          "difficulty": 2,
+          "skills": [
+            "Python"
+          ],
+          "explanation": "Parsing the hex pairs into channels and applying the WCAG relative-luminance formula gives a ratio from 1 to 21. #777777 on white is 4.48: it looks fine to a designer on a good monitor but fails for normal text, which is exactly the grey that hides fees. Comparing before rounding stops 4.48 being displayed as passing.",
+          "key_justification": "Parse hex colour strings and compute WCAG contrast.",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "2\n#000000 #FFFFFF\n#777777 #FFFFFF\n",
+                  "expected_stdout": "#000000 #FFFFFF ratio 21.00 normal PASS large PASS\n#777777 #FFFFFF ratio 4.48 normal FAIL large PASS\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "3\n#CC6611 #11FF99\n#660000 #99E577\n#11FF36 #88CC11\n",
+                  "expected_stdout": "#CC6611 #11FF99 ratio 2.88 normal FAIL large FAIL\n#660000 #99E577 ratio 8.84 normal PASS large PASS\n#11FF36 #88CC11 ratio 1.44 normal FAIL large FAIL\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "8\n#CC7777 #116688\n#1100CC #CC3311\n#EE6600 #A800EE\n#E27733 #33EEFF\n#777788 #331100\n#FFCC88 #117711\n#338888 #77EE82\n#09117E #99CC88\n",
+                  "expected_stdout": "#CC7777 #116688 ratio 1.97 normal FAIL large FAIL\n#1100CC #CC3311 ratio 2.14 normal FAIL large FAIL\n#EE6600 #A800EE ratio 1.68 normal FAIL large FAIL\n#E27733 #33EEFF ratio 2.14 normal FAIL large FAIL\n#777788 #331100 ratio 3.91 normal FAIL large PASS\n#FFCC88 #117711 ratio 3.88 normal FAIL large PASS\n#338888 #77EE82 ratio 2.86 normal FAIL large FAIL\n#09117E #99CC88 ratio 8.15 normal PASS large PASS\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "20\n#EECC66 #669999\n#CC6688 #664141\n#EECC33 #FF3388\n#4C66A1 #15FFFF\n#B09900 #770399\n#1111EE #1077EE\n#108811 #CC6677\n#EE0099 #118877\n#996699 #EE6611\n#CCCC99 #669933\n#33FF33 #669911\n#AF77CC #990011\n#996666 #669966\n#1111FF #0099EE\n#001188 #FF7711\n#11EECC #006600\n#00EECC #8E6677\n#77FF88 #99EE77\n#336688 #993311\n#CC11FF #888877\n",
+                  "expected_stdout": "#EECC66 #669999 ratio 2.05 normal FAIL large FAIL\n#CC6688 #664141 ratio 2.43 normal FAIL large FAIL\n#EECC33 #FF3388 ratio 2.19 normal FAIL large FAIL\n#4C66A1 #15FFFF ratio 4.51 normal PASS large PASS\n#B09900 #770399 ratio 3.28 normal FAIL large PASS\n#1111EE #1077EE ratio 2.09 normal FAIL large FAIL\n#108811 #CC6677 ratio 1.26 normal FAIL large FAIL\n#EE0099 #118877 ratio 1.06 normal FAIL large FAIL\n#996699 #EE6611 ratio 1.39 normal FAIL large FAIL\n#CCCC99 #669933 ratio 2.05 normal FAIL large FAIL\n#33FF33 #669911 ratio 2.53 normal FAIL large FAIL\n#AF77CC #990011 ratio 2.68 normal FAIL large FAIL\n#996666 #669966 ratio 1.42 normal FAIL large FAIL\n#1111FF #0099EE ratio 2.67 normal FAIL large FAIL\n#001188 #FF7711 ratio 5.50 normal PASS large PASS\n#11EECC #006600 ratio 4.87 normal PASS large PASS\n#00EECC #8E6677 ratio 3.27 normal FAIL large PASS\n#77FF88 #99EE77 ratio 1.11 normal FAIL large FAIL\n#336688 #993311 ratio 1.20 normal FAIL large FAIL\n#CC11FF #888877 ratio 1.15 normal FAIL large FAIL\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1\n#767676 #FFFFFF\n",
+                  "expected_stdout": "#767676 #FFFFFF ratio 4.54 normal PASS large PASS\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "1\n#FFFFFF #FFFFFF\n",
+                  "expected_stdout": "#FFFFFF #FFFFFF ratio 1.00 normal FAIL large FAIL\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "3\n#EE0011 #0099CC\n#669933 #990099\n#CC99FF #773388\n",
+                  "expected_stdout": "#EE0011 #0099CC ratio 1.38 normal FAIL large FAIL\n#669933 #990099 ratio 2.19 normal FAIL large FAIL\n#CC99FF #773388 ratio 3.66 normal FAIL large PASS\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "8\n#9977CC #CC3399\n#CC9999 #FFEECC\n#881C9E #006611\n#CC0011 #EEEE33\n#777766 #EEEE88\n#FFFFEE #118811\n#CC1188 #661199\n#991177 #667762\n",
+                  "expected_stdout": "#9977CC #CC3399 ratio 1.30 normal FAIL large FAIL\n#CC9999 #FFEECC ratio 2.14 normal FAIL large FAIL\n#881C9E #006611 ratio 1.07 normal FAIL large FAIL\n#CC0011 #EEEE33 ratio 4.73 normal PASS large PASS\n#777766 #EEEE88 ratio 3.73 normal FAIL large PASS\n#FFFFEE #118811 ratio 4.57 normal PASS large PASS\n#CC1188 #661199 ratio 1.90 normal FAIL large FAIL\n#991177 #667762 ratio 1.62 normal FAIL large FAIL\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "20\n#33BD11 #66FF11\n#CC9988 #779983\n#FF0000 #EE3333\n#88CC66 #CCFF3D\n#7733CC #99CC00\n#871166 #CC6699\n#66CC77 #669988\n#FFFFEE #FFA866\n#886666 #7766CC\n#0088FF #FE0011\n#1133FF #B0CC66\n#000011 #667F32\n#669999 #FF1166\n#CCEE77 #33CCFF\n#75FF99 #FF7700\n#007788 #9833DE\n#967777 #CC3377\n#88CC11 #116688\n#531166 #21FF66\n#9933FF #00EEEE\n",
+                  "expected_stdout": "#33BD11 #66FF11 ratio 1.88 normal FAIL large FAIL\n#CC9988 #779983 ratio 1.27 normal FAIL large FAIL\n#FF0000 #EE3333 ratio 1.02 normal FAIL large FAIL\n#88CC66 #CCFF3D ratio 1.65 normal FAIL large FAIL\n#7733CC #99CC00 ratio 3.51 normal FAIL large PASS\n#871166 #CC6699 ratio 2.57 normal FAIL large FAIL\n#66CC77 #669988 ratio 1.62 normal FAIL large FAIL\n#FFFFEE #FFA866 ratio 1.88 normal FAIL large FAIL\n#886666 #7766CC ratio 1.10 normal FAIL large FAIL\n#0088FF #FE0011 ratio 1.14 normal FAIL large FAIL\n#1133FF #B0CC66 ratio 3.97 normal FAIL large PASS\n#000011 #667F32 ratio 4.61 normal PASS large PASS\n#669999 #FF1166 ratio 1.19 normal FAIL large FAIL\n#CCEE77 #33CCFF ratio 1.43 normal FAIL large FAIL\n#75FF99 #FF7700 ratio 2.09 normal FAIL large FAIL\n#007788 #9833DE ratio 1.03 normal FAIL large FAIL\n#967777 #CC3377 ratio 1.21 normal FAIL large FAIL\n#88CC11 #116688 ratio 3.26 normal FAIL large PASS\n#531166 #21FF66 ratio 9.49 normal PASS large PASS\n#9933FF #00EEEE ratio 3.39 normal FAIL large PASS\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1\n#0000FF #000000\n",
+                  "expected_stdout": "#0000FF #000000 ratio 2.44 normal FAIL large FAIL\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "1\n#FFFFFF #151C4F\n",
+                  "expected_stdout": "#FFFFFF #151C4F ratio 16.02 normal PASS large PASS\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "3\n#EE8833 #CCC033\n#8866FF #00FFCF\n#9933FF #33EE88\n",
+                  "expected_stdout": "#EE8833 #CCC033 ratio 1.36 normal FAIL large FAIL\n#8866FF #00FFCF ratio 3.01 normal FAIL large PASS\n#9933FF #33EE88 ratio 3.21 normal FAIL large PASS\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "8\n#667711 #116666\n#FFFF99 #EEE1FF\n#668811 #330066\n#3388FF #8899EE\n#FF33EE #A3CCFF\n#118888 #667796\n#E99900 #997777\n#0C7D11 #3391EE\n",
+                  "expected_stdout": "#667711 #116666 ratio 1.35 normal FAIL large FAIL\n#FFFF99 #EEE1FF ratio 1.19 normal FAIL large FAIL\n#668811 #330066 ratio 3.82 normal FAIL large PASS\n#3388FF #8899EE ratio 1.28 normal FAIL large FAIL\n#FF33EE #A3CCFF ratio 1.82 normal FAIL large FAIL\n#118888 #667796 ratio 1.06 normal FAIL large FAIL\n#E99900 #997777 ratio 1.72 normal FAIL large FAIL\n#0C7D11 #3391EE ratio 1.62 normal FAIL large FAIL\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "20\n#669971 #FF3366\n#CC7711 #776688\n#77CCA4 #1477FF\n#843333 #EEEEFF\n#997777 #88EE77\n#000011 #66EE43\n#333399 #66F4CC\n#66EE66 #EE9999\n#337788 #3377EE\n#08BB11 #00DACC\n#118888 #FF3300\n#EE1A33 #FFCCCC\n#00EE77 #990033\n#FF6B8F #777777\n#8BFF66 #66EE33\n#8899E4 #CC1199\n#6677CC #330066\n#668833 #9953CC\n#883311 #EE8800\n#88BFCD #FF3388\n",
+                  "expected_stdout": "#669971 #FF3366 ratio 1.07 normal FAIL large FAIL\n#CC7711 #776688 ratio 1.54 normal FAIL large FAIL\n#77CCA4 #1477FF ratio 2.14 normal FAIL large FAIL\n#843333 #EEEEFF ratio 7.32 normal PASS large PASS\n#997777 #88EE77 ratio 2.77 normal FAIL large FAIL\n#000011 #66EE43 ratio 13.76 normal PASS large PASS\n#333399 #66F4CC ratio 7.41 normal PASS large PASS\n#66EE66 #EE9999 ratio 1.45 normal FAIL large FAIL\n#337788 #3377EE ratio 1.21 normal FAIL large FAIL\n#08BB11 #00DACC ratio 1.46 normal FAIL large FAIL\n#118888 #FF3300 ratio 1.17 normal FAIL large FAIL\n#EE1A33 #FFCCCC ratio 3.06 normal FAIL large PASS\n#00EE77 #990033 ratio 5.62 normal PASS large PASS\n#FF6B8F #777777 ratio 1.65 normal FAIL large FAIL\n#8BFF66 #66EE33 ratio 1.20 normal FAIL large FAIL\n#8899E4 #CC1199 ratio 1.88 normal FAIL large FAIL\n#6677CC #330066 ratio 3.81 normal FAIL large PASS\n#668833 #9953CC ratio 1.15 normal FAIL large FAIL\n#883311 #EE8800 ratio 3.23 normal FAIL large PASS\n#88BFCD #FF3388 ratio 1.71 normal FAIL large FAIL\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1\n#949494 #FFFFFF\n",
+                  "expected_stdout": "#949494 #FFFFFF ratio 3.03 normal FAIL large PASS\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -494,20 +1488,45 @@
         "Developer handoff",
         "Accessibility and stakeholder management"
       ],
-      "map_node": {"x": 0.88, "y": 0.16, "label": "Citizens' Hall"},
+      "map_node": {
+        "x": 0.88,
+        "y": 0.16,
+        "label": "Citizens' Hall"
+      },
       "questions": [
         {
           "id": "uxd-5-q1",
           "type": "order",
           "prompt": "Put the stages of the redesign in order.",
           "options": [
-            {"id": "a", "text": "Sketch and explore several possible solutions"},
-            {"id": "b", "text": "Research citizens' needs, tasks and context"},
-            {"id": "c", "text": "Test the prototype with citizens and iterate"},
-            {"id": "d", "text": "Define the core problems and success measures"},
-            {"id": "e", "text": "Build an interactive prototype of the best idea"}
+            {
+              "id": "a",
+              "text": "Sketch and explore several possible solutions"
+            },
+            {
+              "id": "b",
+              "text": "Research citizens' needs, tasks and context"
+            },
+            {
+              "id": "c",
+              "text": "Test the prototype with citizens and iterate"
+            },
+            {
+              "id": "d",
+              "text": "Define the core problems and success measures"
+            },
+            {
+              "id": "e",
+              "text": "Build an interactive prototype of the best idea"
+            }
           ],
-          "correct": ["b", "d", "a", "e", "c"],
+          "correct": [
+            "b",
+            "d",
+            "a",
+            "e",
+            "c"
+          ],
           "explanation": "Research comes first so the team understands real needs, and those findings are turned into a clear problem and success measures. The team then explores several ideas, prototypes the most promising, and tests it with citizens, repeating as needed.",
           "why_others_wrong": {
             "common_mistake": "Sketching solutions before defining the problem, which leads the team to polish ideas that solve the wrong thing."
@@ -520,12 +1539,26 @@
           "type": "single_choice",
           "prompt": "How should the team judge whether the redesign succeeded?",
           "options": [
-            {"id": "a", "text": "Count how many screens the new design has compared with the old"},
-            {"id": "b", "text": "Ask the department heads whether the new design looks modern"},
-            {"id": "c", "text": "Measure task completion and time for top tasks, before and after"},
-            {"id": "d", "text": "Count how many likes the launch announcement gets on social media"}
+            {
+              "id": "a",
+              "text": "Count how many screens the new design has compared with the old"
+            },
+            {
+              "id": "b",
+              "text": "Ask the department heads whether the new design looks modern"
+            },
+            {
+              "id": "c",
+              "text": "Measure task completion and time for top tasks, before and after"
+            },
+            {
+              "id": "d",
+              "text": "Count how many likes the launch announcement gets on social media"
+            }
           ],
-          "correct": ["c"],
+          "correct": [
+            "c"
+          ],
           "explanation": "The goal is for citizens to finish real tasks such as applying for a certificate. Measuring completion rate and time on those tasks in usability tests and in analytics, before and after the redesign, shows whether it actually helped.",
           "why_others_wrong": {
             "a": "Fewer or more screens says nothing about whether citizens can finish their tasks.",
@@ -540,12 +1573,26 @@
           "type": "single_choice",
           "prompt": "What should the handoff to developers include?",
           "options": [
-            {"id": "a", "text": "Only the polished main screens, exported as flat PNG images"},
-            {"id": "b", "text": "Design-system components with every state, such as empty and error"},
-            {"id": "c", "text": "A short verbal walkthrough, leaving developers to fill in the rest"},
-            {"id": "d", "text": "The full research notes, so developers can work out the screens"}
+            {
+              "id": "a",
+              "text": "Only the polished main screens, exported as flat PNG images"
+            },
+            {
+              "id": "b",
+              "text": "Design-system components with every state, such as empty and error"
+            },
+            {
+              "id": "c",
+              "text": "A short verbal walkthrough, leaving developers to fill in the rest"
+            },
+            {
+              "id": "d",
+              "text": "The full research notes, so developers can work out the screens"
+            }
           ],
-          "correct": ["b"],
+          "correct": [
+            "b"
+          ],
           "explanation": "Developers build what is specified, so screens need their loading, empty, error and success states, not just the happy path. Using shared components with annotations on behaviour and accessibility, such as focus order and labels, lets them build it consistently.",
           "why_others_wrong": {
             "a": "Flat images miss states, spacing values and interactions, so developers have to guess.",
@@ -560,13 +1607,31 @@
           "type": "multi_select",
           "prompt": "Some users have low literacy and some use screen readers. Which two choices serve them best?",
           "options": [
-            {"id": "a", "text": "Label every control and keep a logical focus order for screen readers"},
-            {"id": "b", "text": "Show status using colour alone, such as green dots and red dots"},
-            {"id": "c", "text": "Use plain, simple wording supported by clear icons and examples"},
-            {"id": "d", "text": "Add a hard CAPTCHA puzzle to every single form submission screen"},
-            {"id": "e", "text": "Use small text so that more information fits on every screen"}
+            {
+              "id": "a",
+              "text": "Label every control and keep a logical focus order for screen readers"
+            },
+            {
+              "id": "b",
+              "text": "Show status using colour alone, such as green dots and red dots"
+            },
+            {
+              "id": "c",
+              "text": "Use plain, simple wording supported by clear icons and examples"
+            },
+            {
+              "id": "d",
+              "text": "Add a hard CAPTCHA puzzle to every single form submission screen"
+            },
+            {
+              "id": "e",
+              "text": "Use small text so that more information fits on every screen"
+            }
           ],
-          "correct": ["a", "c"],
+          "correct": [
+            "a",
+            "c"
+          ],
           "explanation": "Proper labels and a logical focus order let screen-reader users understand and move through each screen. Plain language with supporting icons and examples helps people with low literacy understand what each step asks of them.",
           "why_others_wrong": {
             "b": "Colour alone fails for colour-blind and screen-reader users.",
@@ -581,24 +1646,269 @@
           "type": "match",
           "prompt": "Match each stakeholder request to the best response.",
           "items": [
-            {"id": "i1", "text": "'We have no time for user testing before launch.'"},
-            {"id": "i2", "text": "'Every department needs its own link on the home screen.'"},
-            {"id": "i3", "text": "'Citizens will figure it out on their own eventually.'"},
-            {"id": "i4", "text": "'Just copy the design of a famous shopping app.'"}
+            {
+              "id": "i1",
+              "text": "'We have no time for user testing before launch.'"
+            },
+            {
+              "id": "i2",
+              "text": "'Every department needs its own link on the home screen.'"
+            },
+            {
+              "id": "i3",
+              "text": "'Citizens will figure it out on their own eventually.'"
+            },
+            {
+              "id": "i4",
+              "text": "'Just copy the design of a famous shopping app.'"
+            }
           ],
           "targets": [
-            {"id": "t1", "text": "Show short recordings of citizens struggling with the app"},
-            {"id": "t2", "text": "Adapt only the patterns that suit these citizens' tasks"},
-            {"id": "t3", "text": "Run a quick one-day test with five citizens instead"},
-            {"id": "t4", "text": "Feature the top tasks from usage data; group the rest"}
+            {
+              "id": "t1",
+              "text": "Show short recordings of citizens struggling with the app"
+            },
+            {
+              "id": "t2",
+              "text": "Adapt only the patterns that suit these citizens' tasks"
+            },
+            {
+              "id": "t3",
+              "text": "Run a quick one-day test with five citizens instead"
+            },
+            {
+              "id": "t4",
+              "text": "Feature the top tasks from usage data; group the rest"
+            }
           ],
-          "correct": {"i1": "t3", "i2": "t4", "i3": "t1", "i4": "t2"},
+          "correct": {
+            "i1": "t3",
+            "i2": "t4",
+            "i3": "t1",
+            "i4": "t2"
+          },
           "explanation": "A fast, small test fits a tight deadline and still catches the worst problems. Usage data turns a political argument about home-screen links into a decision about top tasks, real recordings are more convincing than opinions, and borrowed patterns only help when they suit these users' tasks.",
           "why_others_wrong": {
             "common_mistake": "Giving every department a link to keep the peace, which buries the few tasks most citizens need under a crowded home screen."
           },
           "key_justification": "Answer stakeholders with lightweight evidence: quick tests, usage data and real recordings.",
           "points": 10
+        }
+      ],
+      "code_pool": [
+        {
+          "id": "uxd-5-c1",
+          "prompt": "To show the redesign worked, the team measures usability before and after with the System Usability Scale (SUS). The first line is n, then n lines `participant a1 ... a10` (ten answers from 1 to 5). Complete `sus_score`: odd-numbered items (1, 3, 5, 7, 9) score answer - 1, even-numbered items score 5 - answer, and the total is multiplied by 2.5, giving 0 to 100. The program prints `participant score` and then `mean`, all to one decimal.",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef sus_score(answers):\n    \"\"\"answers: the 10 System Usability Scale answers, each 1-5, item 1 first. Odd-numbered items score answer - 1, even-numbered items score 5 - answer; the SUS score is the total x 2.5 (0-100).\"\"\"\n    # Write your code here.\n    return sum(answers) * 2.5\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    scores = []\n    for i in range(n):\n        parts = data[1 + i].split()\n        score = sus_score(list(map(int, parts[1:])))\n        scores.append(score)\n        print(parts[0], format(score, \".1f\"))\n    print(\"mean\", format(sum(scores) / n, \".1f\"))\n\n\nmain()\n",
+          "reference_solution": "import sys\n\n\ndef sus_score(answers):\n    \"\"\"answers: the 10 System Usability Scale answers, each 1-5, item 1 first. Odd-numbered items score answer - 1, even-numbered items score 5 - answer; the SUS score is the total x 2.5 (0-100).\"\"\"\n    total = 0\n    for i, answer in enumerate(answers):\n        total += answer - 1 if i % 2 == 0 else 5 - answer      # index 0 is item 1 (odd, positively worded)\n    return total * 2.5\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    scores = []\n    for i in range(n):\n        parts = data[1 + i].split()\n        score = sus_score(list(map(int, parts[1:])))\n        scores.append(score)\n        print(parts[0], format(score, \".1f\"))\n    print(\"mean\", format(sum(scores) / n, \".1f\"))\n\n\nmain()\n",
+          "ds_topic": "array",
+          "difficulty": 1,
+          "skills": [
+            "Python"
+          ],
+          "explanation": "SUS alternates positively and negatively worded statements, so odd and even items are scored in opposite directions before adding; the x 2.5 scales 0-40 to 0-100. A score above about 68 is usually read as above average, which gives the redesign a number the departments can agree on.",
+          "key_justification": "Alternating-index scoring over a fixed-length array.",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "2\np1 5 1 5 1 5 1 5 1 5 1\np2 3 3 3 3 3 3 3 3 3 3\n",
+                  "expected_stdout": "p1 100.0\np2 50.0\nmean 75.0\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "3\nu1 5 1 5 1 4 1 4 2 5 2\nu2 4 3 4 1 4 1 5 3 4 2\nu3 3 4 2 5 3 4 2 4 2 5\n",
+                  "expected_stdout": "u1 90.0\nu2 77.5\nu3 25.0\nmean 64.2\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "10\nu1 3 5 3 5 2 4 2 5 1 5\nu2 5 2 5 3 4 2 4 1 5 2\nu3 5 1 5 2 4 1 4 1 4 1\nu4 5 1 4 3 4 1 4 2 5 3\nu5 2 5 3 5 2 5 3 4 2 4\nu6 3 4 1 4 3 5 1 4 1 5\nu7 5 3 4 3 5 2 5 3 5 1\nu8 4 1 4 2 4 2 5 2 5 2\nu9 4 3 4 2 5 2 4 1 5 1\nu10 5 2 4 1 5 1 5 1 4 2\n",
+                  "expected_stdout": "u1 17.5\nu2 82.5\nu3 90.0\nu4 80.0\nu5 22.5\nu6 17.5\nu7 80.0\nu8 82.5\nu9 82.5\nu10 90.0\nmean 64.5\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "30\nu1 2 4 2 4 3 4 2 5 3 4\nu2 4 1 4 3 4 1 4 1 5 3\nu3 5 3 4 1 5 1 5 1 4 1\nu4 5 2 5 2 4 1 5 2 4 2\nu5 2 5 3 5 2 4 1 5 1 4\nu6 5 1 4 1 4 2 5 3 4 2\nu7 2 4 1 4 1 5 3 5 1 4\nu8 2 5 2 4 3 4 3 5 1 5\nu9 5 3 4 3 5 3 4 1 4 2\nu10 1 4 3 5 3 4 1 4 2 4\nu11 4 3 5 1 5 1 4 1 5 1\nu12 5 2 4 2 5 1 5 1 4 3\nu13 2 4 3 5 1 4 1 4 2 4\nu14 5 1 5 1 4 2 4 1 5 1\nu15 5 2 4 3 5 2 4 2 5 2\nu16 4 2 4 3 5 3 5 2 5 1\nu17 1 5 1 4 2 5 1 5 3 4\nu18 4 2 5 1 4 1 4 3 5 3\nu19 4 1 5 2 4 1 4 1 4 2\nu20 5 1 5 1 4 3 5 1 4 3\nu21 2 5 3 5 2 4 3 4 2 4\nu22 5 2 4 3 5 2 5 1 5 2\nu23 2 4 2 4 3 5 3 5 2 5\nu24 2 5 1 5 3 4 2 5 3 5\nu25 2 5 1 5 1 5 3 5 2 4\nu26 4 1 5 3 5 2 4 3 4 2\nu27 4 1 4 1 4 3 4 3 5 2\nu28 5 1 5 3 4 3 5 1 5 1\nu29 4 3 5 3 5 3 5 3 5 2\nu30 2 5 1 4 2 5 2 5 2 4\n",
+                  "expected_stdout": "u1 27.5\nu2 80.0\nu3 90.0\nu4 85.0\nu5 15.0\nu6 82.5\nu7 15.0\nu8 20.0\nu9 75.0\nu10 22.5\nu11 90.0\nu12 85.0\nu13 20.0\nu14 92.5\nu15 80.0\nu16 80.0\nu17 12.5\nu18 80.0\nu19 85.0\nu20 85.0\nu21 25.0\nu22 85.0\nu23 22.5\nu24 17.5\nu25 12.5\nu26 77.5\nu27 77.5\nu28 87.5\nu29 75.0\nu30 15.0\nmean 57.2\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1\nz 5 5 5 5 5 5 5 5 5 5\n",
+                  "expected_stdout": "z 50.0\nmean 50.0\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "1\nx 1 5 1 5 1 5 1 5 1 5\n",
+                  "expected_stdout": "x 0.0\nmean 0.0\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "3\nu1 5 2 5 1 5 3 5 2 5 3\nu2 3 5 1 5 3 5 2 5 1 5\nu3 5 1 4 2 4 3 5 1 4 3\n",
+                  "expected_stdout": "u1 85.0\nu2 12.5\nu3 80.0\nmean 59.2\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "10\nu1 5 2 4 2 5 3 5 1 5 3\nu2 1 5 2 4 2 4 2 4 3 4\nu3 3 4 1 4 3 4 2 4 1 4\nu4 3 5 2 4 3 5 2 5 1 4\nu5 5 1 4 1 5 3 5 2 4 3\nu6 5 2 5 2 4 2 5 2 5 2\nu7 2 4 1 5 2 4 3 4 3 5\nu8 5 3 4 1 4 1 5 2 5 2\nu9 5 3 5 1 5 2 4 2 4 3\nu10 5 2 5 2 5 1 4 2 5 1\n",
+                  "expected_stdout": "u1 82.5\nu2 22.5\nu3 25.0\nu4 20.0\nu5 82.5\nu6 85.0\nu7 22.5\nu8 85.0\nu9 80.0\nu10 90.0\nmean 59.5\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "30\nu1 4 2 4 1 5 1 5 2 4 1\nu2 3 5 2 4 1 4 2 4 2 4\nu3 5 1 4 3 4 3 4 2 4 1\nu4 5 1 4 2 5 1 5 2 5 3\nu5 5 1 4 1 5 3 5 3 5 3\nu6 3 4 2 4 3 5 2 5 3 5\nu7 4 1 4 1 5 1 4 1 5 2\nu8 1 5 2 5 2 5 1 4 3 4\nu9 5 3 4 1 4 2 4 1 4 3\nu10 1 4 2 5 1 4 3 5 2 4\nu11 5 2 5 1 5 1 5 2 4 3\nu12 2 4 2 5 2 5 2 5 2 5\nu13 5 2 5 3 5 3 4 3 5 3\nu14 4 3 5 3 5 2 4 1 5 2\nu15 4 3 5 2 5 1 4 3 5 1\nu16 5 2 4 3 4 2 4 1 4 1\nu17 4 1 5 1 4 3 4 1 4 2\nu18 4 3 5 3 4 3 5 2 4 3\nu19 5 1 5 1 4 1 5 2 5 1\nu20 4 3 5 2 4 2 4 1 5 1\nu21 5 1 5 1 4 3 4 2 5 3\nu22 2 5 3 4 1 4 2 4 3 4\nu23 1 5 2 4 1 5 1 5 1 4\nu24 4 2 5 2 5 2 4 3 4 1\nu25 1 4 2 5 2 4 2 4 1 5\nu26 3 4 1 4 1 5 2 5 3 4\nu27 4 1 5 2 4 1 4 3 4 1\nu28 1 5 3 5 2 5 1 4 1 4\nu29 2 4 3 4 1 5 2 4 3 4\nu30 4 3 4 1 4 1 4 1 4 2\n",
+                  "expected_stdout": "u1 87.5\nu2 22.5\nu3 77.5\nu4 87.5\nu5 82.5\nu6 25.0\nu7 90.0\nu8 15.0\nu9 77.5\nu10 17.5\nu11 87.5\nu12 15.0\nu13 75.0\nu14 80.0\nu15 82.5\nu16 80.0\nu17 82.5\nu18 70.0\nu19 95.0\nu20 82.5\nu21 82.5\nu22 25.0\nu23 7.5\nu24 80.0\nu25 15.0\nu26 20.0\nu27 82.5\nu28 12.5\nu29 25.0\nu30 80.0\nmean 58.8\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "2\na 1 1 1 1 1 1 1 1 1 1\nb 4 4 4 4 4 4 4 4 4 4\n",
+                  "expected_stdout": "a 50.0\nb 50.0\nmean 50.0\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "1\ny 4 2 4 2 4 1 5 2 4 2\n",
+                  "expected_stdout": "y 80.0\nmean 80.0\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "3\nu1 4 3 5 1 4 2 4 1 5 1\nu2 3 4 3 5 1 4 2 4 3 4\nu3 2 4 3 5 2 5 3 5 1 4\n",
+                  "expected_stdout": "u1 85.0\nu2 27.5\nu3 20.0\nmean 44.2\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "10\nu1 5 1 4 1 5 3 4 1 4 1\nu2 3 4 1 5 2 5 1 5 3 4\nu3 1 4 1 5 3 4 3 5 2 5\nu4 5 3 4 2 4 3 5 1 4 1\nu5 4 3 4 3 4 2 5 1 4 3\nu6 1 4 2 5 3 4 1 5 1 5\nu7 4 3 5 3 5 3 4 3 4 3\nu8 4 1 4 2 5 2 4 1 5 3\nu9 1 5 2 4 2 4 3 4 2 4\nu10 4 3 4 2 4 2 4 1 5 2\n",
+                  "expected_stdout": "u1 87.5\nu2 17.5\nu3 17.5\nu4 80.0\nu5 72.5\nu6 12.5\nu7 67.5\nu8 82.5\nu9 22.5\nu10 77.5\nmean 53.8\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "30\nu1 4 1 4 3 4 1 4 1 5 1\nu2 1 4 2 4 2 4 2 5 1 4\nu3 4 1 4 2 4 2 4 3 5 1\nu4 5 2 5 3 4 1 5 1 4 3\nu5 5 1 5 3 5 2 5 1 4 3\nu6 4 1 5 2 5 1 4 1 5 3\nu7 2 4 1 4 2 4 1 4 3 4\nu8 5 3 5 2 4 2 5 2 4 1\nu9 4 3 5 2 5 2 5 3 5 3\nu10 2 5 3 4 2 5 1 4 3 5\nu11 5 3 5 2 4 1 5 3 5 1\nu12 5 3 5 2 4 1 4 3 4 2\nu13 1 5 3 5 1 4 3 4 1 4\nu14 2 5 1 5 2 5 2 5 1 4\nu15 4 3 4 2 4 2 4 2 4 3\nu16 5 1 4 1 4 2 4 2 5 2\nu17 3 5 3 4 1 4 1 5 3 4\nu18 4 3 5 2 4 1 5 1 5 2\nu19 4 1 5 1 4 2 5 2 5 1\nu20 5 3 5 3 4 2 5 1 5 1\nu21 3 4 2 5 1 5 2 5 2 5\nu22 4 3 5 1 5 2 5 3 5 1\nu23 5 3 5 3 4 3 5 2 4 2\nu24 2 5 3 5 1 5 2 5 1 5\nu25 3 5 2 5 2 5 2 4 1 4\nu26 5 3 5 3 5 3 5 1 5 2\nu27 1 4 2 4 2 4 2 5 2 5\nu28 5 2 5 1 4 3 5 1 5 3\nu29 2 5 1 4 3 5 1 5 1 4\nu30 3 5 3 5 1 4 2 4 2 5\n",
+                  "expected_stdout": "u1 85.0\nu2 17.5\nu3 80.0\nu4 82.5\nu5 85.0\nu6 87.5\nu7 22.5\nu8 82.5\nu9 77.5\nu10 20.0\nu11 85.0\nu12 77.5\nu13 17.5\nu14 10.0\nu15 70.0\nu16 85.0\nu17 22.5\nu18 85.0\nu19 90.0\nu20 85.0\nu21 15.0\nu22 85.0\nu23 75.0\nu24 10.0\nu25 17.5\nu26 82.5\nu27 17.5\nu28 85.0\nu29 12.5\nu30 20.0\nmean 56.2\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "3\nq 2 3 4 1 5 2 3 4 1 5\nr 5 2 5 2 5 2 5 2 5 2\ns 3 4 3 4 3 4 3 4 3 4\n",
+                  "expected_stdout": "q 50.0\nr 87.5\ns 37.5\nmean 58.3\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "uxd-5-c2",
+          "prompt": "Every department wants its service on the home screen, so the menu has grown deep. Check how many taps tasks need (a tree test). The first line is n, then n edges `parent child` of the menu tree, whose root is `Home` (labels have no spaces); then m, then m target labels. Complete `menu_path`: the list of labels from Home down to the target, or None if it is not in the menu. The program prints `target: Home > A > B (clicks k)`, adding ` TOO DEEP` when more than 3 clicks are needed, or `target: NOT FOUND`.",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef menu_path(edges, target):\n    \"\"\"edges: (parent, child) pairs of a menu tree whose root is 'Home'. Return the list of labels from Home down to target, or None if target is not in the menu.\"\"\"\n    # Write your code here.\n    return None\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    edges = [tuple(data[1 + i].split()) for i in range(n)]\n    m = int(data[1 + n])\n    for i in range(m):\n        target = data[2 + n + i].strip()\n        path = menu_path(edges, target)\n        if path is None:\n            print(f\"{target}: NOT FOUND\")\n        else:\n            clicks = len(path) - 1\n            print(f\"{target}: {' > '.join(path)} (clicks {clicks})\" + (\" TOO DEEP\" if clicks > 3 else \"\"))\n\n\nmain()\n",
+          "reference_solution": "import sys\n\n\ndef menu_path(edges, target):\n    \"\"\"edges: (parent, child) pairs of a menu tree whose root is 'Home'. Return the list of labels from Home down to target, or None if target is not in the menu.\"\"\"\n    parent = {child: par for par, child in edges}     # each item has one parent in a tree\n    if target != \"Home\" and target not in parent:\n        return None\n    path = [target]\n    while path[-1] != \"Home\":                          # walk up to the root, then reverse\n        path.append(parent[path[-1]])\n    return path[::-1]\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    edges = [tuple(data[1 + i].split()) for i in range(n)]\n    m = int(data[1 + n])\n    for i in range(m):\n        target = data[2 + n + i].strip()\n        path = menu_path(edges, target)\n        if path is None:\n            print(f\"{target}: NOT FOUND\")\n        else:\n            clicks = len(path) - 1\n            print(f\"{target}: {' > '.join(path)} (clicks {clicks})\" + (\" TOO DEEP\" if clicks > 3 else \"\"))\n\n\nmain()\n",
+          "ds_topic": "tree",
+          "difficulty": 2,
+          "skills": [
+            "Python"
+          ],
+          "explanation": "In a tree every node has exactly one parent, so a child-to-parent dictionary lets you walk from any label up to the root and reverse the path: O(depth) per question. Depth is the number of taps; anything beyond three is where people give up and queue at the office instead.",
+          "key_justification": "Parent pointers in a tree; walk up to build the path.",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "6\nHome Certificates\nCertificates Income\nCertificates Caste\nHome Payments\nPayments Property_Tax\nProperty_Tax Receipt\n3\nIncome\nReceipt\nWater_Bill\n",
+                  "expected_stdout": "Income: Home > Certificates > Income (clicks 2)\nReceipt: Home > Payments > Property_Tax > Receipt (clicks 3)\nWater_Bill: NOT FOUND\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "5\nHome Payments\nPayments Pay_Online\nPay_Online Status\nHome Contact\nContact Track\n5\nStatus\nPayments\nPay_Online\nTrack\nHome\n",
+                  "expected_stdout": "Status: Home > Payments > Pay_Online > Status (clicks 3)\nPayments: Home > Payments (clicks 1)\nPay_Online: Home > Payments > Pay_Online (clicks 2)\nTrack: Home > Contact > Track (clicks 2)\nHome: Home (clicks 0)\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "10\nHome Documents\nHome Status\nHome History\nStatus Payments\nDocuments Pay_Online\nPay_Online FAQ\nFAQ Receipt\nStatus Help\nReceipt Contact\nHelp Profile\n5\nProfile\nHistory\nPayments\nReceipt\nHome\n",
+                  "expected_stdout": "Profile: Home > Status > Help > Profile (clicks 3)\nHistory: Home > History (clicks 1)\nPayments: Home > Status > Payments (clicks 2)\nReceipt: Home > Documents > Pay_Online > FAQ > Receipt (clicks 4) TOO DEEP\nHome: Home (clicks 0)\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "17\nHome Caste\nCaste Track\nCaste Income\nCaste Pay_Online\nTrack Payments\nTrack Water_Bill\nWater_Bill History\nPay_Online Documents\nHistory Language\nDocuments Status\nWater_Bill Receipt\nDocuments Help\nStatus FAQ\nStatus Profile\nFAQ Certificates\nProfile Contact\nCertificates Domicile\n5\nDocuments\nIncome\nHistory\nDomicile\nRation_Card\n",
+                  "expected_stdout": "Documents: Home > Caste > Pay_Online > Documents (clicks 3)\nIncome: Home > Caste > Income (clicks 2)\nHistory: Home > Caste > Track > Water_Bill > History (clicks 4) TOO DEEP\nDomicile: Home > Caste > Pay_Online > Documents > Status > FAQ > Certificates > Domicile (clicks 7) TOO DEEP\nRation_Card: NOT FOUND\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "0\n1\nHome\n",
+                  "expected_stdout": "Home: Home (clicks 0)\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "4\nHome A\nA B\nB C\nC D\n1\nD\n",
+                  "expected_stdout": "D: Home > A > B > C > D (clicks 4) TOO DEEP\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "5\nHome Language\nHome Water_Bill\nHome Payments\nWater_Bill Domicile\nPayments FAQ\n5\nPayments\nFAQ\nDomicile\nWater_Bill\nHome\n",
+                  "expected_stdout": "Payments: Home > Payments (clicks 1)\nFAQ: Home > Payments > FAQ (clicks 2)\nDomicile: Home > Water_Bill > Domicile (clicks 2)\nWater_Bill: Home > Water_Bill (clicks 1)\nHome: Home (clicks 0)\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "10\nHome Domicile\nDomicile FAQ\nDomicile Track\nFAQ Caste\nDomicile Contact\nTrack Income\nIncome Water_Bill\nCaste Language\nContact Documents\nContact History\n5\nTrack\nDomicile\nCaste\nContact\nRation_Card\n",
+                  "expected_stdout": "Track: Home > Domicile > Track (clicks 2)\nDomicile: Home > Domicile (clicks 1)\nCaste: Home > Domicile > FAQ > Caste (clicks 3)\nContact: Home > Domicile > Contact (clicks 2)\nRation_Card: NOT FOUND\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "17\nHome Receipt\nReceipt Certificates\nCertificates Property_Tax\nProperty_Tax History\nReceipt Domicile\nDomicile FAQ\nFAQ Status\nHistory Help\nDomicile Profile\nFAQ Contact\nCertificates Language\nHelp Water_Bill\nLanguage Caste\nContact Track\nTrack Income\nTrack Payments\nTrack Documents\n5\nStatus\nTrack\nHistory\nDocuments\nRation_Card\n",
+                  "expected_stdout": "Status: Home > Receipt > Domicile > FAQ > Status (clicks 4) TOO DEEP\nTrack: Home > Receipt > Domicile > FAQ > Contact > Track (clicks 5) TOO DEEP\nHistory: Home > Receipt > Certificates > Property_Tax > History (clicks 4) TOO DEEP\nDocuments: Home > Receipt > Domicile > FAQ > Contact > Track > Documents (clicks 6) TOO DEEP\nRation_Card: NOT FOUND\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "2\nB C\nHome B\n1\nC\n",
+                  "expected_stdout": "C: Home > B > C (clicks 2)\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "1\nHome Help\n2\nHome\nHelp\n",
+                  "expected_stdout": "Home: Home (clicks 0)\nHelp: Home > Help (clicks 1)\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "5\nHome Certificates\nCertificates Track\nTrack History\nCertificates Profile\nCertificates Documents\n5\nDocuments\nProfile\nTrack\nHistory\nRation_Card\n",
+                  "expected_stdout": "Documents: Home > Certificates > Documents (clicks 2)\nProfile: Home > Certificates > Profile (clicks 2)\nTrack: Home > Certificates > Track (clicks 2)\nHistory: Home > Certificates > Track > History (clicks 3)\nRation_Card: NOT FOUND\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "10\nHome Pay_Online\nPay_Online Language\nHome Status\nStatus Profile\nStatus Track\nStatus History\nTrack Domicile\nStatus Receipt\nHistory FAQ\nDomicile Documents\n5\nDocuments\nTrack\nFAQ\nHistory\nHome\n",
+                  "expected_stdout": "Documents: Home > Status > Track > Domicile > Documents (clicks 4) TOO DEEP\nTrack: Home > Status > Track (clicks 2)\nFAQ: Home > Status > History > FAQ (clicks 3)\nHistory: Home > Status > History (clicks 2)\nHome: Home (clicks 0)\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "17\nHome Caste\nHome Water_Bill\nWater_Bill FAQ\nFAQ Status\nStatus Certificates\nStatus Payments\nStatus Contact\nContact Pay_Online\nContact Income\nFAQ Property_Tax\nContact Documents\nIncome Profile\nIncome History\nProfile Help\nHelp Receipt\nPay_Online Language\nReceipt Domicile\n5\nProfile\nCaste\nPayments\nWater_Bill\nRation_Card\n",
+                  "expected_stdout": "Profile: Home > Water_Bill > FAQ > Status > Contact > Income > Profile (clicks 6) TOO DEEP\nCaste: Home > Caste (clicks 1)\nPayments: Home > Water_Bill > FAQ > Status > Payments (clicks 4) TOO DEEP\nWater_Bill: Home > Water_Bill (clicks 1)\nRation_Card: NOT FOUND\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "3\nHome x\nx y\nHome z\n1\nq\n",
+                  "expected_stdout": "q: NOT FOUND\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
         }
       ]
     }

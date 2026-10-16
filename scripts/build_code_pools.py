@@ -51,6 +51,9 @@ def norm(text):
 
 
 def build_problem(pid, spec, problems_out, failures):
+    if not callable(spec.get("alt")):
+        failures.append(f"{pid}: no independent second implementation ('alt')")
+        return
     tests_per_variant = []
     starter_passes_all = True
     for n, variant in enumerate(spec["variants"], 1):
