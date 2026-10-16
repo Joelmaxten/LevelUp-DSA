@@ -441,8 +441,7 @@
           "ds_topic": "hash_map",
           "difficulty": 1,
           "skills": [
-            "Python",
-            "Amazon Web Services (AWS)"
+            "Python"
           ],
           "explanation": "Putting the used (role, action, resource) triples in a set makes each check O(1); comparing grants with real usage is how access analysers propose least-privilege policies. A grant nobody used in 90 days is pure risk: if the role's credentials leak, the attacker gets it too.",
           "key_justification": "Set difference between granted and used permissions.",
@@ -549,8 +548,7 @@
           "ds_topic": "string",
           "difficulty": 2,
           "skills": [
-            "Python",
-            "Amazon Web Services (AWS)"
+            "Python"
           ],
           "explanation": "An IPv4 address is a 32-bit number and a /n prefix keeps its first n bits, so membership is 'address AND mask equals network AND mask'. When subnets nest (a /25 database subnet inside a /24), the longest prefix is the most specific match, the same rule route tables use.",
           "key_justification": "Parse dotted IPs and match with bit masks (longest prefix).",
@@ -880,8 +878,7 @@
           "ds_topic": "sorting",
           "difficulty": 1,
           "skills": [
-            "Python",
-            "Amazon Web Services (AWS)"
+            "Python"
           ],
           "explanation": "Netting this month against last month per resource in one dictionary, then sorting by the increase, points straight at what changed (here often a NAT gateway carrying traffic that should use a free gateway endpoint). Investigating the biggest deltas first is how cost reviews stay short.",
           "key_justification": "Aggregate per key, then sort by the month-on-month delta.",
@@ -988,8 +985,7 @@
           "ds_topic": "queue",
           "difficulty": 2,
           "skills": [
-            "Python",
-            "Amazon Web Services (AWS)"
+            "Python"
           ],
           "explanation": "Launched instances join a FIFO queue by ready time; because warm-up is the same for all, the front of the queue is always the next to become ready. The simulation shows the cost of reacting late: every minute of warm-up during a rush is lost capacity, which is why scheduled or predictive scaling (scale before 6 am) beats purely reactive scaling here.",
           "key_justification": "Discrete-time simulation with a FIFO queue of launching instances.",
@@ -1266,8 +1262,7 @@
           "ds_topic": "array",
           "difficulty": 1,
           "skills": [
-            "Python",
-            "Amazon Web Services (AWS)"
+            "Python"
           ],
           "explanation": "Data loss is the gap back to the last completed backup, so only backups at or before the failure count; the list need not be sorted, a max does it. Nightly backups give up to a day of loss, far over a 15-minute RPO, which is why the contract needs continuous log shipping or a replica, not just snapshots.",
           "key_justification": "Filter and max over an array to compute RPO and RTO.",
@@ -1374,8 +1369,7 @@
           "ds_topic": "sorting",
           "difficulty": 2,
           "skills": [
-            "Python",
-            "Amazon Web Services (AWS)"
+            "Python"
           ],
           "explanation": "Reserving one more server saves on-demand cost only in the hours that use it. With the hours sorted, the count of hours needing at least r servers falls out of a single pass, so every R is priced in O(hours log hours) total. The rule of thumb that emerges: reserve a server if it is busy for more than reserved / on_demand of the hours.",
           "key_justification": "Sort usage, then sweep reservation levels with running totals.",
@@ -1711,8 +1705,7 @@
           "ds_topic": "hash_map",
           "difficulty": 1,
           "skills": [
-            "Python",
-            "Amazon Web Services (AWS)"
+            "Python"
           ],
           "explanation": "Nested dictionaries (resource, then key) for both sides make the diff a pair of set operations. This is what a Terraform plan does: code is the source of truth, and any manual console change shows up as drift to be reverted or written back into code.",
           "key_justification": "Diff two nested maps into create, delete and update actions.",

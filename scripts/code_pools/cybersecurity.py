@@ -120,7 +120,7 @@ PROBLEMS["cyb-2"] = [
                    "owns that account; unknown accounts are blocked too. The program prints `customer count` for every "
                    "customer with blocked requests, most first, ties by customer id in string order, then `blocked "
                    "total`."),
-        "ds_topic": "hash_map", "difficulty": 2, "skills": ["Python", "SQL"],
+        "ds_topic": "hash_map", "difficulty": 2, "skills": ["Python"],
         "starter": program(_IO_IDOR, stub(_SIG_IDOR, _DOC_IDOR, "[], 0")),
         "solution": program(_IO_IDOR, _SIG_IDOR + f'''
     """{_DOC_IDOR}"""
@@ -264,7 +264,7 @@ PROBLEMS["cyb-3"] = [
                    "program prints `suspect IP count` for every IP with at least k failures (most first, ties by IP in "
                    "string order), then `compromised IP USER` for every successful login from an IP that already had k "
                    "or more failures at that moment, in log order. It prints CLEAN if there is nothing to report."),
-        "ds_topic": "hash_map", "difficulty": 1, "skills": ["Python", "Bash/Shell (all shells)"],
+        "ds_topic": "hash_map", "difficulty": 1, "skills": ["Python"],
         "starter": program(_IO_AUTH, stub(_SIG_AUTH, _DOC_AUTH, "[], []")),
         "solution": program(_IO_AUTH, _SIG_AUTH + f'''
     """{_DOC_AUTH}"""

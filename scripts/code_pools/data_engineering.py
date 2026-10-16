@@ -325,7 +325,7 @@ PROBLEMS["den-3"] = [
                    "YYYY-MM-DD). Complete `late_report`: the load on load_day contains orders that arrived on or before "
                    "load_day. For orders that happened on event_day, the program prints `loaded` (amount already in the "
                    "warehouse), `late` (how many arrived after the load) and `missing_amount`."),
-        "ds_topic": "array", "difficulty": 1, "skills": ["Python", "SQL"],
+        "ds_topic": "array", "difficulty": 1, "skills": ["Python"],
         "starter": program(_IO_LATE, stub(_SIG_LATE, _DOC_LATE, "0, 0, 0")),
         "solution": program(_IO_LATE, _SIG_LATE + f'''
     """{_DOC_LATE}"""
@@ -365,7 +365,7 @@ PROBLEMS["den-3"] = [
                    "otherwise `row r COL bad_int` or `row r COL bad_decimal` for a wrong type (int: optional minus then "
                    "digits; decimal: optional minus, digits, optionally a dot and more digits). Print the problems, or "
                    "VALID."),
-        "ds_topic": "string", "difficulty": 2, "skills": ["Python", "SQL"],
+        "ds_topic": "string", "difficulty": 2, "skills": ["Python"],
         "starter": program(_IO_CONTRACT, stub(_SIG_CONTRACT, _DOC_CONTRACT, "[]")),
         "solution": "import re\n" + program(_IO_CONTRACT, _SIG_CONTRACT + f'''
     """{_DOC_CONTRACT}"""
@@ -500,7 +500,7 @@ PROBLEMS["den-4"] = [
                    "phone amount`. Complete `pseudonymise`: replace each PAN with a token P0001, P0002, ... in order of "
                    "first appearance (the same PAN always gets the same token), and replace the phone with six `*` and "
                    "its last four digits. The program prints `token phone amount` per row, then `distinct k`."),
-        "ds_topic": "hash_map", "difficulty": 1, "skills": ["Python", "SQL"],
+        "ds_topic": "hash_map", "difficulty": 1, "skills": ["Python"],
         "starter": program(_IO_PSEUDO, stub(_SIG_PSEUDO, _DOC_PSEUDO, "rows, 0")),
         "solution": program(_IO_PSEUDO, _SIG_PSEUDO + f'''
     """{_DOC_PSEUDO}"""

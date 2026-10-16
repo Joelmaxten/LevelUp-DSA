@@ -441,7 +441,6 @@
           "ds_topic": "array",
           "difficulty": 1,
           "skills": [
-            "JavaScript",
             "Python"
           ],
           "explanation": "A keystroke's timer survives only if the next keystroke comes at or after it expires, so one look at the next time decides each one. Debouncing turns a burst of typing into one request, cutting load on the API and avoiding out-of-order results for half-typed queries.",
@@ -549,7 +548,6 @@
           "ds_topic": "string",
           "difficulty": 2,
           "skills": [
-            "JavaScript",
             "Python"
           ],
           "explanation": "Splitting on '&' and then on the first '=' gives key-value pairs; a dictionary of lists keeps repeated keys (multi-select filters) in order. Decoding must happen after splitting, so an encoded '&' (%26) inside a value is not mistaken for a separator. URLSearchParams does the same in the browser.",
@@ -880,7 +878,6 @@
           "ds_topic": "hash_map",
           "difficulty": 1,
           "skills": [
-            "JavaScript",
             "Python"
           ],
           "explanation": "An origin is the exact triple of scheme, host and port, so set membership on the full string is the right test; 'shop.pustakghar.in' over http is a different origin from https. The fix belongs on the API, which must list the shop's origin; nothing in the front end can make the browser skip this check.",
@@ -988,7 +985,6 @@
           "ds_topic": "array",
           "difficulty": 2,
           "skills": [
-            "JavaScript",
             "Python"
           ],
           "explanation": "One pass with the current window's start, last time and sum is enough: a gap over a second or a window older than five seconds starts a new one, and CLS keeps the worst window, not the total. Reserving space for images and ad slots (width and height, aspect-ratio) is what actually removes these shifts.",
@@ -1266,7 +1262,6 @@
           "ds_topic": "sorting",
           "difficulty": 1,
           "skills": [
-            "JavaScript",
             "Python"
           ],
           "explanation": "Sorting by share and taking from the top until the target is reached gives the smallest set that covers it (the greedy choice is optimal here because each browser only adds share). Doing the sums in tenths keeps 90.0 from turning into 89.99999. It turns a debate into a support policy anyone can recheck when the analytics change.",
@@ -1374,7 +1369,6 @@
           "ds_topic": "graph",
           "difficulty": 2,
           "skills": [
-            "JavaScript",
             "Python"
           ],
           "explanation": "Imports form a directed graph, and a page's bundle is everything reachable from its entry. A traversal with a visited set counts shared modules once and survives import cycles. Seeing 'login 445 KB' with charts in it is the evidence for code-splitting charts behind a dynamic import on the dashboard.",
@@ -1711,7 +1705,6 @@
           "ds_topic": "string",
           "difficulty": 1,
           "skills": [
-            "JavaScript",
             "Python"
           ],
           "explanation": "A file whose name contains a hash of its content can be cached forever: a new version gets a new name. The HTML that references those names must not be cached long, or users keep loading the old release. Everything else gets a short, safe lifetime. The rule is a small pattern match on the file name.",
@@ -1819,7 +1812,6 @@
           "ds_topic": "hash_map",
           "difficulty": 2,
           "skills": [
-            "JavaScript",
             "Python"
           ],
           "explanation": "Per-seat dictionaries for the holder, the expiry time and the buyer make every event an O(1) check. Treating an expired hold as absent, rather than running a cleanup job, means a seat frees itself at exactly the right second. The server must enforce this; the seat map in the browser only displays it.",

@@ -96,7 +96,7 @@ PROBLEMS["fed-2"] = [
                    "fresh timer of `delay` ms that replaces the previous one; a call fires when a timer runs out, and a "
                    "keystroke at or after that moment does not cancel it. The program prints `calls k` and `at` with the "
                    "firing times, or `at -`."),
-        "ds_topic": "array", "difficulty": 1, "skills": ["JavaScript", "Python"],
+        "ds_topic": "array", "difficulty": 1, "skills": ["Python"],
         "starter": program(_IO_DEBOUNCE, stub(_SIG_DEBOUNCE, _DOC_DEBOUNCE, "[t + delay for t in keys]")),
         "solution": program(_IO_DEBOUNCE, _SIG_DEBOUNCE + f'''
     """{_DOC_DEBOUNCE}"""
@@ -126,7 +126,7 @@ PROBLEMS["fed-2"] = [
                    "piece is `key=value` (no `=` means an empty value); decode `+` as a space and `%XX` as the character "
                    "with that hex code. A key can repeat (class=sleeper&class=3A). The program prints `key=v1,v2` per "
                    "key, sorted by key, values in the order they appeared, or EMPTY."),
-        "ds_topic": "string", "difficulty": 2, "skills": ["JavaScript", "Python"],
+        "ds_topic": "string", "difficulty": 2, "skills": ["Python"],
         "starter": program(_IO_QUERY, stub(_SIG_QUERY, _DOC_QUERY, "{}")),
         "solution": program(_IO_QUERY, '''def decode(text):
     out, i = [], 0
@@ -276,7 +276,7 @@ PROBLEMS["fed-3"] = [
                    "allowed only if the origin matches exactly (http and https, and different ports, are different "
                    "origins) or `*` is listed, and the method is allowed. The program prints `origin method ALLOW|BLOCK` "
                    "per request, then `blocked k`."),
-        "ds_topic": "hash_map", "difficulty": 1, "skills": ["JavaScript", "Python"],
+        "ds_topic": "hash_map", "difficulty": 1, "skills": ["Python"],
         "starter": program(_IO_CORS, stub(_SIG_CORS, _DOC_CORS, "True")),
         "solution": program(_IO_CORS, _SIG_CORS + f'''
     """{_DOC_CORS}"""
@@ -311,7 +311,7 @@ PROBLEMS["fed-3"] = [
                    "if it comes more than 1000 ms after the previous counted shift or more than 5000 ms after the "
                    "window's first shift. CLS is the largest window sum. The program prints `cls` with four decimals and "
                    "`windows k`."),
-        "ds_topic": "array", "difficulty": 2, "skills": ["JavaScript", "Python"],
+        "ds_topic": "array", "difficulty": 2, "skills": ["Python"],
         "starter": program(_IO_CLS, stub(_SIG_CLS, _DOC_CLS, "sum(s for _, s, _ in shifts), 1")),
         "solution": program(_IO_CLS, _SIG_CLS + f'''
     """{_DOC_CLS}"""
@@ -458,7 +458,7 @@ PROBLEMS["fed-4"] = [
                    "by browser then version), until their combined share reaches the target. Add shares in tenths of a "
                    "percent, not floats. The program prints the chosen `browser version` lines, `browsers k` and "
                    "`covered x%` (one decimal)."),
-        "ds_topic": "sorting", "difficulty": 1, "skills": ["JavaScript", "Python"],
+        "ds_topic": "sorting", "difficulty": 1, "skills": ["Python"],
         "starter": program(_IO_COVER, stub(_SIG_COVER, _DOC_COVER, "[], 0")),
         "solution": program(_IO_COVER, '''def tenths(text):
     whole, _, frac = text.partition(".")
@@ -497,7 +497,7 @@ PROBLEMS["fed-4"] = [
                    "comma-separated, or -; imports can form cycles), then a line of entry points. Complete `bundle_size`: "
                    "the total size of every module reachable from the entry through imports, each counted once, "
                    "including the entry. The program prints `entry kb` for each entry point, in the order given."),
-        "ds_topic": "graph", "difficulty": 2, "skills": ["JavaScript", "Python"],
+        "ds_topic": "graph", "difficulty": 2, "skills": ["Python"],
         "starter": program(_IO_BUNDLE, stub(_SIG_BUNDLE, _DOC_BUNDLE, "modules[entry][0]")),
         "solution": program(_IO_BUNDLE, _SIG_BUNDLE + f'''
     """{_DOC_BUNDLE}"""
@@ -644,7 +644,7 @@ PROBLEMS["fed-5"] = [
                    "is picked up); files with a content hash in the name, a part of exactly 8 lowercase hex characters "
                    "between dots before the extension (like `app.3f9a1c2b.js`), get `public, max-age=31536000, "
                    "immutable`; everything else gets `public, max-age=3600`. The program prints `file header` per file."),
-        "ds_topic": "string", "difficulty": 1, "skills": ["JavaScript", "Python"],
+        "ds_topic": "string", "difficulty": 1, "skills": ["Python"],
         "starter": program(_IO_CACHE, stub(_SIG_CACHE, _DOC_CACHE, '"public, max-age=3600"')),
         "solution": "import re\n" + program(_IO_CACHE, _SIG_CACHE + f'''
     """{_DOC_CACHE}"""
@@ -678,7 +678,7 @@ PROBLEMS["fed-5"] = [
                    "your own seat again restarts the timer); RELEASE works only for the current holder; BUY works only "
                    "for the current holder of an unexpired hold and sells the seat. Everything else is rejected. The "
                    "program prints `seat buyer` for sold seats, sorted, then `rejected k`."),
-        "ds_topic": "hash_map", "difficulty": 2, "skills": ["JavaScript", "Python"],
+        "ds_topic": "hash_map", "difficulty": 2, "skills": ["Python"],
         "starter": program(_IO_SEATS, stub(_SIG_SEATS, _DOC_SEATS, "[], 0")),
         "solution": program(_IO_SEATS, _SIG_SEATS + f'''
     """{_DOC_SEATS}"""

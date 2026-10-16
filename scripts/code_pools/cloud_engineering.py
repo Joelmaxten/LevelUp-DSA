@@ -104,7 +104,7 @@ PROBLEMS["cle-2"] = [
                    "resource` from 90 days of access logs (repeats are possible). Complete `unused_grants`. The program "
                    "prints every grant that was never used, sorted, one per line (these are candidates to remove), or "
                    "`LEAST PRIVILEGE OK`."),
-        "ds_topic": "hash_map", "difficulty": 1, "skills": ["Python", "Amazon Web Services (AWS)"],
+        "ds_topic": "hash_map", "difficulty": 1, "skills": ["Python"],
         "starter": program(_IO_IAM, stub(_SIG_IAM, _DOC_IAM, "[]")),
         "solution": program(_IO_IAM, _SIG_IAM + f'''
     """{_DOC_IAM}"""
@@ -132,7 +132,7 @@ PROBLEMS["cle-2"] = [
                    "with your own bit arithmetic (convert each address to a 32-bit number and compare the network bits): "
                    "an address belongs to the matching subnet with the longest prefix, ties by name. The program prints "
                    "`ip subnet` or `ip none`."),
-        "ds_topic": "string", "difficulty": 2, "skills": ["Python", "Amazon Web Services (AWS)"],
+        "ds_topic": "string", "difficulty": 2, "skills": ["Python"],
         "starter": program(_IO_CIDR, stub(_SIG_CIDR, _DOC_CIDR, "None")),
         "solution": program(_IO_CIDR, '''def to_int(address):
     a, b, c, d = (int(part) for part in address.split("."))
@@ -280,7 +280,7 @@ PROBLEMS["cle-3"] = [
                    "appear on several lines, in rupees). Complete `biggest_increases`: total each resource per month (a "
                    "resource missing last month counts as 0) and return those whose cost went up. The program prints up "
                    "to k lines `resource increase`, largest first, ties by resource, or `NO INCREASES`."),
-        "ds_topic": "sorting", "difficulty": 1, "skills": ["Python", "Amazon Web Services (AWS)"],
+        "ds_topic": "sorting", "difficulty": 1, "skills": ["Python"],
         "starter": program(_IO_COST, stub(_SIG_COST, _DOC_COST, "[]")),
         "solution": program(_IO_COST, _SIG_COST + f'''
     """{_DOC_COST}"""
@@ -315,7 +315,7 @@ PROBLEMS["cle-3"] = [
                    "capacity)): launch the difference if desired > running + launching (ready at m + warmup), or drop to "
                    "desired if desired < running and nothing is launching. The program prints `shortfall_minutes`, "
                    "`max_shortfall` and `peak_instances`."),
-        "ds_topic": "queue", "difficulty": 2, "skills": ["Python", "Amazon Web Services (AWS)"],
+        "ds_topic": "queue", "difficulty": 2, "skills": ["Python"],
         "starter": program(_IO_SCALE, stub(_SIG_SCALE, _DOC_SCALE, "0, 0, initial")),
         "solution": "from collections import deque\n" + program(_IO_SCALE, _SIG_SCALE + f'''
     """{_DOC_SCALE}"""
@@ -441,7 +441,7 @@ PROBLEMS["cle-4"] = [
                    "after the last backup completed at or before the failure is lost. The program prints `data_loss x "
                    "min` (or `data_loss all` if there was no backup yet), `downtime y min`, then `rpo MET` or `rpo "
                    "BREACHED`, and the same for rto."),
-        "ds_topic": "array", "difficulty": 1, "skills": ["Python", "Amazon Web Services (AWS)"],
+        "ds_topic": "array", "difficulty": 1, "skills": ["Python"],
         "starter": program(_IO_RPO, stub(_SIG_RPO, _DOC_RPO, "0, restore")),
         "solution": program(_IO_RPO, _SIG_RPO + f'''
     """{_DOC_RPO}"""
@@ -469,7 +469,7 @@ PROBLEMS["cle-4"] = [
                    "reserved servers, the cost is R x reserved x hours plus on_demand for every server-hour above R. "
                    "Return the R with the lowest cost (smallest R on a tie). Sort the hourly usage once rather than "
                    "recomputing the whole cost for every R. The program prints `reserve R` and `cost C`."),
-        "ds_topic": "sorting", "difficulty": 2, "skills": ["Python", "Amazon Web Services (AWS)"],
+        "ds_topic": "sorting", "difficulty": 2, "skills": ["Python"],
         "starter": program(_IO_RESERVE, stub(_SIG_RESERVE, _DOC_RESERVE, "0, 0")),
         "solution": program(_IO_RESERVE, _SIG_RESERVE + f'''
     """{_DOC_RESERVE}"""
@@ -605,7 +605,7 @@ PROBLEMS["cle-5"] = [
                    "`drift_plan`. Sorted by resource then key, list `create R` for resources only in the code, `delete R` "
                    "for resources only in the account, and `update R KEY actual->desired` for each key that differs on a "
                    "resource in both (a missing value shows as `-`). Print the plan, or `NO CHANGES`."),
-        "ds_topic": "hash_map", "difficulty": 1, "skills": ["Python", "Amazon Web Services (AWS)"],
+        "ds_topic": "hash_map", "difficulty": 1, "skills": ["Python"],
         "starter": program(_IO_DRIFT, stub(_SIG_DRIFT, _DOC_DRIFT, "[]")),
         "solution": program(_IO_DRIFT, _SIG_DRIFT + f'''
     """{_DOC_DRIFT}"""

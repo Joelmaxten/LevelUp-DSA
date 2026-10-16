@@ -4,7 +4,24 @@
   "map": {
     "scene_id": "game-development",
     "theme": "A carnival island of floating fairgrounds, where a mud-pit kabaddi arena, a lantern maze, a neon race track, a card pavilion under silk tents and a drum stage on a cliff edge are joined by rope bridges and bouncing platforms. The palette is magenta, electric yellow and night blue, and the mood moves from playful energy at the arena to a festival roar at the drum stage.",
-    "edges": [["gam-1", "gam-2"], ["gam-2", "gam-3"], ["gam-3", "gam-4"], ["gam-4", "gam-5"]]
+    "edges": [
+      [
+        "gam-1",
+        "gam-2"
+      ],
+      [
+        "gam-2",
+        "gam-3"
+      ],
+      [
+        "gam-3",
+        "gam-4"
+      ],
+      [
+        "gam-4",
+        "gam-5"
+      ]
+    ]
   },
   "scenarios": [
     {
@@ -26,19 +43,37 @@
         "The game loop",
         "Core game vocabulary"
       ],
-      "map_node": {"x": 0.1, "y": 0.84, "label": "Kabaddi Arena"},
+      "map_node": {
+        "x": 0.1,
+        "y": 0.84,
+        "label": "Kabaddi Arena"
+      },
       "questions": [
         {
           "id": "gam-1-q1",
           "type": "single_choice",
           "prompt": "The raider moves 0.1 units every frame, so he runs twice as fast on the 120 Hz phone. What is the correct fix?",
           "options": [
-            {"id": "a", "text": "Lock the game to 30 frames per second on every type of phone"},
-            {"id": "b", "text": "Halve the speed value whenever the game detects a 120 Hz screen"},
-            {"id": "c", "text": "Multiply speed by the time since the last frame when moving him"},
-            {"id": "d", "text": "Move the raider only on every second frame on 120 Hz phones"}
+            {
+              "id": "a",
+              "text": "Lock the game to 30 frames per second on every type of phone"
+            },
+            {
+              "id": "b",
+              "text": "Halve the speed value whenever the game detects a 120 Hz screen"
+            },
+            {
+              "id": "c",
+              "text": "Multiply speed by the time since the last frame when moving him"
+            },
+            {
+              "id": "d",
+              "text": "Move the raider only on every second frame on 120 Hz phones"
+            }
           ],
-          "correct": ["c"],
+          "correct": [
+            "c"
+          ],
           "explanation": "Movement tied to frames runs faster when there are more frames per second. Using a speed in units per second and multiplying it by the elapsed frame time, often called delta time, makes the raider cover the same distance per second at any frame rate.",
           "why_others_wrong": {
             "a": "Locking to 30 fps wastes smooth screens and still breaks whenever a frame takes longer than expected.",
@@ -53,12 +88,26 @@
           "type": "single_choice",
           "prompt": "In the mini-game, a fast ball sometimes passes straight through a thin wall. What is happening, and what helps?",
           "options": [
-            {"id": "a", "text": "The wall's texture is too small; use a higher-resolution image"},
-            {"id": "b", "text": "The ball skips past the wall between steps; use continuous detection"},
-            {"id": "c", "text": "The ball is too heavy; lower its mass in the physics settings"},
-            {"id": "d", "text": "The camera is too far away; move it closer to the moving ball"}
+            {
+              "id": "a",
+              "text": "The wall's texture is too small; use a higher-resolution image"
+            },
+            {
+              "id": "b",
+              "text": "The ball skips past the wall between steps; use continuous detection"
+            },
+            {
+              "id": "c",
+              "text": "The ball is too heavy; lower its mass in the physics settings"
+            },
+            {
+              "id": "d",
+              "text": "The camera is too far away; move it closer to the moving ball"
+            }
           ],
-          "correct": ["b"],
+          "correct": [
+            "b"
+          ],
           "explanation": "Physics checks positions at discrete steps, so a fast object can be in front of a thin wall on one step and behind it on the next, never overlapping it. This is called tunnelling, and it is fixed with continuous collision detection on the ball, thicker colliders or smaller physics steps.",
           "why_others_wrong": {
             "a": "Textures only affect how the wall looks, not whether the physics engine detects a hit.",
@@ -73,13 +122,31 @@
           "type": "multi_select",
           "prompt": "Which two tasks belong inside the game's per-frame loop?",
           "options": [
-            {"id": "a", "text": "Read the player's touch input for this frame"},
-            {"id": "b", "text": "Load every level's art and sound from storage"},
-            {"id": "c", "text": "Update character positions using elapsed time"},
-            {"id": "d", "text": "Download the global leaderboard from the server"},
-            {"id": "e", "text": "Rebuild the game's entire menu from scratch"}
+            {
+              "id": "a",
+              "text": "Read the player's touch input for this frame"
+            },
+            {
+              "id": "b",
+              "text": "Load every level's art and sound from storage"
+            },
+            {
+              "id": "c",
+              "text": "Update character positions using elapsed time"
+            },
+            {
+              "id": "d",
+              "text": "Download the global leaderboard from the server"
+            },
+            {
+              "id": "e",
+              "text": "Rebuild the game's entire menu from scratch"
+            }
           ],
-          "correct": ["a", "c"],
+          "correct": [
+            "a",
+            "c"
+          ],
           "explanation": "Each frame the loop reads input, updates the game state, such as positions, using the elapsed time, and then draws the result. Anything slow or rarely changing belongs outside the loop, at load time or in the background.",
           "why_others_wrong": {
             "b": "Loading all assets every frame would make the game unplayably slow; assets load once, before the level starts.",
@@ -94,18 +161,47 @@
           "type": "match",
           "prompt": "Match each term to its meaning.",
           "items": [
-            {"id": "i1", "text": "Sprite"},
-            {"id": "i2", "text": "Collider"},
-            {"id": "i3", "text": "Frame rate"},
-            {"id": "i4", "text": "Game loop"}
+            {
+              "id": "i1",
+              "text": "Sprite"
+            },
+            {
+              "id": "i2",
+              "text": "Collider"
+            },
+            {
+              "id": "i3",
+              "text": "Frame rate"
+            },
+            {
+              "id": "i4",
+              "text": "Game loop"
+            }
           ],
           "targets": [
-            {"id": "t1", "text": "The repeating cycle of reading input, updating and drawing"},
-            {"id": "t2", "text": "A 2D image drawn on screen for a character or object"},
-            {"id": "t3", "text": "How many images the game draws to the screen each second"},
-            {"id": "t4", "text": "An invisible shape the physics engine uses to detect contact"}
+            {
+              "id": "t1",
+              "text": "The repeating cycle of reading input, updating and drawing"
+            },
+            {
+              "id": "t2",
+              "text": "A 2D image drawn on screen for a character or object"
+            },
+            {
+              "id": "t3",
+              "text": "How many images the game draws to the screen each second"
+            },
+            {
+              "id": "t4",
+              "text": "An invisible shape the physics engine uses to detect contact"
+            }
           ],
-          "correct": {"i1": "t2", "i2": "t4", "i3": "t3", "i4": "t1"},
+          "correct": {
+            "i1": "t2",
+            "i2": "t4",
+            "i3": "t3",
+            "i4": "t1"
+          },
           "explanation": "A sprite is the picture players see, while a collider is the invisible shape used for hits and contact, and the two often differ in shape. The frame rate is how often the screen is redrawn, and the game loop is the cycle that produces each of those frames.",
           "why_others_wrong": {
             "common_mistake": "Treating the sprite as what the physics engine collides with: collisions use the separate, usually simpler, collider shape."
@@ -134,19 +230,37 @@
         "Save systems",
         "Game feel and design patterns"
       ],
-      "map_node": {"x": 0.3, "y": 0.66, "label": "Lantern Maze"},
+      "map_node": {
+        "x": 0.3,
+        "y": 0.66,
+        "label": "Lantern Maze"
+      },
       "questions": [
         {
           "id": "gam-2-q1",
           "type": "single_choice",
           "prompt": "The guard's patrol, chase, attack and flee logic is a tangle of nested ifs, and new behaviours keep breaking old ones. What structure should the team use?",
           "options": [
-            {"id": "a", "text": "A finite state machine with one state per behaviour"},
-            {"id": "b", "text": "One larger function that holds every one of the ifs"},
-            {"id": "c", "text": "Random choice of a behaviour on each animation frame"},
-            {"id": "d", "text": "Separate copies of the guard script for each behaviour"}
+            {
+              "id": "a",
+              "text": "A finite state machine with one state per behaviour"
+            },
+            {
+              "id": "b",
+              "text": "One larger function that holds every one of the ifs"
+            },
+            {
+              "id": "c",
+              "text": "Random choice of a behaviour on each animation frame"
+            },
+            {
+              "id": "d",
+              "text": "Separate copies of the guard script for each behaviour"
+            }
           ],
-          "correct": ["a"],
+          "correct": [
+            "a"
+          ],
           "explanation": "A finite state machine makes the guard be in exactly one state at a time, each with its own logic and clear rules for moving to another state, such as chase becoming flee when health is low. Adding a behaviour then means adding a state and its transitions, not rewriting a web of conditions.",
           "why_others_wrong": {
             "b": "Merging the ifs into one function keeps the same tangle, only harder to read.",
@@ -161,12 +275,26 @@
           "type": "single_choice",
           "prompt": "Creating and destroying up to 500 sparks per second causes stutters in big fights. What is the standard fix?",
           "options": [
-            {"id": "a", "text": "Create each spark at a much lower image resolution"},
-            {"id": "b", "text": "Pool sparks: keep a set and reuse them, never destroy"},
-            {"id": "c", "text": "Delay spark creation until the fight has finished"},
-            {"id": "d", "text": "Run the game's physics simulation fewer times per second"}
+            {
+              "id": "a",
+              "text": "Create each spark at a much lower image resolution"
+            },
+            {
+              "id": "b",
+              "text": "Pool sparks: keep a set and reuse them, never destroy"
+            },
+            {
+              "id": "c",
+              "text": "Delay spark creation until the fight has finished"
+            },
+            {
+              "id": "d",
+              "text": "Run the game's physics simulation fewer times per second"
+            }
           ],
-          "correct": ["b"],
+          "correct": [
+            "b"
+          ],
           "explanation": "Constantly creating and destroying objects causes allocation work and garbage collection pauses, which show up as stutters. An object pool creates a fixed set of sparks up front, hides finished ones and reuses them, so no new objects are created during a fight.",
           "why_others_wrong": {
             "a": "Smaller images reduce drawing cost but not the creation and destruction that causes the stutter.",
@@ -181,12 +309,26 @@
           "type": "single_choice",
           "prompt": "Players lost all progress when the game crashed in the middle of saving. How should saving work?",
           "options": [
-            {"id": "a", "text": "Save only when the player quits the game from its main menu"},
-            {"id": "b", "text": "Save a full copy of the game's memory to one file each frame"},
-            {"id": "c", "text": "Write a versioned save to a temp file, then swap it in place"},
-            {"id": "d", "text": "Keep progress only in memory and trust the game not to crash"}
+            {
+              "id": "a",
+              "text": "Save only when the player quits the game from its main menu"
+            },
+            {
+              "id": "b",
+              "text": "Save a full copy of the game's memory to one file each frame"
+            },
+            {
+              "id": "c",
+              "text": "Write a versioned save to a temp file, then swap it in place"
+            },
+            {
+              "id": "d",
+              "text": "Keep progress only in memory and trust the game not to crash"
+            }
           ],
-          "correct": ["c"],
+          "correct": [
+            "c"
+          ],
           "explanation": "Writing to a temporary file and only replacing the real save once the write has finished means a crash leaves either the old save or the new one, never a half-written file. Storing a version number in the save lets future updates read and upgrade older saves.",
           "why_others_wrong": {
             "a": "A crash before quitting loses everything since the last quit.",
@@ -201,13 +343,31 @@
           "type": "multi_select",
           "prompt": "Testers say jumping near ledges feels unfair. Which two techniques make the jump feel more responsive?",
           "options": [
-            {"id": "a", "text": "Allow a jump for a few frames after the hero walks off a ledge"},
-            {"id": "b", "text": "Play a 200 ms wind-up animation before every jump begins"},
-            {"id": "c", "text": "Remember a jump press made just before landing and use it"},
-            {"id": "d", "text": "Lock the game at 20 fps to make the timing more predictable"},
-            {"id": "e", "text": "Vary the jump height randomly to keep each jump interesting"}
+            {
+              "id": "a",
+              "text": "Allow a jump for a few frames after the hero walks off a ledge"
+            },
+            {
+              "id": "b",
+              "text": "Play a 200 ms wind-up animation before every jump begins"
+            },
+            {
+              "id": "c",
+              "text": "Remember a jump press made just before landing and use it"
+            },
+            {
+              "id": "d",
+              "text": "Lock the game at 20 fps to make the timing more predictable"
+            },
+            {
+              "id": "e",
+              "text": "Vary the jump height randomly to keep each jump interesting"
+            }
           ],
-          "correct": ["a", "c"],
+          "correct": [
+            "a",
+            "c"
+          ],
           "explanation": "Allowing a jump shortly after leaving a ledge, often called coyote time, forgives presses that are a fraction late. Buffering a press made just before landing and acting on it when the hero lands forgives presses that are slightly early. Together they match what players believe they pressed.",
           "why_others_wrong": {
             "b": "A long wind-up adds delay between the press and the jump, which feels less responsive.",
@@ -222,24 +382,269 @@
           "type": "match",
           "prompt": "Match each design problem to the pattern that fits it.",
           "items": [
-            {"id": "i1", "text": "The UI, sound and achievements must all react when the hero dies"},
-            {"id": "i2", "text": "Thousands of identical lanterns share one model and texture"},
-            {"id": "i3", "text": "Weapons with different firing styles can be swapped mid-game"},
-            {"id": "i4", "text": "The puzzle rooms need an undo for each move the player makes"}
+            {
+              "id": "i1",
+              "text": "The UI, sound and achievements must all react when the hero dies"
+            },
+            {
+              "id": "i2",
+              "text": "Thousands of identical lanterns share one model and texture"
+            },
+            {
+              "id": "i3",
+              "text": "Weapons with different firing styles can be swapped mid-game"
+            },
+            {
+              "id": "i4",
+              "text": "The puzzle rooms need an undo for each move the player makes"
+            }
           ],
           "targets": [
-            {"id": "t1", "text": "Store each move as a command object that can be reversed"},
-            {"id": "t2", "text": "Swap interchangeable behaviour objects behind one interface"},
-            {"id": "t3", "text": "Publish an event that each interested system listens for"},
-            {"id": "t4", "text": "Share one copy of the heavy data across every instance"}
+            {
+              "id": "t1",
+              "text": "Store each move as a command object that can be reversed"
+            },
+            {
+              "id": "t2",
+              "text": "Swap interchangeable behaviour objects behind one interface"
+            },
+            {
+              "id": "t3",
+              "text": "Publish an event that each interested system listens for"
+            },
+            {
+              "id": "t4",
+              "text": "Share one copy of the heavy data across every instance"
+            }
           ],
-          "correct": {"i1": "t3", "i2": "t4", "i3": "t2", "i4": "t1"},
+          "correct": {
+            "i1": "t3",
+            "i2": "t4",
+            "i3": "t2",
+            "i4": "t1"
+          },
           "explanation": "A death event lets any system react without the hero knowing about each one, which is the observer pattern. Shared data for identical objects is the flyweight idea, swappable firing styles behind one interface are the strategy pattern, and reversible moves come from storing each action as a command.",
           "why_others_wrong": {
             "common_mistake": "Having the hero call the UI, sound and achievement code directly: every new system then needs changes to the hero, which an event avoids."
           },
           "key_justification": "Observer, flyweight, strategy and command each solve a recurring game-code problem.",
           "points": 10
+        }
+      ],
+      "code_pool": [
+        {
+          "id": "gam-2-c1",
+          "prompt": "The guards' behaviour became a tangle of nested ifs. A state machine is a table instead. The first line is n, then n transitions `state event next_state`, then one line of events. Complete `run_guard`: the guard starts in `patrol`; for each event it moves to the listed next state, or stays where it is if the table has no entry for (state, event). The program prints the state after each event, then `final state`.",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef run_guard(table, events):\n    \"\"\"table: list of (state, event, next state). The guard starts in 'patrol'. For each event, move to the listed next state, or stay put if (state, event) is not in the table. Return the state after each event.\"\"\"\n    # Write your code here.\n    return []\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    table = [tuple(data[1 + i].split()) for i in range(n)]\n    events = data[1 + n].split()\n    states = run_guard(table, events)\n    print(\" \".join(states) if states else \"-\")\n    print(\"final\", states[-1] if states else \"patrol\")\n\n\nmain()\n",
+          "reference_solution": "import sys\n\n\ndef run_guard(table, events):\n    \"\"\"table: list of (state, event, next state). The guard starts in 'patrol'. For each event, move to the listed next state, or stay put if (state, event) is not in the table. Return the state after each event.\"\"\"\n    moves = {(state, event): nxt for state, event, nxt in table}   # the whole behaviour as data\n    state, out = \"patrol\", []\n    for event in events:\n        state = moves.get((state, event), state)\n        out.append(state)\n    return out\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    table = [tuple(data[1 + i].split()) for i in range(n)]\n    events = data[1 + n].split()\n    states = run_guard(table, events)\n    print(\" \".join(states) if states else \"-\")\n    print(\"final\", states[-1] if states else \"patrol\")\n\n\nmain()\n",
+          "ds_topic": "hash_map",
+          "difficulty": 1,
+          "skills": [
+            "Python"
+          ],
+          "explanation": "A dictionary keyed by (state, event) replaces the nested conditions: each step is one lookup, and adding a behaviour (search after a noise) is a new row, not a new branch in five places. Unknown events leave the state alone, which is usually what a game wants.",
+          "key_justification": "Finite state machine as a transition table in a hash map.",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "5\npatrol see chase\nchase near attack\nattack hurt flee\nchase lost patrol\nflee healed patrol\nsee near hurt healed jump\n",
+                  "expected_stdout": "chase attack flee patrol patrol\nfinal patrol\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "6\nattack hurt flee\nchase near attack\nchase lost patrol\nflee cornered attack\nsearch see chase\nflee healed patrol\nfar see jump hurt timeout\n",
+                  "expected_stdout": "patrol patrol patrol patrol patrol\nfinal patrol\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "8\nsearch see chase\nattack hurt flee\nsearch timeout patrol\nattack far chase\nflee healed patrol\nchase near attack\npatrol noise search\nchase lost patrol\nsee lost noise noise see cornered lost timeout timeout cornered far healed far hurt healed\n",
+                  "expected_stdout": "patrol patrol search search chase chase patrol patrol patrol patrol patrol patrol patrol patrol patrol\nfinal patrol\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "10\nflee healed patrol\nsearch timeout patrol\npatrol noise search\nchase near attack\nattack far chase\nflee cornered attack\nsearch see chase\nattack hurt flee\nchase lost patrol\npatrol see chase\nsee noise timeout far far hurt noise healed cornered lost see hurt cornered near timeout lost near see jump hurt near jump see near hurt jump healed jump jump cornered near near lost near far see jump healed timeout timeout\n",
+                  "expected_stdout": "chase chase chase chase chase chase chase chase chase patrol chase chase chase attack attack attack attack attack attack flee flee flee flee flee flee flee patrol patrol patrol patrol patrol patrol patrol patrol patrol chase chase chase chase chase\nfinal chase\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1\npatrol see chase\n\n",
+                  "expected_stdout": "-\nfinal patrol\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "1\npatrol see chase\nnoise noise\n",
+                  "expected_stdout": "patrol patrol\nfinal patrol\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "6\nflee cornered attack\nchase lost patrol\npatrol see chase\nsearch see chase\nsearch timeout patrol\nflee healed patrol\nsee near far hurt lost\n",
+                  "expected_stdout": "chase chase chase chase patrol\nfinal patrol\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "8\nflee healed patrol\nattack hurt flee\nsearch see chase\nsearch timeout patrol\nattack far chase\nchase near attack\nchase lost patrol\nflee cornered attack\nhurt far hurt cornered healed healed cornered cornered timeout jump noise far hurt timeout far\n",
+                  "expected_stdout": "patrol patrol patrol patrol patrol patrol patrol patrol patrol patrol patrol patrol patrol patrol patrol\nfinal patrol\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "10\nchase near attack\nchase lost patrol\npatrol noise search\nflee healed patrol\nsearch timeout patrol\nflee cornered attack\nsearch see chase\nattack far chase\npatrol see chase\nattack hurt flee\nnear far noise healed cornered jump healed near see near hurt hurt far lost jump noise timeout far lost near near see healed noise hurt far jump noise healed noise see cornered cornered see see see noise cornered timeout far\n",
+                  "expected_stdout": "patrol patrol search search search search search search chase attack flee flee flee flee flee flee flee flee flee flee flee flee patrol search search search search search search search chase chase chase chase chase chase chase chase chase chase\nfinal chase\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "2\npatrol a b\nb a patrol\na a a a\n",
+                  "expected_stdout": "b patrol b patrol\nfinal patrol\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "2\npatrol noise search\nsearch see chase\nnoise see see\n",
+                  "expected_stdout": "search chase chase\nfinal chase\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "6\nchase lost patrol\nsearch see chase\nattack far chase\nchase near attack\nflee cornered attack\npatrol noise search\nfar near healed lost healed\n",
+                  "expected_stdout": "patrol patrol patrol patrol patrol\nfinal patrol\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "8\nflee healed patrol\nflee cornered attack\nsearch see chase\nattack far chase\nsearch timeout patrol\npatrol see chase\npatrol noise search\nchase lost patrol\nhurt healed healed timeout hurt hurt timeout jump see noise noise cornered jump see hurt\n",
+                  "expected_stdout": "patrol patrol patrol patrol patrol patrol patrol patrol chase chase chase chase chase chase chase\nfinal chase\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "10\npatrol see chase\nflee cornered attack\nattack far chase\nsearch timeout patrol\nflee healed patrol\nattack hurt flee\nchase lost patrol\nchase near attack\nsearch see chase\npatrol noise search\nnear far hurt noise near cornered lost hurt see timeout noise far noise jump noise timeout see lost lost jump timeout noise cornered jump lost near near healed cornered noise healed noise near see far noise see timeout jump cornered\n",
+                  "expected_stdout": "patrol patrol patrol search search search search search chase chase chase chase chase chase chase chase chase patrol patrol patrol patrol search search search search search search search search search search search search chase chase chase chase chase chase chase\nfinal chase\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1\nx y z\ny\n",
+                  "expected_stdout": "patrol\nfinal patrol\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "gam-2-c2",
+          "prompt": "The magic spray creates up to 500 sparks a second, and allocating each one makes the game stutter. An object pool reuses a fixed set instead. The first line is `size lifetime n`, the second has n spawn requests (times in ms, in order; several can share a time). Complete `spark_pool`: a spark lives `lifetime` ms and returns to the pool at time >= start + lifetime; a request with no free spark is dropped. Because every spark lives equally long, the next to return is always the oldest, so a queue is enough. The program prints `spawned a dropped b peak c`.",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef spark_pool(spawns, size, lifetime):\n    \"\"\"spawns: times (ms) the spray asks for a spark, in order. The pool has `size` sparks; a spark lives `lifetime` ms and is back in the pool at time >= start + lifetime. If no spark is free the request is dropped (no new allocation). Return (spawned, dropped, most sparks alive at once).\"\"\"\n    # Write your code here.\n    return len(spawns), 0, len(spawns)\n\n\ndef main():\n    data = sys.stdin.read().split()\n    size, lifetime, n = int(data[0]), int(data[1]), int(data[2])\n    spawns = list(map(int, data[3:3 + n]))\n    spawned, dropped, peak = spark_pool(spawns, size, lifetime)\n    print(\"spawned\", spawned, \"dropped\", dropped, \"peak\", peak)\n\n\nmain()\n",
+          "reference_solution": "from collections import deque\nimport sys\n\n\ndef spark_pool(spawns, size, lifetime):\n    \"\"\"spawns: times (ms) the spray asks for a spark, in order. The pool has `size` sparks; a spark lives `lifetime` ms and is back in the pool at time >= start + lifetime. If no spark is free the request is dropped (no new allocation). Return (spawned, dropped, most sparks alive at once).\"\"\"\n    alive = deque()                    # end times; oldest first, since every spark lives equally long\n    spawned = dropped = peak = 0\n    for t in spawns:\n        while alive and alive[0] <= t:\n            alive.popleft()            # back in the pool\n        if len(alive) < size:\n            alive.append(t + lifetime)\n            spawned += 1\n        else:\n            dropped += 1\n        peak = max(peak, len(alive))\n    return spawned, dropped, peak\n\n\ndef main():\n    data = sys.stdin.read().split()\n    size, lifetime, n = int(data[0]), int(data[1]), int(data[2])\n    spawns = list(map(int, data[3:3 + n]))\n    spawned, dropped, peak = spark_pool(spawns, size, lifetime)\n    print(\"spawned\", spawned, \"dropped\", dropped, \"peak\", peak)\n\n\nmain()\n",
+          "ds_topic": "queue",
+          "difficulty": 2,
+          "skills": [
+            "Python"
+          ],
+          "explanation": "With a fixed lifetime, sparks expire in the order they were created, so a FIFO queue of end times returns sparks in O(1). A pool caps memory and removes per-frame allocation (and the garbage-collection pauses that cause the stutter); dropping a spark when the pool is empty is invisible to the player.",
+          "key_justification": "Object pool with expiry tracked in a FIFO queue.",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "2 100 6\n0 10 50 100 105 120\n",
+                  "expected_stdout": "spawned 4 dropped 2 peak 2\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "5 100 8\n1 3 3 5 7 12 13 15\n",
+                  "expected_stdout": "spawned 5 dropped 3 peak 5\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "8 60 40\n0 20 40 60 61 66 66 86 87 88 93 98 118 119 124 124 126 127 127 129 134 134 154 156 176 177 177 178 198 218 218 219 219 220 221 226 226 231 232 233\n",
+                  "expected_stdout": "spawned 25 dropped 15 peak 8\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "9 100 150\n5 6 7 7 27 27 47 47 52 52 72 74 74 75 77 77 97 97 117 118 118 123 143 143 143 145 146 166 171 176 181 181 201 202 203 204 206 208 208 208 209 214 215 216 236 238 239 244 245 265 267 267 268 269 271 276 281 283 285 287 289 309 309 311 312 314 316 336 336 338 339 340 341 343 343 348 353 358 378 380 385 405 410 410 415 415 417 417 419 424 444 449 449 450 452 472 473 493 513 515 517 517 519 520 521 522 523 525 530 535 555 575 576 577 579 579 584 585 587 588 588 593 613 633 633 633 634 634 654 656 657 657 658 658 660 680 700 700 705 706 711 712 714 715 715 715 716 721 726 731\n",
+                  "expected_stdout": "spawned 61 dropped 89 peak 9\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1 1 1\n7\n",
+                  "expected_stdout": "spawned 1 dropped 0 peak 1\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "1 10 3\n0 0 10\n",
+                  "expected_stdout": "spawned 2 dropped 1 peak 1\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "8 60 8\n5 10 30 50 51 56 57 77\n",
+                  "expected_stdout": "spawned 8 dropped 0 peak 7\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "9 30 40\n20 40 40 41 41 46 46 51 52 54 56 76 78 78 98 100 100 120 122 127 132 134 154 155 157 162 167 172 177 177 177 177 182 182 183 184 204 224 229 234\n",
+                  "expected_stdout": "spawned 35 dropped 5 peak 9\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "11 30 150\n20 22 27 47 67 68 70 72 74 74 79 80 100 100 101 103 103 103 105 106 106 106 108 109 110 130 131 132 152 154 156 157 158 158 158 159 160 161 181 181 182 187 192 192 197 202 202 203 204 205 225 226 231 233 234 235 235 235 255 275 275 276 276 277 279 299 304 309 311 311 312 317 319 339 341 346 351 351 352 372 377 382 383 388 393 413 414 415 415 417 417 422 427 429 449 450 451 471 476 496 501 502 504 509 509 510 512 512 532 552 554 556 556 561 561 562 582 582 583 588 588 588 590 592 593 594 595 595 600 605 610 610 630 635 635 640 642 642 647 667 687 687 707 712 732 732 734 739 759 779\n",
+                  "expected_stdout": "spawned 142 dropped 8 peak 11\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "3 5 6\n0 0 0 0 5 5\n",
+                  "expected_stdout": "spawned 5 dropped 1 peak 3\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "5 1000 3\n0 1 2\n",
+                  "expected_stdout": "spawned 3 dropped 0 peak 3\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "10 30 8\n0 2 3 8 13 15 17 18\n",
+                  "expected_stdout": "spawned 8 dropped 0 peak 8\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "10 60 40\n5 5 5 10 10 11 11 31 32 33 38 40 45 50 51 71 73 74 79 84 89 109 109 109 109 129 130 131 151 151 152 152 152 153 155 157 158 163 163 183\n",
+                  "expected_stdout": "spawned 27 dropped 13 peak 10\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "8 60 150\n1 3 5 25 30 30 32 37 42 62 64 65 85 87 88 93 94 94 96 98 118 138 140 142 144 144 145 145 147 147 149 151 152 157 162 163 164 165 165 170 175 180 185 187 188 188 208 209 209 209 214 234 234 234 239 241 246 251 253 254 254 259 264 284 285 287 289 291 293 298 299 319 319 324 329 330 330 332 337 357 377 378 398 403 404 424 425 430 430 432 433 434 435 435 455 456 461 481 483 503 504 509 511 511 511 513 518 538 543 563 568 570 575 576 576 578 578 578 578 578 579 599 601 621 622 642 662 667 668 670 670 690 690 690 692 697 699 700 700 700 701 721 722 727 729 734 736 737 738 738\n",
+                  "expected_stdout": "spawned 82 dropped 68 peak 8\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "2 50 4\n0 49 50 99\n",
+                  "expected_stdout": "spawned 4 dropped 0 peak 2\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -262,19 +667,37 @@
         "Texture memory",
         "Profiling practice"
       ],
-      "map_node": {"x": 0.5, "y": 0.5, "label": "Neon Race Track"},
+      "map_node": {
+        "x": 0.5,
+        "y": 0.5,
+        "label": "Neon Race Track"
+      },
       "questions": [
         {
           "id": "gam-3-q1",
           "type": "single_choice",
           "prompt": "The city track issues about 1,800 draw calls per frame, and the CPU on low-end phones cannot keep up. What helps most?",
           "options": [
-            {"id": "a", "text": "Share materials and texture atlases so objects can be batched"},
-            {"id": "b", "text": "Raise the game's target frame rate from 30 to 60 fps"},
-            {"id": "c", "text": "Give each building its own unique material and texture"},
-            {"id": "d", "text": "Turn up the screen resolution so each pixel costs less"}
+            {
+              "id": "a",
+              "text": "Share materials and texture atlases so objects can be batched"
+            },
+            {
+              "id": "b",
+              "text": "Raise the game's target frame rate from 30 to 60 fps"
+            },
+            {
+              "id": "c",
+              "text": "Give each building its own unique material and texture"
+            },
+            {
+              "id": "d",
+              "text": "Turn up the screen resolution so each pixel costs less"
+            }
           ],
-          "correct": ["a"],
+          "correct": [
+            "a"
+          ],
           "explanation": "Each draw call has CPU overhead, and objects that share a material and texture can be drawn together in batches. Combining textures into atlases and reusing materials, along with static batching for buildings that never move, cuts the draw-call count sharply.",
           "why_others_wrong": {
             "b": "A higher target asks the overloaded CPU to do even more work per second.",
@@ -289,12 +712,26 @@
           "type": "single_choice",
           "prompt": "The game hitches every few seconds, and the profiler shows garbage collection spikes. The speedometer builds a new text string every frame. What should change?",
           "options": [
-            {"id": "a", "text": "Call the garbage collector manually during every frame"},
-            {"id": "b", "text": "Change the speedometer text only when the shown value changes"},
-            {"id": "c", "text": "Make the speedometer font larger so the text is easier to read"},
-            {"id": "d", "text": "Move the speedometer code into the game's loading screen"}
+            {
+              "id": "a",
+              "text": "Call the garbage collector manually during every frame"
+            },
+            {
+              "id": "b",
+              "text": "Change the speedometer text only when the shown value changes"
+            },
+            {
+              "id": "c",
+              "text": "Make the speedometer font larger so the text is easier to read"
+            },
+            {
+              "id": "d",
+              "text": "Move the speedometer code into the game's loading screen"
+            }
           ],
-          "correct": ["b"],
+          "correct": [
+            "b"
+          ],
           "explanation": "Allocating a new string sixty times a second fills memory with garbage that the collector must periodically clean up, causing hitches. Updating the text only when the displayed number changes, and reusing buffers, removes most of those allocations.",
           "why_others_wrong": {
             "a": "Collecting every frame makes every frame slower and does not stop the allocations.",
@@ -309,12 +746,26 @@
           "type": "single_choice",
           "prompt": "The game crashes on 2 GB phones while loading the Old Delhi track, which uses dozens of uncompressed 4096x4096 textures. What is the best fix?",
           "options": [
-            {"id": "a", "text": "Ask players to close other apps before they start a race"},
-            {"id": "b", "text": "Convert the textures to uncompressed PNG files on disk"},
-            {"id": "c", "text": "Load every track's textures into memory at app launch"},
-            {"id": "d", "text": "Use GPU-compressed formats and smaller sizes on low-end phones"}
+            {
+              "id": "a",
+              "text": "Ask players to close other apps before they start a race"
+            },
+            {
+              "id": "b",
+              "text": "Convert the textures to uncompressed PNG files on disk"
+            },
+            {
+              "id": "c",
+              "text": "Load every track's textures into memory at app launch"
+            },
+            {
+              "id": "d",
+              "text": "Use GPU-compressed formats and smaller sizes on low-end phones"
+            }
           ],
-          "correct": ["d"],
+          "correct": [
+            "d"
+          ],
           "explanation": "An uncompressed 4096x4096 texture takes about 64 MB of memory, so dozens of them exceed what a 2 GB phone can give the game. GPU formats such as ASTC or ETC2 stay compressed in memory, and serving lower-resolution versions to low-end phones cuts memory use several times over.",
           "why_others_wrong": {
             "a": "Closing other apps frees a little memory but cannot make room for gigabytes of textures.",
@@ -329,13 +780,31 @@
           "type": "multi_select",
           "prompt": "Which two practices should guide the team's optimisation work?",
           "options": [
-            {"id": "a", "text": "Profile on the low-cost target phones, not on the dev PCs"},
-            {"id": "b", "text": "Rewrite any code that looks slow before measuring it"},
-            {"id": "c", "text": "Measure frame time before and after each single change"},
-            {"id": "d", "text": "Profile only inside the editor running on the workstation"},
-            {"id": "e", "text": "Apply a dozen optimisations at once to save the team time"}
+            {
+              "id": "a",
+              "text": "Profile on the low-cost target phones, not on the dev PCs"
+            },
+            {
+              "id": "b",
+              "text": "Rewrite any code that looks slow before measuring it"
+            },
+            {
+              "id": "c",
+              "text": "Measure frame time before and after each single change"
+            },
+            {
+              "id": "d",
+              "text": "Profile only inside the editor running on the workstation"
+            },
+            {
+              "id": "e",
+              "text": "Apply a dozen optimisations at once to save the team time"
+            }
           ],
-          "correct": ["a", "c"],
+          "correct": [
+            "a",
+            "c"
+          ],
           "explanation": "Low-cost phones have different bottlenecks from gaming PCs, so only profiling on them shows what really limits the game. Measuring before and after each change shows whether it helped, and by how much.",
           "why_others_wrong": {
             "b": "Code that looks slow often is not the bottleneck, so this wastes effort.",
@@ -350,24 +819,269 @@
           "type": "match",
           "prompt": "Match each symptom to its most likely cause.",
           "items": [
-            {"id": "i1", "text": "Frame time is high while the CPU is idle and the GPU is maxed out"},
-            {"id": "i2", "text": "The screen freezes for two seconds right as the race starts"},
-            {"id": "i3", "text": "Frame rate falls steadily after ten minutes as the phone heats up"},
-            {"id": "i4", "text": "Audio crackles when many cars crash at the same moment"}
+            {
+              "id": "i1",
+              "text": "Frame time is high while the CPU is idle and the GPU is maxed out"
+            },
+            {
+              "id": "i2",
+              "text": "The screen freezes for two seconds right as the race starts"
+            },
+            {
+              "id": "i3",
+              "text": "Frame rate falls steadily after ten minutes as the phone heats up"
+            },
+            {
+              "id": "i4",
+              "text": "Audio crackles when many cars crash at the same moment"
+            }
           ],
           "targets": [
-            {"id": "t1", "text": "Too many sounds play at once, with no limit on voices"},
-            {"id": "t2", "text": "Overdraw from many layered full-screen transparent effects"},
-            {"id": "t3", "text": "Assets load in one blocking step when the race begins"},
-            {"id": "t4", "text": "Running uncapped makes the chip throttle to stay cool"}
+            {
+              "id": "t1",
+              "text": "Too many sounds play at once, with no limit on voices"
+            },
+            {
+              "id": "t2",
+              "text": "Overdraw from many layered full-screen transparent effects"
+            },
+            {
+              "id": "t3",
+              "text": "Assets load in one blocking step when the race begins"
+            },
+            {
+              "id": "t4",
+              "text": "Running uncapped makes the chip throttle to stay cool"
+            }
           ],
-          "correct": {"i1": "t2", "i2": "t3", "i3": "t4", "i4": "t1"},
+          "correct": {
+            "i1": "t2",
+            "i2": "t3",
+            "i3": "t4",
+            "i4": "t1"
+          },
           "explanation": "An idle CPU with a maxed GPU means the game is GPU-bound, and layered transparent effects that redraw the same pixels many times are a common cause. A freeze at race start points to assets loading on the main thread, a slow decline as the phone heats is thermal throttling, and crackling during many crashes means too many simultaneous sounds.",
           "why_others_wrong": {
             "common_mistake": "Treating the slow decline as a memory leak: a drop that follows the phone's temperature points to thermal throttling, which a frame-rate cap helps."
           },
           "key_justification": "Read the symptom's pattern to tell GPU-bound, loading, thermal and audio problems apart.",
           "points": 10
+        }
+      ],
+      "code_pool": [
+        {
+          "id": "gam-3-c1",
+          "prompt": "The profiler shows about 2,000 draw calls a frame on cheap phones. A draw call is needed each time the material changes, so drawing objects grouped by material cuts the count. The first line is n, then n objects `name material` in their current draw order. Complete `batch_draws`. The program prints `before` (draw calls in the current order: one per run of consecutive objects with the same material), `after` (draw calls once sorted by material, which is the number of materials) and `order` with the names sorted by material, keeping the original order within each material.",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef batch_draws(objects):\n    \"\"\"objects: list of (name, material) in draw order. One draw call is needed per run of consecutive objects sharing a material. Return (draw calls now, draw calls after sorting by material, the sorted names: by material, keeping the original order within a material).\"\"\"\n    # Write your code here.\n    return len(objects), len(objects), [o[0] for o in objects]\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    objects = [tuple(data[1 + i].split()) for i in range(n)]\n    before, after, order = batch_draws(objects)\n    print(\"before\", before)\n    print(\"after\", after)\n    print(\"order\", \" \".join(order))\n\n\nmain()\n",
+          "reference_solution": "import sys\n\n\ndef batch_draws(objects):\n    \"\"\"objects: list of (name, material) in draw order. One draw call is needed per run of consecutive objects sharing a material. Return (draw calls now, draw calls after sorting by material, the sorted names: by material, keeping the original order within a material).\"\"\"\n    before = sum(1 for i, (_, mat) in enumerate(objects) if i == 0 or objects[i - 1][1] != mat)\n    ordered = sorted(objects, key=lambda o: o[1])              # Python's sort is stable\n    after = len({mat for _, mat in objects})\n    return before, after, [name for name, _ in ordered]\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    objects = [tuple(data[1 + i].split()) for i in range(n)]\n    before, after, order = batch_draws(objects)\n    print(\"before\", before)\n    print(\"after\", after)\n    print(\"order\", \" \".join(order))\n\n\nmain()\n",
+          "ds_topic": "sorting",
+          "difficulty": 1,
+          "skills": [
+            "Python"
+          ],
+          "explanation": "Counting changes between neighbours gives the current draw calls; a stable sort by material groups each material into one run, so the calls drop to the number of materials while objects keep their relative order within a group. Engines do this batching (plus texture atlases so fewer materials exist) to stay within a phone's budget.",
+          "key_justification": "Stable sort to group by key; count runs before and after.",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "6\ncar1 car\nroad1 road\ncar2 car\nroad2 road\nroad3 road\ntree1 tree\n",
+                  "expected_stdout": "before 5\nafter 3\norder car1 car2 road1 road2 road3 tree1\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "6\nobj1 road\nobj2 tree\nobj3 auto\nobj4 building\nobj5 road\nobj6 road\n",
+                  "expected_stdout": "before 5\nafter 4\norder obj3 obj4 obj1 obj5 obj6 obj2\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "20\nobj1 tree\nobj2 building\nobj3 road\nobj4 car\nobj5 sign\nobj6 building\nobj7 building\nobj8 building\nobj9 road\nobj10 road\nobj11 car\nobj12 car\nobj13 tree\nobj14 road\nobj15 building\nobj16 road\nobj17 road\nobj18 building\nobj19 building\nobj20 car\n",
+                  "expected_stdout": "before 14\nafter 5\norder obj2 obj6 obj7 obj8 obj15 obj18 obj19 obj4 obj11 obj12 obj20 obj3 obj9 obj10 obj14 obj16 obj17 obj5 obj1 obj13\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "60\nobj1 car\nobj2 car\nobj3 car\nobj4 car\nobj5 road\nobj6 road\nobj7 road\nobj8 car\nobj9 sign\nobj10 car\nobj11 car\nobj12 car\nobj13 tree\nobj14 car\nobj15 road\nobj16 road\nobj17 car\nobj18 tree\nobj19 car\nobj20 building\nobj21 building\nobj22 road\nobj23 road\nobj24 car\nobj25 car\nobj26 building\nobj27 road\nobj28 sign\nobj29 car\nobj30 building\nobj31 car\nobj32 tree\nobj33 road\nobj34 road\nobj35 road\nobj36 car\nobj37 sign\nobj38 car\nobj39 building\nobj40 road\nobj41 road\nobj42 car\nobj43 road\nobj44 car\nobj45 car\nobj46 road\nobj47 road\nobj48 car\nobj49 car\nobj50 car\nobj51 road\nobj52 road\nobj53 road\nobj54 car\nobj55 car\nobj56 car\nobj57 road\nobj58 building\nobj59 road\nobj60 auto\n",
+                  "expected_stdout": "before 38\nafter 6\norder obj60 obj20 obj21 obj26 obj30 obj39 obj58 obj1 obj2 obj3 obj4 obj8 obj10 obj11 obj12 obj14 obj17 obj19 obj24 obj25 obj29 obj31 obj36 obj38 obj42 obj44 obj45 obj48 obj49 obj50 obj54 obj55 obj56 obj5 obj6 obj7 obj15 obj16 obj22 obj23 obj27 obj33 obj34 obj35 obj40 obj41 obj43 obj46 obj47 obj51 obj52 obj53 obj57 obj59 obj9 obj28 obj37 obj13 obj18 obj32\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1\nsolo glass\n",
+                  "expected_stdout": "before 1\nafter 1\norder solo\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "3\na m\nb m\nc m\n",
+                  "expected_stdout": "before 1\nafter 1\norder a b c\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "6\nobj1 sign\nobj2 auto\nobj3 building\nobj4 tree\nobj5 tree\nobj6 car\n",
+                  "expected_stdout": "before 5\nafter 5\norder obj2 obj3 obj6 obj1 obj4 obj5\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "20\nobj1 car\nobj2 building\nobj3 auto\nobj4 tree\nobj5 tree\nobj6 road\nobj7 car\nobj8 road\nobj9 tree\nobj10 road\nobj11 car\nobj12 building\nobj13 road\nobj14 building\nobj15 car\nobj16 car\nobj17 road\nobj18 tree\nobj19 road\nobj20 tree\n",
+                  "expected_stdout": "before 18\nafter 5\norder obj3 obj2 obj12 obj14 obj1 obj7 obj11 obj15 obj16 obj6 obj8 obj10 obj13 obj17 obj19 obj4 obj5 obj9 obj18 obj20\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "60\nobj1 tree\nobj2 car\nobj3 road\nobj4 car\nobj5 car\nobj6 road\nobj7 tree\nobj8 sign\nobj9 car\nobj10 road\nobj11 building\nobj12 building\nobj13 car\nobj14 road\nobj15 road\nobj16 sign\nobj17 car\nobj18 car\nobj19 car\nobj20 car\nobj21 car\nobj22 car\nobj23 car\nobj24 building\nobj25 building\nobj26 auto\nobj27 car\nobj28 auto\nobj29 building\nobj30 sign\nobj31 road\nobj32 sign\nobj33 building\nobj34 building\nobj35 road\nobj36 car\nobj37 road\nobj38 car\nobj39 road\nobj40 building\nobj41 tree\nobj42 car\nobj43 car\nobj44 sign\nobj45 car\nobj46 road\nobj47 building\nobj48 car\nobj49 car\nobj50 sign\nobj51 car\nobj52 road\nobj53 road\nobj54 road\nobj55 building\nobj56 car\nobj57 car\nobj58 tree\nobj59 sign\nobj60 tree\n",
+                  "expected_stdout": "before 44\nafter 6\norder obj26 obj28 obj11 obj12 obj24 obj25 obj29 obj33 obj34 obj40 obj47 obj55 obj2 obj4 obj5 obj9 obj13 obj17 obj18 obj19 obj20 obj21 obj22 obj23 obj27 obj36 obj38 obj42 obj43 obj45 obj48 obj49 obj51 obj56 obj57 obj3 obj6 obj10 obj14 obj15 obj31 obj35 obj37 obj39 obj46 obj52 obj53 obj54 obj8 obj16 obj30 obj32 obj44 obj50 obj59 obj1 obj7 obj41 obj58 obj60\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "2\nb t\na s\n",
+                  "expected_stdout": "before 2\nafter 2\norder a b\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "4\nx 2\ny 1\nz 2\nw 1\n",
+                  "expected_stdout": "before 4\nafter 2\norder y w x z\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "6\nobj1 building\nobj2 sign\nobj3 car\nobj4 road\nobj5 road\nobj6 road\n",
+                  "expected_stdout": "before 4\nafter 4\norder obj1 obj3 obj4 obj5 obj6 obj2\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "20\nobj1 sign\nobj2 car\nobj3 car\nobj4 sign\nobj5 road\nobj6 building\nobj7 car\nobj8 road\nobj9 sign\nobj10 road\nobj11 building\nobj12 tree\nobj13 car\nobj14 building\nobj15 tree\nobj16 building\nobj17 tree\nobj18 road\nobj19 road\nobj20 tree\n",
+                  "expected_stdout": "before 18\nafter 5\norder obj6 obj11 obj14 obj16 obj2 obj3 obj7 obj13 obj5 obj8 obj10 obj18 obj19 obj1 obj4 obj9 obj12 obj15 obj17 obj20\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "60\nobj1 car\nobj2 road\nobj3 tree\nobj4 road\nobj5 road\nobj6 car\nobj7 tree\nobj8 auto\nobj9 road\nobj10 car\nobj11 car\nobj12 car\nobj13 road\nobj14 car\nobj15 road\nobj16 building\nobj17 road\nobj18 car\nobj19 car\nobj20 building\nobj21 road\nobj22 car\nobj23 car\nobj24 car\nobj25 building\nobj26 tree\nobj27 road\nobj28 sign\nobj29 sign\nobj30 auto\nobj31 building\nobj32 car\nobj33 car\nobj34 car\nobj35 tree\nobj36 car\nobj37 car\nobj38 road\nobj39 building\nobj40 car\nobj41 road\nobj42 car\nobj43 tree\nobj44 car\nobj45 car\nobj46 building\nobj47 road\nobj48 road\nobj49 tree\nobj50 sign\nobj51 car\nobj52 road\nobj53 car\nobj54 road\nobj55 road\nobj56 sign\nobj57 car\nobj58 road\nobj59 building\nobj60 car\n",
+                  "expected_stdout": "before 47\nafter 6\norder obj8 obj30 obj16 obj20 obj25 obj31 obj39 obj46 obj59 obj1 obj6 obj10 obj11 obj12 obj14 obj18 obj19 obj22 obj23 obj24 obj32 obj33 obj34 obj36 obj37 obj40 obj42 obj44 obj45 obj51 obj53 obj57 obj60 obj2 obj4 obj5 obj9 obj13 obj15 obj17 obj21 obj27 obj38 obj41 obj47 obj48 obj52 obj54 obj55 obj58 obj28 obj29 obj50 obj56 obj3 obj7 obj26 obj35 obj43 obj49\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "5\na x\nb y\nc x\nd y\ne x\n",
+                  "expected_stdout": "before 5\nafter 2\norder a c e b d\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "gam-3-c2",
+          "prompt": "The Old Delhi track crashes 2 GB phones because its textures don't fit in memory. Shrink the least important textures until they fit. The first line is the budget in KB, the second is n, then n lines `name kb priority` (higher priority matters more). Complete `fit_budget`: while the total is over budget, take the texture with the lowest priority (ties: larger KB, then name) and drop it one mip level, KB becoming max(1, KB // 4); a texture at 1 KB can't shrink, and if none can, stop. Use a heap to find the next texture. The program prints `name kb` in input order, then `total T OK` or `total T OVER`.",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef fit_budget(textures, budget):\n    \"\"\"textures: (name, KB, priority; higher matters more). While the total is over budget, shrink the texture with the LOWEST priority (ties: larger KB, then name) one mip level: KB becomes max(1, KB // 4). A texture already at 1 KB can't shrink; stop if none can. Return {name: final KB}.\"\"\"\n    # Write your code here.\n    return {name: kb for name, kb, _ in textures}\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    budget = int(data[0])\n    n = int(data[1])\n    textures = []\n    for i in range(n):\n        name, kb, priority = data[2 + i].split()\n        textures.append((name, int(kb), int(priority)))\n    sizes = fit_budget(textures, budget)\n    for name, _, _ in textures:\n        print(name, sizes[name])\n    total = sum(sizes.values())\n    print(\"total\", total, \"OK\" if total <= budget else \"OVER\")\n\n\nmain()\n",
+          "reference_solution": "import heapq\nimport sys\n\n\ndef fit_budget(textures, budget):\n    \"\"\"textures: (name, KB, priority; higher matters more). While the total is over budget, shrink the texture with the LOWEST priority (ties: larger KB, then name) one mip level: KB becomes max(1, KB // 4). A texture already at 1 KB can't shrink; stop if none can. Return {name: final KB}.\"\"\"\n    size = {name: kb for name, kb, _ in textures}\n    total = sum(size.values())\n    heap = [(priority, -kb, name) for name, kb, priority in textures if kb > 1]\n    heapq.heapify(heap)\n    while total > budget and heap:\n        priority, neg_kb, name = heapq.heappop(heap)\n        smaller = max(1, size[name] // 4)\n        total -= size[name] - smaller\n        size[name] = smaller\n        if smaller > 1:\n            heapq.heappush(heap, (priority, -smaller, name))   # it may need to shrink again\n    return size\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    budget = int(data[0])\n    n = int(data[1])\n    textures = []\n    for i in range(n):\n        name, kb, priority = data[2 + i].split()\n        textures.append((name, int(kb), int(priority)))\n    sizes = fit_budget(textures, budget)\n    for name, _, _ in textures:\n        print(name, sizes[name])\n    total = sum(sizes.values())\n    print(\"total\", total, \"OK\" if total <= budget else \"OVER\")\n\n\nmain()\n",
+          "ds_topic": "heap",
+          "difficulty": 2,
+          "skills": [
+            "Python"
+          ],
+          "explanation": "A min-heap ordered by (priority, -size, name) always yields the next texture to shrink in O(log n), and a shrunk texture goes back in with its new size. One mip level quarters the memory (half the width and half the height), so low-priority textures like the sky shrink first while the hero car stays sharp.",
+          "key_justification": "Greedy shrinking driven by a priority heap.",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "3000\n3\nhero 2048 9\nroad 4096 3\nsky 1024 1\n",
+                  "expected_stdout": "hero 2048\nroad 256\nsky 1\ntotal 2305 OK\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "5920\n3\nhero 256 8\nroad 1024 8\nsky 512 7\n",
+                  "expected_stdout": "hero 256\nroad 1024\nsky 512\ntotal 1792 OK\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "4752\n8\nhero 256 8\nroad 256 5\nsky 4096 1\nbuildings 256 4\ncrowd 1024 5\nautorickshaw 2048 5\nsignboards 4096 1\ntrees 256 7\n",
+                  "expected_stdout": "hero 256\nroad 256\nsky 256\nbuildings 256\ncrowd 1024\nautorickshaw 2048\nsignboards 256\ntrees 256\ntotal 4608 OK\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "5704\n15\nhero 256 4\nroad 256 8\nsky 1024 8\nbuildings 512 4\ncrowd 4096 1\nautorickshaw 2048 6\nsignboards 1024 1\ntrees 2048 5\nwater 512 4\nlamps 2048 4\ntrucks 512 1\nbillboard 512 3\nbridge 1024 8\ntemple 512 7\nmarket 512 9\n",
+                  "expected_stdout": "hero 1\nroad 256\nsky 1024\nbuildings 1\ncrowd 1\nautorickshaw 2048\nsignboards 1\ntrees 128\nwater 1\nlamps 1\ntrucks 1\nbillboard 1\nbridge 1024\ntemple 512\nmarket 512\ntotal 5512 OK\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "100\n1\nonly 50 1\n",
+                  "expected_stdout": "only 50\ntotal 50 OK\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "10\n2\na 1 1\nb 1 5\n",
+                  "expected_stdout": "a 1\nb 1\ntotal 2 OK\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "674\n3\nhero 4096 5\nroad 256 2\nsky 512 5\n",
+                  "expected_stdout": "hero 256\nroad 1\nsky 128\ntotal 385 OK\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "5672\n8\nhero 256 4\nroad 256 2\nsky 256 2\nbuildings 1024 5\ncrowd 4096 8\nautorickshaw 4096 4\nsignboards 2048 6\ntrees 256 6\n",
+                  "expected_stdout": "hero 1\nroad 1\nsky 1\nbuildings 1\ncrowd 4096\nautorickshaw 1\nsignboards 512\ntrees 256\ntotal 4869 OK\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "5653\n15\nhero 256 8\nroad 2048 8\nsky 256 5\nbuildings 4096 8\ncrowd 512 6\nautorickshaw 1024 9\nsignboards 4096 1\ntrees 512 7\nwater 2048 6\nlamps 2048 2\ntrucks 1024 8\nbillboard 1024 6\nbridge 512 2\ntemple 2048 4\nmarket 2048 9\n",
+                  "expected_stdout": "hero 256\nroad 512\nsky 1\nbuildings 256\ncrowd 1\nautorickshaw 1024\nsignboards 1\ntrees 1\nwater 1\nlamps 1\ntrucks 1024\nbillboard 1\nbridge 1\ntemple 1\nmarket 2048\ntotal 5129 OK\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "700\n2\nb 512 1\na 512 1\n",
+                  "expected_stdout": "b 512\na 128\ntotal 640 OK\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "1\n2\nx 64 2\ny 64 2\n",
+                  "expected_stdout": "x 1\ny 1\ntotal 2 OVER\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "3009\n3\nhero 256 6\nroad 256 7\nsky 1024 9\n",
+                  "expected_stdout": "hero 256\nroad 256\nsky 1024\ntotal 1536 OK\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "4415\n8\nhero 256 8\nroad 256 9\nsky 2048 9\nbuildings 2048 6\ncrowd 256 1\nautorickshaw 2048 3\nsignboards 4096 8\ntrees 1024 7\n",
+                  "expected_stdout": "hero 256\nroad 256\nsky 2048\nbuildings 1\ncrowd 1\nautorickshaw 1\nsignboards 1024\ntrees 1\ntotal 3588 OK\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "2385\n15\nhero 1024 6\nroad 512 4\nsky 2048 1\nbuildings 512 6\ncrowd 4096 4\nautorickshaw 512 2\nsignboards 1024 1\ntrees 256 5\nwater 4096 6\nlamps 256 5\ntrucks 2048 5\nbillboard 2048 5\nbridge 256 1\ntemple 1024 2\nmarket 1024 7\n",
+                  "expected_stdout": "hero 256\nroad 1\nsky 1\nbuildings 512\ncrowd 1\nautorickshaw 1\nsignboards 1\ntrees 1\nwater 256\nlamps 1\ntrucks 1\nbillboard 1\nbridge 1\ntemple 1\nmarket 1024\ntotal 2059 OK\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "0\n1\nz 2 3\n",
+                  "expected_stdout": "z 1\ntotal 1 OVER\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -390,19 +1104,37 @@
         "Engine choice",
         "Fair monetisation"
       ],
-      "map_node": {"x": 0.7, "y": 0.36, "label": "Card Pavilion"},
+      "map_node": {
+        "x": 0.7,
+        "y": 0.36,
+        "label": "Card Pavilion"
+      },
       "questions": [
         {
           "id": "gam-4-q1",
           "type": "single_choice",
           "prompt": "In Patta Mahal, cheaters use modified apps to see other players' hands. How should the game be designed to stop this?",
           "options": [
-            {"id": "a", "text": "Encrypt the full deck and send it to every player's phone"},
-            {"id": "b", "text": "Let the phones share the whole game state peer to peer"},
-            {"id": "c", "text": "Let each phone decide its own cards and tell the others"},
-            {"id": "d", "text": "Keep the deck on the server and send players only their cards"}
+            {
+              "id": "a",
+              "text": "Encrypt the full deck and send it to every player's phone"
+            },
+            {
+              "id": "b",
+              "text": "Let the phones share the whole game state peer to peer"
+            },
+            {
+              "id": "c",
+              "text": "Let each phone decide its own cards and tell the others"
+            },
+            {
+              "id": "d",
+              "text": "Keep the deck on the server and send players only their cards"
+            }
           ],
-          "correct": ["d"],
+          "correct": [
+            "d"
+          ],
           "explanation": "If a phone never receives other players' cards, no modified app can reveal them. An authoritative server shuffles, deals and checks every move, and sends each player only what that player is allowed to see.",
           "why_others_wrong": {
             "a": "The decryption key must be on the phone to play, so a modified app can read the whole deck.",
@@ -417,12 +1149,26 @@
           "type": "single_choice",
           "prompt": "In the 1v1 arena game, waiting for the server before moving makes controls feel laggy at 150 ms. What is the standard approach?",
           "options": [
-            {"id": "a", "text": "Wait for the server before showing any of the player's own moves"},
-            {"id": "b", "text": "Move instantly on the phone; the server checks and corrects it"},
-            {"id": "c", "text": "Trust whatever position each phone reports to the game server"},
-            {"id": "d", "text": "Add a fixed 500 ms delay to every move so they all feel the same"}
+            {
+              "id": "a",
+              "text": "Wait for the server before showing any of the player's own moves"
+            },
+            {
+              "id": "b",
+              "text": "Move instantly on the phone; the server checks and corrects it"
+            },
+            {
+              "id": "c",
+              "text": "Trust whatever position each phone reports to the game server"
+            },
+            {
+              "id": "d",
+              "text": "Add a fixed 500 ms delay to every move so they all feel the same"
+            }
           ],
-          "correct": ["b"],
+          "correct": [
+            "b"
+          ],
           "explanation": "With client-side prediction, the player's own character responds immediately while the server stays in charge. When the server's answer arrives, the client reconciles any difference, so the game feels responsive while cheating through fake positions is still rejected.",
           "why_others_wrong": {
             "a": "This is the current laggy behaviour that players complain about.",
@@ -437,12 +1183,26 @@
           "type": "single_choice",
           "prompt": "A programmer proposes writing a custom engine for the 2D arena game, which targets Android, iOS and the web. Which decision fits the studio best?",
           "options": [
-            {"id": "a", "text": "Write the custom engine, since it gives the team full control"},
-            {"id": "b", "text": "Use a mature engine with mobile and web export, like Unity or Godot"},
-            {"id": "c", "text": "Write separate custom engines for Android, iOS and the web"},
-            {"id": "d", "text": "Build the game with plain spreadsheet macros and no engine"}
+            {
+              "id": "a",
+              "text": "Write the custom engine, since it gives the team full control"
+            },
+            {
+              "id": "b",
+              "text": "Use a mature engine with mobile and web export, like Unity or Godot"
+            },
+            {
+              "id": "c",
+              "text": "Write separate custom engines for Android, iOS and the web"
+            },
+            {
+              "id": "d",
+              "text": "Build the game with plain spreadsheet macros and no engine"
+            }
           ],
-          "correct": ["b"],
+          "correct": [
+            "b"
+          ],
           "explanation": "A small team shipping to three platforms gets rendering, physics, input and export from a mature engine on day one, and can spend its time on the game itself. A custom engine only pays off when a studio needs something existing engines cannot do.",
           "why_others_wrong": {
             "a": "A custom engine costs months or years before the game itself gets any attention.",
@@ -457,13 +1217,31 @@
           "type": "multi_select",
           "prompt": "The studio needs revenue without losing players' trust. Which two monetisation choices fit best?",
           "options": [
-            {"id": "a", "text": "Sell cosmetic items such as card backs and arena outfits"},
-            {"id": "b", "text": "Sell stronger cards that only paying players can ever use"},
-            {"id": "c", "text": "Offer optional ads that give a small in-game reward"},
-            {"id": "d", "text": "Show a 30-second unskippable ad after every single round"},
-            {"id": "e", "text": "Sell random loot boxes aimed at players under sixteen"}
+            {
+              "id": "a",
+              "text": "Sell cosmetic items such as card backs and arena outfits"
+            },
+            {
+              "id": "b",
+              "text": "Sell stronger cards that only paying players can ever use"
+            },
+            {
+              "id": "c",
+              "text": "Offer optional ads that give a small in-game reward"
+            },
+            {
+              "id": "d",
+              "text": "Show a 30-second unskippable ad after every single round"
+            },
+            {
+              "id": "e",
+              "text": "Sell random loot boxes aimed at players under sixteen"
+            }
           ],
-          "correct": ["a", "c"],
+          "correct": [
+            "a",
+            "c"
+          ],
           "explanation": "Cosmetic items let players spend money without changing who wins, so the competition stays fair. Optional rewarded ads let players choose when to watch in exchange for something, which earns revenue while respecting their time.",
           "why_others_wrong": {
             "b": "Pay-to-win items make competitive matches unfair and drive away non-paying players.",
@@ -472,6 +1250,222 @@
           },
           "key_justification": "Fair monetisation sells appearance and optional value, not victory or gambling.",
           "points": 10
+        }
+      ],
+      "code_pool": [
+        {
+          "id": "gam-4-c1",
+          "prompt": "Players of Patta Mahal cheat by sending moves out of turn or playing cards they don't hold, because the clients were trusted. Make the server the referee. The first line lists the players in turn order (the first starts), then one line per player `player card card ...` with their hand, then m, then m moves `player card` as received. Complete `referee`: a move is valid only if it is that player's turn and the card is in their hand; it then leaves the hand and the turn passes on. An invalid move changes nothing. The program prints `accepted a rejected r`, then `cheats player count` for each player with rejected moves, sorted.",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef referee(players, hands, moves):\n    \"\"\"players: turn order (the first player starts). hands: {player: [cards]}. moves: (player, card) as sent by the clients. A move is valid only if it is that player's turn and the card is in their hand; then the card leaves the hand and the turn passes on. An invalid move changes nothing. Return (accepted, rejected, [(player, rejected moves)] for players with any, sorted by player).\"\"\"\n    # Write your code here.\n    return len(moves), 0, []\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    players = data[0].split()\n    hands = {}\n    for i in range(len(players)):\n        parts = data[1 + i].split()\n        hands[parts[0]] = parts[1:]\n    m = int(data[1 + len(players)])\n    moves = [tuple(data[2 + len(players) + i].split()) for i in range(m)]\n    accepted, rejected, cheats = referee(players, hands, moves)\n    print(\"accepted\", accepted, \"rejected\", rejected)\n    for player, count in cheats:\n        print(\"cheats\", player, count)\n\n\nmain()\n",
+          "reference_solution": "import sys\n\n\ndef referee(players, hands, moves):\n    \"\"\"players: turn order (the first player starts). hands: {player: [cards]}. moves: (player, card) as sent by the clients. A move is valid only if it is that player's turn and the card is in their hand; then the card leaves the hand and the turn passes on. An invalid move changes nothing. Return (accepted, rejected, [(player, rejected moves)] for players with any, sorted by player).\"\"\"\n    hand = {p: list(cards) for p, cards in hands.items()}\n    turn = accepted = 0\n    rejected = {}\n    for player, card in moves:\n        if player == players[turn % len(players)] and card in hand[player]:\n            hand[player].remove(card)\n            turn += 1\n            accepted += 1\n        else:\n            rejected[player] = rejected.get(player, 0) + 1\n    return accepted, sum(rejected.values()), sorted(rejected.items())\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    players = data[0].split()\n    hands = {}\n    for i in range(len(players)):\n        parts = data[1 + i].split()\n        hands[parts[0]] = parts[1:]\n    m = int(data[1 + len(players)])\n    moves = [tuple(data[2 + len(players) + i].split()) for i in range(m)]\n    accepted, rejected, cheats = referee(players, hands, moves)\n    print(\"accepted\", accepted, \"rejected\", rejected)\n    for player, count in cheats:\n        print(\"cheats\", player, count)\n\n\nmain()\n",
+          "ds_topic": "hash_map",
+          "difficulty": 1,
+          "skills": [
+            "Python"
+          ],
+          "explanation": "The server keeps the authoritative state (whose turn, which cards each hand holds) in dictionaries and checks every move against it. A client can still send anything, but nothing it sends changes the game unless the rules allow it, and the rejected count shows who tried.",
+          "key_justification": "Authoritative server validation against state held in maps.",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "A B\nA 5H KS\nB 2C\n4\nA 5H\nA KS\nB 2C\nA 9D\n",
+                  "expected_stdout": "accepted 2 rejected 2\ncheats A 2\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "asha bilal chen\nasha KH KD\nbilal 2S AD\nchen 9D QD\n11\nasha KH\nbilal AD\nbilal 5S\nchen QD\nasha KD\nbilal 2S\nchen 9D\nasha JS\nasha KD\nasha 5D\nchen 5H\n",
+                  "expected_stdout": "accepted 6 rejected 5\ncheats asha 3\ncheats bilal 1\ncheats chen 1\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "asha bilal\nasha AH JD QD 2D\nbilal 5H 2S KS 2H\n12\nasha 2D\nasha JC\nbilal 2H\nasha QD\nbilal 5H\nasha 9C\nasha AS\nbilal KS\nbilal KS\nasha AH\nbilal KS\nasha 2H\n",
+                  "expected_stdout": "accepted 6 rejected 6\ncheats asha 4\ncheats bilal 2\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "asha bilal chen deepa\nasha KS JH 5C 2C 9C 5D\nbilal 5S JD KC QC AS AC\nchen JS AD 2S QD JC KD\ndeepa 9H 9D 2D 9S AH QH\n27\nasha 9C\nbilal AS\nasha 5D\nchen AD\ndeepa 9S\nasha 2C\nbilal AC\nchen JS\ndeepa QH\nasha 5D\nbilal QC\nchen 2S\ndeepa 5D\ndeepa AH\nasha KD\nasha 5C\nbilal AS\nbilal 5C\nbilal QC\nbilal AH\ndeepa 2D\nbilal 5S\nchen JC\ndeepa AH\ndeepa 9H\nasha AD\nbilal KC\n",
+                  "expected_stdout": "accepted 16 rejected 11\ncheats asha 3\ncheats bilal 5\ncheats deepa 3\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "a b\na 1 2\nb 3\n0\n",
+                  "expected_stdout": "accepted 0 rejected 0\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "x y z\nx 1\ny 2\nz 3\n3\nx 1\ny 2\nz 3\n",
+                  "expected_stdout": "accepted 3 rejected 0\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "asha bilal\nasha KH 9C\nbilal JH AH\n10\nasha 9C\nbilal AD\nbilal KC\nbilal AH\nasha KH\nbilal JH\nasha QD\nasha JC\nasha AH\nbilal 2D\n",
+                  "expected_stdout": "accepted 4 rejected 6\ncheats asha 3\ncheats bilal 3\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "asha bilal\nasha AD 9D KD 5S\nbilal 5H 2C 2H 9H\n11\nasha AD\nbilal JS\nbilal 9H\nasha KD\nbilal 2C\nasha 5S\nbilal 5H\nbilal 2H\nasha 9D\nasha 2S\nbilal 2H\n",
+                  "expected_stdout": "accepted 8 rejected 3\ncheats asha 1\ncheats bilal 2\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "asha bilal\nasha KH QS AS KC KD 2C\nbilal 2H JH 9H 5C 2D 9S\n14\nasha 2C\nbilal JH\nasha KH\nbilal 9H\nasha AS\nbilal QS\nasha QS\nasha KD\nbilal 5C\nasha KC\nbilal AD\nbilal 9S\nasha KD\nbilal 2D\n",
+                  "expected_stdout": "accepted 10 rejected 4\ncheats asha 2\ncheats bilal 2\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "a b\na 1\nb 2\n3\na 1\na 1\nb 2\n",
+                  "expected_stdout": "accepted 2 rejected 1\ncheats a 1\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "p q\np AS\nq KH\n2\nq KH\nq KH\n",
+                  "expected_stdout": "accepted 0 rejected 2\ncheats q 2\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "asha bilal chen deepa\nasha JC QH\nbilal AC 9D\nchen KD JD\ndeepa 9H AD\n9\nchen KD\nasha JC\nbilal AC\nchen JD\ndeepa AD\nasha 5D\ndeepa 9H\nasha QH\nbilal 9D\n",
+                  "expected_stdout": "accepted 6 rejected 3\ncheats asha 1\ncheats chen 1\ncheats deepa 1\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "asha bilal chen deepa\nasha 5H 9S AC 5S\nbilal 9H KH 2D 2S\nchen 5C 9D AS JS\ndeepa AD JC QH KS\n21\nasha QD\nasha AC\nbilal KH\nchen KH\nchen 9D\nasha 5H\nbilal 2D\nchen JS\ndeepa KS\nasha 5H\nbilal JD\nbilal 2D\nasha 5S\nchen KS\nchen 5C\ndeepa AD\nbilal 2S\nasha 9S\nbilal 2S\nchen JS\nbilal 9H\n",
+                  "expected_stdout": "accepted 11 rejected 10\ncheats asha 3\ncheats bilal 4\ncheats chen 3\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "asha bilal chen\nasha AS KH 5H QH KC 2C\nbilal KD 5S 9D 9S QS 2H\nchen QC JC JS 5C 9C JD\n24\nasha QH\nbilal 2H\nchen 2S\nchen 5C\nasha KH\nbilal 5S\nchen 2C\nbilal QS\nchen 9C\nasha AS\nchen JC\nbilal 9S\nchen JD\nchen JS\nchen JC\nasha AC\nasha 5H\nbilal AD\nbilal QS\nchen JS\nbilal 9D\nasha KC\nbilal KD\nchen 2C\n",
+                  "expected_stdout": "accepted 14 rejected 10\ncheats asha 1\ncheats bilal 3\ncheats chen 6\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "s t\ns 7 7\nt 8\n3\ns 7\nt 8\ns 7\n",
+                  "expected_stdout": "accepted 3 rejected 0\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "gam-4-c2",
+          "prompt": "In the 1v1 arena, waiting for the server before moving feels laggy, so the client predicts its own moves and corrects them when the server answers. The first line is the start position, the second is n, then n events: `INPUT seq dx` (apply dx at once and remember the input) or `ACK seq x` (the server's position after processing every input up to seq). Complete `predict`: on an ACK, take the server's x, forget inputs up to seq, then re-apply the inputs it has not confirmed yet. Keep the unconfirmed inputs in a queue. The program prints the position shown after each event.",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef predict(start, events):\n    \"\"\"events: ('INPUT', seq, dx) when the player presses a key (apply it at once and remember it) or ('ACK', seq, server_x) when the server confirms everything up to seq: take the server's position, forget inputs up to seq, then replay the inputs still unconfirmed. Return the shown position after each event.\"\"\"\n    # Write your code here.\n    return [start] * len(events)\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    start = int(data[0])\n    n = int(data[1])\n    events = []\n    for i in range(n):\n        kind, seq, value = data[2 + i].split()\n        events.append((kind, int(seq), int(value)))\n    print(\" \".join(map(str, predict(start, events))))\n\n\nmain()\n",
+          "reference_solution": "from collections import deque\nimport sys\n\n\ndef predict(start, events):\n    \"\"\"events: ('INPUT', seq, dx) when the player presses a key (apply it at once and remember it) or ('ACK', seq, server_x) when the server confirms everything up to seq: take the server's position, forget inputs up to seq, then replay the inputs still unconfirmed. Return the shown position after each event.\"\"\"\n    pending = deque()                  # unconfirmed inputs, oldest first\n    x, shown = start, []\n    for kind, seq, value in events:\n        if kind == \"INPUT\":\n            pending.append((seq, value))\n            x += value                 # predict immediately: no waiting for the server\n        else:\n            while pending and pending[0][0] <= seq:\n                pending.popleft()      # confirmed by the server\n            x = value + sum(dx for _, dx in pending)    # reconcile: server truth + replay\n        shown.append(x)\n    return shown\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    start = int(data[0])\n    n = int(data[1])\n    events = []\n    for i in range(n):\n        kind, seq, value = data[2 + i].split()\n        events.append((kind, int(seq), int(value)))\n    print(\" \".join(map(str, predict(start, events))))\n\n\nmain()\n",
+          "ds_topic": "queue",
+          "difficulty": 2,
+          "skills": [
+            "Python"
+          ],
+          "explanation": "Inputs are confirmed in order, so a FIFO queue holds the unconfirmed ones: an ACK pops from the front, and replaying what remains on top of the server's position gives the corrected prediction. The player sees instant movement, and the server still decides the truth, which keeps the game fair.",
+          "key_justification": "Client-side prediction with a queue of unacknowledged inputs.",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "0\n6\nINPUT 1 5\nINPUT 2 5\nACK 1 5\nINPUT 3 -2\nACK 2 9\nACK 3 7\n",
+                  "expected_stdout": "5 10 10 8 7 7\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "2\n5\nINPUT 1 1\nINPUT 2 -3\nINPUT 3 2\nINPUT 4 2\nINPUT 5 2\n",
+                  "expected_stdout": "3 0 2 4 6\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "-5\n20\nINPUT 1 5\nINPUT 2 1\nINPUT 3 5\nINPUT 4 5\nINPUT 5 -3\nACK 5 7\nINPUT 6 -1\nACK 6 6\nINPUT 7 -3\nINPUT 8 2\nINPUT 9 1\nACK 9 6\nINPUT 10 2\nINPUT 11 -3\nINPUT 12 -1\nACK 10 8\nINPUT 13 -1\nINPUT 14 5\nACK 12 4\nINPUT 15 2\n",
+                  "expected_stdout": "0 1 6 11 8 7 6 6 3 5 6 6 8 5 4 4 3 8 8 10\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "-1\n60\nINPUT 1 5\nINPUT 2 1\nINPUT 3 -3\nINPUT 4 5\nACK 2 5\nACK 3 2\nINPUT 5 2\nINPUT 6 -1\nINPUT 7 -1\nINPUT 8 5\nACK 5 9\nINPUT 9 2\nINPUT 10 5\nINPUT 11 1\nINPUT 12 1\nACK 7 7\nINPUT 13 -1\nACK 13 20\nINPUT 14 2\nINPUT 15 5\nINPUT 16 2\nINPUT 17 5\nACK 15 27\nACK 17 34\nINPUT 18 1\nINPUT 19 2\nINPUT 20 -1\nACK 19 36\nINPUT 21 -3\nACK 21 32\nINPUT 22 1\nINPUT 23 2\nINPUT 24 2\nINPUT 25 -3\nINPUT 26 -3\nINPUT 27 -3\nINPUT 28 1\nINPUT 29 2\nINPUT 30 -3\nINPUT 31 -1\nACK 24 36\nINPUT 32 5\nINPUT 33 5\nINPUT 34 1\nACK 28 28\nINPUT 35 -3\nACK 29 30\nINPUT 36 2\nINPUT 37 -3\nINPUT 38 5\nINPUT 39 1\nINPUT 40 2\nINPUT 41 1\nACK 35 33\nINPUT 42 5\nINPUT 43 2\nACK 40 40\nINPUT 44 -1\nACK 43 48\nINPUT 45 5\n",
+                  "expected_stdout": "4 5 2 7 7 7 9 8 7 12 12 14 19 20 21 21 20 20 22 27 29 34 34 34 35 37 36 35 32 32 33 35 37 34 31 28 29 31 28 27 26 31 36 37 37 34 34 36 33 38 39 41 42 41 46 48 48 47 47 52\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "3\n1\nINPUT 1 0\n",
+                  "expected_stdout": "3\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "10\n2\nINPUT 1 1\nACK 1 10\n",
+                  "expected_stdout": "11 10\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "-5\n5\nINPUT 1 -3\nACK 1 -8\nINPUT 2 -1\nINPUT 3 -1\nINPUT 4 -1\n",
+                  "expected_stdout": "-8 -8 -9 -10 -11\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "-2\n20\nINPUT 1 -3\nINPUT 2 -3\nINPUT 3 2\nINPUT 4 -1\nINPUT 5 -1\nACK 5 -8\nINPUT 6 2\nINPUT 7 -1\nACK 7 -8\nINPUT 8 -1\nACK 8 -10\nINPUT 9 2\nACK 9 -8\nINPUT 10 1\nINPUT 11 2\nINPUT 12 -3\nINPUT 13 5\nINPUT 14 1\nINPUT 15 -1\nINPUT 16 -3\n",
+                  "expected_stdout": "-5 -8 -6 -7 -8 -8 -6 -7 -8 -9 -10 -8 -8 -7 -5 -8 -3 -2 -3 -6\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1\n60\nINPUT 1 -1\nACK 1 0\nINPUT 2 5\nINPUT 3 1\nACK 3 6\nINPUT 4 -1\nINPUT 5 5\nINPUT 6 5\nACK 5 10\nINPUT 7 -1\nACK 7 14\nINPUT 8 1\nACK 8 15\nINPUT 9 5\nINPUT 10 2\nINPUT 11 -3\nINPUT 12 -3\nINPUT 13 1\nACK 11 19\nACK 12 16\nINPUT 14 5\nINPUT 15 2\nINPUT 16 2\nACK 16 25\nINPUT 17 2\nINPUT 18 -1\nINPUT 19 -3\nINPUT 20 -3\nINPUT 21 5\nACK 18 25\nINPUT 22 5\nACK 20 19\nINPUT 23 2\nACK 21 24\nACK 22 29\nINPUT 24 1\nACK 23 31\nINPUT 25 5\nINPUT 26 2\nACK 24 32\nINPUT 27 -3\nINPUT 28 2\nACK 28 38\nINPUT 29 5\nINPUT 30 1\nINPUT 31 -1\nINPUT 32 -1\nACK 31 42\nACK 32 41\nINPUT 33 2\nACK 33 43\nINPUT 34 -3\nINPUT 35 -1\nINPUT 36 1\nINPUT 37 1\nINPUT 38 1\nINPUT 39 5\nACK 34 40\nACK 38 42\nINPUT 40 2\n",
+                  "expected_stdout": "0 0 5 6 6 5 10 15 15 14 14 15 15 20 22 19 16 17 17 17 22 24 26 25 27 26 23 20 25 24 29 29 31 31 31 32 32 37 39 39 36 38 38 43 44 43 42 41 41 43 43 40 39 40 41 42 47 47 47 49\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "0\n4\nINPUT 1 1\nINPUT 2 1\nINPUT 3 1\nACK 1 0\n",
+                  "expected_stdout": "1 2 3 2\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "0\n3\nINPUT 1 2\nINPUT 2 2\nACK 2 4\n",
+                  "expected_stdout": "2 4 4\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "-3\n5\nINPUT 1 -1\nINPUT 2 -3\nACK 2 -7\nINPUT 3 -1\nINPUT 4 2\n",
+                  "expected_stdout": "-4 -7 -7 -8 -6\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1\n20\nINPUT 1 5\nACK 1 5\nINPUT 2 1\nINPUT 3 -3\nINPUT 4 5\nACK 4 8\nINPUT 5 2\nINPUT 6 1\nACK 6 11\nINPUT 7 -1\nACK 7 10\nINPUT 8 1\nACK 8 11\nINPUT 9 2\nINPUT 10 -3\nINPUT 11 5\nINPUT 12 -1\nINPUT 13 1\nINPUT 14 2\nACK 13 15\n",
+                  "expected_stdout": "6 5 6 3 8 8 10 11 11 10 10 11 11 13 10 15 14 15 17 17\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "4\n60\nINPUT 1 5\nINPUT 2 1\nACK 1 9\nINPUT 3 1\nINPUT 4 2\nINPUT 5 2\nACK 5 15\nINPUT 6 2\nINPUT 7 2\nINPUT 8 -1\nINPUT 9 -1\nINPUT 10 5\nINPUT 11 1\nINPUT 12 -1\nINPUT 13 1\nACK 7 19\nACK 12 21\nINPUT 14 -1\nINPUT 15 5\nINPUT 16 -3\nACK 14 20\nINPUT 17 1\nACK 17 23\nINPUT 18 1\nACK 18 24\nINPUT 19 -1\nINPUT 20 -3\nINPUT 21 1\nACK 21 20\nINPUT 22 -3\nINPUT 23 1\nINPUT 24 2\nINPUT 25 5\nINPUT 26 1\nACK 26 26\nINPUT 27 5\nINPUT 28 -1\nINPUT 29 1\nINPUT 30 2\nINPUT 31 5\nINPUT 32 -3\nINPUT 33 5\nACK 32 35\nINPUT 34 1\nINPUT 35 1\nACK 33 39\nINPUT 36 -3\nINPUT 37 2\nACK 36 38\nINPUT 38 -3\nACK 38 37\nINPUT 39 1\nACK 39 38\nINPUT 40 5\nINPUT 41 -1\nINPUT 42 5\nACK 41 42\nINPUT 43 -1\nACK 42 47\nACK 43 46\n",
+                  "expected_stdout": "9 10 10 11 13 15 15 17 19 18 17 22 23 22 23 23 22 21 26 23 22 23 23 24 24 23 20 21 20 17 18 20 25 26 26 31 30 31 33 38 35 40 40 41 42 41 38 40 40 37 37 38 38 43 42 47 47 46 46 46\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "-2\n2\nINPUT 1 -3\nACK 1 -5\n",
+                  "expected_stdout": "-5 -5\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -494,20 +1488,45 @@
         "Audio timing",
         "Live operations"
       ],
-      "map_node": {"x": 0.88, "y": 0.16, "label": "Drum Stage"},
+      "map_node": {
+        "x": 0.88,
+        "y": 0.16,
+        "label": "Drum Stage"
+      },
       "questions": [
         {
           "id": "gam-5-q1",
           "type": "order",
           "prompt": "Put the production phases of Dhol Dash in order.",
           "options": [
-            {"id": "a", "text": "Build a vertical slice: one level polished to final quality"},
-            {"id": "b", "text": "Launch, then run live events and new song packs"},
-            {"id": "c", "text": "Prototype the core tap-to-the-beat mechanic quickly"},
-            {"id": "d", "text": "Run a closed beta with real players to find problems"},
-            {"id": "e", "text": "Produce the remaining levels, songs and art in volume"}
+            {
+              "id": "a",
+              "text": "Build a vertical slice: one level polished to final quality"
+            },
+            {
+              "id": "b",
+              "text": "Launch, then run live events and new song packs"
+            },
+            {
+              "id": "c",
+              "text": "Prototype the core tap-to-the-beat mechanic quickly"
+            },
+            {
+              "id": "d",
+              "text": "Run a closed beta with real players to find problems"
+            },
+            {
+              "id": "e",
+              "text": "Produce the remaining levels, songs and art in volume"
+            }
           ],
-          "correct": ["c", "a", "e", "d", "b"],
+          "correct": [
+            "c",
+            "a",
+            "e",
+            "d",
+            "b"
+          ],
           "explanation": "A rough prototype proves the core mechanic is fun, and a vertical slice proves the team can reach final quality, which is also what the publisher wants to see. Content is then produced in volume, a closed beta finds problems before the public does, and live operations begin after launch.",
           "why_others_wrong": {
             "common_mistake": "Producing all the levels before the vertical slice, which risks building lots of content around art, audio or controls that later change."
@@ -520,12 +1539,26 @@
           "type": "single_choice",
           "prompt": "Many testers get stuck on level 3. How should the team find out why?",
           "options": [
-            {"id": "a", "text": "Ask the designers, who know the level better than anyone"},
-            {"id": "b", "text": "Watch new players silently and note where they fail"},
-            {"id": "c", "text": "Have the best player on the team replay the level for an hour"},
-            {"id": "d", "text": "Send a survey asking players to rate level 3 out of ten"}
+            {
+              "id": "a",
+              "text": "Ask the designers, who know the level better than anyone"
+            },
+            {
+              "id": "b",
+              "text": "Watch new players silently and note where they fail"
+            },
+            {
+              "id": "c",
+              "text": "Have the best player on the team replay the level for an hour"
+            },
+            {
+              "id": "d",
+              "text": "Send a survey asking players to rate level 3 out of ten"
+            }
           ],
-          "correct": ["b"],
+          "correct": [
+            "b"
+          ],
           "explanation": "Watching first-time players without helping them shows exactly where they fail and what they misunderstand. Designers and experts already know the level, so they cannot see what confuses a newcomer.",
           "why_others_wrong": {
             "a": "Designers know how the level is meant to be played, which is exactly what new players do not.",
@@ -540,12 +1573,26 @@
           "type": "single_choice",
           "prompt": "With Bluetooth earphones, testers' taps feel early or late even when they match the beat. What is the best fix?",
           "options": [
-            {"id": "a", "text": "Raise the frame rate so taps are detected more often"},
-            {"id": "b", "text": "Ban Bluetooth earphones from the game entirely"},
-            {"id": "c", "text": "Make every song slower so the timing window is wider"},
-            {"id": "d", "text": "Time taps by the audio clock and add a latency calibration"}
+            {
+              "id": "a",
+              "text": "Raise the frame rate so taps are detected more often"
+            },
+            {
+              "id": "b",
+              "text": "Ban Bluetooth earphones from the game entirely"
+            },
+            {
+              "id": "c",
+              "text": "Make every song slower so the timing window is wider"
+            },
+            {
+              "id": "d",
+              "text": "Time taps by the audio clock and add a latency calibration"
+            }
           ],
-          "correct": ["d"],
+          "correct": [
+            "d"
+          ],
           "explanation": "Bluetooth audio arrives at the ear one or two hundred milliseconds late, and the delay varies by device. Timing taps against the audio playback clock rather than frame time, and letting players run a short calibration that measures their own offset, makes the judgement line up with what they hear.",
           "why_others_wrong": {
             "a": "The frame rate is not the problem; the sound itself reaches the player late.",
@@ -560,13 +1607,31 @@
           "type": "multi_select",
           "prompt": "Which two analytics signals best show whether the difficulty curve is right?",
           "options": [
-            {"id": "a", "text": "The share of players who complete each level, in order"},
-            {"id": "b", "text": "The total number of installs since the launch day"},
-            {"id": "c", "text": "The average number of attempts before passing each level"},
-            {"id": "d", "text": "The number of lines of code in the game's project"},
-            {"id": "e", "text": "The app's average rating on the store each day"}
+            {
+              "id": "a",
+              "text": "The share of players who complete each level, in order"
+            },
+            {
+              "id": "b",
+              "text": "The total number of installs since the launch day"
+            },
+            {
+              "id": "c",
+              "text": "The average number of attempts before passing each level"
+            },
+            {
+              "id": "d",
+              "text": "The number of lines of code in the game's project"
+            },
+            {
+              "id": "e",
+              "text": "The app's average rating on the store each day"
+            }
           ],
-          "correct": ["a", "c"],
+          "correct": [
+            "a",
+            "c"
+          ],
           "explanation": "A level-by-level completion funnel shows where players drop out, and the number of attempts before passing shows how hard each level really is. A sudden drop or a spike in attempts marks a level that needs tuning.",
           "why_others_wrong": {
             "b": "Installs measure marketing reach, not difficulty.",
@@ -581,24 +1646,269 @@
           "type": "match",
           "prompt": "Match each live-operations problem to the best response.",
           "items": [
-            {"id": "i1", "text": "Impossible perfect scores appear on the leaderboard"},
-            {"id": "i2", "text": "The leaderboard servers slow to a crawl during the Navratri event"},
-            {"id": "i3", "text": "A new song pack crashes the game on older phones"},
-            {"id": "i4", "text": "Half of new players stop playing after their second day"}
+            {
+              "id": "i1",
+              "text": "Impossible perfect scores appear on the leaderboard"
+            },
+            {
+              "id": "i2",
+              "text": "The leaderboard servers slow to a crawl during the Navratri event"
+            },
+            {
+              "id": "i3",
+              "text": "A new song pack crashes the game on older phones"
+            },
+            {
+              "id": "i4",
+              "text": "Half of new players stop playing after their second day"
+            }
           ],
           "targets": [
-            {"id": "t1", "text": "Switch the pack off with remote config while it is fixed"},
-            {"id": "t2", "text": "Study where new players drop off and improve onboarding"},
-            {"id": "t3", "text": "Check submitted scores on the server against the song data"},
-            {"id": "t4", "text": "Load-test before events and add capacity that scales up"}
+            {
+              "id": "t1",
+              "text": "Switch the pack off with remote config while it is fixed"
+            },
+            {
+              "id": "t2",
+              "text": "Study where new players drop off and improve onboarding"
+            },
+            {
+              "id": "t3",
+              "text": "Check submitted scores on the server against the song data"
+            },
+            {
+              "id": "t4",
+              "text": "Load-test before events and add capacity that scales up"
+            }
           ],
-          "correct": {"i1": "t3", "i2": "t4", "i3": "t1", "i4": "t2"},
+          "correct": {
+            "i1": "t3",
+            "i2": "t4",
+            "i3": "t1",
+            "i4": "t2"
+          },
           "explanation": "The server knows each song's note count and length, so it can reject scores that are impossible for that song. Predictable event spikes call for load testing and scalable capacity, a crashing content pack can be disabled remotely without waiting for a store update, and early drop-off is a retention problem studied through the onboarding funnel.",
           "why_others_wrong": {
             "common_mistake": "Fixing cheating on the client, for example by hiding the score code: a modified app can still send any score, so checks must run on the server."
           },
           "key_justification": "Live ops needs server-side validation, capacity planning, remote content switches and retention analysis.",
           "points": 10
+        }
+      ],
+      "code_pool": [
+        {
+          "id": "gam-5-c1",
+          "prompt": "Dhol Dash's online leaderboard shows every run, so one player fills the top ten. Show each player once. The first line is n, then n runs `player score`. Complete `leaderboard`: keep each player's best score, order by score from high to low (ties by name), and give equal scores the same rank, skipping ranks after a tie (1, 1, 3). The program prints `rank player score` lines.",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef leaderboard(runs):\n    \"\"\"runs: (player, score) for every run. Keep each player's best score, order by score high to low (ties by name), and give equal scores the same rank, skipping the next ranks (1, 1, 3). Return [(rank, player, best score)].\"\"\"\n    # Write your code here.\n    return [(i + 1, p, s) for i, (p, s) in enumerate(runs)]\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    runs = []\n    for i in range(n):\n        player, score = data[1 + i].split()\n        runs.append((player, int(score)))\n    for rank, player, score in leaderboard(runs):\n        print(rank, player, score)\n\n\nmain()\n",
+          "reference_solution": "import sys\n\n\ndef leaderboard(runs):\n    \"\"\"runs: (player, score) for every run. Keep each player's best score, order by score high to low (ties by name), and give equal scores the same rank, skipping the next ranks (1, 1, 3). Return [(rank, player, best score)].\"\"\"\n    best = {}\n    for player, score in runs:\n        best[player] = max(best.get(player, score), score)\n    ordered = sorted(best.items(), key=lambda kv: (-kv[1], kv[0]))\n    out = []\n    for i, (player, score) in enumerate(ordered):\n        rank = out[-1][0] if out and out[-1][2] == score else i + 1      # 1, 1, 3 (\"competition\" ranking)\n        out.append((rank, player, score))\n    return out\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    n = int(data[0])\n    runs = []\n    for i in range(n):\n        player, score = data[1 + i].split()\n        runs.append((player, int(score)))\n    for rank, player, score in leaderboard(runs):\n        print(rank, player, score)\n\n\nmain()\n",
+          "ds_topic": "sorting",
+          "difficulty": 1,
+          "skills": [
+            "Python"
+          ],
+          "explanation": "A dictionary keeps each player's best, a sort with key (-score, name) orders them, and a tie copies the previous rank while the position still counts, giving 1, 1, 3. Showing one entry per player keeps the board readable and gives more players a reason to climb.",
+          "key_justification": "Best-per-key aggregation, then sorting with competition ranking.",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "5\nritu 900\naman 1000\nritu 1000\nzoya 800\naman 950\n",
+                  "expected_stdout": "1 aman 1000\n1 ritu 1000\n3 zoya 800\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "6\nmeher 800\nisha 950\nisha 1000\nom 1050\nisha 1050\nisha 850\n",
+                  "expected_stdout": "1 isha 1050\n1 om 1050\n3 meher 800\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "25\nom 1200\nmeher 1200\nisha 1000\nzoya 800\naman 1000\nisha 950\nom 1050\nkabir 950\nzoya 1000\ndev 850\ndev 1050\nisha 1000\ndev 950\nzoya 950\nmeher 1050\nmeher 800\nmeher 900\ndev 1000\nkabir 1000\nisha 950\naman 1050\nkabir 900\nisha 1000\nkabir 900\nisha 1250\n",
+                  "expected_stdout": "1 isha 1250\n2 meher 1200\n2 om 1200\n4 aman 1050\n4 dev 1050\n6 kabir 1000\n6 zoya 1000\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "60\nom 1000\naman 950\nisha 1250\nmeher 1200\nkabir 950\nkabir 900\nzoya 950\nom 1200\nisha 1200\nisha 1050\nmeher 1200\nritu 1250\naman 850\nmeher 950\nmeher 1000\naman 800\nisha 1000\nom 800\nom 1000\nzoya 1000\nritu 950\nmeher 1250\nkabir 950\nritu 1250\nkabir 800\nkabir 1000\nzoya 1000\nritu 1200\nzoya 1200\nmeher 1000\nom 1250\nom 1000\nmeher 850\nzoya 1000\nom 1250\nom 1000\nzoya 950\nom 800\nisha 950\nmeher 800\ndev 900\nom 1050\ndev 800\ndev 850\nritu 1200\naman 1250\nisha 950\naman 1200\nom 1200\nmeher 1000\nritu 1000\nom 900\nritu 1200\nzoya 1000\nritu 1200\nkabir 950\nzoya 1000\nritu 1000\naman 950\nom 900\n",
+                  "expected_stdout": "1 aman 1250\n1 isha 1250\n1 meher 1250\n1 om 1250\n1 ritu 1250\n6 zoya 1200\n7 kabir 1000\n8 dev 900\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "3\nx 1\ny 1\nz 1\n",
+                  "expected_stdout": "1 x 1\n1 y 1\n1 z 1\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "2\nom 5\nom 7\n",
+                  "expected_stdout": "1 om 7\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "6\nisha 900\nom 1200\nzoya 1000\nzoya 1200\nisha 800\nisha 850\n",
+                  "expected_stdout": "1 om 1200\n1 zoya 1200\n3 isha 900\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "25\nmeher 900\nritu 950\nzoya 1050\nzoya 850\nzoya 1050\nmeher 1000\ndev 1200\nmeher 800\nritu 900\nritu 1000\nzoya 1250\nritu 1200\ndev 1000\nom 900\nritu 900\nzoya 1050\nkabir 900\nzoya 1000\nzoya 1200\nmeher 950\naman 1000\nzoya 1250\nisha 1000\ndev 1000\ndev 1000\n",
+                  "expected_stdout": "1 zoya 1250\n2 dev 1200\n2 ritu 1200\n4 aman 1000\n4 isha 1000\n4 meher 1000\n7 kabir 900\n7 om 900\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "60\naman 850\nom 1000\nom 950\ndev 1000\nkabir 950\nom 1000\naman 1200\nmeher 1200\nmeher 800\nom 950\nzoya 1000\nzoya 1050\nom 1050\nom 1200\naman 950\naman 950\nritu 800\nom 950\nkabir 900\nkabir 1000\nzoya 900\nmeher 950\nmeher 1000\nom 1000\nmeher 950\ndev 950\nom 950\nritu 1200\nzoya 1050\nisha 1000\nritu 950\nkabir 800\nisha 1000\naman 1200\nritu 950\nmeher 900\naman 1050\naman 900\nmeher 1050\ndev 900\nisha 1000\ndev 900\nzoya 1000\nisha 1000\nisha 850\nmeher 1000\nom 1000\nritu 950\nzoya 950\nkabir 1200\naman 1000\nisha 1000\nritu 1000\ndev 1200\nzoya 1000\naman 950\nmeher 800\ndev 1000\nisha 1200\nritu 950\n",
+                  "expected_stdout": "1 aman 1200\n1 dev 1200\n1 isha 1200\n1 kabir 1200\n1 meher 1200\n1 om 1200\n1 ritu 1200\n8 zoya 1050\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "4\nb 5\na 5\nc 9\nb 9\n",
+                  "expected_stdout": "1 b 9\n1 c 9\n3 a 5\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "3\nc 10\nb 20\na 30\n",
+                  "expected_stdout": "1 a 30\n2 b 20\n3 c 10\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "6\nmeher 1000\nisha 1050\nkabir 800\nmeher 1050\nzoya 900\nritu 950\n",
+                  "expected_stdout": "1 isha 1050\n1 meher 1050\n3 ritu 950\n4 zoya 900\n5 kabir 800\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "25\nom 1250\nzoya 850\nisha 1200\nkabir 1000\ndev 950\ndev 1200\nmeher 1050\nritu 950\nom 1000\nom 1050\naman 1200\nom 850\nom 1050\ndev 900\nom 900\nom 1050\ndev 800\ndev 900\nkabir 1050\naman 1000\nzoya 950\nritu 1200\nzoya 850\naman 800\naman 950\n",
+                  "expected_stdout": "1 om 1250\n2 aman 1200\n2 dev 1200\n2 isha 1200\n2 ritu 1200\n6 kabir 1050\n6 meher 1050\n8 zoya 950\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "60\nzoya 950\nkabir 950\nkabir 1000\nisha 800\nkabir 1050\naman 1200\nkabir 800\nmeher 900\nzoya 900\nzoya 1000\nritu 900\nzoya 1200\naman 1000\nom 800\nom 950\nmeher 1250\naman 1200\nmeher 1000\nzoya 950\nisha 800\ndev 1200\nritu 1050\nmeher 1000\nritu 1000\nkabir 1000\nisha 950\nkabir 800\nmeher 900\naman 950\nzoya 1250\naman 1000\nzoya 900\nom 1200\nmeher 1000\nritu 1250\nkabir 850\naman 950\nritu 1000\nkabir 950\ndev 800\nmeher 1200\nkabir 1000\nisha 950\naman 1200\naman 800\nkabir 850\naman 1000\nzoya 1050\nmeher 1000\nisha 950\ndev 900\naman 900\ndev 950\nritu 1250\naman 1000\nom 900\nkabir 800\nmeher 1000\naman 1000\nmeher 800\n",
+                  "expected_stdout": "1 meher 1250\n1 ritu 1250\n1 zoya 1250\n4 aman 1200\n4 dev 1200\n4 om 1200\n7 kabir 1050\n8 isha 950\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "1\nsolo 0\n",
+                  "expected_stdout": "1 solo 0\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "gam-5-c2",
+          "prompt": "Players on Bluetooth earphones hear the beat late, so the game subtracts their audio latency before judging taps. The first line is the offset in ms, the second has the beat times, the third the tap times (both in order, ms; the tap line can be empty). Complete `judge`: subtract the offset from each tap; for each beat in order, match the unused tap closest to it within 150 ms (ties: the earlier tap). A gap of 30 ms or less is PERFECT, 80 or less GOOD, otherwise OK; no tap means MISS. Accuracy is (100 x PERFECT + 70 x GOOD + 40 x OK) / beats. The program prints `PERFECT a GOOD b OK c MISS d` and `accuracy x%` (one decimal).",
+          "language": "python",
+          "starter_code": "import sys\n\n\ndef judge(beats, taps, offset):\n    \"\"\"beats and taps: times in ms, each in order. Subtract the audio latency `offset` from every tap. For each beat in order, match the unused tap closest to it within 150 ms (ties: the earlier tap); a gap of 30 or less is PERFECT, 80 or less GOOD, else OK; no tap is a MISS. Accuracy = (100 x PERFECT + 70 x GOOD + 40 x OK) / beats. Return (counts, accuracy).\"\"\"\n    # Write your code here.\n    return {\"PERFECT\": 0, \"GOOD\": 0, \"OK\": 0, \"MISS\": len(beats)}, 0.0\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    offset = int(data[0])\n    beats = list(map(int, data[1].split()))\n    taps = list(map(int, data[2].split())) if data[2].strip() else []\n    counts, accuracy = judge(beats, taps, offset)\n    print(\"PERFECT\", counts[\"PERFECT\"], \"GOOD\", counts[\"GOOD\"], \"OK\", counts[\"OK\"], \"MISS\", counts[\"MISS\"])\n    print(\"accuracy\", format(accuracy, \".1f\") + \"%\")\n\n\nmain()\n",
+          "reference_solution": "import sys\n\n\ndef judge(beats, taps, offset):\n    \"\"\"beats and taps: times in ms, each in order. Subtract the audio latency `offset` from every tap. For each beat in order, match the unused tap closest to it within 150 ms (ties: the earlier tap); a gap of 30 or less is PERFECT, 80 or less GOOD, else OK; no tap is a MISS. Accuracy = (100 x PERFECT + 70 x GOOD + 40 x OK) / beats. Return (counts, accuracy).\"\"\"\n    adjusted = [t - offset for t in taps]\n    used = [False] * len(adjusted)\n    counts = {\"PERFECT\": 0, \"GOOD\": 0, \"OK\": 0, \"MISS\": 0}\n    lo = 0                                           # taps before lo are too early for every later beat\n    for beat in beats:\n        while lo < len(adjusted) and adjusted[lo] < beat - 150:\n            lo += 1\n        best = None\n        j = lo\n        while j < len(adjusted) and adjusted[j] <= beat + 150:\n            if not used[j] and (best is None or abs(adjusted[j] - beat) < abs(adjusted[best] - beat)):\n                best = j\n            j += 1\n        if best is None:\n            counts[\"MISS\"] += 1\n            continue\n        used[best] = True\n        gap = abs(adjusted[best] - beat)\n        counts[\"PERFECT\" if gap <= 30 else \"GOOD\" if gap <= 80 else \"OK\"] += 1\n    accuracy = (100 * counts[\"PERFECT\"] + 70 * counts[\"GOOD\"] + 40 * counts[\"OK\"]) / len(beats)\n    return counts, accuracy\n\n\ndef main():\n    data = sys.stdin.read().split(\"\\n\")\n    offset = int(data[0])\n    beats = list(map(int, data[1].split()))\n    taps = list(map(int, data[2].split())) if data[2].strip() else []\n    counts, accuracy = judge(beats, taps, offset)\n    print(\"PERFECT\", counts[\"PERFECT\"], \"GOOD\", counts[\"GOOD\"], \"OK\", counts[\"OK\"], \"MISS\", counts[\"MISS\"])\n    print(\"accuracy\", format(accuracy, \".1f\") + \"%\")\n\n\nmain()\n",
+          "ds_topic": "array",
+          "difficulty": 2,
+          "skills": [
+            "Python"
+          ],
+          "explanation": "Both lists are sorted, so a pointer skips taps that are already too early and only the taps inside each beat's ±150 ms window are compared: close to O(beats + taps) instead of comparing every pair. Subtracting the measured latency first is what makes Bluetooth players' timing fair.",
+          "key_justification": "Two-pointer matching of sorted event times within a window.",
+          "points": 10,
+          "variants": [
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "20\n1000 1500 2000 2500\n1025 1600 2300 2510\n",
+                  "expected_stdout": "PERFECT 2 GOOD 1 OK 0 MISS 1\naccuracy 67.5%\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "20\n1000 1400 1800 2200 2600 3000\n999 1516 2255 2453 2889\n",
+                  "expected_stdout": "PERFECT 1 GOOD 1 OK 2 MISS 2\naccuracy 41.7%\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "0\n1000 1300 1600 1900 2200 2500 2800 3100 3400 3700 4000 4300 4600 4900 5200 5500 5800 6100 6400 6700 7000 7300 7600 7900 8200 8500 8800 9100 9400 9700\n1140 1328 1525 1978 2078 2597 2719 3181 3521 3816 3856 4164 4549 5014 5321 5436 5940 6127 6632 6904 7215 7606 7967 8360 8633 8770 9024 9231 9841\n",
+                  "expected_stdout": "PERFECT 4 GOOD 7 OK 16 MISS 3\naccuracy 51.0%\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "0\n1000 1400 1800 2200 2600 3000 3400 3800 4200 4600 5000 5400 5800 6200 6600 7000 7400 7800 8200 8600 9000 9400 9800 10200 10600 11000 11400 11800 12200 12600 13000 13400 13800 14200 14600 15000 15400 15800 16200 16600 17000 17400 17800 18200 18600 19000 19400 19800 20200 20600 21000 21400 21800 22200 22600 23000 23400 23800 24200 24600 25000 25400 25800 26200 26600 27000 27400 27800 28200 28600 29000 29400 29800 30200 30600 31000 31400 31800 32200 32600 33000 33400 33800 34200 34600 35000 35400 35800 36200 36600 37000 37400 37800 38200 38600 39000 39400 39800 40200 40600\n1036 1552 1966 2263 2518 2874 3325 3773 4159 4836 5460 5768 6074 6843 7667 8114 8542 9270 9731 10092 10928 11345 11842 12172 12627 12830 13517 13684 14213 14672 15321 15928 16346 16573 17747 18225 19040 19486 20312 20541 20903 21688 22254 22547 23129 23556 23665 24137 24513 25036 25345 25843 26246 26571 26866 27341 27744 28231 28431 28854 29386 29754 30190 30643 31153 31430 31912 32081 32441 33103 33468 33900 34241 34606 35149 35528 35717 36218 36484 37111 37289 37841 38164 38435 38963 39491 39660 40745\n",
+                  "expected_stdout": "PERFECT 12 GOOD 33 OK 33 MISS 22\naccuracy 48.3%\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "10\n100\n110\n",
+                  "expected_stdout": "PERFECT 1 GOOD 0 OK 0 MISS 0\naccuracy 100.0%\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "0\n100 200\n\n",
+                  "expected_stdout": "PERFECT 0 GOOD 0 OK 0 MISS 2\naccuracy 0.0%\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "45\n1000 1300 1600 1900 2200 2500\n887 1510 1951 2213\n",
+                  "expected_stdout": "PERFECT 1 GOOD 1 OK 1 MISS 3\naccuracy 35.0%\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "45\n1000 1400 1800 2200 2600 3000 3400 3800 4200 4600 5000 5400 5800 6200 6600 7000 7400 7800 8200 8600 9000 9400 9800 10200 10600 11000 11400 11800 12200 12600\n1025 1577 1817 2282 2940 3486 3983 4334 4609 5065 5390 5808 6109 6664 7164 7550 8348 8493 9210 9290 9832 10398 10702 10946 11461 12005\n",
+                  "expected_stdout": "PERFECT 6 GOOD 6 OK 9 MISS 9\naccuracy 46.0%\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "20\n1000 1500 2000 2500 3000 3500 4000 4500 5000 5500 6000 6500 7000 7500 8000 8500 9000 9500 10000 10500 11000 11500 12000 12500 13000 13500 14000 14500 15000 15500 16000 16500 17000 17500 18000 18500 19000 19500 20000 20500 21000 21500 22000 22500 23000 23500 24000 24500 25000 25500 26000 26500 27000 27500 28000 28500 29000 29500 30000 30500 31000 31500 32000 32500 33000 33500 34000 34500 35000 35500 36000 36500 37000 37500 38000 38500 39000 39500 40000 40500 41000 41500 42000 42500 43000 43500 44000 44500 45000 45500 46000 46500 47000 47500 48000 48500 49000 49500 50000 50500\n964 1617 1953 2589 3110 3500 3939 4412 5098 6627 6944 7546 9129 9624 10021 10573 11084 11579 12366 12869 14068 14503 15564 15909 16502 17041 17637 18017 18461 19070 19446 19974 20429 21187 21430 22010 22560 23045 23657 24182 24488 25081 25423 25978 26605 26886 27683 28106 28646 29052 29366 30035 30468 31155 31662 31900 32435 33106 33469 34001 34622 35078 35446 35985 36660 36859 37681 38000 38510 39424 40009 40425 41034 41915 42464 42971 43575 44084 44580 44939 45634 45948 46457 47004 47611 48017 48556 49153 49488 50007 50497\n",
+                  "expected_stdout": "PERFECT 19 GOOD 33 OK 31 MISS 17\naccuracy 54.5%\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "0\n100 120\n110\n",
+                  "expected_stdout": "PERFECT 1 GOOD 0 OK 0 MISS 1\naccuracy 50.0%\n",
+                  "hidden": true
+                }
+              ]
+            },
+            {
+              "params": {},
+              "tests": [
+                {
+                  "stdin": "0\n500\n400 600\n",
+                  "expected_stdout": "PERFECT 0 GOOD 0 OK 1 MISS 0\naccuracy 40.0%\n",
+                  "hidden": false
+                },
+                {
+                  "stdin": "45\n1000 1300 1600 1900 2200 2500\n971 1346 1613 1879 2289 2451\n",
+                  "expected_stdout": "PERFECT 1 GOOD 4 OK 1 MISS 0\naccuracy 70.0%\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "45\n1000 1500 2000 2500 3000 3500 4000 4500 5000 5500 6000 6500 7000 7500 8000 8500 9000 9500 10000 10500 11000 11500 12000 12500 13000 13500 14000 14500 15000 15500\n1164 1493 2064 2925 3469 4055 4543 5168 5521 6109 6387 6990 7501 8506 9101 9697 10011 10667 10950 11516 12127 12655 13113 13443 13928 15028 15461\n",
+                  "expected_stdout": "PERFECT 6 GOOD 9 OK 10 MISS 5\naccuracy 54.3%\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "0\n1000 1300 1600 1900 2200 2500 2800 3100 3400 3700 4000 4300 4600 4900 5200 5500 5800 6100 6400 6700 7000 7300 7600 7900 8200 8500 8800 9100 9400 9700 10000 10300 10600 10900 11200 11500 11800 12100 12400 12700 13000 13300 13600 13900 14200 14500 14800 15100 15400 15700 16000 16300 16600 16900 17200 17500 17800 18100 18400 18700 19000 19300 19600 19900 20200 20500 20800 21100 21400 21700 22000 22300 22600 22900 23200 23500 23800 24100 24400 24700 25000 25300 25600 25900 26200 26500 26800 27100 27400 27700 28000 28300 28600 28900 29200 29500 29800 30100 30400 30700\n857 1356 1614 2011 2288 2529 2741 3516 3568 4149 4252 4812 5295 5568 6497 6947 7130 7605 7912 8225 8553 8876 9225 9257 9720 9883 10423 10520 11033 11235 11422 11893 11983 12249 12720 12894 13275 13643 13744 14103 14338 14713 14935 15303 15602 16114 16427 16558 16856 17308 17338 18191 18426 18627 19133 19197 19657 20019 20084 20442 20926 21478 21837 22340 22443 22989 23353 23848 24054 24436 25114 25137 25694 26233 26612 26707 27147 27450 27555 28168 28226 28764 28803 29256 29387 29736 30081 30846\n",
+                  "expected_stdout": "PERFECT 10 GOOD 27 OK 41 MISS 22\naccuracy 45.3%\n",
+                  "hidden": true
+                },
+                {
+                  "stdin": "0\n1000 1100\n1050\n",
+                  "expected_stdout": "PERFECT 0 GOOD 1 OK 0 MISS 1\naccuracy 35.0%\n",
+                  "hidden": true
+                }
+              ]
+            }
+          ]
         }
       ]
     }

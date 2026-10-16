@@ -109,7 +109,7 @@ PROBLEMS["dop-2"] = [
                    "major release; otherwise any message starting with `feat` means minor; otherwise any starting with "
                    "`fix` means patch. A major bump resets minor and patch to 0, a minor bump resets patch. Print the new "
                    "version, or `no release`."),
-        "ds_topic": "string", "difficulty": 1, "skills": ["Python", "Bash/Shell (all shells)"],
+        "ds_topic": "string", "difficulty": 1, "skills": ["Python"],
         "starter": program(_IO_SEMVER, stub(_SIG_SEMVER, _DOC_SEMVER, "current")),
         "solution": program(_IO_SEMVER, _SIG_SEMVER + f'''
     """{_DOC_SEMVER}"""
@@ -655,7 +655,7 @@ PROBLEMS["dop-5"] = [
                    "quote marks trimmed, is not empty and does not start with `${`, `os.environ`, `process.env` or "
                    "`getenv` (those read the secret from the environment, which is fine). The program prints `line N "
                    "kind` per finding, or CLEAN."),
-        "ds_topic": "string", "difficulty": 2, "skills": ["Python", "Bash/Shell (all shells)"],
+        "ds_topic": "string", "difficulty": 2, "skills": ["Python"],
         "starter": program(_IO_SECRETS, stub(_SIG_SECRETS, _DOC_SECRETS, "[]")),
         "solution": "import re\n" + program(_IO_SECRETS, _SIG_SECRETS + f'''
     """{_DOC_SECRETS}"""
