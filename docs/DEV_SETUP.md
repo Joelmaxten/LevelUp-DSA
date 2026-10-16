@@ -247,7 +247,7 @@ PYTHONPATH=. venv/Scripts/python.exe scripts/smoke_test_security.py
 Each prints `[PASS]`/`[FAIL]` per check and exits non-zero on a failure. Run the
 last four only deliberately: they spend quota.
 
-Current check counts (run on 2026-10-11 unless marked): `smoke_test_scenarios.py` 213,
+Current check counts (run on 2026-10-11 unless marked): `smoke_test_scenarios.py` 218 (2026-10-16),
 `smoke_test_readiness.py` 70, `smoke_test_resume_rules.py` 59, `smoke_test_cached_roadmaps.py` 95,
 `smoke_test_code_questions.py` 164, `smoke_test_code_pools.py` 118 (2026-10-16), `smoke_test_profile.py` 59 (2026-10-16), `smoke_test_gamification.py` 49 (the last two were run in a cloud copy with an empty
 survey table, where readiness shows 69 and resume_rules 58; on the laptop's database they should show 70 and 59)
@@ -439,7 +439,9 @@ Page: `/scenarios`; API:
 - **Answer delivery.** The server never sends the key. `POST /scenarios/<id>/start` returns the shuffled public view;
   `POST /scenarios/<id>/answer` locks one question and returns that question's explanation; `POST /scenarios/<id>/submit`
   grades everything on the server. A locked answer cannot be changed (the submit call uses the stored one).
-- **Rules.** Scenario 1 is always open; scenario N+1 opens after any submitted attempt on N; the best score is kept;
+- **Rules.** Scenario 1 is always open; scenario N+1 opens only once N is PASSED (70% or more; a failed attempt
+  keeps it locked, and `start` on it returns 403 `scenario_locked`); a scenario behind an unpassed one is locked even if
+  it was played under the older rule, and its best score is still shown; the best score is kept;
   10 points per question, all or nothing; pass is 70% or more. The "matches your goal" marker maps the Goals chat's
   `goal` signal to ladder stages (`build_fundamentals` -> foundations and core decisions, `explore` -> foundations,
   `specific_role` and `any_good_company` -> debugging, trade-offs and end to end); it is a hint and never locks anything.

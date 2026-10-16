@@ -112,9 +112,9 @@ function nodeLabel(s) {
 function openScenario(s) {
     if (s.state === "locked") {
         const prev = mapData.scenarios.find((x) => x.order === s.order - 1);
-        announce(`Locked. Try ${prev ? prev.title : "the previous scenario"} first.`);
+        announce(`Locked. Pass ${prev ? prev.title : "the previous scenario"} first (70% or more).`);
         const note = document.getElementById("scen-lock-note");
-        if (note) note.textContent = `"${s.title}" opens once you've tried ${prev ? `"${prev.title}"` : "the one before it"}.`;
+        if (note) note.textContent = `"${s.title}" opens once you pass ${prev ? `"${prev.title}"` : "the one before it"} (70% or more).`;
         return;
     }
     startScenario(s.id);
@@ -558,11 +558,16 @@ function renderSummary(data) {
             disclosure("Explanation", el("p", { text: r.explanation })));
     });
     const next = data.scenarios.find((s) => s.recommended);
+    // The scenario after this one: unlocked only by a pass (the server's rule; the map shows the same state).
+    const following = data.scenarios.find((s) => s.order === scenario.order + 1);
+    const unlocked = data.passed && following && following.state !== "locked" ? following : null;
     const kids = [
         el("div", { className: "card card-pad card-hero stack-sm" },
             el("h2", { className: "scen-title", id: "scen-title", tabindex: "-1", text: data.passed ? "Scenario passed" : "Not passed yet" }),
             el("p", { className: "scen-score", text: `${data.score} of ${data.max_score} points (${data.percent}%)` }),
-            el("p", { text: data.passed ? "You passed. The pass mark is 70%." : "The pass mark is 70%. Read the explanations and try again whenever you like." })),
+            el("p", { text: data.passed
+                ? `You passed. The pass mark is 70%.${unlocked ? ` "${unlocked.title}" is now unlocked.` : ""}`
+                : `The pass mark is 70%.${following ? ` Pass this scenario to unlock "${following.title}".` : ""} Read the explanations and try again whenever you like.` })),
         gamRewardsCard(data.rewards),
     ];
     if (data.weak_topics.length) {

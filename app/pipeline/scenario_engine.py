@@ -286,7 +286,9 @@ def compute_progress(scenarios, attempts):
     scenarios: the file's scenario dicts. attempts: submitted attempts only, as dicts with scenario_id, score,
     max_score (unfinished attempts do not count). Returns {scenario_id: {state, best_score, max_score}}.
 
-    Scenario 1 is always open; scenario N+1 opens after any submitted attempt on N; the best score is kept.
+    Scenario 1 is always open; scenario N+1 opens only once N is PASSED (best score at or above the pass mark);
+    the best score is kept. A scenario whose predecessor is not passed is locked even if it was played before (under
+    the older "any attempt unlocks" rule); its best score is still reported.
     """
     best = {}
     for a in attempts:
@@ -298,16 +300,18 @@ def compute_progress(scenarios, attempts):
 
     ordered = sorted(scenarios, key=lambda s: s["order"])
     progress = {}
-    previous_submitted = True   # scenario 1 has no predecessor
+    previous_passed = True   # scenario 1 has no predecessor
     for s in ordered:
         b = best.get(s["id"])
-        if b is not None:
+        if not previous_passed:
+            state = STATE_LOCKED
+        elif b is not None:
             state = STATE_PASSED if is_passing(b["score"], b["max_score"]) else STATE_ATTEMPTED
         else:
-            state = STATE_OPEN if previous_submitted else STATE_LOCKED
+            state = STATE_OPEN
         progress[s["id"]] = {"state": state, "best_score": b["score"] if b else None,
                              "max_score": b["max_score"] if b else None}
-        previous_submitted = b is not None
+        previous_passed = state == STATE_PASSED
     return progress
 
 

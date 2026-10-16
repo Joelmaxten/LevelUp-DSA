@@ -2288,6 +2288,27 @@ browsers other than Chromium; an upload of a real phone camera photo. The limit 
 photos are often 3-8 MB, so some will still be over it, and the page will then ask for a smaller picture.
 
 ---
+## Scenarios Unlock Only on a Pass
+
+**Why.** The project owner noticed that failing a scenario still opened the next one. The old rule opened scenario N+1
+after ANY submitted attempt on N. It now opens only once N is passed (70% or more). Built on branch `profile-1`.
+
+**Change.** `scenario_engine.compute_progress` gates each scenario on the previous one's PASSED state. The start route
+already refused locked scenarios (403 `scenario_locked`), so the server enforces the rule and the browser cannot get
+around it.
+- Data from the older rule: a scenario behind an unpassed one is shown as locked again. Its best score is kept and
+  still counts for XP and readiness.
+- The page now says what to do. After a fail: "Pass this scenario to unlock <next>". After a pass: "<next> is now
+  unlocked". Clicking a locked scenario says it opens once the previous one is passed (70% or more).
+
+**Verification (cloud copy, 2026-10-16).**
+- `smoke_test_scenarios.py` 218/218. Four old-rule checks were rewritten and five added: exactly 70% unlocks, 69% does
+  not, a failure keeps everything after it locked, older data re-locks, and start after a fail is 403 but 200 after a pass.
+- code_pools 118, code_questions 164, gamification 49, readiness 69 and profile 59 unchanged.
+- In headless Chromium on DevOps: failing scenario 1 showed the unlock hint and scenario 2's start returned 403 with the
+  lock note; passing it showed "now unlocked" and scenario 2 started.
+
+---
 ## Still To Build
 
 - Real-model check of parallel generation: run `scripts/inspect_roadmap.py` for a few

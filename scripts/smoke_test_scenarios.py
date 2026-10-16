@@ -485,14 +485,25 @@ def test_store_engine():
     check("progress: scenario 1 open, the rest locked at the start",
           p["mle-1"]["state"] == "open" and all(p[f"mle-{n}"]["state"] == "locked" for n in range(2, 6)))
     p = eng.compute_progress(scenarios, [att("mle-1", 10)])
-    check("progress: a failed attempt on N still opens N+1 and marks N attempted",
-          p["mle-1"]["state"] == "attempted" and p["mle-2"]["state"] == "open" and p["mle-3"]["state"] == "locked")
+    check("progress: a failed attempt on N marks it attempted and keeps N+1 locked",
+          p["mle-1"]["state"] == "attempted" and p["mle-2"]["state"] == "locked" and p["mle-3"]["state"] == "locked")
+    p = eng.compute_progress(scenarios, [att("mle-1", 28)])
+    check("progress: exactly the pass mark (28/40 = 70%) on N opens N+1",
+          p["mle-1"]["state"] == "passed" and p["mle-2"]["state"] == "open" and p["mle-3"]["state"] == "locked")
+    p = eng.compute_progress(scenarios, [att("mle-1", 27)])
+    check("progress: just under the pass mark (27/40) keeps N+1 locked", p["mle-2"]["state"] == "locked")
     p = eng.compute_progress(scenarios, [att("mle-1", 10), att("mle-1", 40), att("mle-1", 20)])
     check("progress: best score is kept and passed once any attempt passes",
           p["mle-1"]["best_score"] == 40 and p["mle-1"]["state"] == "passed")
     p = eng.compute_progress(scenarios, [att("mle-3", 40)])
-    check("progress: a submission on a later scenario does not unlock the ones before it",
-          p["mle-2"]["state"] == "locked" and p["mle-3"]["state"] == "passed")
+    check("progress: a score on a later scenario (older data) unlocks nothing; it stays locked behind mle-1 and keeps its best",
+          p["mle-2"]["state"] == "locked" and p["mle-3"]["state"] == "locked" and p["mle-3"]["best_score"] == 40)
+    p = eng.compute_progress(scenarios, [att("mle-1", 40), att("mle-2", 40), att("mle-3", 10)])
+    check("progress: passing 1 and 2 opens 3; failing 3 keeps 4 locked",
+          p["mle-3"]["state"] == "attempted" and p["mle-4"]["state"] == "locked")
+    p = eng.compute_progress(scenarios, [att("mle-1", 40), att("mle-2", 10), att("mle-3", 40)])
+    check("progress: a failed scenario re-locks everything after it (older data), best scores kept",
+          p["mle-2"]["state"] == "attempted" and p["mle-3"]["state"] == "locked" and p["mle-3"]["best_score"] == 40)
     check("progress: unfinished attempts (no score) are ignored",
           eng.compute_progress(scenarios, [{"scenario_id": "mle-1", "score": None, "max_score": None}])["mle-2"]["state"] == "locked")
 
@@ -707,13 +718,14 @@ def test_routes():
               resp.status_code == 200 and out["score"] == 10 and out["max_score"] == 40 and not out["passed"]
               and out["results"][0]["correct"] is True)
         check("submit returns explanations and the new map state",
-              all(r["explanation"] for r in out["results"]) and {s["id"]: s for s in out["scenarios"]}["mle-2"]["state"] == "open")
+              all(r["explanation"] for r in out["results"]) and {s["id"]: s for s in out["scenarios"]}["mle-2"]["state"] == "locked")
         resp = submit(alice, {"attempt_id": attempt_id, "answers": perfect})
         check("submit twice -> 409 already_submitted", resp.status_code == 409 and resp.get_json() == {"error": "already_submitted"})
         check("answer after submit -> 409", alice.post("/scenarios/mle-1/answer", json={
             "attempt_id": attempt_id, "question_id": "mle-1-q2", "answer": ["a"]}).status_code == 409)
-        check("a failed attempt still unlocks the next scenario (start mle-2 ok)",
-              alice.post("/scenarios/mle-2/start", json={}).status_code == 200)
+        resp = alice.post("/scenarios/mle-2/start", json={})
+        check("a failed attempt does NOT unlock the next scenario (start mle-2 -> 403 scenario_locked)",
+              resp.status_code == 403 and resp.get_json() == {"error": "scenario_locked"})
 
         # second attempt on mle-1 passes; best score kept; state passed
         new = alice.post("/scenarios/mle-1/start", json={}).get_json()
@@ -724,6 +736,7 @@ def test_routes():
         m = {s["id"]: s for s in alice.get("/scenarios/machine-learning-engineering").get_json()["scenarios"]}
         check("map after: mle-1 passed with best 40/40, mle-2 recommended",
               m["mle-1"]["state"] == "passed" and m["mle-1"]["best_score"] == 40 and m["mle-2"]["recommended"])
+        check("after the pass, start mle-2 -> 200", alice.post("/scenarios/mle-2/start", json={}).status_code == 200)
         wrong_again = alice.post("/scenarios/mle-1/start", json={}).get_json()
         submit(alice, {"attempt_id": wrong_again["attempt_id"], "answers": {}})
         m = {s["id"]: s for s in alice.get("/scenarios/machine-learning-engineering").get_json()["scenarios"]}
