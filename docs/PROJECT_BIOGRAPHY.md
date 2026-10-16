@@ -2309,6 +2309,41 @@ around it.
   lock note; passing it showed "now unlocked" and scenario 2 started.
 
 ---
+## Goals Page: "Personalise Your Plan" and What It Tailors
+
+**Why.** The project owner pointed out that the Goals questions don't change the career-path scores, so they looked
+pointless. That was by design: there is no defensible link between, for example, "wants to avoid deadlines" and which
+CS path fits better. But the answers did change three things the student never saw. Adding score rules was rejected,
+because they couldn't be justified to the guide. Removing the step was also rejected, because it would lose that
+personalisation. The fix makes the effect visible.
+
+**Change.**
+- The page is now "Personalise your plan". It says up front that the career match still comes from the quiz.
+- After the last answer it shows "Your plan is personalised" and a "Here's what we'll tailor" card built on the server
+  by `app/pipeline/goal_tailoring.py`. The card lists only real effects:
+  - **Coding problems:** which of a scenario's two problems the pick leans towards (gentler for fundamentals or explore,
+    harder for a specific role or any good company).
+  - **Scenarios:** which scenario stages get the "Matches your goal" star.
+  - **Roadmap:** what the roadmap's personal note is told (goal, what to avoid, target company, the free-text note).
+- The career match follows under "Your career match (from the quiz)", with a one-line explanation.
+- The quiz's button now reads "Personalise my plan".
+
+**Found while checking:** question C1 ("traditional IT or non-traditional paths?") is not used anywhere. It was kept
+for non-traditional career paths that were never added. It is left in place and gets no line in the summary. Removing
+or repurposing it is the owner's call.
+
+**Verification (cloud copy, 2026-10-16).**
+- `smoke_test_profile.py` 68/68 (9 new): summary rules for each goal, "none" and "unsure" answers and C1 add nothing,
+  the summary agrees with the engine's goal sets, and a full quiz → Goals run returns the summary for the answers given.
+  The ranking after Goals is exactly the quiz's.
+- `smoke_test_quiz.py` 33/33.
+- The owner's laptop ran all 12 suites on `profile-1` before this change: security 30, profile 59, scenarios 218,
+  code_questions 164, code_pools 118, gamification 49, readiness 70, quiz 33, llm 84, async_generation 25,
+  resume_rules 59 and progress 31.
+- In headless Chromium the whole Goals flow went through the real page at 1280 px and 360 px, with no horizontal
+  scroll and no page errors.
+
+---
 ## Still To Build
 
 - Real-model check of parallel generation: run `scripts/inspect_roadmap.py` for a few

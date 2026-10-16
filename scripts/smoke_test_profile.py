@@ -298,7 +298,75 @@ def test_server_error_page():
     check("500 from fetch() -> {'error': 'server_error'} only", api.status_code == 500 and api.get_json() == {"error": "server_error"})
 
 
-SECTIONS = [test_username_rules, test_routes, test_server_error_page]
+def test_goal_tailoring():
+    """The Goals page's "what we'll tailor" summary: only real effects, and the quiz's ranking is untouched."""
+    from app import create_app, db
+    from app.models import CareerProfile, User
+    from app.pipeline import scenario_engine as eng
+    from app.pipeline.goal_tailoring import tailoring_summary
+    from scripts._csrf import enable_csrf_client
+
+    gentle = tailoring_summary({"goal": "build_fundamentals", "avoid": "none", "target_company": "unsure", "it_track": "open"})
+    areas = [i["area"] for i in gentle["items"]]
+    check("build_fundamentals: gentler coding problems, foundation + core-decision scenarios starred, roadmap uses the goal",
+          areas == ["Coding problems", "Scenarios", "Roadmap"] and "gentler" in gentle["items"][0]["text"]
+          and "Foundation and core-decision" in gentle["items"][1]["text"])
+    check("'avoid: none', 'company: unsure' and it_track (unused anywhere) add nothing to the roadmap line",
+          "avoid" not in gentle["items"][2]["text"] and "aiming" not in gentle["items"][2]["text"]
+          and not any("traditional" in i["text"].lower() for i in gentle["items"]))
+    hard = tailoring_summary({"goal": "specific_role", "avoid": "repetitive_work", "target_company": "startup", "additional_notes": "x"})
+    check("specific_role: harder problems, debugging/trade-off/end-to-end starred, avoid + company + note listed",
+          "harder" in hard["items"][0]["text"] and "Debugging, trade-off and end-to-end" in hard["items"][1]["text"]
+          and "too much repetitive/routine work" in hard["items"][2]["text"] and "(startup)" in hard["items"][2]["text"]
+          and len(hard["items"]) == 3 and hard["items"][2]["text"].endswith("Your note is passed to it as background too."))
+    only_note = tailoring_summary({"additional_notes": "x"})["items"]
+    check("a note alone gets its own Roadmap line", [i["area"] for i in only_note] == ["Roadmap"] and "Your note" in only_note[0]["text"])
+    check("the summary's goal rules match the engine's (easier/harder goals and starred stages)",
+          eng.EASIER_GOALS == {"build_fundamentals", "explore"} and eng.HARDER_GOALS == {"specific_role", "any_good_company"}
+          and all(set(eng.GOAL_STAGES[g]) for g in ("build_fundamentals", "explore", "specific_role", "any_good_company")))
+    check("no answers -> no tailoring lines, but the match note is still there",
+          tailoring_summary({})["items"] == [] and "quiz only" in tailoring_summary({})["match_note"])
+
+    app = create_app()
+    enable_csrf_client(app)
+    email = f"goals{random.randint(100000, 999999)}@example.com"
+    client = app.test_client()
+    try:
+        client.post("/signup", json={"username": f"goals_{random.randint(100000, 999999)}", "email": email, "password": PW})
+        client.post("/login", json={"login": email, "password": PW})
+        data = client.post("/quiz/start").get_json()
+        while True:
+            data = client.post("/quiz/answer", json={"question_id": data["question_id"], "option": "A"}).get_json()
+            if data.get("finished"):
+                quiz_ranking = [(r["career_path"], r["confidence_pct"]) for r in data["results"]]
+                break
+        picks = {"C1": "C", "C2": "B", "C3": "B", "C4": "C"}   # open / deadlines / product-based / fundamentals
+        data = client.post("/conversation/start").get_json()
+        while True:
+            body = {"question_id": data["question_id"], "option": picks[data["question_id"]]}
+            data = client.post("/conversation/answer", json=body).get_json()
+            if data.get("finished"):
+                break
+        tailoring = data.get("tailoring") or {}
+        texts = " ".join(i["text"] for i in tailoring.get("items", []))
+        check("finished Goals response carries the tailoring summary for the answers given",
+              "gentler" in texts and "constant high-pressure deadlines" in texts and "(product-based company)" in texts)
+        check("the career ranking after Goals is exactly the quiz's (the answers never move it)",
+              [(r["career_path"], r["confidence_pct"]) for r in data["profile"]["career_ranking"]] == quiz_ranking)
+        page = client.get("/conversation").get_data(as_text=True)
+        check("Goals page: 'Personalise your plan', says the match comes from the quiz, renders the tailoring card",
+              "Personalise your plan" in page and "career match still comes from the quiz" in page
+              and "tailoringCard(tailoring)" in page and "innerHTML" not in page)
+    finally:
+        with app.app_context():
+            user = User.query.filter_by(email=email).first()
+            if user:
+                CareerProfile.query.filter_by(user_id=user.id).delete()
+                db.session.delete(user)
+                db.session.commit()
+
+
+SECTIONS = [test_username_rules, test_routes, test_server_error_page, test_goal_tailoring]
 
 
 def main():

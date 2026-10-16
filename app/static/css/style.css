@@ -1329,3 +1329,13 @@ a.job-link:hover .job-title { text-decoration: underline; }
     .rc-dialog[open] { animation: none; }
     .rc-confetti { display: none; }
 }
+
+/* ---------- Goals page: "Here's what we'll tailor" (templates/conversation.html) ---------- */
+.convo-lead { margin-top: var(--sp-2); color: var(--pencil); font-size: var(--fs-md); }
+.tailor-card { border: 2px solid var(--ink); }
+.tailor-card h2 { margin-bottom: var(--sp-2); }
+.tailor-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--sp-3); }
+.tailor-item { display: grid; grid-template-columns: 9.5rem 1fr; gap: var(--sp-3); align-items: start; }
+.tailor-area { justify-self: start; }
+.tailor-text { margin: 0; }
+@media (max-width: 34rem) { .tailor-item { grid-template-columns: 1fr; gap: var(--sp-1); } }

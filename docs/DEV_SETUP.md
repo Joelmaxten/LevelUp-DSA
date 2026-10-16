@@ -234,7 +234,7 @@ For these tests run `pip install -r requirements-dev.txt` once (adds fpdf2).
 | `smoke_test_profile_flow.py` | quiz then conversation then `CareerProfile` row; prints rather than counts | no |
 | `smoke_test_code_questions.py` | code questions: runner adapter (OneCompiler shape, Cloudflare page, timeouts, caps, error codes), validator, public view, grading, Run and Check routes | no (fake runner or stubbed HTTP) |
 | `smoke_test_gamification.py` | gamification: XP rules (best score only, one-off bonuses, retries add nothing), levels, IST streak maths, every badge rule, rewards between two summaries, `GET /gamification` (401, per user, no writes, fixed error code), rewards on scenario submit (and a failure there never breaks the grade), pages load the script | no (code runs with local Python) |
-| `smoke_test_profile.py` | accounts and profile: username rules, signup with a username (taken / invalid / email in other case / older name-only clients), the live username check and its rate limit, login with username or email, `/profile` page and API (401, per user, every field's validation, nothing half-saved, username change, CSRF), picture upload (re-encoded 256x256 JPEG, EXIF and GPS removed, SVG / GIF / over 4 MB refused, private cache), password change, 404 and 500 pages vs JSON, roadmap `completed_on` and the Finish Line badge | no |
+| `smoke_test_profile.py` | accounts and profile: username rules, signup with a username (taken / invalid / email in other case / older name-only clients), the live username check and its rate limit, login with username or email, `/profile` page and API (401, per user, every field's validation, nothing half-saved, username change, CSRF), picture upload (re-encoded 256x256 JPEG, EXIF and GPS removed, SVG / GIF / over 4 MB refused, private cache), password change, 404 and 500 pages vs JSON, roadmap `completed_on` and the Finish Line badge, the Goals tailoring summary (only real effects; the ranking after Goals equals the quiz's) | no |
 | `smoke_test_code_pools.py` | code pools: content shape of all 15 paths (skill tags only Python / SQL), validator rejections, materialise, the personalised pick rules, no secret field and no hidden test leaked in any of the 360 variants, grading with the real reference solutions, Start/Run/Check/Submit end to end, retry gets the other problem, readiness counts the code question, dashboard scenario summary, no page links to `/dsa` | no (runs code with this machine's Python: `CODE_RUNNER=local`) |
 | `smoke_test_resume.py` | upload, extraction, gap analysis, AI feedback | yes: Gemini |
 | `smoke_test_roadmap.py` | `/roadmap/generate` end to end | yes: Gemini |
@@ -249,7 +249,7 @@ last four only deliberately: they spend quota.
 
 Current check counts (run on 2026-10-11 unless marked): `smoke_test_scenarios.py` 218 (2026-10-16),
 `smoke_test_readiness.py` 70, `smoke_test_resume_rules.py` 59, `smoke_test_cached_roadmaps.py` 95,
-`smoke_test_code_questions.py` 164, `smoke_test_code_pools.py` 118 (2026-10-16), `smoke_test_profile.py` 59 (2026-10-16), `smoke_test_gamification.py` 49 (the last two were run in a cloud copy with an empty
+`smoke_test_code_questions.py` 164, `smoke_test_code_pools.py` 118 (2026-10-16), `smoke_test_profile.py` 68 (2026-10-16), `smoke_test_gamification.py` 49 (the last two were run in a cloud copy with an empty
 survey table, where readiness shows 69 and resume_rules 58; on the laptop's database they should show 70 and 59)
 (the 95 is from the earlier biography entry and was not re-run for this update). All of these
 call no external service, but they use the development database, so PostgreSQL must be running.
@@ -518,6 +518,16 @@ reward card after a submit). **Nothing is stored**: every number is recomputed f
 - **Change a rule:** edit `XP_RULES`, `LEVELS` or `BADGES` and re-run `smoke_test_gamification.py`; because nothing is
   stored, every student's numbers follow the new rules on their next page load.
 - **No leaderboard** by design (privacy, and a near-empty board in a demo).
+
+### Goals page ("Personalise your plan")
+
+The Goals answers never change the career ranking (`profile_builder.ADJUSTMENT_RULES` is empty on purpose). The page
+now says so and shows what the answers DO change. `app/pipeline/goal_tailoring.py` builds a "Here's what we'll
+tailor" summary: the coding-problem lean (`scenario_engine.EASIER_GOALS` / `HARDER_GOALS`), the starred scenario
+stages (`GOAL_STAGES`), and what the roadmap's personal note is told (goal, avoid, target company, free-text note).
+`POST /conversation/answer` returns it as `tailoring` when the chat finishes. If you change any of those rules, update
+`goal_tailoring.py` too; `smoke_test_profile.py` checks the two agree. Question C1 (`it_track`) is not used anywhere
+yet (it was meant for non-traditional paths), so it gets no line in the summary.
 
 ### Accounts and the profile page
 

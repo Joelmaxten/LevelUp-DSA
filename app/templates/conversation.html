@@ -1,11 +1,12 @@
 {% extends "layout.html" %}
 
-{% block title %}Your goals | LevelUp DSA{% endblock %}
+{% block title %}Personalise your plan | LevelUp DSA{% endblock %}
 
 {% block content %}
 <div class="wrap goals stack">
     <header class="page-head">
-        <h1 class="h1" id="convo-heading">Your goals</h1>
+        <h1 class="h1" id="convo-heading">Personalise your plan</h1>
+        <p class="lead convo-lead" id="convo-lead">Four quick questions about what you want. They tailor your roadmap, coding problems and scenarios. Your career match still comes from the quiz.</p>
         <div id="convo-progress"></div>
     </header>
 
@@ -16,7 +17,8 @@
     <details class="disclosure">
         <summary>How this works</summary>
         <ul class="info-list" id="convo-info">
-            <li>These answers tailor your roadmap to what you want.</li>
+            <li>These answers tailor your roadmap, which coding problem you get in each scenario, and which scenarios are starred for your goal.</li>
+            <li>They don't change your career match: that comes from the quiz only.</li>
             <li>Every question needs an answer. Use Previous to change one.</li>
         </ul>
     </details>
@@ -191,13 +193,27 @@ function showNotesStep(errorMessage) {
     focusHeading(title);
 }
 
-function renderResults(profile, savedNotes) {
-    heading.textContent = "Your career profile";
+// "Here's what we'll tailor": one row per real effect of the answers (built by the server, goal_tailoring.py).
+function tailoringCard(tailoring) {
+    if (!tailoring || !tailoring.items || !tailoring.items.length) return "";
+    const rows = tailoring.items.map((item) => el("li", { className: "tailor-item" },
+        el("span", { className: "chip chip-ink tailor-area", text: item.area }),
+        el("p", { className: "tailor-text", text: item.text })));
+    return el("section", { className: "card card-pad stack-sm tailor-card", "aria-labelledby": "tailor-title" },
+        el("h2", { className: "h3", id: "tailor-title", text: "Here's what we'll tailor" }),
+        el("ul", { className: "tailor-list" }, ...rows));
+}
+
+function renderResults(profile, savedNotes, tailoring) {
+    heading.textContent = "Your plan is personalised";
+    const lead = document.getElementById("convo-lead");
+    if (lead) lead.hidden = true;
     progressBox.replaceChildren();
     questionBox.hidden = true;
     infoList.replaceChildren(
         el("li", { text: "Your roadmap is built around your top match." }),
-        el("li", { text: "Each % is the share of your answers that pointed to that path." })
+        el("li", { text: "Each % is the share of your quiz answers that pointed to that path." }),
+        el("li", { text: "Retake this any time to change how your plan is tailored." })
     );
 
     // Built from what was chosen last for each question, in order, so a changed answer shows as changed.
@@ -206,6 +222,10 @@ function renderResults(profile, savedNotes) {
     if (savedNotes) recap.push({ question: notesConfig.prompt, answer: savedNotes });
 
     resultsBox.replaceChildren(
+        tailoringCard(tailoring),
+        el("div", { className: "stack-sm" },
+            el("h2", { className: "h3", text: "Your career match (from the quiz)" }),
+            el("p", { className: "muted", text: (tailoring && tailoring.match_note) || "Your career match comes from the quiz only." })),
         ...careerResultNodes(profile.career_ranking),
         answersDisclosure("Your answers", recap),
         el("div", { className: "actions" },
@@ -239,7 +259,7 @@ async function submitAnswer(questionId, optionKey, notes = "") {
     }
 
     if (result.data.finished) {
-        renderResults(result.data.profile, result.data.profile.conversation_signals.additional_notes);
+        renderResults(result.data.profile, result.data.profile.conversation_signals.additional_notes, result.data.tailoring);
     } else {
         // Shouldn't happen for the last question; carry on with whatever the server says is next.
         path.push({ id: result.data.question_id, question: result.data.question, isLast: !!result.data.is_last });

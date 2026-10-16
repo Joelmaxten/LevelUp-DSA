@@ -12,6 +12,7 @@ from app.pipeline.conversation_data import (
     MAX_ADDITIONAL_NOTES_CHARS,
 )
 from app.pipeline.profile_builder import build_profile
+from app.pipeline.goal_tailoring import tailoring_summary
 
 conversation_bp = Blueprint("conversation", __name__)
 
@@ -129,6 +130,8 @@ def answer_conversation():
                 "career_ranking": profile["career_ranking"],
                 "conversation_signals": profile["conversation_signals"],
             },
+            # What these answers change, in plain words (the ranking above is the quiz's; see goal_tailoring.py).
+            "tailoring": tailoring_summary(profile["conversation_signals"]),
         }), 200
 
     session["conversation"] = convo_state
