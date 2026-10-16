@@ -84,8 +84,9 @@ def answer_conversation():
 
     try:
         apply_answer(convo_state, question_id, option)
-    except ValueError as e:
-        return jsonify({"error": str(e)}), 400
+    except ValueError:
+        # A fixed message: the exception text would echo the client's own input back.
+        return jsonify({"error": "That isn't one of the options for this question."}), 400
 
     q_id = next_question(convo_state)
 

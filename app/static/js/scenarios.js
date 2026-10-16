@@ -206,6 +206,13 @@ async function startScenario(scenarioId) {
     if (title) title.focus();
 }
 
+// Prompt text with `backtick` spans shown as inline code. Built from text nodes and <code> elements only.
+function inlineCode(text) {
+    const parts = String(text).split("`");
+    if (parts.length % 2 === 0) return [text];      // an unmatched backtick: show the text as it is
+    return parts.map((part, i) => (i % 2 ? el("code", { className: "scen-inline-code", text: part }) : part));
+}
+
 function optionText(question, id, pool) {
     const o = (question[pool || "options"] || []).find((x) => x.id === id);
     return o ? o.text : id;
@@ -461,7 +468,7 @@ function renderQuestion(allDone) {
         : question.type === "code" ? "Write the program, try it on the examples, then check it against every test. You can check once." : "Choose one.";
 
     const fieldset = el("fieldset", { className: "scen-fieldset" },
-        el("legend", { className: "scen-prompt", id: "scen-prompt", tabindex: "-1", text: question.prompt }),
+        el("legend", { className: "scen-prompt", id: "scen-prompt", tabindex: "-1" }, ...inlineCode(question.prompt)),
         el("p", { className: "hint", text: hint }), input.node);
     const check = el("button", { type: "button", className: "btn", text: question.type === "code" ? "Check against all tests" : "Check answer" });
     const slot = el("div", { className: "stack-sm", id: "scen-slot" });

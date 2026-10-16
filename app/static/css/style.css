@@ -8,8 +8,7 @@
         skeleton, alert, disclosure (details). Every page is built from these.
      4. Page layouts: .wrap / .stack / .grid helpers and per-page rules.
      5. Legacy "sheet" layout (.sheet / .row / .margin): used by the legacy career-path picker
-        (ui.js _legacyCareerPathPicker). The skill-map page that also used it was removed; its rules
-        ("Skill map" sections below) are now unused and can be deleted in a later clean-up.
+        (ui.js _legacyCareerPathPicker).
 
    Rules that keep it coherent:
    - Marker yellow means one thing: "this is what to do or learn next". It is never decoration.
@@ -71,7 +70,7 @@
     --wrap: 64rem;       /* content column of the redesigned pages */
     --tap: 2.75rem;      /* minimum touch target: 44px */
 
-    /* Legacy sheet layout (DSA page): laptop first, steps down on narrower screens. */
+    /* Legacy sheet layout (career-path picker): laptop first, steps down on narrower screens. */
     --margin-w: 15rem;
     --gutter: 4rem;
     --sheet-w: 92rem;
@@ -747,8 +746,6 @@ h4 { font-weight: 700; font-size: 1.0625rem; }
 
 /* One segment per skill: solid ink = on your resume, marker = learn next. */
 
-/* Skill map only: a locked topic is an empty, dashed segment, so yellow stays "open now". */
-
 @keyframes fill { from { transform: scaleY(0.15); opacity: 0; } }
 /* Long skill lists: thinner outlines and gaps so each segment's fill is still readable on a phone. */
 
@@ -958,80 +955,6 @@ a.chip:hover { text-decoration: underline; }
 .roadmap-list-item + .roadmap-list-item { border-top: 1px solid var(--rule); }
 .roadmap-list-link { display: inline-block; margin-bottom: 0.4rem; }
 .roadmap-list-item .progress-bar-block { margin-bottom: 0; }
-
-/* ---------- Skill map ---------- */
-
-.skillmap { margin-top: 1rem; overflow-x: auto; padding-bottom: 0.5rem; }
-.skillmap-svg { display: block; width: 100%; min-width: 46rem; height: auto; font-family: var(--font-body); }
-
-.legend { display: flex; flex-wrap: wrap; gap: 0.5rem 1.75rem; margin-top: 1.25rem; font-size: 0.9375rem; }
-.legend li { display: inline-flex; align-items: center; gap: 0.5rem; }
-.legend-mark { padding: 0 0.4rem; background: var(--marker); font-weight: 700; font-size: 0.875rem; }
-
-/* Edges: an arrow is solid ink once the topic it leaves is mastered, dashed until then. */
-.skillmap .edge { fill: none; stroke-width: 2; }
-.skillmap .edge-closed { stroke: var(--line); stroke-dasharray: 5 5; }
-.skillmap .edge-open { stroke: var(--ink); }
-.skillmap .arrow-closed { fill: var(--line); }
-.skillmap .arrow-open { fill: var(--ink); }
-.skillmap .edge-faded { opacity: 0.18; }
-.skillmap .edge-hot { stroke-width: 3; }
-
-.skillmap .node { cursor: pointer; outline: none; }
-.skillmap .node .body { stroke: var(--ink); stroke-width: 2.5; }
-.skillmap .ring-track { fill: none; stroke: var(--rule); stroke-width: 4; }
-.skillmap .ring-fill { fill: var(--ink); }
-.skillmap .select-ring { fill: none; stroke: var(--ink); stroke-width: 2; stroke-dasharray: 2 4; opacity: 0; }
-.skillmap .node.selected .select-ring,
-.skillmap .node:focus-visible .select-ring { opacity: 1; }
-.skillmap .node:focus-visible .select-ring { stroke-dasharray: none; stroke-width: 3; }
-
-.skillmap .state-unlocked .body { fill: #fff; }
-.skillmap .state-mastered .body { fill: var(--ink); filter: url(#skillmap-glow); }
-.skillmap .state-mastered .ring-track { stroke: var(--ink); }
-
-/* Locked: dimmed and dashed, but the label stays readable. */
-.skillmap .state-locked .body { fill: var(--paper); stroke: var(--line); stroke-dasharray: 4 4; stroke-width: 2; opacity: 0.55; }
-.skillmap .state-locked .glyph { opacity: 0.55; }
-.skillmap .state-locked .label text { fill: var(--pencil); }
-
-.skillmap .glyph-tick { fill: none; stroke: #fff; stroke-width: 3.5; stroke-linecap: square; }
-.skillmap .glyph-lock rect { fill: var(--pencil); }
-.skillmap .glyph-lock path { stroke: var(--pencil); stroke-width: 2.5; }
-.skillmap .glyph-pct { fill: var(--ink); font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; }
-
-/* The paper-coloured stroke keeps a long edge that runs behind a label from striking through it. */
-.skillmap .label text { fill: var(--ink); font-size: 13px; font-weight: 700; pointer-events: none; paint-order: stroke; stroke: var(--paper); stroke-width: 5px; stroke-linejoin: round; }
-.skillmap .label:has(.label-mark) text { stroke: none; }   /* the highlighter block already hides what's behind it */
-.skillmap .label-mark { fill: var(--marker); }
-
-/* The same shapes, small, in the legend. */
-.legend-node .body { stroke: var(--ink); stroke-width: 2; }
-.legend-node.state-unlocked .body { fill: #fff; }
-.legend-node.state-mastered .body { fill: var(--ink); }
-.legend-node.state-locked .body { fill: var(--paper); stroke: var(--line); stroke-dasharray: 3 3; opacity: 0.7; }
-
-/* The panel under the map. */
-.node-panel-row { margin-top: 1rem; }
-.meter { margin-top: 0.75rem; }
-.meter .scale { display: block; margin: 0.4rem 0 0; }
-
-.problem + .problem { margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--rule); }
-.problem-title { font-size: clamp(1.25rem, 1.05rem + 0.8vw, 1.625rem); line-height: 1.2; }
-.problem-label { margin: 1.25rem 0 0.4rem; font-size: 0.9375rem; font-weight: 700; color: var(--pencil); text-transform: none; }
-.scenario { margin-top: 1rem; max-width: 40rem; }
-.scenario .problem-label { margin-top: 0; }
-.scenario-text { padding-left: 1rem; border-left: 4px solid var(--marker); }
-.scenario .note { margin-top: 0.5rem; }
-.examples li + li { margin-top: 0.5rem; }
-.code { font-family: ui-monospace, "Cascadia Mono", Consolas, "Courier New", monospace; font-size: 0.9375rem; overflow-wrap: anywhere; }
-.arrow-out { color: var(--pencil); font-size: 0.9375rem; }
-
-@media (forced-colors: active) {
-    .skillmap .state-locked .body { stroke-dasharray: 4 4; opacity: 1; }
-    .skillmap .state-mastered .body { forced-color-adjust: none; }
-    .skillmap .label-mark { fill: Highlight; }
-}
 
 /* ---------- Resume page ---------- */
 
@@ -1270,3 +1193,7 @@ a.job-link:hover .job-title { text-decoration: underline; }
     .gam-rewards { animation: gam-pop 260ms var(--ease) both; }
     @keyframes gam-pop { from { transform: translateY(6px); opacity: 0; } to { transform: none; opacity: 1; } }
 }
+
+/* `name` spans inside scenario prompts (coding problems name functions and inputs this way). */
+.scen-inline-code { font-family: ui-monospace, "Cascadia Mono", Consolas, "Courier New", monospace; font-size: 0.92em;
+    background: var(--tint); border-radius: var(--r-sm); padding: 0.05em 0.3em; overflow-wrap: anywhere; }

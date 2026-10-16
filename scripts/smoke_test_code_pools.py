@@ -22,7 +22,7 @@ load_dotenv()   # before any app import: the config reads the environment when i
 
 SCENARIO_DIR = Path("data/scenarios")
 FSD = SCENARIO_DIR / "full-stack-development.json"
-POOL_PATHS = ["full-stack-development", "data-science", "data-analytics", "backend-engineering", "ai-engineering"]
+POOL_PATHS = sorted(f.stem for f in Path("data/scenarios").glob("*.json"))   # every path has a code pool now
 SECRET_FIELDS = ("reference_solution", "explanation", "key_justification", "variants", "skills", "why_others_wrong")
 checks = []
 
@@ -60,10 +60,10 @@ def test_content():
               all(len(p["variants"]) == 3 and all(sum(not t["hidden"] for t in v["tests"]) == 1
                                                    and sum(t["hidden"] for t in v["tests"]) == 4 for v in p["variants"])
                   for pool in pools.values() for p in pool))
-    check("40 pool problems across the 5 paths", total == 40)
-    others = [f for f in SCENARIO_DIR.glob("*.json") if f.stem not in POOL_PATHS]
-    check("the other 10 paths have no code pool yet", len(others) == 10 and all(
-        not any(s.get("code_pool") for s in json.loads(f.read_text(encoding="utf-8"))["scenarios"]) for f in others))
+    check("all 15 paths have a code pool: 120 problems", len(POOL_PATHS) == 15 and total == 120)
+    tags = {sk for slug in POOL_PATHS for s in load(slug)["scenarios"] for p in s.get("code_pool", []) for sk in p["skills"]}
+    check("problems are tagged only with skills they really practise (Python, and SQL where a query is mirrored)",
+          tags <= {"Python", "SQL"})
 
     base = load("full-stack-development")
 
@@ -152,11 +152,17 @@ def test_engine():
                 for v in range(len(problem["variants"])):
                     e = engine.effective_scenario(s, {engine.PICK_KEY: {"pool_id": problem["id"], "variant": v}})
                     blob = json.dumps(engine.public_view(e, 99))
-                    hidden = [t["stdin"] for t in problem["variants"][v]["tests"] if t["hidden"]]
-                    if (any(f'"{f}"' in blob for f in SECRET_FIELDS) or problem["reference_solution"] in blob
-                            or problem["explanation"] in blob or any(json.dumps(h)[1:-1] in blob for h in hidden)):
+                    tests = problem["variants"][v]["tests"]
+                    visible = [{"stdin": t["stdin"], "expected_stdout": t["expected_stdout"]} for t in tests if not t["hidden"]]
+                    shown = engine.public_view(e, 99)["questions"][-1]["tests"]
+                    # Long hidden inputs must not appear anywhere; very short ones (like "0\n") occur inside other text
+                    # by chance, so for those the exact list of tests sent is the check.
+                    hidden = [t["stdin"] for t in tests if t["hidden"] and len(t["stdin"]) >= 8]
+                    if (shown != visible or any(f'"{f}"' in blob for f in SECRET_FIELDS)
+                            or problem["reference_solution"] in blob or problem["explanation"] in blob
+                            or any(json.dumps(h)[1:-1] in blob for h in hidden)):
                         leaks.append(f"{problem['id']}/v{v + 1}")
-    check("public view: no solution, hidden test, explanation or pool-only field for any of the 120 variants",
+    check("public view: no solution, hidden test, explanation or pool-only field for any of the 360 variants",
           not leaks)
 
     code_runner_setting = code_runner._setting
