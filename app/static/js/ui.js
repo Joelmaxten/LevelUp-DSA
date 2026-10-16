@@ -515,3 +515,26 @@ function postJson(url, body) {
 function postForm(url, formData) {
     return request(url, { method: "POST", body: formData });
 }
+
+// Show / hide for every password box on the page: a "Show" button inside the field that switches the input
+// between type="password" and type="text". aria-pressed tells screen readers the state; the label stays "Show
+// password" (the pressed state carries the meaning). Called once by layout.html for all pages.
+function enhancePasswordFields(root) {
+    (root || document).querySelectorAll('input[type="password"]:not([data-pw-enhanced])').forEach((input) => {
+        input.setAttribute("data-pw-enhanced", "1");
+        const wrap = el("div", { className: "pw-wrap" });
+        input.parentNode.insertBefore(wrap, input);
+        wrap.append(input);
+        const btn = el("button", {
+            type: "button", className: "pw-toggle", text: "Show",
+            "aria-controls": input.id || "", "aria-pressed": "false", "aria-label": "Show password",
+        });
+        btn.addEventListener("click", () => {
+            const show = input.type === "password";
+            input.type = show ? "text" : "password";
+            btn.textContent = show ? "Hide" : "Show";
+            btn.setAttribute("aria-pressed", show ? "true" : "false");
+        });
+        wrap.append(btn);
+    });
+}

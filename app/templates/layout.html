@@ -45,7 +45,15 @@
                     {{ nav_link("/roadmap", "Roadmap") }}
                     {{ nav_link("/resume", "Resume") }}
                     {{ nav_link("/scenarios", "Scenarios") }}
-                    <span class="nav-user" title="Signed in as {{ current_user.name }}">{{ current_user.name }}</span>
+                    {% set nav_avatar = current_user.avatar %}
+                    <a href="/profile" class="nav-user"{% if request.path == "/profile" %} aria-current="page"{% endif %} title="Your profile (signed in as {{ current_user.display_name }})">
+                        {% if nav_avatar %}
+                        <img class="nav-avatar" src="/profile/avatar?v={{ nav_avatar.updated_at.timestamp()|int if nav_avatar.updated_at else 0 }}" alt="" width="28" height="28">
+                        {% else %}
+                        <span class="nav-avatar nav-avatar-initial" aria-hidden="true">{{ (current_user.display_name or "?")[:1]|upper }}</span>
+                        {% endif %}
+                        <span class="nav-user-name">{{ current_user.display_name }}</span>
+                    </a>
                     <button type="button" id="logout-btn" class="nav-btn">Log out</button>
                 {% else %}
                     {{ nav_link("/login", "Log in") }}
@@ -75,6 +83,7 @@
             });
         }
     })();
+    enhancePasswordFields();
     </script>
 
     {% if current_user.is_authenticated %}

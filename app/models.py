@@ -9,10 +9,17 @@ class User(UserMixin, db.Model):
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(120), nullable=False)
+    name = db.Column(db.String(120), nullable=False)   # full name shown on the profile; starts as the username
+    # Added after the table existed (scripts/add_usernames.py adds the column, fills it for older accounts and adds
+    # the unique index). Always stored lowercase; nullable in the database only so the column can be added in place.
+    username = db.Column(db.String(20), unique=True, index=True)
     email = db.Column(db.String(120), unique=True, nullable=False, index=True)
     password_hash = db.Column(db.String(255), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    @property
+    def display_name(self):
+        return self.username or self.name
 
     def set_password(self, plain_password):
         import bcrypt
@@ -28,6 +35,41 @@ class User(UserMixin, db.Model):
 
     def __repr__(self):
         return f"<User {self.email}>"
+
+
+class UserProfile(db.Model):
+    """Optional personal details, one row per user (created on first save). A new table, so db.create_all() adds it."""
+    __tablename__ = "user_profiles"
+
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), primary_key=True)
+    phone = db.Column(db.String(20))
+    college = db.Column(db.String(150))
+    branch = db.Column(db.String(100))
+    year_of_study = db.Column(db.Integer)      # 1-5
+    graduation_year = db.Column(db.Integer)
+    city = db.Column(db.String(80))
+    linkedin_url = db.Column(db.String(200))
+    github_url = db.Column(db.String(200))
+    bio = db.Column(db.String(300))
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    user = db.relationship("User", backref=db.backref("profile", uselist=False))
+
+
+class UserAvatar(db.Model):
+    """
+    The profile picture, stored in the database as a re-encoded 256x256 JPEG (about 10-30 KB), not as a file:
+    it survives a redeploy on a host with a throwaway disk, and re-encoding drops any metadata (EXIF, GPS) and
+    anything that is not really an image. A new table, so db.create_all() adds it.
+    """
+    __tablename__ = "user_avatars"
+
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), primary_key=True)
+    image = db.Column(db.LargeBinary, nullable=False)
+    mime = db.Column(db.String(30), nullable=False, default="image/jpeg")
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    user = db.relationship("User", backref=db.backref("avatar", uselist=False))
 
 
 @login_manager.user_loader

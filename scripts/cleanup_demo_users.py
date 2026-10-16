@@ -25,7 +25,8 @@ from sqlalchemy import text
 
 from app import create_app, db
 from app.models import (
-    CareerProfile, GeneratedRoadmap, Resume, RoadmapProgress, ScenarioAttempt, SkillGap, User, UserProgress,
+    CareerProfile, GeneratedRoadmap, Resume, RoadmapProgress, ScenarioAttempt, SkillGap, User, UserAvatar,
+    UserProfile, UserProgress,
 )
 
 EMAIL_SUFFIX = "@example.com"
@@ -34,6 +35,7 @@ EMAIL_SUFFIX = "@example.com"
 # every other table here references only users (and shared reference data we never touch).
 DEPENDENT_MODELS = [
     RoadmapProgress, GeneratedRoadmap, UserProgress, SkillGap, Resume, CareerProfile, ScenarioAttempt,
+    UserProfile, UserAvatar,
 ]
 # Tables of the removed skill map that reference users. They have no model any more, but an older database may still
 # have them (until scripts/drop_old_dsa_tables.py --drop), and their rows would block deleting a user.

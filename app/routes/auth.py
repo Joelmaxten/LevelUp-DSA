@@ -2,9 +2,12 @@ import string
 
 from flask import Blueprint, request, jsonify
 from flask_login import login_user, logout_user, login_required
+from sqlalchemy import func
+from sqlalchemy.exc import IntegrityError
 
-from app import db
+from app import db, usernames
 from app.models import User
+from app.security import rate_limit_hit, rate_limited_response
 
 auth_bp = Blueprint("auth", __name__)
 
@@ -40,6 +43,34 @@ def is_valid_password(password):
     return has_upper and has_lower and has_digit and has_special
 
 
+def _username_taken(username, except_user_id=None):
+    query = User.query.filter(User.username == username)
+    if except_user_id is not None:
+        query = query.filter(User.id != except_user_id)
+    return db.session.query(query.exists()).scalar()
+
+
+def _client_key():
+    return request.remote_addr or "unknown"
+
+
+@auth_bp.route("/signup/username-check", methods=["GET"])
+def username_check():
+    """
+    {"available": bool, "error": message or None} for the signup page's live check. Rate-limited per IP address
+    (60 a minute), because it says whether a username exists.
+    """
+    allowed, retry_after = rate_limit_hit("username_check", _client_key(), 60, 60)
+    if not allowed:
+        return rate_limited_response(retry_after)
+    username = usernames.normalize(request.args.get("username"))
+    if not usernames.is_valid(username):
+        return jsonify({"available": False, "error": usernames.USERNAME_RULE_MESSAGE}), 200
+    if _username_taken(username):
+        return jsonify({"available": False, "error": "That username is taken. Try another."}), 200
+    return jsonify({"available": True, "error": None}), 200
+
+
 @auth_bp.route("/signup", methods=["POST"])
 def signup():
     data = request.get_json(silent=True)
@@ -48,47 +79,78 @@ def signup():
         # instead of crashing with a 500 on data.get().
         data = {}
 
-    name = data.get("name")
     email = data.get("email")
     password = data.get("password")
+    if isinstance(email, str):
+        email = email.strip()
 
-    if not name or not email or not password:
-        return jsonify({"error": "name, email, and password are required"}), 400
+    if not email or not password or not isinstance(email, str):
+        return jsonify({"error": "username, email, and password are required"}), 400
+
+    # The signup page always sends a username. An older API client (and the older smoke tests) may send only
+    # "name"; that account gets a username built from the email, which the student can change on the profile page.
+    raw_username = data.get("username")
+    if raw_username is not None:
+        username = usernames.normalize(raw_username)
+        if not usernames.is_valid(username):
+            return jsonify({"error": usernames.USERNAME_RULE_MESSAGE}), 400
+    elif data.get("name"):
+        username = None
+    else:
+        return jsonify({"error": "username, email, and password are required"}), 400
 
     # This is the real enforcement point - the check in signup.html is UX only,
     # and anyone can call this endpoint directly without the page's JavaScript.
     if not is_valid_password(password):
         return jsonify({"error": PASSWORD_RULE_MESSAGE}), 400
 
-    existing_user = User.query.filter_by(email=email).first()
-    if existing_user:
+    if User.query.filter(func.lower(User.email) == email.lower()).first():
         return jsonify({"error": "An account with this email already exists"}), 409
+    if username is not None and _username_taken(username):
+        return jsonify({"error": "That username is taken. Try another."}), 409
+    if username is None:
+        username = usernames.suggest_from_email(email, _username_taken)
 
-    user = User(name=name, email=email)
+    name = data.get("name") if isinstance(data.get("name"), str) and data.get("name").strip() else username
+    user = User(name=name.strip()[:120], username=username, email=email)
     user.set_password(password)
 
     db.session.add(user)
-    db.session.commit()
+    try:
+        db.session.commit()
+    except IntegrityError:
+        # Two signups raced for the same username or email; the unique index decided.
+        db.session.rollback()
+        return jsonify({"error": "That username or email was just taken. Try another."}), 409
 
-    return jsonify({"message": "Account created successfully", "user_id": user.id}), 201
+    return jsonify({"message": "Account created successfully", "user_id": user.id, "username": username}), 201
 
-from flask_login import login_user, logout_user, login_required
+
+def find_user_for_login(identifier):
+    """An email (contains "@", matched without case) or a username (stored lowercase). None if no such account."""
+    identifier = identifier.strip()
+    if "@" in identifier:
+        return User.query.filter(func.lower(User.email) == identifier.lower()).order_by(User.id).first()
+    return User.query.filter(User.username == identifier.lower()).first()
 
 
 @auth_bp.route("/login", methods=["POST"])
 def login():
-    data = request.get_json()
+    data = request.get_json(silent=True)
+    if not isinstance(data, dict):
+        data = {}
 
-    email = data.get("email")
+    # "login" is the page's "Username or email" box; "email" is still accepted from older clients.
+    identifier = data.get("login") or data.get("email")
     password = data.get("password")
 
-    if not email or not password:
-        return jsonify({"error": "email and password are required"}), 400
+    if not identifier or not password or not isinstance(identifier, str) or not isinstance(password, str):
+        return jsonify({"error": "username or email, and password, are required"}), 400
 
-    user = User.query.filter_by(email=email).first()
+    user = find_user_for_login(identifier)
 
     if not user or not user.check_password(password):
-        return jsonify({"error": "Invalid email or password"}), 401
+        return jsonify({"error": "Invalid username/email or password"}), 401
 
     login_user(user)
     return jsonify({"message": "Logged in successfully", "user_id": user.id}), 200

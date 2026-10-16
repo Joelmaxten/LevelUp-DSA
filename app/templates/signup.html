@@ -9,8 +9,12 @@
 
         <form id="signup-form" class="form stack-sm">
             <div class="field">
-                <label for="name">Name</label>
-                <input class="input" type="text" id="name" autocomplete="name" required>
+                <label for="username">Username</label>
+                <input class="input" type="text" id="username" autocomplete="username" required
+                       minlength="3" maxlength="20" autocapitalize="none" spellcheck="false"
+                       aria-describedby="username-hint username-status">
+                <p id="username-hint" class="field-hint">3-20 characters: lowercase letters, numbers and _, starting with a letter. You can log in with it.</p>
+                <p id="username-status" class="field-status" aria-live="polite"></p>
             </div>
             <div class="field">
                 <label for="email">Email</label>
@@ -94,6 +98,39 @@ function updateRuleChips() {
 passwordInput.addEventListener("input", updateRuleChips);
 updateRuleChips();
 
+// Username: the same rule as app/usernames.py (the server is the real check). On leaving the field the page
+// asks the server whether the name is free, so a taken name shows before the form is sent.
+const usernameInput = document.getElementById("username");
+const usernameStatus = document.getElementById("username-status");
+const USERNAME_RE = /^[a-z][a-z0-9_]{2,19}$/;
+const USERNAME_RULE_MESSAGE = "Username must be 3-20 characters: lowercase letters, numbers and underscores, starting with a letter.";
+
+function setUsernameStatus(text, state) {
+    usernameStatus.textContent = text;
+    usernameStatus.className = "field-status" + (state ? ` field-status-${state}` : "");
+    usernameInput.setAttribute("aria-invalid", state === "bad" ? "true" : "false");
+}
+
+let usernameCheckSeq = 0;
+async function checkUsername() {
+    const value = usernameInput.value.trim().toLowerCase();
+    if (value !== usernameInput.value) usernameInput.value = value;
+    if (value === "") { setUsernameStatus("", null); return; }
+    if (!USERNAME_RE.test(value)) { setUsernameStatus(USERNAME_RULE_MESSAGE, "bad"); return; }
+    const seq = ++usernameCheckSeq;
+    setUsernameStatus("Checking...", null);
+    const result = await getJson(`/signup/username-check?username=${encodeURIComponent(value)}`);
+    if (seq !== usernameCheckSeq) return;   // a newer check is running
+    if (!result.ok) { setUsernameStatus("", null); return; }   // the server checks again on submit
+    if (result.data.available) setUsernameStatus(`@${value} is available.`, "ok");
+    else setUsernameStatus(result.data.error, "bad");
+}
+usernameInput.addEventListener("blur", checkUsername);
+usernameInput.addEventListener("input", () => {
+    usernameCheckSeq++;
+    if (usernameStatus.textContent) setUsernameStatus("", null);
+});
+
 // Validate once the field has been left, then keep the message live while
 // they fix it, so there's no error flashing while they're still on their first keystrokes.
 let passwordTouched = false;
@@ -111,9 +148,15 @@ form.addEventListener("submit", async function (e) {
     if (signupBtn.getAttribute("aria-busy") === "true") return;   // a request is already under way
     messageEl.hidden = true;
 
-    const name = document.getElementById("name").value;
+    const username = usernameInput.value.trim().toLowerCase();
     const email = document.getElementById("email").value;
     const password = passwordInput.value;
+
+    if (!USERNAME_RE.test(username)) {
+        setUsernameStatus(USERNAME_RULE_MESSAGE, "bad");
+        usernameInput.focus();
+        return;
+    }
 
     if (!isValidPassword(password)) {
         passwordTouched = true;
@@ -123,7 +166,7 @@ form.addEventListener("submit", async function (e) {
     }
 
     signupBtn.setAttribute("aria-busy", "true");
-    const result = await postJson("/signup", { name, email, password });
+    const result = await postJson("/signup", { username, email, password });
 
     if (result.ok) {
         showMessage("Account created. Taking you to the login page...", false);

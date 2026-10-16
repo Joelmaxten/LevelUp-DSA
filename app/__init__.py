@@ -64,6 +64,9 @@ def create_app(config_name=None):
     from app.routes.gamification import gamification_bp
     app.register_blueprint(gamification_bp)
 
+    from app.routes.profile import profile_bp
+    app.register_blueprint(profile_bp)
+
     from functools import wraps
 
     from flask import redirect, render_template, request, url_for
@@ -72,7 +75,7 @@ def create_app(config_name=None):
     # Pages a successful login may send the user on to (via ?next=). An
     # allowlist rather than "any local path", so /login?next=... can never be
     # turned into an open redirect.
-    POST_LOGIN_PAGES = {"/dashboard", "/quiz", "/conversation", "/roadmap", "/resume", "/scenarios"}
+    POST_LOGIN_PAGES = {"/dashboard", "/quiz", "/conversation", "/roadmap", "/resume", "/scenarios", "/profile"}
     # Where a plain login (no ?next=) goes. /dashboard shows a returning user's
     # saved results, and sends a brand-new user (nothing saved yet) to the home
     # page, where all the phases are offered side by side.
@@ -148,6 +151,32 @@ def create_app(config_name=None):
     @page_login_required
     def scenarios_page():
         return render_template("scenarios.html")
+
+    @app.route("/profile", methods=["GET"])
+    @page_login_required
+    def profile_page():
+        return render_template("profile.html")
+
+    # Friendly error pages. A browser asking for a page gets the styled page; anything else (the app's fetch()
+    # calls, scripts) gets a small fixed JSON body, so API callers never receive HTML. The status code is kept.
+    def wants_html():
+        best = request.accept_mimetypes.best_match(["application/json", "text/html"])
+        return request.method == "GET" and best == "text/html"
+
+    @app.errorhandler(404)
+    def not_found(_error):
+        if wants_html():
+            return render_template("error.html", code=404, title="Page not found",
+                                   message="We couldn't find that page. It may have moved, or the link may be mistyped."), 404
+        return {"error": "not_found"}, 404
+
+    @app.errorhandler(500)
+    def server_error(_error):
+        db.session.rollback()
+        if wants_html():
+            return render_template("error.html", code=500, title="Something went wrong",
+                                   message="That's on us, not you. Please try again in a moment."), 500
+        return {"error": "server_error"}, 500
 
     @app.route("/db-check")
     def db_check():

@@ -2217,6 +2217,77 @@ OneCompiler run is optional.
 80 new problems.
 
 ---
+## Accounts and Profile: Usernames, Show Password, Profile Page, Roadmap-Complete Moment, Error Pages
+
+**Why.** The project owner asked for:
+- a unique username at signup instead of a name;
+- a show/hide toggle on passwords;
+- a profile page behind the navbar name, which went nowhere before: name, phone, college, branch and the other basics,
+  plus a profile picture;
+- a professional congratulations when a whole roadmap is finished.
+
+From the extras offered, he chose a password change on the profile page and friendly 404/500 pages, and decided that
+login should accept either the username or the email. Built in a cloud Claude Code session (Opus) on branch `profile-1`,
+on top of `coding-content-2`.
+
+**Usernames.** 3-20 characters (lowercase letters, numbers and `_`, starting with a letter), stored lowercase, unique, with
+a few reserved names. They can never contain "@", which is how the single login box tells a username from an email.
+- The `users` table already existed, and `db.create_all()` does not alter tables. So `scripts/add_usernames.py` (dry run by
+  default, `--apply`, re-runnable) adds the column, names every older account from its email (for example `joel_m`, then
+  `joel_m2`), adds the unique index and creates the two new tables.
+- **It must be run once on the laptop's database before the app starts.**
+- Older API clients and the existing smoke tests that send only `name` still work. They get a username built from the email,
+  so 13 existing suites did not need to change.
+
+**Profile.**
+- Details go in a new `user_profiles` table, and the picture in `user_avatars`. Both are new tables, so no migration is
+  needed beyond the script above.
+- **Every field is validated before anything is saved**, so one bad field leaves nothing half-changed. Links must be https
+  links on linkedin.com and github.com, which rules out `javascript:` URLs.
+- **The picture is re-encoded, never stored as uploaded.** Pillow opens it, checks it is a real JPEG, PNG or WebP, refuses
+  huge images before decoding them, crops it to 256x256 and saves a new JPEG.
+  - This drops EXIF and GPS data and anything that is not an image.
+  - Keeping it in the database (about 10-30 KB each) instead of on disk means it survives a redeploy to a host with a
+    throwaway disk.
+- The navbar name now links to the profile and shows the picture or an initial.
+- The profile also shows a read-only progress card (level, XP, badges, streak) and a password change, which needs the
+  current password and has a rate limit.
+
+**Roadmap complete.**
+- The roadmap API now returns `completed_on`, the time the last still-valid step was ticked, or null.
+- At the moment the last step is ticked, a dialog opens with:
+  - "Congratulations, <first name>!";
+  - steps, phases and days taken;
+  - three next steps (scenarios, readiness, resume).
+- It shows a short confetti burst, which is skipped for students who prefer reduced motion. A "Roadmap complete" banner
+  then stays on that roadmap.
+- Unticking a step removes the banner.
+- A 14th badge, Finish Line, rewards completing a roadmap.
+
+**Error pages.** A browser asking for a missing page, or hitting a crash, gets a styled page that never contains the exception
+text. `fetch()` calls and scripts still get small fixed JSON bodies, so the front end never receives HTML where it expects JSON.
+
+**Verification (cloud copy, 2026-10-16).**
+- New `smoke_test_profile.py`: 59/59.
+- Existing suites unchanged: security 30, gamification 49 (now expecting 14 badges), scenarios 213, code_questions 164,
+  code_pools 118, readiness 69, quiz 33, llm 84, async_generation 25 and resume_rules 58. The last two are one lower than on
+  the laptop because of the empty survey table, as before.
+- `smoke_test_progress.py` still needs a scratch fixture that only the laptop has.
+- In headless Chromium, the whole flow worked through the real pages:
+  - sign up through the form, with the live "available" message and the Show toggle;
+  - log in with the username; the navbar link goes to the profile;
+  - save details; a bad phone number shows an error under that field;
+  - upload a picture, which then shows in the navbar too;
+  - tick the last of 30 steps: the dialog appeared with 30 steps, 3 phases and 23 days, then the banner, and Finish Line was
+    earned; unticking removed the banner;
+  - the 404 page;
+  - no horizontal scroll at 360 px on the profile, roadmap, dialog and signup pages.
+
+**Not verified:** the owner's laptop and real database (`add_usernames.py --apply` has to run there first); the page in
+browsers other than Chromium; an upload of a real phone camera photo. The limit was raised from 2 MB to 4 MB for that reason, but phone
+photos are often 3-8 MB, so some will still be over it, and the page will then ask for a smaller picture.
+
+---
 ## Still To Build
 
 - Real-model check of parallel generation: run `scripts/inspect_roadmap.py` for a few
@@ -2228,7 +2299,7 @@ OneCompiler run is optional.
 - Phase 3 Stage 2 / Stage 3 (skill map, bandits): superseded by scenarios with coding questions; the skill map was removed
 - Scenario scene artwork (the maps use a gradient)
 - Tune the XP level thresholds once real students have used it
-- Test `coding-content-2` on the laptop (suites, browser check), merge into `dev`, then run `drop_old_dsa_tables.py --drop`
+- Test `profile-1` (contains coding-content-2) on the laptop: `add_usernames.py --apply` first, then suites and a browser check; merge into `dev`, then run `drop_old_dsa_tables.py --drop`
 - Confirm OneCompiler billing (per call or per test) before any big `validate_code_questions.py --run`; a run is optional because all problems were checked with local Python
 - Deployment on Render (see "Known Issues / Deployment Backlog" in DEV_SETUP.md); no deployment is recorded in the repo (not verified)
 - Advisor bot

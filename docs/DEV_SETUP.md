@@ -165,6 +165,14 @@ Note: there's no migration tool (like Alembic) in place yet — table creation i
 manual via `db.create_all()`. If the schema changes later, existing tables won't
 auto-update; they'd need to be dropped and recreated, or a migration tool added.
 8b. (Removed) The old Skill DNA Map seed step (`seed_dsa.py`) is gone with the skill map itself.
+8c. **Usernames and profile tables (once per database).** The `users` table gained a `username` column after it
+existed, and `db.create_all()` never changes an existing table. Run:
+```bash
+PYTHONPATH=. python scripts/add_usernames.py            # dry run: shows what it would do
+PYTHONPATH=. python scripts/add_usernames.py --apply    # adds the column, names older accounts, unique index, new tables
+```
+Until this has run, any page that loads a user fails. It is additive and can be re-run. A fresh database made with
+`db.create_all()` already has the column, but running the script there is harmless.
 9. Run the app
 ```bash
 python run.py
@@ -226,6 +234,7 @@ For these tests run `pip install -r requirements-dev.txt` once (adds fpdf2).
 | `smoke_test_profile_flow.py` | quiz then conversation then `CareerProfile` row; prints rather than counts | no |
 | `smoke_test_code_questions.py` | code questions: runner adapter (OneCompiler shape, Cloudflare page, timeouts, caps, error codes), validator, public view, grading, Run and Check routes | no (fake runner or stubbed HTTP) |
 | `smoke_test_gamification.py` | gamification: XP rules (best score only, one-off bonuses, retries add nothing), levels, IST streak maths, every badge rule, rewards between two summaries, `GET /gamification` (401, per user, no writes, fixed error code), rewards on scenario submit (and a failure there never breaks the grade), pages load the script | no (code runs with local Python) |
+| `smoke_test_profile.py` | accounts and profile: username rules, signup with a username (taken / invalid / email in other case / older name-only clients), the live username check and its rate limit, login with username or email, `/profile` page and API (401, per user, every field's validation, nothing half-saved, username change, CSRF), picture upload (re-encoded 256x256 JPEG, EXIF and GPS removed, SVG / GIF / over 4 MB refused, private cache), password change, 404 and 500 pages vs JSON, roadmap `completed_on` and the Finish Line badge | no |
 | `smoke_test_code_pools.py` | code pools: content shape of all 15 paths (skill tags only Python / SQL), validator rejections, materialise, the personalised pick rules, no secret field and no hidden test leaked in any of the 360 variants, grading with the real reference solutions, Start/Run/Check/Submit end to end, retry gets the other problem, readiness counts the code question, dashboard scenario summary, no page links to `/dsa` | no (runs code with this machine's Python: `CODE_RUNNER=local`) |
 | `smoke_test_resume.py` | upload, extraction, gap analysis, AI feedback | yes: Gemini |
 | `smoke_test_roadmap.py` | `/roadmap/generate` end to end | yes: Gemini |
@@ -240,7 +249,7 @@ last four only deliberately: they spend quota.
 
 Current check counts (run on 2026-10-11 unless marked): `smoke_test_scenarios.py` 213,
 `smoke_test_readiness.py` 70, `smoke_test_resume_rules.py` 59, `smoke_test_cached_roadmaps.py` 95,
-`smoke_test_code_questions.py` 164, `smoke_test_code_pools.py` 118 (2026-10-16), `smoke_test_gamification.py` 49 (the last two were run in a cloud copy with an empty
+`smoke_test_code_questions.py` 164, `smoke_test_code_pools.py` 118 (2026-10-16), `smoke_test_profile.py` 59 (2026-10-16), `smoke_test_gamification.py` 49 (the last two were run in a cloud copy with an empty
 survey table, where readiness shows 69 and resume_rules 58; on the laptop's database they should show 70 and 59)
 (the 95 is from the earlier biography entry and was not re-run for this update). All of these
 call no external service, but they use the development database, so PostgreSQL must be running.
@@ -500,13 +509,43 @@ reward card after a submit). **Nothing is stored**: every number is recomputed f
   Engineer 1300, Principal Engineer 2000.
 - **Streak:** consecutive IST calendar days with a submitted scenario or a ticked roadmap step; still alive today if the
   last active day was yesterday. (The readiness score's "last 30 days" still counts UTC days, as before.)
-- **Badges** (`BADGES`, 13): each has a rule and a target, and locked badges show progress towards the target.
+- **Badges** (`BADGES`, 14): each has a rule and a target, and locked badges show progress towards the target.
 - **Rewards on submit:** `POST /scenarios/<id>/submit` returns `rewards` (XP gained, level, level-up, new badges,
   streak), computed as the summary with and without that attempt. If anything there fails, `rewards` is `null` and the
   grade is returned as normal.
 - **Change a rule:** edit `XP_RULES`, `LEVELS` or `BADGES` and re-run `smoke_test_gamification.py`; because nothing is
   stored, every student's numbers follow the new rules on their next page load.
 - **No leaderboard** by design (privacy, and a near-empty board in a demo).
+
+### Accounts and the profile page
+
+- **Usernames** (`app/usernames.py`): 3-20 characters, lowercase letters, numbers and `_`, starting with a letter,
+  stored lowercase and unique (`users.username`, unique index). A few names are reserved (admin, support, levelup...).
+  Signup asks for a username, email and password; the page checks the username live
+  (`GET /signup/username-check`, 60 a minute per IP). `POST /signup` still accepts the old `name` field from older
+  clients and the existing smoke tests: such an account gets a username built from the email.
+- **Login** takes a username OR an email in one box (`{"login": ...}`; the old `{"email": ...}` still works). Anything
+  with `@` is treated as an email, matched without case. Wrong password and unknown account give the same message.
+- **Show / hide password:** `enhancePasswordFields()` in `ui.js`, called once by `layout.html`, adds a Show button to
+  every password box on every page (`aria-pressed` carries the state).
+- **Profile** (`/profile`, `app/routes/profile.py`, `templates/profile.html`): full name, username, phone, college,
+  branch, year of study, graduation year, city, LinkedIn, GitHub and a short bio, plus a read-only progress card and
+  a password change. The details live in `user_profiles` (one row, created on first save). Every field is validated
+  on the server (fixed messages naming the field), and nothing is saved if any field is invalid. The email cannot be
+  changed here. The navbar name is now a link to the profile with the picture or an initial.
+- **Profile picture:** JPEG, PNG or WebP up to 4 MB (phone photos are often 3-8 MB; the app-wide upload cap is 5 MB). The server opens it with Pillow, refuses anything else (SVG,
+  GIF, renamed files, huge images), crops it to a 256x256 square and re-encodes it as a new JPEG. That removes EXIF,
+  GPS and any other hidden data. It is stored in the database (`user_avatars`, about 10-30 KB each), not on disk, so
+  it survives a redeploy on a host with a throwaway disk. It is served only to its owner (`GET /profile/avatar`).
+- **Roadmap complete:** `completed_on` (when the last still-valid step was ticked, else null) is returned by
+  `/roadmap/latest`, `/roadmap/<id>` and the progress POST. The roadmap page (`js/celebrate.js`) shows a
+  congratulations dialog the moment the last step is ticked, with steps, phases and days taken plus three next
+  steps. The confetti is skipped for students who prefer reduced motion. A "Roadmap complete" banner then stays on
+  that roadmap. A 14th badge, Finish Line, is earned for completing every step of a roadmap.
+- **Error pages:** a browser asking for an unknown page gets `templates/error.html` (404 or 500); `fetch()` calls
+  and scripts get `{"error": "not_found"}` / `{"error": "server_error"}`. A route's own JSON errors are unchanged, and
+  the exception text is never shown.
+- **Cleanup:** `cleanup_demo_users.py` also clears `user_profiles` and `user_avatars`.
 
 ### Cleaning up test users
 

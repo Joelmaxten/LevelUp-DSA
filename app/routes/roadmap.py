@@ -93,6 +93,36 @@ def roadmap_progress(user_id, roadmap_id, steps):
     return _progress_counts(step_indexes(steps), {r.step_index for r in rows})
 
 
+def completed_on(user_id, roadmap_id, steps):
+    """
+    When the roadmap was finished (ISO time of the last still-valid step ticked) if EVERY current step is ticked,
+    else None. The roadmap page uses it for the completion banner and the congratulations dialog.
+    """
+    valid = set(step_indexes(steps))
+    if not valid:
+        return None
+    rows = RoadmapProgress.query.filter_by(user_id=user_id, roadmap_id=roadmap_id).all()
+    ticked = {r.step_index: r.completed_at for r in rows if r.step_index in valid}
+    if set(ticked) != valid:
+        return None
+    times = [t for t in ticked.values() if t is not None]
+    return iso_utc(max(times)) if times else None
+
+
+def completed_roadmap_count(user_id):
+    """How many of the user's roadmaps have every current step ticked (for the Finish Line badge). Two queries."""
+    roadmaps = GeneratedRoadmap.query.filter_by(user_id=user_id).all()
+    ticked = defaultdict(set)
+    for row in RoadmapProgress.query.filter_by(user_id=user_id).all():
+        ticked[row.roadmap_id].add(row.step_index)
+    count = 0
+    for r in roadmaps:
+        valid = set(step_indexes(r.steps))
+        if valid and valid <= ticked[r.id]:
+            count += 1
+    return count
+
+
 def _roadmap_dict(roadmap):
     """The full single-roadmap response shape - shared by /roadmap/latest
     and /roadmap/<id>, so the two can never drift apart."""
@@ -105,6 +135,7 @@ def _roadmap_dict(roadmap):
         "completed_steps": completed_steps,
         "completed_count": completed_count,
         "total_steps": total_steps,
+        "completed_on": completed_on(roadmap.user_id, roadmap.id, roadmap.steps),
     }
 
 
@@ -450,4 +481,5 @@ def update_progress(roadmap_id):
         "completed_steps": completed_steps,
         "completed_count": completed_count,
         "total_steps": total_steps,
+        "completed_on": completed_on(current_user.id, roadmap_id, roadmap.steps),
     }), 200

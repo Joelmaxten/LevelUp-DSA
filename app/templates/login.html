@@ -13,8 +13,9 @@
 
         <form id="login-form" class="form stack-sm">
             <div class="field">
-                <label for="email">Email</label>
-                <input class="input" type="email" id="email" autocomplete="email" required>
+                <label for="login-id">Username or email</label>
+                <input class="input" type="text" id="login-id" autocomplete="username" autocapitalize="none"
+                       spellcheck="false" required>
             </div>
             <div class="field">
                 <label for="password">Password</label>
@@ -46,11 +47,11 @@ document.getElementById("login-form").addEventListener("submit", async function 
     const loginBtn = document.getElementById("login-btn");
     if (loginBtn.getAttribute("aria-busy") === "true") return;   // a request is already under way
 
-    const email = document.getElementById("email").value;
+    const login = document.getElementById("login-id").value.trim();
     const password = document.getElementById("password").value;
 
     loginBtn.setAttribute("aria-busy", "true");
-    const result = await postJson("/login", { email, password });
+    const result = await postJson("/login", { login, password });
 
     if (result.ok) {
         showLoginMessage("You're in. Taking you to your next step...", false);

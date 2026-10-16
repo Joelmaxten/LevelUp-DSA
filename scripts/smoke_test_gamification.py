@@ -189,9 +189,9 @@ def test_routes():
         alice, aid = login("a")
         g0 = alice.get("/gamification")
         body = g0.get_json()
-        check("GET /gamification: a new account has 0 XP, level 1 and 13 locked badges",
+        check("GET /gamification: a new account has 0 XP, level 1 and 14 locked badges",
               g0.status_code == 200 and body["xp"] == 0 and body["level"]["level"] == 1
-              and body["counts"] == {"scenarios_passed": 0, "codes_solved": 0, "badges_earned": 0, "badges_total": 13})
+              and body["counts"] == {"scenarios_passed": 0, "codes_solved": 0, "badges_earned": 0, "badges_total": 14})
 
         started = alice.post("/scenarios/fsd-1/start", json={}).get_json()
         sub = alice.post("/scenarios/fsd-1/submit",

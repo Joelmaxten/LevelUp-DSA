@@ -52,6 +52,7 @@ BADGES = [
     ("streak_3", "On a Roll", "Keep a 3-day streak.", 3),
     ("streak_7", "Week Warrior", "Keep a 7-day streak.", 7),
     ("roadmap_10", "Step by Step", "Complete 10 roadmap steps.", 10),
+    ("finish_line", "Finish Line", "Complete every step of a roadmap.", 1),
 ]
 
 
@@ -116,11 +117,12 @@ def _solved_codes(answers, code_topics):
 
 
 # ---------------------------------------------------------------- the summary
-def summarize(attempts, roadmap_step_days, today, code_topics=None, path_scenarios=None):
+def summarize(attempts, roadmap_step_days, today, code_topics=None, path_scenarios=None, roadmaps_completed=0):
     """
     attempts: submitted scenario attempts as dicts {id, scenario_id, path, score, max_score, passed, submitted_at,
               answers}, in any order. roadmap_step_days: one completion time (datetime or date) per ticked step.
     code_topics: {code question or pool problem id: ds_topic}. path_scenarios: {path: [scenario ids]}.
+    roadmaps_completed: how many of the student's roadmaps have every step ticked.
     Returns {xp, xp_breakdown, level, streak, badges, counts}. Deterministic for the same inputs.
     """
     code_topics = code_topics or {}
@@ -177,6 +179,7 @@ def summarize(attempts, roadmap_step_days, today, code_topics=None, path_scenari
         "streak_3": best_streak,
         "streak_7": best_streak,
         "roadmap_10": steps,
+        "finish_line": roadmaps_completed,
     }
     badges = []
     for badge_id, name, how, target in BADGES:

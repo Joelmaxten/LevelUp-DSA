@@ -43,7 +43,9 @@ def summary_for(user_id, today=None, exclude_attempt_id=None):
         RoadmapProgress.user_id == user_id, RoadmapProgress.completed_at.isnot(None)).all()]
     code_topics, path_scenarios = content_maps()
     today = today or gamification.ist_day(datetime.utcnow())
-    return gamification.summarize(attempts, steps, today, code_topics, path_scenarios)
+    from app.routes.roadmap import completed_roadmap_count
+    return gamification.summarize(attempts, steps, today, code_topics, path_scenarios,
+                                  roadmaps_completed=completed_roadmap_count(user_id))
 
 
 @gamification_bp.route("/gamification", methods=["GET"])

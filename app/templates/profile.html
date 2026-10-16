@@ -1,0 +1,372 @@
+{% extends "layout.html" %}
+
+{% block title %}Your profile | LevelUp DSA{% endblock %}
+
+{% block content %}
+<div class="wrap stack">
+    <h1 class="visually-hidden">Your profile</h1>
+    <div id="profile-box">
+        <div class="card card-pad" role="status"><p class="muted">Loading your profile...</p></div>
+    </div>
+</div>
+
+<script>
+// The profile page: personal details (POST /profile), profile picture (POST /profile/avatar), password change
+// (POST /profile/password) and a read-only progress card. Built with el() (textContent only), like every page.
+const box = document.getElementById("profile-box");
+const BRANCHES = ["Artificial Intelligence & Machine Learning", "Computer Science", "Information Science",
+    "Electronics & Communication", "Electrical & Electronics", "Data Science", "Mechanical", "Civil"];
+const PASSWORD_RULE_MESSAGE = "Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character (such as ! @ # $ %).";
+const SPECIAL_CHARS = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
+const AVATAR_MAX_BYTES = 4 * 1024 * 1024;
+
+let profile = null;
+let savedNote = null;   // shown once under the form after a save
+
+function errorText(result) {
+    if (result.status === 0) return "Couldn't reach the server. Check your connection and try again.";
+    if (result.status === 429) return (result.data && result.data.message) || "You're doing that too often. Please wait a bit.";
+    return (result.data && result.data.error) || "Something went wrong. Please try again.";
+}
+
+function initialOf(p) {
+    return ((p.name || p.username || "?").trim()[0] || "?").toUpperCase();
+}
+
+function avatarNode(p, size) {
+    if (p.avatar_url) {
+        return el("img", { className: "pf-avatar", src: p.avatar_url, alt: `Profile picture of ${p.name}`, width: String(size), height: String(size) });
+    }
+    return el("span", { className: "pf-avatar pf-avatar-initial", role: "img", "aria-label": "No profile picture yet", text: initialOf(p) });
+}
+
+// Keeps the navbar's picture and name in step after a change on this page.
+function refreshNavbar(p) {
+    const link = document.querySelector(".site-nav .nav-user");
+    if (!link) return;
+    const old = link.querySelector(".nav-avatar");
+    const fresh = p.avatar_url
+        ? el("img", { className: "nav-avatar", src: p.avatar_url, alt: "", width: "28", height: "28" })
+        : el("span", { className: "nav-avatar nav-avatar-initial", "aria-hidden": "true", text: (p.username || "?")[0].toUpperCase() });
+    if (old) old.replaceWith(fresh);
+    const name = link.querySelector(".nav-user-name");
+    if (name) name.textContent = p.username;
+    link.title = `Your profile (signed in as ${p.username})`;
+}
+
+function memberSince(iso) {
+    if (!iso) return "";
+    const d = new Date(iso);
+    return Number.isNaN(d.getTime()) ? "" : d.toLocaleDateString(undefined, { month: "long", year: "numeric" });
+}
+
+// ---------------------------------------------------------------- header with the picture
+function headerCard() {
+    const p = profile;
+    const status = el("p", { className: "field-status", "aria-live": "polite" });
+    const fileInput = el("input", { type: "file", id: "avatar-file", accept: "image/jpeg,image/png,image/webp", className: "visually-hidden" });
+    const uploadLabel = el("label", { className: "btn btn-secondary btn-sm", for: "avatar-file", text: p.avatar_url ? "Change photo" : "Upload photo" });
+    const removeBtn = el("button", { type: "button", className: "btn btn-ghost btn-sm", text: "Remove" });
+    removeBtn.hidden = !p.avatar_url;
+
+    fileInput.addEventListener("change", async () => {
+        const file = fileInput.files[0];
+        fileInput.value = "";
+        if (!file) return;
+        if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+            status.className = "field-status field-status-bad";
+            status.textContent = "Choose a JPEG, PNG or WebP picture.";
+            return;
+        }
+        if (file.size > AVATAR_MAX_BYTES) {
+            status.className = "field-status field-status-bad";
+            status.textContent = "That picture is over 4 MB. Choose a smaller one.";
+            return;
+        }
+        status.className = "field-status";
+        status.textContent = "Uploading...";
+        const form = new FormData();
+        form.append("avatar", file);
+        const result = await postForm("/profile/avatar", form);
+        if (!result.ok) {
+            status.className = "field-status field-status-bad";
+            status.textContent = errorText(result);
+            return;
+        }
+        profile.avatar_url = result.data.avatar_url;
+        refreshNavbar(profile);
+        render();
+        announce("Profile picture updated.");
+    });
+    removeBtn.addEventListener("click", async () => {
+        const result = await postJson("/profile/avatar/delete");
+        if (!result.ok) {
+            status.className = "field-status field-status-bad";
+            status.textContent = errorText(result);
+            return;
+        }
+        profile.avatar_url = null;
+        refreshNavbar(profile);
+        render();
+        announce("Profile picture removed.");
+    });
+
+    const facts = [el("li", { className: "chip chip-line", text: `@${p.username}` })];
+    if (p.details.branch) facts.push(el("li", { className: "chip chip-line", text: p.details.branch }));
+    if (p.details.college) facts.push(el("li", { className: "chip chip-line", text: p.details.college }));
+    const since = memberSince(p.member_since);
+
+    return el("section", { className: "card card-pad pf-head", "aria-labelledby": "pf-name" },
+        el("div", { className: "pf-photo" },
+            avatarNode(p, 112),
+            el("div", { className: "pf-photo-actions" }, fileInput, uploadLabel, removeBtn),
+            el("p", { className: "field-hint", text: "JPEG, PNG or WebP, up to 4 MB. Cropped to a square." }),
+            status
+        ),
+        el("div", { className: "pf-id stack-sm" },
+            el("p", { className: "eyebrow", text: "Your profile" }),
+            el("h2", { className: "pf-name", id: "pf-name", text: p.name }),
+            el("p", { className: "muted", text: p.email + (since ? ` · Member since ${since}` : "") }),
+            el("ul", { className: "chips" }, ...facts),
+            p.details.bio ? el("p", { className: "pf-bio", text: p.details.bio }) : ""
+        )
+    );
+}
+
+// ---------------------------------------------------------------- details form
+function field(id, label, input, hint) {
+    const err = el("p", { className: "field-error", id: `${id}-error`, role: "alert" });
+    err.hidden = true;
+    input.id = id;
+    const described = [hint ? `${id}-hint` : "", `${id}-error`].filter(Boolean).join(" ");
+    input.setAttribute("aria-describedby", described);
+    return el("div", { className: "field" },
+        el("label", { for: id, text: label }),
+        input,
+        hint ? el("p", { className: "field-hint", id: `${id}-hint`, text: hint }) : "",
+        err
+    );
+}
+
+function textInput(value, attrs) {
+    const input = el("input", { className: "input", type: "text", ...(attrs || {}) });
+    input.value = value == null ? "" : String(value);
+    return input;
+}
+
+function detailsForm() {
+    const p = profile, d = p.details;
+    const thisYear = new Date().getFullYear();
+    const year = el("select", { className: "select" },
+        el("option", { value: "", text: "Not set" }),
+        ...[1, 2, 3, 4, 5].map((n) => el("option", { value: String(n), text: `Year ${n}` })));
+    year.value = d.year_of_study ? String(d.year_of_study) : "";
+    const branchList = el("datalist", { id: "pf-branch-list" }, ...BRANCHES.map((b) => el("option", { value: b })));
+    const bio = el("textarea", { className: "input pf-textarea", rows: "3", maxlength: "300" });
+    bio.value = d.bio || "";
+    const bioCount = el("span", { text: `${bio.value.length} / 300` });
+    bio.addEventListener("input", () => { bioCount.textContent = `${bio.value.length} / 300`; });
+
+    const inputs = {
+        name: textInput(p.name, { autocomplete: "name", required: "", maxlength: "120" }),
+        username: textInput(p.username, { autocomplete: "username", required: "", maxlength: "20", autocapitalize: "none", spellcheck: "false" }),
+        phone: textInput(d.phone, { type: "tel", autocomplete: "tel", inputmode: "tel", maxlength: "20", placeholder: "+91 98765 43210" }),
+        city: textInput(d.city, { autocomplete: "address-level2", maxlength: "80" }),
+        college: textInput(d.college, { autocomplete: "organization", maxlength: "150" }),
+        branch: textInput(d.branch, { list: "pf-branch-list", maxlength: "100" }),
+        year_of_study: year,
+        graduation_year: textInput(d.graduation_year, { type: "number", inputmode: "numeric", min: "2000", max: "2040", placeholder: String(thisYear + 1) }),
+        linkedin_url: textInput(d.linkedin_url, { type: "url", inputmode: "url", maxlength: "200", placeholder: "https://www.linkedin.com/in/your-name" }),
+        github_url: textInput(d.github_url, { type: "url", inputmode: "url", maxlength: "200", placeholder: "https://github.com/your-name" }),
+        bio,
+    };
+
+    const message = el("div", { className: "alert", role: "status" }, el("p"));
+    message.hidden = true;
+    if (savedNote) {
+        message.className = "alert alert-ok";
+        message.firstElementChild.textContent = savedNote;
+        message.hidden = false;
+        savedNote = null;
+    }
+    const save = el("button", { type: "submit", className: "btn", text: "Save changes" });
+
+    const form = el("form", { className: "pf-form", novalidate: "" },
+        el("fieldset", { className: "pf-group" },
+            el("legend", { className: "pf-legend", text: "Account" }),
+            el("div", { className: "pf-grid" },
+                field("pf-name-input", "Full name", inputs.name),
+                field("pf-username", "Username", inputs.username, "3-20 characters: lowercase letters, numbers and _. You can log in with it."),
+                el("div", { className: "field" },
+                    el("p", { className: "label", text: "Email" }),
+                    el("p", { className: "pf-static", text: p.email }),
+                    el("p", { className: "field-hint", text: "Your login email can't be changed here." })
+                ),
+                field("pf-phone", "Phone", inputs.phone)
+            )
+        ),
+        el("fieldset", { className: "pf-group" },
+            el("legend", { className: "pf-legend", text: "Education" }),
+            el("div", { className: "pf-grid" },
+                field("pf-college", "College", inputs.college),
+                field("pf-branch", "Branch", inputs.branch, "Pick one or type your own."),
+                field("pf-year", "Year of study", inputs.year_of_study),
+                field("pf-grad", "Graduation year", inputs.graduation_year),
+                field("pf-city", "City", inputs.city)
+            ),
+            branchList
+        ),
+        el("fieldset", { className: "pf-group" },
+            el("legend", { className: "pf-legend", text: "Links and about you" }),
+            el("div", { className: "pf-grid" },
+                field("pf-linkedin", "LinkedIn", inputs.linkedin_url),
+                field("pf-github", "GitHub", inputs.github_url)
+            ),
+            el("div", { className: "field" },
+                el("label", { for: "pf-bio", text: "Short bio" }),
+                (() => { bio.id = "pf-bio"; bio.setAttribute("aria-describedby", "pf-bio-count pf-bio-error"); return bio; })(),
+                el("p", { className: "field-hint", id: "pf-bio-count" }, bioCount),
+                (() => { const e = el("p", { className: "field-error", id: "pf-bio-error", role: "alert" }); e.hidden = true; return e; })()
+            )
+        ),
+        el("div", { className: "actions" }, save),
+        message
+    );
+
+    function clearErrors() {
+        form.querySelectorAll(".field-error").forEach((e) => { e.hidden = true; e.textContent = ""; });
+        Object.values(inputs).forEach((i) => i.removeAttribute("aria-invalid"));
+    }
+    function showFieldError(key, text) {
+        const input = inputs[key];
+        if (!input) return false;
+        const slot = form.querySelector(`#${input.id}-error`);
+        if (!slot) return false;
+        slot.textContent = text;
+        slot.hidden = false;
+        input.setAttribute("aria-invalid", "true");
+        input.focus();
+        return true;
+    }
+
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        if (save.getAttribute("aria-busy") === "true") return;
+        clearErrors();
+        message.hidden = true;
+        if (!inputs.name.value.trim()) { showFieldError("name", "Enter your full name."); return; }
+        const body = {};
+        for (const [key, input] of Object.entries(inputs)) body[key] = input.value.trim();
+        body.username = body.username.toLowerCase();
+        save.setAttribute("aria-busy", "true");
+        const result = await postJson("/profile", body);
+        save.removeAttribute("aria-busy");
+        if (!result.ok) {
+            const key = result.data && result.data.field;
+            if (!(key && showFieldError(key, errorText(result)))) {
+                message.className = "alert alert-error";
+                message.firstElementChild.textContent = errorText(result);
+                message.hidden = false;
+            }
+            return;
+        }
+        profile = { ...profile, ...result.data };
+        refreshNavbar(profile);
+        savedNote = "Your profile is saved.";
+        render();
+        announce("Your profile is saved.");
+    });
+    return el("section", { className: "card card-pad stack", "aria-labelledby": "pf-details-title" },
+        el("h2", { className: "h2", id: "pf-details-title", text: "Personal details" }),
+        form);
+}
+
+// ---------------------------------------------------------------- progress (read-only)
+function progressCard() {
+    const g = profile.progress;
+    if (!g) return "";
+    const stat = (value, label) => el("div", { className: "pf-stat" },
+        el("p", { className: "pf-stat-num num", text: String(value) }), el("p", { className: "pf-stat-label", text: label }));
+    return el("section", { className: "card card-pad stack-sm", "aria-labelledby": "pf-progress-title" },
+        el("h2", { className: "h3", id: "pf-progress-title", text: "Your progress" }),
+        el("p", { className: "pf-level" }, el("strong", { text: g.level.title }), el("span", { className: "muted", text: ` · Level ${g.level.level} · ${g.xp} XP` })),
+        pbar(g.level.progress_pct, g.level.next_at ? `${g.level.progress_pct}% of the way to ${g.level.next_title}` : "Top level reached"),
+        el("div", { className: "pf-stats" },
+            stat(`${g.badges_earned}/${g.badges_total}`, "Badges"),
+            stat(g.scenarios_passed, "Scenarios passed"),
+            stat(g.codes_solved, "Problems solved"),
+            stat(g.streak.best, "Best streak (days)")
+        ),
+        el("a", { className: "btn btn-ghost btn-sm", href: "/dashboard", text: "See all badges" })
+    );
+}
+
+// ---------------------------------------------------------------- password
+function passwordCard() {
+    const make = (id, label, autocomplete) => {
+        const input = el("input", { className: "input", type: "password", id, autocomplete, required: "" });
+        return { input, node: el("div", { className: "field" }, el("label", { for: id, text: label }), input) };
+    };
+    const current = make("pw-current", "Current password", "current-password");
+    const fresh = make("pw-new", "New password", "new-password");
+    const confirm = make("pw-confirm", "Confirm new password", "new-password");
+    fresh.node.append(el("p", { className: "field-hint", text: "8+ characters with an uppercase letter, a lowercase letter, a number and a symbol." }));
+    const message = el("div", { className: "alert", role: "status" }, el("p"));
+    message.hidden = true;
+    const btn = el("button", { type: "submit", className: "btn btn-secondary", text: "Change password" });
+    const show = (text, isError) => {
+        message.className = isError ? "alert alert-error" : "alert alert-ok";
+        message.setAttribute("role", isError ? "alert" : "status");
+        message.firstElementChild.textContent = text;
+        message.hidden = false;
+    };
+    const valid = (pw) => [...pw].length >= 8 && /[A-Z]/.test(pw) && /[a-z]/.test(pw) && /[0-9]/.test(pw) && [...pw].some((c) => SPECIAL_CHARS.includes(c));
+
+    const form = el("form", { className: "form", novalidate: "" }, current.node, fresh.node, confirm.node, el("div", { className: "actions" }, btn), message);
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        if (btn.getAttribute("aria-busy") === "true") return;
+        message.hidden = true;
+        if (!current.input.value || !fresh.input.value) { show("Enter your current password and a new one.", true); return; }
+        if (!valid(fresh.input.value)) { show(PASSWORD_RULE_MESSAGE, true); fresh.input.focus(); return; }
+        if (fresh.input.value !== confirm.input.value) { show("The two new passwords don't match.", true); confirm.input.focus(); return; }
+        btn.setAttribute("aria-busy", "true");
+        const result = await postJson("/profile/password", { current_password: current.input.value, new_password: fresh.input.value });
+        btn.removeAttribute("aria-busy");
+        if (!result.ok) { show(errorText(result), true); return; }
+        form.reset();
+        show("Password changed. Use the new one next time you log in.", false);
+    });
+    const card = el("section", { className: "card card-pad stack-sm", "aria-labelledby": "pf-pw-title" },
+        el("h2", { className: "h3", id: "pf-pw-title", text: "Change password" }), form);
+    return card;
+}
+
+// ---------------------------------------------------------------- page
+const live = el("p", { className: "visually-hidden", "aria-live": "polite" });
+function announce(text) { live.textContent = ""; setTimeout(() => { live.textContent = text; }, 50); }
+
+function render() {
+    const side = el("div", { className: "pf-side stack" }, progressCard(), passwordCard());
+    box.replaceChildren(
+        el("div", { className: "stack" },
+            headerCard(),
+            el("div", { className: "pf-cols" }, detailsForm(), side)
+        ),
+        live
+    );
+    enhancePasswordFields(box);
+}
+
+async function init() {
+    const result = await getJson("/profile/data");
+    if (!result.ok) {
+        box.replaceChildren(alertEl(errorText(result), "error"));
+        return;
+    }
+    profile = result.data;
+    render();
+}
+init();
+</script>
+{% endblock %}

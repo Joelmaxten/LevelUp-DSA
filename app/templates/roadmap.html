@@ -12,8 +12,10 @@
 </div>
 
 <script src="{{ url_for('static', filename='js/results.js') }}"></script>
+<script src="{{ url_for('static', filename='js/celebrate.js') }}"></script>
 <script>
 const box = document.getElementById("roadmap-box");
+const STUDENT_NAME = {{ current_user.name|tojson }};
 
 let roadmap = null;             // { roadmap_id, career_path, steps, created_at?, completed_steps, completed_count, total_steps }
 let videosState = "none";       // "none" | "pending" | "failed" | "done"
@@ -40,6 +42,7 @@ async function toggleStep(stepIndex, done) {
     result.data.completed_steps.forEach((i) => completed.add(i));
     roadmap.completed_count = result.data.completed_count;
     roadmap.total_steps = result.data.total_steps;
+    roadmap.completed_on = result.data.completed_on || null;
     return true;
 }
 
@@ -208,12 +211,28 @@ function renderRoadmap() {
         personalCallout(roadmap.steps),
         howItWorks(origin)
     );
-    parts.push(head);
+    // The finished-roadmap banner sits above the header; it appears or goes when the last step is ticked or unticked.
+    const celebrate = () => openRoadmapCelebration({
+        name: STUDENT_NAME, path: roadmap.career_path, totalSteps: roadmap.total_steps, steps: roadmap.steps,
+        createdAt: roadmap.created_at, completedOn: roadmap.completed_on,
+    });
+    const bannerSlot = el("div", { className: "rc-slot" });
+    const refreshBanner = () => bannerSlot.replaceChildren(...(roadmap.completed_on ? [roadmapCompleteBanner(roadmap, celebrate)] : []));
+    refreshBanner();
+    parts.push(bannerSlot, head);
 
     parts.push(roadmapStepList(roadmap.steps, videosState === "pending", {
         roadmapId: roadmap.roadmap_id,
         completed,
-        onToggle: toggleStep,
+        onToggle: async (stepIndex, done) => {
+            const wasComplete = Boolean(roadmap.completed_on);
+            const ok = await toggleStep(stepIndex, done);
+            if (ok && wasComplete !== Boolean(roadmap.completed_on)) {
+                refreshBanner();
+                if (roadmap.completed_on) celebrate();   // only at the moment the LAST step is ticked
+            }
+            return ok;
+        },
         onChange: (done) => headerRing.setRing(pctOf(done), `${pctOf(done)}%`, `${done} of ${indexes.length}`),
     }));
 
