@@ -2528,8 +2528,8 @@ real merge fast-forwarded, and after `git fetch --unshallow` (211 commits) only 
 trusting any ancestry check in a cloud copy, run `git rev-parse --is-shallow-repository`.
 
 **Left as it was:** deployment (parked until the owner says so); the unused Goals question C1 was already removed.
-`docs/SCENARIO_REVIEW_data-science_run1.md` (a blind-solve report, 22 of 22 questions agreed) is on the owner's laptop
-only, because `.gitignore` ignores `docs/SCENARIO_REVIEW_*.md`; it needs `git add -f` to be committed.
+`docs/SCENARIO_REVIEW_data-science_run1.md` (a blind-solve report, 22 of 22 questions agreed) is in the repo
+(commit `b6d9d41`); `.gitignore` ignores `docs/SCENARIO_REVIEW_*.md`, so it was added with `git add -f`.
 
 ---
 ## Still To Build
