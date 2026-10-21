@@ -102,11 +102,6 @@ docs/               DEV_SETUP.md (setup and reference) and PROJECT_BIOGRAPHY.md 
 Feature-complete and tested. It has not been deployed; it runs locally. `docs/PROJECT_BIOGRAPHY.md` records every
 decision and what was verified.
 
-## Team
-
-Joel Vijaybabu Mhasraj (lead), Karthikeya, Ganesh, Jayavardhana
-
-**Guide:** Dr. B.M. Vidyavathi, Dept. of AIML, BITM Ballari
 
 ## License
 
