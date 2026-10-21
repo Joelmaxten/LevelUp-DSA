@@ -26,7 +26,7 @@ notes) **using any LLM** (Claude, ChatGPT, Gemini, a local model), without readi
 
 ## The fastest way (5 minutes)
 
-1. Open `CONTEXT_PACK.md` and paste the whole file into the LLM chat (about 6,500 tokens; any current model accepts it).
+1. Open `CONTEXT_PACK.md` and paste the whole file into the LLM chat (about 14,000 tokens; any current model accepts it).
    If the tool takes attachments, attach the file instead.
 2. Open `05_REPORT_OUTLINE_AND_PROMPTS.md`, pick the chapter you are writing, and paste its prompt right after.
 3. Read the draft against the sources named in the prompt. Fix anything wrong. Do not submit unchecked LLM text.
