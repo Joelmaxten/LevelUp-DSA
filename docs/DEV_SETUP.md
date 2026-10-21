@@ -182,13 +182,16 @@ Visit `http://127.0.0.1:5000` in a browser. You should see the LevelUp DSA landi
 page.
 ---
 Git Workflow
-Branch structure:
-`main` — stable, deploy-ready only. Rarely updated directly.
-`dev` — integration branch. Finished, working features get merged here.
-`feature/*` — active development happens here (currently `feature/scaffold`).
-Normal flow: work on a `feature/*` branch → commit as you go → merge into `dev` once
-a piece is solid → merge `dev` into `main` only when something is genuinely
-deployable.
+Branch structure (as of 2026-10-21): **there is one branch, `main`**, and it holds the whole project (211 commits).
+On 2026-10-21 everything was merged into it and the old working branches were deleted on GitHub and locally:
+`dev`, `fixes-1`, `ui-oa-1`, `profile-1`, `coding-content-1/2`, `gamification`, `gamification-1`, `scenario-content-2/3`,
+`base-roadmaps-1`, `feature/career-paths-v2`, `feature/conversation-engine` and `feature/scaffold`. Every one was
+already inside `main`'s history except one commit on `feature/scaffold` (an early biography note about the Kaggle
+downloads, 2026-09-11), which is kept as the tag `archive/feature-scaffold`
+(`git log archive/feature-scaffold` shows it). Deleting a branch never deletes commits that are in `main`.
+
+For new work, make a short-lived branch from `main`, commit as you go, and merge it back when a piece is solid. The
+older text below describes the earlier `dev` / `feature/*` flow and is kept for reference.
 ```bash
 git checkout dev
 git pull origin dev
@@ -250,7 +253,7 @@ last four only deliberately: they spend quota.
 
 Current check counts (run on 2026-10-11 unless marked): `smoke_test_scenarios.py` 218 (2026-10-16),
 `smoke_test_readiness.py` 70, `smoke_test_resume_rules.py` 59, `smoke_test_cached_roadmaps.py` 95,
-`smoke_test_code_questions.py` 194 (2026-10-21, branch `ui-oa-1`), `smoke_test_code_pools.py` 118 (2026-10-16), `smoke_test_profile.py` 68 (2026-10-16), `smoke_test_gamification.py` 49 (the last two were run in a cloud copy with an empty
+`smoke_test_code_questions.py` 198 (2026-10-21, `main`), `smoke_test_code_pools.py` 118 (2026-10-16), `smoke_test_profile.py` 79 (2026-10-21), `smoke_test_gamification.py` 49 (the last two were run in a cloud copy with an empty
 survey table, where readiness shows 69 and resume_rules 58; on the laptop's database they should show 70 and 59)
 (the 95 is from the earlier biography entry and was not re-run for this update). All of these
 call no external service, but they use the development database, so PostgreSQL must be running.
@@ -540,7 +543,17 @@ that is all the student actually writes. Backticks in a prompt are shown as inli
   by 5. The problems have all been checked with local Python; running them on OneCompiler is optional.
 - **Old skill-map tables.** The app no longer uses them. `PYTHONPATH=. python scripts/drop_old_dsa_tables.py` lists
   them and their row counts; `--drop` removes them (cannot be undone; the script's docstring has a `pg_dump` line for
-  a backup). `cleanup_demo_users.py` still clears rows in them first if they exist.
+  a backup). `cleanup_demo_users.py` still clears rows in them first if they exist. **Done on the owner's laptop database
+  on 2026-10-21:** all 7 tables were dropped (the four user tables had 0 rows; the rest were seed topics, 31 problems and
+  3 write-ups), and `smoke_test_profile.py` still passed 79/79 afterwards. A database that was not cleaned this way
+  still needs the dry run and `--drop`.
+- **Test accounts.** `cleanup_demo_users.py` removes accounts whose email ends in `@example.com`. To remove one other
+  account, set the suffix for one run, for example `python -c "import sys; sys.argv.append('--delete'); import
+  scripts.cleanup_demo_users as m; m.EMAIL_SUFFIX='name@example.test'; m.main()"` (do the dry run first, without the
+  `--delete` argument).
+- **Review documents are git-ignored.** `.gitignore` ignores `docs/SCENARIO_REVIEW_*.md` (blind-solve reports from
+  `scripts/blind_solve_scenarios.py`). The three cybersecurity ones are in the repo because they were added with
+  `git add -f`; commit any other one the same way if it is worth keeping.
 
 ### Gamification (XP, levels, streak, badges)
 

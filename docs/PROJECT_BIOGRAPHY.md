@@ -2507,6 +2507,31 @@ cases, repeatable, and for the locking button to be called Submit.
   locked the editor and the picker, showed "Correct", and the status read "Submitted. Answer locked." No page errors.
 
 ---
+
+## Everything Merged Into `main`; Old Branches Deleted; Old Tables Dropped
+
+**What was done (2026-10-21, with the owner on his laptop, one command at a time).**
+- All the work was tested on the laptop (8 suites matched: security 30, profile 79, scenarios 218, code_questions 198,
+  code_pools 118, gamification 49, readiness 70, quiz 33) and merged into `main`. It was a fast-forward
+  (`6224929..cb36328`): `main` held only GitHub's first commit, so no merge commit and no conflicts.
+- Every other branch was checked with `git branch -r --merged main` and `git rev-list --count main..<branch>`. All were
+  already inside `main`, so the 14 remote branches were deleted on GitHub and the 17 local branches (plus 5 extra
+  working folders, "worktrees", left from earlier parallel work) were removed. `main` is the only branch now.
+- One commit existed only on `feature/scaffold` (an early biography note about the Kaggle downloads). It is kept as the
+  tag `archive/feature-scaffold` instead of being lost.
+- The seven old skill-map tables were dropped from the owner's database (user tables empty; 15 topics, 31 problems and
+  3 write-ups of seed data removed), and the profile suite still passed 79/79. A test account `oatester1` was removed.
+
+**A mistake of mine, kept here so it is not repeated.** The first analysis was done in a shallow cloud copy (only the
+last 22 commits). It wrongly said `main` had unrelated history and that seven branches held unmerged work. The owner's
+real merge fast-forwarded, and after `git fetch --unshallow` (211 commits) only the one commit above was unmerged. Before
+trusting any ancestry check in a cloud copy, run `git rev-parse --is-shallow-repository`.
+
+**Left as it was:** deployment (parked until the owner says so); the unused Goals question C1 was already removed.
+`docs/SCENARIO_REVIEW_data-science_run1.md` (a blind-solve report, 22 of 22 questions agreed) is on the owner's laptop
+only, because `.gitignore` ignores `docs/SCENARIO_REVIEW_*.md`; it needs `git add -f` to be committed.
+
+---
 ## Still To Build
 
 - Real-model check of parallel generation: run `scripts/inspect_roadmap.py` for a few
@@ -2518,7 +2543,6 @@ cases, repeatable, and for the locking button to be called Submit.
 - Phase 3 Stage 2 / Stage 3 (skill map, bandits): superseded by scenarios with coding questions; the skill map was removed
 - Confirm the OneCompiler file names for C++ (`main.cpp`), Java (`Main.java`) and Node (`index.js`) with one small paid run each, and test C++ and Java end to end on a machine with g++ and a JDK
 - Tune the XP level thresholds once real students have used it
-- Test `profile-1` (contains coding-content-2) on the laptop: `add_usernames.py --apply` first, then suites and a browser check; merge into `dev`, then run `drop_old_dsa_tables.py --drop`
 - OneCompiler billing looks per test: the owner measured 5 credits for one execution (a Check is 5 tests). Not confirmed which buttons were clicked; keep any `validate_code_questions.py --run` small. A run is optional because all problems were checked with local Python
 - Deployment on Render (see "Known Issues / Deployment Backlog" in DEV_SETUP.md); no deployment is recorded in the repo (not verified)
 - Advisor bot
