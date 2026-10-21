@@ -2329,8 +2329,8 @@ personalisation. The fix makes the effect visible.
 - The quiz's button now reads "Personalise my plan".
 
 **Found while checking:** question C1 ("traditional IT or non-traditional paths?") is not used anywhere. It was kept
-for non-traditional career paths that were never added. It is left in place and gets no line in the summary. Removing
-or repurposing it is the owner's call.
+for non-traditional career paths that were never added. It was left in place at first; the owner then chose to remove
+it (see "Goals Question C1 Removed, and Login No Longer Survives a Server Restart").
 
 **Verification (cloud copy, 2026-10-16).**
 - `smoke_test_profile.py` 68/68 (9 new): summary rules for each goal, "none" and "unsure" answers and C1 add nothing,
@@ -2441,6 +2441,41 @@ OneCompiler call was made).**
 - Browsers other than the in-app Chromium.
 
 ---
+
+## Goals Question C1 Removed, and Login No Longer Survives a Server Restart
+
+**Goals question C1 removed.** C1 asked "traditional IT roles, or open to non-traditional paths?". Its answer
+(`it_track`) was never read by anything, because the non-traditional career paths it was meant for were never added.
+The owner decided to remove it.
+- `conversation_data.py`: C1 and its three `OPTION_SIGNALS` entries are gone. **C2, C3 and C4 keep their IDs** (no
+  renumbering, so nothing that names them can break). The engine builds `QUESTION_ORDER` from the data, so the order is
+  now C2, C3, C4 and `/conversation/start` reports `total` 3; the page counts from that, so it needed no change.
+- A client that still sends an answer for C1 gets 400 (it is not the question being asked).
+- Accounts that answered C1 earlier keep `it_track` in their saved signals. Nothing reads it, so it is left alone
+  instead of editing stored rows.
+- Comments in `conversation_engine.py`, `profile_builder.py` and `goal_tailoring.py` no longer mention it; one test
+  still passes a legacy `it_track` value on purpose, to show old saved signals change nothing.
+
+**Login survived a server restart.** The owner noticed: stop the server, start it, open a new tab, and the previous user
+is still logged in. Cause: the Flask session cookie is signed and kept in the browser, and the browser stays open, so the
+cookie is valid for the new server too (same `SECRET_KEY`). Nothing on the server remembered who was logged in.
+- Fix: each server start makes a random `BOOT_ID` (`create_app`); `/login` stores it in the session; a `before_request`
+  hook logs out any request whose cookie has a different id. Controlled by `LOGOUT_ON_RESTART`.
+- Why it is a setting: in production, several worker processes would each get their own id, and users would be logged
+  out at random. So it is on in development and off in production unless set.
+- Side effect to know about: Flask's debug reloader restarts the server on every code change, which logs you out too.
+  For a demo, don't restart the server after logging in.
+- The alternative (a non-permanent cookie only) was rejected because it still survives a restart while the browser is
+  open, which was the reported case.
+
+**Verification (cloud copy, 2026-10-21).**
+- `smoke_test_profile.py` 79/79 (11 new): Goals starts at C2 with total 3, an answer to C1 is refused, saved signals
+  have no `it_track`; a new app instance rejects the old cookie (401 on the API, redirect to /login on a page), logging
+  in again works, the old cookie still works when `LOGOUT_ON_RESTART` is off, and the defaults are on (development) and
+  off (production).
+- `smoke_test_profile_flow.py` (walkthrough, not a counted suite): the Goals chat runs C2, C3, C4 and saves the signals.
+
+---
 ## Still To Build
 
 - Real-model check of parallel generation: run `scripts/inspect_roadmap.py` for a few
@@ -2453,7 +2488,7 @@ OneCompiler call was made).**
 - Confirm the OneCompiler file names for C++ (`main.cpp`), Java (`Main.java`) and Node (`index.js`) with one small paid run each, and test C++ and Java end to end on a machine with g++ and a JDK
 - Tune the XP level thresholds once real students have used it
 - Test `profile-1` (contains coding-content-2) on the laptop: `add_usernames.py --apply` first, then suites and a browser check; merge into `dev`, then run `drop_old_dsa_tables.py --drop`
-- Confirm OneCompiler billing (per call or per test) before any big `validate_code_questions.py --run`; a run is optional because all problems were checked with local Python
+- OneCompiler billing looks per test: the owner measured 5 credits for one execution (a Check is 5 tests). Not confirmed which buttons were clicked; keep any `validate_code_questions.py --run` small. A run is optional because all problems were checked with local Python
 - Deployment on Render (see "Known Issues / Deployment Backlog" in DEV_SETUP.md); no deployment is recorded in the repo (not verified)
 - Advisor bot
 - ML path prediction

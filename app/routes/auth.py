@@ -1,6 +1,6 @@
 import string
 
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, current_app, jsonify, request, session
 from flask_login import login_user, logout_user, login_required
 from sqlalchemy import func
 from sqlalchemy.exc import IntegrityError
@@ -153,6 +153,7 @@ def login():
         return jsonify({"error": "Invalid username/email or password"}), 401
 
     login_user(user)
+    session["boot_id"] = current_app.config["BOOT_ID"]
     return jsonify({"message": "Logged in successfully", "user_id": user.id}), 200
 
 

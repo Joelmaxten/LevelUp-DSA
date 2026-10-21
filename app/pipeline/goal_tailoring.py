@@ -7,8 +7,7 @@ Every line here describes something the app really does with conversation_signal
   - roadmap_personalizer._SIGNAL_LINES / ADDITIONAL_NOTES_KEY (what the roadmap's personal note is told),
   - roadmap_generator._SIGNAL_QUERY_KEYS (the same signals, for full generation).
 The career-path ranking comes from the quiz only (profile_builder.ADJUSTMENT_RULES is empty on purpose), so the
-summary says so instead of implying the answers moved it. it_track (question C1) is not used anywhere yet, so it
-gets no line.
+summary says so instead of implying the answers moved it.
 
 tailoring_summary(signals) -> {"items": [{"area", "text"}], "match_note": str}. Pure.
 """

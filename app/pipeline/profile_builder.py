@@ -4,23 +4,18 @@ conversation's signals into one final student profile.
 
 ADJUSTMENT_RULES maps a (signal_key, signal_value) pair to a dict of
 {career_path: score_delta}. As of this writing it is intentionally empty:
-the only signal with a real causal link to ranking (it_track ->
-non-traditional paths) can't be wired in yet because non-traditional career
-paths don't exist in CAREER_PATHS (deliberately deferred - see RAG pipeline
-scope decision in PROJECT_BIOGRAPHY.md). The other three signals (avoid,
-target_company, goal) have no defensible causal link to *which* of the 10
+no Goals signal has a defensible causal link to *which* of the 10
 existing CS paths fits better, so they never adjust score - they are carried
 into the profile as plain context for the LLM roadmap prompt instead.
 
-When non-traditional paths are added to CAREER_PATHS, populate this dict -
+If a Goals signal ever gets a defensible link to ranking, populate this dict -
 no other code in this module needs to change.
 """
 
 from app.pipeline.career_quiz_data import CAREER_PATHS
 
 ADJUSTMENT_RULES = {
-    # Example of the shape this will take once non-traditional paths exist:
-    # ("it_track", "non_traditional"): {"AI Entrepreneur": 2, "Product Manager (Tech)": 2},
+    # Shape: ("avoid", "repetitive_work"): {"Some Path": 1}  - none of the three Goals signals is wired in.
 }
 
 

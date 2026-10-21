@@ -1,7 +1,7 @@
 """
 Post-quiz conversation data: a short set of fixed questions capturing signals
-the adaptive quiz cannot — IT vs non-traditional interest, things to avoid,
-target company type, and near-term goal. Pure data — no logic here.
+the adaptive quiz cannot — things to avoid, target company type, and
+near-term goal. Pure data — no logic here.
 
 Unlike career_quiz_data.py, these questions do not map to CAREER_PATHS scores.
 They produce a flat signal dict that gets attached to the student profile and
@@ -9,16 +9,6 @@ passed as context into the LLM roadmap-generation prompt later.
 """
 
 CONVERSATION_QUESTIONS = {
-    "C1": {
-        "text": "Are you specifically interested in traditional IT/software roles, "
-                "or open to tech-adjacent non-traditional paths (like AI entrepreneurship, "
-                "product management, EdTech, FinTech)?",
-        "options": {
-            "A": "Traditional IT/software roles only",
-            "B": "Open to non-traditional tech-adjacent paths",
-            "C": "Not sure yet — open to either",
-        },
-    },
     "C2": {
         "text": "Is there anything you'd specifically want to avoid in your career?",
         "options": {
@@ -53,10 +43,6 @@ CONVERSATION_QUESTIONS = {
 # paths for scoring), this maps to a single flat tag — these signals are not
 # scored against anything, just carried forward as profile context.
 OPTION_SIGNALS = {
-    ("C1", "A"): ("it_track", "traditional"),
-    ("C1", "B"): ("it_track", "non_traditional"),
-    ("C1", "C"): ("it_track", "open"),
-
     ("C2", "A"): ("avoid", "repetitive_work"),
     ("C2", "B"): ("avoid", "high_pressure_deadlines"),
     ("C2", "C"): ("avoid", "people_management"),

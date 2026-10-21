@@ -40,6 +40,13 @@ class Config:
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SECURE = _env_flag("SESSION_COOKIE_SECURE", False)
 
+    # A login cookie is signed and kept in the browser, so by itself it survives a server restart: close
+    # the app, start it again, open a new tab and you are still "logged in". With this on, every server
+    # start gets a random boot id that is stamped into the cookie at login; a cookie from an earlier run
+    # no longer matches and is dropped. On in development. Off in production by default, because several
+    # worker processes would each have their own boot id and users would be logged out at random.
+    LOGOUT_ON_RESTART = _env_flag("LOGOUT_ON_RESTART", True)
+
     # Usage limits (per user). The roadmap cap is a rolling window over
     # GeneratedRoadmap.created_at; the other two are in-process counters.
     ROADMAP_DAILY_LIMIT = int(os.environ.get("ROADMAP_DAILY_LIMIT", "5"))
@@ -138,6 +145,7 @@ class DevelopmentConfig(Config):
 class ProductionConfig(Config):
     DEBUG = False
     SESSION_COOKIE_SECURE = _env_flag("SESSION_COOKIE_SECURE", True)
+    LOGOUT_ON_RESTART = _env_flag("LOGOUT_ON_RESTART", False)
 
     @classmethod
     def validate(cls):

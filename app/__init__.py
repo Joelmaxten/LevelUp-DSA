@@ -1,4 +1,5 @@
 import os
+import secrets
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -27,6 +28,18 @@ def create_app(config_name=None):
     db.init_app(app)
     login_manager.init_app(app)
     login_manager.login_view = None
+
+    # New for every server start (see LOGOUT_ON_RESTART in config.py).
+    app.config["BOOT_ID"] = secrets.token_hex(8)
+
+    @app.before_request
+    def drop_login_from_an_earlier_run():
+        from flask import session
+        from flask_login import current_user, logout_user
+        if (app.config.get("LOGOUT_ON_RESTART") and current_user.is_authenticated
+                and session.get("boot_id") != app.config["BOOT_ID"]):
+            logout_user()
+            session.pop("boot_id", None)
 
     @login_manager.unauthorized_handler
     def unauthorized():

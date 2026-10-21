@@ -311,7 +311,7 @@ def test_goal_tailoring():
     check("build_fundamentals: gentler coding problems, foundation + core-decision scenarios starred, roadmap uses the goal",
           areas == ["Coding problems", "Scenarios", "Roadmap"] and "gentler" in gentle["items"][0]["text"]
           and "Foundation and core-decision" in gentle["items"][1]["text"])
-    check("'avoid: none', 'company: unsure' and it_track (unused anywhere) add nothing to the roadmap line",
+    check("'avoid: none', 'company: unsure' and a legacy it_track answer (question C1 was removed) add nothing to the roadmap line",
           "avoid" not in gentle["items"][2]["text"] and "aiming" not in gentle["items"][2]["text"]
           and not any("traditional" in i["text"].lower() for i in gentle["items"]))
     hard = tailoring_summary({"goal": "specific_role", "avoid": "repetitive_work", "target_company": "startup", "additional_notes": "x"})
@@ -340,13 +340,20 @@ def test_goal_tailoring():
             if data.get("finished"):
                 quiz_ranking = [(r["career_path"], r["confidence_pct"]) for r in data["results"]]
                 break
-        picks = {"C1": "C", "C2": "B", "C3": "B", "C4": "C"}   # open / deadlines / product-based / fundamentals
+        picks = {"C2": "B", "C3": "B", "C4": "C"}   # deadlines / product-based / fundamentals
         data = client.post("/conversation/start").get_json()
+        check("Goals has 3 questions: it starts at C2 and reports a total of 3 (the old C1 question is gone)",
+              data["question_id"] == "C2" and data["total"] == 3)
+        old = client.post("/conversation/answer", json={"question_id": "C1", "option": "A"})
+        check("an answer to the removed question C1 is refused (400) and nothing is recorded for it",
+              old.status_code == 400)
         while True:
             body = {"question_id": data["question_id"], "option": picks[data["question_id"]]}
             data = client.post("/conversation/answer", json=body).get_json()
             if data.get("finished"):
                 break
+        check("the saved Goals signals have no it_track (only avoid, target_company, goal)",
+              "it_track" not in data["profile"].get("conversation_signals", {"it_track": 1}))
         tailoring = data.get("tailoring") or {}
         texts = " ".join(i["text"] for i in tailoring.get("items", []))
         check("finished Goals response carries the tailoring summary for the answers given",
@@ -366,7 +373,56 @@ def test_goal_tailoring():
                 db.session.commit()
 
 
-SECTIONS = [test_username_rules, test_routes, test_server_error_page, test_goal_tailoring]
+def test_restart_logout():
+    """A login cookie from an earlier server run is dropped (dev), or kept when LOGOUT_ON_RESTART is off."""
+    from app import create_app, db
+    from app.models import User
+    from scripts._csrf import enable_csrf_client
+
+    first = create_app()
+    enable_csrf_client(first)
+    email = f"restart{random.randint(100000, 999999)}@example.com"
+    client = first.test_client()
+    try:
+        client.post("/signup", json={"username": f"restart_{random.randint(100000, 999999)}", "email": email, "password": PW})
+        check("restart: logged out, /profile/data is 401", client.get("/profile/data").status_code == 401)
+        client.post("/login", json={"login": email, "password": PW})
+        check("restart: after login on the same run, /profile/data is 200", client.get("/profile/data").status_code == 200)
+        cookie = client.get_cookie("session").value
+
+        second = create_app()                      # the server was stopped and started again: new boot id
+        check("restart: every start gets its own boot id", first.config["BOOT_ID"] != second.config["BOOT_ID"])
+        browser = second.test_client()
+        browser.set_cookie("session", cookie)      # the same browser, still holding the old cookie
+        check("restart: the old cookie no longer logs you in (401 on the API)", browser.get("/profile/data").status_code == 401)
+        page = browser.get("/profile")
+        check("restart: a page that needs login sends the browser to /login",
+              page.status_code == 302 and "/login" in page.headers["Location"])
+
+        third = create_app()
+        enable_csrf_client(third)
+        fresh = third.test_client()
+        fresh.post("/login", json={"login": email, "password": PW})
+        check("restart: logging in again on the new run works", fresh.get("/profile/data").status_code == 200)
+
+        # Off (the production default): the cookie keeps working across a restart.
+        kept = create_app()
+        kept.config["LOGOUT_ON_RESTART"] = False
+        browser = kept.test_client()
+        browser.set_cookie("session", cookie)
+        check("restart: with LOGOUT_ON_RESTART off the old cookie still works", browser.get("/profile/data").status_code == 200)
+        from app.config import ProductionConfig
+        check("restart: logout-on-restart is on in development and off in production by default",
+              create_app().config["LOGOUT_ON_RESTART"] is True and ProductionConfig.LOGOUT_ON_RESTART is False)
+    finally:
+        with first.app_context():
+            user = User.query.filter_by(email=email).first()
+            if user:
+                db.session.delete(user)
+                db.session.commit()
+
+
+SECTIONS = [test_username_rules, test_routes, test_server_error_page, test_goal_tailoring, test_restart_logout]
 
 
 def main():

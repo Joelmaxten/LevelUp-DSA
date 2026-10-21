@@ -1,6 +1,6 @@
 """
 Engine for the fixed-order post-quiz conversation. Unlike career_quiz_engine.py,
-there is no adaptivity here — questions are asked in a fixed order (C1-C4) and
+there is no adaptivity here — questions are asked in a fixed order (C2-C4; C1 was removed, the IDs were not renumbered) and
 each answer sets exactly one signal. State stores only an int index, never any
 structure derived from iterating CONVERSATION_QUESTIONS, to avoid the dict-order
 round-trip issue hit in the quiz engine's session handling.
@@ -12,7 +12,7 @@ from app.pipeline.conversation_data import (
     CONVERSATION_QUESTIONS, MAX_ADDITIONAL_NOTES_CHARS, OPTION_SIGNALS,
 )
 
-QUESTION_ORDER = list(CONVERSATION_QUESTIONS)  # ["C1", "C2", "C3", "C4"], fixed at import time
+QUESTION_ORDER = list(CONVERSATION_QUESTIONS)  # ["C2", "C3", "C4"], fixed at import time
 
 
 def new_session():

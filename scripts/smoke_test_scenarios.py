@@ -594,7 +594,7 @@ def test_routes():
         with app.app_context():
             db.session.add(CareerProfile(
                 user_id=alice_id, career_ranking=[{"career_path": "Machine Learning Engineering", "score": 9}],
-                conversation_signals={"goal": "build_fundamentals", "it_track": "open"}))
+                conversation_signals={"goal": "build_fundamentals", "it_track": "open"}))   # it_track: legacy answer from the removed C1
             db.session.commit()
         before = profile_snapshot(alice_id)
 

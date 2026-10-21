@@ -91,6 +91,7 @@ three are needed to boot; the rest unlock features:
 | `FAISS_INDEX_PATH` | knowledge-base index location | `data/processed/faiss_index` |
 | `UPLOAD_FOLDER` | where resume PDFs are saved | `uploads/resumes` |
 | `SESSION_COOKIE_SECURE` | `true`/`false`; Secure flag on the session cookie. Off in development, on in production unless overridden | by mode |
+| `LOGOUT_ON_RESTART` | `true`/`false`; when on, a login cookie from an earlier server run is dropped, so restarting the server logs everyone out (see "Login after a restart"). On in development, off in production unless overridden | by mode |
 | `ROADMAP_DAILY_LIMIT` | roadmaps one user may generate per rolling 24h | `5` |
 | `RESUME_UPLOAD_LIMIT_PER_HOUR` | resume uploads per user per hour (in-process counter) | `10` |
 | `RESUME_LISTINGS_LIMIT_PER_HOUR` | `/resume/listings` calls per user per hour (in-process counter) | `30` |
@@ -234,7 +235,7 @@ For these tests run `pip install -r requirements-dev.txt` once (adds fpdf2).
 | `smoke_test_profile_flow.py` | quiz then conversation then `CareerProfile` row; prints rather than counts | no |
 | `smoke_test_code_questions.py` | code questions: runner adapter (OneCompiler shape, Cloudflare page, timeouts, caps, error codes), validator, public view, grading, Run and Check routes; languages (allowlist, unknown language -> 400, language passed to the runner and stored with the locked answer, local toolchain detection, starter templates, hidden tests never sent) | no (fake runner, stubbed HTTP, or local Python for one traceback check) |
 | `smoke_test_gamification.py` | gamification: XP rules (best score only, one-off bonuses, retries add nothing), levels, IST streak maths, every badge rule, rewards between two summaries, `GET /gamification` (401, per user, no writes, fixed error code), rewards on scenario submit (and a failure there never breaks the grade), pages load the script | no (code runs with local Python) |
-| `smoke_test_profile.py` | accounts and profile: username rules, signup with a username (taken / invalid / email in other case / older name-only clients), the live username check and its rate limit, login with username or email, `/profile` page and API (401, per user, every field's validation, nothing half-saved, username change, CSRF), picture upload (re-encoded 256x256 JPEG, EXIF and GPS removed, SVG / GIF / over 4 MB refused, private cache), password change, 404 and 500 pages vs JSON, roadmap `completed_on` and the Finish Line badge, the Goals tailoring summary (only real effects; the ranking after Goals equals the quiz's) | no |
+| `smoke_test_profile.py` | accounts and profile: username rules, signup with a username (taken / invalid / email in other case / older name-only clients), the live username check and its rate limit, login with username or email, `/profile` page and API (401, per user, every field's validation, nothing half-saved, username change, CSRF), picture upload (re-encoded 256x256 JPEG, EXIF and GPS removed, SVG / GIF / over 4 MB refused, private cache), password change, 404 and 500 pages vs JSON, roadmap `completed_on` and the Finish Line badge, the Goals tailoring summary (only real effects; the ranking after Goals equals the quiz's), Goals has 3 questions (C1 refused), a simulated server restart drops the old login cookie (and keeps it when `LOGOUT_ON_RESTART` is off) | no |
 | `smoke_test_code_pools.py` | code pools: content shape of all 15 paths (skill tags only Python / SQL), validator rejections, materialise, the personalised pick rules, no secret field and no hidden test leaked in any of the 360 variants, grading with the real reference solutions, Start/Run/Check/Submit end to end, retry gets the other problem, readiness counts the code question, dashboard scenario summary, no page links to `/dsa` | no (runs code with this machine's Python: `CODE_RUNNER=local`) |
 | `smoke_test_resume.py` | upload, extraction, gap analysis, AI feedback | yes: Gemini |
 | `smoke_test_roadmap.py` | `/roadmap/generate` end to end | yes: Gemini |
@@ -566,8 +567,21 @@ now says so and shows what the answers DO change. `app/pipeline/goal_tailoring.p
 tailor" summary: the coding-problem lean (`scenario_engine.EASIER_GOALS` / `HARDER_GOALS`), the starred scenario
 stages (`GOAL_STAGES`), and what the roadmap's personal note is told (goal, avoid, target company, free-text note).
 `POST /conversation/answer` returns it as `tailoring` when the chat finishes. If you change any of those rules, update
-`goal_tailoring.py` too; `smoke_test_profile.py` checks the two agree. Question C1 (`it_track`) is not used anywhere
-yet (it was meant for non-traditional paths), so it gets no line in the summary.
+`goal_tailoring.py` too; `smoke_test_profile.py` checks the two agree. The page asks 3 questions: **C1 (`it_track`,
+traditional vs non-traditional paths) was removed** because nothing used it. C2, C3 and C4 keep their IDs on purpose
+(no renumbering), the page counts questions from the server's `total`, and an answer to `C1` is refused with 400.
+Accounts that answered C1 earlier still have `it_track` in their saved signals; nothing reads it, so it is harmless.
+
+### Login after a restart
+
+The login cookie is signed and stored in the browser, so on its own it survives a server restart: stop the app, start
+it again, open a new tab and you are still logged in as the previous user. With `LOGOUT_ON_RESTART` on (the
+development default) every server start makes a random `BOOT_ID` (`app.config`), `/login` stamps it into the session,
+and a `before_request` hook in `create_app` logs out any request whose cookie carries a different one. Off in
+production by default, because several worker processes would each have their own id and users would be logged out
+at random; set `LOGOUT_ON_RESTART=true` there only with a single worker. Flask's debug reloader also restarts the
+server on every code change, which logs you out too. During a demo: don't restart the server after logging in.
+`smoke_test_profile.py` simulates a restart (new app instance, same cookie).
 
 ### Accounts and the profile page
 
