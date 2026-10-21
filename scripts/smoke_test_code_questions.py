@@ -430,11 +430,22 @@ def test_routes():
         resp = alice.post(run_url(), json=body())
         out = resp.get_json()
         check("run: passes both visible examples", resp.status_code == 200 and [r["passed"] for r in out["results"]] == [True, True])
-        check("run: only the visible tests are run (2 results, never the hidden ones)", len(out["results"]) == 2)
+        check("run: the examples come back in full (2 results) and the hidden tests only as counts (2 of 2 passed)",
+              len(out["results"]) == 2 and set(out) == {"results", "hidden_passed", "hidden_total"}
+              and out["hidden_total"] == 2 and out["hidden_passed"] == 2
+              and all(set(r) == {"index", "passed", "stdout", "stderr", "exception"} for r in out["results"]))
+        mixed = alice.post(run_url(), json=body("# MODE:mixed")).get_json()
+        check("run: all tests are run, so a solution that only fits the examples shows the hidden failures (0 of 2)",
+              [r["passed"] for r in mixed["results"]] == [True, True] and mixed["hidden_passed"] == 0 and mixed["hidden_total"] == 2)
+        check("run: a hidden test's input, expected output or output never appears in the run response",
+              "10 20" not in json.dumps(mixed) and "-1 1" not in json.dumps(mixed) and "hidden" not in " ".join(mixed["results"][0]))
+        repeated = [alice.post(run_url(), json=body()).get_json()["hidden_passed"] for _ in range(3)]
+        check("run: can be repeated as often as the student likes (nothing is used up or locked)", repeated == [2, 2, 2])
         check("run: the response has no reference solution, hidden test or explanation",
               "SECRET_REFERENCE_MARKER" not in json.dumps(out) and "10 20" not in json.dumps(out) and q["explanation"] not in json.dumps(out))
         out = alice.post(run_url(), json=body("# MODE:wrong")).get_json()
-        check("run: wrong output -> per-test not passed", [r["passed"] for r in out["results"]] == [False, False])
+        check("run: wrong output -> per-test not passed, and 0 of 2 hidden tests passed",
+              [r["passed"] for r in out["results"]] == [False, False] and out["hidden_passed"] == 0)
         out = alice.post(run_url(), json=body("# MODE:err")).get_json()
         check("run: stderr is returned for the student", all(r["passed"] is False and "NameError" in r["stderr"] for r in out["results"]))
         out = alice.post(run_url(), json=body("# MODE:timeout")).get_json()
@@ -474,8 +485,12 @@ def test_routes():
         check("run: its own rate limit -> third call 429", codes == [200, 200, 429])
         check("run: the default limit is 60 per hour", saved == 60 and routes.CODE_CHECK_LIMIT_PER_HOUR == 30)
         reset_rate_limits()
+        js = alice.get("/static/js/scenarios.js").get_data(as_text=True)
+        check("page: a coding question's button reads Submit (Run is repeatable, Submit locks); other questions keep Check answer",
+              'question.type === "code" ? "Submit" : "Check answer"' in js and "Running all tests" in js
+              and "as often as you like" in js and "innerHTML" not in js)
 
-        # ---- Check
+        # ---- Check (the Submit button: locks the answer)
         answer_url = "/scenarios/mle-1/answer"
 
         def check_body(source, **extra):

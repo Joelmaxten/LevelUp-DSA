@@ -325,8 +325,9 @@ function buildMatch(question) {
 
 // A code question, laid out like an online assessment: the problem on the left; on the right a language picker, the
 // editor (line numbers, Tab = 4 spaces) and a test panel with one tab per visible example plus a Results tab; Run and
-// Check at the bottom right. Run = visible examples only, ungraded; Check (the shared button from renderQuestion,
-// mounted here by mountCheck) runs every test once and locks the answer. Hidden tests only ever arrive as counts.
+// Submit at the bottom right. Run = every test (examples in full, hidden ones as a count), ungraded, as often as
+// you like; Submit (the shared button from renderQuestion, mounted here by mountCheck) runs every test once and
+// locks the answer. Hidden tests only ever arrive as counts.
 const TAB_SPACES = "    ";
 
 // The ARIA tabs pattern on the shared .tabs component: arrow keys move between tabs, one panel shows at a time.
@@ -462,7 +463,7 @@ function buildCode(question) {
     }
     clearOutputs();
     const resultsBody = el("div", { className: "oa-results stack-sm", "aria-live": "polite" },
-        el("p", { className: "muted", text: "Check runs your code against the example and the hidden tests, and locks your answer. You can check once." }));
+        el("p", { className: "muted", text: "Run tests your code against the example and the hidden tests, as often as you like, and nothing is saved. Submit does the same once, and locks your answer." }));
     const tabs = oaTabs(`${editorId}-tc`, [
         ...visible.map((t, i) => ({
             label: visible.length > 1 ? `Example ${i + 1}` : "Example",
@@ -483,7 +484,7 @@ function buildCode(question) {
         busy = true;
         runBtn.disabled = true;
         runBtn.setAttribute("aria-busy", "true");
-        status.textContent = "Running on the example…";
+        status.textContent = "Running all tests…";
         const result = await request(`/scenarios/${encodeURIComponent(run.scenario.id)}/code/run`, {
             method: "POST", headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ attempt_id: run.attemptId, question_id: qid, source: editor.value, language: lang }),
@@ -509,8 +510,15 @@ function buildCode(question) {
             outputs[i].replaceChildren(...kids);
         });
         const passed = results.filter((r) => r.passed).length;
-        status.textContent = `${passed} of ${results.length} example${results.length === 1 ? "" : "s"} passed. Not graded.`;
-        tabs.select(0, false);
+        const hiddenLine = `Hidden tests: ${result.data.hidden_passed} of ${result.data.hidden_total} passed.`;
+        const allPassed = passed === results.length && result.data.hidden_passed === result.data.hidden_total;
+        status.textContent = `${passed} of ${results.length} example${results.length === 1 ? "" : "s"} passed. ${hiddenLine} Not submitted yet.`;
+        resultsBody.replaceChildren(
+            el("p", { className: `scen-verdict ${allPassed ? "is-right" : "is-wrong"}`, text: allPassed ? "All tests passed on this run" : "Not all tests passed on this run" }),
+            el("p", { text: `Example tests: ${passed} of ${results.length} passed.` }),
+            el("p", { className: "oa-hidden-count", text: hiddenLine }),
+            el("p", { className: "muted", text: "This was only a run. Edit and run again as often as you like, then Submit when you are happy: Submit locks your answer." }));
+        tabs.select(allPassed || !results.length ? visible.length : 0, false);
         announce(status.textContent);
     });
 
@@ -543,8 +551,8 @@ function buildCode(question) {
                     el("p", { className: `scen-verdict ${result.correct ? "is-right" : "is-wrong"}`, text: result.correct ? "All tests passed" : "Not all tests passed" }),
                     el("p", { text: `Example tests: ${seen.filter(Boolean).length} of ${seen.length || visible.length} passed.` }),
                     el("p", { className: "oa-hidden-count", text: `Hidden tests: ${result.hidden_passed} of ${result.hidden_total} passed.` }),
-                    el("p", { className: "muted", text: "Hidden test inputs stay hidden. Your answer is locked." }));
-                status.textContent = "Answer locked.";
+                    el("p", { className: "muted", text: "Hidden test inputs stay hidden. Your answer is submitted and locked." }));
+                status.textContent = "Submitted. Answer locked.";
                 tabs.select(visible.length, false);
             }
         },
@@ -600,12 +608,12 @@ function renderQuestion(allDone) {
         : question.type === "match" ? "Pick one for each, using each option once."
         : "Choose one.";
 
-    const check = el("button", { type: "button", className: "btn", text: question.type === "code" ? "Check" : "Check answer" });
+    const check = el("button", { type: "button", className: "btn", text: question.type === "code" ? "Submit" : "Check answer" });
     const slot = el("div", { className: "stack-sm", id: "scen-slot" });
     const nextBar = el("div", { className: "actions" });   // after the feedback, so Tab reaches it next
     let card;
     if (question.type === "code") {
-        // The online-assessment layout carries its own prompt, hint and action bar; Check goes next to Run.
+        // The online-assessment layout carries its own prompt, hint and action bar; Submit goes next to Run.
         input.mountCheck(check);
         card = input.node;
     } else {

@@ -489,9 +489,13 @@ that is all the student actually writes. Backticks in a prompt are shown as inli
   gentler for `build_fundamentals` / `explore`), +1 for the easier one after a failed last try; ties and the variant
   come from the attempt's seed. The problem is appended as the attempt's last question and shows a one-line "why you
   got this problem". Attempts started before pools existed see the plain scenario.
-- **Run and Check.** Run (`POST /scenarios/<id>/code/run`) is ungraded and uses the visible example only; Check
-  (the normal `/answer` call) runs every test in one batch and locks the result; hidden tests are only reported as
-  counts. A runner failure locks nothing. Code questions count 10 points like any other, so they are part of the
+- **Run and Submit.** Run (`POST /scenarios/<id>/code/run`) runs EVERY test in one batch, as often as the student
+  likes, and stores and locks nothing: the visible example comes back in full (`results`) and the hidden tests only as
+  `hidden_passed` / `hidden_total`. Submit (the button for a code question; the server call is still the normal
+  `/answer`, the old "Check") runs every test once and locks the result. A runner failure locks nothing. Because Run
+  now runs the hidden tests too, a student can iterate against their pass count; that is deliberate, the hidden inputs
+  and outputs stay hidden. **Cost:** with OneCompiler every Run is as many executions as there are tests (5 for the
+  current problems), so a Run costs about 5 credits; `CODE_RUN_LIMIT_PER_HOUR` (60) is the per-student cap. Code questions count 10 points like any other, so they are part of the
   scenario score and therefore of the readiness score's scenario component, with no separate formula.
 - **The coding screen** (`buildCode` in `scenarios.js`) is laid out like an online assessment: the problem (prompt with
   inline code, an input/output note and the visible example) on the left; on the right a language dropdown, the editor
@@ -519,8 +523,8 @@ that is all the student actually writes. Backticks in a prompt are shown as inli
     on PATH (`shutil.which`); the dropdown shows only those. `fake` offers all four.
 - **Code runner** (`app/pipeline/code_runner.py`, `CODE_RUNNER` in `.env`): `onecompiler` (default; needs
   `ONECOMPILER_API_KEY`; the adapter sends up to 10 tests in one call and needs the browser-style User-Agent it
-  already sends. Billing is NOT settled: the first probes showed one credit per call, but 100 credits ran out after
-  about 20 problems, so it may be one credit per test; check the dashboard before any big run), `fake` (tests only) or `local` (runs the code with this machine's Python, g++, javac/java or node in a subprocess with a
+  already sends. Billing looks per test, not per call: 100 credits ran out after about 20 problems, and one execution
+  of a 5-test question was measured at 5 credits; check the dashboard before any big run), `fake` (tests only) or `local` (runs the code with this machine's Python, g++, javac/java or node in a subprocess with a
   5-second limit). `local` is for an offline demo on your own laptop ONLY: it is not a sandbox, so never enable it on
   a server other people can reach.
 - **Authoring and checking problems.** Sources are in `scripts/code_pools/<path_slug>.py`. Then:

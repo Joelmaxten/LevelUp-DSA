@@ -2476,6 +2476,37 @@ cookie is valid for the new server too (same `SECRET_KEY`). Nothing on the serve
 - `smoke_test_profile_flow.py` (walkthrough, not a counted suite): the Goals chat runs C2, C3, C4 and saves the signals.
 
 ---
+
+## Coding Screen: Run Tests Everything, Submit Locks
+
+**Why.** The owner noticed a coding question could only be checked once: the "Check" button ran all tests and locked the
+answer, so there was no way to try again, and Run only used the one visible example. He asked for Run to check all test
+cases, repeatable, and for the locking button to be called Submit.
+
+**Change.**
+- `POST /scenarios/<id>/code/run` now runs every test in one batch. The response keeps `results` for the visible
+  example (stdout, stderr, passed) and adds `hidden_passed` and `hidden_total`. Nothing about a hidden test (input,
+  expected output, its output or errors) is sent. Nothing is stored or locked, so Run can be repeated any number of times.
+- The button that locks the answer is now **Submit** for coding questions (other question types still say "Check
+  answer"). The server side is unchanged: the same `/answer` call, first submission wins, a runner failure locks nothing.
+- After a Run, the status line and the Results tab show "Example tests: x of y passed. Hidden tests: a of b passed. Not
+  submitted yet." and say that only Submit locks the answer.
+
+**Trade-offs, decided and noted.**
+- Run now reveals how many hidden tests pass, so a student can iterate against the count. That is how most online
+  assessments work, and the hidden inputs and outputs are still never shown. It is the owner's choice.
+- Cost: with OneCompiler a Run is 5 executions (5 credits) instead of 1. With `CODE_RUNNER=local` it is free. The
+  per-student cap `CODE_RUN_LIMIT_PER_HOUR` stays at 60.
+
+**Verification (cloud copy, 2026-10-21).**
+- `smoke_test_code_questions.py` 198/198 (4 new): all tests run and hidden tests come back as counts only (2 of 2,
+  0 of 2 for a solution that fits only the example), no hidden input or output in the response, Run can be repeated,
+  the page's button reads Submit. `smoke_test_code_pools.py` 118/118, `smoke_test_scenarios.py` 218/218.
+- Real page, `CODE_RUNNER=local`: a wrong program on Run showed "0 of 1 example passed. Hidden tests: 0 of 4 passed. Not
+  submitted yet."; the reference solution showed 4 of 4; Run a third time worked and the editor stayed editable; Submit
+  locked the editor and the picker, showed "Correct", and the status read "Submitted. Answer locked." No page errors.
+
+---
 ## Still To Build
 
 - Real-model check of parallel generation: run `scripts/inspect_roadmap.py` for a few

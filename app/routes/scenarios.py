@@ -324,7 +324,10 @@ def _clip(value):
 @scenarios_bp.route("/scenarios/<scenario_id>/code/run", methods=["POST"])
 @login_required
 def code_run(scenario_id):
-    """Ungraded run of the student's source against the VISIBLE tests only. Nothing is stored or locked."""
+    """
+    Ungraded run of the student's source against ALL the tests, as often as the student likes. Nothing is stored or
+    locked (that is Submit). The visible examples come back in full; hidden tests only ever come back as a count.
+    """
     limited = _limited("scenario_code_run", CODE_RUN_LIMIT_PER_HOUR)
     if limited:
         return limited
@@ -348,17 +351,20 @@ def code_run(scenario_id):
     language, error = _language(body)
     if error:
         return error
-    visible = [t for t in question["tests"] if not t["hidden"]]
+    tests = question["tests"]
     try:
-        runs = code_runner.run_batch(source, [t["stdin"] for t in visible], language)
+        runs = code_runner.run_batch(source, [t["stdin"] for t in tests], language)
     except code_runner.CodeRunnerError as error:
         return _runner_error(error)
     except Exception:
         return _error("runner_unavailable", 503)
+    visible_pairs = [(t, run) for t, run in zip(tests, runs) if not t["hidden"]]
+    hidden_pairs = [(t, run) for t, run in zip(tests, runs) if t["hidden"]]
     results = [{"index": i, "passed": engine.run_passed(t["expected_stdout"], run),
                 "stdout": _clip(run["stdout"]), "stderr": _clip(run["stderr"]), "exception": run["exception"]}
-               for i, (t, run) in enumerate(zip(visible, runs))]
-    return jsonify({"results": results}), 200
+               for i, (t, run) in enumerate(visible_pairs)]
+    hidden_passed = sum(1 for t, run in hidden_pairs if engine.run_passed(t["expected_stdout"], run))
+    return jsonify({"results": results, "hidden_passed": hidden_passed, "hidden_total": len(hidden_pairs)}), 200
 
 
 @scenarios_bp.route("/scenarios/<scenario_id>/submit", methods=["POST"])
