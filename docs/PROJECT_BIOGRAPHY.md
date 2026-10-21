@@ -2547,3 +2547,17 @@ trusting any ancestry check in a cloud copy, run `git rev-parse --is-shallow-rep
 - Deployment on Render (see "Known Issues / Deployment Backlog" in DEV_SETUP.md); no deployment is recorded in the repo (not verified)
 - Advisor bot
 - ML path prediction
+
+---
+## Documentation Hand-Over Pack
+
+**What was built.** `docs/handover/` lets teammates write the report, slides and viva notes with any LLM: hand-written
+overview, feature guide, verification and limits, report outline with ready-to-paste prompts, screenshot guide and
+glossary/FAQ, plus `03_REFERENCE_GENERATED.md` and `CONTEXT_PACK.md` (everything in one paste-ready file), both produced by
+`scripts/build_handover_pack.py` from the code (routes, tables, counts, code map; no database, network or keys needed).
+`--check` reports whether they are out of date. `docs/README.md` marks which documents are current; the Master Document
+now carries an out-of-date banner. File 00 holds the rules the LLM must follow (no invented numbers, not deployed, quiz
+not validated).
+
+**Verified.** The generator ran and `--check` reported "up to date"; the pack contains no API keys. **Not verified:** no
+teammate has used the pack yet, and the hand-written files must be updated by a person when a feature changes.

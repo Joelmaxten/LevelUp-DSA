@@ -236,7 +236,7 @@ For these tests run `pip install -r requirements-dev.txt` once (adds fpdf2).
 | `smoke_test_llm.py` | `llm_client`: retry on throttling/5xx/timeouts, no retry on access-denied/validation, fallback model, provider switch, schema correction, no secrets or prompt text in errors or logs | no (fake Bedrock client, patched Gemini; hides real credentials and blocks real clients) |
 | `smoke_test_generator.py` | roadmap generator with a fake LLM: golden comparison for 3 paths, coverage/duplicate/index/allowlist/shape invariants at concurrency 1 and 3, thread hygiene, failure handling, duplicate rewrite, warm-up | no (fake LLM, local embeddings only; ~1.5 min, mostly model load) |
 | `smoke_test_profile_flow.py` | quiz then conversation then `CareerProfile` row; prints rather than counts | no |
-| `smoke_test_code_questions.py` | code questions: runner adapter (OneCompiler shape, Cloudflare page, timeouts, caps, error codes), validator, public view, grading, Run and Check routes; languages (allowlist, unknown language -> 400, language passed to the runner and stored with the locked answer, local toolchain detection, starter templates, hidden tests never sent) | no (fake runner, stubbed HTTP, or local Python for one traceback check) |
+| `smoke_test_code_questions.py` | code questions: runner adapter (OneCompiler shape, Cloudflare page, timeouts, caps, error codes), validator, public view, grading, Run and Submit routes; languages (allowlist, unknown language -> 400, language passed to the runner and stored with the locked answer, local toolchain detection, starter templates, hidden tests never sent) | no (fake runner, stubbed HTTP, or local Python for one traceback check) |
 | `smoke_test_gamification.py` | gamification: XP rules (best score only, one-off bonuses, retries add nothing), levels, IST streak maths, every badge rule, rewards between two summaries, `GET /gamification` (401, per user, no writes, fixed error code), rewards on scenario submit (and a failure there never breaks the grade), pages load the script | no (code runs with local Python) |
 | `smoke_test_profile.py` | accounts and profile: username rules, signup with a username (taken / invalid / email in other case / older name-only clients), the live username check and its rate limit, login with username or email, `/profile` page and API (401, per user, every field's validation, nothing half-saved, username change, CSRF), picture upload (re-encoded 256x256 JPEG, EXIF and GPS removed, SVG / GIF / over 4 MB refused, private cache), password change, 404 and 500 pages vs JSON, roadmap `completed_on` and the Finish Line badge, the Goals tailoring summary (only real effects; the ranking after Goals equals the quiz's), Goals has 3 questions (C1 refused), a simulated server restart drops the old login cookie (and keeps it when `LOGOUT_ON_RESTART` is off) | no |
 | `smoke_test_code_pools.py` | code pools: content shape of all 15 paths (skill tags only Python / SQL), validator rejections, materialise, the personalised pick rules, no secret field and no hidden test leaked in any of the 360 variants, grading with the real reference solutions, Start/Run/Check/Submit end to end, retry gets the other problem, readiness counts the code question, dashboard scenario summary, no page links to `/dsa` | no (runs code with this machine's Python: `CODE_RUNNER=local`) |
@@ -504,7 +504,7 @@ that is all the student actually writes. Backticks in a prompt are shown as inli
   inline code, an input/output note and the visible example) on the left; on the right a language dropdown, the editor
   (a textarea with line numbers; Tab inserts 4 spaces, Escape then Tab moves on) and a test panel with one tab per
   visible example (input, expected, your output) plus a Results tab ("Hidden tests: X of Y passed"; hidden inputs are
-  never sent). Run and Check sit at the bottom right. Below 900 px the panes stack: problem, editor, tests. Each
+  never sent). Run and Submit sit at the bottom right. Below 900 px the panes stack: problem, editor, tests. Each
   language's draft is kept in `localStorage` for that attempt (a per-browser convenience only; the server never reads it).
 - **Error messages:** `runner_unavailable` -> "Code check unavailable, try again."; `runtime_error` -> "Your code crashed
   while it was being checked..."; `timeout` -> "The code check took too long to respond..."; `invalid_language` /
@@ -518,7 +518,7 @@ that is all the student actually writes. Backticks in a prompt are shown as inli
   - Starters (`app/pipeline/code_starters.py`): Python keeps each problem's own starter; C++, Java and JavaScript get
     one generic template each that reads all of stdin, prints nothing and says to follow the problem's input/output
     format. `POST /scenarios/<id>/start` adds `languages` (id, label) and `starters` to each code question.
-  - The server validates `language` on Run and Check against the allowlist (400 `invalid_language`) and against what
+  - The server validates `language` on Run and Submit against the allowlist (400 `invalid_language`) and against what
     the runner can run now (400 `language_unavailable`); a missing `language` means Python, so older clients work. The
     language is stored in the locked record (`answers[<question id>]["language"]`, JSON on the attempt, no schema
     change) and returned on resume; records from before languages existed read as Python.
@@ -729,3 +729,7 @@ Known Issues / Deployment Backlog
 - **Background jobs are in memory.** See "Background roadmap generation" above: one worker process only.
 - **`openai_compat` roadmap quality depends on reasoning.** With `LLM_REASONING_EFFORT=low` one run lost the `topic_refs` of
   12 of 22 steps (the model truncated node ids); defaults are unchanged.
+
+### Documentation hand-over pack
+`docs/handover/` (start with `00_START_HERE.md`). After any app change run `PYTHONPATH=. python scripts/build_handover_pack.py`
+to refresh `03_REFERENCE_GENERATED.md` and `CONTEXT_PACK.md` (`--check` only reports); update the hand-written files by hand.

@@ -1,3 +1,6 @@
+> **OUT OF DATE.** This is the early plan. It still mentions the Skill DNA Map, Piston and the original phases, none of which
+> match the built system. For the current system use `docs/handover/` and `docs/DEV_SETUP.md`.
+
 # LevelUp DSA — Complete Master Document
 
 > Everything discussed, decided, designed, and locked across all conversations.
