@@ -1,16 +1,21 @@
 """
-Code-execution adapter for graded Python questions. One function, run_batch(source, stdins), hides the provider.
+Code-execution adapter for graded code questions. One function, run_batch(source, stdins, language), hides the
+provider. Languages (LANGUAGES): python, cpp, java, javascript. The tests are stdin -> stdout, so every problem works in
+every language unchanged; only the file name and the provider's language id differ.
 
 Providers (config CODE_RUNNER): "onecompiler" (real HTTP call), "fake" (executes nothing, returns scripted
-results; for tests) or "local" (runs the code with this machine's Python in a subprocess with a time limit, for an
-OFFLINE DEMO ON YOUR OWN LAPTOP ONLY: it is not a sandbox, so never enable it on a server other people can reach). Each result is {"stdout": str, "stderr": str, "exception": None | "time_limit"
+results; for tests) or "local" (runs the code with this machine's toolchains in a subprocess with a time limit, for an
+OFFLINE DEMO ON YOUR OWN LAPTOP ONLY: it is not a sandbox, so never enable it on a server other people can reach; only
+languages whose toolchain is installed are offered, see available_languages()). Each result is {"stdout": str, "stderr": str, "exception": None | "time_limit"
 | "memory_limit" | "error"}. The provider's own text is never passed on except what the student's program printed
 (stdout/stderr), and it never appears in a CodeRunnerError, a log line or a response. The API key is read from
 ONECOMPILER_API_KEY (config) and is only ever sent as a request header.
 
 Errors are always CodeRunnerError with one fixed code: timeout, runtime_error, runner_unavailable, code_too_large.
 """
+import inspect
 import os
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -24,6 +29,17 @@ MAX_STDINS = 10
 MAX_STDIN_BYTES = 2 * 1024
 MAX_OUTPUT_CHARS = 20000       # per stream kept from the provider; routes truncate further for the browser
 REQUEST_TIMEOUT_S = 15
+
+# The allowlist. "onecompiler" is the provider's language id (from its API docs: python, cpp, java, nodejs; "nodejs"
+# rather than "javascript" because the program reads stdin), "file" the file the source is sent as (Java needs the
+# public class Main in Main.java), "label" what the student sees.
+LANGUAGES = {
+    "python": {"label": "Python 3", "onecompiler": "python", "file": "main.py"},
+    "cpp": {"label": "C++17", "onecompiler": "cpp", "file": "main.cpp"},
+    "java": {"label": "Java", "onecompiler": "java", "file": "Main.java"},
+    "javascript": {"label": "JavaScript (Node.js)", "onecompiler": "nodejs", "file": "index.js"},
+}
+DEFAULT_LANGUAGE = "python"
 
 ONECOMPILER_URL = "https://api.onecompiler.com/v1/run"
 # A browser-style User-Agent is required: the default python-requests one is answered by Cloudflare with a 403 page.
@@ -56,6 +72,20 @@ def runner_name():
     return name if name in ("onecompiler", "fake", "local") else "onecompiler"
 
 
+def _local_tools():
+    """language -> the toolchain programs it needs on PATH (python always uses this interpreter)."""
+    return {"cpp": ("g++",), "java": ("javac", "java"), "javascript": ("node",)}
+
+
+def available_languages():
+    """The languages this runner can run now, in LANGUAGES order. "local" offers only installed toolchains."""
+    if runner_name() != "local":
+        return list(LANGUAGES)
+    tools = _local_tools()
+    return [lang for lang in LANGUAGES
+            if lang == "python" or all(shutil.which(t) for t in tools.get(lang, ()))]
+
+
 def api_key_variable():
     """The NAME of the environment variable that holds the key (for messages); never its value."""
     return "ONECOMPILER_API_KEY"
@@ -66,16 +96,24 @@ _fake = None
 
 
 def set_fake_runner(script):
-    """For tests and demos. script: a callable (source, stdins) -> list of results (it may raise CodeRunnerError),
-    or a fixed list of results returned as is. None restores the default fake (every run prints nothing)."""
+    """For tests and demos. script: a callable (source, stdins) or (source, stdins, language) -> list of results (it
+    may raise CodeRunnerError), or a fixed list of results returned as is. None restores the default fake (every run
+    prints nothing)."""
     global _fake
     _fake = script
 
 
-def _run_fake(source, stdins):
+def _run_fake(source, stdins, language):
     if _fake is None:
         return [{"stdout": "", "stderr": "", "exception": None} for _ in stdins]
-    results = _fake(source, list(stdins)) if callable(_fake) else list(_fake)
+    if callable(_fake):
+        try:
+            takes_language = len(inspect.signature(_fake).parameters) >= 3
+        except (TypeError, ValueError):
+            takes_language = False
+        results = _fake(source, list(stdins), language) if takes_language else _fake(source, list(stdins))
+    else:
+        results = list(_fake)
     return [_clean(r) for r in results]
 
 
@@ -83,21 +121,64 @@ def _run_fake(source, stdins):
 LOCAL_TIME_LIMIT_S = 5
 
 
-def _run_local(source, stdins):
+LOCAL_COMPILE_LIMIT_S = 30
+
+
+def _local_commands(language, folder):
+    """(compile command or None, run command) for one language in `folder`. Pure, so tests can check it."""
+    if language == "python":
+        return None, [sys.executable, "-I", os.path.join(folder, "main.py")]
+    if language == "cpp":
+        exe = os.path.join(folder, "main.exe" if os.name == "nt" else "main")
+        return [shutil.which("g++") or "g++", "-std=c++17", "-O2", "-o", exe, os.path.join(folder, "main.cpp")], [exe]
+    if language == "java":
+        return ([shutil.which("javac") or "javac", "-encoding", "UTF-8", os.path.join(folder, "Main.java")],
+                [shutil.which("java") or "java", "-cp", folder, "Main"])
+    if language == "javascript":
+        return None, [shutil.which("node") or "node", os.path.join(folder, "index.js")]
+    raise CodeRunnerError("runner_unavailable")
+
+
+def _hide_folder(text, folder):
+    """Removes the server's temp folder path from compiler and traceback text, so no server path reaches the browser."""
+    if not text:
+        return text
+    for variant in {folder, folder.replace("\\", "/"), os.path.realpath(folder)}:
+        text = text.replace(variant + os.sep, "").replace(variant + "/", "").replace(variant, ".")
+    return text
+
+
+def _run_local(source, stdins, language):
+    if language not in available_languages():
+        raise CodeRunnerError("runner_unavailable")
     results = []
     with tempfile.TemporaryDirectory(prefix="levelup-run-") as folder:
-        main = os.path.join(folder, "main.py")
+        main = os.path.join(folder, LANGUAGES[language]["file"])
         with open(main, "w", encoding="utf-8") as f:
             f.write(source)
         env = {"PYTHONIOENCODING": "utf-8", "PATH": os.environ.get("PATH", ""),
-               "SYSTEMROOT": os.environ.get("SYSTEMROOT", "")}   # Windows needs SYSTEMROOT to start Python
+               "SYSTEMROOT": os.environ.get("SYSTEMROOT", ""),   # Windows needs SYSTEMROOT to start Python
+               "TEMP": folder, "TMP": folder}                     # compilers need a temp folder
+        build, command = _local_commands(language, folder)
+        if build:
+            try:
+                built = subprocess.run(build, capture_output=True, text=True, encoding="utf-8", errors="replace",
+                                       cwd=folder, env=env, timeout=LOCAL_COMPILE_LIMIT_S)
+            except subprocess.TimeoutExpired:
+                raise CodeRunnerError("timeout") from None
+            except OSError:
+                raise CodeRunnerError("runner_unavailable") from None
+            if built.returncode != 0:   # a compile error is the student's: shown like a crash on every test
+                message = _text(_hide_folder(built.stderr or built.stdout or "Compilation failed.", folder))
+                return [{"stdout": "", "stderr": message, "exception": "error"} for _ in stdins]
         for stdin in stdins:
             try:
-                done = subprocess.run([sys.executable, "-I", main], input=stdin, capture_output=True, text=True,
+                done = subprocess.run(command, input=stdin, capture_output=True, text=True,
                                       encoding="utf-8", errors="replace", cwd=folder, env=env,
                                       timeout=LOCAL_TIME_LIMIT_S)
                 exception = None if done.returncode == 0 or done.stderr.strip() else "error"
-                results.append({"stdout": _text(done.stdout), "stderr": _text(done.stderr), "exception": exception})
+                results.append({"stdout": _text(done.stdout), "stderr": _text(_hide_folder(done.stderr, folder)),
+                                "exception": exception})
             except subprocess.TimeoutExpired:
                 results.append({"stdout": "", "stderr": "", "exception": "time_limit"})
             except OSError:
@@ -139,21 +220,26 @@ def _clean(item):
 
 
 # ---------------------------------------------------------------- OneCompiler
-def _post_once(source, stdins, key):
-    body = {"language": "python", "stdin": list(stdins), "files": [{"name": "main.py", "content": source}]}
+def _onecompiler_body(source, stdins, language):
+    spec = LANGUAGES[language]
+    return {"language": spec["onecompiler"], "stdin": list(stdins), "files": [{"name": spec["file"], "content": source}]}
+
+
+def _post_once(source, stdins, key, language=DEFAULT_LANGUAGE):
+    body = _onecompiler_body(source, stdins, language)
     headers = {"X-API-Key": key, "User-Agent": USER_AGENT, "Accept": "application/json",
                "Content-Type": "application/json"}
     return requests.post(ONECOMPILER_URL, json=body, headers=headers, timeout=REQUEST_TIMEOUT_S)
 
 
-def _run_onecompiler(source, stdins):
+def _run_onecompiler(source, stdins, language):
     key = str(_setting("ONECOMPILER_API_KEY", "") or "").strip()
     if not key:
         raise CodeRunnerError("runner_unavailable")
     response = None
     for attempt in (1, 2):          # one retry, only for a connection error
         try:
-            response = _post_once(source, stdins, key)
+            response = _post_once(source, stdins, key, language)
             break
         except requests.Timeout:    # includes ConnectTimeout; never retried
             raise CodeRunnerError("timeout") from None
@@ -176,18 +262,21 @@ def _run_onecompiler(source, stdins):
 
 
 # ---------------------------------------------------------------- public entry point
-def run_batch(source, stdins):
-    """Run `source` once per entry of `stdins` in ONE provider call (one credit). Returns one result per stdin."""
+def run_batch(source, stdins, language=DEFAULT_LANGUAGE):
+    """Run `source` (written in `language`, a key of LANGUAGES) once per entry of `stdins` in ONE provider call.
+    Returns one result per stdin. The route validates the language first; an unknown one here is runner_unavailable."""
+    if language not in LANGUAGES:
+        raise CodeRunnerError("runner_unavailable")
     _check_caps(source, stdins)
     if not stdins:
         return []
     name = runner_name()
     if name == "fake":
-        results = _run_fake(source, stdins)
+        results = _run_fake(source, stdins, language)
     elif name == "local":
-        results = _run_local(source, stdins)
+        results = _run_local(source, stdins, language)
     else:
-        results = _run_onecompiler(source, stdins)
+        results = _run_onecompiler(source, stdins, language)
     if len(results) != len(stdins):
         raise CodeRunnerError("runner_unavailable")
     return results

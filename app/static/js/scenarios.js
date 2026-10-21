@@ -1,5 +1,6 @@
 // Scenarios page: a map of work scenarios per career path, and a one-question-at-a-time scenario player.
-// Globals from ui.js: el, request, svgEl, pbar, alertEl, emptyState, disclosure, skeleton.
+// Globals from ui.js: el, request, svgEl, pbar, alertEl, emptyState, disclosure, skeleton; from scenario_map.js: levelMap,
+// openLevelCard.
 //
 // Answer delivery: the server never sends the key. Each question is LOCKED by POST /scenarios/<id>/answer, whose
 // response carries that question's explanation; a locked answer can't be changed, and the final grade is computed
@@ -21,11 +22,13 @@ function announce(message) {
     setTimeout(() => { live.textContent = message; }, 30);
 }
 
-const RUNNER_ERRORS = ["timeout", "runtime_error", "runner_unavailable"];
-
 function errorText(result) {
     const code = result.data && result.data.error;
-    if (RUNNER_ERRORS.includes(code)) return "Code check unavailable, try again.";
+    // Only runner_unavailable means the checker is down; runtime_error means the student's code crashed.
+    if (code === "runner_unavailable") return "Code check unavailable, try again.";
+    if (code === "runtime_error") return "Your code crashed while it was being checked. Fix the error and try again.";
+    if (code === "timeout") return "The code check took too long to respond. Try again in a moment.";
+    if (code === "invalid_language" || code === "language_unavailable") return "That language isn't available here. Pick another one.";
     if (code === "code_too_large") return "Your code or its input is too long. Shorten it and try again.";
     if (result.status === 0) return "Couldn't reach the server. Check your connection and try again.";
     if (result.status === 401) return "You need to be logged in to continue.";
@@ -43,6 +46,12 @@ function showError(result, retry) {
         actions.push(again);
     }
     box.replaceChildren(alertEl(errorText(result), "error", ...actions));
+}
+
+// The coding screen gets a wider column than the rest of the page.
+function setWide(on) {
+    const page = box.closest(".scen");
+    if (page) page.classList.toggle("is-oa", Boolean(on));
 }
 
 function focusHeading() {
@@ -101,14 +110,6 @@ function pathPicker() {
     return el("div", { className: "scen-picker" }, el("label", { for: "scen-path", className: "eyebrow", text: "Career path" }), select);
 }
 
-function nodeLabel(s) {
-    const bits = [`Scenario ${s.order}: ${s.title}`, STATE_LABEL[s.state]];
-    if (scoreText(s)) bits.push(`best ${scoreText(s)}`);
-    if (s.recommended) bits.push("recommended next");
-    if (s.matches_goal) bits.push("matches your goal");
-    return bits.join(", ");
-}
-
 function openScenario(s) {
     if (s.state === "locked") {
         const prev = mapData.scenarios.find((x) => x.order === s.order - 1);
@@ -120,38 +121,14 @@ function openScenario(s) {
     startScenario(s.id);
 }
 
-function mapCanvas() {
-    const canvas = el("div", { className: "smap", role: "group", "aria-label": `Map of ${mapData.path} scenarios` });
-    if (mapData.scene_url) {
-        canvas.append(el("img", { className: "smap-scene", src: mapData.scene_url, alt: "", "aria-hidden": "true" }));
-    }
-    const byId = Object.fromEntries(mapData.scenarios.map((s) => [s.id, s]));
-    const lines = svgEl("svg", { class: "smap-edges", viewBox: "0 0 100 100", preserveAspectRatio: "none", "aria-hidden": "true", focusable: "false" });
-    for (const [a, b] of mapData.edges) {
-        const from = byId[a], to = byId[b];
-        if (!from || !to) continue;
-        lines.append(svgEl("line", {
-            x1: String(from.map_node.x * 100), y1: String(from.map_node.y * 100),
-            x2: String(to.map_node.x * 100), y2: String(to.map_node.y * 100),
-            class: `smap-edge${to.state === "locked" ? " is-locked" : ""}`,
-        }));
-    }
-    canvas.append(lines);
-    for (const s of mapData.scenarios) {
-        const mark = s.state === "passed" ? "✓" : s.state === "locked" ? "\u{1F512}" : String(s.order);
-        const node = el("button", {
-            type: "button", className: `smap-node is-${s.state}${s.recommended ? " is-recommended" : ""}`,
-            "aria-label": nodeLabel(s),
-        }, el("span", { className: "smap-num", "aria-hidden": "true", text: mark }),
-            el("span", { className: "smap-name", "aria-hidden": "true", text: s.map_node.label }));
-        if (s.state === "locked") node.setAttribute("aria-disabled", "true");
-        node.style.left = `${s.map_node.x * 100}%`;
-        node.style.top = `${s.map_node.y * 100}%`;
-        if (s.matches_goal) node.append(el("span", { className: "smap-goal", "aria-hidden": "true", title: "Matches your goal", text: "★" }));
-        node.addEventListener("click", () => openScenario(s));
-        canvas.append(node);
-    }
-    return canvas;
+// The level map (scenario_map.js) opens a level card per node; Start / Try again there calls startScenario.
+function levelActions() {
+    const nodeFor = (s) => document.querySelector(`.lvl-node[data-order="${s.order}"]`);
+    const actions = {
+        onStart: (s) => openScenario(s),
+        onShow: (s) => openLevelCard(s, mapData.scenarios, actions, nodeFor(s)),
+    };
+    return actions;
 }
 
 function scenarioRow(s) {
@@ -170,18 +147,21 @@ function scenarioRow(s) {
 }
 
 function renderMap() {
+    setWide(false);
     const kids = [];
     if (gam) kids.push(gamBar(gam));
     const picker = pathPicker();
     if (picker) kids.push(picker);
     kids.push(el("h2", { className: "scen-path-title", text: mapData.path }));
-    kids.push(mapCanvas());
+    const actions = levelActions();
+    kids.push(levelMap(mapData, { onOpen: (s, node) => openLevelCard(s, mapData.scenarios, actions, node) }));
     kids.push(el("p", { className: "muted", id: "scen-lock-note", role: "status" }));
     if (mapData.weak_topics.length) {
         kids.push(el("div", { className: "card card-pad" },
             el("h3", { className: "scen-sub", text: "Worth another look" }),
             el("ul", { className: "chips" }, ...mapData.weak_topics.map((t) => el("li", { className: "chip", text: t })))));
     }
+    kids.push(el("h3", { className: "scen-sub scen-list-title", text: "All scenarios" }));
     kids.push(el("ol", { className: "scen-list stack-sm" }, ...mapData.scenarios.map(scenarioRow)));
     box.replaceChildren(...kids);
 }
@@ -343,77 +323,230 @@ function buildMatch(question) {
     };
 }
 
-// A code question: a plain textarea editor, a Run button (ungraded, visible examples only) and an output panel.
-// The Check button is the shared one in renderQuestion; get() returns the source for it.
+// A code question, laid out like an online assessment: the problem on the left; on the right a language picker, the
+// editor (line numbers, Tab = 4 spaces) and a test panel with one tab per visible example plus a Results tab; Run and
+// Check at the bottom right. Run = visible examples only, ungraded; Check (the shared button from renderQuestion,
+// mounted here by mountCheck) runs every test once and locks the answer. Hidden tests only ever arrive as counts.
 const TAB_SPACES = "    ";
 
-function buildCode(question) {
-    const examples = el("div", { className: "scen-examples" }, ...question.tests.map((t, i) => el("div", { className: "scen-example" },
-        el("p", { className: "scen-sub", text: `Example ${i + 1}` }),
-        el("p", { className: "hint", text: "Input" }), el("pre", { className: "scen-pre", text: t.stdin }),
-        el("p", { className: "hint", text: "Expected output" }), el("pre", { className: "scen-pre", text: t.expected_stdout }))));
-    const editorId = `code-${question.id}`;
-    const editor = el("textarea", {
-        className: "scen-code", id: editorId, rows: "14", spellcheck: "false", autocomplete: "off",
-        autocapitalize: "off", autocorrect: "off", "aria-describedby": `${editorId}-hint`,
+// The ARIA tabs pattern on the shared .tabs component: arrow keys move between tabs, one panel shows at a time.
+function oaTabs(idBase, tabs) {
+    const list = el("div", { className: "tabs oa-tabs", role: "tablist", "aria-label": "Test cases" });
+    const panels = [];
+    const buttons = tabs.map((t, i) => {
+        const b = el("button", {
+            type: "button", role: "tab", id: `${idBase}-tab-${i}`, "aria-controls": `${idBase}-panel-${i}`,
+            "aria-selected": i === 0 ? "true" : "false", tabindex: i === 0 ? "0" : "-1", text: t.label,
+        });
+        const panel = el("div", { className: "oa-panel stack-sm", role: "tabpanel", id: `${idBase}-panel-${i}`, "aria-labelledby": b.id, tabindex: "0" }, ...t.body);
+        if (i !== 0) panel.hidden = true;
+        panels.push(panel);
+        list.append(b);
+        return b;
     });
-    editor.value = question.starter_code;
+    function select(i, focus) {
+        buttons.forEach((b, j) => {
+            b.setAttribute("aria-selected", j === i ? "true" : "false");
+            b.setAttribute("tabindex", j === i ? "0" : "-1");
+            panels[j].hidden = j !== i;
+        });
+        if (focus) buttons[i].focus();
+    }
+    buttons.forEach((b, i) => {
+        b.addEventListener("click", () => select(i, false));
+        b.addEventListener("keydown", (e) => {
+            const n = buttons.length;
+            const to = e.key === "ArrowRight" ? (i + 1) % n : e.key === "ArrowLeft" ? (i - 1 + n) % n
+                : e.key === "Home" ? 0 : e.key === "End" ? n - 1 : -1;
+            if (to < 0) return;
+            e.preventDefault();
+            select(to, true);
+        });
+    });
+    return { list, panels, select };
+}
+
+function oaPre(text, extra) {
+    return el("pre", { className: `scen-pre${extra ? ` ${extra}` : ""}`, text });
+}
+
+function buildCode(question) {
+    const qid = question.id;
+    const editorId = `code-${qid}`;
+    const languages = question.languages && question.languages.length
+        ? question.languages : [{ id: question.language || "python", label: "Python 3" }];
+    const starters = question.starters || { python: question.starter_code };
+    const draftKey = (lang) => `levelup-code:${run.attemptId}:${qid}:${lang}`;
+    const readDraft = (lang) => { try { return localStorage.getItem(draftKey(lang)); } catch (_) { return null; } };
+    const saveDraft = (lang, value) => { try { localStorage.setItem(draftKey(lang), value); } catch (_) { /* per-viewer convenience only */ } };
+    let lang = languages[0].id;
+    try { const last = localStorage.getItem(`levelup-code-lang:${run.attemptId}:${qid}`); if (languages.some((l) => l.id === last)) lang = last; } catch (_) { /* ignore */ }
+
+    // ---- left: the problem
+    const visible = question.tests;
+    const problem = el("section", { className: "card card-pad oa-problem stack-sm", "aria-labelledby": `${editorId}-ptitle` },
+        el("h3", { className: "oa-h", id: `${editorId}-ptitle`, text: "Problem" }),
+        ...(question.pick_reason ? [el("p", { className: "hint scen-pick", text: `Why you got this problem: ${question.pick_reason}` })] : []),
+        el("p", { className: "oa-prompt", id: "scen-prompt", tabindex: "-1" }, ...inlineCode(question.prompt)),
+        el("h4", { className: "oa-h4", text: "Input and output" }),
+        el("p", { text: "Your program reads the whole input from standard input and prints only the answer to standard output, in the format described above. Any language works the same way." }),
+        ...visible.flatMap((t, i) => [
+            el("h4", { className: "oa-h4", text: visible.length > 1 ? `Example ${i + 1}` : "Example" }),
+            el("p", { className: "oa-label", text: "Input" }), oaPre(t.stdin),
+            el("p", { className: "oa-label", text: "Output" }), oaPre(t.expected_stdout),
+        ]));
+
+    // ---- right: language, editor
+    const select = el("select", { className: "select oa-lang", id: `${editorId}-lang` },
+        ...languages.map((l) => el("option", { value: l.id, text: l.label })));
+    select.value = lang;
+    const reset = el("button", { type: "button", className: "btn btn-ghost btn-sm", text: "Reset code" });
+    const gutter = el("pre", { className: "oa-gutter", "aria-hidden": "true" });
+    const editor = el("textarea", {
+        className: "scen-code oa-editor", id: editorId, rows: "16", spellcheck: "false", autocomplete: "off",
+        autocapitalize: "off", autocorrect: "off", wrap: "off", "aria-describedby": `${editorId}-hint`,
+    });
+    editor.value = readDraft(lang) ?? starters[lang] ?? "";
+    function drawGutter() {
+        const n = editor.value.split("\n").length;
+        if (gutter.dataset.lines === String(n)) return;
+        gutter.dataset.lines = String(n);
+        gutter.textContent = Array.from({ length: n }, (_, i) => String(i + 1)).join("\n");
+    }
+    drawGutter();
+    editor.addEventListener("input", () => { drawGutter(); if (!editor.readOnly) saveDraft(lang, editor.value); });
+    editor.addEventListener("scroll", () => { gutter.scrollTop = editor.scrollTop; });
     let trapTab = true;   // Tab inserts spaces until Escape; Escape then Tab (or Shift+Tab) moves focus on
     editor.addEventListener("keydown", (e) => {
         if (e.key === "Escape") { trapTab = false; announce("Tab now moves focus out of the editor."); return; }
         if (e.key !== "Tab" || e.shiftKey || e.ctrlKey || e.altKey || e.metaKey) return;
         if (!trapTab) { trapTab = true; return; }
+        if (editor.readOnly) return;
         e.preventDefault();
         editor.setRangeText(TAB_SPACES, editor.selectionStart, editor.selectionEnd, "end");
         editor.dispatchEvent(new Event("input", { bubbles: true }));
     });
     editor.addEventListener("blur", () => { trapTab = true; });
 
-    const runBtn = el("button", { type: "button", className: "btn btn-secondary", text: "Run on the examples" });
-    const panel = el("div", { className: "scen-run-out stack-sm", "aria-live": "polite" });
+    select.addEventListener("change", () => {
+        saveDraft(lang, editor.value);
+        lang = select.value;
+        try { localStorage.setItem(`levelup-code-lang:${run.attemptId}:${qid}`, lang); } catch (_) { /* ignore */ }
+        editor.value = readDraft(lang) ?? starters[lang] ?? "";
+        editor.scrollTop = 0;
+        drawGutter();
+        editor.dispatchEvent(new Event("input", { bubbles: true }));
+        clearOutputs();
+        announce(`Language: ${select.options[select.selectedIndex].text}. Your code for each language is kept separately.`);
+    });
+    reset.addEventListener("click", () => {
+        editor.value = starters[lang] ?? "";
+        editor.dispatchEvent(new Event("input", { bubbles: true }));
+        editor.focus();
+        announce("The starter code is back.");
+    });
+
+    const editorCard = el("div", { className: "card oa-editor-card" },
+        el("div", { className: "oa-toolbar" },
+            el("label", { className: "oa-lang-label", for: select.id, text: "Language" }), select, reset),
+        el("div", { className: "oa-code" }, gutter, editor),
+        el("p", { className: "hint oa-hint", id: `${editorId}-hint`, text: "Tab inserts 4 spaces. Press Escape, then Tab, to move on." }));
+    const editorLabel = el("label", { className: "visually-hidden", for: editorId, text: "Your code" });
+
+    // ---- below: test cases
+    const outputs = visible.map(() => el("div", { className: "oa-yours stack-sm" }));
+    const verdicts = visible.map(() => el("p", { className: "oa-verdict" }));
+    function clearOutputs() {
+        outputs.forEach((o) => o.replaceChildren(el("p", { className: "muted", text: "Run your code to see its output here." })));
+        verdicts.forEach((v) => { v.textContent = ""; v.className = "oa-verdict"; });
+    }
+    clearOutputs();
+    const resultsBody = el("div", { className: "oa-results stack-sm", "aria-live": "polite" },
+        el("p", { className: "muted", text: "Check runs your code against the example and the hidden tests, and locks your answer. You can check once." }));
+    const tabs = oaTabs(`${editorId}-tc`, [
+        ...visible.map((t, i) => ({
+            label: visible.length > 1 ? `Example ${i + 1}` : "Example",
+            body: [verdicts[i], el("p", { className: "oa-label", text: "Input" }), oaPre(t.stdin),
+                el("p", { className: "oa-label", text: "Expected output" }), oaPre(t.expected_stdout),
+                el("p", { className: "oa-label", text: "Your output" }), outputs[i]],
+        })),
+        { label: "Results", body: [resultsBody] },
+    ]);
+    const runBtn = el("button", { type: "button", className: "btn btn-secondary", text: "Run" });
+    const status = el("p", { className: "oa-status muted", "aria-live": "polite" });
+    const actionBar = el("div", { className: "oa-actions" }, status, el("div", { className: "oa-buttons" }, runBtn));
+    const testsCard = el("div", { className: "card oa-tests" }, tabs.list, ...tabs.panels, actionBar);
+
     let busy = false;
     runBtn.addEventListener("click", async () => {
         if (busy || !editor.value.trim()) return;
         busy = true;
         runBtn.disabled = true;
         runBtn.setAttribute("aria-busy", "true");
-        panel.replaceChildren(el("p", { className: "muted", text: "Running…" }));
+        status.textContent = "Running on the example…";
         const result = await request(`/scenarios/${encodeURIComponent(run.scenario.id)}/code/run`, {
             method: "POST", headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ attempt_id: run.attemptId, question_id: question.id, source: editor.value }),
+            body: JSON.stringify({ attempt_id: run.attemptId, question_id: qid, source: editor.value, language: lang }),
         });
         busy = false;
         runBtn.removeAttribute("aria-busy");
-        runBtn.disabled = editor.disabled;
+        runBtn.disabled = editor.readOnly;
         if (!result.ok) {
-            panel.replaceChildren(alertEl(errorText(result), "error"));
+            status.textContent = errorText(result);
             return;
         }
-        panel.replaceChildren(...result.data.results.map((r, i) => {
-            const kids = [el("p", { className: `scen-verdict ${r.passed ? "is-right" : "is-wrong"}`, text: `Example ${i + 1}: ${r.passed ? "passed" : "not passed"}` })];
-            if (r.exception === "time_limit") kids.push(el("p", { className: "muted", text: "The program ran out of time." }));
-            else if (r.exception === "memory_limit") kids.push(el("p", { className: "muted", text: "The program used too much memory." }));
-            if (r.stdout) kids.push(el("p", { className: "hint", text: "Your output" }), el("pre", { className: "scen-pre", text: r.stdout }));
-            if (r.stderr) kids.push(el("p", { className: "hint", text: "Errors" }), el("pre", { className: "scen-pre", text: r.stderr }));
-            return el("div", { className: "scen-run-item stack-sm" }, ...kids);
-        }));
-        announce(`${result.data.results.filter((r) => r.passed).length} of ${result.data.results.length} examples passed.`);
+        const results = result.data.results;
+        results.forEach((r, i) => {
+            if (!outputs[i]) return;
+            verdicts[i].textContent = r.passed ? "Passed" : "Not passed";
+            verdicts[i].className = `oa-verdict scen-verdict ${r.passed ? "is-right" : "is-wrong"}`;
+            const kids = [];
+            if (r.exception === "time_limit") kids.push(el("p", { className: "oa-note", text: "Your program ran out of time." }));
+            else if (r.exception === "memory_limit") kids.push(el("p", { className: "oa-note", text: "Your program used too much memory." }));
+            else if (r.exception === "error" || (r.stderr && !r.passed)) kids.push(el("p", { className: "oa-note", text: "Your program crashed or did not compile. The error is below." }));
+            kids.push(oaPre(r.stdout || "(nothing printed)", r.stdout ? "" : "is-empty"));
+            if (r.stderr) kids.push(el("p", { className: "oa-label", text: "Errors" }), oaPre(r.stderr, "is-error"));
+            outputs[i].replaceChildren(...kids);
+        });
+        const passed = results.filter((r) => r.passed).length;
+        status.textContent = `${passed} of ${results.length} example${results.length === 1 ? "" : "s"} passed. Not graded.`;
+        tabs.select(0, false);
+        announce(status.textContent);
     });
 
-    const why = question.pick_reason ? el("p", { className: "hint scen-pick", text: `Why you got this problem: ${question.pick_reason}` }) : null;
-    const node = el("div", { className: "scen-code-wrap stack-sm" }, ...(why ? [why] : []), examples,
-        el("label", { className: "scen-sub", for: editorId, text: "Your Python code" }),
-        el("p", { className: "hint", id: `${editorId}-hint`, text: "Read input with input(), print the answer. Tab inserts spaces; press Escape, then Tab, to move on." }),
-        editor, el("div", { className: "actions" }, runBtn), panel);
+    const node = el("div", { className: "oa", role: "region", "aria-label": "Coding question" },
+        problem, el("section", { className: "oa-work stack-sm", "aria-label": "Your solution" }, editorLabel, editorCard, testsCard));
     return {
         node,
         onChange(cb) { editor.addEventListener("input", cb); },
         get() { return editor.value.trim() ? editor.value : null; },
+        language() { return lang; },
+        mountCheck(check) { actionBar.querySelector(".oa-buttons").append(check); },
         lock(result) {
-            // A resumed attempt shows the source that was checked, not the starter code.
+            // A resumed attempt shows the source and language that were checked, not a starter.
             if (result && typeof result.source === "string" && result.source) editor.value = result.source;
+            if (result && result.language) {
+                if (![...select.options].some((o) => o.value === result.language)) {
+                    select.append(el("option", { value: result.language, text: result.language }));
+                }
+                select.value = result.language;
+                lang = result.language;
+            }
+            drawGutter();
             editor.readOnly = true;
+            select.disabled = true;
+            reset.disabled = true;
             runBtn.disabled = true;
+            if (result) {
+                const seen = result.visible_passed || [];
+                resultsBody.replaceChildren(
+                    el("p", { className: `scen-verdict ${result.correct ? "is-right" : "is-wrong"}`, text: result.correct ? "All tests passed" : "Not all tests passed" }),
+                    el("p", { text: `Example tests: ${seen.filter(Boolean).length} of ${seen.length || visible.length} passed.` }),
+                    el("p", { className: "oa-hidden-count", text: `Hidden tests: ${result.hidden_passed} of ${result.hidden_total} passed.` }),
+                    el("p", { className: "muted", text: "Hidden test inputs stay hidden. Your answer is locked." }));
+                status.textContent = "Answer locked.";
+                tabs.select(visible.length, false);
+            }
         },
     };
 }
@@ -465,16 +598,23 @@ function renderQuestion(allDone) {
     const hint = question.type === "multi_select" ? "Choose all that apply."
         : question.type === "order" ? "Use the Up and Down buttons to put the steps in order."
         : question.type === "match" ? "Pick one for each, using each option once."
-        : question.type === "code" ? "Write the program, try it on the examples, then check it against every test. You can check once." : "Choose one.";
+        : "Choose one.";
 
-    const fieldset = el("fieldset", { className: "scen-fieldset" },
-        el("legend", { className: "scen-prompt", id: "scen-prompt", tabindex: "-1" }, ...inlineCode(question.prompt)),
-        el("p", { className: "hint", text: hint }), input.node);
-    const check = el("button", { type: "button", className: "btn", text: question.type === "code" ? "Check against all tests" : "Check answer" });
+    const check = el("button", { type: "button", className: "btn", text: question.type === "code" ? "Check" : "Check answer" });
     const slot = el("div", { className: "stack-sm", id: "scen-slot" });
-    const actions = el("div", { className: "actions" }, check);
     const nextBar = el("div", { className: "actions" });   // after the feedback, so Tab reaches it next
-    const card = el("div", { className: "card card-pad stack-sm" }, fieldset, actions);
+    let card;
+    if (question.type === "code") {
+        // The online-assessment layout carries its own prompt, hint and action bar; Check goes next to Run.
+        input.mountCheck(check);
+        card = input.node;
+    } else {
+        const fieldset = el("fieldset", { className: "scen-fieldset" },
+            el("legend", { className: "scen-prompt", id: "scen-prompt", tabindex: "-1" }, ...inlineCode(question.prompt)),
+            el("p", { className: "hint", text: hint }), input.node);
+        card = el("div", { className: "card card-pad stack-sm" }, fieldset, el("div", { className: "actions" }, check));
+    }
+    setWide(question.type === "code");
 
     box.replaceChildren(header(question), backgroundCard(), card, slot, nextBar);
 
@@ -502,7 +642,7 @@ function renderQuestion(allDone) {
     if (lockedResult) {
         // Resumed attempt: the answer was locked in an earlier visit; the server still has it, show the feedback only.
         check.remove();
-        input.node.querySelectorAll("input,select,button").forEach((n) => { n.disabled = true; });
+        input.node.querySelectorAll("input,select,button:not([role=tab])").forEach((n) => { n.disabled = true; });
         showFeedback(lockedResult, null);
         return;
     }
@@ -514,7 +654,8 @@ function renderQuestion(allDone) {
         check.setAttribute("aria-busy", "true");
         const result = await request(`/scenarios/${encodeURIComponent(scenario.id)}/answer`, {
             method: "POST", headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ attempt_id: run.attemptId, question_id: question.id, answer }),
+            body: JSON.stringify({ attempt_id: run.attemptId, question_id: question.id, answer,
+                ...(input.language ? { language: input.language() } : {}) }),
         });
         check.removeAttribute("aria-busy");
         if (!result.ok) {
@@ -544,6 +685,7 @@ async function renderSubmitStep() {
 }
 
 function renderSummary(data) {
+    setWide(false);
     const scenario = run.scenario;
     const retry = el("button", { type: "button", className: "btn btn-secondary", text: "Retry" });
     retry.addEventListener("click", () => startScenario(scenario.id));

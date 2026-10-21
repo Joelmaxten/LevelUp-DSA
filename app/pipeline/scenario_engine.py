@@ -86,7 +86,8 @@ def _answer_is_correct(question, answer):
 # ---------------------------------------------------------------- code questions
 # A code question is graded from the code runner's results (app/pipeline/code_runner.py), which the route fetches;
 # everything here stays pure. What is stored on the attempt for a locked code question is a "record" the SERVER wrote:
-# {"source", "passed", "visible": [bool per visible test], "hidden_passed", "hidden_total"}.
+# {"source", "language", "passed", "visible": [bool per visible test], "hidden_passed", "hidden_total"}. "language"
+# is the one the route validated and ran (records written before languages existed have none and mean Python).
 def run_passed(expected, run):
     """One test passes only if the program raised nothing, wrote nothing to stderr and printed the expected output."""
     if not isinstance(run, dict) or run.get("exception") or str(run.get("stderr") or "").strip():
@@ -104,14 +105,14 @@ def code_example_text(question):
     return f"Example: input {t['stdin'].strip()!r} should print {t['expected_stdout'].strip()!r}"
 
 
-def code_record(question, run_results, source=""):
+def code_record(question, run_results, source="", language="python"):
     """The per-test outcome of one Check. Missing or malformed results count as failed tests."""
     runs = list(run_results) if isinstance(run_results, (list, tuple)) else []
     flags = [run_passed(t["expected_stdout"], runs[i] if i < len(runs) else None)
              for i, t in enumerate(question["tests"])]
     visible = [ok for ok, t in zip(flags, question["tests"]) if not t["hidden"]]
     hidden = [ok for ok, t in zip(flags, question["tests"]) if t["hidden"]]
-    return {"source": source, "passed": bool(flags) and all(flags), "visible": visible,
+    return {"source": source, "language": language, "passed": bool(flags) and all(flags), "visible": visible,
             "hidden_passed": sum(hidden), "hidden_total": len(hidden)}
 
 
@@ -136,15 +137,16 @@ def _code_result(question, record):
         "visible_passed": visible,
         # The student's own locked source (their code, never the solution), so a resumed attempt can show it.
         "source": rec.get("source") if isinstance(rec.get("source"), str) else "",
+        "language": rec.get("language") if isinstance(rec.get("language"), str) and rec.get("language") else "python",
         "hidden_passed": rec.get("hidden_passed") if isinstance(rec.get("hidden_passed"), int) else 0,
         "hidden_total": rec.get("hidden_total") if isinstance(rec.get("hidden_total"), int) else 0,
     }
 
 
-def grade_code_result(question, run_results, source=""):
+def grade_code_result(question, run_results, source="", language="python"):
     """(result, record): the usual per-question result (all-or-nothing, 10 points) from the runner's results for
     ALL of the question's tests in order, plus the record to store on the attempt."""
-    record = code_record(question, run_results, source)
+    record = code_record(question, run_results, source, language)
     return _code_result(question, record), record
 
 

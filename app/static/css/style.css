@@ -1087,43 +1087,100 @@ a.job-link:hover .job-title { text-decoration: underline; }
 .chip-state-passed { background: var(--ink); color: var(--surface); }
 .chip-state-locked { background: transparent; border-color: var(--line); color: var(--pencil); font-weight: 500; }
 
-/* Map: one canvas that scales as a whole (fixed 16:10 box), nodes placed by fractions of it. */
-.smap {
-    position: relative; width: 100%; aspect-ratio: 16 / 10; overflow: hidden;
-    border: 1px solid var(--rule); border-radius: var(--r-lg);
-    background: linear-gradient(165deg, var(--tint) 0%, var(--surface) 55%, var(--rule) 100%);
+/* Level map (app/static/js/scenario_map.js): a drawn scene (SVG, scales as a whole) with the level buttons placed over it
+   by percentages. Only the open level animates (a pulsing ring), and not at all with reduced motion. */
+.lvl-map { position: relative; width: 100%; max-width: 30rem; margin-inline: auto; border-radius: var(--r-lg); overflow: hidden; }
+.lvl-map.is-wide { max-width: none; }
+.lvl-scene { display: block; width: 100%; height: auto; }
+.lvl-road-edge { fill: none; stroke-width: 34; stroke-linecap: round; }
+.lvl-road { fill: none; stroke: var(--surface); stroke-width: 24; stroke-linecap: round; }
+.lvl-trail { fill: none; stroke-width: 4; stroke-linecap: round; stroke-dasharray: 2 12; opacity: 0.55; }
+.lvl-trail.is-done { stroke-dasharray: none; opacity: 1; }
+.lvl-stops { list-style: none; margin: 0; padding: 0; }
+.lvl-stop {
+    position: absolute; transform: translate(-50%, -50%); width: 0; height: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
 }
-.smap-scene { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.smap-edges { position: absolute; inset: 0; width: 100%; height: 100%; }
-.smap-edge { stroke: var(--ink); stroke-width: 3; stroke-linecap: round; vector-effect: non-scaling-stroke; opacity: 0.55; }
-.smap-edge.is-locked { stroke: var(--line); stroke-dasharray: 2 8; opacity: 0.8; }
-.smap-node {
-    position: absolute; transform: translate(-50%, -50%);
-    display: grid; place-items: center; width: var(--tap); height: var(--tap); padding: 0;
-    border: 2px solid var(--ink); border-radius: 50%; background: var(--surface); color: var(--ink);
-    font: inherit; font-weight: 800; cursor: pointer; box-shadow: var(--shadow-1);
+.lvl-node {
+    position: relative; flex: none; display: grid; place-items: center; width: 3.75rem; height: 3.75rem; padding: 0;
+    border: 3px solid var(--ink); border-radius: 50%; background: var(--surface); color: var(--ink);
+    font: inherit; font-size: var(--fs-lg); font-weight: 800; cursor: pointer;
+    box-shadow: 0 4px 0 var(--ink);                 /* a "pressable" game button: the ledge goes away on press */
+    transition: transform var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
 }
-.smap-node:hover { background: var(--tint); }
-.smap-node:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
-.smap-node.is-attempted { background: var(--tint); }
-.smap-node.is-passed { background: var(--ink); color: var(--surface); }
-.smap-node.is-locked { background: var(--paper); border-style: dashed; border-color: var(--line); color: var(--pencil); cursor: not-allowed; }
-.smap-node.is-recommended { box-shadow: 0 0 0 4px var(--marker), var(--shadow-1); animation: smap-pulse 2.4s var(--ease) infinite; }
-.smap-name {
-    position: absolute; top: calc(100% + 4px); left: 50%; transform: translateX(-50%);
-    padding: 1px 6px; border-radius: var(--r-sm); background: var(--surface); color: var(--ink);
-    font-size: var(--fs-xs); font-weight: 600; white-space: nowrap; pointer-events: none;
+.lvl-node:hover { transform: translateY(-2px); box-shadow: 0 6px 0 var(--ink); }
+.lvl-node:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--ink); }
+.lvl-node:focus-visible { outline: 3px solid var(--ink); outline-offset: 5px; }
+.lvl-icon { width: 1.6rem; height: 1.6rem; }
+.lvl-node.is-passed { background: var(--ink); color: var(--surface); }
+.lvl-node.is-attempted { background: var(--tint); }
+.lvl-node.is-locked { background: #D9DDE9; border-color: var(--line); color: var(--pencil); box-shadow: 0 4px 0 var(--line); cursor: not-allowed; }
+.lvl-node.is-locked:hover { transform: none; box-shadow: 0 4px 0 var(--line); }
+.lvl-node.is-open::after {
+    content: ""; position: absolute; inset: -9px; border-radius: 50%; border: 4px solid var(--marker);
+    pointer-events: none; animation: lvl-pulse 1.8s var(--ease) infinite;
 }
-.smap-goal {
-    position: absolute; top: -8px; right: -8px; width: 20px; height: 20px; display: grid; place-items: center;
-    border-radius: 50%; background: var(--marker); color: var(--ink); border: 1px solid var(--ink); font-size: 12px; line-height: 1;
+@keyframes lvl-pulse {
+    0% { transform: scale(0.9); opacity: 1; }
+    70%, 100% { transform: scale(1.3); opacity: 0; }
 }
-@keyframes smap-pulse {
-    0%, 100% { box-shadow: 0 0 0 4px var(--marker), var(--shadow-1); }
-    50% { box-shadow: 0 0 0 9px rgba(246, 232, 75, 0.35), var(--shadow-1); }
+.lvl-goal {
+    position: absolute; top: -6px; right: -6px; width: 22px; height: 22px; display: grid; place-items: center;
+    border-radius: 50%; background: var(--marker); color: var(--ink); border: 2px solid var(--ink); font-size: 12px; line-height: 1;
 }
-@media (max-width: 40rem) { .smap-name { display: none; } }
-@media (prefers-reduced-motion: reduce) { .smap-node.is-recommended { animation: none; } }
+.lvl-next {
+    position: absolute; bottom: calc(50% + 2.4rem); left: 50%; transform: translateX(-50%);
+    padding: 2px 10px; border-radius: var(--r-pill); background: var(--marker); color: var(--ink); border: 2px solid var(--ink);
+    font-size: var(--fs-xs); font-weight: 800; white-space: nowrap;
+}
+.lvl-next::after {
+    content: ""; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+    border: 6px solid transparent; border-top-color: var(--ink);
+}
+.lvl-stars { position: absolute; top: calc(50% + 2.15rem); left: 50%; transform: translateX(-50%); display: flex; gap: 2px; }
+.lvl-star { width: 1.05rem; height: 1.05rem; fill: var(--surface); stroke: var(--ink); stroke-width: 1.6; stroke-linejoin: round; }
+.lvl-star.is-on { fill: var(--marker); }
+.lvl-name {
+    position: absolute; top: calc(50% + 3.45rem); left: 50%; transform: translateX(-50%);
+    width: max-content; max-width: 8.5rem; padding: 2px 8px; border-radius: var(--r-sm); background: var(--surface); color: var(--ink);
+    font-size: var(--fs-xs); font-weight: 700; line-height: 1.3; text-align: center; text-wrap: balance; pointer-events: none;
+}
+.lvl-map.is-wide .lvl-name { max-width: 10rem; }
+.scen-list-title { margin-top: var(--sp-5); }
+
+/* Level card: a small modal dialog. */
+.lvl-card {
+    width: min(26rem, calc(100vw - 2rem)); max-height: calc(100vh - 2rem); padding: 0; overflow: hidden auto;
+    color: var(--ink); background: var(--surface); border: 3px solid var(--ink); border-radius: var(--r-lg);
+    box-shadow: 0 6px 0 var(--ink), 0 24px 64px rgba(21, 28, 79, 0.3);
+}
+.lvl-card::backdrop { background: rgba(21, 28, 79, 0.5); }
+.lvl-card[open] { animation: lvl-card-in 220ms var(--ease) both; }
+@keyframes lvl-card-in { from { transform: translateY(12px) scale(0.97); opacity: 0; } }
+.lvl-card-body { padding: var(--sp-5); }
+.lvl-card-top { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); }
+.lvl-card-level { margin: 0; font-weight: 700; color: var(--pencil); }
+.lvl-card-close { min-width: var(--tap); min-height: var(--tap); font-size: 1.5rem; line-height: 1; }
+.lvl-card-title { font-size: var(--fs-xl); font-weight: 800; line-height: 1.2; }
+.lvl-card-title:focus { outline: none; }
+.lvl-card-score { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; }
+.lvl-stars.lvl-stars-lg { position: static; transform: none; gap: 4px; }
+.lvl-stars-lg .lvl-star { width: 1.75rem; height: 1.75rem; }
+.lvl-card-best { margin: 0; font-weight: 700; }
+.lvl-card-note { margin: 0; }
+.lvl-card-note.is-locked { font-weight: 600; }
+.lvl-card .btn[aria-disabled="true"] { opacity: 0.55; cursor: not-allowed; }
+
+@media (max-width: 24rem) {
+    .lvl-node { width: 3.25rem; height: 3.25rem; }
+    .lvl-stars { top: calc(50% + 1.9rem); }
+    .lvl-name { top: calc(50% + 3.15rem); max-width: 7.5rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .lvl-node.is-open::after { animation: none; transform: scale(1.12); }
+    .lvl-node, .lvl-card[open] { transition: none; animation: none; }
+    .lvl-node:hover, .lvl-node:active { transform: none; }
+}
 
 /* Player */
 .scen-bg summary { cursor: pointer; font-weight: 700; min-height: var(--tap); display: flex; align-items: center; }
@@ -1160,8 +1217,6 @@ a.job-link:hover .job-title { text-decoration: underline; }
 .scen-results { list-style: none; padding: 0; margin: 0; }
 .scen-result-q { margin: var(--sp-2) 0; color: var(--pencil); }
 
-.scen-code-wrap { margin-top: var(--sp-3); }
-.scen-examples { display: grid; gap: var(--sp-3); }
 .scen-pre {
     margin: var(--sp-1) 0 0; padding: var(--sp-2) var(--sp-3); border: 1px solid var(--line); border-radius: var(--r);
     background: var(--surface); font: 0.9rem/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
@@ -1173,8 +1228,54 @@ a.job-link:hover .job-title { text-decoration: underline; }
     font: 16px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; tab-size: 4; white-space: pre; overflow: auto;
 }
 .scen-code:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
-.scen-code-wrap .btn { min-height: var(--tap); }
-.scen-run-out > * + * { margin-top: var(--sp-3); }
+
+/* Online-assessment coding screen (buildCode in scenarios.js): problem left, editor + test cases right; stacked below
+   900px (problem, editor, tests). The editor is a dark textarea with a line-number gutter that scrolls with it. */
+.scen.is-oa { max-width: 84rem; }
+.oa { display: grid; gap: var(--sp-4); }
+@media (min-width: 900px) {
+    .oa { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); align-items: start; }
+    .oa-problem { position: sticky; top: var(--sp-4); max-height: calc(100vh - 2rem); overflow: auto; }
+}
+.oa-h { font-size: var(--fs-lg); font-weight: 800; }
+.oa-h4 { font-size: var(--fs-md); font-weight: 700; margin-top: var(--sp-4); }
+.oa-prompt { line-height: 1.6; }
+.oa-prompt:focus { outline: none; }
+.oa-label { margin: var(--sp-2) 0 0; font-size: var(--fs-sm); font-weight: 700; color: var(--pencil); }
+.oa-editor-card { overflow: hidden; }
+.oa-toolbar { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; padding: var(--sp-3) var(--sp-4); background: var(--tint); }
+.oa-lang-label { font-weight: 700; }
+.oa-lang { width: auto; min-width: 12rem; }
+.oa-toolbar .btn { margin-left: auto; min-height: var(--tap); }
+.oa-code {
+    display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-rows: minmax(0, 1fr);
+    height: 24rem; min-height: 12rem; resize: vertical; overflow: hidden; background: var(--ink);
+}
+.oa-gutter {
+    margin: 0; padding: var(--sp-3) var(--sp-2) var(--sp-3) var(--sp-3); min-width: 3ch; min-height: 0; overflow: hidden; user-select: none;
+    color: #9AA3D0; background: #1C245C; text-align: right;
+    font: 15px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+.scen-code.oa-editor {
+    min-height: 0; height: 100%; border: 0; border-radius: 0; background: var(--ink); color: #F4F6FB; caret-color: var(--marker);
+    font-size: 15px; resize: none; padding-left: var(--sp-3);
+}
+.scen-code.oa-editor::selection { background: #3A4690; }
+.scen-code.oa-editor:focus-visible { outline: 3px solid var(--marker); outline-offset: -3px; }
+.scen-code.oa-editor[readonly] { color: #C9CFE2; }
+.oa-hint { margin: 0; padding: var(--sp-2) var(--sp-4); }
+.oa-tests { padding: var(--sp-4); display: grid; gap: var(--sp-3); }
+.oa-tabs { justify-self: start; }
+.oa-panel:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; border-radius: var(--r-sm); }
+.oa-verdict:empty { display: none; }
+.oa-note { margin: 0; font-weight: 600; color: var(--red); }
+.scen-pre.is-empty { color: var(--pencil); }
+.scen-pre.is-error { border-color: var(--red); }
+.oa-actions { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); flex-wrap: wrap; padding-top: var(--sp-3); border-top: 1px solid var(--rule); }
+.oa-status { margin: 0; }
+.oa-buttons { display: flex; gap: var(--sp-2); margin-left: auto; }
+.oa-buttons .btn { min-height: var(--tap); min-width: 6rem; }
+.oa-hidden-count { font-weight: 700; }
 
 /* ---------- Gamification: level card, level bar, badges, rewards (app/static/js/gamification.js) ----------
    Ink for earned and "done", the dashed line for locked; marker yellow stays reserved for "do this next". */

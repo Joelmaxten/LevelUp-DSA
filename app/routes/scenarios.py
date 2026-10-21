@@ -18,6 +18,7 @@ from flask_login import current_user, login_required
 from app import db
 from app.models import CareerProfile, ScenarioAttempt, SkillGap
 from app.pipeline import code_runner
+from app.pipeline import code_starters
 from app.pipeline import scenario_engine as engine
 from app.pipeline import scenario_store as store
 from app.security import rate_limit_hit, rate_limited_response
@@ -183,9 +184,32 @@ def start(scenario_id):
               for qid, ans in (attempt.answers or {}).items() if qid in questions}
     return jsonify({
         "attempt_id": attempt.id,
-        "scenario": engine.public_view(effective, attempt.shuffle_seed),
+        "scenario": _with_languages(engine.public_view(effective, attempt.shuffle_seed), effective),
         "locked": locked,
     }), 200
+
+
+def _with_languages(view, effective):
+    """Adds, to each code question of the public view, the languages this runner offers and a starter for each
+    (the problem's own for Python, a generic stdin template otherwise). No test or solution data is added."""
+    offered = code_runner.available_languages()
+    originals = {q["id"]: q for q in effective["questions"]}
+    for q in view["questions"]:
+        if q["type"] != "code":
+            continue
+        q["languages"] = [{"id": lang, "label": code_runner.LANGUAGES[lang]["label"]} for lang in offered]
+        q["starters"] = {lang: code_starters.starter_for(lang, originals[q["id"]]) for lang in offered}
+    return view
+
+
+def _language(body):
+    """(language, None) or (None, error response). Allowlist only: a known language the runner can run now."""
+    language = body.get("language", code_runner.DEFAULT_LANGUAGE)
+    if not isinstance(language, str) or language not in code_runner.LANGUAGES:
+        return None, _error("invalid_language", 400)
+    if language not in code_runner.available_languages():
+        return None, _error("language_unavailable", 400)
+    return language, None
 
 
 def _owned_open_attempt(scenario_id, body, lock=False):
@@ -258,6 +282,10 @@ def _check_code(scenario_id, attempt, question, body):
     if not isinstance(source, str) or not source.strip():
         db.session.rollback()
         return _error("invalid_answer", 400)
+    language, error = _language(body)
+    if error:
+        db.session.rollback()
+        return error
     stored = (attempt.answers or {}).get(question["id"])
     if stored is not None:                     # first Check wins; a repeat just returns the stored result
         db.session.rollback()
@@ -267,12 +295,12 @@ def _check_code(scenario_id, attempt, question, body):
     if limited:
         return limited
     try:
-        runs = code_runner.run_batch(source, [t["stdin"] for t in question["tests"]])
+        runs = code_runner.run_batch(source, [t["stdin"] for t in question["tests"]], language)
     except code_runner.CodeRunnerError as error:
         return _runner_error(error)
     except Exception:
         return _error("runner_unavailable", 503)
-    result, record = engine.grade_code_result(question, runs, source)
+    result, record = engine.grade_code_result(question, runs, source, language)
 
     attempt, error = _owned_open_attempt(scenario_id, body, lock=True)
     if error:
@@ -317,9 +345,12 @@ def code_run(scenario_id):
     source = body.get("source")
     if not isinstance(source, str) or not source.strip():
         return _error("invalid_source", 400)
+    language, error = _language(body)
+    if error:
+        return error
     visible = [t for t in question["tests"] if not t["hidden"]]
     try:
-        runs = code_runner.run_batch(source, [t["stdin"] for t in visible])
+        runs = code_runner.run_batch(source, [t["stdin"] for t in visible], language)
     except code_runner.CodeRunnerError as error:
         return _runner_error(error)
     except Exception:

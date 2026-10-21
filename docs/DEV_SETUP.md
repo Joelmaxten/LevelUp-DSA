@@ -232,7 +232,7 @@ For these tests run `pip install -r requirements-dev.txt` once (adds fpdf2).
 | `smoke_test_llm.py` | `llm_client`: retry on throttling/5xx/timeouts, no retry on access-denied/validation, fallback model, provider switch, schema correction, no secrets or prompt text in errors or logs | no (fake Bedrock client, patched Gemini; hides real credentials and blocks real clients) |
 | `smoke_test_generator.py` | roadmap generator with a fake LLM: golden comparison for 3 paths, coverage/duplicate/index/allowlist/shape invariants at concurrency 1 and 3, thread hygiene, failure handling, duplicate rewrite, warm-up | no (fake LLM, local embeddings only; ~1.5 min, mostly model load) |
 | `smoke_test_profile_flow.py` | quiz then conversation then `CareerProfile` row; prints rather than counts | no |
-| `smoke_test_code_questions.py` | code questions: runner adapter (OneCompiler shape, Cloudflare page, timeouts, caps, error codes), validator, public view, grading, Run and Check routes | no (fake runner or stubbed HTTP) |
+| `smoke_test_code_questions.py` | code questions: runner adapter (OneCompiler shape, Cloudflare page, timeouts, caps, error codes), validator, public view, grading, Run and Check routes; languages (allowlist, unknown language -> 400, language passed to the runner and stored with the locked answer, local toolchain detection, starter templates, hidden tests never sent) | no (fake runner, stubbed HTTP, or local Python for one traceback check) |
 | `smoke_test_gamification.py` | gamification: XP rules (best score only, one-off bonuses, retries add nothing), levels, IST streak maths, every badge rule, rewards between two summaries, `GET /gamification` (401, per user, no writes, fixed error code), rewards on scenario submit (and a failure there never breaks the grade), pages load the script | no (code runs with local Python) |
 | `smoke_test_profile.py` | accounts and profile: username rules, signup with a username (taken / invalid / email in other case / older name-only clients), the live username check and its rate limit, login with username or email, `/profile` page and API (401, per user, every field's validation, nothing half-saved, username change, CSRF), picture upload (re-encoded 256x256 JPEG, EXIF and GPS removed, SVG / GIF / over 4 MB refused, private cache), password change, 404 and 500 pages vs JSON, roadmap `completed_on` and the Finish Line badge, the Goals tailoring summary (only real effects; the ranking after Goals equals the quiz's) | no |
 | `smoke_test_code_pools.py` | code pools: content shape of all 15 paths (skill tags only Python / SQL), validator rejections, materialise, the personalised pick rules, no secret field and no hidden test leaked in any of the 360 variants, grading with the real reference solutions, Start/Run/Check/Submit end to end, retry gets the other problem, readiness counts the code question, dashboard scenario summary, no page links to `/dsa` | no (runs code with this machine's Python: `CODE_RUNNER=local`) |
@@ -249,7 +249,7 @@ last four only deliberately: they spend quota.
 
 Current check counts (run on 2026-10-11 unless marked): `smoke_test_scenarios.py` 218 (2026-10-16),
 `smoke_test_readiness.py` 70, `smoke_test_resume_rules.py` 59, `smoke_test_cached_roadmaps.py` 95,
-`smoke_test_code_questions.py` 164, `smoke_test_code_pools.py` 118 (2026-10-16), `smoke_test_profile.py` 68 (2026-10-16), `smoke_test_gamification.py` 49 (the last two were run in a cloud copy with an empty
+`smoke_test_code_questions.py` 194 (2026-10-21, branch `ui-oa-1`), `smoke_test_code_pools.py` 118 (2026-10-16), `smoke_test_profile.py` 68 (2026-10-16), `smoke_test_gamification.py` 49 (the last two were run in a cloud copy with an empty
 survey table, where readiness shows 69 and resume_rules 58; on the laptop's database they should show 70 and 59)
 (the 95 is from the earlier biography entry and was not re-run for this update). All of these
 call no external service, but they use the development database, so PostgreSQL must be running.
@@ -401,7 +401,8 @@ send it with `-H "X-CSRF-Token: ..."` plus `-b cookies.txt`.
 
 ### Scenarios (scenario-based practice)
 
-Short work scenarios per career path, shown as a map. All 15 paths have a file in `data/scenarios/` (75
+Short work scenarios per career path, shown as a game-style level map (`app/static/js/scenario_map.js`; see
+"The level map" below). All 15 paths have a file in `data/scenarios/` (75
 scenarios and 340 questions in total; one file per path, e.g. `ml-engineering.json`, `cybersecurity.json`).
 Page: `/scenarios`; API:
 `app/routes/scenarios.py`; rules: `app/pipeline/scenario_engine.py` (pure); loading:
@@ -446,18 +447,33 @@ Page: `/scenarios`; API:
   `goal` signal to ladder stages (`build_fundamentals` -> foundations and core decisions, `explore` -> foundations,
   `specific_role` and `any_good_company` -> debugging, trade-offs and end to end); it is a hint and never locks anything.
 - **Add a path:** write `data/scenarios/<slug>.json` in the format above with a `path` that is in `CAREER_PATHS`; add
-  the path's id prefix to `PATH_ID_PREFIX` in `scenario_validator.py`; run the validator; optionally drop a scene at
-  `app/static/scenes/<scene_id>.svg` (without one the map shows a gradient); run the blind-solve check and read the
+  the path's id prefix to `PATH_ID_PREFIX` in `scenario_validator.py`; run the validator; add a theme for its slug to
+  `LEVEL_THEMES` in `app/static/js/scenario_map.js` (without one the map uses the default colours); run the blind-solve check and read the
   review file before shipping. `PATH_ID_PREFIX` maps a path name to its id prefix (for example `mle` for Machine
   Learning Engineering, `cyb` for Cybersecurity, `den` for Data Engineering); the validator rejects a scenario id that
   is not `<prefix>-N` or a question id that is not `<scenario id>-qM`. The smoke tests expect a file for every path in
   `CAREER_PATHS`; to test the "no scenarios yet" behaviour they hide one file (Game Development's) for the duration of the
   check (commit 95b70d2; the exact mechanism was not re-read for this update).
 - **Tests:** `PYTHONPATH=. python scripts/smoke_test_scenarios.py` (see the table above).
+- **The level map** (`app/static/js/scenario_map.js`, loaded before `scenarios.js`; CSS under "Level map" in `style.css`).
+  Display only: states, best scores and "recommended" come from `GET /scenarios/<slug>` and the server still refuses a
+  locked start (403 `scenario_locked`).
+  - Layout: from 760 px wide the road winds left to right; below that it winds top to bottom (no horizontal scroll at
+    360 px). Node positions come from each scenario's `order`; `map_node.label` names the place under the node.
+    `map_node.x` / `y` in the JSON are no longer used by the page (kept for the validator and older data).
+  - Scene: drawn as flat inline SVG per path from `LEVEL_THEMES` (keyed by the path slug from `scenario_store.slugify`,
+    e.g. `machine-learning-engineering`): ground, two hill tones and 2-3 prop kinds (servers, gears, clouds, charts...).
+    Props are placed with a seeded random generator, so a path's scene is the same on every visit. An unknown slug gets
+    `LEVEL_THEME_DEFAULT`. A `static/scenes/<scene_id>.svg`, if one is ever added, is drawn under the props.
+  - Node states: locked (grey, padlock), open (play icon, pulsing ring; the only looping animation, off with
+    `prefers-reduced-motion`), attempted (number, empty stars), passed (number on ink, 1-3 stars), and a yellow "Next"
+    flag on the recommended one. Stars are display only: 70% = 1, 85% = 2, 100% = 3 of the best score.
+  - Clicking a node opens a level card (a native `<dialog>`: Esc closes and focus returns to the node) with Start / Try
+    again, or for a locked level the reason and "Go to level N". The old list stays below the map as the fallback.
 
 ### Code questions (coding problems inside scenarios)
 
-A scenario can end with a Python coding problem. Questions of type `code` carry `language` (python), `starter_code`,
+A scenario can end with a coding problem, answered in Python, C++, Java or JavaScript (see "Languages" below). Questions of type `code` carry `language` (python), `starter_code`,
 `tests` (`stdin`, `expected_stdout`, `hidden`), `reference_solution` and `ds_topic`. Most code problems live in a
 scenario's **`code_pool`** instead: 1-4 problems (ids `<scenario id>-cK`), each with `difficulty` (1-3), `skills`
 (e.g. Python, SQL) and 1-5 data **variants** (`params` filled into `{placeholders}` in the prompt, and that variant's
@@ -476,10 +492,34 @@ that is all the student actually writes. Backticks in a prompt are shown as inli
   (the normal `/answer` call) runs every test in one batch and locks the result; hidden tests are only reported as
   counts. A runner failure locks nothing. Code questions count 10 points like any other, so they are part of the
   scenario score and therefore of the readiness score's scenario component, with no separate formula.
+- **The coding screen** (`buildCode` in `scenarios.js`) is laid out like an online assessment: the problem (prompt with
+  inline code, an input/output note and the visible example) on the left; on the right a language dropdown, the editor
+  (a textarea with line numbers; Tab inserts 4 spaces, Escape then Tab moves on) and a test panel with one tab per
+  visible example (input, expected, your output) plus a Results tab ("Hidden tests: X of Y passed"; hidden inputs are
+  never sent). Run and Check sit at the bottom right. Below 900 px the panes stack: problem, editor, tests. Each
+  language's draft is kept in `localStorage` for that attempt (a per-browser convenience only; the server never reads it).
+- **Error messages:** `runner_unavailable` -> "Code check unavailable, try again."; `runtime_error` -> "Your code crashed
+  while it was being checked..."; `timeout` -> "The code check took too long to respond..."; `invalid_language` /
+  `language_unavailable` -> "That language isn't available here...". A crash or compile error in a Run shows the
+  program's own stderr; the local runner strips its temp folder path from it, so no server path reaches the browser.
+- **Languages.** `code_runner.LANGUAGES` is the allowlist: `python` (OneCompiler id `python`, file `main.py`), `cpp`
+  (`cpp`, `main.cpp`), `java` (`java`, `Main.java`), `javascript` (`nodejs`, `index.js`). The ids come from
+  OneCompiler's API page; the page gives no file names except `main.py`, so the other three are the usual names and
+  have NOT been checked against the real API (it costs credits). `run_batch(source, stdins, language="python")`. The
+  tests are stdin -> stdout, so the 120 problems work in every language unchanged.
+  - Starters (`app/pipeline/code_starters.py`): Python keeps each problem's own starter; C++, Java and JavaScript get
+    one generic template each that reads all of stdin, prints nothing and says to follow the problem's input/output
+    format. `POST /scenarios/<id>/start` adds `languages` (id, label) and `starters` to each code question.
+  - The server validates `language` on Run and Check against the allowlist (400 `invalid_language`) and against what
+    the runner can run now (400 `language_unavailable`); a missing `language` means Python, so older clients work. The
+    language is stored in the locked record (`answers[<question id>]["language"]`, JSON on the attempt, no schema
+    change) and returned on resume; records from before languages existed read as Python.
+  - `CODE_RUNNER=local` offers Python always, and C++ / Java / JavaScript only when `g++` / `javac`+`java` / `node` are
+    on PATH (`shutil.which`); the dropdown shows only those. `fake` offers all four.
 - **Code runner** (`app/pipeline/code_runner.py`, `CODE_RUNNER` in `.env`): `onecompiler` (default; needs
   `ONECOMPILER_API_KEY`; the adapter sends up to 10 tests in one call and needs the browser-style User-Agent it
   already sends. Billing is NOT settled: the first probes showed one credit per call, but 100 credits ran out after
-  about 20 problems, so it may be one credit per test; check the dashboard before any big run), `fake` (tests only) or `local` (runs the code with this machine's Python in a subprocess with a
+  about 20 problems, so it may be one credit per test; check the dashboard before any big run), `fake` (tests only) or `local` (runs the code with this machine's Python, g++, javac/java or node in a subprocess with a
   5-second limit). `local` is for an offline demo on your own laptop ONLY: it is not a sandbox, so never enable it on
   a server other people can reach.
 - **Authoring and checking problems.** Sources are in `scripts/code_pools/<path_slug>.py`. Then:

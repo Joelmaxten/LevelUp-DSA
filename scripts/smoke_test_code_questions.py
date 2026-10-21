@@ -420,7 +420,7 @@ def test_routes():
         blob = json.dumps(started)
         cq = [x for x in started["scenario"]["questions"] if x["id"] == qid][0]
         check("start: the code question reaches the browser as the public view only",
-              set(cq) == {"id", "type", "prompt", "language", "starter_code", "tests"} and len(cq["tests"]) == 2
+              set(cq) == {"id", "type", "prompt", "language", "starter_code", "tests", "languages", "starters"} and len(cq["tests"]) == 2
               and "SECRET_REFERENCE_MARKER" not in blob and "10 20" not in blob and q["explanation"] not in blob)
 
         def body(source="# MODE:pass\nprint(1)", **extra):
@@ -581,6 +581,77 @@ def test_routes():
             cr.requests.post = real_post
             app.config["CODE_RUNNER"] = "fake"
 
+        # ---- languages: Python, C++, Java, JavaScript on the same stdin -> stdout tests
+        from app.pipeline import code_starters
+        seen = []
+        base = scripted(q)
+
+        def recording(source, stdins, language):
+            seen.append(language)
+            return base(source, stdins)
+        cr.set_fake_runner(recording)
+        started = alice.post("/scenarios/mle-1/start", json={}).get_json()
+        cq = [x for x in started["scenario"]["questions"] if x["id"] == qid][0]
+        check("languages: the start view offers Python, C++, Java and JavaScript (fake runner), in that order",
+              started["attempt_id"] == sixth and [lang["id"] for lang in cq["languages"]] == ["python", "cpp", "java", "javascript"])
+        check("languages: Python keeps the problem's own starter; C++, Java and JavaScript get the generic templates",
+              cq["starters"]["python"] == q["starter_code"]
+              and all(cq["starters"][lang] == code_starters.GENERIC_STARTERS[lang] for lang in ("cpp", "java", "javascript")))
+        blob = json.dumps(started)
+        check("languages: hidden tests are never sent to the browser (exactly the visible tests; no hidden input anywhere)",
+              cq["tests"] == [{"stdin": t["stdin"], "expected_stdout": t["expected_stdout"]} for t in TESTS if not t["hidden"]]
+              and not any(json.dumps(t["stdin"])[1:-1] in blob for t in TESTS if t["hidden"]))
+
+        def lang_body(language, source="# MODE:pass\nprint(1)"):
+            return {"attempt_id": sixth, "question_id": qid, "source": source, "language": language}
+        bad = [alice.post(run_url(), json=lang_body(v)) for v in ("cobol", "", 5, None, ["python"], "Python")]
+        check("languages: an unknown or malformed language on Run -> 400 invalid_language (allowlist)",
+              all(r.status_code == 400 and r.get_json() == {"error": "invalid_language"} for r in bad))
+        seen.clear()
+        resp = alice.post(run_url(), json=lang_body("java"))
+        check("languages: Run passes the chosen language to the runner", resp.status_code == 200 and seen == ["java"])
+        seen.clear()
+        resp = alice.post(run_url(), json={"attempt_id": sixth, "question_id": qid, "source": "print(1)"})
+        check("languages: no language in the body means Python (older clients keep working)", resp.status_code == 200 and seen == ["python"])
+        resp = alice.post(answer_url, json={"attempt_id": sixth, "question_id": qid, "answer": "# MODE:pass", "language": "cobol"})
+        with app.app_context():
+            unlocked = qid not in (db.session.get(ScenarioAttempt, sixth).answers or {})
+        check("languages: an unknown language on Check -> 400 invalid_language, and nothing is locked",
+              resp.status_code == 400 and resp.get_json() == {"error": "invalid_language"} and unlocked)
+
+        app.config["CODE_RUNNER"] = "local"
+        real_which = cr.shutil.which
+        cr.shutil.which = lambda name: None          # no g++, javac, java or node on this "machine"
+        try:
+            resp = alice.post(run_url(), json=lang_body("cpp"))
+            offered = [x for x in alice.post("/scenarios/mle-1/start", json={}).get_json()["scenario"]["questions"]
+                       if x["id"] == qid][0]["languages"]
+        finally:
+            cr.shutil.which = real_which
+            app.config["CODE_RUNNER"] = "fake"
+        check("languages: CODE_RUNNER=local without g++/javac/node offers Python only; C++ -> 400 language_unavailable",
+              [lang["id"] for lang in offered] == ["python"] and resp.status_code == 400
+              and resp.get_json() == {"error": "language_unavailable"})
+
+        seen.clear()
+        js_source = "// MODE:pass\n# MODE:pass\nconsole.log(3);"
+        resp = alice.post(answer_url, json={"attempt_id": sixth, "question_id": qid, "answer": js_source, "language": "javascript"})
+        res = resp.get_json()["result"]
+        check("languages: Check runs every test in the chosen language and the result names it",
+              resp.status_code == 200 and seen == ["javascript"] and res["correct"] is True and res["language"] == "javascript")
+        with app.app_context():
+            stored = db.session.get(ScenarioAttempt, sixth).answers[qid]
+        check("languages: the language is stored with the locked answer (server-side record)",
+              stored["language"] == "javascript" and stored["source"] == js_source and stored["passed"] is True)
+        resumed = alice.post("/scenarios/mle-1/start", json={}).get_json()
+        check("languages: a resumed attempt returns the locked language and code",
+              resumed["locked"][qid]["language"] == "javascript" and resumed["locked"][qid]["source"] == js_source)
+        resp = alice.post(answer_url, json={"attempt_id": sixth, "question_id": qid, "answer": "# MODE:wrong", "language": "python"})
+        res = resp.get_json()["result"]
+        check("languages: a second Check in another language returns the stored result unchanged",
+              res["language"] == "javascript" and res["correct"] is True)
+        cr.set_fake_runner(scripted(q))
+
         # existing behaviour
         resp = alice.post(answer_url, json={"attempt_id": sixth, "question_id": "mle-1-q1", "answer": ["a"]})
         check("other question types still lock through the same route", resp.status_code == 200 and "correct" in resp.get_json()["result"])
@@ -589,9 +660,16 @@ def test_routes():
               not any(w in js for w in ("innerHTML", "outerHTML", "insertAdjacentHTML", "document.write")) and "fetch(" not in js)
         check("scenarios.js: has the code editor, the unavailable message and uses the shared request helper for Run",
               "function buildCode" in js and "Code check unavailable, try again." in js and "/code/run" in js and "await request(" in js)
+        check("scenarios.js: 'unavailable' is shown for runner_unavailable only; runtime_error says the code crashed",
+              'if (code === "runner_unavailable") return "Code check unavailable, try again.";' in js
+              and js.count("Code check unavailable") == 1
+              and 'if (code === "runtime_error") return "Your code crashed' in js)
+        check("scenarios.js: the OA screen has a language picker and sends the chosen language on Run and Check",
+              "oa-lang" in js and "language: lang" in js and "language: input.language()" in js and 'role: "tablist"' in js)
         css = Path("app/static/css/style.css").read_text(encoding="utf-8")
-        check("style.css: code editor is monospace, 16px, full width, with 44 px (--tap) buttons",
-              ".scen-code {" in css and "monospace" in css and "width: 100%" in css and ".scen-code-wrap .btn { min-height: var(--tap); }" in css)
+        check("style.css: code editor is monospace, full width, with 44 px (--tap) buttons, two panes from 900 px",
+              ".scen-code {" in css and "monospace" in css and "width: 100%" in css
+              and ".oa-buttons .btn { min-height: var(--tap);" in css and "@media (min-width: 900px)" in css)
         check("the old skill map page is gone (/dsa -> 404)", alice.get("/dsa").status_code == 404)
     finally:
         cr.set_fake_runner(None)
@@ -605,7 +683,97 @@ def test_routes():
             db.session.commit()
 
 
-SECTIONS = [test_adapter, test_validator, test_engine, test_routes]
+# ---------------------------------------------------------------- part 5: languages (runner, starters, local mode)
+def test_languages():
+    import requests
+    from app.pipeline import code_runner as cr, code_starters, scenario_engine as engine
+
+    saved_env = {k: os.environ.get(k) for k in ("CODE_RUNNER", "ONECOMPILER_API_KEY")}
+    real_post, real_which = requests.post, cr.shutil.which
+    try:
+        check("languages: the allowlist is exactly python, cpp, java, javascript",
+              list(cr.LANGUAGES) == ["python", "cpp", "java", "javascript"] and cr.DEFAULT_LANGUAGE == "python")
+        expected = {"python": ("python", "main.py"), "cpp": ("cpp", "main.cpp"), "java": ("java", "Main.java"),
+                    "javascript": ("nodejs", "index.js")}
+        bodies = {lang: cr._onecompiler_body("src", ["a", "b"], lang) for lang in expected}
+        check("languages: OneCompiler gets its own language id and file name per language (nodejs for JavaScript)",
+              all(bodies[lang]["language"] == lid and bodies[lang]["files"] == [{"name": name, "content": "src"}]
+                  and bodies[lang]["stdin"] == ["a", "b"] for lang, (lid, name) in expected.items()))
+
+        # the adapter, with the HTTP layer stubbed (never a real call)
+        os.environ["CODE_RUNNER"], os.environ["ONECOMPILER_API_KEY"] = "onecompiler", FAKE_KEY
+        sent = []
+
+        def post(url, **kw):
+            sent.append(kw["json"])
+            return FakeResponse(200, [{"stdout": "3\n", "stderr": None, "exception": None}])
+        cr.requests.post = post
+        cr.run_batch("int main(){}", ["1 2"], "cpp")
+        check("languages: run_batch sends the language to the provider (cpp, main.cpp)",
+              sent and sent[-1]["language"] == "cpp" and sent[-1]["files"][0]["name"] == "main.cpp")
+        cr.run_batch("print(1)", ["1 2"])
+        check("languages: run_batch without a language is Python (main.py)",
+              sent[-1]["language"] == "python" and sent[-1]["files"][0]["name"] == "main.py")
+        sent.clear()
+        try:
+            cr.run_batch("x", ["1"], "cobol")
+            refused = False
+        except cr.CodeRunnerError as e:
+            refused = e.code == "runner_unavailable"
+        check("languages: an unknown language never reaches the provider (runner_unavailable, no call)", refused and not sent)
+        check("languages: onecompiler and fake offer all four languages",
+              cr.available_languages() == list(cr.LANGUAGES))
+
+        # local mode: only installed toolchains
+        os.environ["CODE_RUNNER"] = "local"
+        cr.shutil.which = lambda name: None
+        none = cr.available_languages()
+        cr.shutil.which = lambda name: f"/usr/bin/{name}"
+        every = cr.available_languages()
+        cr.shutil.which = lambda name: "/usr/bin/node" if name == "node" else None
+        node_only = cr.available_languages()
+        cr.shutil.which = real_which
+        check("languages: local offers Python always and C++/Java/JavaScript only when g++ / javac+java / node exist",
+              none == ["python"] and every == list(cr.LANGUAGES) and node_only == ["python", "javascript"])
+        build, run_cmd = cr._local_commands("cpp", "F")
+        check("languages: local C++ compiles main.cpp as C++17 and runs the binary",
+              "-std=c++17" in build and build[-1].endswith("main.cpp") and run_cmd == [build[build.index("-o") + 1]])
+        build, run_cmd = cr._local_commands("java", "F")
+        check("languages: local Java compiles Main.java and runs class Main",
+              build[-1].endswith("Main.java") and run_cmd[-1] == "Main")
+        build, run_cmd = cr._local_commands("javascript", "F")
+        check("languages: local JavaScript runs index.js with node", build is None and run_cmd[-1].endswith("index.js"))
+        crash = cr.run_batch("x = 1 / 0\n", [""], "python")[0]
+        check("languages: local tracebacks name main.py, never the server's temp folder",
+              "ZeroDivisionError" in crash["stderr"] and "main.py" in crash["stderr"] and "levelup-run-" not in crash["stderr"])
+
+        # the starters
+        g = code_starters.GENERIC_STARTERS
+        check("languages: C++, Java and JavaScript starter templates exist and read all of stdin",
+              set(g) == {"cpp", "java", "javascript"} and "cin.rdbuf()" in g["cpp"] and "System.in" in g["java"]
+              and "readFileSync(0" in g["javascript"])
+        check("languages: every generic starter tells the student to follow the problem's input/output format",
+              all(code_starters.FORMAT_NOTE in text for text in g.values()) and "public class Main" in g["java"])
+        check("languages: no generic starter prints anything, so it can never pass a test by itself",
+              "cout" not in g["cpp"] and "System.out" not in g["java"] and "console.log" not in g["javascript"])
+        check("languages: Python uses the problem's own starter",
+              code_starters.starter_for("python", {"starter_code": "S"}) == "S" and code_starters.starter_for("cpp", {}) == g["cpp"])
+        q = code_question()
+        old = engine.grade_question(q, {"passed": False, "visible": [False, False], "hidden_passed": 0, "hidden_total": 2})
+        _, record = engine.grade_code_result(q, [], "src", "java")
+        check("languages: the engine stores the language on the record; records from before languages mean Python",
+              old["language"] == "python" and record["language"] == "java")
+    finally:
+        cr.requests.post = real_post
+        cr.shutil.which = real_which
+        for k, v in saved_env.items():
+            if v is None:
+                os.environ.pop(k, None)
+            else:
+                os.environ[k] = v
+
+
+SECTIONS = [test_adapter, test_validator, test_engine, test_routes, test_languages]
 
 
 def main():

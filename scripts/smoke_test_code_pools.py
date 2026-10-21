@@ -233,8 +233,8 @@ def test_routes():
               started.status_code == 200 and len(questions) == len(s2["questions"]) + 1 and code_q["type"] == "code"
               and code_q["id"] in ("fsd-2-c1", "fsd-2-c2"))
         check("start: the code question shows why it was picked", bool(code_q.get("pick_reason")))
-        check("start: the code question carries only public fields",
-              set(code_q) == {"id", "type", "prompt", "language", "starter_code", "tests", "pick_reason"}
+        check("start: the code question carries only public fields (plus the offered languages and their starters)",
+              set(code_q) == {"id", "type", "prompt", "language", "starter_code", "tests", "pick_reason", "languages", "starters"}
               and len(code_q["tests"]) == 1)
         with app.app_context():
             attempt = db.session.get(ScenarioAttempt, body["attempt_id"])

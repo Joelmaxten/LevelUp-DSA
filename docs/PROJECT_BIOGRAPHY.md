@@ -2344,6 +2344,103 @@ or repurposing it is the owner's call.
   scroll and no page errors.
 
 ---
+## Level Map for Scenarios, and an Online-Assessment Coding Screen With a Language Picker
+
+**Why.** The project owner asked for two things:
+- the scenario map to feel like a mobile game level map (Candy Crush / Duolingo);
+- the coding questions to look like a HackerRank/LeetCode online assessment (OA), answerable in Python, C++, Java or
+  JavaScript.
+
+The scenario content, scoring, unlock rule, XP rules and database schema were to stay unchanged. Built in a local Claude
+Code session (Opus) on branch `ui-oa-1`, cut from `final-test`.
+
+**Level map** (`app/static/js/scenario_map.js`, new).
+- A winding road across a scene drawn in flat inline SVG, with one level node per scenario. No images and no
+  libraries.
+- Each of the 15 paths has its own colours and props (`LEVEL_THEMES`): chips and charts for ML, gears for DevOps, phones
+  for Mobile, and so on. Props are placed with a seeded random generator, so a path's scene is the same on every visit.
+- Node states:
+  - locked: grey, padlock;
+  - open: play icon with a pulsing ring, the only looping animation (off with reduced motion);
+  - tried: number, empty stars;
+  - passed: number on ink, 1-3 stars from the best score (70%, 85%, 100%);
+  - recommended: a yellow "Next" flag.
+- The road turns solid once the next level unlocks.
+- Clicking a node opens a level card, a native `<dialog>`. It shows the title, stage, minutes, best score and stars,
+  and offers Start / Try again. A locked level shows the reason and "Go to level N".
+- From 760 px the road runs left to right; below that, top to bottom, so 360 px has no horizontal scroll.
+- Node positions now come from the scenario order. The JSON `map_node` x/y are not used by the page any more; the
+  labels still are. The old list stays below the map.
+- The unlock rule is unchanged and still enforced by the server (403 `scenario_locked`).
+
+**OA coding screen** (`buildCode` in `scenarios.js`, rewritten).
+- Left: the problem (prompt with inline code, an input/output note, the visible example).
+- Right: a language dropdown and "Reset code", then the editor (dark textarea with a line-number gutter; Tab inserts
+  4 spaces, Escape then Tab moves on), then a test panel. The panel has one tab per visible example (input, expected,
+  your output) and a Results tab ("Hidden tests: X of Y passed", inputs never shown).
+- Run and Check sit at the bottom right. The rules are the same as before: Run = visible examples only, ungraded;
+  Check = every test once, locks the answer; a runner failure locks nothing.
+- Below 900 px the panes stack. Each language's draft is kept per attempt in the browser.
+
+**Languages.**
+- `code_runner.run_batch(source, stdins, language="python")` with the allowlist `LANGUAGES`:
+
+  | Language | OneCompiler id | File |
+  |---|---|---|
+  | Python | `python` | `main.py` |
+  | C++ | `cpp` | `main.cpp` |
+  | Java | `java` | `Main.java` |
+  | JavaScript | `nodejs` | `index.js` |
+
+  The ids are from OneCompiler's API page. The page gives no file names except `main.py`, so the other three are the
+  usual names (not verified against the real API, which costs credits).
+- The tests are stdin -> stdout, so none of the 120 problems was rewritten.
+- Python keeps each problem's starter. C++, Java and JavaScript get one generic template each
+  (`app/pipeline/code_starters.py`) that reads all of stdin, prints nothing and tells the student to follow the
+  problem's input/output format.
+- The server checks `language` against the allowlist (400 `invalid_language`) and against what the runner can run now
+  (400 `language_unavailable`). A missing language means Python.
+- The language is stored with the locked answer (inside the attempt's JSON, so no schema change) and comes back on
+  resume.
+- `CODE_RUNNER=local` offers only installed toolchains (`shutil.which` for `g++`, `javac`/`java`, `node`); `fake`
+  offers all four. Local compile errors and tracebacks no longer show the server's temp folder path.
+
+**Error messages.** `runtime_error` used to share "Code check unavailable" with the other runner errors. It now says the
+student's code crashed. `timeout` says the check took too long. "Unavailable" is kept for `runner_unavailable` only.
+
+**Verification (owner's laptop, 2026-10-21, `CODE_RUNNER=local` or `fake`, `ONECOMPILER_API_KEY` cleared; no
+OneCompiler call was made).**
+- All 8 suites: security 30, profile 68, scenarios 218, code_questions 194 (was 164), code_pools 118, gamification 49,
+  readiness 70, quiz 33.
+- `smoke_test_code_questions.py` has 30 new checks:
+  - allowlist: unknown or malformed language -> 400;
+  - the runner gets the language;
+  - the language is stored on the locked answer and returned on resume;
+  - a second Check in another language returns the stored result;
+  - hidden tests are never sent;
+  - the C++/Java/JavaScript starters exist and print nothing;
+  - local toolchain detection, and no temp path in tracebacks;
+  - OneCompiler ids and file names.
+
+  Two checks of the code question's public fields now allow `languages` and `starters`.
+- In the in-app browser with a local test user:
+  - the map at 1280 and 360 px (passed with one star, tried, locked, "Next"; level card by mouse and keyboard; Esc
+    returns focus);
+  - a locked start still returned 403;
+  - on the OA screen, Run of the Python starter failed the example; a typed Python solution passed Run; Check showed
+    "Hidden tests: 4 of 4 passed" and locked the answer;
+  - a JavaScript solution ran end to end on the local Node (Run passed, Check 4 of 4). Resuming that attempt showed
+    JavaScript and the exact code, read-only;
+  - no horizontal scroll at 1280 or 360 px.
+
+**Not verified:**
+- C++ and Java end to end: the laptop has no `g++` or JDK, so local mode hides them. Their commands and OneCompiler
+  request bodies are unit-checked only.
+- The OneCompiler file names for C++, Java and Node.
+- Reduced motion was checked in the CSS only, not with the OS setting on.
+- Browsers other than the in-app Chromium.
+
+---
 ## Still To Build
 
 - Real-model check of parallel generation: run `scripts/inspect_roadmap.py` for a few
@@ -2353,7 +2450,7 @@ or repurposing it is the owner's call.
 - Roadmap v2 verification backlog (see "Not yet verified" in the Roadmap Generation
   v2 entry; not re-checked since the career-path restructuring)
 - Phase 3 Stage 2 / Stage 3 (skill map, bandits): superseded by scenarios with coding questions; the skill map was removed
-- Scenario scene artwork (the maps use a gradient)
+- Confirm the OneCompiler file names for C++ (`main.cpp`), Java (`Main.java`) and Node (`index.js`) with one small paid run each, and test C++ and Java end to end on a machine with g++ and a JDK
 - Tune the XP level thresholds once real students have used it
 - Test `profile-1` (contains coding-content-2) on the laptop: `add_usernames.py --apply` first, then suites and a browser check; merge into `dev`, then run `drop_old_dsa_tables.py --drop`
 - Confirm OneCompiler billing (per call or per test) before any big `validate_code_questions.py --run`; a run is optional because all problems were checked with local Python
