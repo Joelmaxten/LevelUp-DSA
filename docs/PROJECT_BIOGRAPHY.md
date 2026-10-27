@@ -2561,3 +2561,26 @@ not validated).
 
 **Verified.** The generator ran and `--check` reported "up to date"; the pack contains no API keys. **Not verified:** no
 teammate has used the pack yet, and the hand-written files must be updated by a person when a feature changes.
+
+---
+## Separate Provider for Resume Feedback (Groq-Ready)
+
+**Why.** Resume analysis became slow on the project owner's machine. Resume feedback was the `fast` task, which is shared with other
+work and follows the single global `LLM_PROVIDER`, so changing `.env` alone would have moved everything.
+
+**What was built.** A new `resume` task in `llm_client.py` (`generate("resume", ...)` in `resume_feedback.py`) and three optional
+settings: `RESUME_PROVIDER`, `RESUME_MODEL_ID`, `RESUME_BASE_URL`. All empty (default) means `resume` behaves exactly like `fast`.
+When `RESUME_PROVIDER` is set, only resume calls use it (`openai_compat`, `gemini` or `bedrock`); the key is chosen from the base URL's
+host as before (`groq.com` -> `GROQ_API_KEY`). If the override fails for any reason (no key, no model, unknown provider, 401, rate
+limit) the call falls back to the normal provider, so an upload never fails because of it; only the failure kind is logged, never a key.
+Roadmap and other calls are untouched. Settings are in `.env.example` and `docs/DEV_SETUP.md`.
+
+**Verified.** `smoke_test_llm.py` 98/98 (new checks: default identical to `fast`; settings ignored while the provider is empty;
+override goes to its own URL/model/key; roadmap and fast calls unaffected; empty base URL uses the global one; failover and retries;
+no key in logs or errors). The other suites on the cloud copy: security 30, profile 79, scenarios 218, code_questions 198,
+code_pools 118, gamification 49, readiness 69 (no survey table there), quiz 33. `smoke_test_resume_modes.py` fails in the cloud copy
+the same way on a clean `origin/main` (no `uploads/` folder, golden snapshot mismatch), so it is not caused by this change; run it
+on the laptop.
+
+**Not verified.** No real Groq call was made (the key is only on the laptop), so which Groq model to use, its input-token limit and
+the real latency and quality of the feedback are unmeasured.

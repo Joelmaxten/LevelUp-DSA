@@ -72,6 +72,13 @@ class Config:
     # Model to use if the OTHER provider has to take over after the first one fails.
     ALT_PROVIDER_MODEL_ID = os.environ.get("ALT_PROVIDER_MODEL_ID", "").strip()
     AWS_REGION = os.environ.get("AWS_REGION", "").strip()
+    # Optional: send ONLY the resume feedback to a different provider/model (llm_client task "resume").
+    # All empty (default) = resume feedback behaves exactly like the "fast" task. Active only when
+    # RESUME_PROVIDER is set. RESUME_BASE_URL (openai_compat only) is used for resume calls only; empty =
+    # LLM_BASE_URL. If the override fails, the call falls back to the normal provider.
+    RESUME_PROVIDER = os.environ.get("RESUME_PROVIDER", "").strip().lower()
+    RESUME_MODEL_ID = os.environ.get("RESUME_MODEL_ID", "").strip()
+    RESUME_BASE_URL = os.environ.get("RESUME_BASE_URL", "").strip().rstrip("/")
     # LLM_PROVIDER="openai_compat": any OpenAI-compatible chat-completions endpoint (default: NVIDIA's).
     # The key is only ever sent as a bearer header by llm_client; it is never logged or put in an error.
     LLM_BASE_URL = (os.environ.get("LLM_BASE_URL", "").strip() or "https://integrate.api.nvidia.com/v1").rstrip("/")

@@ -143,6 +143,87 @@ def forbidden_client(*args, **kwargs):
     raise AssertionError("smoke_test_llm must never construct a real Gemini client")
 
 
+def resume_override_checks():
+    """Task "resume": same as "fast" by default; with RESUME_PROVIDER set ONLY resume calls move, and a failing override falls back."""
+    import logging
+    GROQ_URL, GROQ_KEY = "https://api.groq.com/openai/v1", "gsk_FAKE-resume-key-0123456789"
+    OVERRIDE = {"RESUME_PROVIDER": "openai_compat", "RESUME_MODEL_ID": "groq-small", "RESUME_BASE_URL": GROQ_URL, "GROQ_API_KEY": GROQ_KEY}
+    NONE = {"RESUME_PROVIDER": "", "RESUME_MODEL_ID": "", "RESUME_BASE_URL": ""}
+    llm_client._limiter_sleep = lambda seconds: None
+
+    class Capture(logging.Handler):
+        def __init__(self):
+            super().__init__()
+            self.lines = []
+
+        def emit(self, record):
+            self.lines.append(record.getMessage())
+
+    def go(script, config=None, task="resume"):
+        fake = FakePost(script)
+        llm_client._limiter._next_slot = 0.0
+        llm_client._pacer.reset()
+        cap = Capture()
+        logging.getLogger("app.pipeline.llm_client").addHandler(cap)
+        try:
+            with Env({**OPENAI, **NONE, **(config or {})}), patch.object(requests, "post", fake):
+                try:
+                    return fake, generate(task, "p"), None, cap.lines
+                except LLMError as exc:
+                    return fake, None, exc, cap.lines
+        finally:
+            logging.getLogger("app.pipeline.llm_client").removeHandler(cap)
+
+    fake, r, err, _ = go([chat_reply("a")])
+    fake2, r2, err2, _ = go([chat_reply("a")], task="fast")
+    check("resume task, settings empty: identical to 'fast' (same URL, model, provider, key)",
+          fake.calls[0]["url"] == fake2.calls[0]["url"] == "https://llm.test/v1/chat/completions"
+          and fake.calls[0]["json"]["model"] == fake2.calls[0]["json"]["model"] == "oc-fast"
+          and fake.calls[0]["headers"] == fake2.calls[0]["headers"] and r["provider"] == r2["provider"] == "openai_compat")
+    fake, r, err, _ = go([chat_reply("a")], config={"RESUME_MODEL_ID": "ignored", "RESUME_BASE_URL": GROQ_URL})
+    check("resume task: RESUME_MODEL_ID / RESUME_BASE_URL are ignored while RESUME_PROVIDER is empty",
+          fake.calls[0]["url"].startswith("https://llm.test") and fake.calls[0]["json"]["model"] == "oc-fast")
+
+    fake, r, err, _ = go([chat_reply("from groq")], config=OVERRIDE)
+    call = fake.calls[0]
+    check("override: a resume call goes to RESUME_BASE_URL with RESUME_MODEL_ID and the key chosen by that host",
+          err is None and r["text"] == "from groq" and call["url"] == GROQ_URL + "/chat/completions"
+          and call["json"]["model"] == "groq-small" and call["headers"]["Authorization"] == f"Bearer {GROQ_KEY}"
+          and r["provider"] == "openai_compat" and r["model_id"] == "groq-small")
+    for task, model in (("roadmap", "oc-primary"), ("fast", "oc-fast")):
+        fake, r, err, _ = go([chat_reply("x")], config=OVERRIDE, task=task)
+        check(f"override: a '{task}' call still uses the global provider, URL, model and key",
+              fake.calls[0]["url"] == "https://llm.test/v1/chat/completions" and fake.calls[0]["json"]["model"] == model
+              and fake.calls[0]["headers"]["Authorization"] == f"Bearer {OC_KEY}")
+    fake, r, err, _ = go([chat_reply("x")], config={**OVERRIDE, "RESUME_BASE_URL": ""})
+    check("override: empty RESUME_BASE_URL means the global LLM_BASE_URL (and its key)",
+          fake.calls[0]["url"] == "https://llm.test/v1/chat/completions" and fake.calls[0]["json"]["model"] == "groq-small"
+          and fake.calls[0]["headers"]["Authorization"] == f"Bearer {OC_KEY}")
+
+    fake, r, err, lines = go([FakeHttpResponse(401), chat_reply("normal")], config=OVERRIDE)
+    check("override fails (401): the call falls back to the normal 'fast' provider and succeeds",
+          err is None and r["text"] == "normal" and len(fake.calls) == 2
+          and fake.calls[0]["url"].startswith(GROQ_URL) and fake.calls[1]["url"].startswith("https://llm.test")
+          and fake.calls[1]["json"]["model"] == "oc-fast")
+    check("override failure is logged with the kind only, and no key appears in any log line",
+          any("llm_resume_override_failed" in l for l in lines) and not any(GROQ_KEY in l or OC_KEY in l for l in lines))
+    fake, r, err, _ = go([FakeHttpResponse(429)] * 3 + [chat_reply("normal")], config=OVERRIDE)
+    check("override keeps the normal retries (3 tries) before falling back",
+          err is None and len(fake.calls) == 4 and r["text"] == "normal")
+    fake, r, err, _ = go([chat_reply("normal")], config={**OVERRIDE, "GROQ_API_KEY": ""})
+    check("override with no key: no request goes to the override host, the normal provider answers",
+          err is None and len(fake.calls) == 1 and fake.calls[0]["url"].startswith("https://llm.test"))
+    fake, r, err, _ = go([chat_reply("normal")], config={**OVERRIDE, "RESUME_MODEL_ID": ""})
+    check("override with no model id: falls back to the normal provider", err is None and fake.calls[0]["url"].startswith("https://llm.test"))
+    fake, r, err, _ = go([chat_reply("normal")], config={**OVERRIDE, "RESUME_PROVIDER": "nonsense"})
+    check("override with an unknown provider name: falls back to the normal provider", err is None and fake.calls[0]["url"].startswith("https://llm.test"))
+    fake, r, err, lines = go([FakeHttpResponse(401), FakeHttpResponse(401)], config=OVERRIDE)
+    check("override and normal provider both fail: one LLMError, no key in its text",
+          err is not None and GROQ_KEY not in str(err) and OC_KEY not in str(err))
+    check("resume is a known task and resume_feedback uses it",
+          "resume" in llm_client.TASKS and 'generate("resume"' in open("app/pipeline/resume_feedback.py", encoding="utf-8").read())
+
+
 def main():
     # Safety net for the whole run: no real credentials are visible to the code under test,
     # and the Gemini SDK client cannot be built, so no test can reach the network by accident.
@@ -667,6 +748,8 @@ def run():
         with p:
             r = generate("roadmap", "p")
         check("cost is computed only from configured prices", abs(r["cost_usd"] - 0.007) < 1e-12)
+
+    resume_override_checks()
 
     # 10. misc
     with Env(BEDROCK):

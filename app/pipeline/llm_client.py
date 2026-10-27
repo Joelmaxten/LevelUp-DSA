@@ -6,7 +6,9 @@ whose retry/fallback behavior is unchanged) or "bedrock" (boto3 bedrock-runtime
 Converse API) or "openai_compat" (POST {LLM_BASE_URL}/chat/completions with `requests`; NVIDIA's
 endpoint by default; the key variable is chosen from the base URL host, see _openai_key_variable; sent only as a bearer header). Which one is used comes from config.LLM_PROVIDER; which model
 from the task: "roadmap" -> ROADMAP_MODEL_ID, "fast" -> FAST_MODEL_ID,
-"fallback" -> FALLBACK_MODEL_ID. Credentials are never read here: boto3 and the
+"fallback" -> FALLBACK_MODEL_ID, "resume" (resume feedback) -> FAST_MODEL_ID unless
+RESUME_PROVIDER is set: then ONLY resume calls go to RESUME_PROVIDER / RESUME_MODEL_ID / RESUME_BASE_URL and
+any failure there falls back to the normal provider. Credentials are never read here: boto3 and the
 Gemini SDK take them from the environment themselves, and nothing in this
 module logs or puts them in an error.
 
@@ -46,8 +48,10 @@ from app.pipeline import gemini_client
 
 logger = logging.getLogger(__name__)
 
-TASKS = ("roadmap", "fast", "fallback")
-_TASK_MODEL_ATTR = {"roadmap": "ROADMAP_MODEL_ID", "fast": "FAST_MODEL_ID", "fallback": "FALLBACK_MODEL_ID"}
+TASKS = ("roadmap", "fast", "fallback", "resume")
+# "resume" (resume feedback) is the same as "fast" unless RESUME_PROVIDER is set, see _resume_override.
+_TASK_MODEL_ATTR = {"roadmap": "ROADMAP_MODEL_ID", "fast": "FAST_MODEL_ID", "fallback": "FALLBACK_MODEL_ID",
+                    "resume": "FAST_MODEL_ID"}
 
 MAX_ATTEMPTS = 3
 BACKOFF_SECONDS = (2, 4)           # waits after attempt 1 and 2, same as gemini_client's
@@ -259,8 +263,8 @@ def _openai_key_variable(base_url=None):
     return "LLM_API_KEY"
 
 
-def _openai_api_key():
-    return _setting(_openai_key_variable(), "") or ""
+def _openai_api_key(base_url=None):
+    return _setting(_openai_key_variable(base_url), "") or ""
 
 
 _DURATION_PART = re.compile(r"(\d+(?:\.\d+)?)(ms|h|m|s)")
@@ -380,9 +384,11 @@ class _HttpFailure(Exception):
         self.kind, self.code, self.retry_after = kind, code, retry_after   # kind: transient|credentials|model|too_large|validation
 
 
-def _openai_once(model_id, prompt, system, max_output_tokens):
-    """One HTTP request. Returns the raw result dict, or raises _HttpFailure(kind, code, retry_after)."""
-    url = f"{_setting('LLM_BASE_URL', '')}/chat/completions"
+def _openai_once(model_id, prompt, system, max_output_tokens, base_url=None):
+    """One HTTP request. Returns the raw result dict, or raises _HttpFailure(kind, code, retry_after).
+    base_url=None means LLM_BASE_URL (the resume override passes its own)."""
+    base_url = base_url if base_url is not None else _setting("LLM_BASE_URL", "")
+    url = f"{base_url}/chat/completions"
     messages = ([{"role": "system", "content": system}] if system else []) + [{"role": "user", "content": prompt}]
     body = {"model": model_id, "messages": messages}
     if max_output_tokens:
@@ -390,7 +396,7 @@ def _openai_once(model_id, prompt, system, max_output_tokens):
     effort = _setting("LLM_REASONING_EFFORT", "")
     if effort:
         body["reasoning_effort"] = effort
-    headers = {"Authorization": f"Bearer {_openai_api_key()}", "Content-Type": "application/json"}
+    headers = {"Authorization": f"Bearer {_openai_api_key(base_url)}", "Content-Type": "application/json"}
     estimate = estimate_tokens(prompt, system)
     token_wait, entry = _pacer.reserve(estimate, int(_setting("LLM_MAX_TPM", 0) or 0))
     actual = None
@@ -441,17 +447,17 @@ def _openai_once(model_id, prompt, system, max_output_tokens):
         _pacer.release(entry, actual)
 
 
-def _call_openai_compat(task, models, prompt, system, max_output_tokens):
+def _call_openai_compat(task, models, prompt, system, max_output_tokens, base_url=None):
     """Try each model in order; returns (raw_result, retries). Same retry rules as bedrock; raises LLMError."""
     if not models:
         raise LLMError("No model ID is configured for the openai_compat provider.", kind="config", task=task, provider="openai_compat")
-    if not _openai_api_key():
-        raise LLMError(f"{_openai_key_variable()} is not set.", kind="config", task=task, provider="openai_compat")
+    if not _openai_api_key(base_url):
+        raise LLMError(f"{_openai_key_variable(base_url)} is not set.", kind="config", task=task, provider="openai_compat")
     last_kind, last_code, retries = "failed", "", 0
     for model_id in models:
         for attempt in range(1, MAX_ATTEMPTS + 1):
             try:
-                return _openai_once(model_id, prompt, system, max_output_tokens), retries
+                return _openai_once(model_id, prompt, system, max_output_tokens, base_url), retries
             except _HttpFailure as failure:
                 last_kind, last_code = failure.kind, failure.code
                 if failure.kind == "transient" and attempt < MAX_ATTEMPTS:
@@ -534,8 +540,38 @@ def _call_provider(provider, task, is_primary, prompt, system, max_output_tokens
     raise LLMError(f"Unknown LLM provider {provider!r} (expected 'gemini', 'bedrock' or 'openai_compat').", kind="config", task=task)
 
 
+def _resume_override():
+    """(provider, model_id or None, base_url or None) when RESUME_PROVIDER is set, else None."""
+    provider = (_setting("RESUME_PROVIDER", "") or "").strip().lower()
+    if not provider:
+        return None
+    return provider, (_setting("RESUME_MODEL_ID", "") or None), (_setting("RESUME_BASE_URL", "") or None)
+
+
+def _call_resume_override(task, override, prompt, system, max_output_tokens, json_mode):
+    provider, model, base_url = override
+    if provider == "openai_compat":
+        return _call_openai_compat(task, [model] if model else [], prompt, system, max_output_tokens, base_url)
+    if provider == "gemini":
+        return _call_gemini(task, model, None, prompt, system, max_output_tokens, json_mode)
+    if provider == "bedrock":
+        return _call_bedrock(task, [model] if model else [], prompt, system, max_output_tokens)
+    raise LLMError(f"Unknown RESUME_PROVIDER {provider!r} (expected 'gemini', 'bedrock' or 'openai_compat').",
+                   kind="config", task=task)
+
+
 def _dispatch(task, prompt, system, max_output_tokens, json_mode):
     """One logical call: primary provider, then (if configured) the other. Returns (raw, provider, retries)."""
+    if task == "resume":
+        override = _resume_override()
+        if override:
+            try:
+                raw, retries = _call_resume_override(task, override, prompt, system, max_output_tokens, json_mode)
+                return raw, override[0], retries
+            except LLMError as error:
+                # A failing override must never fail the resume upload: use the normal provider instead.
+                logger.warning("llm_resume_override_failed provider=%s kind=%s; using the normal provider",
+                               override[0], error.kind)
     provider = _setting("LLM_PROVIDER", "gemini")
     other = "bedrock" if provider == "gemini" else "gemini"
     try:

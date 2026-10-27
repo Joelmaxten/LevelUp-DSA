@@ -47,4 +47,4 @@ def generate_resume_feedback(resume_text, target_career_path, matched_skills, mi
     Resume.ai_feedback.
     """
     prompt = _build_prompt(resume_text, target_career_path, matched_skills, missing_skills)
-    return llm_client.generate("fast", prompt)["text"]
+    return llm_client.generate("resume", prompt)["text"]
