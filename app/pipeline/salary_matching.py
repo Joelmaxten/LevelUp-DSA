@@ -56,16 +56,20 @@ def get_salary_insights(career_path):
         SurveyRespondent.query.filter(SurveyRespondent.converted_comp_yearly.isnot(None)).all()
     ])
     n_all = len(all_comps)
-    lower_bound = all_comps[int(n_all * 0.01)]
-    upper_bound = all_comps[int(n_all * 0.99)]
-
-    survey_rows = (
-        respondents_for_path(career_path)
-        .filter(SurveyRespondent.converted_comp_yearly.isnot(None))
-        .filter(SurveyRespondent.converted_comp_yearly >= lower_bound)
-        .filter(SurveyRespondent.converted_comp_yearly <= upper_bound)
-        .all()
-    )
+    if n_all:
+        lower_bound = all_comps[int(n_all * 0.01)]
+        upper_bound = all_comps[int(n_all * 0.99)]
+        survey_rows = (
+            respondents_for_path(career_path)
+            .filter(SurveyRespondent.converted_comp_yearly.isnot(None))
+            .filter(SurveyRespondent.converted_comp_yearly >= lower_bound)
+            .filter(SurveyRespondent.converted_comp_yearly <= upper_bound)
+            .all()
+        )
+    else:
+        # A fresh database whose survey table was never loaded has no rows at all. That is "no data",
+        # not an error: the survey section is simply None (a resume upload must not crash because of it).
+        survey_rows = []
 
     def _stats(values, currency):
         if not values:
