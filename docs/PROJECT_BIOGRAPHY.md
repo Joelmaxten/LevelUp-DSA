@@ -2684,3 +2684,18 @@ the data licences are checked.
 the missing seed files, then created the tables and upload folder, loaded synthetic rows, was safe to run twice, and `--check` changed nothing;
 the other suites still pass. **Not verified:** the real export and load of Joel's actual data (it exists only on his laptop), and a Windows
 machine. Until the owner runs the export and shares the two files, a teammate's resume analysis will not find skills.
+
+---
+## Forgot Password
+
+**What was built.** A "Forgot password?" link on the login page, a request page, and a reset page. The user enters their email, gets a link by
+Gmail SMTP (`app/mailer.py`, standard library only), and sets a new password with the same rules as signup. Without SMTP settings the link is
+printed in the server terminal in development, so a demo or a teammate's laptop still works. New table `password_reset_tokens` (only the token's
+hash is stored; one use; 30 minutes; a newer request cancels older links). The answer is the same whether or not the email has an account, and
+requests are rate-limited.
+
+**Verified.** `smoke_test_password_reset.py` 33/33 with the mailer replaced by a recorder (links, expiry, single use, replacement, both
+rate limits, same reply for known and unknown emails, no secrets in the stored row, the mailer's failure paths); security, profile, quiz and seed
+suites unchanged. **Not verified:** a real email through Gmail (needs the owner's App Password), how the pages look in a browser, and a
+production deployment (set `APP_BASE_URL`). Logging in elsewhere stays valid after a reset: sessions are not tied to the password.
+

@@ -299,3 +299,17 @@ class ScenarioAttempt(db.Model):
 
     def __repr__(self):
         return f"<ScenarioAttempt user={self.user_id} scenario={self.scenario_id}>"
+
+
+class PasswordResetToken(db.Model):
+    """One "forgot password" link. Only the SHA-256 of the token is stored (the token itself exists only in the
+    emailed link), it expires, and it works once. A new table, so db.create_all() adds it."""
+    __tablename__ = "password_reset_tokens"
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True)
+    token_hash = db.Column(db.String(64), unique=True, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    expires_at = db.Column(db.DateTime, nullable=False)
+    used_at = db.Column(db.DateTime)
+

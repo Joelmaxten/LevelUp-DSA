@@ -62,7 +62,7 @@
 | QA & Test Automation | 5 | 32 | claude-opus-5-5 |
 | UI/UX Design | 3 | 29 | claude-opus-5-5 |
 
-## 2. Database tables (14 tables)
+## 2. Database tables (15 tables)
 
 The database is PostgreSQL, accessed through SQLAlchemy (`app/models.py`). There are no migrations; tables are created
 with `db.create_all()` and one-off scripts in `scripts/` add columns to older databases.
@@ -142,6 +142,17 @@ with `db.create_all()` and one-off scripts in `scripts/` add columns to older da
 | `steps` | JSON | required |
 | `retrieved_chunks` | JSON |  |
 | `created_at` | DATETIME |  |
+
+### `password_reset_tokens`
+
+| Column | Type | Notes |
+|---|---|---|
+| `id` | INTEGER | primary key |
+| `user_id` | INTEGER | -> users.id, required |
+| `token_hash` | VARCHAR(64) | unique, required |
+| `created_at` | DATETIME | required |
+| `expires_at` | DATETIME | required |
+| `used_at` | DATETIME |  |
 
 ### `resumes`
 
@@ -237,7 +248,7 @@ with `db.create_all()` and one-off scripts in `scripts/` add columns to older da
 | `completed_at` | DATETIME |  |
 
 
-## 3. HTTP routes (50 routes)
+## 3. HTTP routes (54 routes)
 
 "Login needed" is read from the route's decorator (`@login_required` returns JSON 401; `@page_login_required` redirects
 a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token header.
@@ -255,8 +266,12 @@ a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token 
 | (app) | `/roadmap` | GET | yes | Roadmap page. |
 | (app) | `/scenarios` | GET | yes | Scenarios page: the level map and the scenario player. |
 | (app) | `/signup` | GET | no | Signup page. |
+| auth | `/forgot-password` | GET | no |  |
+| auth | `/forgot-password` | POST | no | Always answers the same way, so the page cannot be used to find out which emails have accounts. |
 | auth | `/login` | POST | no | Log in with a username or an email, plus the password. |
 | auth | `/logout` | POST | yes | Log out. |
+| auth | `/reset-password` | GET | no |  |
+| auth | `/reset-password` | POST | no |  |
 | auth | `/signup` | POST | no | Create an account (username, email, password). |
 | auth | `/signup/username-check` | GET | no | {"available": bool, "error": message or None} for the signup page's live check. |
 | career_paths | `/career/options` | GET | yes | The career paths a student can pick from, with the top quiz matches marked. |
@@ -302,8 +317,9 @@ a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token 
 | File | Lines | Purpose (first sentence of its docstring) |
 |---|---|---|
 | `app/__init__.py` | 210 | The application factory (create_app): registers every route, the login gate, error pages and the restart-logout hook. |
-| `app/config.py` | 177 | Settings read from environment variables, with development and production modes. |
-| `app/models.py` | 301 | The database tables (SQLAlchemy models). |
+| `app/config.py` | 189 | Settings read from environment variables, with development and production modes. |
+| `app/mailer.py` | 48 | Minimal email sending for the password-reset link, standard library only (smtplib), so no extra package. |
+| `app/models.py` | 315 | The database tables (SQLAlchemy models). |
 | `app/security.py` | 88 | Request-level security: CSRF protection and small in-process rate limits. |
 | `app/seed_data.py` | 92 | Export and load the two data tables the app cannot run without: survey_respondents (the Stack Overflow survey rows, India only) and job_listings (the processed India jobs). |
 | `app/usernames.py` | 46 | Username rules, shared by signup, the profile page and scripts/add_usernames.py. |
@@ -313,7 +329,7 @@ a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token 
 | File | Lines | Purpose (first sentence of its docstring) |
 |---|---|---|
 | `app/routes/_util.py` | 92 | Small helpers shared by the route files (JSON errors, input checks). |
-| `app/routes/auth.py` | 164 | Signup, login and logout. |
+| `app/routes/auth.py` | 289 | Signup, login and logout. |
 | `app/routes/career_paths.py` | 37 | GET /career/options - the single source the shared career-path picker (ui.js's careerPathPicker, in its self-fetching mode) uses to decide what to offer: a profile's top quiz matches (if any), plus the full 15-path list as a fallb |
 | `app/routes/conversation.py` | 169 | The Goals questions: start, answer, and saving the career profile. |
 | `app/routes/dashboard.py` | 145 | "Resume where you left off": what the current user has already saved, so the dashboard can show their existing results instead of restarting the flow. |
@@ -380,11 +396,13 @@ a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token 
 | `app/templates/conversation.html` | 292 |
 | `app/templates/dashboard.html` | 207 |
 | `app/templates/error.html` | 31 |
+| `app/templates/forgot_password.html` | 55 |
 | `app/templates/index.html` | 95 |
 | `app/templates/layout.html` | 103 |
-| `app/templates/login.html` | 71 |
+| `app/templates/login.html` | 72 |
 | `app/templates/profile.html` | 372 |
 | `app/templates/quiz.html` | 164 |
+| `app/templates/reset_password.html` | 73 |
 | `app/templates/resume.html` | 300 |
 | `app/templates/roadmap.html` | 543 |
 | `app/templates/scenarios.html` | 19 |
@@ -410,6 +428,7 @@ a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token 
 | `scripts/smoke_test_generator.py` | Regression test for the roadmap generator (app/pipeline/roadmap_generator.py), with a deterministic fake LLM (scripts/_fake_llm.py) standing in for Gemini / Bedrock. |
 | `scripts/smoke_test_jobs.py` | Smoke test for the live job listings: duplicate removal, the optional Jooble source, the combiner (app/pipeline/live_jobs.py) and the LinkedIn / Naukri / Indeed search links. |
 | `scripts/smoke_test_llm.py` | Smoke test for app/pipeline/llm_client.py with stubs only: a scripted fake Bedrock client and a patched gemini_client.generate_with_retry. |
+| `scripts/smoke_test_password_reset.py` | Smoke test for "forgot password": the emailed single-use link, expiry, rate limits, no account enumeration, and that the new password works and the old one does not. |
 | `scripts/smoke_test_paths.py` | Smoke test for the shared career-path picker and multi-roadmap support: app/pipeline/path_matches.py, resolve_target_career_path's allow_override, GET /career/options, GET /roadmap/list, GET /roadmap/<id>, and the dashboard's "roa |
 | `scripts/smoke_test_profile.py` | Smoke test for accounts and the profile: username rules, signup with a username, login with a username or an email, the live username check, the profile page and API (details, validation, username change, picture, password change) |
 | `scripts/smoke_test_profile_flow.py` | One-off smoke test driving the full quiz -> conversation -> CareerProfile flow through Flask's test client. |

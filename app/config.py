@@ -145,6 +145,18 @@ class Config:
     # FAISS
     FAISS_INDEX_PATH = os.environ.get("FAISS_INDEX_PATH", "data/processed/faiss_index")
 
+    # Forgot-password email (Gmail: smtp.gmail.com, port 587, and an App Password - never the normal password).
+    # With MAIL_USERNAME / MAIL_PASSWORD empty no email is sent; in development the reset link is printed in the
+    # server terminal instead. APP_BASE_URL is the public address put in the link (set it in production).
+    MAIL_SMTP_HOST = os.environ.get("MAIL_SMTP_HOST", "smtp.gmail.com").strip()
+    MAIL_SMTP_PORT = int(os.environ.get("MAIL_SMTP_PORT", "587") or 587)
+    MAIL_USERNAME = os.environ.get("MAIL_USERNAME", "").strip()
+    MAIL_PASSWORD = os.environ.get("MAIL_PASSWORD", "").strip()
+    MAIL_FROM = os.environ.get("MAIL_FROM", "").strip()
+    APP_BASE_URL = os.environ.get("APP_BASE_URL", "").strip().rstrip("/")
+    PASSWORD_RESET_TTL_MIN = int(os.environ.get("PASSWORD_RESET_TTL_MIN", "30") or 30)
+    MAIL_ASYNC = True   # send in a background thread so the reply time does not reveal whether the email has an account
+
     # Resume uploads
     UPLOAD_FOLDER = os.environ.get("UPLOAD_FOLDER", "uploads/resumes")
     MAX_CONTENT_LENGTH = 5 * 1024 * 1024  # 5MB - resumes are small; rejects oversized uploads at the Flask level before our code even runs

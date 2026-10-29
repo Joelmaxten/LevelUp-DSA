@@ -1,12 +1,16 @@
+import hashlib
+import secrets
 import string
+import threading
+from datetime import datetime, timedelta
 
-from flask import Blueprint, current_app, jsonify, request, session
+from flask import Blueprint, current_app, jsonify, render_template, request, session
 from flask_login import login_user, logout_user, login_required
 from sqlalchemy import func
 from sqlalchemy.exc import IntegrityError
 
-from app import db, usernames
-from app.models import User
+from app import db, mailer, usernames
+from app.models import PasswordResetToken, User
 from app.security import rate_limit_hit, rate_limited_response
 
 auth_bp = Blueprint("auth", __name__)
@@ -162,3 +166,124 @@ def login():
 def logout():
     logout_user()
     return jsonify({"message": "Logged out successfully"}), 200
+
+
+# ---------------------------------------------------------------------------------------------------------------------
+# Forgot password: email a single-use, expiring link; the link opens a page that sets a new password.
+# ---------------------------------------------------------------------------------------------------------------------
+
+FORGOT_REPLY = "If an account exists for that email, we have sent a link to reset the password. It works for {minutes} minutes."
+
+
+def _token_hash(token):
+    return hashlib.sha256(token.encode("utf-8")).hexdigest()
+
+
+def find_valid_reset_token(token):
+    """The unused, unexpired PasswordResetToken row for this link token, or None."""
+    if not isinstance(token, str) or not 20 <= len(token) <= 200:
+        return None
+    row = PasswordResetToken.query.filter_by(token_hash=_token_hash(token)).first()
+    if row is None or row.used_at is not None or row.expires_at <= datetime.utcnow():
+        return None
+    return row
+
+
+def _reset_link(token):
+    base = current_app.config.get("APP_BASE_URL") or request.host_url.rstrip("/")
+    return f"{base}/reset-password?token={token}"
+
+
+def _deliver_reset_email(app, address, link, minutes):
+    body = (
+        "Hi,\n\nSomeone asked to reset the password for your LevelUp DSA account.\n"
+        f"Open this link within {minutes} minutes to choose a new password:\n\n{link}\n\n"
+        "If this was not you, ignore this email; your password stays the same.\n"
+    )
+    with app.app_context():
+        mailer.send_email(app.config, address, "Reset your LevelUp DSA password", body, debug=app.debug)
+
+
+@auth_bp.route("/forgot-password", methods=["GET"])
+def forgot_password_page():
+    return render_template("forgot_password.html")
+
+
+@auth_bp.route("/forgot-password", methods=["POST"])
+def forgot_password():
+    """Always answers the same way, so the page cannot be used to find out which emails have accounts."""
+    minutes = current_app.config["PASSWORD_RESET_TTL_MIN"]
+    reply = jsonify({"message": FORGOT_REPLY.format(minutes=minutes)})
+
+    data = request.get_json(silent=True)
+    email = data.get("email") if isinstance(data, dict) else None
+    if not isinstance(email, str) or "@" not in email or len(email) > 120:
+        return jsonify({"error": "Enter the email address you signed up with."}), 400
+    email = email.strip().lower()
+
+    ok, retry = rate_limit_hit("forgot_ip", _client_key(), 10, 3600)
+    if ok:
+        ok, retry = rate_limit_hit("forgot_email", email, 3, 3600)
+    if not ok:
+        return rate_limited_response(retry)
+
+    user = User.query.filter(func.lower(User.email) == email).order_by(User.id).first()
+    if user is None:
+        return reply
+
+    now = datetime.utcnow()
+    # A new request replaces earlier links: only the newest one works.
+    PasswordResetToken.query.filter(PasswordResetToken.user_id == user.id,
+                                    PasswordResetToken.used_at.is_(None)).update({"used_at": now})
+    token = secrets.token_urlsafe(32)
+    db.session.add(PasswordResetToken(user_id=user.id, token_hash=_token_hash(token),
+                                      expires_at=now + timedelta(minutes=minutes)))
+    db.session.commit()
+
+    app = current_app._get_current_object()
+    args = (app, user.email, _reset_link(token), minutes)
+    if app.config.get("MAIL_ASYNC", True):
+        threading.Thread(target=_deliver_reset_email, args=args, daemon=True).start()
+    else:
+        _deliver_reset_email(*args)
+    return reply
+
+
+@auth_bp.route("/reset-password", methods=["GET"])
+def reset_password_page():
+    token = request.args.get("token", "")
+    resp = current_app.make_response(render_template(
+        "reset_password.html", token=token, token_ok=find_valid_reset_token(token) is not None,
+        password_rule=PASSWORD_RULE_MESSAGE))
+    resp.headers["Referrer-Policy"] = "no-referrer"   # the token is in the address; do not leak it to other sites
+    resp.headers["Cache-Control"] = "no-store"
+    return resp
+
+
+@auth_bp.route("/reset-password", methods=["POST"])
+def reset_password():
+    ok, retry = rate_limit_hit("reset_ip", _client_key(), 20, 3600)
+    if not ok:
+        return rate_limited_response(retry)
+
+    data = request.get_json(silent=True)
+    if not isinstance(data, dict):
+        data = {}
+    token, password = data.get("token"), data.get("password")
+    if not isinstance(password, str) or not password:
+        return jsonify({"error": "Enter a new password."}), 400
+    if not is_valid_password(password):
+        return jsonify({"error": PASSWORD_RULE_MESSAGE}), 400
+
+    row = find_valid_reset_token(token)
+    if row is None:
+        return jsonify({"error": "This reset link is invalid or has expired. Request a new one."}), 400
+
+    user = db.session.get(User, row.user_id)
+    user.set_password(password)
+    now = datetime.utcnow()
+    PasswordResetToken.query.filter(PasswordResetToken.user_id == user.id,
+                                    PasswordResetToken.used_at.is_(None)).update({"used_at": now})
+    db.session.commit()
+    return jsonify({"message": "Password updated. You can log in with the new password."}), 200
+

@@ -87,6 +87,10 @@ three are needed to boot; the rest unlock features:
 | `GEMINI_API_KEY` | roadmap generation, resume feedback, problem framing | empty |
 | `YOUTUBE_API_KEY` | fallback video search for roadmap steps | empty |
 | `JOOBLE_API_KEY` | optional second live-jobs source (free key from https://jooble.org/api/about, request form). Empty = Jooble is not used and nothing changes. Never put it in a screenshot or commit it | empty |
+| `MAIL_USERNAME` / `MAIL_PASSWORD` | the sending Gmail address and its **App Password** (Google account > Security > 2-Step Verification on > App passwords; never the normal password). Both empty = no email is sent; in development the reset link is printed in the server terminal instead | empty |
+| `MAIL_SMTP_HOST` / `MAIL_SMTP_PORT` / `MAIL_FROM` | SMTP server (Gmail: `smtp.gmail.com`, 587 with STARTTLS, or 465 with SSL) and the From address | Gmail, 587, the username |
+| `APP_BASE_URL` | public address put in the reset link, e.g. `https://yourapp.example`. Empty = the address the browser used (fine on a laptop; set it in production) | empty |
+| `PASSWORD_RESET_TTL_MIN` | minutes a reset link works | 30 |
 | `ADZUNA_APP_ID`, `ADZUNA_APP_KEY` | live job listings on the resume page; without them the listings box shows "unavailable" | empty |
 | `PISTON_API_URL` | code execution (not yet used) | `http://localhost:2000/api/v2/execute` |
 | `FAISS_INDEX_PATH` | knowledge-base index location | `data/processed/faiss_index` |
@@ -612,6 +616,16 @@ production by default, because several worker processes would each have their ow
 at random; set `LOGOUT_ON_RESTART=true` there only with a single worker. Flask's debug reloader also restarts the
 server on every code change, which logs you out too. During a demo: don't restart the server after logging in.
 `smoke_test_profile.py` simulates a restart (new app instance, same cookie).
+
+### Forgot password
+`/forgot-password` (page and `POST`) emails a link to `/reset-password?token=...`, where the user sets a new password (same strength rules as
+signup). Code: the two routes at the end of `app/routes/auth.py`, `app/mailer.py` (smtplib only, no extra package), table
+`password_reset_tokens` (new, so `db.create_all()` or `scripts/setup_dev.py` adds it). Rules: the reply is identical whether or not the
+email has an account; limits of 3 requests per email and 10 per address per hour (reset attempts: 20 per address per hour); only the
+SHA-256 of the token is stored; a link works once, for `PASSWORD_RESET_TTL_MIN` minutes, and a newer request replaces older links; the
+reset page sends `Referrer-Policy: no-referrer` and `no-store`. Email is sent in a background thread so the reply time does not reveal
+whether an account exists. With no `MAIL_*` set, development prints the link in the terminal (a WARNING line from `app.mailer`); a
+production run (not debug) never prints it. Existing logged-in sessions are not ended by a reset. Checks: `smoke_test_password_reset.py` (33).
 
 ### Accounts and the profile page
 
