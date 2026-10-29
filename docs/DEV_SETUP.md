@@ -764,3 +764,11 @@ parameters) ONE plain search follows, so the box is not empty just because of th
 (`f_E=1%2C2` entry level / `f_E=1` internship), Naukri (`experience=0`; `<role>-intern-jobs`) and Indeed (`fresher` / `intern` in the
 query). Those URL filters are from how the sites build their URLs and could not be tested from the server; if one is ignored the site
 still opens a normal search. Edit `ENTRY_WORDS`, `EXCLUDE_WORDS` or `_SENIOR_TITLE` in `adzuna_listings.py` to tune it.
+
+**Resume feedback guards, second round.** The prompt additionally says: a skill/tool may be written as the student's own only if it is in
+the resume text or the matched list; missing technologies, dates and results are written as the placeholders `[technologies you used]`,
+`[month year]`, `[your measured result]` (which already stands for the whole figure, no `%` after it); never call something duplicated,
+redundant or missing without quoting the exact resume words; exactly four weekly milestones; no claims about prices or free tiers.
+`clean_feedback` (run on every reply) replaces made-up percentages and made-up month-year dates ("Jan 2025 - Mar 2025" when the resume only
+says "2025") with placeholders and removes a stray `%` after the placeholder; month-years the resume contains (written out or as
+`09/2024`) are kept. The code cannot judge "is this skill in the resume?"; that is left to the prompt.

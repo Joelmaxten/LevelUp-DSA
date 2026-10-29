@@ -2648,3 +2648,21 @@ and on a 400, no retry on a 500, the Jooble fallback, six links for all 15 paths
 was run against the real services, so how many fresher postings Adzuna and Jooble actually return per path is unknown (a path may show few
 or none, which the search links cover); Adzuna's `what_or` / `what_exclude` behaviour and every LinkedIn / Naukri / Indeed URL filter were
 not tested against the live sites. The title filter is a keyword rule: it can drop a fine posting or keep a senior one with a neutral title.
+
+---
+## Resume Feedback: Second Round After a Teammate's Resume
+
+**What was seen.** The feedback for a teammate's resume no longer had invented percentages, but the model still invented content: a tech
+stack for a project that names none ("built with React, Node.js, PostgreSQL"), skills the resume does not list (JavaScript, Node.js,
+Express, MySQL, PostgreSQL) written as if the student had them, a month range for a year-only date ("Jan 2025 - Mar 2025"), a "duplicate"
+VS Code that is not duplicated, a claim that soft skills are redundant when they are their own column, a "30-day" plan of six weeks and a
+"free" Heroku tier. Which model produced it was not recorded (no `llm_call` line was available).
+
+**What was built.** Prompt rules (skills as the student's own only if in the resume or matched list; placeholders for missing stack, dates
+and results; quote the exact resume words before claiming duplication or absence; exactly four weeks; no price or free-tier claims) and
+`clean_feedback`, which also replaces month-year dates that the resume does not contain and removes a stray `%` after the placeholder.
+
+**Verified.** `smoke_test_llm.py` 117/117 (date guard keeps dates the resume has in either form, leaves "Marketing 2025" alone, the
+prompt carries every new rule). **Not verified:** the new prompt was not run against a real model, so how well a small model follows it is
+unknown; only percentages and dates are enforced in code, so an invented stack or skill can still appear. The next step if it does is a
+second grounding pass or a larger model, both of which cost time.

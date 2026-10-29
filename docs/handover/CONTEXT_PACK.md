@@ -623,7 +623,7 @@ a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token 
 | `app/pipeline/rag.py` | 141 | FAISS-backed retrieval for the RAG pipeline. |
 | `app/pipeline/readiness.py` | 107 | Placement Readiness Score. |
 | `app/pipeline/resume_analyzer.py` | 131 | Phase 2 core pipeline: extracts text from an uploaded resume PDF, extracts known skills from that text (via resume_skill_extractor.py's PhraseMatcher, seeded with the real SO Survey skill vocabulary), and computes a skill gap agai |
-| `app/pipeline/resume_feedback.py` | 76 | Generates LLM-based resume feedback: line-by-line improvement suggestions, a 30-day action plan, and keyword suggestions - per the master doc's Phase 2 report spec. |
+| `app/pipeline/resume_feedback.py` | 125 | Generates LLM-based resume feedback: line-by-line improvement suggestions, a 30-day action plan, and keyword suggestions - per the master doc's Phase 2 report spec. |
 | `app/pipeline/resume_skill_extractor.py` | 81 | Extracts known technical skills from resume text using spaCy's PhraseMatcher seeded with real skills from the SO Survey 2025 (India) dataset - not spaCy's generic statistical NER, which was tested and found unreliable for this tas |
 | `app/pipeline/roadmap_generator.py` | 1197 | Generates a personalized learning roadmap for a student, structured as PHASES of steps (folder-ordered, foundational -> advanced) rather than one flat list, so a roadmap can realistically span a career path's full topic inventory  |
 | `app/pipeline/roadmap_kb_processor.py` | 113 | Extracts and cleans roadmap.sh markdown content for the RAG knowledge base. |

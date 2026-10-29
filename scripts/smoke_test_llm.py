@@ -283,10 +283,29 @@ def resume_budget_and_prompt_checks():
           rf.remove_unsupported_percentages("Add Docker.", "") == "Add Docker."
           and rf.remove_unsupported_percentages("by 20%", None) == "by [your measured result]")
 
+    resume = "Python Internship 09/2024. Map My Vendor 2025. Marketing 2025 club. Percentage: 88.83%"
+    cleaned = rf.clean_feedback("Write Jan 2025 - Mar 2025; keep Sep 2024 and September 2024; Marketing 2025 stays; "
+                                "reduced time by [your measured result]% (not 35%) but 88.83% is real.", resume)
+    check("guard: a month-year the resume does not contain (Jan 2025 - Mar 2025) becomes [month year]",
+          "Jan 2025" not in cleaned and "Mar 2025" not in cleaned and cleaned.count("[month year]") == 2)
+    check("guard: a month-year the resume does contain is kept, written out or as 09/2024",
+          "Sep 2024" in cleaned and "September 2024" in cleaned)
+    check("guard: ordinary words that start like a month ('Marketing 2025') are not touched", "Marketing 2025" in cleaned)
+    check("guard: '[your measured result]%' loses the stray %, a made-up 35% is replaced, a real 88.83% is kept",
+          "[your measured result]%" not in cleaned and "35%" not in cleaned and "88.83%" in cleaned)
+    check("guard: a reply with no dates or percentages is unchanged", rf.clean_feedback("Add Docker.", resume) == "Add Docker.")
+    check("guard: every call of generate_resume_feedback goes through clean_feedback",
+          "return clean_feedback(text, resume_text)" in open("app/pipeline/resume_feedback.py", encoding="utf-8").read())
+
     prompt = rf._build_prompt("RESUME-BODY", "AI Engineering", {"Python"}, {"Docker", "MongoDB"})
     check("prompt: forbids invented numbers, copies credential names exactly, keywords only from the missing list",
           "NEVER invent" in prompt and "exactly as the resume writes it" in prompt
           and "from the \"missing\" list" in prompt and "[your measured result]" in prompt)
+    check("prompt: skills only as 'has' if in the resume or the matched list; placeholders for missing stack and dates; quote before claiming",
+          "appears in the" in prompt and "[technologies you used]" in prompt and "[month year]" in prompt
+          and "quote the exact resume" in prompt and "do not add a % or units" in prompt)
+    check("prompt: exactly four weekly milestones, no claims about prices or free tiers",
+          "EXACTLY four weekly milestones" in prompt and "prices, free tiers" in prompt)
     check("prompt: still carries the resume text and both skill lists",
           "RESUME-BODY" in prompt and "Python" in prompt and "Docker, MongoDB" in prompt)
 
