@@ -22,6 +22,12 @@ def create_app(config_name=None):
         config_class.validate()
     app.config.from_object(config_class)
 
+    # The resume upload folder is git-ignored, so a fresh clone does not have it.
+    try:
+        os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
+    except OSError:
+        pass  # a read-only disk: uploads will report their own error
+
     from app.security import init_security
     init_security(app)
 

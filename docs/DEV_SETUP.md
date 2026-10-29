@@ -136,6 +136,15 @@ and sourcing exports secrets into your shell's environment and history.
 Leave the `.env.example` file itself untouched — it's a template with placeholder
 values, meant to be committed. Only `.env` (with real values) is gitignored.
 8. Create the database tables
+**Shortcut for a fresh clone (does steps 8, 8c and the data load in one go).** After steps 1-7 (packages, the spaCy model, PostgreSQL
+running with an empty database, `.env` filled in):
+```bash
+PYTHONPATH=. python scripts/setup_dev.py
+```
+It checks `.env`, the spaCy model and the search index, creates every table, creates the upload folder, fills the two data tables from
+`data/seed/` when they are empty, and prints what is still missing (exit code 0 means ready). It is safe to re-run; `--check` only reports.
+The two data tables are explained in "Seed data" at the end of this guide. The manual steps below do the same thing by hand.
+
 The database is empty until you run this once — `models.py` defines the tables, but
 they only get created when you tell SQLAlchemy to build them.
 ```bash
@@ -772,3 +781,17 @@ redundant or missing without quoting the exact resume words; exactly four weekly
 `clean_feedback` (run on every reply) replaces made-up percentages and made-up month-year dates ("Jan 2025 - Mar 2025" when the resume only
 says "2025") with placeholders and removes a stray `%` after the placeholder; month-years the resume contains (written out or as
 `09/2024`) are kept. The code cannot judge "is this skill in the resume?"; that is left to the prompt.
+
+### Seed data (survey_respondents and job_listings) for a fresh clone
+Two tables are filled from large CSVs that are not in git: `survey_respondents` (Stack Overflow survey 2025, India only) and
+`job_listings` (processed India jobs). The resume analyzer builds its whole skill vocabulary and each path's required skills from
+`survey_respondents`, so with that table empty **no skill is found in any resume**; salary insights need `job_listings`.
+`app/seed_data.py` exports and loads them as gzip JSON lines in `data/seed/`:
+- Owner, once, on the machine that has the data: `PYTHONPATH=. python scripts/export_seed_data.py` (read-only; refuses to write an empty table).
+- Teammate: put the two `.jsonl.gz` files in `data/seed/` and run `scripts/setup_dev.py` (or `scripts/seed_data_tables.py [--replace]`).
+  A table that already has rows is never touched without `--replace`; ids are kept and the id sequence is reset.
+- `data/seed/*.jsonl.gz` is git-ignored until the licences are checked (Stack Overflow survey data is ODbL: attribution and share-alike;
+  the jobs dataset licence is unknown). Share the files privately. `.env` is never shared.
+- `python run.py` prints a WARNING at start-up when `survey_respondents` is empty. `create_app` now creates `UPLOAD_FOLDER`
+  (`uploads/resumes`) itself. Checks: `scripts/smoke_test_seed.py` (18, in a throw-away schema).
+- boto3 is deliberately not in `requirements.txt`: Bedrock is not used (the provider code imports it lazily, only if selected).

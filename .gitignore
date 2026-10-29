@@ -71,6 +71,10 @@ cookies.txt
 data/processed/backup/
 uploads/
 
+# Exported copies of the survey/jobs tables (scripts/export_seed_data.py). Ignored until the data
+# licences are checked - see data/seed/README.md.
+data/seed/*.jsonl.gz
+
 .claude/
 
 backups/

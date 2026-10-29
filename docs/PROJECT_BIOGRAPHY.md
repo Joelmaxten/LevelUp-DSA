@@ -2666,3 +2666,21 @@ and results; quote the exact resume words before claiming duplication or absence
 prompt carries every new rule). **Not verified:** the new prompt was not run against a real model, so how well a small model follows it is
 unknown; only percentages and dates are enforced in code, so an invented stack or skill can still appear. The next step if it does is a
 second grounding pass or a larger model, both of which cost time.
+
+---
+## Fresh Clone Works After `git pull`: Setup Script and Seed Data
+
+**What was wrong.** A new laptop could clone and install and still not work: the resume upload folder (`uploads/`) is git-ignored so it did
+not exist, and the two data tables the app needs (`survey_respondents`, `job_listings`) live only in the owner's database. With the survey
+table empty the resume analyzer silently finds no skills. `.env`, the database itself, the spaCy model and `pip install` are also manual.
+
+**What was built.** `create_app` creates the upload folder. `app/seed_data.py` with `scripts/export_seed_data.py` and
+`scripts/seed_data_tables.py` export the two tables to `data/seed/*.jsonl.gz` and load them (empty tables only unless `--replace`; ids kept,
+sequence reset). `scripts/setup_dev.py` runs the whole fresh-clone check and setup and says plainly what is missing. `run.py` warns at start-up
+when the survey table is empty. `boto3` stays out of `requirements.txt` (Bedrock is not used). `data/seed/*.jsonl.gz` is git-ignored until
+the data licences are checked.
+
+**Verified.** `smoke_test_seed.py` 18/18 in a throw-away schema; a real fresh clone in the cloud with an empty database: `setup_dev.py` reported
+the missing seed files, then created the tables and upload folder, loaded synthetic rows, was safe to run twice, and `--check` changed nothing;
+the other suites still pass. **Not verified:** the real export and load of Joel's actual data (it exists only on his laptop), and a Windows
+machine. Until the owner runs the export and shares the two files, a teammate's resume analysis will not find skills.

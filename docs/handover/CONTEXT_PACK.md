@@ -571,10 +571,11 @@ a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token 
 
 | File | Lines | Purpose (first sentence of its docstring) |
 |---|---|---|
-| `app/__init__.py` | 204 | The application factory (create_app): registers every route, the login gate, error pages and the restart-logout hook. |
+| `app/__init__.py` | 210 | The application factory (create_app): registers every route, the login gate, error pages and the restart-logout hook. |
 | `app/config.py` | 177 | Settings read from environment variables, with development and production modes. |
 | `app/models.py` | 301 | The database tables (SQLAlchemy models). |
 | `app/security.py` | 88 | Request-level security: CSRF protection and small in-process rate limits. |
+| `app/seed_data.py` | 92 | Export and load the two data tables the app cannot run without: survey_respondents (the Stack Overflow survey rows, India only) and job_listings (the processed India jobs). |
 | `app/usernames.py` | 46 | Username rules, shared by signup, the profile page and scripts/add_usernames.py. |
 
 ### app/routes/ (HTTP routes)
@@ -692,6 +693,7 @@ a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token 
 | `scripts/smoke_test_salary.py` | Salary insights must not crash when the data tables are empty (a fresh database whose job_listings / survey_respondents were never loaded). |
 | `scripts/smoke_test_scenarios.py` | Smoke test for scenario-based gamification: validator, store, engine, progress rules, routes. |
 | `scripts/smoke_test_security.py` | Smoke test for the security hardening: CSRF protection, session-cookie flags, production SECRET_KEY check, the roadmap daily cap and the resume rate limits. |
+| `scripts/smoke_test_seed.py` | Checks for app/seed_data.py (export/load of survey_respondents and job_listings) and the fresh-clone helpers. |
 | `scripts/smoke_test_youtube.py` | Extends the roadmap smoke test to also verify /roadmap/<id>/resources - first real end-to-end test of YouTube resource attachment. |
 
 <!-- ===== END 03_REFERENCE_GENERATED.md ===== -->
