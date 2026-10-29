@@ -109,6 +109,9 @@ class Config:
 
     # Seconds before a single LLM request is abandoned (every provider, every task).
     LLM_TIMEOUT_S = _env_number("LLM_TIMEOUT_S", 90.0, float)
+    # Wall-clock cap for the WHOLE resume-feedback call (all retries, failover and waits included). When it is
+    # exceeded the upload carries on without feedback instead of making the student wait minutes. 0 = no cap.
+    RESUME_FEEDBACK_BUDGET_S = _env_number("RESUME_FEEDBACK_BUDGET_S", 45.0, float)
     # "cached" (default): POST /roadmap/generate-async serves a reviewed base roadmap from data/base_roadmaps/
     # (app/pipeline/base_roadmaps.py) and only personalizes it with one short LLM call, so it finishes in seconds.
     # A path with no valid base file, and "full", use the full generation as before. Anything else counts as "cached".

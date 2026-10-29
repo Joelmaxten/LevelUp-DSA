@@ -2584,3 +2584,27 @@ on the laptop.
 
 **Not verified.** No real Groq call was made (the key is only on the laptop), so which Groq model to use, its input-token limit and
 the real latency and quality of the feedback are unmeasured.
+
+---
+## Resume Feedback: Invented Facts, Wrong Keywords and a 3-5 Minute Wait
+
+**What was seen.** The project owner reported resume analysis taking 3 to 5 minutes and pasted the feedback the app produced for his own
+resume. Read against the resume, the feedback (1) invented a metric ("boosting retrieval accuracy by 35 %"), (2) named a certificate the
+resume does not hold ("AWS Certified Cloud Practitioner"; the resume says "AWS Cloud Computing Virtual Internship"), and (3) listed FastAPI,
+AWS, React, LLM and ServiceNow as missing keywords although all five are on the resume. The feedback did arrive, so the call was not
+failing outright. The cause of the delay was **not measured**: no `llm_call latency_s=` line was available. Retries of a hanging provider
+(90 s per try, up to 3 tries plus waits) would add up to about 4 to 5 minutes, which fits the report but is a hypothesis.
+
+**What was built.** (1) The prompt now has explicit rules (no invented numbers or credentials, exact credential names, keywords only from
+the missing list and never one already on the resume). (2) `remove_unsupported_percentages` removes any percentage not present in the
+resume. (3) `llm_client.generate` gained `budget_s`, a hard wall-clock cap that raises `LLMError(kind="timeout")`; resume feedback uses
+`RESUME_FEEDBACK_BUDGET_S` (default 45, 0 = off). The skill analysis is saved and shown without waiting for feedback that is too slow.
+
+**Verified.** `smoke_test_llm.py` 109/109 (11 new: budget exceeded returns fast with kind=timeout and no prompt text; a call inside the
+budget and a call with no budget behave as before; the budget is read from config and 0 disables it; percentages not in the resume are
+replaced and ones in it kept; the prompt carries the rules, the resume text and both skill lists).
+
+**Not verified.** The prompt rules were not run against a real model, so how well a real model follows them is unknown (the percentage
+guard does not depend on it). The wrong "missing keywords" may also come from the skill matching, which was not reproduced here because the
+cloud database has no survey data. The real latency is still unmeasured. A model that ignores the budget keeps running in its thread
+until its own timeout; only the caller is released.

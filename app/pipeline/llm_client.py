@@ -36,6 +36,7 @@ import json
 import logging
 import os
 import re
+import concurrent.futures
 import threading
 import time
 from urllib.parse import urlparse
@@ -613,15 +614,34 @@ def _parse_and_validate(text, schema):
     return parsed, None
 
 
-def generate(task, prompt, system=None, schema=None, max_output_tokens=None, json_mode=False):
+def _generate_within(budget_s, task, prompt, system, schema, max_output_tokens, json_mode):
+    """Run generate() in a helper thread and give up after budget_s seconds of wall-clock time.
+
+    The cap covers everything (retries, waits, failover). The abandoned call may keep running in its thread
+    until its own timeouts end, but the caller is released at once. Raises LLMError(kind="timeout")."""
+    executor = concurrent.futures.ThreadPoolExecutor(max_workers=1)
+    future = executor.submit(generate, task, prompt, system, schema, max_output_tokens, json_mode)
+    try:
+        return future.result(timeout=budget_s)
+    except concurrent.futures.TimeoutError:
+        logger.warning("llm_call task=%s ok=False kind=timeout budget_s=%.1f", task, budget_s)
+        raise LLMError(f"The {task} call took longer than its {budget_s:g} s budget.", kind="timeout", task=task)
+    finally:
+        executor.shutdown(wait=False)
+
+
+def generate(task, prompt, system=None, schema=None, max_output_tokens=None, json_mode=False, budget_s=None):
     """
     Returns {text, parsed, model_id, provider, input_tokens, output_tokens, latency_s,
     cost_usd, retries, schema_retry}. text is code-fence-stripped when JSON was requested
     (json_mode or schema); parsed is the decoded JSON, or None when no JSON was requested
     (or json_mode alone was requested and the reply wasn't JSON). Raises LLMError.
+    budget_s (optional): hard wall-clock cap for the whole call; exceeding it raises LLMError(kind="timeout").
     """
     if task not in TASKS:
         raise LLMError(f"Unknown LLM task {task!r} (expected one of {TASKS}).", kind="config")
+    if budget_s:
+        return _generate_within(float(budget_s), task, prompt, system, schema, max_output_tokens, json_mode)
     wants_json = json_mode or schema is not None
     started = time.monotonic()
     provider, raw, retries, schema_retry = None, None, 0, False

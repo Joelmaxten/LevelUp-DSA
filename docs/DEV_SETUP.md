@@ -107,6 +107,7 @@ three are needed to boot; the rest unlock features:
 | `ROADMAP_MODEL_ID`, `FAST_MODEL_ID`, `FALLBACK_MODEL_ID` | model per task (`roadmap` = each roadmap phase, `fast` = folder ordering and resume feedback, `fallback` = tried after a model fails). Empty with `gemini` = built-in Gemini models; required with `bedrock` | empty |
 | `ALT_PROVIDER_MODEL_ID` | model to use if the other provider has to take over after the first fails | empty |
 | `RESUME_PROVIDER`, `RESUME_MODEL_ID`, `RESUME_BASE_URL` | send ONLY the resume feedback (llm_client task `resume`) to another provider/model, e.g. a small fast Groq model. All empty = resume feedback behaves exactly like `fast`. Active only when `RESUME_PROVIDER` is set (`openai_compat`, `gemini` or `bedrock`); `RESUME_BASE_URL` (openai_compat) is used for resume calls only, empty = `LLM_BASE_URL`; the key is chosen by that URL's host. If the override fails for any reason (bad key, rate limit, unknown model) the call falls back to the normal provider, so an upload never fails because of it. Roadmap calls are never affected | empty |
+| `RESUME_FEEDBACK_BUDGET_S` | hard wall-clock cap, in seconds, for the WHOLE resume-feedback LLM call (all retries, waits and failover included). When it is exceeded the upload still succeeds without AI feedback (skills, gaps, salary and ATS are unaffected) instead of making the student wait minutes. `0` = no cap | `45` |
 | `AWS_REGION` | Bedrock region. Credentials come from the environment (`AWS_BEARER_TOKEN_BEDROCK` or normal AWS credentials), never from code | empty |
 | `LLM_TIMEOUT_S` | seconds before one LLM request is abandoned, both providers | `90` |
 | `PHASE_CONCURRENCY` | roadmap phases the LLM writes at the same time; `1` = one after another (output unchanged), `3` is the tested alternative | `1` |
@@ -734,3 +735,11 @@ Known Issues / Deployment Backlog
 ### Documentation hand-over pack
 `docs/handover/` (start with `00_START_HERE.md`). After any app change run `PYTHONPATH=. python scripts/build_handover_pack.py`
 to refresh `03_REFERENCE_GENERATED.md` and `CONTEXT_PACK.md` (`--check` only reports); update the hand-written files by hand.
+
+### Resume feedback: rules in the prompt, made-up percentages removed, time cap
+`app/pipeline/resume_feedback.py`. The prompt now forbids invented numbers, metrics, employers and certificates, tells the model to
+copy credential names exactly as the resume writes them, and limits keyword suggestions to the computed missing-skills list. Because a
+model can still ignore that, `remove_unsupported_percentages` replaces any percentage in the reply that does not appear in the resume
+text with `[your measured result]` (percentages the resume itself contains are kept). The whole call is wrapped by
+`llm_client.generate(..., budget_s=...)`, which runs it in a helper thread and raises `LLMError(kind="timeout")` after
+`RESUME_FEEDBACK_BUDGET_S` seconds; both resume routes already treat an `LLMError` as "no feedback". Checks: `smoke_test_llm.py`.

@@ -224,6 +224,73 @@ def resume_override_checks():
           "resume" in llm_client.TASKS and 'generate("resume"' in open("app/pipeline/resume_feedback.py", encoding="utf-8").read())
 
 
+def resume_budget_and_prompt_checks():
+    """Hard time cap on the whole resume-feedback call, the hardened prompt, and the made-up-percentage guard."""
+    from app.pipeline import resume_feedback as rf
+    llm_client._limiter_sleep = lambda seconds: None
+
+    def slow_post(url, headers=None, json=None, timeout=None, **kw):
+        time.sleep(1.5)
+        return chat_reply("late")
+
+    # 1. budget exceeded: released quickly with LLMError(kind=timeout), not after the slow call finishes
+    llm_client._limiter._next_slot = 0.0
+    llm_client._pacer.reset()
+    started = time.monotonic()
+    with Env({**OPENAI}), patch.object(requests, "post", slow_post):
+        try:
+            generate("resume", "p", budget_s=0.3)
+            err = None
+        except LLMError as exc:
+            err = exc
+    waited = time.monotonic() - started
+    check("budget: a call slower than budget_s raises LLMError(kind=timeout) and returns without waiting for it",
+          err is not None and err.kind == "timeout" and waited < 1.2)
+    check("budget: the timeout error is a ValueError (the routes treat it as 'no feedback') and carries no prompt text",
+          isinstance(err, ValueError) and PROMPT_TEXT not in str(err))
+
+    # 2. budget not exceeded / not set: normal result
+    llm_client._limiter._next_slot = 0.0
+    llm_client._pacer.reset()
+    with Env({**OPENAI}), patch.object(requests, "post", FakePost([chat_reply("fine")])):
+        r = generate("resume", "p", budget_s=5)
+    check("budget: a call that finishes inside the budget returns the normal result", r["text"] == "fine" and r["provider"] == "openai_compat")
+    llm_client._limiter._next_slot = 0.0
+    llm_client._pacer.reset()
+    with Env({**OPENAI}), patch.object(requests, "post", FakePost([chat_reply("plain")])):
+        r = generate("resume", "p")
+    check("budget: no budget_s means the old behaviour (no helper thread, same result)", r["text"] == "plain")
+
+    # 3. resume_feedback passes the configured budget, 0 means none
+    seen = {}
+
+    def fake_generate(task, prompt, budget_s=None, **kw):
+        seen.update(task=task, budget_s=budget_s)
+        return {"text": "Raise accuracy by 35 % and keep 75% as written; also 12.5 percent."}
+
+    with patch.object(llm_client, "generate", fake_generate):
+        with Env({"RESUME_FEEDBACK_BUDGET_S": 12.0}):
+            out = rf.generate_resume_feedback("CGPA 8.5, Percentage: 75%", "AI Engineering", {"Python"}, {"Docker"})
+        check("resume_feedback: uses the 'resume' task with RESUME_FEEDBACK_BUDGET_S as the budget",
+              seen == {"task": "resume", "budget_s": 12.0})
+        with Env({"RESUME_FEEDBACK_BUDGET_S": 0}):
+            rf.generate_resume_feedback("x", "AI Engineering", set(), set())
+        check("resume_feedback: a budget of 0 means no cap (budget_s=None)", seen["budget_s"] is None)
+    check("guard: percentages missing from the resume are replaced by a placeholder",
+          "35 %" not in out and "12.5 percent" not in out and out.count("[your measured result]") == 2)
+    check("guard: a percentage that IS in the resume (75%) is kept", "75%" in out)
+    check("guard: no resume text and no percentages in the reply leaves the feedback unchanged",
+          rf.remove_unsupported_percentages("Add Docker.", "") == "Add Docker."
+          and rf.remove_unsupported_percentages("by 20%", None) == "by [your measured result]")
+
+    prompt = rf._build_prompt("RESUME-BODY", "AI Engineering", {"Python"}, {"Docker", "MongoDB"})
+    check("prompt: forbids invented numbers, copies credential names exactly, keywords only from the missing list",
+          "NEVER invent" in prompt and "exactly as the resume writes it" in prompt
+          and "from the \"missing\" list" in prompt and "[your measured result]" in prompt)
+    check("prompt: still carries the resume text and both skill lists",
+          "RESUME-BODY" in prompt and "Python" in prompt and "Docker, MongoDB" in prompt)
+
+
 def main():
     # Safety net for the whole run: no real credentials are visible to the code under test,
     # and the Gemini SDK client cannot be built, so no test can reach the network by accident.
@@ -750,6 +817,7 @@ def run():
         check("cost is computed only from configured prices", abs(r["cost_usd"] - 0.007) < 1e-12)
 
     resume_override_checks()
+    resume_budget_and_prompt_checks()
 
     # 10. misc
     with Env(BEDROCK):
