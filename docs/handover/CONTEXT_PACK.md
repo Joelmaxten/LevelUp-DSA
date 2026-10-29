@@ -270,7 +270,7 @@ Shows the saved quiz result, roadmap progress, resume summary, scenarios, level,
 
 # 03. Reference (machine-generated)
 
-> Generated on 2026-10-21 by `scripts/build_handover_pack.py` from the code and data files.
+> Generated on 2026-10-29 by `scripts/build_handover_pack.py` from the code and data files.
 > **Do not edit by hand.** To refresh it after a change: `PYTHONPATH=. python scripts/build_handover_pack.py`.
 > Everything here is read from the app itself (routes, database models, files), so it is exact. Narrative
 > explanations are in files 01 and 02; this file is for looking things up.
@@ -572,7 +572,7 @@ a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token 
 | File | Lines | Purpose (first sentence of its docstring) |
 |---|---|---|
 | `app/__init__.py` | 204 | The application factory (create_app): registers every route, the login gate, error pages and the restart-logout hook. |
-| `app/config.py` | 165 | Settings read from environment variables, with development and production modes. |
+| `app/config.py` | 175 | Settings read from environment variables, with development and production modes. |
 | `app/models.py` | 301 | The database tables (SQLAlchemy models). |
 | `app/security.py` | 88 | Request-level security: CSRF protection and small in-process rate limits. |
 | `app/usernames.py` | 46 | Username rules, shared by signup, the profile page and scripts/add_usernames.py. |
@@ -614,19 +614,19 @@ a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token 
 | `app/pipeline/generation_jobs.py` | 194 | Background roadmap generation. |
 | `app/pipeline/goal_tailoring.py` | 85 | What the Goals answers change, in plain words, for the "Here's what we'll tailor" card on the Goals page. |
 | `app/pipeline/india_jobs_processor.py` | 111 | Processes the India Job Market & Salary dataset (Kaggle) into clean, structured rows ready for PostgreSQL. |
-| `app/pipeline/llm_client.py` | 628 | One entry point for every LLM call the app makes: generate(task, prompt, ...). |
+| `app/pipeline/llm_client.py` | 684 | One entry point for every LLM call the app makes: generate(task, prompt, ...). |
 | `app/pipeline/path_fit.py` | 255 | "Which career path fits my resume?" - ranks the 15 career paths for a set of resume skills. |
 | `app/pipeline/path_matches.py` | 41 | Pure functions over a CareerProfile's ranking - no Flask, no DB. |
 | `app/pipeline/profile_builder.py` | 83 | Combines the adaptive quiz's career-path scores with the post-quiz conversation's signals into one final student profile. |
 | `app/pipeline/rag.py` | 141 | FAISS-backed retrieval for the RAG pipeline. |
 | `app/pipeline/readiness.py` | 107 | Placement Readiness Score. |
 | `app/pipeline/resume_analyzer.py` | 131 | Phase 2 core pipeline: extracts text from an uploaded resume PDF, extracts known skills from that text (via resume_skill_extractor.py's PhraseMatcher, seeded with the real SO Survey skill vocabulary), and computes a skill gap agai |
-| `app/pipeline/resume_feedback.py` | 50 | Generates LLM-based resume feedback: line-by-line improvement suggestions, a 30-day action plan, and keyword suggestions - per the master doc's Phase 2 report spec. |
+| `app/pipeline/resume_feedback.py` | 76 | Generates LLM-based resume feedback: line-by-line improvement suggestions, a 30-day action plan, and keyword suggestions - per the master doc's Phase 2 report spec. |
 | `app/pipeline/resume_skill_extractor.py` | 81 | Extracts known technical skills from resume text using spaCy's PhraseMatcher seeded with real skills from the SO Survey 2025 (India) dataset - not spaCy's generic statistical NER, which was tested and found unreliable for this tas |
 | `app/pipeline/roadmap_generator.py` | 1197 | Generates a personalized learning roadmap for a student, structured as PHASES of steps (folder-ordered, foundational -> advanced) rather than one flat list, so a roadmap can realistically span a career path's full topic inventory  |
 | `app/pipeline/roadmap_kb_processor.py` | 113 | Extracts and cleans roadmap.sh markdown content for the RAG knowledge base. |
 | `app/pipeline/roadmap_personalizer.py` | 211 | Personalizes a reviewed base roadmap for one student with ONE short LLM call (task "fast"), instead of generating a whole roadmap per student. |
-| `app/pipeline/salary_matching.py` | 118 | Salary and job-matching data for a target career path, drawn from two distinct sources kept deliberately separate rather than merged into one figure: India Jobs (real job postings, INR, skews entry-level/fresher - this project's a |
+| `app/pipeline/salary_matching.py` | 122 | Salary and job-matching data for a target career path, drawn from two distinct sources kept deliberately separate rather than merged into one figure: India Jobs (real job postings, INR, skews entry-level/fresher - this project's a |
 | `app/pipeline/scenario_engine.py` | 360 | Scenario engine: what a student may see, how answers are graded, and the unlock / recommendation rules. |
 | `app/pipeline/scenario_store.py` | 78 | Loads scenario files from data/scenarios/, validates each one and caches the result. |
 | `app/pipeline/scenario_validator.py` | 387 | Validator for scenario files (data/scenarios/<path>.json). |
@@ -686,6 +686,7 @@ a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token 
 | `scripts/smoke_test_resume_modes.py` | Smoke test for the two resume modes: "which path fits my resume?" (POST /resume/discover, POST /resume/<id>/analyze, app/pipeline/path_fit.py) and "does my resume fit my path?" (the existing /resume/upload, which must not change). |
 | `scripts/smoke_test_resume_rules.py` | Tests for the resume skill-matching rules (app/pipeline/skill_matching.py) and the ATS content checks (app/pipeline/ats_score.py). |
 | `scripts/smoke_test_roadmap.py` | One-off smoke test driving the full quiz -> conversation -> roadmap generation flow through Flask's test client, using the real FAISS index built on this machine. |
+| `scripts/smoke_test_salary.py` | Salary insights must not crash when the data tables are empty (a fresh database whose job_listings / survey_respondents were never loaded). |
 | `scripts/smoke_test_scenarios.py` | Smoke test for scenario-based gamification: validator, store, engine, progress rules, routes. |
 | `scripts/smoke_test_security.py` | Smoke test for the security hardening: CSRF protection, session-cookie flags, production SECRET_KEY check, the roadmap daily cap and the resume rate limits. |
 | `scripts/smoke_test_youtube.py` | Extends the roadmap smoke test to also verify /roadmap/<id>/resources - first real end-to-end test of YouTube resource attachment. |
