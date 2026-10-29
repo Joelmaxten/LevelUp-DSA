@@ -1,7 +1,7 @@
 """
 All live job listings for a career path in one answer: Adzuna and (when JOOBLE_API_KEY is set) Jooble, asked at the
 same time, interleaved, with duplicates removed across both, each listing tagged with its source. Also returns
-plain "search on LinkedIn / Naukri / Indeed" links: they open the site's own search page in the student's browser;
+plain "search on LinkedIn / Naukri / Indeed" links (entry-level and internship): they open the site's own search page in the student's browser;
 nothing is scraped or fetched from those sites.
 
 Never raises. "unavailable" is True only when listings is empty because every source that was asked failed.
@@ -18,12 +18,25 @@ MAX_SHOWN = 8
 
 
 def search_links(career_path):
-    """The site's own job-search pages for this path's search phrase (fixed hosts, phrase URL-encoded)."""
+    """Each site's own search page, once for entry-level jobs and once for internships (fixed hosts, phrase
+    URL-encoded). The filter parameters (LinkedIn f_E: 1 = internship, 2 = entry level; Naukri experience=0;
+    "fresher"/"intern" in the phrase) come from how those sites' URLs are commonly built and could not be
+    tested from the server, so a site may ignore one: the page still opens a normal search."""
     term = SEARCH_TERMS[career_path]
+    fresher, intern = f"{term} fresher", f"{term} intern"
     return [
-        {"name": "LinkedIn", "url": f"https://www.linkedin.com/jobs/search/?keywords={quote_plus(term)}&location=India"},
-        {"name": "Naukri", "url": f"https://www.naukri.com/{quote(term.lower().replace(' ', '-'))}-jobs"},
-        {"name": "Indeed", "url": f"https://in.indeed.com/jobs?q={quote_plus(term)}&l=India"},
+        {"name": "LinkedIn", "kind": "fresher",
+         "url": f"https://www.linkedin.com/jobs/search/?keywords={quote_plus(term)}&location=India&f_E=1%2C2"},
+        {"name": "Naukri", "kind": "fresher",
+         "url": f"https://www.naukri.com/{quote(term.lower().replace(' ', '-'))}-jobs?experience=0"},
+        {"name": "Indeed", "kind": "fresher",
+         "url": f"https://in.indeed.com/jobs?q={quote_plus(fresher)}&l=India"},
+        {"name": "LinkedIn", "kind": "internship",
+         "url": f"https://www.linkedin.com/jobs/search/?keywords={quote_plus(intern)}&location=India&f_E=1"},
+        {"name": "Naukri", "kind": "internship",
+         "url": f"https://www.naukri.com/{quote(intern.lower().replace(' ', '-'))}-jobs"},
+        {"name": "Indeed", "kind": "internship",
+         "url": f"https://in.indeed.com/jobs?q={quote_plus(intern)}&l=India"},
     ]
 
 

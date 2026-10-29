@@ -1,7 +1,7 @@
 """
 Live job listings from the Jooble API for a career path: an optional second source next to Adzuna.
 
-Same contract as adzuna_listings.get_live_listings: a runtime call, never stored, never raises, results
+Same contract as adzuna_listings.get_live_listings (entry-level roles only: asks for "<role> fresher" first and drops senior titles): a runtime call, never stored, never raises, results
 cached for a few hours (failures only for a minute). Without JOOBLE_API_KEY it is simply not used
 (is_configured() is False and nothing is requested).
 
@@ -20,7 +20,7 @@ import time
 import requests
 from flask import current_app
 
-from app.pipeline.adzuna_listings import SEARCH_TERMS, dedupe_listings
+from app.pipeline.adzuna_listings import SEARCH_TERMS, dedupe_listings, entry_level_only
 
 JOOBLE_URL = "https://jooble.org/api/"
 REQUEST_TIMEOUT_SECONDS = 5
@@ -86,14 +86,19 @@ def get_jooble_listings(career_path, limit=5):
     if not key:
         return _unavailable()
     try:
-        response = requests.post(JOOBLE_URL + key, json={"keywords": term, "location": LOCATION},
-                                 timeout=REQUEST_TIMEOUT_SECONDS)
-        if response.status_code != 200:
-            return _cache_set(term, _unavailable(), FAILURE_CACHE_TTL_SECONDS)
-        jobs = response.json()["jobs"]
-        if not isinstance(jobs, list):
-            return _cache_set(term, _unavailable(), FAILURE_CACHE_TTL_SECONDS)
-        normalized = [n for n in (_normalize_listing(j) for j in jobs if isinstance(j, dict)) if n]
+        normalized = None
+        for keywords in (f"{term} fresher", term):     # entry-level first; the plain phrase only if that finds nothing
+            response = requests.post(JOOBLE_URL + key, json={"keywords": keywords, "location": LOCATION},
+                                     timeout=REQUEST_TIMEOUT_SECONDS)
+            if response.status_code != 200:
+                return _cache_set(term, _unavailable(), FAILURE_CACHE_TTL_SECONDS)
+            jobs = response.json()["jobs"]
+            if not isinstance(jobs, list):
+                return _cache_set(term, _unavailable(), FAILURE_CACHE_TTL_SECONDS)
+            normalized = entry_level_only(
+                [n for n in (_normalize_listing(j) for j in jobs if isinstance(j, dict)) if n])
+            if normalized:
+                break
     except Exception:
         return _cache_set(term, _unavailable(), FAILURE_CACHE_TTL_SECONDS)
     return _cache_set(term, {"listings": dedupe_listings(normalized)[:limit], "unavailable": False}, CACHE_TTL_SECONDS)

@@ -113,7 +113,7 @@ def main():
         fresh()
         check("jooble: configured when a key is set", jl.is_configured() is True)
         body = {"totalCount": 3, "jobs": [
-            joo("Senior <b>DevOps</b> Engineer &amp; SRE", "Acme <b>Cloud</b>"),
+            joo("Junior <b>DevOps</b> Engineer &amp; SRE", "Acme <b>Cloud</b>"),
             joo("DevOps Engineer", "Acme Cloud", link="https://jooble.test/dup"),       # same title+company after cleaning? different title
             joo("Bad link job", "Zed", link="javascript:alert(1)"),
             joo("", "No title"),
@@ -127,12 +127,12 @@ def main():
         logging.getLogger().removeHandler(log)
         call = post.call_args
         check("jooble: POSTs to the Jooble URL with the key, the search phrase and India, with a timeout",
-              call.args[0] == jl.JOOBLE_URL + JOOBLE_KEY and call.kwargs["json"] == {"keywords": "devops engineer", "location": "India"}
+              call.args[0] == jl.JOOBLE_URL + JOOBLE_KEY and call.kwargs["json"] == {"keywords": "devops engineer fresher", "location": "India"}
               and call.kwargs["timeout"] == jl.REQUEST_TIMEOUT_SECONDS)
         check("jooble: HTML tags and entities are removed from title and company",
-              r["listings"][0]["title"] == "Senior DevOps Engineer & SRE" and r["listings"][0]["company"] == "Acme Cloud")
+              r["listings"][0]["title"] == "Junior DevOps Engineer & SRE" and r["listings"][0]["company"] == "Acme Cloud")
         check("jooble: listings with a non-http(s) link, no title or no link are skipped, junk entries ignored",
-              [x["title"] for x in r["listings"]] == ["Senior DevOps Engineer & SRE", "DevOps Engineer"] and not r["unavailable"])
+              [x["title"] for x in r["listings"]] == ["Junior DevOps Engineer & SRE", "DevOps Engineer"] and not r["unavailable"])
         check("jooble: listings have the same shape as Adzuna's (salary None, not predicted)",
               set(r["listings"][0]) == {"title", "company", "location", "url", "salary_estimate", "salary_is_predicted"}
               and r["listings"][0]["salary_estimate"] is None and r["listings"][0]["salary_is_predicted"] is False)
@@ -157,6 +157,65 @@ def main():
             except Exception as exc:
                 r, err = None, exc
         check("jooble: a timeout is swallowed and nothing leaks", err is None and r == {"listings": [], "unavailable": True} and JOOBLE_KEY not in json.dumps(r))
+
+    # ------------------------------------------------------------ entry-level filter and fresher search
+    titles = {"Senior Python Developer": True, "Sr. Data Analyst": True, "Lead DevOps Engineer": True, "Engineering Manager": True,
+              "Solutions Architect": True, "Head of Data": True, "Data Analyst (5+ years)": True, "Python Developer - 3 years exp": True,
+              "Principal Engineer": True, "Python Developer": False, "Junior Python Developer": False, "Fresher - Data Analyst": False,
+              "Software Engineer II": False, "Graduate Trainee Engineer": False, "Intern - Backend": False,
+              "Leadership Trainee": False, "Misleading Developer": False}
+    wrong = [t for t, senior in titles.items() if al.is_senior({"title": t}) != senior]
+    check("filter: senior / lead / manager / architect / head / principal titles and 'N years' are caught, entry-level titles pass", not wrong)
+    if wrong:
+        print("   wrong:", wrong)
+    check("filter: a listing with no title does not raise and is kept", al.entry_level_only([{"title": None}, {}]) == [{"title": None}, {}])
+
+    with app.app_context():
+        fresh()
+        first = {"results": [adz("Senior Python Developer", "A"), adz("Python Developer", "B"), adz("Lead Python Engineer", "C"), adz("Junior Python Developer", "D")]}
+        with patch("app.pipeline.adzuna_listings.requests.get", return_value=Resp(200, first)) as g:
+            r = al.get_live_listings("Backend Engineering")
+        check("adzuna: senior titles that slip through are dropped from what is shown", [x["company"] for x in r["listings"]] == ["B", "D"])
+        p = g.call_args_list[0].kwargs["params"]
+        check("adzuna: first request asks for entry-level roles (what_or) and excludes senior words (what_exclude)",
+              p["what"] == "backend developer" and p["what_or"] == al.ENTRY_WORDS and p["what_exclude"] == al.EXCLUDE_WORDS and g.call_count == 1)
+
+        fresh()
+        calls = []
+
+        def seq(url, params=None, timeout=None):
+            calls.append(dict(params))
+            return Resp(200, {"results": []}) if "what_or" in params else Resp(200, {"results": [adz("Backend Developer", "Plain Co")]})
+        with patch("app.pipeline.adzuna_listings.requests.get", side_effect=seq):
+            r = al.get_live_listings("Backend Engineering")
+        check("adzuna: when the entry-level search finds nothing, ONE plain search follows and its (filtered) results are used",
+              len(calls) == 2 and "what_or" not in calls[1] and [x["company"] for x in r["listings"]] == ["Plain Co"])
+        fresh()
+        calls.clear()
+
+        def rejected(url, params=None, timeout=None):
+            calls.append(dict(params))
+            return Resp(400) if "what_or" in params else Resp(200, {"results": [adz("Backend Developer", "Plain Co")]})
+        with patch("app.pipeline.adzuna_listings.requests.get", side_effect=rejected):
+            r = al.get_live_listings("Backend Engineering")
+        check("adzuna: if Adzuna rejects the entry-level parameters (400) the plain search still gives listings, not 'unavailable'",
+              len(calls) == 2 and r["unavailable"] is False and len(r["listings"]) == 1)
+        fresh()
+        with patch("app.pipeline.adzuna_listings.requests.get", return_value=Resp(500)) as g:
+            r = al.get_live_listings("Backend Engineering")
+        check("adzuna: a server error (500) is not retried and is 'unavailable'", g.call_count == 1 and r == {"listings": [], "unavailable": True})
+
+    with app.app_context():
+        fresh()
+        seen = []
+
+        def jseq(url, json=None, timeout=None):
+            seen.append(json["keywords"])
+            return Resp(200, {"jobs": []}) if json["keywords"].endswith("fresher") else Resp(200, {"jobs": [joo("Senior SRE", "S"), joo("DevOps Engineer", "T")]})
+        with patch("app.pipeline.jooble_listings.requests.post", side_effect=jseq):
+            r = jl.get_jooble_listings("DevOps")
+        check("jooble: when '<role> fresher' finds nothing the plain phrase is tried once, and senior titles are still dropped",
+              seen == ["devops engineer fresher", "devops engineer"] and [x["company"] for x in r["listings"]] == ["T"])
 
     # ------------------------------------------------------------ combiner
     def adz_payload(*pairs):
@@ -198,7 +257,7 @@ def main():
              patch("app.pipeline.jooble_listings.requests.post", return_value=Resp(500)):
             r = lj.get_live_job_listings("Backend Engineering")
         check("combined: every source down -> unavailable, no listings, search links still present",
-              r["unavailable"] is True and r["listings"] == [] and len(r["search_links"]) == 3)
+              r["unavailable"] is True and r["listings"] == [] and len(r["search_links"]) == 6)
         fresh()
         with patch("app.pipeline.adzuna_listings.requests.get", return_value=Resp(200, {"results": []})), \
              patch("app.pipeline.jooble_listings.requests.post", return_value=Resp(200, {"jobs": []})):
@@ -228,15 +287,18 @@ def main():
     all_ok = True
     for path in CAREER_PATHS:
         links = lj.search_links(path)
-        all_ok &= [l["name"] for l in links] == ["LinkedIn", "Naukri", "Indeed"]
-        all_ok &= links[0]["url"].startswith("https://www.linkedin.com/jobs/search/?keywords=")
-        all_ok &= links[1]["url"].startswith("https://www.naukri.com/") and links[1]["url"].endswith("-jobs")
-        all_ok &= links[2]["url"].startswith("https://in.indeed.com/jobs?q=")
-        all_ok &= all(" " not in l["url"] and l["url"].startswith("https://") for l in links)
-    check("search links: all 15 paths give LinkedIn, Naukri and Indeed links on fixed https hosts with no spaces", all_ok)
+        all_ok &= [(l["name"], l["kind"]) for l in links] == [("LinkedIn", "fresher"), ("Naukri", "fresher"), ("Indeed", "fresher"),
+                                                              ("LinkedIn", "internship"), ("Naukri", "internship"), ("Indeed", "internship")]
+        all_ok &= all(l["url"].startswith(("https://www.linkedin.com/jobs/search/?", "https://www.naukri.com/", "https://in.indeed.com/jobs?"))
+                      and " " not in l["url"] for l in links)
+    check("search links: every path gives fresher AND internship links for LinkedIn, Naukri and Indeed on fixed https hosts, no spaces", all_ok)
     ui = lj.search_links("UI/UX Design")
-    check("search links: the phrase is URL-encoded ('UI UX designer' -> no raw slash or space)",
-          "keywords=UI+UX+designer" in ui[0]["url"] and "ui-ux-designer-jobs" in ui[1]["url"] and "q=UI+UX+designer" in ui[2]["url"])
+    check("search links: fresher links use the entry-level filters (LinkedIn f_E=1,2; Naukri experience=0; 'fresher' on Indeed)",
+          ui[0]["url"].endswith("&f_E=1%2C2") and ui[1]["url"].endswith("-jobs?experience=0") and "q=UI+UX+designer+fresher" in ui[2]["url"])
+    check("search links: internship links ask for interns (LinkedIn f_E=1; 'intern' in the phrase)",
+          ui[3]["url"].endswith("&f_E=1") and "UI+UX+designer+intern" in ui[3]["url"] and "ui-ux-designer-intern-jobs" in ui[4]["url"]
+          and "q=UI+UX+designer+intern" in ui[5]["url"])
+    check("search links: the phrase is URL-encoded (no raw slash or space)", "keywords=UI+UX+designer&" in ui[0]["url"] and "ui-ux-designer-jobs" in ui[1]["url"])
     check("search links: nothing is fetched (the module has no HTTP client)", "requests" not in open(lj.__file__, encoding="utf-8").read())
 
     passed = sum(1 for _, ok in checks if ok)

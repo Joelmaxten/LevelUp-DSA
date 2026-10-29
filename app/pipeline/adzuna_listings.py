@@ -27,6 +27,10 @@ REQUEST_TIMEOUT_SECONDS = 5
 # One Adzuna page often holds the same job reposted several times, so ask for more than we show,
 # drop duplicates, then keep the first `limit`.
 FETCH_SIZE = 20
+# Ask Adzuna for entry-level roles first: at least one of these words must appear, and senior words must not.
+# If that returns nothing (or Adzuna rejects the parameters) one plain search is tried before giving up.
+ENTRY_WORDS = "fresher graduate trainee junior entry intern"
+EXCLUDE_WORDS = "senior lead principal manager architect head director"
 CACHE_TTL_SECONDS = 6 * 60 * 60
 FAILURE_CACHE_TTL_SECONDS = 60
 
@@ -96,6 +100,21 @@ def listing_key(listing):
     return clean(listing.get("title")), clean(listing.get("company"))
 
 
+# Students are freshers, so roles that ask for seniority or years of experience are left out.
+_SENIOR_TITLE = re.compile(
+    r"\b(senior|sr|lead|principal|manager|architect|head|director|vp|staff|expert)\b|\b\d+\s*\+?\s*(?:years?|yrs?)\b",
+    re.IGNORECASE)
+
+
+def is_senior(listing):
+    return bool(_SENIOR_TITLE.search(listing.get("title") or ""))
+
+
+def entry_level_only(listings):
+    """Drop listings whose title asks for seniority ("Senior", "Lead", "Manager"...) or years of experience ("5+ years")."""
+    return [listing for listing in listings if not is_senior(listing)]
+
+
 def dedupe_listings(listings):
     """Keep the first listing for each listing_key, in order."""
     seen, kept = set(), []
@@ -129,6 +148,11 @@ def _normalize_listing(raw):
     }
 
 
+def entry_level_only_raw(results):
+    """True-ish list of raw Adzuna results whose title is not senior (used to decide whether to retry plain)."""
+    return [r for r in results if isinstance(r, dict) and not _SENIOR_TITLE.search(str(r.get("title") or ""))]
+
+
 def get_live_listings(career_path, limit=5):
     """
     {"listings": [...], "unavailable": bool} for this career path - never
@@ -150,21 +174,24 @@ def get_live_listings(career_path, limit=5):
     if cached is not None:
         return cached
 
-    params = {
+    base = {
         "app_id": current_app.config["ADZUNA_APP_ID"],
         "app_key": current_app.config["ADZUNA_APP_KEY"],
         "results_per_page": max(limit, FETCH_SIZE),
         "what": term,
         "content-type": "application/json",
     }
-
+    entry_params = {**base, "what_or": ENTRY_WORDS, "what_exclude": EXCLUDE_WORDS}
     try:
-        response = requests.get(ADZUNA_SEARCH_URL, params=params, timeout=REQUEST_TIMEOUT_SECONDS)
-        if response.status_code != 200:
+        response = requests.get(ADZUNA_SEARCH_URL, params=entry_params, timeout=REQUEST_TIMEOUT_SECONDS)
+        results = response.json()["results"] if response.status_code == 200 else None
+        if response.status_code == 400 or (results is not None and not entry_level_only_raw(results)):
+            # parameters rejected, or no entry-level role found: one plain search, still filtered below
+            response = requests.get(ADZUNA_SEARCH_URL, params=base, timeout=REQUEST_TIMEOUT_SECONDS)
+            results = response.json()["results"] if response.status_code == 200 else None
+        if results is None:
             return _cache_set(term, _unavailable(), FAILURE_CACHE_TTL_SECONDS)
-        data = response.json()
-        listings = dedupe_listings([_normalize_listing(r) for r in data["results"]])[:limit]
+        listings = dedupe_listings(entry_level_only([_normalize_listing(r) for r in results]))[:limit]
     except Exception:
         return _cache_set(term, _unavailable(), FAILURE_CACHE_TTL_SECONDS)
-
     return _cache_set(term, {"listings": listings, "unavailable": False}, CACHE_TTL_SECONDS)

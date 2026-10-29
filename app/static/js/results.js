@@ -588,7 +588,7 @@ function liveListingsPanel(targetCareerPath) {
     const body = el("div", {}, skeleton("Finding live listings", 2));
     const credit = el("p", { className: "muted credit" }, "Jobs by ",
         el("a", { href: JOB_SOURCE_SITES.Adzuna, target: "_blank", rel: "noopener noreferrer", text: "Adzuna" }));
-    const moreLinks = el("p", { className: "muted credit" });
+    const moreLinks = el("div", {});
 
     function renderListings(listings) {
         body.replaceChildren(el("ul", { className: "jobs" }, ...listings.map((job) => {
@@ -626,13 +626,17 @@ function liveListingsPanel(targetCareerPath) {
 
     function renderSearchLinks(links) {
         const safe = (links || []).filter((link) => link && isSafeUrl(link.url));
-        if (!safe.length) return;
-        const parts = ["Search more on "];
-        safe.forEach((link, index) => {
-            if (index) parts.push(" · ");
-            parts.push(el("a", { href: link.url, target: "_blank", rel: "noopener noreferrer", text: link.name }));
-        });
-        moreLinks.replaceChildren(...parts);
+        const rows = [["fresher", "Fresher jobs on: "], ["internship", "Internships on: "]].map(([kind, label]) => {
+            const row = safe.filter((link) => link.kind === kind);
+            if (!row.length) return null;
+            const parts = [label];
+            row.forEach((link, index) => {
+                if (index) parts.push(" · ");
+                parts.push(el("a", { href: link.url, target: "_blank", rel: "noopener noreferrer", text: link.name }));
+            });
+            return el("p", { className: "muted credit" }, ...parts);
+        }).filter(Boolean);
+        if (rows.length) moreLinks.replaceChildren(...rows);
     }
 
     getJson(`/resume/listings?career_path=${encodeURIComponent(targetCareerPath)}`).then((result) => {

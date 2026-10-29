@@ -229,7 +229,7 @@ For these tests run `pip install -r requirements-dev.txt` once (adds fpdf2).
 | `smoke_test_paths.py` | shared career-path picker, `/career/options`, path override, multiple roadmaps, dashboard roadmap list | no (Gemini patched) |
 | `smoke_test_progress.py` | roadmap tick/untick, progress counts, dashboard bar; `--keep` leaves a demo user whose login it prints | no |
 | `smoke_test_adzuna.py` | live listings: cache, failure handling, median-only salary, `/resume/listings` | no (HTTP patched) |
-| `smoke_test_jobs.py` | duplicate removal, the optional Jooble source, the combiner, LinkedIn/Naukri/Indeed search links (35 checks) | no (stubs only, no database) |
+| `smoke_test_jobs.py` | duplicate removal, the optional Jooble source, the combiner, LinkedIn/Naukri/Indeed search links (45 checks) | no (stubs only, no database) |
 | `smoke_test_resume_modes.py` | resume modes: ranking unit checks (near-ties, thin-path labelling, insufficient data), `/resume/discover` and `/resume/<id>/analyze` happy paths, 404/400/401, CSRF, rate limits, stored skills reused, `/resume/upload` unchanged, required-skills lists identical to the pre-change snapshot (`scratch/golden/required_skills_before.json`) | no (feedback stubbed; local index and embeddings; needs `requirements-dev.txt` for fpdf2) |
 | `smoke_test_quiz.py` | career quiz: question-bank rules (1-3 paths per option, 6+ options per path, separating options for each pair), invariants (every path can be #1, every pair separable, stop rule within the bank), 30 seeded replays against `scratch/golden/quiz_after.json`, all-A/all-B personas; pure, no database | no |
 | `smoke_test_async_generation.py` | background generation: `/roadmap/generate-async` 202 and polling to done, progress fields, 409, ownership 404, fixed error codes with no exception text, own app context, daily cap, expiry, CSRF, sync route unchanged | no (generator stubbed) |
@@ -754,3 +754,13 @@ source that was asked failed. Adzuna alone fetches 20 results and keeps the firs
 as returned, so a reposted job could fill the list). **LinkedIn is not scraped**: its terms forbid it and it has no public job-search API;
 the links just open LinkedIn's own search page in the student's browser. Jooble is stored nowhere (same live, cached-6-hours model as
 Adzuna) and `jooble_listings.py` never puts the key (it is part of the request URL) in a return value, log line or error.
+
+**Entry-level only (fresher focus).** Students are freshers, so every source asks for entry-level roles. Adzuna's first request sends
+`what_or` (fresher, graduate, trainee, junior, entry, intern) and `what_exclude` (senior, lead, principal, manager, architect, head,
+director); Jooble's first request is `"<role> fresher"`. If that finds nothing (or Adzuna answers 400 because it dislikes the
+parameters) ONE plain search follows, so the box is not empty just because of the filter. Results are then filtered in code by
+`adzuna_listings.is_senior`: a title containing Senior, Sr, Lead, Principal, Manager, Architect, Head, Director, VP, Staff or Expert, or
+"N years/yrs", is dropped. `search_links` now has six links per path (`kind` is `fresher` or `internship`): LinkedIn
+(`f_E=1%2C2` entry level / `f_E=1` internship), Naukri (`experience=0`; `<role>-intern-jobs`) and Indeed (`fresher` / `intern` in the
+query). Those URL filters are from how the sites build their URLs and could not be tested from the server; if one is ignored the site
+still opens a normal search. Edit `ENTRY_WORDS`, `EXCLUDE_WORDS` or `_SENIOR_TITLE` in `adzuna_listings.py` to tune it.

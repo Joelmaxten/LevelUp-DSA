@@ -328,7 +328,7 @@ a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token 
 
 | File | Lines | Purpose (first sentence of its docstring) |
 |---|---|---|
-| `app/pipeline/adzuna_listings.py` | 170 | Live job listings from the Adzuna API for a career path - a runtime call, never stored (this was the master doc's original design intent for "Live Jobs"; no Adzuna-calling code existed anywhere before this module - see the read-on |
+| `app/pipeline/adzuna_listings.py` | 197 | Live job listings from the Adzuna API for a career path - a runtime call, never stored (this was the master doc's original design intent for "Live Jobs"; no Adzuna-calling code existed anywhere before this module - see the read-on |
 | `app/pipeline/ats_score.py` | 239 | Lightweight ATS (Applicant Tracking System) friendliness score - NOT a deep PDF layout/structure analysis (multi-column detection, table linearization, etc. |
 | `app/pipeline/base_roadmaps.py` | 150 | Reviewed base roadmaps: one JSON file per career path in data/base_roadmaps/<slug>.json, built offline by scripts/build_base_roadmaps.py and served by POST /roadmap/generate-async in "cached" mode (see app/pipeline/generation_jobs |
 | `app/pipeline/career_path_registry.py` | 145 | Single source of truth for the 15 career paths: which roadmap.sh knowledge-base folders ground each one, and which SO Survey 2025 DevType values (survey_respondents.dev_type - a controlled-vocabulary field, kept raw in that column |
@@ -344,8 +344,8 @@ a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token 
 | `app/pipeline/generation_jobs.py` | 194 | Background roadmap generation. |
 | `app/pipeline/goal_tailoring.py` | 85 | What the Goals answers change, in plain words, for the "Here's what we'll tailor" card on the Goals page. |
 | `app/pipeline/india_jobs_processor.py` | 111 | Processes the India Job Market & Salary dataset (Kaggle) into clean, structured rows ready for PostgreSQL. |
-| `app/pipeline/jooble_listings.py` | 99 | Live job listings from the Jooble API for a career path: an optional second source next to Adzuna. |
-| `app/pipeline/live_jobs.py` | 68 | All live job listings for a career path in one answer: Adzuna and (when JOOBLE_API_KEY is set) Jooble, asked at the same time, interleaved, with duplicates removed across both, each listing tagged with its source. |
+| `app/pipeline/jooble_listings.py` | 104 | Live job listings from the Jooble API for a career path: an optional second source next to Adzuna. |
+| `app/pipeline/live_jobs.py` | 81 | All live job listings for a career path in one answer: Adzuna and (when JOOBLE_API_KEY is set) Jooble, asked at the same time, interleaved, with duplicates removed across both, each listing tagged with its source. |
 | `app/pipeline/llm_client.py` | 684 | One entry point for every LLM call the app makes: generate(task, prompt, ...). |
 | `app/pipeline/path_fit.py` | 255 | "Which career path fits my resume?" - ranks the 15 career paths for a set of resume skills. |
 | `app/pipeline/path_matches.py` | 41 | Pure functions over a CareerProfile's ranking - no Flask, no DB. |
@@ -390,7 +390,7 @@ a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token 
 | `app/templates/signup.html` | 186 |
 | `app/static/js/celebrate.js` | 111 |
 | `app/static/js/gamification.js` | 111 |
-| `app/static/js/results.js` | 831 |
+| `app/static/js/results.js` | 835 |
 | `app/static/js/scenario_map.js` | 342 |
 | `app/static/js/scenarios.js` | 736 |
 | `app/static/js/ui.js` | 540 |

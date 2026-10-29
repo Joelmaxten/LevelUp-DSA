@@ -2631,3 +2631,20 @@ security 30/30, profile 79/79. **Not verified:** nothing was run against the rea
 documentation is behind a sign-up form, so its request and response format is written from the commonly published form and tested
 only with stubs: it must be tried once with a real key. Jooble's terms of use (attribution, caching) were not read. The UI change was
 checked for JavaScript syntax only. `smoke_test_resume_modes.py` fails in the cloud copy for an unrelated reason (no survey data there).
+
+---
+## Job Listings: Entry-Level Focus
+
+**Why.** After the Jooble change worked, the project owner pointed out that Adzuna and Jooble postings mostly ask for experience, while the
+students are freshers.
+
+**What was built.** Adzuna is asked for entry-level words and senior words are excluded; Jooble is asked for "<role> fresher"; both fall
+back to one plain search when the entry-level one finds nothing (or Adzuna rejects the parameters). Titles asking for seniority or years
+are removed in code (`is_senior`). The search links are now fresher AND internship links for LinkedIn, Naukri and Indeed (six per path),
+shown in two rows on the Jobs tab.
+
+**Verified.** `smoke_test_jobs.py` 45/45 (title filter on 17 sample titles, the Adzuna request parameters, the plain-search fallback on empty
+and on a 400, no retry on a 500, the Jooble fallback, six links for all 15 paths), `smoke_test_adzuna.py` 34/34. **Not verified:** nothing
+was run against the real services, so how many fresher postings Adzuna and Jooble actually return per path is unknown (a path may show few
+or none, which the search links cover); Adzuna's `what_or` / `what_exclude` behaviour and every LinkedIn / Naukri / Indeed URL filter were
+not tested against the live sites. The title filter is a keyword rule: it can drop a fine posting or keep a senior one with a neutral title.
