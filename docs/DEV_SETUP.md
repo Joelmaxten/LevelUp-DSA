@@ -86,6 +86,7 @@ three are needed to boot; the rest unlock features:
 | `DATABASE_URL` | PostgreSQL connection | local `levelup_dsa_dev` |
 | `GEMINI_API_KEY` | roadmap generation, resume feedback, problem framing | empty |
 | `YOUTUBE_API_KEY` | fallback video search for roadmap steps | empty |
+| `JOOBLE_API_KEY` | optional second live-jobs source (free key from https://jooble.org/api/about, request form). Empty = Jooble is not used and nothing changes. Never put it in a screenshot or commit it | empty |
 | `ADZUNA_APP_ID`, `ADZUNA_APP_KEY` | live job listings on the resume page; without them the listings box shows "unavailable" | empty |
 | `PISTON_API_URL` | code execution (not yet used) | `http://localhost:2000/api/v2/execute` |
 | `FAISS_INDEX_PATH` | knowledge-base index location | `data/processed/faiss_index` |
@@ -228,6 +229,7 @@ For these tests run `pip install -r requirements-dev.txt` once (adds fpdf2).
 | `smoke_test_paths.py` | shared career-path picker, `/career/options`, path override, multiple roadmaps, dashboard roadmap list | no (Gemini patched) |
 | `smoke_test_progress.py` | roadmap tick/untick, progress counts, dashboard bar; `--keep` leaves a demo user whose login it prints | no |
 | `smoke_test_adzuna.py` | live listings: cache, failure handling, median-only salary, `/resume/listings` | no (HTTP patched) |
+| `smoke_test_jobs.py` | duplicate removal, the optional Jooble source, the combiner, LinkedIn/Naukri/Indeed search links (35 checks) | no (stubs only, no database) |
 | `smoke_test_resume_modes.py` | resume modes: ranking unit checks (near-ties, thin-path labelling, insufficient data), `/resume/discover` and `/resume/<id>/analyze` happy paths, 404/400/401, CSRF, rate limits, stored skills reused, `/resume/upload` unchanged, required-skills lists identical to the pre-change snapshot (`scratch/golden/required_skills_before.json`) | no (feedback stubbed; local index and embeddings; needs `requirements-dev.txt` for fpdf2) |
 | `smoke_test_quiz.py` | career quiz: question-bank rules (1-3 paths per option, 6+ options per path, separating options for each pair), invariants (every path can be #1, every pair separable, stop rule within the bank), 30 seeded replays against `scratch/golden/quiz_after.json`, all-A/all-B personas; pure, no database | no |
 | `smoke_test_async_generation.py` | background generation: `/roadmap/generate-async` 202 and polling to done, progress fields, 409, ownership 404, fixed error codes with no exception text, own app context, daily cap, expiry, CSRF, sync route unchanged | no (generator stubbed) |
@@ -743,3 +745,12 @@ model can still ignore that, `remove_unsupported_percentages` replaces any perce
 text with `[your measured result]` (percentages the resume itself contains are kept). The whole call is wrapped by
 `llm_client.generate(..., budget_s=...)`, which runs it in a helper thread and raises `LLMError(kind="timeout")` after
 `RESUME_FEEDBACK_BUDGET_S` seconds; both resume routes already treat an `LLMError` as "no feedback". Checks: `smoke_test_llm.py`.
+
+### Live job listings: Adzuna + Jooble, duplicates removed, search links
+`GET /resume/listings` now answers from `app/pipeline/live_jobs.py`: Adzuna and (only when `JOOBLE_API_KEY` is set) Jooble are asked at
+the same time, interleaved, de-duplicated across both by a cleaned-up (title, company) key, capped at 8, each tagged with `source`. The
+response adds `sources` (the sources that answered) and `search_links` (LinkedIn, Naukri, Indeed). `unavailable` is true only when every
+source that was asked failed. Adzuna alone fetches 20 results and keeps the first 5 distinct ones (before this, one page of 5 was shown
+as returned, so a reposted job could fill the list). **LinkedIn is not scraped**: its terms forbid it and it has no public job-search API;
+the links just open LinkedIn's own search page in the student's browser. Jooble is stored nowhere (same live, cached-6-hours model as
+Adzuna) and `jooble_listings.py` never puts the key (it is part of the request URL) in a return value, log line or error.

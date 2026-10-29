@@ -57,6 +57,8 @@ class Config:
     GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
     ADZUNA_APP_ID = os.environ.get("ADZUNA_APP_ID", "")
     ADZUNA_APP_KEY = os.environ.get("ADZUNA_APP_KEY", "")
+    # Optional second live-jobs source (https://jooble.org/api/about). Empty = Jooble is simply not used.
+    JOOBLE_API_KEY = os.environ.get("JOOBLE_API_KEY", "").strip()
     YOUTUBE_API_KEY = os.environ.get("YOUTUBE_API_KEY", "")
 
     # LLM provider and models (see app/pipeline/llm_client.py). LLM_PROVIDER is

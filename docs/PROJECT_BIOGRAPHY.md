@@ -2608,3 +2608,26 @@ replaced and ones in it kept; the prompt carries the rules, the resume text and 
 guard does not depend on it). The wrong "missing keywords" may also come from the skill matching, which was not reproduced here because the
 cloud database has no survey data. The real latency is still unmeasured. A model that ignores the budget keeps running in its thread
 until its own timeout; only the caller is released.
+
+---
+## Job Listings: Duplicates Removed, Jooble Added, Search Links Instead of Scraping LinkedIn
+
+**What was seen.** A screenshot of the Jobs tab showed the same posting ("Full-Stack Developer", VSI Infotech LLP) three times in five
+rows. Cause: one Adzuna page of 5 results was shown as returned, with no duplicate check. The project owner asked to add LinkedIn
+postings through Firecrawl.
+
+**Decision on LinkedIn.** Not scraped. LinkedIn's terms forbid automated scraping, it has no public job-search API for a project like this,
+and a scraper would need a paid key at runtime and break whenever the pages change. Instead each path gets "Search more on LinkedIn · Naukri
+· Indeed" links that open those sites' own search pages (nothing is fetched). The owner also asked for Jooble as a second real source.
+
+**What was built.** `adzuna_listings.py` fetches 20 and keeps the first 5 distinct (key: title + company with case, punctuation and
+spacing removed, so "Full-Stack" and "Full Stack" match). New `jooble_listings.py` (optional, needs `JOOBLE_API_KEY`; HTML tags removed,
+non-http links skipped, never raises, key never leaked) and `live_jobs.py` (asks both at once, interleaves, removes duplicates across both,
+tags `source`, adds `search_links`). `GET /resume/listings` returns the combined answer; `results.js` shows a source chip per listing, a
+credit line for the sources actually used and the search links.
+
+**Verified.** New `smoke_test_jobs.py` 35/35 (stubs only), `smoke_test_adzuna.py` 34/34 (its route-shape check was updated on purpose),
+security 30/30, profile 79/79. **Not verified:** nothing was run against the real Jooble or Adzuna services or in a browser. Jooble's
+documentation is behind a sign-up form, so its request and response format is written from the commonly published form and tested
+only with stubs: it must be tried once with a real key. Jooble's terms of use (attribution, caching) were not read. The UI change was
+checked for JavaScript syntax only. `smoke_test_resume_modes.py` fails in the cloud copy for an unrelated reason (no survey data there).

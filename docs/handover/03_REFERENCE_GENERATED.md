@@ -278,7 +278,7 @@ a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token 
 | resume | `/resume/<int:resume_id>/analyze` | POST | yes | Analyze an already-uploaded resume (see /resume/discover) against one career path, without uploading again. |
 | resume | `/resume/discover` | POST | yes | "Which career path fits my resume?" - upload a PDF with NO target path. |
 | resume | `/resume/latest` | GET | yes | The student's latest saved resume analysis. |
-| resume | `/resume/listings` | GET | yes | Live Adzuna job listings for one career path - deliberately NOT part of /resume/upload or /resume/latest's response (see adzuna_listings.py): the frontend calls this on its own, after the rest of the analysis is already rendered,  |
+| resume | `/resume/listings` | GET | yes | Live job listings (Adzuna, plus Jooble when configured) for one career path, with search links for LinkedIn/Naukri/Indeed - deliberately NOT part of /resume/upload or /resume/latest's response (see adzuna_listings.py): the fronten |
 | resume | `/resume/upload` | POST | yes | Upload a PDF and analyze it against a target career path (skills, gaps, ATS score, feedback, salary). |
 | roadmap | `/roadmap/<int:roadmap_id>` | GET | yes | One saved roadmap. |
 | roadmap | `/roadmap/<int:roadmap_id>/progress` | POST | yes | Body: {"step_index": int, "done": bool}. |
@@ -302,7 +302,7 @@ a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token 
 | File | Lines | Purpose (first sentence of its docstring) |
 |---|---|---|
 | `app/__init__.py` | 204 | The application factory (create_app): registers every route, the login gate, error pages and the restart-logout hook. |
-| `app/config.py` | 175 | Settings read from environment variables, with development and production modes. |
+| `app/config.py` | 177 | Settings read from environment variables, with development and production modes. |
 | `app/models.py` | 301 | The database tables (SQLAlchemy models). |
 | `app/security.py` | 88 | Request-level security: CSRF protection and small in-process rate limits. |
 | `app/usernames.py` | 46 | Username rules, shared by signup, the profile page and scripts/add_usernames.py. |
@@ -320,7 +320,7 @@ a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token 
 | `app/routes/profile.py` | 278 | The student's own profile: personal details, username, profile picture and password change. |
 | `app/routes/quiz.py` | 100 | The career quiz: start and answer. |
 | `app/routes/readiness.py` | 78 | GET /readiness: the student's Placement Readiness Score (see app/pipeline/readiness.py for the rules). |
-| `app/routes/resume.py` | 379 | Resume upload, analysis and the latest saved result. |
+| `app/routes/resume.py` | 382 | Resume upload, analysis and the latest saved result. |
 | `app/routes/roadmap.py` | 485 | Roadmap generation, listing, progress and resources. |
 | `app/routes/scenarios.py` | 426 | Scenario-based practice: a map of scenarios per career path, each a short work situation with questions. |
 
@@ -328,7 +328,7 @@ a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token 
 
 | File | Lines | Purpose (first sentence of its docstring) |
 |---|---|---|
-| `app/pipeline/adzuna_listings.py` | 143 | Live job listings from the Adzuna API for a career path - a runtime call, never stored (this was the master doc's original design intent for "Live Jobs"; no Adzuna-calling code existed anywhere before this module - see the read-on |
+| `app/pipeline/adzuna_listings.py` | 170 | Live job listings from the Adzuna API for a career path - a runtime call, never stored (this was the master doc's original design intent for "Live Jobs"; no Adzuna-calling code existed anywhere before this module - see the read-on |
 | `app/pipeline/ats_score.py` | 239 | Lightweight ATS (Applicant Tracking System) friendliness score - NOT a deep PDF layout/structure analysis (multi-column detection, table linearization, etc. |
 | `app/pipeline/base_roadmaps.py` | 150 | Reviewed base roadmaps: one JSON file per career path in data/base_roadmaps/<slug>.json, built offline by scripts/build_base_roadmaps.py and served by POST /roadmap/generate-async in "cached" mode (see app/pipeline/generation_jobs |
 | `app/pipeline/career_path_registry.py` | 145 | Single source of truth for the 15 career paths: which roadmap.sh knowledge-base folders ground each one, and which SO Survey 2025 DevType values (survey_respondents.dev_type - a controlled-vocabulary field, kept raw in that column |
@@ -344,6 +344,8 @@ a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token 
 | `app/pipeline/generation_jobs.py` | 194 | Background roadmap generation. |
 | `app/pipeline/goal_tailoring.py` | 85 | What the Goals answers change, in plain words, for the "Here's what we'll tailor" card on the Goals page. |
 | `app/pipeline/india_jobs_processor.py` | 111 | Processes the India Job Market & Salary dataset (Kaggle) into clean, structured rows ready for PostgreSQL. |
+| `app/pipeline/jooble_listings.py` | 99 | Live job listings from the Jooble API for a career path: an optional second source next to Adzuna. |
+| `app/pipeline/live_jobs.py` | 68 | All live job listings for a career path in one answer: Adzuna and (when JOOBLE_API_KEY is set) Jooble, asked at the same time, interleaved, with duplicates removed across both, each listing tagged with its source. |
 | `app/pipeline/llm_client.py` | 684 | One entry point for every LLM call the app makes: generate(task, prompt, ...). |
 | `app/pipeline/path_fit.py` | 255 | "Which career path fits my resume?" - ranks the 15 career paths for a set of resume skills. |
 | `app/pipeline/path_matches.py` | 41 | Pure functions over a CareerProfile's ranking - no Flask, no DB. |
@@ -388,7 +390,7 @@ a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token 
 | `app/templates/signup.html` | 186 |
 | `app/static/js/celebrate.js` | 111 |
 | `app/static/js/gamification.js` | 111 |
-| `app/static/js/results.js` | 802 |
+| `app/static/js/results.js` | 831 |
 | `app/static/js/scenario_map.js` | 342 |
 | `app/static/js/scenarios.js` | 736 |
 | `app/static/js/ui.js` | 540 |
@@ -405,6 +407,7 @@ a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token 
 | `scripts/smoke_test_code_questions.py` | Smoke test for graded code questions: the code runner adapter, validator, public view, grading and the Run / Check routes. |
 | `scripts/smoke_test_gamification.py` | Smoke test for gamification: XP rules (best score only, one-off bonuses, no farming), levels, the IST streak maths, every badge rule, rewards between two summaries, GET /gamification (auth, per-user data, no writes), the rewards o |
 | `scripts/smoke_test_generator.py` | Regression test for the roadmap generator (app/pipeline/roadmap_generator.py), with a deterministic fake LLM (scripts/_fake_llm.py) standing in for Gemini / Bedrock. |
+| `scripts/smoke_test_jobs.py` | Smoke test for the live job listings: duplicate removal, the optional Jooble source, the combiner (app/pipeline/live_jobs.py) and the LinkedIn / Naukri / Indeed search links. |
 | `scripts/smoke_test_llm.py` | Smoke test for app/pipeline/llm_client.py with stubs only: a scripted fake Bedrock client and a patched gemini_client.generate_with_retry. |
 | `scripts/smoke_test_paths.py` | Smoke test for the shared career-path picker and multi-roadmap support: app/pipeline/path_matches.py, resolve_target_career_path's allow_override, GET /career/options, GET /roadmap/list, GET /roadmap/<id>, and the dashboard's "roa |
 | `scripts/smoke_test_profile.py` | Smoke test for accounts and the profile: username rules, signup with a username, login with a username or an email, the live username check, the profile page and API (details, validation, username change, picture, password change) |

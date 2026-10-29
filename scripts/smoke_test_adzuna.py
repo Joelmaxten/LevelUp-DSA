@@ -219,11 +219,12 @@ def main():
             resp = client.get("/resume/listings")
             check("/resume/listings: 400 for a missing path", resp.status_code == 400)
 
-            with patch("app.routes.resume.get_live_listings", return_value={"listings": [], "unavailable": False}) as mock_route:
+            with patch("app.routes.resume.get_live_job_listings", return_value={
+                    "listings": [], "unavailable": False, "sources": ["Adzuna"], "search_links": []}) as mock_route:
                 resp = client.get("/resume/listings?career_path=Backend Engineering")
                 body = resp.get_json()
                 check("/resume/listings: 200 for a valid path", resp.status_code == 200)
-                check("/resume/listings: response shape", set(body) == {"career_path", "listings", "unavailable"})
+                check("/resume/listings: response shape", set(body) == {"career_path", "listings", "unavailable", "sources", "search_links"})
                 mock_route.assert_called_once_with("Backend Engineering")
 
             # ------------------------------------------------------------

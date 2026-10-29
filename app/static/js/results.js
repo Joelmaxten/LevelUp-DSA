@@ -578,10 +578,17 @@ function salaryPanel(insights) {
 }
 
 // Self-fetching: starts as a skeleton, then GETs /resume/listings for targetCareerPath and fills itself in -
-// independent of whatever rendered the rest of the page. Always shows the Adzuna credit line underneath,
-// regardless of load/empty/unavailable/success state.
+// independent of whatever rendered the rest of the page. Listings come from Adzuna and, when the server has a key,
+// Jooble; each carries its source. Under the list: a credit line for the sources actually used, and links that open
+// LinkedIn / Naukri / Indeed's own search pages (nothing is fetched from those sites). The credit and the links show
+// in every state (loading, empty, unavailable, success).
+const JOB_SOURCE_SITES = { Adzuna: "https://www.adzuna.com", Jooble: "https://jooble.org" };
+
 function liveListingsPanel(targetCareerPath) {
     const body = el("div", {}, skeleton("Finding live listings", 2));
+    const credit = el("p", { className: "muted credit" }, "Jobs by ",
+        el("a", { href: JOB_SOURCE_SITES.Adzuna, target: "_blank", rel: "noopener noreferrer", text: "Adzuna" }));
+    const moreLinks = el("p", { className: "muted credit" });
 
     function renderListings(listings) {
         body.replaceChildren(el("ul", { className: "jobs" }, ...listings.map((job) => {
@@ -596,6 +603,7 @@ function liveListingsPanel(targetCareerPath) {
                 : el("span", { className: "job-link" }, ...text);
 
             const li = el("li", { className: "job" }, content);
+            if (job.source) li.append(el("span", { className: "chip chip-line", text: job.source }));
             if (job.salary_estimate != null) {
                 const figure = el("span", { className: "job-salary" }, el("span", { className: "num", text: formatInr(job.salary_estimate) }));
                 if (job.salary_is_predicted) figure.append(el("span", { className: "chip chip-line", text: "estimated" }));
@@ -605,11 +613,35 @@ function liveListingsPanel(targetCareerPath) {
         })));
     }
 
+    function renderCredit(sources) {
+        const used = (sources || []).filter((name) => JOB_SOURCE_SITES[name]);
+        if (!used.length) return;
+        const parts = ["Jobs by "];
+        used.forEach((name, index) => {
+            if (index) parts.push(" and ");
+            parts.push(el("a", { href: JOB_SOURCE_SITES[name], target: "_blank", rel: "noopener noreferrer", text: name }));
+        });
+        credit.replaceChildren(...parts);
+    }
+
+    function renderSearchLinks(links) {
+        const safe = (links || []).filter((link) => link && isSafeUrl(link.url));
+        if (!safe.length) return;
+        const parts = ["Search more on "];
+        safe.forEach((link, index) => {
+            if (index) parts.push(" · ");
+            parts.push(el("a", { href: link.url, target: "_blank", rel: "noopener noreferrer", text: link.name }));
+        });
+        moreLinks.replaceChildren(...parts);
+    }
+
     getJson(`/resume/listings?career_path=${encodeURIComponent(targetCareerPath)}`).then((result) => {
+        if (result.ok) renderSearchLinks(result.data.search_links);
         if (!result.ok || result.data.unavailable) {
             body.replaceChildren(el("p", { className: "muted", text: "Live listings are unavailable right now." }));
             return;
         }
+        renderCredit(result.data.sources);
         if (!result.data.listings.length) {
             body.replaceChildren(el("p", { className: "muted", text: "No live listings found for this role." }));
             return;
@@ -617,10 +649,7 @@ function liveListingsPanel(targetCareerPath) {
         renderListings(result.data.listings);
     });
 
-    return el("div", { className: "stack-sm" },
-        body,
-        el("p", { className: "muted credit" }, "Jobs by ",
-            el("a", { href: "https://www.adzuna.com", target: "_blank", rel: "noopener noreferrer", text: "Adzuna" })));
+    return el("div", { className: "stack-sm" }, body, credit, moreLinks);
 }
 
 const FEEDBACK_HEADERS = ["Resume Suggestions", "30-Day Action Plan", "Keyword Suggestions"];

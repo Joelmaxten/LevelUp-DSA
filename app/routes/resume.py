@@ -8,7 +8,7 @@ from werkzeug.utils import secure_filename
 
 from app import db
 from app.models import CareerProfile, Resume, SkillGap
-from app.pipeline.adzuna_listings import get_live_listings
+from app.pipeline.live_jobs import get_live_job_listings
 from app.pipeline.career_path_registry import CAREER_PATHS
 from app.pipeline.resume_analyzer import (
     analyze_resume, extract_text_from_pdf, get_pdf_page_count, get_extended_skill_vocabulary, get_required_skills,
@@ -352,7 +352,8 @@ def analyze_stored_resume(resume_id):
 @login_required
 def get_listings():
     """
-    Live Adzuna job listings for one career path - deliberately NOT part of
+    Live job listings (Adzuna, plus Jooble when configured) for one career path, with
+    search links for LinkedIn/Naukri/Indeed - deliberately NOT part of
     /resume/upload or /resume/latest's response (see adzuna_listings.py):
     the frontend calls this on its own, after the rest of the analysis is
     already rendered, so a slow/unavailable Adzuna call never delays or
@@ -371,9 +372,11 @@ def get_listings():
             "options": list(CAREER_PATHS),
         }), 400
 
-    result = get_live_listings(career_path)
+    result = get_live_job_listings(career_path)
     return jsonify({
         "career_path": career_path,
         "listings": result["listings"],
         "unavailable": result["unavailable"],
+        "sources": result["sources"],
+        "search_links": result["search_links"],
     }), 200

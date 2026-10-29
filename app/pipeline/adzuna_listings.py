@@ -14,6 +14,7 @@ same graceful-degradation contract as fetch_video_for_step /
 fetch_resources_for_roadmap.
 """
 
+import re
 import time
 
 import requests
@@ -23,6 +24,9 @@ from app.pipeline.career_path_registry import CAREER_PATHS
 
 ADZUNA_SEARCH_URL = "https://api.adzuna.com/v1/api/jobs/in/search/1"
 REQUEST_TIMEOUT_SECONDS = 5
+# One Adzuna page often holds the same job reposted several times, so ask for more than we show,
+# drop duplicates, then keep the first `limit`.
+FETCH_SIZE = 20
 CACHE_TTL_SECONDS = 6 * 60 * 60
 FAILURE_CACHE_TTL_SECONDS = 60
 
@@ -81,6 +85,29 @@ def _cache_set(term, result, ttl_seconds):
     return result
 
 
+_NON_ALNUM = re.compile(r"[^a-z0-9]+")
+
+
+def listing_key(listing):
+    """(title, company) with case, punctuation and spacing removed: "Full-Stack Developer" and
+    "Full Stack Developer" at the same company are the same posting."""
+    def clean(value):
+        return _NON_ALNUM.sub(" ", (value or "").lower()).strip()
+    return clean(listing.get("title")), clean(listing.get("company"))
+
+
+def dedupe_listings(listings):
+    """Keep the first listing for each listing_key, in order."""
+    seen, kept = set(), []
+    for listing in listings:
+        key = listing_key(listing)
+        if key in seen:
+            continue
+        seen.add(key)
+        kept.append(listing)
+    return kept
+
+
 def _normalize_listing(raw):
     """
     Raises (KeyError/TypeError) if `raw` is missing a required field -
@@ -126,7 +153,7 @@ def get_live_listings(career_path, limit=5):
     params = {
         "app_id": current_app.config["ADZUNA_APP_ID"],
         "app_key": current_app.config["ADZUNA_APP_KEY"],
-        "results_per_page": limit,
+        "results_per_page": max(limit, FETCH_SIZE),
         "what": term,
         "content-type": "application/json",
     }
@@ -136,7 +163,7 @@ def get_live_listings(career_path, limit=5):
         if response.status_code != 200:
             return _cache_set(term, _unavailable(), FAILURE_CACHE_TTL_SECONDS)
         data = response.json()
-        listings = [_normalize_listing(r) for r in data["results"][:limit]]
+        listings = dedupe_listings([_normalize_listing(r) for r in data["results"]])[:limit]
     except Exception:
         return _cache_set(term, _unavailable(), FAILURE_CACHE_TTL_SECONDS)
 
