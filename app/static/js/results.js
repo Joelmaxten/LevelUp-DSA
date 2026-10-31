@@ -334,7 +334,8 @@ function roadmapStep(step, displayIndex, videosPending, isFirstOverall, stepProg
         extra
     );
 
-    if (stepProgress) wireStepCheckbox(checkSlot, stepProgress, li);
+    if (stepProgress && stepProgress.verified && typeof wireStepCheck === "function") wireStepCheck(checkSlot, stepProgress, li);
+    else if (stepProgress) wireStepCheckbox(checkSlot, stepProgress, li);
     else checkSlot.hidden = true;
 
     return li;

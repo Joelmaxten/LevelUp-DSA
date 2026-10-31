@@ -50,6 +50,17 @@ class Config:
     # Usage limits (per user). The roadmap cap is a rolling window over
     # GeneratedRoadmap.created_at; the other two are in-process counters.
     ROADMAP_DAILY_LIMIT = int(os.environ.get("ROADMAP_DAILY_LIMIT", "5"))
+
+    # Verified progression: a roadmap step is completed by passing a short check built from the knowledge-base passages
+    # the step came from, not by ticking a box (see app/pipeline/step_checks.py). False = the old tick-box behaviour.
+    VERIFIED_PROGRESS = _env_flag("VERIFIED_PROGRESS", True)
+    STEP_CHECK_QUESTIONS = int(os.environ.get("STEP_CHECK_QUESTIONS", "4") or 4)
+    STEP_CHECK_PASS = int(os.environ.get("STEP_CHECK_PASS", "3") or 3)
+    TEST_OUT_QUESTIONS = int(os.environ.get("TEST_OUT_QUESTIONS", "6") or 6)
+    TEST_OUT_PASS = int(os.environ.get("TEST_OUT_PASS", "5") or 5)
+    STEP_CHECK_COOLDOWN_S = int(os.environ.get("STEP_CHECK_COOLDOWN_S", "120") or 120)
+    STEP_CHECK_REVIEW_AFTER = int(os.environ.get("STEP_CHECK_REVIEW_AFTER", "2") or 2)
+    STEP_CHECK_LLM = _env_flag("STEP_CHECK_LLM", False)   # also ask the model for questions (each one is verified)
     RESUME_UPLOAD_LIMIT_PER_HOUR = int(os.environ.get("RESUME_UPLOAD_LIMIT_PER_HOUR", "10"))
     RESUME_LISTINGS_LIMIT_PER_HOUR = int(os.environ.get("RESUME_LISTINGS_LIMIT_PER_HOUR", "30"))
 

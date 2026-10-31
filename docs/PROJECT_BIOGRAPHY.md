@@ -2747,3 +2747,28 @@ flow worked in the app: request a link, receive the email, set a new password. *
 not see the email or the pages. The diagnostics added earlier (stage and server reply in the log, `scripts/test_mail.py`) are what made the cause
 findable and stay in the code. A project-specific sender address would need a mail service or an older account.
 
+---
+## Verified Progression: Steps Completed by a Grounded Check (branch `verified-progression`)
+
+**Why.** The guide wanted the project to be more distinctive: students could tick every roadmap step without learning anything.
+
+**What was built.** A step is completed by passing a short check made from the knowledge-base passages the step itself was built from. The
+questions are generated from the passage text (no model, so free, offline and grounded by construction); an optional model mode adds
+questions that are kept only if their quoted evidence is in the passage and supports the answer. Steps unlock in order, a locked step can be
+tested out of with a harder check, failed attempts start a cooldown, unseen questions are preferred, an open attempt cannot be re-rolled,
+and two fails in a row require reviewing the passages. A pass writes the normal progress row, so XP, badges, readiness and the completion
+banner are unchanged. Old roadmaps without `topic_refs` keep the tick box.
+
+**Problems found on the way.** (1) The first question builder gave answers away (the right option kept the topic's name, or opened
+differently from the others); measured over all 15 roadmaps and fixed: question titles are reduced to their term, every name form including
+the singular is blanked, the pronoun follows the verb ("They are"), wrong options open the same way, and giveaway questions are dropped.
+(2) The step state took about 3 s per request (questions were rebuilt for every step on every request); now cached, about 15 ms. In the
+browser this showed as a passed step still looking open. (3) The status button overlapped the step title; actions moved into the step body.
+
+**Verified.** `smoke_test_step_checks.py` 83/83; security, profile, gamification, readiness, quiz, scenarios, password reset and seed suites
+unchanged; a browser run in the cloud (log in, open a real AI Engineering roadmap, take the check, pass, see "Verified" and step 2 open, no
+console errors, no sideways scrolling at 390 px). **Not verified:** the optional model questions with a real model (only a stub), the
+roadmap page with videos still loading, and Joel's own database. `smoke_test_progress.py` and `smoke_test_cached_roadmaps.py` could not run
+in the cloud copy (a missing scratch file, and no access to download the embedding model); both are environmental. Still to build: the
+skill evidence record and switching readiness and job matching to verified skills.
+

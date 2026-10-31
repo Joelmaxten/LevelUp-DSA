@@ -332,7 +332,7 @@ Shows the saved quiz result, roadmap progress, resume summary, scenarios, level,
 | QA & Test Automation | 5 | 32 | claude-opus-5-5 |
 | UI/UX Design | 3 | 29 | claude-opus-5-5 |
 
-## 2. Database tables (15 tables)
+## 2. Database tables (18 tables)
 
 The database is PostgreSQL, accessed through SQLAlchemy (`app/models.py`). There are no migrations; tables are created
 with `db.create_all()` and one-off scripts in `scripts/` add columns to older databases.
@@ -359,6 +359,21 @@ with `db.create_all()` and one-off scripts in `scripts/` add columns to older da
 | `salary_suspicious` | BOOLEAN |  |
 | `career_paths` | ARRAY |  |
 | `source` | VARCHAR(100) |  |
+
+### `step_check_items`
+
+| Column | Type | Notes |
+|---|---|---|
+| `id` | INTEGER | primary key |
+| `step_key` | VARCHAR(64) | required |
+| `kind` | VARCHAR(20) | required |
+| `prompt` | TEXT | required |
+| `options` | JSON | required |
+| `correct` | VARCHAR(4) | required |
+| `evidence` | TEXT | required |
+| `source_title` | VARCHAR(200) | required |
+| `source_node` | VARCHAR(64) |  |
+| `created_at` | DATETIME | required |
 
 ### `survey_respondents`
 
@@ -508,6 +523,35 @@ with `db.create_all()` and one-off scripts in `scripts/` add columns to older da
 | `step_index` | INTEGER | required |
 | `completed_at` | DATETIME |  |
 
+### `step_check_attempts`
+
+| Column | Type | Notes |
+|---|---|---|
+| `id` | INTEGER | primary key |
+| `user_id` | INTEGER | -> users.id, required |
+| `roadmap_id` | INTEGER | -> generated_roadmaps.id, required |
+| `step_index` | INTEGER | required |
+| `mode` | VARCHAR(10) | required |
+| `questions` | JSON | required |
+| `answers` | JSON |  |
+| `score` | INTEGER |  |
+| `total` | INTEGER | required |
+| `pass_mark` | INTEGER | required |
+| `passed` | BOOLEAN |  |
+| `started_at` | DATETIME | required |
+| `submitted_at` | DATETIME |  |
+
+### `step_reviews`
+
+| Column | Type | Notes |
+|---|---|---|
+| `id` | INTEGER | primary key |
+| `user_id` | INTEGER | -> users.id, required |
+| `roadmap_id` | INTEGER | -> generated_roadmaps.id, required |
+| `step_index` | INTEGER | required |
+| `required_at` | DATETIME | required |
+| `reviewed_at` | DATETIME |  |
+
 ### `user_progress`
 
 | Column | Type | Notes |
@@ -518,7 +562,7 @@ with `db.create_all()` and one-off scripts in `scripts/` add columns to older da
 | `completed_at` | DATETIME |  |
 
 
-## 3. HTTP routes (54 routes)
+## 3. HTTP routes (59 routes)
 
 "Login needed" is read from the route's decorator (`@login_required` returns JSON 401; `@page_login_required` redirects
 a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token header.
@@ -579,6 +623,11 @@ a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token 
 | scenarios | `/scenarios/<scenario_id>/start` | POST | yes | Start or resume an attempt (403 scenario_locked if the previous scenario is not passed). |
 | scenarios | `/scenarios/<scenario_id>/submit` | POST | yes | Grade the whole attempt on the server; returns the result and the rewards. |
 | scenarios | `/scenarios/paths` | GET | yes | The paths that have scenarios. |
+| step_checks | `/roadmap/<int:roadmap_id>/steps/<int:step_index>/check/start` | POST | yes |  |
+| step_checks | `/roadmap/<int:roadmap_id>/steps/<int:step_index>/check/submit` | POST | yes |  |
+| step_checks | `/roadmap/<int:roadmap_id>/steps/<int:step_index>/review` | GET | yes |  |
+| step_checks | `/roadmap/<int:roadmap_id>/steps/<int:step_index>/review` | POST | yes |  |
+| step_checks | `/roadmap/<int:roadmap_id>/steps/state` | GET | yes |  |
 
 ## 4. Code map
 
@@ -586,10 +635,10 @@ a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token 
 
 | File | Lines | Purpose (first sentence of its docstring) |
 |---|---|---|
-| `app/__init__.py` | 210 | The application factory (create_app): registers every route, the login gate, error pages and the restart-logout hook. |
-| `app/config.py` | 189 | Settings read from environment variables, with development and production modes. |
+| `app/__init__.py` | 213 | The application factory (create_app): registers every route, the login gate, error pages and the restart-logout hook. |
+| `app/config.py` | 200 | Settings read from environment variables, with development and production modes. |
 | `app/mailer.py` | 58 | Minimal email sending for the password-reset link, standard library only (smtplib), so no extra package. |
-| `app/models.py` | 315 | The database tables (SQLAlchemy models). |
+| `app/models.py` | 369 | The database tables (SQLAlchemy models). |
 | `app/security.py` | 88 | Request-level security: CSRF protection and small in-process rate limits. |
 | `app/seed_data.py` | 92 | Export and load the two data tables the app cannot run without: survey_respondents (the Stack Overflow survey rows, India only) and job_listings (the processed India jobs). |
 | `app/usernames.py` | 46 | Username rules, shared by signup, the profile page and scripts/add_usernames.py. |
@@ -608,8 +657,9 @@ a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token 
 | `app/routes/quiz.py` | 100 | The career quiz: start and answer. |
 | `app/routes/readiness.py` | 78 | GET /readiness: the student's Placement Readiness Score (see app/pipeline/readiness.py for the rules). |
 | `app/routes/resume.py` | 382 | Resume upload, analysis and the latest saved result. |
-| `app/routes/roadmap.py` | 485 | Roadmap generation, listing, progress and resources. |
+| `app/routes/roadmap.py` | 496 | Roadmap generation, listing, progress and resources. |
 | `app/routes/scenarios.py` | 426 | Scenario-based practice: a map of scenarios per career path, each a short work situation with questions. |
+| `app/routes/step_checks.py` | 324 | Verified progression routes (see app/pipeline/step_checks.py for how questions are made and checked). |
 
 ### app/pipeline/ (logic: quiz, roadmaps, resume, scenarios, gamification, LLM)
 
@@ -655,6 +705,7 @@ a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token 
 | `app/pipeline/skill_vocabulary.py` | 38 | Extra skill names for resume skill extraction in "which path fits my resume" mode, on top of the four survey categories the existing vocabulary is built from (languages, databases, platforms, web frameworks - see resume_analyzer.g |
 | `app/pipeline/so_survey_chunks.py` | 63 | Generates FAISS-ready text chunks from SO Survey 2025 (India) respondent data - one chunk per career path, summarizing the most common languages, databases, platforms, and frameworks among respondents in that path. |
 | `app/pipeline/so_survey_processor.py` | 93 | Processes the Stack Overflow Developer Survey 2025 into clean, structured rows for PostgreSQL, filtered to India respondents only - this project's target audience is explicitly tier-2/tier-3 Indian engineering colleges (per the ma |
+| `app/pipeline/step_checks.py` | 385 | Verified progression: a roadmap step is completed by passing a short check, not by ticking a box. |
 | `app/pipeline/survey_queries.py` | 28 | Query helper bridging the 15 career paths to survey_respondents.dev_type. |
 | `app/pipeline/warmup.py` | 56 | Background warm-up of the two slow-to-load pieces roadmap generation needs: the sentence-transformer model (about 20 s the first time in a process) and the FAISS index plus chunk metadata. |
 | `app/pipeline/youtube_resources.py` | 413 | KB-first video and resource resolver for a generated roadmap. |
@@ -674,16 +725,17 @@ a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token 
 | `app/templates/quiz.html` | 164 |
 | `app/templates/reset_password.html` | 73 |
 | `app/templates/resume.html` | 300 |
-| `app/templates/roadmap.html` | 543 |
+| `app/templates/roadmap.html` | 578 |
 | `app/templates/scenarios.html` | 19 |
 | `app/templates/signup.html` | 186 |
 | `app/static/js/celebrate.js` | 111 |
 | `app/static/js/gamification.js` | 111 |
-| `app/static/js/results.js` | 835 |
+| `app/static/js/results.js` | 836 |
 | `app/static/js/scenario_map.js` | 342 |
 | `app/static/js/scenarios.js` | 736 |
+| `app/static/js/step_checks.js` | 190 |
 | `app/static/js/ui.js` | 540 |
-| `app/static/css/style.css` | 1442 |
+| `app/static/css/style.css` | 1464 |
 
 ## 5. Test scripts
 
@@ -713,6 +765,7 @@ a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token 
 | `scripts/smoke_test_scenarios.py` | Smoke test for scenario-based gamification: validator, store, engine, progress rules, routes. |
 | `scripts/smoke_test_security.py` | Smoke test for the security hardening: CSRF protection, session-cookie flags, production SECRET_KEY check, the roadmap daily cap and the resume rate limits. |
 | `scripts/smoke_test_seed.py` | Checks for app/seed_data.py (export/load of survey_respondents and job_listings) and the fresh-clone helpers. |
+| `scripts/smoke_test_step_checks.py` | Smoke test for verified progression: roadmap steps completed by passing a check built from the step's own knowledge-base passages (app/pipeline/step_checks.py, app/routes/step_checks.py). |
 | `scripts/smoke_test_youtube.py` | Extends the roadmap smoke test to also verify /roadmap/<id>/resources - first real end-to-end test of YouTube resource attachment. |
 
 <!-- ===== END 03_REFERENCE_GENERATED.md ===== -->

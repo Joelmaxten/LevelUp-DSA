@@ -474,6 +474,7 @@ def route_checks(index, chunks):
 
     other_path = "DevOps"                         # has NO base file in these tests -> full generation
     app = create_app()
+    app.config["VERIFIED_PROGRESS"] = False   # ticks steps directly (smoke_test_step_checks.py covers the checks)
     enable_csrf_client(app)
     suffix = random.randint(100000, 999999)
     emails = [f"cachedtest{suffix}@example.com", f"cachedother{suffix}@example.com"]

@@ -1440,3 +1440,25 @@ a.job-link:hover .job-title { text-decoration: underline; }
 .tailor-area { justify-self: start; }
 .tailor-text { margin: 0; }
 @media (max-width: 34rem) { .tailor-item { grid-template-columns: 1fr; gap: var(--sp-1); } }
+
+/* ---------- Verified progression: step checks (js/step_checks.js) ---------- */
+.sc-control { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); }
+.sc-note { margin: 0; font-size: var(--fs-sm); }
+.sc-mark { display: grid; place-items: center; width: 1.75rem; height: 1.75rem; margin-top: 0.6rem; border-radius: 50%; font-weight: 800; }
+.sc-mark-open { border: 2px solid var(--ink); }
+.sc-mark-done { background: var(--ink); color: var(--paper); }
+.sc-mark-locked { font-size: 1rem; }
+.sc-verified { font-weight: 700; }
+.step-locked .step-title { color: var(--pencil); }
+.sc-dialog { width: min(40rem, calc(100vw - 2rem)); }
+.sc-q { border: 2px solid var(--ink); border-radius: var(--r); padding: var(--sp-3); margin: 0; }
+.sc-prompt { font-weight: 700; white-space: pre-line; padding: 0; margin: 0 0 var(--sp-2); }
+.sc-opt { display: flex; gap: var(--sp-2); align-items: flex-start; min-height: var(--tap); padding: var(--sp-1) 0; cursor: pointer; }
+.sc-opt input { margin-top: 0.3em; flex: none; }
+.sc-results { padding-left: 0; list-style: none; }
+.sc-results li { border-left: 4px solid var(--ink); padding-left: var(--sp-3); }
+.sc-results p { margin: 0 0 var(--sp-1); }
+.sc-passage { border-top: 2px solid var(--tint); padding-top: var(--sp-3); }
+.sc-passage-title { font-size: var(--fs-md); margin: 0; }
+.sc-links { margin: 0; }
+

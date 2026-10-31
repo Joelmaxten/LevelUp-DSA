@@ -13,6 +13,7 @@
 
 <script src="{{ url_for('static', filename='js/results.js') }}"></script>
 <script src="{{ url_for('static', filename='js/celebrate.js') }}"></script>
+<script src="{{ url_for('static', filename='js/step_checks.js') }}"></script>
 <script>
 const box = document.getElementById("roadmap-box");
 const STUDENT_NAME = {{ current_user.name|tojson }};
@@ -29,6 +30,18 @@ let roadmapsList = [];          // GET /roadmap/list's result - [{roadmap_id, ca
 // it forward" beyond just not reassigning it except when a genuinely new
 // or freshly-loaded roadmap tells us what its real completed_steps are.
 let completed = new Set();
+
+// Verified progression (js/step_checks.js): each step's check state from GET /roadmap/<id>/steps/state, loaded
+// lazily for whichever roadmap is shown. stepStatesFor = the roadmap id the states belong to.
+let stepStates = null;
+let stepStatesFor = null;
+
+async function refreshStepStates() {
+    const id = roadmap.roadmap_id;
+    const result = await getJson(`/roadmap/${id}/steps/state`);
+    stepStatesFor = id;
+    stepStates = result.ok ? result.data : { verified_progress: false, steps: {} };
+}
 
 // POSTs one step's done state; returns true/false (never throws - a
 // failure here just means the checkbox's own change handler reverts the
@@ -178,6 +191,11 @@ function howItWorks(origin) {
 }
 
 function renderRoadmap() {
+    if (stepStatesFor !== roadmap.roadmap_id) {
+        showLoading("Loading your roadmap");
+        refreshStepStates().then(renderRoadmap);
+        return;
+    }
     const parts = [];
 
     if (videosState === "failed") {
@@ -234,6 +252,23 @@ function renderRoadmap() {
             return ok;
         },
         onChange: (done) => headerRing.setRing(pctOf(done), `${pctOf(done)}%`, `${done} of ${indexes.length}`),
+        verified: Boolean(stepStates && stepStates.verified_progress),
+        states: (stepStates && stepStates.steps) || {},
+        // After a check or a review: resync progress from the server, then redraw (the dialog stays open on top).
+        onStepsChanged: async (res) => {
+            const wasComplete = Boolean(roadmap.completed_on);
+            if (res && Array.isArray(res.completed_steps)) {
+                completed.clear();
+                res.completed_steps.forEach((i) => completed.add(i));
+                roadmap.completed_count = res.completed_count;
+                roadmap.total_steps = res.total_steps;
+                roadmap.completed_on = res.completed_on || null;
+            }
+            await refreshStepStates();
+            const dialog = document.getElementById("sc-dialog");
+            const redraw = () => { renderRoadmap(); if (!wasComplete && roadmap.completed_on) celebrate(); };
+            if (dialog && dialog.open) dialog.addEventListener("close", redraw, { once: true }); else redraw();
+        },
     }));
 
     if (videosState !== "pending") {

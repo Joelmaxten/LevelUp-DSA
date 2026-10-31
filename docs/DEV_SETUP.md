@@ -98,6 +98,12 @@ three are needed to boot; the rest unlock features:
 | `SESSION_COOKIE_SECURE` | `true`/`false`; Secure flag on the session cookie. Off in development, on in production unless overridden | by mode |
 | `LOGOUT_ON_RESTART` | `true`/`false`; when on, a login cookie from an earlier server run is dropped, so restarting the server logs everyone out (see "Login after a restart"). On in development, off in production unless overridden | by mode |
 | `ROADMAP_DAILY_LIMIT` | roadmaps one user may generate per rolling 24h | `5` |
+| `VERIFIED_PROGRESS` | `true`/`false`. On: a roadmap step is completed by passing a short check, not by ticking (see "Verified progression"). Off: the old tick boxes | `true` |
+| `STEP_CHECK_QUESTIONS`, `STEP_CHECK_PASS` | questions in a step check and how many must be right | `4`, `3` |
+| `TEST_OUT_QUESTIONS`, `TEST_OUT_PASS` | the same for testing out of a locked step | `6`, `5` |
+| `STEP_CHECK_COOLDOWN_S` | wait after a failed check before the next try | `120` |
+| `STEP_CHECK_REVIEW_AFTER` | failed checks in a row before the step's review must be done | `2` |
+| `STEP_CHECK_LLM` | `true` = also ask the `fast` model for questions; each one is kept only if its quoted evidence is found in the source passage and supports the answer | `false` |
 | `RESUME_UPLOAD_LIMIT_PER_HOUR` | resume uploads per user per hour (in-process counter) | `10` |
 | `RESUME_LISTINGS_LIMIT_PER_HOUR` | `/resume/listings` calls per user per hour (in-process counter) | `30` |
 | `LLM_PROVIDER` | `gemini`, `bedrock` or `openai_compat` (see `app/pipeline/llm_client.py`) | `gemini` |
@@ -255,6 +261,7 @@ For these tests run `pip install -r requirements-dev.txt` once (adds fpdf2).
 | `smoke_test_profile_flow.py` | quiz then conversation then `CareerProfile` row; prints rather than counts | no |
 | `smoke_test_code_questions.py` | code questions: runner adapter (OneCompiler shape, Cloudflare page, timeouts, caps, error codes), validator, public view, grading, Run and Submit routes; languages (allowlist, unknown language -> 400, language passed to the runner and stored with the locked answer, local toolchain detection, starter templates, hidden tests never sent) | no (fake runner, stubbed HTTP, or local Python for one traceback check) |
 | `smoke_test_gamification.py` | gamification: XP rules (best score only, one-off bonuses, retries add nothing), levels, IST streak maths, every badge rule, rewards between two summaries, `GET /gamification` (401, per user, no writes, fixed error code), rewards on scenario submit (and a failure there never breaks the grade), pages load the script | no (code runs with local Python) |
+| `smoke_test_step_checks.py` | verified progression: question building on all 15 base roadmaps (no name giveaways, evidence in the source, deterministic), the model-question verifier, picking, grading, lock / cooldown / review rules, and every route (no answers sent, no re-rolling, cooldown 429, review, pass, test-out, re-tick, ownership 404, CSRF, off switch, stubbed model questions); 83 checks | no (model questions stubbed) |
 | `smoke_test_profile.py` | accounts and profile: username rules, signup with a username (taken / invalid / email in other case / older name-only clients), the live username check and its rate limit, login with username or email, `/profile` page and API (401, per user, every field's validation, nothing half-saved, username change, CSRF), picture upload (re-encoded 256x256 JPEG, EXIF and GPS removed, SVG / GIF / over 4 MB refused, private cache), password change, 404 and 500 pages vs JSON, roadmap `completed_on` and the Finish Line badge, the Goals tailoring summary (only real effects; the ranking after Goals equals the quiz's), Goals has 3 questions (C1 refused), a simulated server restart drops the old login cookie (and keeps it when `LOGOUT_ON_RESTART` is off) | no |
 | `smoke_test_code_pools.py` | code pools: content shape of all 15 paths (skill tags only Python / SQL), validator rejections, materialise, the personalised pick rules, no secret field and no hidden test leaked in any of the 360 variants, grading with the real reference solutions, Start/Run/Check/Submit end to end, retry gets the other problem, readiness counts the code question, dashboard scenario summary, no page links to `/dsa` | no (runs code with this machine's Python: `CODE_RUNNER=local`) |
 | `smoke_test_resume.py` | upload, extraction, gap analysis, AI feedback | yes: Gemini |
@@ -833,3 +840,34 @@ Two tables are filled from large CSVs that are not in git: `survey_respondents` 
 - `python run.py` prints a WARNING at start-up when `survey_respondents` is empty. `create_app` now creates `UPLOAD_FOLDER`
   (`uploads/resumes`) itself. Checks: `scripts/smoke_test_seed.py` (18, in a throw-away schema).
 - boto3 is deliberately not in `requirements.txt`: Bedrock is not used (the provider code imports it lazily, only if selected).
+
+### Verified progression (roadmap steps completed by a check)
+A roadmap step is no longer completed by ticking a box. Each step has a short check made from the knowledge-base passages the step was built
+from (the step's `topic_refs` are KB `node_id`s), and passing it completes the step (it creates the normal `roadmap_progress` row, so progress,
+XP, badges, readiness and the completion banner work as before). Code: `app/pipeline/step_checks.py` (pure: question building, the verifier,
+picking, grading, the rules), `app/routes/step_checks.py` (routes), `app/static/js/step_checks.js` (roadmap page). New tables, added by
+`db.create_all()` / `scripts/setup_dev.py`: `step_check_items` (questions, shared by every student with the same step), `step_check_attempts`,
+`step_reviews`.
+
+- **Questions without a model.** For every passage: a "Which topic does this describe?" question (its definition sentence with every form of
+  the name blanked, options = topic names) and a "Which statement describes X?" question (options = definition sentences of other topics, the
+  name replaced by It/They). Grounded by construction; free; work offline. Questions that would give themselves away (the name in the answer,
+  or the right answer opening differently from every wrong one) are dropped. All 15 base roadmaps: 6,175 questions, at least 8 per step.
+- **Optional model questions** (`STEP_CHECK_LLM=true`): the `fast` model writes questions and must quote the supporting sentence word for word.
+  `verify_llm_item` keeps a question only if the quote is in that passage, the answer's words are in the quote, and no wrong option is
+  supported as well. Rejections are logged as `step_check_llm ... rejected=[reasons]`.
+- **Rules.** Step 1 is open; a step opens when the one before it is done. A locked step can be **tested out** of (6 questions, 5 right).
+  Unfinished attempts come back unchanged (no re-rolling for easier questions); later attempts prefer unseen questions; a fail starts a
+  2-minute cooldown; two fails in a row require the **review** (the step's passages and links) before the next try. On a pass the student sees
+  each answer with its source sentence; on a fail only which passages to re-read. The answers never leave the server.
+- **Old roadmaps** (no `topic_refs`) and steps with too few questions keep the tick box and show as "self-marked". A step ticked before this
+  feature counts as done but not verified. `POST /roadmap/<id>/progress` with `done=true` returns 409 `check_required` for a step that has a
+  check, unless the student already passed it. `VERIFIED_PROGRESS=false` restores the old behaviour everywhere.
+- **Changing the question builder:** raise `ITEMS_VERSION` in `step_checks.py`; it is part of every step key, so steps get freshly built
+  questions and old attempts keep their old rows.
+- **Speed:** whether a step has a check is cached per process; the first state request for a roadmap after a server start takes about 1 s,
+  later ones about 15 ms.
+- Tests that tick steps directly (`smoke_test_progress.py`, `smoke_test_profile.py`, `smoke_test_cached_roadmaps.py`) set
+  `VERIFIED_PROGRESS=False` for their own app. `cleanup_demo_users.py` now also clears `step_check_attempts`, `step_reviews` and
+  `password_reset_tokens` (the last one was missing, so the script refused to run after the forgot-password change).
+

@@ -313,3 +313,57 @@ class PasswordResetToken(db.Model):
     expires_at = db.Column(db.DateTime, nullable=False)
     used_at = db.Column(db.DateTime)
 
+
+class StepCheckItem(db.Model):
+    """One question for a roadmap step's check, built from (and checked against) a knowledge-base passage. Shared by
+    every student whose roadmap has the same step (step_key = hash of path + step title + topic_refs). A new table,
+    so db.create_all() adds it. The correct option id never leaves the server."""
+    __tablename__ = "step_check_items"
+
+    id = db.Column(db.Integer, primary_key=True)
+    step_key = db.Column(db.String(64), nullable=False, index=True)
+    kind = db.Column(db.String(20), nullable=False)          # "term" | "definition" (built from the text) | "llm"
+    prompt = db.Column(db.Text, nullable=False)
+    options = db.Column(db.JSON, nullable=False)             # [{"id": "a", "text": ...}, ...]
+    correct = db.Column(db.String(4), nullable=False)
+    evidence = db.Column(db.Text, nullable=False)            # the source sentence that supports the correct option
+    source_title = db.Column(db.String(200), nullable=False)
+    source_node = db.Column(db.String(64))
+    created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+
+
+class StepCheckAttempt(db.Model):
+    """One attempt at a step's check (mode "check") or at testing out of a locked step (mode "test_out"). A passed
+    attempt is what makes a RoadmapProgress row "verified". submitted_at NULL = still open (the same questions come
+    back if the student reloads, so re-rolling for easier questions does not work). A new table."""
+    __tablename__ = "step_check_attempts"
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True)
+    roadmap_id = db.Column(db.Integer, db.ForeignKey("generated_roadmaps.id", ondelete="CASCADE"), nullable=False)
+    step_index = db.Column(db.Integer, nullable=False)
+    mode = db.Column(db.String(10), nullable=False, default="check")
+    questions = db.Column(db.JSON, nullable=False)           # [{"item": id, "order": ["c", "a", ...]}]
+    answers = db.Column(db.JSON)
+    score = db.Column(db.Integer)
+    total = db.Column(db.Integer, nullable=False)
+    pass_mark = db.Column(db.Integer, nullable=False)
+    passed = db.Column(db.Boolean)
+    started_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    submitted_at = db.Column(db.DateTime)
+
+    __table_args__ = (db.Index("ix_step_attempt_user_roadmap", "user_id", "roadmap_id", "step_index"),)
+
+
+class StepReview(db.Model):
+    """The remedial review a student must do after failing a step's check twice in a row: re-read the step's source
+    passages. reviewed_at NULL = still required. A new table."""
+    __tablename__ = "step_reviews"
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True)
+    roadmap_id = db.Column(db.Integer, db.ForeignKey("generated_roadmaps.id", ondelete="CASCADE"), nullable=False)
+    step_index = db.Column(db.Integer, nullable=False)
+    required_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    reviewed_at = db.Column(db.DateTime)
+

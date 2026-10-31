@@ -62,6 +62,7 @@ def flatten_to_old_shape(phased_steps):
 def main():
     keep = "--keep" in sys.argv
     app = create_app()
+    app.config["VERIFIED_PROGRESS"] = False   # these checks tick steps directly (smoke_test_step_checks.py covers checks)
     enable_csrf_client(app)
 
     with app.app_context():
