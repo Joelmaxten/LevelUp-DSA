@@ -588,7 +588,7 @@ a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token 
 |---|---|---|
 | `app/__init__.py` | 210 | The application factory (create_app): registers every route, the login gate, error pages and the restart-logout hook. |
 | `app/config.py` | 189 | Settings read from environment variables, with development and production modes. |
-| `app/mailer.py` | 48 | Minimal email sending for the password-reset link, standard library only (smtplib), so no extra package. |
+| `app/mailer.py` | 58 | Minimal email sending for the password-reset link, standard library only (smtplib), so no extra package. |
 | `app/models.py` | 315 | The database tables (SQLAlchemy models). |
 | `app/security.py` | 88 | Request-level security: CSRF protection and small in-process rate limits. |
 | `app/seed_data.py` | 92 | Export and load the two data tables the app cannot run without: survey_respondents (the Stack Overflow survey rows, India only) and job_listings (the processed India jobs). |

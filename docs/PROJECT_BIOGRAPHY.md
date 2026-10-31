@@ -2719,3 +2719,18 @@ A small change worth making is logging the exception message too (it holds no se
 A readable answer key for the five AI Engineering scenarios (23 questions, 8 coding tasks with the reference solutions) was generated from
 `data/scenarios/ai-engineering.json` and made as a shared document. All 18 single-choice and multi-select answers in it were compared with the
 data file by hand-read check; the ordering and matching questions were not compared by program. It is not stored in the repo.
+
+---
+## Forgot-Password Email: Diagnostics Added
+
+**Why.** The first real test ended in `SMTPServerDisconnected` and the log showed only the error type, so the cause could not be told apart
+(a network drop, a refused login and a closed connection all look alike without the server's reply).
+
+**What was built.** The mailer now logs the stage that failed (`connect`, `starttls`, `login`, `send`), the error type and the server's
+reply (never the password). `scripts/test_mail.py <address>` sends one test email with the app's settings and reports each stage. Spaces in
+`MAIL_PASSWORD` are ignored and an empty `MAIL_SMTP_HOST` falls back to Gmail, two ways a correct-looking `.env` could still fail.
+
+**Verified.** `smoke_test_password_reset.py` 36/36 (stage and error kind in the log, no password in the log, empty host handled), security
+suite 30/30, `test_mail.py` run with no credentials (reports that nothing is configured). **Not verified:** any real send; the cloud copy has no
+Gmail credentials. The cause of the owner's `SMTPServerDisconnected` is still unknown until `test_mail.py` is run on his laptop.
+

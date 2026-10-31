@@ -625,7 +625,12 @@ email has an account; limits of 3 requests per email and 10 per address per hour
 SHA-256 of the token is stored; a link works once, for `PASSWORD_RESET_TTL_MIN` minutes, and a newer request replaces older links; the
 reset page sends `Referrer-Policy: no-referrer` and `no-store`. Email is sent in a background thread so the reply time does not reveal
 whether an account exists. With no `MAIL_*` set, development prints the link in the terminal (a WARNING line from `app.mailer`); a
-production run (not debug) never prints it. Existing logged-in sessions are not ended by a reset. Checks: `smoke_test_password_reset.py` (33).
+production run (not debug) never prints it. Existing logged-in sessions are not ended by a reset. Checks: `smoke_test_password_reset.py` (36).
+
+**Fastest way to find a mail problem:** `PYTHONPATH=. python scripts/test_mail.py you@example.com` sends one test email with the app's own
+settings and prints which stage fails (connect, starttls, login, send) with the server's reply; it never prints the password. The app's
+own failure line now reads `email_failed to=... stage=<stage> kind=<ErrorType> detail=<server reply>`. Spaces in `MAIL_PASSWORD` are
+ignored (Google shows the App Password in groups), and an empty `MAIL_SMTP_HOST=` falls back to `smtp.gmail.com`.
 
 **If the email does not arrive**, read the line the server prints in the `python run.py` terminal (the page always says "we have sent a link"
 on purpose):

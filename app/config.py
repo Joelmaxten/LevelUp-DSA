@@ -148,7 +148,7 @@ class Config:
     # Forgot-password email (Gmail: smtp.gmail.com, port 587, and an App Password - never the normal password).
     # With MAIL_USERNAME / MAIL_PASSWORD empty no email is sent; in development the reset link is printed in the
     # server terminal instead. APP_BASE_URL is the public address put in the link (set it in production).
-    MAIL_SMTP_HOST = os.environ.get("MAIL_SMTP_HOST", "smtp.gmail.com").strip()
+    MAIL_SMTP_HOST = os.environ.get("MAIL_SMTP_HOST", "").strip() or "smtp.gmail.com"
     MAIL_SMTP_PORT = int(os.environ.get("MAIL_SMTP_PORT", "587") or 587)
     MAIL_USERNAME = os.environ.get("MAIL_USERNAME", "").strip()
     MAIL_PASSWORD = os.environ.get("MAIL_PASSWORD", "").strip()

@@ -133,9 +133,19 @@ def main():
         cfg = {"MAIL_USERNAME": "", "MAIL_PASSWORD": ""}
         check("no SMTP + debug -> console", real_send(cfg, "a@b.c", "s", "link", debug=True) == "console")
         check("no SMTP + not debug -> failed, link not printed", real_send(cfg, "a@b.c", "s", "link", debug=False) == "failed")
-        bad = {"MAIL_USERNAME": "u", "MAIL_PASSWORD": "p", "MAIL_FROM": "", "MAIL_SMTP_HOST": "127.0.0.1",
+        bad = {"MAIL_USERNAME": "u", "MAIL_PASSWORD": "zq7 secret", "MAIL_FROM": "", "MAIL_SMTP_HOST": "127.0.0.1",
                "MAIL_SMTP_PORT": 9}
+        import logging
+        records = []
+        handler = logging.Handler()
+        handler.emit = lambda r: records.append(r.getMessage())
+        logging.getLogger("app.mailer").addHandler(handler)
         check("unreachable SMTP -> failed, never raises", real_send(bad, "a@b.c", "s", "b") == "failed")
+        check("failure log names the stage and the error kind",
+              any("stage=connect" in m and "kind=ConnectionRefusedError" in m for m in records))
+        check("failure log never holds the password", not any("zq7 secret" in m or "zq7secret" in m for m in records))
+        bad_empty_host = dict(bad, MAIL_SMTP_HOST="")
+        check("empty host falls back instead of crashing", real_send(bad_empty_host, "a@b.c", "s", "b") == "failed")
     finally:
         mailer.send_email = real_send
         with app.app_context():
