@@ -627,6 +627,22 @@ reset page sends `Referrer-Policy: no-referrer` and `no-store`. Email is sent in
 whether an account exists. With no `MAIL_*` set, development prints the link in the terminal (a WARNING line from `app.mailer`); a
 production run (not debug) never prints it. Existing logged-in sessions are not ended by a reset. Checks: `smoke_test_password_reset.py` (33).
 
+**If the email does not arrive**, read the line the server prints in the `python run.py` terminal (the page always says "we have sent a link"
+on purpose):
+
+| Line | Meaning | Fix |
+|---|---|---|
+| `email_not_sent (SMTP not configured)` + the link | `MAIL_USERNAME` / `MAIL_PASSWORD` not seen | `.env` is read only at start-up: stop the server (Ctrl+C), start it again |
+| `email_failed ... kind=SMTPAuthenticationError` | Gmail refused the login | use a Google App Password (2-Step Verification on), 16 characters, no spaces or quotes |
+| `email_failed ... kind=SMTPServerDisconnected` | the connection was closed before Gmail answered | test the network first (below); then try `MAIL_SMTP_PORT=465`; check an antivirus "email shield" |
+| any other `kind=` (timeout, connection error) | the network blocks Gmail's mail ports | try another network, e.g. a phone hotspot |
+
+Test the network and the login without the app (prints no secrets; run from the project folder):
+`python -c "import smtplib,ssl; s=smtplib.SMTP('smtp.gmail.com',587,timeout=15); s.starttls(context=ssl.create_default_context()); print(s.ehlo()[0])"`
+(250 = reachable), then the same with `smtplib.SMTP_SSL('smtp.gmail.com',465,...)`. The log line shows only the error TYPE; to see the server's
+message, run the login by hand with `s.set_debuglevel(1)`. As of 2026-10-31 the owner's laptop reaches Gmail on both ports (250), yet the app's
+send ended in `SMTPServerDisconnected`; the login-step test had not been reported back, so the cause is **not yet found**.
+
 ### Accounts and the profile page
 
 - **Usernames** (`app/usernames.py`): 3-20 characters, lowercase letters, numbers and `_`, starting with a letter,

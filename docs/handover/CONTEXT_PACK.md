@@ -270,7 +270,7 @@ Shows the saved quiz result, roadmap progress, resume summary, scenarios, level,
 
 # 03. Reference (machine-generated)
 
-> Generated on 2026-10-29 by `scripts/build_handover_pack.py` from the code and data files.
+> Generated on 2026-10-31 by `scripts/build_handover_pack.py` from the code and data files.
 > **Do not edit by hand.** To refresh it after a change: `PYTHONPATH=. python scripts/build_handover_pack.py`.
 > Everything here is read from the app itself (routes, database models, files), so it is exact. Narrative
 > explanations are in files 01 and 02; this file is for looking things up.

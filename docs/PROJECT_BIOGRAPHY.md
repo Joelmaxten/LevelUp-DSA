@@ -2699,3 +2699,23 @@ rate limits, same reply for known and unknown emails, no secrets in the stored r
 suites unchanged. **Not verified:** a real email through Gmail (needs the owner's App Password), how the pages look in a browser, and a
 production deployment (set `APP_BASE_URL`). Logging in elsewhere stays valid after a reset: sessions are not tied to the password.
 
+
+
+---
+## Forgot-Password Email: First Real Test, Not Yet Working
+
+**What was seen.** The owner set a Gmail App Password in `.env` (16 characters, correct username and no host/port overrides), registered an
+account with a real Gmail address, pressed "Send reset link" and got no email. The server logged `email_failed ... kind=SMTPServerDisconnected`.
+A network test from the same laptop reached `smtp.gmail.com` on port 587 (STARTTLS) and 465 (SSL), both answering `250`.
+
+**What it means.** The network is not blocking Gmail, and the settings look right, so the connection is being closed during login or sending.
+The log shows only the exception type. The next step is to run the login by hand with SMTP debug output (the command is in DEV_SETUP, "Forgot
+password"); if it reports a bad credential the App Password must be regenerated, otherwise try port 465 or look at antivirus mail scanning.
+A small change worth making is logging the exception message too (it holds no secret). **Not resolved.**
+
+---
+## AI Engineering Scenarios: Answer Sheet
+
+A readable answer key for the five AI Engineering scenarios (23 questions, 8 coding tasks with the reference solutions) was generated from
+`data/scenarios/ai-engineering.json` and made as a shared document. All 18 single-choice and multi-select answers in it were compared with the
+data file by hand-read check; the ordering and matching questions were not compared by program. It is not stored in the repo.
