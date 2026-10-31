@@ -2734,3 +2734,16 @@ reply (never the password). `scripts/test_mail.py <address>` sends one test emai
 suite 30/30, `test_mail.py` run with no credentials (reports that nothing is configured). **Not verified:** any real send; the cloud copy has no
 Gmail credentials. The cause of the owner's `SMTPServerDisconnected` is still unknown until `test_mail.py` is run on his laptop.
 
+---
+## Forgot-Password Email: Working, and the Cause of the Failure
+
+**What was found.** `scripts/test_mail.py` showed `connect` and `starttls` succeeding and `login` failing with `SMTPServerDisconnected` for the
+new project account `levelup2027@gmail.com`, on port 587 and 465, with a fresh App Password, 2-Step Verification on, no security alert, and also
+over a phone hotspot. The same laptop completed connect, starttls, login and send with an older Gmail account. So the cause was the new Gmail
+account (Google refusing its SMTP logins), not the code, the network, the port or the password.
+
+**Result.** The owner switched `MAIL_USERNAME` / `MAIL_PASSWORD` in his own `.env` to the older account, restarted the server, and the whole
+flow worked in the app: request a link, receive the email, set a new password. **Not verified by me:** the owner reported "it works" only; I did
+not see the email or the pages. The diagnostics added earlier (stage and server reply in the log, `scripts/test_mail.py`) are what made the cause
+findable and stay in the code. A project-specific sender address would need a mail service or an older account.
+

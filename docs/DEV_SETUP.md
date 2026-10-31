@@ -639,14 +639,17 @@ on purpose):
 |---|---|---|
 | `email_not_sent (SMTP not configured)` + the link | `MAIL_USERNAME` / `MAIL_PASSWORD` not seen | `.env` is read only at start-up: stop the server (Ctrl+C), start it again |
 | `email_failed ... kind=SMTPAuthenticationError` | Gmail refused the login | use a Google App Password (2-Step Verification on), 16 characters, no spaces or quotes |
-| `email_failed ... kind=SMTPServerDisconnected` | the connection was closed before Gmail answered | test the network first (below); then try `MAIL_SMTP_PORT=465`; check an antivirus "email shield" |
+| `email_failed ... stage=login kind=SMTPServerDisconnected` | Google closed the connection at login (seen with a brand-new Gmail account) | use an older Gmail account with its own App Password (see "Known cause" below); `stage=connect` or `starttls` instead means a network or antivirus problem |
 | any other `kind=` (timeout, connection error) | the network blocks Gmail's mail ports | try another network, e.g. a phone hotspot |
 
 Test the network and the login without the app (prints no secrets; run from the project folder):
 `python -c "import smtplib,ssl; s=smtplib.SMTP('smtp.gmail.com',587,timeout=15); s.starttls(context=ssl.create_default_context()); print(s.ehlo()[0])"`
 (250 = reachable), then the same with `smtplib.SMTP_SSL('smtp.gmail.com',465,...)`. The log line shows only the error TYPE; to see the server's
-message, run the login by hand with `s.set_debuglevel(1)`. As of 2026-10-31 the owner's laptop reaches Gmail on both ports (250), yet the app's
-send ended in `SMTPServerDisconnected`; the login-step test had not been reported back, so the cause is **not yet found**.
+message, run the login by hand with `s.set_debuglevel(1)`. **Known cause (2026-10-31):** a brand-new Gmail account (`levelup2027`) made Google close the connection at the login step with
+`SMTPServerDisconnected`, on both ports (587, 465), on the college network and on a phone hotspot, with a freshly created App Password and
+2-Step Verification on, while the same laptop logged in and sent fine with an older Gmail account. So if every stage up to `starttls` is OK and
+`login` drops the connection with no error text, try a different, established Gmail account before suspecting the network or the code.
+Each person puts their OWN `MAIL_USERNAME` / `MAIL_PASSWORD` in their own `.env`; an App Password is never shared or committed.
 
 ### Accounts and the profile page
 
