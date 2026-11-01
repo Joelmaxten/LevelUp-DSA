@@ -1462,3 +1462,16 @@ a.job-link:hover .job-title { text-decoration: underline; }
 .sc-passage-title { font-size: var(--fs-md); margin: 0; }
 .sc-links { margin: 0; }
 
+
+
+/* ---------- Skill evidence card (dashboard "Your skills") ---------- */
+.skill-list { list-style: none; padding: 0; display: grid; gap: var(--sp-4); }
+.skill-head { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--sp-3); }
+.skill-head .cluster { min-width: 0; }
+.skill-row { display: grid; gap: var(--sp-2); padding-bottom: var(--sp-4); border-bottom: 1px solid var(--rule); }
+.skill-row:last-child { padding-bottom: 0; border-bottom: 0; }
+.skill-name { font-weight: 700; }
+.skill-pct { font-weight: 700; color: var(--ink); white-space: nowrap; }
+.skill-note { margin: 0; font-size: var(--fs-xs); }
+.skill-why { list-style: none; padding: 0; display: grid; gap: var(--sp-1); font-size: var(--fs-xs); color: var(--pencil); }
+.skill-sub { font-size: var(--fs-sm); font-weight: 700; color: var(--pencil); }

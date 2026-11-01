@@ -86,6 +86,9 @@ def create_app(config_name=None):
     from app.routes.gamification import gamification_bp
     app.register_blueprint(gamification_bp)
 
+    from app.routes.skills import skills_bp
+    app.register_blueprint(skills_bp)
+
     from app.routes.profile import profile_bp
     app.register_blueprint(profile_bp)
 

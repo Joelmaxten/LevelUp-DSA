@@ -2772,3 +2772,48 @@ roadmap page with videos still loading, and Joel's own database. `smoke_test_pro
 in the cloud copy (a missing scratch file, and no access to download the embedding model); both are environmental. Still to build: the
 skill evidence record and switching readiness and job matching to verified skills.
 
+---
+## Skill Evidence: One Record per Student, with a Confidence and the Reasons Behind It (branch `verified-progression`)
+
+**Why.** Verified progression proves a student passed a check, but nothing said WHICH skills that proves, and the resume's skills were
+taken at face value. The goal: every skill gets a confidence from all the evidence, and a skill that is only on the resume is shown as
+unverified.
+
+**What was built.** A pure module (`skill_evidence.py`) that turns four kinds of passing evidence (step check 0.5, test-out 0.6, scenario
+0.5, solved code problem 0.6; the resume is a claim with no weight) into a confidence per skill, 1 - product(1 - w) in exact fractions. A
+tool skill is verified at 0.5, a concept skill at 0.7, so a concept needs two separate pieces of evidence and shows as "in progress" with one.
+`GET /skills/evidence` gathers the rows (read-only, own data only) and the dashboard shows a "Your skills" card: verified skills with what
+proved each one, then in-progress concepts, then "On your resume, not yet verified". Nothing is stored. A curated `data/skill_map.json`
+adds the skills the resume matcher cannot see (30 concept skills, steps keyed by career path and title, scenarios by id, code problems by
+data-structure topic) and lists exclusions; the matcher itself and the resume feature were not touched.
+
+**Decisions made with the owner on the way.** Concept skills are allowed but only from a fixed list of at most 30 that the owner approved;
+"Application security" was split from "Security fundamentals" after the first draft used it for 51 entries; one rule for lists of options
+(a tool not in the step title that appears only inside a list of alternatives is excluded, one the step teaches is kept); scenario weight 0.4
+became 0.5; concept threshold 0.7 instead of one threshold for all.
+
+**Problems found on the way.** (1) The matcher returns a skill as it was written ("react", "Javascript", "Pandas"), so spelling had to be
+normalised. (2) Wrong matches: "ReAct" (an AI-agent pattern) gave React, React Native steps gave React, "SQL injection" gave SQL, and tools
+that were only one option in a list (Jenkins among CI tools, MySQL among databases) gave skills the step does not teach; these became
+exclusions in the map instead of changes to the matcher. (3) Coverage: with the repo-only vocabulary the matcher alone mapped 29% of the 466
+base steps and 8% of the 75 scenarios; with the curated map 94% and 100% (coverage, not correctness: the assignments are mine and were
+reviewed by the owner only as structure and one full path). (4) With a scenario weight of 0.4 a step check plus a scenario came to 0.70
+exactly, which a float cannot compare safely; exact fractions removed the problem. (5) The first card layout had the sections jammed together
+and the percentage wrapping under long skill names at 390 px; both were found by looking at the page and fixed.
+
+**Verified.** `smoke_test_skill_evidence.py` 63/63 (the three defining cases: two scenarios verify a concept, a step check plus a scenario
+verify a concept, no single piece of evidence ever verifies a concept), and deliberately breaking the rules (concept threshold 0.5, scenario
+weight 0.4, no de-duplication) makes it fail on 8, 6 and 2 checks. Unchanged suites on the same code: security 30/30, profile 79/79,
+gamification 49/49, readiness 69/69 (70 on a machine with the survey table), scenarios 218/218, step_checks 83/83. A browser run on a local
+throwaway database (a seeded student: card renders with 5 verified skills, in-progress concepts and unverified resume skills; no console
+errors; no sideways scrolling at 390 px). `vocab_report.py` was tested on a throwaway database: the database itself refuses a write in its
+transaction, and the row counts were unchanged after it ran.
+
+**NOT verified.** (a) Tool spellings against the real survey vocabulary: the owner ran the report but its output did not reach me, so the
+map still uses spellings taken from the repository, and tools the matcher cannot see (Docker, Terraform, Excel, Kotlin, Swift, GraphQL, ...)
+are deliberately not added. (b) The matcher with the real vocabulary (the tests stub it). (c) How many students' step titles match the map
+(the cached-versus-from-scratch counts from the report were not seen). (d) The correctness of the 435 step and 75 scenario assignments beyond
+the owner's review; broad concepts such as "Generative AI" (35 entries) can be verified by two short recall checks, which is a product
+decision to revisit with real data. (e) Real user data: nothing here ran against it. Readiness and job matching still use only the
+resume's skills; connecting them to verified skills is the next step.
+

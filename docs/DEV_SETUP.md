@@ -262,6 +262,7 @@ For these tests run `pip install -r requirements-dev.txt` once (adds fpdf2).
 | `smoke_test_code_questions.py` | code questions: runner adapter (OneCompiler shape, Cloudflare page, timeouts, caps, error codes), validator, public view, grading, Run and Submit routes; languages (allowlist, unknown language -> 400, language passed to the runner and stored with the locked answer, local toolchain detection, starter templates, hidden tests never sent) | no (fake runner, stubbed HTTP, or local Python for one traceback check) |
 | `smoke_test_gamification.py` | gamification: XP rules (best score only, one-off bonuses, retries add nothing), levels, IST streak maths, every badge rule, rewards between two summaries, `GET /gamification` (401, per user, no writes, fixed error code), rewards on scenario submit (and a failure there never breaks the grade), pages load the script | no (code runs with local Python) |
 | `smoke_test_step_checks.py` | verified progression: question building on all 15 base roadmaps (no name giveaways, evidence in the source, deterministic), the model-question verifier, picking, grading, lock / cooldown / review rules, and every route (no answers sent, no re-rolling, cooldown 429, review, pass, test-out, re-tick, ownership 404, CSRF, off switch, stubbed model questions); 83 checks | no (model questions stubbed) |
+| `smoke_test_skill_evidence.py` | skill evidence: the weights and thresholds in one constant, the concept rule (two scenarios verify, step check + scenario verify, no single piece ever verifies a concept), exact arithmetic, one piece counts once, resume-only = unverified, spelling, additions and exclusions from `data/skill_map.json`, the map's own consistency (all 75 scenarios, no stale step key, 30 concepts), `GET /skills/evidence` (401, per user, a passed step check verifies its skill, failed / unfinished attempts count for nothing, no writes, fixed error codes) and the dashboard card (script loaded, no `innerHTML`, no direct fetch); 63 checks | no (survey vocabulary stubbed) |
 | `smoke_test_profile.py` | accounts and profile: username rules, signup with a username (taken / invalid / email in other case / older name-only clients), the live username check and its rate limit, login with username or email, `/profile` page and API (401, per user, every field's validation, nothing half-saved, username change, CSRF), picture upload (re-encoded 256x256 JPEG, EXIF and GPS removed, SVG / GIF / over 4 MB refused, private cache), password change, 404 and 500 pages vs JSON, roadmap `completed_on` and the Finish Line badge, the Goals tailoring summary (only real effects; the ranking after Goals equals the quiz's), Goals has 3 questions (C1 refused), a simulated server restart drops the old login cookie (and keeps it when `LOGOUT_ON_RESTART` is off) | no |
 | `smoke_test_code_pools.py` | code pools: content shape of all 15 paths (skill tags only Python / SQL), validator rejections, materialise, the personalised pick rules, no secret field and no hidden test leaked in any of the 360 variants, grading with the real reference solutions, Start/Run/Check/Submit end to end, retry gets the other problem, readiness counts the code question, dashboard scenario summary, no page links to `/dsa` | no (runs code with this machine's Python: `CODE_RUNNER=local`) |
 | `smoke_test_resume.py` | upload, extraction, gap analysis, AI feedback | yes: Gemini |
@@ -277,7 +278,7 @@ last four only deliberately: they spend quota.
 
 Current check counts (run on 2026-10-11 unless marked): `smoke_test_scenarios.py` 218 (2026-10-16),
 `smoke_test_readiness.py` 70, `smoke_test_resume_rules.py` 59, `smoke_test_cached_roadmaps.py` 95,
-`smoke_test_code_questions.py` 198 (2026-10-21, `main`), `smoke_test_code_pools.py` 118 (2026-10-16), `smoke_test_profile.py` 79 (2026-10-21), `smoke_test_gamification.py` 49 (the last two were run in a cloud copy with an empty
+`smoke_test_code_questions.py` 198 (2026-10-21, `main`), `smoke_test_code_pools.py` 118 (2026-10-16), `smoke_test_profile.py` 79 (2026-10-21), `smoke_test_gamification.py` 49, `smoke_test_skill_evidence.py` 63 (2026-11-01; the last three were run in a cloud copy with an empty
 survey table, where readiness shows 69 and resume_rules 58; on the laptop's database they should show 70 and 59)
 (the 95 is from the earlier biography entry and was not re-run for this update). All of these
 call no external service, but they use the development database, so PostgreSQL must be running.
@@ -871,3 +872,40 @@ picking, grading, the rules), `app/routes/step_checks.py` (routes), `app/static/
   `VERIFIED_PROGRESS=False` for their own app. `cleanup_demo_users.py` now also clears `step_check_attempts`, `step_reviews` and
   `password_reset_tokens` (the last one was missing, so the script refused to run after the forgot-password change).
 
+### Skill evidence (what a student can prove they know)
+One record per student: every skill gets a confidence worked out from ALL the evidence the app already holds, and a skill that is only on
+the resume is shown as "unverified". Nothing is stored (no new table); like gamification it is computed from existing rows. Code:
+`app/pipeline/skill_evidence.py` (pure: weights, thresholds, merge, spelling, exclusions), `app/routes/skills.py` (`GET /skills/evidence`,
+login required, own data only, no writes, error code `skills_unavailable`), `app/static/js/skills.js` (the "Your skills" card on the
+dashboard), `data/skill_map.json` (curated additions and guards), `scripts/vocab_report.py` (read-only report, see below).
+
+- **Evidence** (passing only): a passed step check (weight 0.5), a step passed by test-out (0.6), a passed scenario (0.5), a solved code
+  problem, meaning every test passed (0.6). The resume is a CLAIM and adds no weight. One piece counts once however often it was repeated.
+- **Confidence** = 1 - product(1 - w), computed with exact fractions. **Verified**: a tool skill at >= 0.5, a concept skill at >= 0.7.
+  No single weight reaches 0.7, so a concept always needs two separate pieces of evidence; with one it is "in progress". Weights and
+  thresholds are the single constant `RULES` in `skill_evidence.py`. To change a rule, edit it there and re-run the smoke test.
+- **Tool or concept.** The 30 concept skills are the fixed list `concepts` in `data/skill_map.json` (cap 30, checked on load); every other
+  skill is a tool. The kind is returned with each skill and shown on the card.
+- **Which skills a step / scenario / problem is evidence for.** (1) the resume skill matcher, unchanged (`extract_skills` on the step's
+  title and subtopics, or the scenario's `tests_topics`); (2) plus the map's additions: steps keyed `<career path slug>|<normalised title>`
+  (lower-case, trimmed, spaces collapsed), scenarios by id, code problems by their own `skills` and by `ds_topic` (every topic gives
+  "Data structures and algorithms"); (3) minus the map's exclusions; (4) one spelling per skill (the survey vocabulary's, then the map's
+  `canonical` table).
+- **Exclusions** (`exclude`): three text rules (the AI-agent pattern "ReAct" is not React, "React Native" is not React, "SQL injection" is
+  not SQL) and per-step rules that apply ONE rule: a tool that is not named in the step title and appears only inside a list of options is
+  removed; a tool the step teaches is kept.
+- **Step keys.** A student's roadmap built in "cached" mode is a verbatim copy of a base roadmap, so every step title matches the map. A
+  step has no id pointing back to its base step, so the title is the key. Roadmaps generated from scratch (`ROADMAP_MODE=full`) and old
+  flat roadmaps use model-written titles: those steps still get the matcher and the exclusions, but few curated entries.
+- **The survey vocabulary** (`survey_respondents`) feeds the matcher and is read once per process; restart the server after re-seeding it.
+  With an empty table (a fresh clone) the matcher is off and only the curated map applies.
+- **Editing `data/skill_map.json`:** keep every skill spelled one way; the smoke test checks that every scenario is mapped, no step key is
+  stale or misspelt, every per-step exclusion points at a real step, and there are at most 30 concepts.
+- **`scripts/vocab_report.py` (read-only).** Prints the distinct skill names in `survey_respondents` per category with respondent counts,
+  the tool names in the map that are NOT in the vocabulary (spelling to fix), and counts of saved roadmaps with and without the base marker
+  with the share of their steps that have a curated entry. The whole run is one `SET TRANSACTION READ ONLY` transaction that is rolled back;
+  it prints counts and skill names only, never a user, email, resume or id.
+  `PYTHONPATH=. python scripts/vocab_report.py` (add `--min-count 5` to hide rare names; redirect with `> vocab_report.txt` to keep it).
+- **Not connected yet:** readiness and job matching still use only the resume's skills; the required-skills list is built from survey
+  tools, so concept skills can never raise the readiness score. Tool spellings were NOT yet checked against the real vocabulary, and tools
+  the matcher cannot see (Docker, Terraform, Excel, Kotlin, Swift, GraphQL, ...) are not yet added: both wait for the vocabulary report.

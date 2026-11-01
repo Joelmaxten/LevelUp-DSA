@@ -1,6 +1,6 @@
 # 03. Reference (machine-generated)
 
-> Generated on 2026-10-31 by `scripts/build_handover_pack.py` from the code and data files.
+> Generated on 2026-11-01 by `scripts/build_handover_pack.py` from the code and data files.
 > **Do not edit by hand.** To refresh it after a change: `PYTHONPATH=. python scripts/build_handover_pack.py`.
 > Everything here is read from the app itself (routes, database models, files), so it is exact. Narrative
 > explanations are in files 01 and 02; this file is for looking things up.
@@ -292,7 +292,7 @@ with `db.create_all()` and one-off scripts in `scripts/` add columns to older da
 | `completed_at` | DATETIME |  |
 
 
-## 3. HTTP routes (59 routes)
+## 3. HTTP routes (60 routes)
 
 "Login needed" is read from the route's decorator (`@login_required` returns JSON 401; `@page_login_required` redirects
 a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token header.
@@ -353,6 +353,7 @@ a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token 
 | scenarios | `/scenarios/<scenario_id>/start` | POST | yes | Start or resume an attempt (403 scenario_locked if the previous scenario is not passed). |
 | scenarios | `/scenarios/<scenario_id>/submit` | POST | yes | Grade the whole attempt on the server; returns the result and the rewards. |
 | scenarios | `/scenarios/paths` | GET | yes | The paths that have scenarios. |
+| skills | `/skills/evidence` | GET | yes |  |
 | step_checks | `/roadmap/<int:roadmap_id>/steps/<int:step_index>/check/start` | POST | yes |  |
 | step_checks | `/roadmap/<int:roadmap_id>/steps/<int:step_index>/check/submit` | POST | yes |  |
 | step_checks | `/roadmap/<int:roadmap_id>/steps/<int:step_index>/review` | GET | yes |  |
@@ -365,7 +366,7 @@ a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token 
 
 | File | Lines | Purpose (first sentence of its docstring) |
 |---|---|---|
-| `app/__init__.py` | 213 | The application factory (create_app): registers every route, the login gate, error pages and the restart-logout hook. |
+| `app/__init__.py` | 216 | The application factory (create_app): registers every route, the login gate, error pages and the restart-logout hook. |
 | `app/config.py` | 200 | Settings read from environment variables, with development and production modes. |
 | `app/mailer.py` | 58 | Minimal email sending for the password-reset link, standard library only (smtplib), so no extra package. |
 | `app/models.py` | 369 | The database tables (SQLAlchemy models). |
@@ -389,6 +390,7 @@ a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token 
 | `app/routes/resume.py` | 382 | Resume upload, analysis and the latest saved result. |
 | `app/routes/roadmap.py` | 496 | Roadmap generation, listing, progress and resources. |
 | `app/routes/scenarios.py` | 426 | Scenario-based practice: a map of scenarios per career path, each a short work situation with questions. |
+| `app/routes/skills.py` | 155 | GET /skills/evidence: the student's skill evidence (rules in app/pipeline/skill_evidence.py, data in data/skill_map.json). |
 | `app/routes/step_checks.py` | 324 | Verified progression routes (see app/pipeline/step_checks.py for how questions are made and checked). |
 
 ### app/pipeline/ (logic: quiz, roadmaps, resume, scenarios, gamification, LLM)
@@ -431,6 +433,7 @@ a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token 
 | `app/pipeline/scenario_validator.py` | 387 | Validator for scenario files (data/scenarios/<path>.json). |
 | `app/pipeline/skill_aggregation.py` | 24 | Shared skill-frequency aggregation over SurveyRespondent rows, used by both FAISS chunk generation (so_survey_chunks.py) and Phase 2's skill-gap computation (resume_analyzer.py). |
 | `app/pipeline/skill_aliases.py` | 47 | Common abbreviations/aliases for skills in the SO Survey vocabulary that students' resumes are likely to use instead of the full name. |
+| `app/pipeline/skill_evidence.py` | 224 | Skill evidence: one record per student that says, for every skill, how sure we are that they have it and WHY. |
 | `app/pipeline/skill_matching.py` | 71 | Rules for comparing a resume's skills with a career path's required skills, kept in this one file so they are not scattered across the extractor, the analyzer and the routes. |
 | `app/pipeline/skill_vocabulary.py` | 38 | Extra skill names for resume skill extraction in "which path fits my resume" mode, on top of the four survey categories the existing vocabulary is built from (languages, databases, platforms, web frameworks - see resume_analyzer.g |
 | `app/pipeline/so_survey_chunks.py` | 63 | Generates FAISS-ready text chunks from SO Survey 2025 (India) respondent data - one chunk per career path, summarizing the most common languages, databases, platforms, and frameworks among respondents in that path. |
@@ -445,7 +448,7 @@ a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token 
 | File | Lines |
 |---|---|
 | `app/templates/conversation.html` | 292 |
-| `app/templates/dashboard.html` | 207 |
+| `app/templates/dashboard.html` | 209 |
 | `app/templates/error.html` | 31 |
 | `app/templates/forgot_password.html` | 55 |
 | `app/templates/index.html` | 95 |
@@ -463,9 +466,10 @@ a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token 
 | `app/static/js/results.js` | 836 |
 | `app/static/js/scenario_map.js` | 342 |
 | `app/static/js/scenarios.js` | 736 |
+| `app/static/js/skills.js` | 94 |
 | `app/static/js/step_checks.js` | 190 |
 | `app/static/js/ui.js` | 540 |
-| `app/static/css/style.css` | 1464 |
+| `app/static/css/style.css` | 1477 |
 
 ## 5. Test scripts
 
@@ -495,5 +499,6 @@ a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token 
 | `scripts/smoke_test_scenarios.py` | Smoke test for scenario-based gamification: validator, store, engine, progress rules, routes. |
 | `scripts/smoke_test_security.py` | Smoke test for the security hardening: CSRF protection, session-cookie flags, production SECRET_KEY check, the roadmap daily cap and the resume rate limits. |
 | `scripts/smoke_test_seed.py` | Checks for app/seed_data.py (export/load of survey_respondents and job_listings) and the fresh-clone helpers. |
+| `scripts/smoke_test_skill_evidence.py` | Smoke test for skill evidence: the pure rules (weights, thresholds, one-piece-counts-once, spelling, additions, exclusions), the curated data/skill_map.json, GET /skills/evidence (401, per-user data, resume-only = unverified, a pa |
 | `scripts/smoke_test_step_checks.py` | Smoke test for verified progression: roadmap steps completed by passing a check built from the step's own knowledge-base passages (app/pipeline/step_checks.py, app/routes/step_checks.py). |
 | `scripts/smoke_test_youtube.py` | Extends the roadmap smoke test to also verify /roadmap/<id>/resources - first real end-to-end test of YouTube resource attachment. |

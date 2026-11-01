@@ -13,6 +13,7 @@
 
 <script src="{{ url_for('static', filename='js/results.js') }}"></script>
 <script src="{{ url_for('static', filename='js/gamification.js') }}"></script>
+<script src="{{ url_for('static', filename='js/skills.js') }}"></script>
 <script>
 const box = document.getElementById("dashboard-box");
 
@@ -178,12 +179,13 @@ function readinessCard(r) {
         el("ul", { className: "roadmap-list" }, ...rows));
 }
 
-function render(data, readiness, gam) {
+function render(data, readiness, gam, skills) {
     box.replaceChildren(
         nextCard(data),
         gam ? gamLevelCard(gam) : "",
         progressCard(data),
         readinessCard(readiness),
+        skills ? skillsCard(skills) : "",
         gam ? gamBadgesSection(gam) : "",
         roadmapsCard(data.roadmaps),
         resumeCard(data.resume),
@@ -193,13 +195,13 @@ function render(data, readiness, gam) {
 
 async function load() {
     box.replaceChildren(el("div", { className: "card card-pad" }, skeleton("Loading your results", 2)));
-    const [result, ready, gam] = await Promise.all([getJson("/dashboard/data"), getJson("/readiness"), getJson("/gamification")]);
+    const [result, ready, gam, skills] = await Promise.all([getJson("/dashboard/data"), getJson("/readiness"), getJson("/gamification"), getJson("/skills/evidence")]);
     if (!result.ok) {
         renderError(result);
         return;
     }
-    // The score and the XP/badges are extras: if either fails the dashboard still loads.
-    render(result.data, ready.ok ? ready.data : null, gam.ok ? gam.data : null);
+    // The score, the XP/badges and the skills are extras: if any fails the dashboard still loads.
+    render(result.data, ready.ok ? ready.data : null, gam.ok ? gam.data : null, skills.ok ? skills.data : null);
 }
 
 load();
