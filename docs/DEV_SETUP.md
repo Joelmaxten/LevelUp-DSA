@@ -903,9 +903,13 @@ dashboard), `data/skill_map.json` (curated additions and guards), `scripts/vocab
   stale or misspelt, every per-step exclusion points at a real step, and there are at most 30 concepts.
 - **`scripts/vocab_report.py` (read-only).** Prints the distinct skill names in `survey_respondents` per category with respondent counts,
   the tool names in the map that are NOT in the vocabulary (spelling to fix), and counts of saved roadmaps with and without the base marker
-  with the share of their steps that have a curated entry. The whole run is one `SET TRANSACTION READ ONLY` transaction that is rolled back;
-  it prints counts and skill names only, never a user, email, resume or id.
-  `PYTHONPATH=. python scripts/vocab_report.py` (add `--min-count 5` to hide rare names; redirect with `> vocab_report.txt` to keep it).
+  with the share of their steps that have a curated entry; and (section 4) for the roadmaps generated from scratch, how many of their
+  steps share a knowledge-base topic id (`topic_refs`) with a step of the base roadmap for the same career path (half or more / some /
+  none / no ids on the step), how many topic ids appear in the base steps, and when the roadmaps were made (counts per month, next to the
+  ones that carry the base marker). The whole run is one `SET TRANSACTION READ ONLY` transaction that is rolled back; it prints counts,
+  dates and skill names only, never a user, email, resume, id or step title.
+  `PYTHONPATH=. python scripts/vocab_report.py` (add `--min-count 5` to hide rare names, `--roadmaps-only` for sections 3 and 4 only;
+  redirect with `> vocab_report.txt` to keep it).
 - **Checked against the real vocabulary (2026-11-01).** The owner's `vocab_report.py` output (213 distinct names, 202 in the extended
   vocabulary) showed every tool name in the map spelled exactly as in the vocabulary (`HTML` and `CSS` are the two parts the resume
   extractor splits `HTML/CSS` into). With the real vocabulary the matcher itself finds Docker, Terraform, Kotlin, Swift, GitHub and others
