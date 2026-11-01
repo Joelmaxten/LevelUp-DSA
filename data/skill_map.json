@@ -35,6 +35,7 @@
  ],
  "canonical": {
   "amazon web services (aws)": "Amazon Web Services (AWS)",
+  "bash/shell (all shells)": "Bash/Shell (all shells)",
   "c++": "C++",
   "css": "CSS",
   "figma": "Figma",
@@ -44,6 +45,7 @@
   "kubernetes": "Kubernetes",
   "linux": "Linux",
   "matplotlib": "Matplotlib",
+  "microsoft azure": "Microsoft Azure",
   "next.js": "Next.js",
   "node.js": "Node.js",
   "numpy": "NumPy",
@@ -867,7 +869,8 @@
    "Data pipelines"
   ],
   "data-engineering|cloud data services on aws, azure and gcp": [
-   "Cloud fundamentals"
+   "Cloud fundamentals",
+   "Microsoft Azure"
   ],
   "data-engineering|containers, ci/cd and iac for data platforms": [
    "CI/CD",
@@ -1077,7 +1080,8 @@
    "Kubernetes"
   ],
   "devops|linux shell, files and text processing": [
-   "Linux"
+   "Linux",
+   "Bash/Shell (all shells)"
   ],
   "devops|managed platforms and container hosting": [
    "Cloud fundamentals"
@@ -1931,10 +1935,44 @@
    "reason": "'SQL injection' is a security topic, not SQL skill"
   },
   {
+   "skill": "C",
+   "when": "Objective-C|MVVM-C",
+   "unless": "(?<![\\w-])C(?![\\w+#-])",
+   "reason": "'Objective-C' and 'MVVM-C' are not the C language (kept if the text names C itself)"
+  },
+  {
+   "skill": "Make",
+   "when": "(?i)\\bmake\\b",
+   "unless": "(?i)makefile|gnu make|cmake",
+   "reason": "the everyday word 'make' is not the Make build tool"
+  },
+  {
+   "skill": "Snowflake",
+   "when": "(?i)snowflake schema",
+   "unless": "(?i)snowflake(?! schema)",
+   "reason": "'Snowflake schema' is a data-model shape, not the Snowflake product"
+  },
+  {
+   "step": "ai-engineering|ai coding assistants and developer tools",
+   "skills": [
+    "Claude Code"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "ai-engineering|agent frameworks",
+   "skills": [
+    "LangGraph"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
    "step": "backend-engineering|choosing a backend language and using git",
    "skills": [
     "Python",
-    "JavaScript"
+    "JavaScript",
+    "Go",
+    "Java"
    ],
    "reason": "alternatives list: not in the title, appears only as one option among several"
   },
@@ -1950,7 +1988,10 @@
   {
    "step": "backend-engineering|nosql databases",
    "skills": [
-    "MongoDB"
+    "MongoDB",
+    "Redis",
+    "Dynamodb",
+    "Cassandra"
    ],
    "reason": "alternatives list: not in the title, appears only as one option among several"
   },
@@ -1964,14 +2005,17 @@
   {
    "step": "cloud-engineering|terraform in ci/cd and at scale",
    "skills": [
-    "Jenkins"
+    "Jenkins",
+    "GitHub",
+    "GitLab"
    ],
    "reason": "alternatives list: not in the title, appears only as one option among several"
   },
   {
    "step": "cybersecurity|security automation & soar",
    "skills": [
-    "Python"
+    "Python",
+    "PowerShell"
    ],
    "reason": "alternatives list: not in the title, appears only as one option among several"
   },
@@ -1979,6 +2023,13 @@
    "step": "data-analytics|bi platforms: tableau, looker and qlik",
    "skills": [
     "Power BI"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "data-engineering|python tooling, testing and concurrency for pipelines",
+   "skills": [
+    "Pip"
    ],
    "reason": "alternatives list: not in the title, appears only as one option among several"
   },
@@ -2002,14 +2053,24 @@
   {
    "step": "data-science|python setup for data work",
    "skills": [
-    "Visual Studio Code"
+    "Visual Studio Code",
+    "Google Colab"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "data-science|scaling analysis: big data tools and pipelines",
+   "skills": [
+    "Polars"
    ],
    "reason": "alternatives list: not in the title, appears only as one option among several"
   },
   {
    "step": "devops|programming and scripting for devops",
    "skills": [
-    "Python"
+    "Python",
+    "Go",
+    "PowerShell"
    ],
    "reason": "alternatives list: not in the title, appears only as one option among several"
   },
@@ -2017,6 +2078,14 @@
    "step": "devops|server operating systems and monitoring basics",
    "skills": [
     "Linux"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "devops|version control and code hosting",
+   "skills": [
+    "GitHub",
+    "GitLab"
    ],
    "reason": "alternatives list: not in the title, appears only as one option among several"
   },
@@ -2029,16 +2098,43 @@
    "reason": "alternatives list: not in the title, appears only as one option among several"
   },
   {
+   "step": "devops|managed platforms and container hosting",
+   "skills": [
+    "Heroku",
+    "Netlify",
+    "Vercel",
+    "Railway"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
    "step": "devops|infrastructure as code and configuration management",
    "skills": [
-    "Amazon Web Services (AWS)"
+    "Amazon Web Services (AWS)",
+    "Terraform"
    ],
    "reason": "alternatives list: not in the title, appears only as one option among several"
   },
   {
    "step": "devops|ci/cd pipelines and artifact management",
    "skills": [
-    "Jenkins"
+    "Jenkins",
+    "GitHub",
+    "GitLab"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "devops|monitoring, metrics and tracing tools",
+   "skills": [
+    "Prometheus"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "devops|centralised log management",
+   "skills": [
+    "Splunk"
    ],
    "reason": "alternatives list: not in the title, appears only as one option among several"
   },
@@ -2062,14 +2158,27 @@
   {
    "step": "frontend-development|deploying next.js apps",
    "skills": [
-    "Node.js"
+    "Node.js",
+    "Docker"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "frontend-development|package managers and module bundlers",
+   "skills": [
+    "npm",
+    "pnpm",
+    "Yarn",
+    "Bun"
    ],
    "reason": "alternatives list: not in the title, appears only as one option among several"
   },
   {
    "step": "frontend-development|other frameworks and meta-frameworks",
    "skills": [
-    "Vue.js"
+    "Vue.js",
+    "Angular",
+    "Svelte"
    ],
    "reason": "alternatives list: not in the title, appears only as one option among several"
   },
@@ -2092,7 +2201,23 @@
   {
    "step": "full-stack-development|building web servers and apis in node.js",
    "skills": [
-    "Express"
+    "Express",
+    "Fastify",
+    "NestJS"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "game-development|game engines and their scripting languages",
+   "skills": [
+    "GDScript"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "machine-learning-engineering|python tooling, typing, testing and parallelism",
+   "skills": [
+    "Pip"
    ],
    "reason": "alternatives list: not in the title, appears only as one option among several"
   },
@@ -2100,6 +2225,27 @@
    "step": "machine-learning-engineering|data sources and data formats",
    "skills": [
     "SQL"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "machine-learning-engineering|model monitoring, explanations and edge deployment",
+   "skills": [
+    "Prometheus"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "mobile-app-development|kotlin and android tooling",
+   "skills": [
+    "Java"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "mobile-app-development|dependencies, frameworks and code quality",
+   "skills": [
+    "Swift"
    ],
    "reason": "alternatives list: not in the title, appears only as one option among several"
   },
@@ -2113,14 +2259,16 @@
   {
    "step": "mobile-app-development|ci/cd, testflight and app store release",
    "skills": [
-    "Jenkins"
+    "Jenkins",
+    "GitHub"
    ],
    "reason": "alternatives list: not in the title, appears only as one option among several"
   },
   {
    "step": "qa-test-automation|test pipelines and production monitoring",
    "skills": [
-    "Jenkins"
+    "Jenkins",
+    "GitLab"
    ],
    "reason": "alternatives list: not in the title, appears only as one option among several"
   },

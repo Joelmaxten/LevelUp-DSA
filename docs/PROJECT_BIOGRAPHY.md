@@ -2801,7 +2801,7 @@ reviewed by the owner only as structure and one full path). (4) With a scenario 
 exactly, which a float cannot compare safely; exact fractions removed the problem. (5) The first card layout had the sections jammed together
 and the percentage wrapping under long skill names at 390 px; both were found by looking at the page and fixed.
 
-**Verified.** `smoke_test_skill_evidence.py` 63/63 (the three defining cases: two scenarios verify a concept, a step check plus a scenario
+**Verified.** `smoke_test_skill_evidence.py` 67/67 (the three defining cases: two scenarios verify a concept, a step check plus a scenario
 verify a concept, no single piece of evidence ever verifies a concept), and deliberately breaking the rules (concept threshold 0.5, scenario
 weight 0.4, no de-duplication) makes it fail on 8, 6 and 2 checks. Unchanged suites on the same code: security 30/30, profile 79/79,
 gamification 49/49, readiness 69/69 (70 on a machine with the survey table), scenarios 218/218, step_checks 83/83. A browser run on a local
@@ -2809,11 +2809,20 @@ throwaway database (a seeded student: card renders with 5 verified skills, in-pr
 errors; no sideways scrolling at 390 px). `vocab_report.py` was tested on a throwaway database: the database itself refuses a write in its
 transaction, and the row counts were unchanged after it ran.
 
-**NOT verified.** (a) Tool spellings against the real survey vocabulary: the owner ran the report but its output did not reach me, so the
-map still uses spellings taken from the repository, and tools the matcher cannot see (Docker, Terraform, Excel, Kotlin, Swift, GraphQL, ...)
-are deliberately not added. (b) The matcher with the real vocabulary (the tests stub it). (c) How many students' step titles match the map
-(the cached-versus-from-scratch counts from the report were not seen). (d) The correctness of the 435 step and 75 scenario assignments beyond
-the owner's review; broad concepts such as "Generative AI" (35 entries) can be verified by two short recall checks, which is a product
-decision to revisit with real data. (e) Real user data: nothing here ran against it. Readiness and job matching still use only the
-resume's skills; connecting them to verified skills is the next step.
+**Second round: the real vocabulary.** The owner ran `vocab_report.py` on the real database: every tool name in the map was already spelled
+exactly as in the vocabulary. I rebuilt the vocabulary from the report (213 names and 202 in the extended vocabulary, both matching the
+report) and ran the real matcher over all 466 steps and 75 scenarios. It found many more tools than the repo-only vocabulary (216 steps with
+a tool, up from 190), and 36 steps needed changes: matches that were one option in a list (package managers, CI tools, hosting platforms,
+frameworks, monitoring tools) were excluded per step under the same rule, and three real-name false positives were added as rules
+("Objective-C" is not C, the word "make" is not Make, "Snowflake schema" is not Snowflake). Only two curated tool additions were needed
+(Bash/Shell and Microsoft Azure) because the matcher now sees Docker, Terraform, Kotlin and Swift itself. Excel, Spark, Airflow, dbt,
+Kafka, GraphQL, Flutter, React Native, Playwright and Cypress are not in the vocabulary, so they stay unmapped. The report also showed that
+11 of the owner's 21 saved roadmaps (351 of 587 steps) were generated from scratch and match the curated map in 1% of their steps, against
+93% for the 10 copied from a base roadmap: concept skills can only come from the map, so those students get concept evidence only from
+scenarios and code problems.
 
+**NOT verified.** (a) The matcher against the real database: I used a vocabulary rebuilt from the report, not the table itself. (b) Why 11
+roadmaps were generated from scratch (old roadmaps from before cached mode, or something else) and whether new ones all use the base
+roadmaps. (c) The correctness of the 435 step and 75 scenario assignments beyond the owner's review; broad concepts such as "Generative AI"
+(35 entries) can be verified by two short recall checks, which is a product decision to revisit with real data. (d) Real user data:
+nothing here ran against it. Readiness and job matching still use only the resume's skills; connecting them to verified skills is the next step.

@@ -141,6 +141,25 @@ def test_rules():
     check("alternatives rule: a tool that is only one option in a step's list is removed (backend 3: MySQL / PostgreSQL / MariaDB)",
           se.skills_for_step("backend-engineering", "Relational Databases, ORMs and Migrations", ["PostgreSQL", "MySQL"], m,
                              lambda t: ["PostgreSQL", "MySQL"]) == ["Databases"])
+    check("wrong matches from real survey names are removed: Objective-C / MVVM-C is not C, the word 'make' is not Make, 'Snowflake schema' is not Snowflake",
+          "C" not in se.skills_for_step("mobile-app-development", "Swift Memory Management", ["Objective-C", "MVVM-C"], m, lambda t: ["C", "Swift"])
+          and "C" in se.skills_for_step("x", "Intro to C", ["Objective-C", "C"], m, lambda t: ["C"])
+          and "Make" not in se.skills_for_step("ui-ux-design", "Designing for Action", ["Make it Clear"], m, lambda t: ["Make"])
+          and "Make" in se.skills_for_step("x", "Build with Makefile", [], m, lambda t: ["Make"])
+          and "Snowflake" not in se.skills_for_step("data-analytics", "Data Modelling", ["Star vs Snowflake Schema"], m, lambda t: ["Snowflake"])
+          and "Snowflake" in se.skills_for_step("x", "Snowflake warehouse", [], m, lambda t: ["Snowflake"]))
+    check("alternatives rule on real survey names: package managers listed as options are removed (frontend 52), hosting platforms named in the title are kept (frontend 59)",
+          se.skills_for_step("frontend-development", "Package Managers and Module Bundlers", ["npm", "pnpm", "Yarn", "Bun"], m,
+                             lambda t: ["npm", "pnpm", "Yarn", "Bun"]) == []
+          and se.skills_for_step("frontend-development", "Hosting Platforms: Vercel, Netlify and Cloudflare", ["Vercel", "Netlify"], m,
+                                 lambda t: ["Vercel", "Netlify", "Cloudflare"]) == ["Cloudflare", "Netlify", "Vercel"])
+    check("the survey vocabulary's own spelling wins ('DynamoDB' in a title -> 'Dynamodb'), as the resume matcher spells it",
+          (lambda out: "Dynamodb" in out and "DynamoDB" not in out)(
+              se.skills_for_step("cloud-engineering", "Managed Databases: RDS, DynamoDB and ElastiCache", [], m,
+                                 lambda t: ["DynamoDB"], {"dynamodb": "Dynamodb"})))
+    check("curated tool additions that need no matcher: 'Linux Shell' step gets Bash/Shell, the Azure step gets Microsoft Azure",
+          {"Linux", "Bash/Shell (all shells)"} <= set(se.skills_for_step("devops", "Linux Shell, Files and Text Processing", [], m, None))
+          and "Microsoft Azure" in se.skills_for_step("data-engineering", "Cloud Data Services on AWS, Azure and GCP", [], m, None))
     check("a scenario's curated skills are added and nothing else is invented",
           se.skills_for_scenario("bke-2", ["Caching"], m, None) == ["API design", "Caching", "System design"]
           and se.skills_for_scenario("no-such-scenario", ["Caching"], m, None) == [])
