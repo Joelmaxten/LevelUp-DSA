@@ -174,7 +174,23 @@ function gapModeText(d) {
 }
 
 // "On your resume: X of N" and "Verified: Y of N", what each counts for, and the list of the required skills.
+// A student with no analysed resume: their verified count is shown, but nothing here counts for the score.
+function skillGapDetailNoResume(d) {
+    const rows = d.items.map((item) => el("li", { className: "gap-item" },
+        el("span", { className: "gap-name", text: item.skill }),
+        el("span", { className: `chip ${item.status === "verified" ? "chip-ink" : "chip-line"}`, text: GAP_STATUS_LABELS[item.status] })));
+    return el("div", { className: "stack-sm gap-detail" },
+        el("div", { className: "cluster" },
+            el("span", { className: "chip chip-ink", text: `Verified: ${d.verified} of ${d.required} required skills` })),
+        el("p", { className: "muted gap-note" },
+            el("a", { href: "/resume", text: "Analyse your resume" }), " to include skills in your score."),
+        el("details", { className: "disclosure" },
+            el("summary", { text: `Required skills for ${d.path} (${d.required})` }),
+            el("ul", { className: "gap-list" }, ...rows)));
+}
+
 function skillGapDetail(d) {
+    if (d.in_score === false) return skillGapDetailNoResume(d);
     const verifiedText = d.verified === null ? "Verified: not available right now" : `Verified: ${d.verified} of ${d.required}`;
     const rows = d.items.map((item) => el("li", { className: "gap-item" },
         el("span", { className: "gap-name", text: item.skill }),

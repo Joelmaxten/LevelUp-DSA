@@ -254,7 +254,7 @@ For these tests run `pip install -r requirements-dev.txt` once (adds fpdf2).
 | `smoke_test_quiz.py` | career quiz: question-bank rules (1-3 paths per option, 6+ options per path, separating options for each pair), invariants (every path can be #1, every pair separable, stop rule within the bank), 30 seeded replays against `scratch/golden/quiz_after.json`, all-A/all-B personas; pure, no database | no |
 | `smoke_test_async_generation.py` | background generation: `/roadmap/generate-async` 202 and polling to done, progress fields, 409, ownership 404, fixed error codes with no exception text, own app context, daily cap, expiry, CSRF, sync route unchanged | no (generator stubbed) |
 | `smoke_test_scenarios.py` | scenarios: validator (pilot file plus 20+ deliberately broken copies), blind-solve prompt leak proof, store, engine (all four question types, shuffle, grading edge cases), unlock / best-score / recommendation rules, every route (401, 403, 404, 409, 400, CSRF, rate limit), `CareerProfile` untouched, page renders, the removed `/dsa` page returns 404 | no (no LLM, YouTube or Adzuna code is reachable; the blind-solve checker is only exercised with a stub) |
-| `smoke_test_readiness.py` | Placement Readiness Score: component maths, re-weighting when a component is unavailable, ready decided on the unrounded score, `GET /readiness`, dashboard card, the three skill modes (blend / verified / resume: credits, the claim-only rule, concepts never count, fallback, no writes, stand-in survey vocabulary); accounts with nothing saved, quiz only, and a path with no scenario file (it hides one scenario file to test that) | no |
+| `smoke_test_readiness.py` | Placement Readiness Score: component maths, re-weighting when a component is unavailable, ready decided on the unrounded score, `GET /readiness`, dashboard card, the three skill modes (blend / verified / resume: credits, the claim-only rule, concepts never count, fallback, no writes, stand-in survey vocabulary) and students without an analysed resume (score identical to the old calculation, the verified count shown, quiz path before roadmap path, no writes); accounts with nothing saved, quiz only, and a path with no scenario file (it hides one scenario file to test that) | no |
 | `smoke_test_resume_rules.py` | resume rules: combined skills (HTML/CSS), implied skills (SQL), excluded tooling (npm, pip, ...), alias boundaries (Node.js, Vue.js, Next.js must not match `js`), the ATS checks | no |
 | `smoke_test_cached_roadmaps.py` | cached base roadmaps: loader (valid, stale, corrupt, missing), the build script (dry run, resumable, no overwrite without `--force`, one failing path does not stop the others, environment override beats `.env`), the personalizer (bad indexes dropped, text clipped, overlap removed, injection stays escaped, failure is None, prompt under 3,000 estimated tokens for all 15 real outlines), the async route (cached with and without personalization, full fallback, `ROADMAP_MODE=full`, ownership, CSRF, cap, 409), progress and the switcher on a cached roadmap, a timing table written to `scratch/benchmark_cached.csv`; about 2 minutes | no (every LLM call stubbed, uses the local FAISS index) |
 | `smoke_test_llm.py` | `llm_client`: retry on throttling/5xx/timeouts, no retry on access-denied/validation, fallback model, provider switch, schema correction, no secrets or prompt text in errors or logs | no (fake Bedrock client, patched Gemini; hides real credentials and blocks real clients) |
@@ -278,7 +278,7 @@ Each prints `[PASS]`/`[FAIL]` per check and exits non-zero on a failure. Run the
 last four only deliberately: they spend quota.
 
 Current check counts (run on 2026-10-11 unless marked): `smoke_test_scenarios.py` 218 (2026-10-16),
-`smoke_test_readiness.py` 98 (99 on a database with the survey table; 2026-11-01), `smoke_test_resume_rules.py` 59, `smoke_test_cached_roadmaps.py` 95,
+`smoke_test_readiness.py` 112 (113 on a database with the survey table; 2026-11-02), `smoke_test_resume_rules.py` 59, `smoke_test_cached_roadmaps.py` 95,
 `smoke_test_code_questions.py` 198 (2026-10-21, `main`), `smoke_test_code_pools.py` 118 (2026-10-16), `smoke_test_profile.py` 79 (2026-10-21), `smoke_test_gamification.py` 49, `smoke_test_skill_evidence.py` 90, `smoke_test_jobs.py` 56 (2026-11-01; the last three were run in a cloud copy with an empty
 survey table, where readiness shows 69 and resume_rules 58; on the laptop's database they should show 70 and 59)
 (the 95 is from the earlier biography entry and was not re-run for this update). All of these
@@ -963,5 +963,10 @@ dashboard), `data/skill_map.json` (curated additions and guards), `scripts/vocab
     scenarios and code problems. Nothing was regenerated.
   - *Scores change.* With the default `blend`, a skill that is only on the resume counts half of what it counted before; set
     `READINESS_SKILL_MODE=resume` to restore the old numbers.
-  - *Resume and target role.* The skill-gap part still needs an analysed resume and a target role; a student with verified skills but no
-    analysed resume has no skill-gap number yet.
+  - *No analysed resume.* The skill-gap part of the SCORE still needs an analysed resume and its target role (a `skill_gaps` row,
+    written only by the resume analysis); without them it is "not available" and the other parts are re-normalised, exactly as before.
+    A student with a quiz result or a roadmap but no analysed resume (a discover-only upload does not count) does see their verified
+    count on the readiness card ("Verified: Y of N required skills" and a line pointing to the resume page), for the quiz path first,
+    then the latest roadmap's path. That count is NOT in the score: counting a skill-gap value for them would have lowered
+    their score (a typical student: 40.8 without it, 26.5 with 0 of 10 verified, 30.0 with 1 of 10, so verifying a skill still left them
+    lower), which would change existing scores. Not shown in `resume` mode, which is unchanged.

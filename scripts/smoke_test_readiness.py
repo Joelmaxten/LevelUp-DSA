@@ -291,6 +291,7 @@ def test_dashboard_states():
 
     app = create_app()
     enable_csrf_client(app)
+    app.config["READINESS_SKILL_MODE"] = "resume"     # these states check the old response (no skill-gap detail); the new behaviour has its own section
     suffix = random.randint(100000, 999999)
     user_ids = []
     unsafe = re.compile(r"\.innerHTML|innerHTML\s*=|outerHTML\s*=|insertAdjacentHTML|document\.write")
@@ -477,7 +478,7 @@ def test_skill_modes_route():
                   and items(blend)["MySQL"] == ("no_content", 0))
             check("blend: value 2.5 of 6 -> skill_gap component 0.4167, the counts for the card are on resume 3, verified 1",
                   d["mode"] == "blend" and d["value"] == 2.5 and d["required"] == 6 and close(blend["components"]["skill_gap"], 2.5 / 6)
-                  and d["on_resume"] == 3 and d["verified"] == 1 and d["fallback"] is False)
+                  and d["on_resume"] == 3 and d["verified"] == 1 and d["fallback"] is False and d["in_score"] is True)
             check("the unreachable label rule: Rust and MySQL (nothing can verify them) and the concept Caching (only tools count here) are "
                   "'no content'; SQL and Docker (the content can verify them) are not",
                   {i["skill"] for i in d["items"] if i["no_content"]} == {"Rust", "MySQL", "Caching"})
@@ -543,11 +544,186 @@ def test_skill_modes_route():
             db.session.commit()
 
 
+# ---------------------------------------------------------------- no analysed resume: the verified count is shown, the score is not touched
+def test_no_resume():
+    """Option B: a student without an analysed resume keeps exactly the old score; the card learns the verified count."""
+    from unittest.mock import patch
+
+    from app import create_app, db
+    from app.models import (CareerProfile, GeneratedRoadmap, Resume, RoadmapProgress, ScenarioAttempt, SkillGap, StepCheckAttempt, User)
+    from app.routes import readiness as readiness_route
+    from app.routes import skills as skills_route
+    from scripts._csrf import enable_csrf_client
+
+    app = create_app()
+    enable_csrf_client(app)
+    suffix = random.randint(100000, 999999)
+    user_ids = []
+    today = datetime.utcnow().date()
+    real_vocab = dict(skills_route._vocab_cache)
+    asked = []
+    lists = {"Machine Learning Engineering": {"Python", "SQL", "Rust"}, "DevOps": {"Docker", "Kubernetes"}, "Backend Engineering": {"Python", "SQL"}}
+
+    def required_for(path):
+        asked.append(path)
+        return set(lists.get(path, set()))
+
+    def login(tag):
+        client = app.test_client()
+        email = f"nores{tag}{suffix}@example.com"
+        resp = client.post("/signup", json={"name": "No Resume", "email": email, "password": "SmokeTest#123"})
+        user_ids.append(resp.get_json()["user_id"])
+        client.post("/login", json={"email": email, "password": "SmokeTest#123"})
+        return client, user_ids[-1]
+
+    def roadmap(uid, path, done=0, total=4):
+        steps = {"phases": [{"phase_number": 1, "title": "p", "steps": [{"global_step_index": i + 1} for i in range(total)]}]}
+        rm = GeneratedRoadmap(user_id=uid, career_path=path, steps=steps)
+        db.session.add(rm)
+        db.session.flush()
+        for i in range(done):
+            db.session.add(RoadmapProgress(user_id=uid, roadmap_id=rm.id, step_index=i + 1, completed_at=datetime.utcnow()))
+        db.session.commit()
+        return rm
+
+    def snapshot():
+        with app.app_context():
+            return {m.__tablename__: (m.query.count(), db.session.query(db.func.max(m.id)).scalar())
+                    for m in (User, GeneratedRoadmap, StepCheckAttempt, ScenarioAttempt, Resume, SkillGap, RoadmapProgress, CareerProfile)}
+
+    def score_parts(body):
+        return {k: body[k] for k in ("score", "ready", "components", "weights", "unavailable")}
+
+    try:
+        skills_route._vocab_cache["vocab"] = frozenset({"Python", "SQL", "Docker", "Rust", "Kubernetes"})     # stand-in vocabulary
+        with patch.object(readiness_route, "get_required_skills", required_for):
+            eli, eid = login("e")
+            dana, did = login("d")
+            gina, gid = login("g")
+            backend = json.loads(Path("data/base_roadmaps/backend-engineering.json").read_text(encoding="utf-8"))["roadmap"]
+            backend["base"] = {"source": "base_roadmap"}
+            sql_step = next(s["global_step_index"] for ph in backend["phases"] for s in ph["steps"]
+                            if s["title"] == "SQL Queries: Selecting, Joining and Grouping")
+            now = datetime.utcnow()
+            with app.app_context():
+                # Eli: a roadmap on the ML path (1 of 4 steps), one ML scenario, no resume. Python is verified by a solved code
+                # problem (a backend scenario, which is not part of his ML scenario score).
+                old_rm = GeneratedRoadmap(user_id=eid, career_path="Backend Engineering", steps=backend)
+                db.session.add(old_rm)
+                db.session.commit()
+                old_rm_id = old_rm.id
+                roadmap(eid, "Machine Learning Engineering", done=1)
+                db.session.add_all([
+                    ScenarioAttempt(user_id=eid, path="Machine Learning Engineering", scenario_id="mle-1", answers={}, score=40, max_score=40,
+                                    passed=True, shuffle_seed=1, started_at=now, submitted_at=now),
+                    ScenarioAttempt(user_id=eid, path="Backend Engineering", scenario_id="bke-2", answers={"bke-2-c1": {"passed": True}},
+                                    score=40, max_score=50, passed=True, shuffle_seed=1, started_at=now, submitted_at=now)])
+                # Dana: a quiz result for DevOps AND a Backend roadmap -> the quiz path wins
+                roadmap(did, "Backend Engineering", done=2)
+                db.session.add(CareerProfile(user_id=did, career_ranking=[{"career_path": "DevOps", "score": 9}], conversation_signals={}))
+                # Gina: a discover-only upload (analysis pending) is not an analysed resume
+                roadmap(gid, "Backend Engineering", done=1)
+                db.session.add(Resume(user_id=gid, file_path="d.pdf", extracted_skills=["Python", "Rust"], analysis_pending=True))
+                db.session.commit()
+
+            want = r.compute_readiness(roadmap=(1, 4), skill_gap=None, scenarios=SCENARIOS,
+                                       scenario_progress=progress(("mle-1", 40)), activity_dates=[today], today=today)
+            before = snapshot()
+            app.config["READINESS_SKILL_MODE"] = "blend"
+            e1 = eli.get("/readiness").get_json()
+            check("no resume: the score, components, weights and 'unavailable' are EXACTLY the old calculation "
+                  "(skill-gap not available, the other parts re-normalised)",
+                  score_parts(e1) == score_parts(want) and e1["unavailable"] == ["skill_gap"] and e1["components"]["skill_gap"] is None)
+            d1 = e1["skill_gap_detail"]
+            check("no resume: the path is the latest roadmap's (Machine Learning Engineering) and the card gets the verified count (Python = 1 of 3)",
+                  d1["path"] == "Machine Learning Engineering" and d1["verified"] == 1 and d1["required"] == 3
+                  and {i["skill"]: i["status"] for i in d1["items"]} == {"Python": "verified", "SQL": "missing", "Rust": "no_content"})
+            check("no resume: the detail says it is not in the score, nothing counts for it, and the mode is 'none'",
+                  d1["in_score"] is False and d1["reason"] == "no_resume" and d1["value"] is None and d1["mode"] == "none"
+                  and d1["on_resume"] == 0 and all(i["counts_for"] is None for i in d1["items"]))
+
+            # the old rule in resume mode: same score, and no detail (that mode is unchanged)
+            app.config["READINESS_SKILL_MODE"] = "resume"
+            e_resume = eli.get("/readiness").get_json()
+            check("resume mode is unchanged: the same score and NO skill-gap detail for a student without a resume",
+                  score_parts(e_resume) == score_parts(want) and e_resume["skill_gap_detail"] is None)
+            app.config["READINESS_SKILL_MODE"] = "verified"
+            e_verified = eli.get("/readiness").get_json()
+            check("verified mode: the same score as well, and the same count shown",
+                  score_parts(e_verified) == score_parts(want) and e_verified["skill_gap_detail"]["verified"] == 1)
+
+            # more verified evidence raises the shown count but never the score
+            app.config["READINESS_SKILL_MODE"] = "blend"
+            with app.app_context():
+                db.session.add(StepCheckAttempt(user_id=eid, roadmap_id=old_rm_id, step_index=sql_step, mode="test_out", questions=[],
+                                                total=6, pass_mark=5, score=6, passed=True, started_at=now, submitted_at=now))
+                db.session.commit()
+            e2 = eli.get("/readiness").get_json()
+            check("no resume: verifying another required skill (SQL) raises the count to 2 of 3 but the score does not move at all",
+                  e2["skill_gap_detail"]["verified"] == 2 and score_parts(e2) == score_parts(want))
+            check("no resume: a verified skill can never LOWER the score (the trap that made us choose this: 40.8 -> 26.5 if counted)",
+                  e2["score"] == want["score"] and e1["score"] == want["score"])
+
+            # which path: the quiz result first, then the latest roadmap
+            asked.clear()
+            dd = dana.get("/readiness").get_json()
+            check("the quiz path comes first: Dana (quiz DevOps, roadmap Backend) gets the DevOps required list",
+                  dd["skill_gap_detail"]["path"] == "DevOps" and "DevOps" in asked and "Backend Engineering" not in asked
+                  and {i["skill"] for i in dd["skill_gap_detail"]["items"]} == {"Docker", "Kubernetes"} and dd["skill_gap_detail"]["verified"] == 0)
+            gg = gina.get("/readiness").get_json()
+            check("a discover-only upload is not an analysed resume: Gina gets the count (0 of 2), not a score part, and her pending resume's skills are ignored",
+                  gg["skill_gap_detail"]["in_score"] is False and gg["skill_gap_detail"]["verified"] == 0 and gg["skill_gap_detail"]["on_resume"] == 0
+                  and gg["components"]["skill_gap"] is None and gg["skill_gap_detail"]["path"] == "Backend Engineering")
+            check("another student's evidence never shows up here: Dana and Gina have verified 0 while Eli has 2",
+                  dd["skill_gap_detail"]["verified"] == 0 and gg["skill_gap_detail"]["verified"] == 0 and e2["skill_gap_detail"]["verified"] == 2)
+
+            # nothing to show -> nothing shown
+            fresh, _ = login("f")
+            ff = fresh.get("/readiness").get_json()
+            check("a student with no quiz result and no roadmap has no path, so no detail (as before)", ff["skill_gap_detail"] is None)
+
+            # if the evidence cannot be gathered the score is untouched and the card simply has no count
+            real_ev = skills_route.evidence_for
+            try:
+                skills_route.evidence_for = lambda _uid: (_ for _ in ()).throw(RuntimeError("SECRET-detail"))
+                ef = eli.get("/readiness")
+                check("if the evidence cannot be gathered the score is unchanged and the detail is simply absent (no exception text)",
+                      score_parts(ef.get_json()) == score_parts(want) and ef.get_json()["skill_gap_detail"] is None
+                      and "SECRET" not in ef.get_data(as_text=True))
+            finally:
+                skills_route.evidence_for = real_ev
+
+            after_reads = snapshot()
+            eli.get("/readiness"); dana.get("/readiness"); gina.get("/readiness")
+            check("GET /readiness writes nothing for students without a resume", snapshot() == after_reads)
+
+        html = eli.get("/dashboard").get_data(as_text=True)
+        check("dashboard card for a student without a resume: 'Verified: Y of N required skills' and the line pointing to the resume page; "
+              "no counts shown; no innerHTML",
+              "Verified: ${d.verified} of ${d.required} required skills" in html and "Analyse your resume" in html
+              and "to include skills in your score." in html and 'href: "/resume"' in html and "skillGapDetailNoResume" in html
+              and "innerHTML" not in html)
+    finally:
+        skills_route._vocab_cache.clear()
+        skills_route._vocab_cache.update(real_vocab)
+        with app.app_context():
+            for uid in user_ids:
+                StepCheckAttempt.query.filter_by(user_id=uid).delete()
+                ScenarioAttempt.query.filter_by(user_id=uid).delete()
+                RoadmapProgress.query.filter_by(user_id=uid).delete()
+                Resume.query.filter_by(user_id=uid).delete()
+                CareerProfile.query.filter_by(user_id=uid).delete()
+                GeneratedRoadmap.query.filter_by(user_id=uid).delete()
+                User.query.filter_by(id=uid).delete()
+            db.session.commit()
+
+
 def main():
     test_pure()
     test_skill_modes_pure()
     test_route()
     test_skill_modes_route()
+    test_no_resume()
     test_dashboard_states()
     failed = [d for d, ok in checks if not ok]
     print(f"\n{len(checks) - len(failed)}/{len(checks)} checks passed")

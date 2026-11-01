@@ -43,11 +43,41 @@ def skill_gap_for(user_id, resume, gap):
         evidence_failed = True
         fallback = mode != "resume"     # the resume-only rule needs no evidence, so nothing falls back there
     breakdown = readiness.skill_gap_breakdown(required, on_resume, verified, unreachable, "resume" if fallback else mode)
-    detail = {**breakdown, "configured_mode": mode, "fallback": fallback,
+    detail = {**breakdown, "configured_mode": mode, "fallback": fallback, "in_score": True, "reason": None,
               "resume_claim_credit": readiness.RESUME_CLAIM_CREDIT, "claim_only_credit": readiness.CLAIM_ONLY_CREDIT}
     if evidence_failed:
         detail["verified"] = None
     return (breakdown["value"], breakdown["required"]), detail
+
+
+def verified_count_for(user_id, path):
+    """
+    For a student with NO analysed resume: how many of the path's required skills they have verified, for the dashboard card
+    only. It never reaches the score: the skill-gap part stays "not available" for them and the other parts are re-normalised,
+    exactly as before (counting it would have lowered every such student's score, see the biography). Returns None when there is
+    nothing to show: the mode is "resume" (that mode is unchanged), the path has no required list, or the evidence cannot be
+    gathered (nothing depends on it, so no fallback is needed).
+    """
+    mode = readiness.normalise_skill_mode(current_app.config.get("READINESS_SKILL_MODE", readiness.DEFAULT_SKILL_MODE))
+    if mode == "resume":
+        return None
+    required = sorted(get_required_skills(path))
+    if not required:
+        return None
+    try:
+        summary = skills_route.evidence_for(user_id)
+        verified = skill_reach.reachable(required, set(skills_route.verified_tool_names(summary)))
+        unreachable = skill_reach.unreachable_everywhere(required, skills_route.content_reach()["all_tools"])
+    except Exception:
+        current_app.logger.exception("verified skills unavailable for the readiness card")
+        return None
+    breakdown = readiness.skill_gap_breakdown(required, set(), verified, unreachable, "verified")
+    for item in breakdown["items"]:
+        item["counts_for"] = None          # nothing here counts for the score
+    breakdown["value"] = None
+    breakdown["mode"] = "none"             # no mode applies: this part is not in the score for this student
+    return {**breakdown, "configured_mode": mode, "fallback": False, "in_score": False, "reason": "no_resume", "path": path,
+            "resume_claim_credit": readiness.RESUME_CLAIM_CREDIT, "claim_only_credit": readiness.CLAIM_ONLY_CREDIT}
 
 
 def gather(user_id, today):
@@ -59,20 +89,23 @@ def gather(user_id, today):
         _, completed, total = roadmap_progress(user_id, latest_roadmap.id, latest_roadmap.steps)
         roadmap = (completed, total)
 
+    profile = (CareerProfile.query.filter_by(user_id=user_id).order_by(CareerProfile.id.desc()).first())
+    path = None
+    if profile is not None and profile.career_ranking:
+        path = profile.career_ranking[0].get("career_path")      # the quiz result first
+    elif latest_roadmap is not None:
+        path = latest_roadmap.career_path                        # then the latest roadmap's path
+    path_data = store.get_path(path) if path else None
+
     skill_gap, skill_gap_detail = None, None
     resume = (Resume.query.filter_by(user_id=user_id).filter(Resume.analysis_pending.isnot(True))
               .order_by(Resume.id.desc()).first())
     gap = SkillGap.query.filter_by(user_id=user_id).order_by(SkillGap.id.desc()).first()
     if resume is not None and gap is not None and gap.target_role:
         skill_gap, skill_gap_detail = skill_gap_for(user_id, resume, gap)
-
-    profile = (CareerProfile.query.filter_by(user_id=user_id).order_by(CareerProfile.id.desc()).first())
-    path = None
-    if profile is not None and profile.career_ranking:
-        path = profile.career_ranking[0].get("career_path")
-    elif latest_roadmap is not None:
-        path = latest_roadmap.career_path
-    path_data = store.get_path(path) if path else None
+    elif path:
+        # no analysed resume: the score is unchanged (skill_gap stays None); only the card learns the verified count
+        skill_gap_detail = verified_count_for(user_id, path)
 
     scenarios, progress = None, None
     if path_data is not None:

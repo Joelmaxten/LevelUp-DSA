@@ -387,7 +387,7 @@ a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token 
 | `app/routes/gamification.py` | 58 | GET /gamification: the student's XP, level, streak and badges (rules in app/pipeline/gamification.py). |
 | `app/routes/profile.py` | 278 | The student's own profile: personal details, username, profile picture and password change. |
 | `app/routes/quiz.py` | 100 | The career quiz: start and answer. |
-| `app/routes/readiness.py` | 114 | GET /readiness: the student's Placement Readiness Score (see app/pipeline/readiness.py for the rules). |
+| `app/routes/readiness.py` | 147 | GET /readiness: the student's Placement Readiness Score (see app/pipeline/readiness.py for the rules). |
 | `app/routes/resume.py` | 390 | Resume upload, analysis and the latest saved result. |
 | `app/routes/roadmap.py` | 496 | Roadmap generation, listing, progress and resources. |
 | `app/routes/scenarios.py` | 426 | Scenario-based practice: a map of scenarios per career path, each a short work situation with questions. |
@@ -450,7 +450,7 @@ a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token 
 | File | Lines |
 |---|---|
 | `app/templates/conversation.html` | 292 |
-| `app/templates/dashboard.html` | 262 |
+| `app/templates/dashboard.html` | 278 |
 | `app/templates/error.html` | 31 |
 | `app/templates/forgot_password.html` | 55 |
 | `app/templates/index.html` | 95 |

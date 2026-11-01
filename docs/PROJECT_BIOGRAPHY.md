@@ -2877,3 +2877,37 @@ problem (a content gap). Readiness counts only tool skills that are in the surve
 the skills card only and never change the score. In blend mode the unverifiable slots are claims, not proof. The skill-gap part still needs an
 analysed resume and a target role.
 
+---
+## Readiness Card for Students Without a Resume: Show the Verified Count, Leave the Score Alone (branch `verified-progression`)
+
+**Why.** The last known limit was that a student with no analysed resume got no skill-gap number at all. The target role comes from a
+`skill_gaps` row that only the resume analysis writes, so a student with a quiz result or a roadmap (a career path is known) but no resume
+saw nothing about their verified skills.
+
+**The decision, and the example behind it.** Giving them a skill-gap number from verified skills alone looked simple (the resume part counting
+0), but it changes scores: today "not available" drops the part and the others are re-normalised. A typical student (roadmap 50%, 2 of 5
+scenarios, 6 active days) scores **40.8** that way. With a skill-gap number they would score **26.5** at 0 of 10 verified, **30.0** at 1 of 10
+and 37.0 at 3 of 10; they would only pass their old score at about 5 of 10. So the first verified skill would still have left them lower than
+before, which is the opposite of what verifying should do, and every existing student without a resume would have dropped by up to about 14
+points. The owner chose option B: keep the part "not available" in the score, exactly as today, and only show the count.
+
+**What was built.** For a student with no analysed resume (a discover-only upload does not count) the readiness route works out the career path
+(the quiz result first, then the latest roadmap's path), asks how many of that path's required skills are verified and returns it in
+`skill_gap_detail` with `in_score: false`. The dashboard card shows "Verified: Y of N required skills", the list of those skills with their
+status, and a line "Analyse your resume to include skills in your score." linking to the resume page. The score inputs are untouched. Nothing
+is shown in `resume` mode, which is unchanged; if the evidence cannot be gathered the detail is simply absent.
+
+**Verified.** `smoke_test_readiness.py` 112/112 here (113 expected on a database with the survey table, where one more old check runs; was 98): for a student without a resume the
+score, components, weights and "unavailable" list equal the old calculation (computed independently with the pure function), also in resume
+and verified mode; verifying another required skill raises the shown count and moves the score not at all; the quiz path wins over the
+roadmap path; a discover-only upload counts as no resume; nothing is written; failures leave the score alone. A one-off comparison ran the
+previous commit's route code and the new code on six kinds of student (roadmap only, quiz only, quiz and roadmap, discover-only upload,
+nothing, analysed resume) in all three modes: all identical. Five deliberate breaks (the count feeding the score, the path order, the detail in
+resume mode, a wrong in-score flag, credits left on the items) each made 1 to 5 checks fail. Other suites unchanged and green.
+
+**Also verified in a browser** (a seeded student with a roadmap, a verified SQL and Python, and no resume, on a throwaway database): the
+"Required skills" bar reads "not available yet", the card shows "Verified: 2 of 9 required skills", the line with the link to the resume page
+and the list of required skills with their status; no console errors and no sideways scrolling at 390 px.
+
+**NOT verified.** The survey table and real required lists (stand-ins were used); any real user data; how many real students are in this
+state (no analysed resume but a quiz result or roadmap). Students with an analysed resume were not changed by this piece.
