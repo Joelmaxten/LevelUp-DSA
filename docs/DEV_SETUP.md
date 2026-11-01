@@ -910,6 +910,13 @@ dashboard), `data/skill_map.json` (curated additions and guards), `scripts/vocab
   dates and skill names only, never a user, email, resume, id or step title.
   `PYTHONPATH=. python scripts/vocab_report.py` (add `--min-count 5` to hide rare names, `--roadmaps-only` for sections 3 and 4 only;
   redirect with `> vocab_report.txt` to keep it).
+- **`scripts/readiness_reach_report.py` (read-only).** For each career path: how many skills are in the required list (the ones the
+  readiness score compares with), how many can be verified AT ALL through base-roadmap steps, scenarios and code problems (counted
+  separately and in total, for the path's own content and for all paths), the reachable share, and the names that nothing can verify.
+  Same safety as `vocab_report.py` (one `SET TRANSACTION READ ONLY` transaction, rolled back; it reads only `survey_respondents`;
+  it prints career path names, skill names and counts only). `PYTHONPATH=. python scripts/readiness_reach_report.py` (add
+  `--path "Backend Engineering"` for one path; `> reach.txt` to keep it). It exists to answer one question before readiness is
+  changed to count only verified skills: can a student even reach the required list?
 - **Checked against the real vocabulary (2026-11-01).** The owner's `vocab_report.py` output (213 distinct names, 202 in the extended
   vocabulary) showed every tool name in the map spelled exactly as in the vocabulary (`HTML` and `CSS` are the two parts the resume
   extractor splits `HTML/CSS` into). With the real vocabulary the matcher itself finds Docker, Terraform, Kotlin, Swift, GitHub and others
