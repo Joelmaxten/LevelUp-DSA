@@ -1,6 +1,6 @@
 {
  "schema_version": 1,
- "about": "Curated additions and guards for app/pipeline/skill_evidence.py. The resume skill matcher stays the default; this file only (a) adds skills it cannot see, (b) removes wrong matches, (c) fixes spelling. Draft - not yet used by any route.",
+ "about": "Curated additions and guards for app/pipeline/skill_evidence.py. The resume skill matcher stays the default; this file only (a) adds skills it cannot see, (b) removes wrong matches, (c) fixes spelling. Alternatives rule: a tool not named in the step title that appears only inside a list of options is excluded; a tool the step teaches (its own topic or the project stack) is kept. Draft - not yet used by any route.",
  "concepts": [
   "API design",
   "Accessibility",
@@ -25,6 +25,7 @@
   "Networking",
   "Observability",
   "Performance engineering",
+  "Security fundamentals",
   "Software testing",
   "Statistics",
   "System design",
@@ -107,7 +108,7 @@
   ],
   "cle-3": [
    "Cloud fundamentals",
-   "Application security"
+   "Security fundamentals"
   ],
   "cle-4": [
    "Cloud fundamentals"
@@ -118,7 +119,7 @@
    "Observability"
   ],
   "cyb-1": [
-   "Application security",
+   "Security fundamentals",
    "Authentication and access control"
   ],
   "cyb-2": [
@@ -129,12 +130,12 @@
    "Incident response"
   ],
   "cyb-4": [
-   "Application security",
+   "Security fundamentals",
    "Authentication and access control",
    "Networking"
   ],
   "cyb-5": [
-   "Application security"
+   "Security fundamentals"
   ],
   "dan-1": [
    "Statistics",
@@ -193,7 +194,7 @@
   "dop-5": [
    "Incident response",
    "CI/CD",
-   "Application security"
+   "Security fundamentals"
   ],
   "dsc-1": [
    "Statistics",
@@ -219,6 +220,10 @@
    "CSS",
    "Accessibility",
    "Web performance"
+  ],
+  "fed-2": [
+   "JavaScript",
+   "React"
   ],
   "fed-3": [
    "Web performance"
@@ -433,11 +438,11 @@
    "Generative AI"
   ],
   "ai-engineering|red team testing methods and reporting": [
-   "Application security",
+   "Security fundamentals",
    "Software testing"
   ],
   "ai-engineering|red teaming foundations and threat modelling": [
-   "Application security"
+   "Security fundamentals"
   ],
   "ai-engineering|reliable prompts: hallucination, evaluation and injection": [
    "Generative AI",
@@ -506,7 +511,7 @@
   ],
   "backend-engineering|cloud reliability and security patterns": [
    "System design",
-   "Application security"
+   "Security fundamentals"
   ],
   "backend-engineering|consistency and availability patterns": [
    "System design",
@@ -547,8 +552,7 @@
    "Performance engineering"
   ],
   "backend-engineering|relational databases, orms and migrations": [
-   "Databases",
-   "SQL"
+   "Databases"
   ],
   "backend-engineering|resilience and observability": [
    "System design",
@@ -592,14 +596,14 @@
    "Kubernetes",
    "Networking",
    "Authentication and access control",
-   "Application security"
+   "Security fundamentals"
   ],
   "cloud-engineering|cluster observability and extending kubernetes": [
    "Kubernetes",
    "Observability"
   ],
   "cloud-engineering|container security and deployment options": [
-   "Application security"
+   "Security fundamentals"
   ],
   "cloud-engineering|ec2 compute: instances, amis and volumes": [
    "Cloud fundamentals",
@@ -679,18 +683,18 @@
    "Infrastructure as code"
   ],
   "cybersecurity|capstone & continuous improvement": [
-   "Application security"
+   "Security fundamentals"
   ],
   "cybersecurity|ci/cd pipeline hardening": [
    "CI/CD",
-   "Application security"
+   "Security fundamentals"
   ],
   "cybersecurity|cloud security & architecture": [
    "Cloud fundamentals",
-   "Application security"
+   "Security fundamentals"
   ],
   "cybersecurity|container & orchestration security": [
-   "Application security"
+   "Security fundamentals"
   ],
   "cybersecurity|devsecops foundations & secure coding": [
    "CI/CD",
@@ -706,18 +710,18 @@
    "Incident response"
   ],
   "cybersecurity|network security enforcement": [
-   "Application security",
+   "Security fundamentals",
    "Networking"
   ],
   "cybersecurity|networking fundamentals": [
    "Networking"
   ],
   "cybersecurity|operating system hardening": [
-   "Application security"
+   "Security fundamentals"
   ],
   "cybersecurity|persistent threats & defense": [
    "Authentication and access control",
-   "Application security"
+   "Security fundamentals"
   ],
   "cybersecurity|secure application development": [
    "Application security",
@@ -727,19 +731,19 @@
    "Incident response"
   ],
   "cybersecurity|security fundamentals & governance": [
-   "Application security"
+   "Security fundamentals"
   ],
   "cybersecurity|social engineering & phishing defense": [
-   "Application security"
+   "Security fundamentals"
   ],
   "cybersecurity|threat hunting & intelligence": [
-   "Application security"
+   "Security fundamentals"
   ],
   "cybersecurity|threat modeling & vulnerability assessment": [
-   "Application security"
+   "Security fundamentals"
   ],
   "cybersecurity|vulnerability management & testing": [
-   "Application security"
+   "Security fundamentals"
   ],
   "cybersecurity|web & application security": [
    "Application security"
@@ -747,7 +751,7 @@
   "cybersecurity|zero trust cloud & network hardening": [
    "Cloud fundamentals",
    "Networking",
-   "Application security"
+   "Security fundamentals"
   ],
   "data-analytics|aggregations, case and joins": [
    "SQL",
@@ -881,7 +885,7 @@
    "Data pipelines"
   ],
   "data-engineering|data security, privacy and regulation": [
-   "Application security"
+   "Security fundamentals"
   ],
   "data-engineering|data sources and collection": [
    "Data pipelines"
@@ -1057,7 +1061,7 @@
    "Observability"
   ],
   "devops|container security and deployment options": [
-   "Application security"
+   "Security fundamentals"
   ],
   "devops|disks, networking and server troubleshooting": [
    "Linux",
@@ -1065,7 +1069,7 @@
   ],
   "devops|gitops tooling, secrets and service mesh": [
    "CI/CD",
-   "Application security"
+   "Security fundamentals"
   ],
   "devops|infrastructure as code and configuration management": [
    "Infrastructure as code"
@@ -1097,7 +1101,6 @@
    "Performance engineering"
   ],
   "devops|server operating systems and monitoring basics": [
-   "Linux",
    "Observability"
   ],
   "devops|version control and code hosting": [
@@ -1258,8 +1261,7 @@
    "Web performance"
   ],
   "frontend-development|styling and component libraries": [
-   "React",
-   "CSS"
+   "React"
   ],
   "frontend-development|testing react apps and ssr frameworks": [
    "React",
@@ -1856,8 +1858,7 @@
    "UI design"
   ],
   "ui-ux-design|prototyping tools and measuring impact": [
-   "UX research",
-   "Figma"
+   "UX research"
   ],
   "ui-ux-design|responsive layout, icons and brand assets": [
    "UI design"
@@ -1931,24 +1932,65 @@
    "reason": "'SQL injection' is a security topic, not SQL skill"
   },
   {
-   "skill": "Jenkins",
-   "unless_in_title": "(?i)jenkins",
-   "reason": "Jenkins appears only as one option in a list of CI tools"
-  },
-  {
    "step": "backend-engineering|choosing a backend language and using git",
    "skills": [
     "Python",
     "JavaScript"
    ],
-   "reason": "a menu of languages to choose from"
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "backend-engineering|relational databases, orms and migrations",
+   "skills": [
+    "PostgreSQL",
+    "MySQL",
+    "MariaDB"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "backend-engineering|nosql databases",
+   "skills": [
+    "MongoDB"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "backend-engineering|choosing and partitioning data stores",
+   "skills": [
+    "SQL"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "cloud-engineering|terraform in ci/cd and at scale",
+   "skills": [
+    "Jenkins"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "cybersecurity|security automation & soar",
+   "skills": [
+    "Python"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
   },
   {
    "step": "data-analytics|bi platforms: tableau, looker and qlik",
    "skills": [
     "Power BI"
    ],
-   "reason": "one of several platforms surveyed"
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "data-engineering|relational and nosql databases",
+   "skills": [
+    "PostgreSQL",
+    "MySQL",
+    "MariaDB"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
   },
   {
    "step": "data-engineering|serving data: bi tools, reverse etl and ml",
@@ -1956,21 +1998,28 @@
     "Power BI",
     "Tableau"
    ],
-   "reason": "examples of BI tools, not taught"
+   "reason": "alternatives list: not in the title, appears only as one option among several"
   },
   {
    "step": "data-science|python setup for data work",
    "skills": [
     "Visual Studio Code"
    ],
-   "reason": "an editor mentioned during setup"
+   "reason": "alternatives list: not in the title, appears only as one option among several"
   },
   {
-   "step": "backend-engineering|choosing and partitioning data stores",
+   "step": "devops|programming and scripting for devops",
    "skills": [
-    "SQL"
+    "Python"
    ],
-   "reason": "SQL vs NoSQL comparison, not a SQL lesson"
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "devops|server operating systems and monitoring basics",
+   "skills": [
+    "Linux"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
   },
   {
    "step": "devops|cloud providers and serverless functions",
@@ -1978,21 +2027,52 @@
     "Amazon Web Services (AWS)",
     "Google Cloud"
    ],
-   "reason": "providers compared, none taught"
+   "reason": "alternatives list: not in the title, appears only as one option among several"
   },
   {
    "step": "devops|infrastructure as code and configuration management",
    "skills": [
     "Amazon Web Services (AWS)"
    ],
-   "reason": "provider mentioned as an example"
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "devops|ci/cd pipelines and artifact management",
+   "skills": [
+    "Jenkins"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "frontend-development|styling and component libraries",
+   "skills": [
+    "CSS",
+    "Tailwind CSS 4"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "frontend-development|styling and asset optimisation in next.js",
+   "skills": [
+    "CSS",
+    "Tailwind CSS 4",
+    "JavaScript"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "frontend-development|deploying next.js apps",
+   "skills": [
+    "Node.js"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
   },
   {
    "step": "frontend-development|other frameworks and meta-frameworks",
    "skills": [
     "Vue.js"
    ],
-   "reason": "alternatives survey"
+   "reason": "alternatives list: not in the title, appears only as one option among several"
   },
   {
    "step": "frontend-development|desktop and mobile apps with web technologies",
@@ -2000,14 +2080,57 @@
     "JavaScript",
     "React"
    ],
-   "reason": "survey of platforms, not a JS/React lesson"
+   "reason": "alternatives list: not in the title, appears only as one option among several"
   },
   {
-   "step": "frontend-development|seo, resource hints and page security",
+   "step": "full-stack-development|styling and component libraries",
    "skills": [
-    "CSS"
+    "CSS",
+    "Tailwind CSS 4"
    ],
-   "reason": "CSS appears only in a security/hints context"
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "full-stack-development|building web servers and apis in node.js",
+   "skills": [
+    "Express"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "machine-learning-engineering|data sources and data formats",
+   "skills": [
+    "SQL"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "mobile-app-development|persisting data with core data and keychain",
+   "skills": [
+    "SQLite"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "mobile-app-development|ci/cd, testflight and app store release",
+   "skills": [
+    "Jenkins"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "qa-test-automation|test pipelines and production monitoring",
+   "skills": [
+    "Jenkins"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "ui-ux-design|prototyping tools and measuring impact",
+   "skills": [
+    "Figma"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
   }
  ]
 }
