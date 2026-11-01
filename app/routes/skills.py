@@ -7,17 +7,21 @@ Errors are fixed codes, never exception text.
 """
 import json
 import logging
+import threading
 from functools import lru_cache
 from pathlib import Path
 
-from flask import Blueprint, current_app, jsonify
+from flask import Blueprint, current_app, jsonify, request
 from flask_login import current_user, login_required
 
 from app.models import GeneratedRoadmap, Resume, ScenarioAttempt, StepCheckAttempt
 from app.pipeline import scenario_store as store
 from app.pipeline import skill_evidence as se
+from app.pipeline import skill_reach
 from app.pipeline import step_checks as sc
-from app.pipeline.base_roadmaps import slug as path_slug
+from app.pipeline.base_roadmaps import BASE_DIR, slug as path_slug
+from app.pipeline.career_path_registry import CAREER_PATHS
+from app.pipeline.skill_matching import COMPOSITE_SKILLS
 
 skills_bp = Blueprint("skills", __name__)
 logger = logging.getLogger(__name__)
@@ -25,6 +29,8 @@ logger = logging.getLogger(__name__)
 SKILL_MAP_PATH = Path(__file__).resolve().parents[2] / "data" / "skill_map.json"   # tests may override
 _map_cache = {}          # path -> (mtime, prepared map)
 _vocab_cache = {}        # "vocab" -> the survey skill vocabulary (static data: read once per process)
+_reach_cache = {}        # "reach" -> (key, what the content can verify): static data, worked out once per process
+_reach_lock = threading.Lock()
 
 
 def load_skill_map(path=None):
@@ -143,6 +149,116 @@ def evidence_for(user_id):
     evidence = (_step_evidence(user_id, skill_map, matcher, spelling)
                 + _scenario_evidence(user_id, skill_map, matcher, spelling))
     return se.summarize(evidence, _resume_skills(user_id), skill_map, spelling)
+
+
+def content_reach():
+    """
+    What the platform's content can verify, worked out once per process and cached (the content files and the vocabulary do not
+    change while the server runs; the cache is rebuilt if the skill map file or the vocabulary changes):
+      {"all_tools": every tool skill any step, scenario or code problem of any path can verify,
+       "scenarios": {scenario id: {"title", "path", "skills": set of tool skills it (and its code problems) verify}},
+       "steps": {lower-case skill: [(career path, step title)] over the base roadmaps}}
+    Uses the shared reach logic (app/pipeline/skill_reach.py), the same code as scripts/readiness_reach_report.py.
+    """
+    skill_map = load_skill_map()
+    vocab = _vocabulary()
+    key = (Path(SKILL_MAP_PATH).stat().st_mtime, len(vocab))
+    with _reach_lock:
+        cached = _reach_cache.get("reach")
+        if cached and cached[0] == key:
+            return cached[1]
+        spelling = {name.lower(): name for name in vocab}
+        matcher = _matcher(vocab)
+        roadmaps = {}
+        for path in CAREER_PATHS:
+            file = Path(BASE_DIR) / f"{path_slug(path)}.json"
+            roadmaps[path] = json.loads(file.read_text(encoding="utf-8")) if file.exists() else None
+        files = store.load_all()
+        per_source = skill_reach.tools_by_source(skill_map, matcher, spelling, roadmaps, files, CAREER_PATHS, path_slug)
+        scenarios = {}
+        for path, data in files.items():
+            for s in data["scenarios"]:
+                found = set(se.skills_for_scenario(s["id"], s.get("tests_topics"), skill_map, matcher, spelling))
+                for problem in [q for q in s["questions"] if q.get("type") == "code"] + list(s.get("code_pool") or []):
+                    found.update(se.skills_for_code(problem.get("skills"), problem.get("ds_topic"), skill_map, spelling))
+                scenarios[s["id"]] = {"title": s["title"], "path": path, "skills": {x for x in found if x not in skill_map["concepts"]}}
+        steps = {}
+        for path, doc in roadmaps.items():
+            for phase in (doc or {}).get("roadmap", {}).get("phases", []):
+                for step in phase["steps"]:
+                    for skill in se.skills_for_step(path_slug(path), step.get("title"), step.get("subtopics"), skill_map, matcher, spelling):
+                        steps.setdefault(skill.lower(), []).append((path, step.get("title") or ""))
+        value = {"all_tools": skill_reach.all_tools(per_source), "scenarios": scenarios, "steps": steps}
+        _reach_cache["reach"] = (key, value)
+        return value
+
+
+def verified_tool_names(summary):
+    """Names of the verified TOOL skills in an evidence summary, strongest first (the summary is sorted by confidence)."""
+    return [r["skill"] for r in summary["skills"] if r["kind"] == "tool" and r["status"] == "verified"]
+
+
+def coverage_for(user_id, names):
+    """
+    For each skill name (the resume page's matched skills): is it verified, and where on the platform can it be proved?
+    {skill: {"verified": bool, "where": [{"type": "step"|"scenario", "title", "url"}], "no_content": bool}}.
+    Steps come from the student's latest roadmap; when it has none for a skill, a step of another path's base roadmap is named with
+    its path ("in" is that career path, else null); scenarios from the content (the roadmap's path first). Names are compared
+    case-insensitively; a composite ("HTML/CSS") is covered by its parts.
+    """
+    skill_map = load_skill_map()
+    vocab = _vocabulary()
+    spelling = {name.lower(): name for name in vocab}
+    matcher = _matcher(vocab)
+    summary = evidence_for(user_id)
+    verified = skill_reach.reachable(names, set(verified_tool_names(summary)))     # same rules as the resume comparison
+    reach = content_reach()
+    covers = skill_reach.reachable(names, reach["all_tools"])
+
+    roadmap = (GeneratedRoadmap.query.filter_by(user_id=user_id).order_by(GeneratedRoadmap.id.desc()).first())
+    step_skills = []
+    if roadmap is not None:
+        slug = path_slug(roadmap.career_path)
+        for index, step in sc.flat_steps(roadmap.steps):
+            found = se.skills_for_step(slug, step.get("title"), step.get("subtopics"), skill_map, matcher, spelling)
+            step_skills.append((index, step.get("title") or "", {x.lower() for x in found}))
+    ordered = sorted(reach["scenarios"].items(), key=lambda kv: (roadmap is None or kv[1]["path"] != roadmap.career_path, kv[0]))
+
+    out = {}
+    for name in names:
+        wanted = {p.lower() for p in COMPOSITE_SKILLS.get(name, ())} or {name.lower()}
+        where = []
+        for index, title, found in step_skills:
+            if wanted & found and len([w for w in where if w["type"] == "step"]) < 2:
+                where.append({"type": "step", "title": title, "url": "/roadmap", "in": None})
+        if not any(w["type"] == "step" for w in where):      # not in the student's own roadmap: name one base-roadmap step elsewhere
+            for part in sorted(wanted):
+                elsewhere = reach["steps"].get(part)
+                if elsewhere:
+                    # best first: the student's own path, then a step whose title names the skill, then content order
+                    own = roadmap.career_path if roadmap is not None else None
+                    best = min(enumerate(elsewhere), key=lambda e: (e[1][0] != own, part not in e[1][1].lower(), e[0]))[1]
+                    where.append({"type": "step", "title": best[1], "url": "/roadmap", "in": best[0]})
+                    break
+        for _sid, info in ordered:
+            if wanted & {x.lower() for x in info["skills"]} and len([w for w in where if w["type"] == "scenario"]) < 2:
+                where.append({"type": "scenario", "title": info["title"], "url": "/scenarios", "in": None})
+        out[name] = {"verified": name in verified, "where": where, "no_content": name not in covers}
+    return out
+
+
+@skills_bp.route("/skills/coverage", methods=["GET"])
+@login_required
+def get_skill_coverage():
+    """GET /skills/coverage?skill=Python&skill=SQL (up to 30): for the resume page's matched skills. Read-only, own data."""
+    names = [n.strip() for n in request.args.getlist("skill") if isinstance(n, str) and 0 < len(n.strip()) <= 80][:30]
+    if not names:
+        return jsonify({"error": "no_skills"}), 400
+    try:
+        return jsonify({"skills": coverage_for(current_user.id, list(dict.fromkeys(names)))}), 200
+    except Exception:
+        current_app.logger.exception("skill coverage failed")
+        return jsonify({"error": "skills_unavailable"}), 500
 
 
 @skills_bp.route("/skills/evidence", methods=["GET"])

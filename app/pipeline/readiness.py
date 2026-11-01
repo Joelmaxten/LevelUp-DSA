@@ -4,7 +4,8 @@ gathers the numbers; everything that decides the score lives here so it can be u
 
 Four components, each 0..1 or unavailable (None):
   roadmap     completed roadmap steps / total steps
-  skill_gap   skills acquired / skills required
+  skill_gap   what the student's skills count for / skills required. Which skills count depends on READINESS_SKILL_MODE
+              (see SKILL_MODES below): the resume only, verified skills only, or a blend of the two
   dsa         mean over the path's scenarios of best_score / max_score (unattempted = 0); unavailable when the
               path has no scenarios at all (that is "no content", not a score of 0)
   streak      days in the last 30 with at least one scenario submission or roadmap step completion / 30
@@ -21,6 +22,18 @@ _UNITS = {"roadmap": 25, "skill_gap": 35, "dsa": 30, "streak": 10}   # hundredth
 BASE_WEIGHTS = {name: units / 100 for name, units in _UNITS.items()}
 READY_THRESHOLD = 70.0
 STREAK_WINDOW_DAYS = 30
+
+# How the skill_gap component counts the student's skills (READINESS_SKILL_MODE). The component is
+# (sum of what each required skill counts for) / N, still 0..1, so the weights above are unchanged.
+#   resume    the old rule: a required skill counts 1 when it is on the resume, else 0
+#   verified  strict: it counts 1 only when the skill itself is verified (a tool skill with status "verified")
+#   blend     verified counts 1; only on the resume counts RESUME_CLAIM_CREDIT; a required skill that nothing on the platform
+#             can verify, when it is on the resume, counts CLAIM_ONLY_CREDIT (it cannot be proved here, so the claim is all
+#             there can be); neither counts 0
+SKILL_MODES = ("blend", "verified", "resume")
+DEFAULT_SKILL_MODE = "blend"
+RESUME_CLAIM_CREDIT = 0.5
+CLAIM_ONLY_CREDIT = 1.0
 
 
 def _ratio(done, total):
@@ -105,3 +118,43 @@ def compute_readiness(roadmap=None, skill_gap=None, scenarios=None, scenario_pro
         "dsa": dsa_component(scenarios, scenario_progress),
         "streak": streak_component(activity_dates, today) if today is not None else None,
     })
+
+
+def normalise_skill_mode(value):
+    """A valid READINESS_SKILL_MODE, or the default for anything else (case and spaces ignored)."""
+    mode = str(value or "").strip().lower()
+    return mode if mode in SKILL_MODES else DEFAULT_SKILL_MODE
+
+
+def skill_gap_breakdown(required, on_resume, verified, unreachable, mode):
+    """
+    How each required skill counts for the skill_gap component. Pure.
+      required     the path's required skills; on_resume / verified / unreachable are sets of those names:
+                   on the resume, verified (a tool skill with status "verified"), and not verifiable by any step, scenario
+                   or code problem ("no LevelUp content for this yet")
+    Returns {mode, required, on_resume, verified, value, items} where value is the numerator for (value, required) and each item
+    is {skill, status, counts_for, on_resume, verified, no_content}. status is one of "verified", "claim_only" (nothing can
+    verify it, it is on the resume), "resume_only", "no_content" (nothing can verify it, not on the resume) or "missing".
+    mode "resume" gives a whole-number value (the old calculation); the others may be fractions.
+    """
+    mode = normalise_skill_mode(mode)
+    items, value = [], 0
+    for skill in required:
+        is_resume, is_verified, no_content = skill in on_resume, skill in verified, skill in unreachable
+        if is_verified:
+            status = "verified"
+        elif no_content:
+            status = "claim_only" if is_resume else "no_content"
+        else:
+            status = "resume_only" if is_resume else "missing"
+        if mode == "resume":
+            counts = 1 if is_resume else 0
+        elif mode == "verified":
+            counts = 1 if is_verified else 0
+        else:
+            counts = {"verified": 1, "claim_only": CLAIM_ONLY_CREDIT, "resume_only": RESUME_CLAIM_CREDIT}.get(status, 0)
+        value += counts
+        items.append({"skill": skill, "status": status, "counts_for": counts, "on_resume": is_resume,
+                      "verified": is_verified, "no_content": no_content})
+    return {"mode": mode, "required": len(required), "on_resume": sum(i["on_resume"] for i in items),
+            "verified": sum(i["verified"] for i in items), "value": value, "items": items}

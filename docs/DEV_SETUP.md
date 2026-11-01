@@ -99,6 +99,7 @@ three are needed to boot; the rest unlock features:
 | `LOGOUT_ON_RESTART` | `true`/`false`; when on, a login cookie from an earlier server run is dropped, so restarting the server logs everyone out (see "Login after a restart"). On in development, off in production unless overridden | by mode |
 | `ROADMAP_DAILY_LIMIT` | roadmaps one user may generate per rolling 24h | `5` |
 | `VERIFIED_PROGRESS` | `true`/`false`. On: a roadmap step is completed by passing a short check, not by ticking (see "Verified progression"). Off: the old tick boxes | `true` |
+| `READINESS_SKILL_MODE` | `blend` \| `verified` \| `resume`. Which skills the Placement Readiness score's required-skills part counts (see "Skill evidence"). `blend`: a verified skill counts 1, a skill only on the resume 0.5, a required skill nothing here can verify counts 1 when it is on the resume. `verified`: only verified tool skills count. `resume`: the old behaviour, the resume alone. Anything else means `blend` (a warning is logged) | `blend` |
 | `STEP_CHECK_QUESTIONS`, `STEP_CHECK_PASS` | questions in a step check and how many must be right | `4`, `3` |
 | `TEST_OUT_QUESTIONS`, `TEST_OUT_PASS` | the same for testing out of a locked step | `6`, `5` |
 | `STEP_CHECK_COOLDOWN_S` | wait after a failed check before the next try | `120` |
@@ -248,12 +249,12 @@ For these tests run `pip install -r requirements-dev.txt` once (adds fpdf2).
 | `smoke_test_paths.py` | shared career-path picker, `/career/options`, path override, multiple roadmaps, dashboard roadmap list | no (Gemini patched) |
 | `smoke_test_progress.py` | roadmap tick/untick, progress counts, dashboard bar; `--keep` leaves a demo user whose login it prints | no |
 | `smoke_test_adzuna.py` | live listings: cache, failure handling, median-only salary, `/resume/listings` | no (HTTP patched) |
-| `smoke_test_jobs.py` | duplicate removal, the optional Jooble source, the combiner, LinkedIn/Naukri/Indeed search links (45 checks) | no (stubs only, no database) |
+| `smoke_test_jobs.py` | duplicate removal, the optional Jooble source, the combiner, LinkedIn/Naukri/Indeed search links, and the verified skills in the search (at most two, fallback to the plain search, cache key, `matched_on`, no site scraped) (56 checks) | no (stubs only, no database) |
 | `smoke_test_resume_modes.py` | resume modes: ranking unit checks (near-ties, thin-path labelling, insufficient data), `/resume/discover` and `/resume/<id>/analyze` happy paths, 404/400/401, CSRF, rate limits, stored skills reused, `/resume/upload` unchanged, required-skills lists identical to the pre-change snapshot (`scratch/golden/required_skills_before.json`) | no (feedback stubbed; local index and embeddings; needs `requirements-dev.txt` for fpdf2) |
 | `smoke_test_quiz.py` | career quiz: question-bank rules (1-3 paths per option, 6+ options per path, separating options for each pair), invariants (every path can be #1, every pair separable, stop rule within the bank), 30 seeded replays against `scratch/golden/quiz_after.json`, all-A/all-B personas; pure, no database | no |
 | `smoke_test_async_generation.py` | background generation: `/roadmap/generate-async` 202 and polling to done, progress fields, 409, ownership 404, fixed error codes with no exception text, own app context, daily cap, expiry, CSRF, sync route unchanged | no (generator stubbed) |
 | `smoke_test_scenarios.py` | scenarios: validator (pilot file plus 20+ deliberately broken copies), blind-solve prompt leak proof, store, engine (all four question types, shuffle, grading edge cases), unlock / best-score / recommendation rules, every route (401, 403, 404, 409, 400, CSRF, rate limit), `CareerProfile` untouched, page renders, the removed `/dsa` page returns 404 | no (no LLM, YouTube or Adzuna code is reachable; the blind-solve checker is only exercised with a stub) |
-| `smoke_test_readiness.py` | Placement Readiness Score: component maths, re-weighting when a component is unavailable, ready decided on the unrounded score, `GET /readiness`, dashboard card; accounts with nothing saved, quiz only, and a path with no scenario file (it hides one scenario file to test that) | no |
+| `smoke_test_readiness.py` | Placement Readiness Score: component maths, re-weighting when a component is unavailable, ready decided on the unrounded score, `GET /readiness`, dashboard card, the three skill modes (blend / verified / resume: credits, the claim-only rule, concepts never count, fallback, no writes, stand-in survey vocabulary); accounts with nothing saved, quiz only, and a path with no scenario file (it hides one scenario file to test that) | no |
 | `smoke_test_resume_rules.py` | resume rules: combined skills (HTML/CSS), implied skills (SQL), excluded tooling (npm, pip, ...), alias boundaries (Node.js, Vue.js, Next.js must not match `js`), the ATS checks | no |
 | `smoke_test_cached_roadmaps.py` | cached base roadmaps: loader (valid, stale, corrupt, missing), the build script (dry run, resumable, no overwrite without `--force`, one failing path does not stop the others, environment override beats `.env`), the personalizer (bad indexes dropped, text clipped, overlap removed, injection stays escaped, failure is None, prompt under 3,000 estimated tokens for all 15 real outlines), the async route (cached with and without personalization, full fallback, `ROADMAP_MODE=full`, ownership, CSRF, cap, 409), progress and the switcher on a cached roadmap, a timing table written to `scratch/benchmark_cached.csv`; about 2 minutes | no (every LLM call stubbed, uses the local FAISS index) |
 | `smoke_test_llm.py` | `llm_client`: retry on throttling/5xx/timeouts, no retry on access-denied/validation, fallback model, provider switch, schema correction, no secrets or prompt text in errors or logs | no (fake Bedrock client, patched Gemini; hides real credentials and blocks real clients) |
@@ -262,7 +263,7 @@ For these tests run `pip install -r requirements-dev.txt` once (adds fpdf2).
 | `smoke_test_code_questions.py` | code questions: runner adapter (OneCompiler shape, Cloudflare page, timeouts, caps, error codes), validator, public view, grading, Run and Submit routes; languages (allowlist, unknown language -> 400, language passed to the runner and stored with the locked answer, local toolchain detection, starter templates, hidden tests never sent) | no (fake runner, stubbed HTTP, or local Python for one traceback check) |
 | `smoke_test_gamification.py` | gamification: XP rules (best score only, one-off bonuses, retries add nothing), levels, IST streak maths, every badge rule, rewards between two summaries, `GET /gamification` (401, per user, no writes, fixed error code), rewards on scenario submit (and a failure there never breaks the grade), pages load the script | no (code runs with local Python) |
 | `smoke_test_step_checks.py` | verified progression: question building on all 15 base roadmaps (no name giveaways, evidence in the source, deterministic), the model-question verifier, picking, grading, lock / cooldown / review rules, and every route (no answers sent, no re-rolling, cooldown 429, review, pass, test-out, re-tick, ownership 404, CSRF, off switch, stubbed model questions); 83 checks | no (model questions stubbed) |
-| `smoke_test_skill_evidence.py` | skill evidence: the weights and thresholds in one constant, the concept rule (two scenarios verify, step check + scenario verify, no single piece ever verifies a concept), exact arithmetic, one piece counts once, resume-only = unverified, spelling, additions and exclusions from `data/skill_map.json`, the map's own consistency (all 75 scenarios, no stale step key, 30 concepts), `GET /skills/evidence` (401, per user, a passed step check verifies its skill, failed / unfinished attempts count for nothing, no writes, fixed error codes) and the dashboard card (script loaded, no `innerHTML`, no direct fetch); 67 checks | no (survey vocabulary stubbed) |
+| `smoke_test_skill_evidence.py` | skill evidence: the weights and thresholds in one constant, the concept rule (two scenarios verify, step check + scenario verify, no single piece ever verifies a concept), exact arithmetic, one piece counts once, resume-only = unverified, spelling, additions and exclusions from `data/skill_map.json`, the map's own consistency (all 75 scenarios, no stale step key, 30 concepts), `GET /skills/evidence` (401, per user, a passed step check verifies its skill, failed / unfinished attempts count for nothing, no writes, fixed error codes) and the dashboard card (script loaded, no `innerHTML`, no direct fetch); 90 checks (it also covers the shared reach logic, `GET /skills/coverage`, the verified skills in the job search and the resume page script) | no (survey vocabulary stubbed) |
 | `smoke_test_profile.py` | accounts and profile: username rules, signup with a username (taken / invalid / email in other case / older name-only clients), the live username check and its rate limit, login with username or email, `/profile` page and API (401, per user, every field's validation, nothing half-saved, username change, CSRF), picture upload (re-encoded 256x256 JPEG, EXIF and GPS removed, SVG / GIF / over 4 MB refused, private cache), password change, 404 and 500 pages vs JSON, roadmap `completed_on` and the Finish Line badge, the Goals tailoring summary (only real effects; the ranking after Goals equals the quiz's), Goals has 3 questions (C1 refused), a simulated server restart drops the old login cookie (and keeps it when `LOGOUT_ON_RESTART` is off) | no |
 | `smoke_test_code_pools.py` | code pools: content shape of all 15 paths (skill tags only Python / SQL), validator rejections, materialise, the personalised pick rules, no secret field and no hidden test leaked in any of the 360 variants, grading with the real reference solutions, Start/Run/Check/Submit end to end, retry gets the other problem, readiness counts the code question, dashboard scenario summary, no page links to `/dsa` | no (runs code with this machine's Python: `CODE_RUNNER=local`) |
 | `smoke_test_resume.py` | upload, extraction, gap analysis, AI feedback | yes: Gemini |
@@ -277,8 +278,8 @@ Each prints `[PASS]`/`[FAIL]` per check and exits non-zero on a failure. Run the
 last four only deliberately: they spend quota.
 
 Current check counts (run on 2026-10-11 unless marked): `smoke_test_scenarios.py` 218 (2026-10-16),
-`smoke_test_readiness.py` 70, `smoke_test_resume_rules.py` 59, `smoke_test_cached_roadmaps.py` 95,
-`smoke_test_code_questions.py` 198 (2026-10-21, `main`), `smoke_test_code_pools.py` 118 (2026-10-16), `smoke_test_profile.py` 79 (2026-10-21), `smoke_test_gamification.py` 49, `smoke_test_skill_evidence.py` 67 (2026-11-01; the last three were run in a cloud copy with an empty
+`smoke_test_readiness.py` 98 (99 on a database with the survey table; 2026-11-01), `smoke_test_resume_rules.py` 59, `smoke_test_cached_roadmaps.py` 95,
+`smoke_test_code_questions.py` 198 (2026-10-21, `main`), `smoke_test_code_pools.py` 118 (2026-10-16), `smoke_test_profile.py` 79 (2026-10-21), `smoke_test_gamification.py` 49, `smoke_test_skill_evidence.py` 90, `smoke_test_jobs.py` 56 (2026-11-01; the last three were run in a cloud copy with an empty
 survey table, where readiness shows 69 and resume_rules 58; on the laptop's database they should show 70 and 59)
 (the 95 is from the earlier biography entry and was not re-run for this update). All of these
 call no external service, but they use the development database, so PostgreSQL must be running.
@@ -927,5 +928,40 @@ dashboard), `data/skill_map.json` (curated additions and guards), `scripts/vocab
 - **Roadmap origin matters.** Concept skills exist only in the curated map, which is keyed by step title. In the owner's database 10 of 21
   roadmaps had the base marker (236 steps, 93% with a curated entry) and 11 were generated from scratch (351 steps, 1% with one), so a
   student on a from-scratch roadmap gets tool evidence from step checks (matcher) but concept evidence only from scenarios and code problems.
-- **Not connected yet:** readiness and job matching still use only the resume's skills; the required-skills list is built from survey
-  tools, so concept skills can never raise the readiness score.
+- **Readiness now counts verified skills (`READINESS_SKILL_MODE`).** The skill-gap part of the Placement Readiness score is
+  (what each required skill counts for) / N; weights, the 70 threshold and the re-normalisation are unchanged
+  (`app/pipeline/readiness.py`, `skill_gap_breakdown`). Modes: **blend** (default) a verified tool skill counts 1; a required skill only
+  on the resume counts `RESUME_CLAIM_CREDIT` (0.5); a required skill that nothing on the platform can verify, when it is on the resume,
+  counts `CLAIM_ONLY_CREDIT` (1.0, shown as "Claim only: can't be verified here yet"); anything else 0. **verified**: only verified tool
+  skills count, so an unverifiable skill on the resume counts 0. **resume**: the old rule, the resume alone, byte for byte. Only a TOOL
+  skill with status "verified" counts, so concept skills (Caching, Databases ...) never change the score; they show on the skills card.
+  A skill is verified only when that skill itself is verified: a verified SQL does NOT count toward MySQL, PostgreSQL, SQLite or
+  Microsoft SQL Server (transfer from SQL was considered and not adopted), while a verified MySQL does count for a "SQL" requirement
+  (the existing implied-skill rule). `GET /readiness` returns the numbers in `skill_gap_detail` (mode, N, on the resume, verified, and
+  each required skill's status and what it counts for); if the evidence cannot be gathered the score falls back to the resume-only
+  rule and says so (`fallback`). The dashboard card shows "On your resume: X of N" and "Verified: Y of N", what each counts for, and
+  a "How this works" text. "What can be verified at all" is `app/pipeline/skill_reach.py`, the same code as
+  `scripts/readiness_reach_report.py`, worked out once per server process.
+- **Resume page.** Each matched skill is marked "Verified" or "Not yet verified" (`GET /skills/coverage`, read-only) with a link to a
+  step of the student's roadmap or a scenario that covers it (a step of another path's roadmap is named with its path); if nothing
+  covers it the page says so.
+- **Job matching.** The student's top two verified TOOL skills are added to the live-listings search ("backend developer Python SQL")
+  and used only if that search returns listings; otherwise the search is exactly the old one. The listings box shows "Matched on:".
+  Only the Adzuna and Jooble APIs are called; nothing is scraped. If the verified skills cannot be gathered the search is plain.
+- **Known limits (record, do not hide).**
+  - *Reach.* Measured on the owner's database with `readiness_reach_report.py`: only about 28% of the required skills across the 15
+    paths can be verified with each path's own content, and MySQL is unverifiable on 11 of 15 paths. MySQL, Java, MongoDB, C,
+    PowerShell and Dart cannot be verified by any step, scenario or code problem (a content gap, not a bug); a check in
+    `smoke_test_skill_evidence.py` fails when content is added, as a reminder to update this note. Blend mode exists because of this: a
+    strict mode would make most of the list impossible to earn.
+  - *Ceiling.* In blend mode a required skill that nothing can verify counts at most 1 and only from the resume, so those slots are
+    claims, not proof.
+  - *Only tools in the survey list count.* The required list is the top 10 tools per path from the survey; concept skills can never be in
+    it, so they appear on the skills card only.
+  - *From-scratch roadmaps.* Concept evidence comes from the curated map keyed by step title; the owner accepted that students on
+    roadmaps generated from scratch (11 of 21 in the owner's database) get tool evidence from step checks but concept evidence only from
+    scenarios and code problems. Nothing was regenerated.
+  - *Scores change.* With the default `blend`, a skill that is only on the resume counts half of what it counted before; set
+    `READINESS_SKILL_MODE=resume` to restore the old numbers.
+  - *Resume and target role.* The skill-gap part still needs an analysed resume and a target role; a student with verified skills but no
+    analysed resume has no skill-gap number yet.

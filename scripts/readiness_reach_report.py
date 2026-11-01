@@ -44,13 +44,13 @@ from sqlalchemy import text
 from app import create_app, db
 from app.pipeline import base_roadmaps, scenario_store as store
 from app.pipeline import skill_evidence as se
+from app.pipeline import skill_reach
 from app.pipeline.career_path_registry import CAREER_PATHS
 from app.pipeline.resume_analyzer import get_extended_skill_vocabulary, get_required_skills
 from app.pipeline.resume_skill_extractor import extract_skills
-from app.pipeline.skill_matching import resolve_required
 
 SKILL_MAP = Path("data/skill_map.json")
-SOURCES = ("steps", "scenarios", "code problems")
+SOURCES = skill_reach.SOURCES
 
 
 def make_matcher(vocab):
@@ -65,40 +65,15 @@ def make_matcher(vocab):
 
 
 def tools_by_source(skill_map, matcher, spelling):
-    """{source: {career path: set of TOOL skill names that content of that path can verify}}."""
-    concepts = skill_map["concepts"]
-    out = {source: {} for source in SOURCES}
+    """Reads the committed content files and asks the shared reach logic (app/pipeline/skill_reach.py)."""
+    roadmaps = {}
     for path in CAREER_PATHS:
-        slug = base_roadmaps.slug(path)
-        file = Path(base_roadmaps.BASE_DIR) / f"{slug}.json"
-        steps = set()
-        if file.exists():
-            doc = json.loads(file.read_text(encoding="utf-8"))
-            for phase in doc["roadmap"]["phases"]:
-                for step in phase["steps"]:
-                    steps.update(se.skills_for_step(slug, step.get("title"), step.get("subtopics"), skill_map, matcher, spelling))
-        out["steps"][path] = {s for s in steps if s not in concepts}
-    for path, data in store.load_all().items():
-        scenarios, problems = set(), set()
-        for scenario in data["scenarios"]:
-            scenarios.update(se.skills_for_scenario(scenario["id"], scenario.get("tests_topics"), skill_map, matcher, spelling))
-            for problem in [q for q in scenario["questions"] if q.get("type") == "code"] + list(scenario.get("code_pool") or []):
-                problems.update(se.skills_for_code(problem.get("skills"), problem.get("ds_topic"), skill_map, spelling))
-        out["scenarios"][path] = {s for s in scenarios if s not in concepts}
-        out["code problems"][path] = {s for s in problems if s not in concepts}
-    for source in SOURCES:
-        for path in CAREER_PATHS:
-            out[source].setdefault(path, set())
-    return out
+        file = Path(base_roadmaps.BASE_DIR) / f"{base_roadmaps.slug(path)}.json"
+        roadmaps[path] = json.loads(file.read_text(encoding="utf-8")) if file.exists() else None
+    return skill_reach.tools_by_source(skill_map, matcher, spelling, roadmaps, store.load_all(), CAREER_PATHS, base_roadmaps.slug)
 
 
-def reachable(required, tools):
-    """The required skills these tool names verify. Names are matched case-insensitively, then resolved like the resume
-    comparison (a composite needs all its parts; an implying skill counts)."""
-    by_lower = {r.lower(): r for r in required}
-    respelled = {by_lower.get(t.lower(), t) for t in tools}
-    matched, _missing, _partial = resolve_required(required, respelled)
-    return matched
+reachable = skill_reach.reachable
 
 
 def percent(part, whole):

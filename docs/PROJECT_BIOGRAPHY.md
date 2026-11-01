@@ -2826,3 +2826,54 @@ roadmaps were generated from scratch (old roadmaps from before cached mode, or s
 roadmaps. (c) The correctness of the 435 step and 75 scenario assignments beyond the owner's review; broad concepts such as "Generative AI"
 (35 entries) can be verified by two short recall checks, which is a product decision to revisit with real data. (d) Real user data:
 nothing here ran against it. Readiness and job matching still use only the resume's skills; connecting them to verified skills is the next step.
+
+---
+## Readiness and Job Matching Count Verified Skills (branch `verified-progression`)
+
+**Why.** Skill evidence said which skills a student can prove, but the Placement Readiness score and the job search still believed the resume.
+The owner asked that both use verified skills.
+
+**What was built.** (1) The skill-gap part of the readiness score now has three modes (`READINESS_SKILL_MODE`): `blend` (default), `verified`
+and `resume`. In `blend` a verified tool skill counts 1, a required skill only on the resume counts 0.5 (`RESUME_CLAIM_CREDIT`), and a
+required skill that nothing on the platform can verify counts 1 when it is on the resume (`CLAIM_ONLY_CREDIT`, labelled "claim only: can't
+be verified here yet"). `verified` is strict (unverifiable skills count 0) and `resume` is the old calculation. Weights, the 70 threshold and
+the re-normalisation are unchanged and `readiness.py` stays pure. The dashboard card shows "On your resume: X of N" and "Verified: Y of N",
+what each counts for, a label per required skill ("no LevelUp content for this yet" for those nothing can verify) and a new "How this
+works". (2) The resume page marks each matched skill "Verified" or "Not yet verified" and links to a step or scenario that covers it
+(`GET /skills/coverage`). (3) The live-listings search adds the student's top two verified tool skills and uses them only if that search
+returns listings, otherwise the old search; the box shows "Matched on". Nothing is scraped. (4) The "what can be verified at all" logic moved
+into one pure module (`skill_reach.py`) used by both the dashboard and `scripts/readiness_reach_report.py`.
+
+**Decisions made with the owner.** The plan first used a boolean switch; a measurement changed it. The new read-only report showed that only
+about 28% of the required skills across the 15 paths can be verified with each path's own content, and that MySQL is unverifiable on 11 of 15
+paths, so a strict mode would make most of the list impossible to earn. Hence the blend, and the ceiling rule (an unverifiable required skill
+on the resume counts fully, since a claim is all there can be). SQL transfer, a verified SQL counting toward one SQL-database requirement, was
+considered (it would have lifted own-path reach by at most about 4 points) and NOT adopted: a skill is verified only when that skill itself is
+verified. The roadmap gap (steps of roadmaps generated from scratch rarely match the curated map) was accepted; nothing was regenerated.
+
+**Problems found on the way.** (1) My first "verified concept does not count" test could not fail, because no concept was in the stand-in
+required list; a concept name was added so it can. (2) The old Adzuna test asserted the exact call of the job search and a response without
+`matched_on`; the route was made tolerant and the test updated to the new call. (3) A skill covered only by another path's steps (Docker, for a
+backend student) would have been shown as "no step covers this yet"; such a skill now names a step of another path (with its path), preferring
+a step whose title names the skill. (4) Existing readiness checks asserted the exact response keys and the resume-only rule; they now run in
+`resume` mode and expect `skill_gap_detail`.
+
+**Verified.** On the throwaway database with a stand-in survey vocabulary and required list (the survey table is empty there): readiness
+98/98 (was 69), skill evidence 90/90 (was 67), jobs 56/56 (was 45), adzuna 34/34, security 30/30, profile 79/79, gamification 49/49,
+step_checks 83/83, scenarios 218/218. Sixteen rules were broken on purpose (each credit, the claim-only rule, the concept exclusion, the mode
+switch, the default, the unreachable label, case-insensitive names, SQL credit for databases, the search fallback, the two-skill limit, the
+skills passed to the sources and by the route, composites) and every break made 1 to 9 checks fail. A browser run with a seeded student: the
+readiness card (22.6/100, 50% required skills, per-skill labels), the resume page labels and links, no console errors and no sideways
+scrolling at 390 px. The refactored reach report gives the same numbers as before.
+
+**NOT verified.** (a) The real survey table and the owner's real required lists: every number above uses stand-ins; the owner's reach figures
+(28%, MySQL on 11 of 15 paths) come from the owner's run, not mine. (b) The job search against the real Adzuna and Jooble services (HTTP is
+stubbed): whether adding two skills actually returns listings, and how often it falls back, is unmeasured. (c) How many students' scores change
+and by how much: with the default blend a resume-only skill counts half of what it did. (d) The page with roadmaps generated from scratch
+(concept evidence is rare there). (e) Real user data: none was read.
+
+**Known limits (recorded, not hidden).** MySQL, Java, MongoDB, C, PowerShell and Dart cannot be verified by any step, scenario or code
+problem (a content gap). Readiness counts only tool skills that are in the survey list, so concept skills (Caching, Databases ...) show on
+the skills card only and never change the score. In blend mode the unverifiable slots are claims, not proof. The skill-gap part still needs an
+analysed resume and a target role.
+

@@ -204,6 +204,39 @@ def test_rules():
           and rejects(lambda b: b["steps"].update({"a|b": "Python"}))
           and rejects(lambda b: b.pop("canonical")))
 
+    # --- the shared reach logic (what can be verified at all)
+    from app.pipeline import skill_reach as sr
+    check("reach: names are compared case-insensitively and respelled the way the required list spells them",
+          sr.reachable(["Python", "SQL"], {"python"}) == {"Python"})
+    check("reach: a composite needs every part (HTML alone does not verify HTML/CSS)",
+          sr.reachable(["HTML/CSS"], {"HTML"}) == set() and sr.reachable(["HTML/CSS"], {"HTML", "CSS"}) == {"HTML/CSS"})
+    check("reach: a skill that implies another counts (MySQL verifies the SQL requirement) but SQL does NOT verify a database "
+          "requirement: a skill is verified only when that skill itself is verified",
+          sr.reachable(["SQL"], {"MySQL"}) == {"SQL"}
+          and sr.reachable(["MySQL", "PostgreSQL", "SQLite", "Microsoft SQL Server"], {"SQL"}) == set())
+    check("reach: the required skills that nothing can verify", sr.unreachable_everywhere(["Python", "Rust"], {"Python"}) == {"Rust"})
+    fake_roadmaps = {"Backend Engineering": {"roadmap": {"phases": [{"steps": [
+        {"title": "SQL Queries: Selecting, Joining and Grouping", "subtopics": []}, {"title": "Caching and Search Engines", "subtopics": []}]}]}}}
+    fake_scenarios = {"Backend Engineering": {"scenarios": [{"id": "bke-2", "tests_topics": ["Caching"], "questions": [],
+                                                              "code_pool": [{"id": "bke-2-c1", "skills": ["Python"], "ds_topic": "hash_map"}]}]}}
+    per = sr.tools_by_source(m, None, None, fake_roadmaps, fake_scenarios, ["Backend Engineering", "DevOps"],
+                             lambda path: path.lower().replace(" ", "-"))
+    check("reach: tools_by_source counts only TOOL skills (concepts like Caching are left out), per source and per path",
+          per["steps"]["Backend Engineering"] == {"SQL"} and per["code problems"]["Backend Engineering"] == {"Python"}
+          and per["scenarios"]["Backend Engineering"] == set() and per["steps"]["DevOps"] == set()
+          and sr.all_tools(per) == {"SQL", "Python"})
+    real_roadmaps = {path: json.loads(f.read_text(encoding="utf-8")) for f in sorted(Path("data/base_roadmaps").glob("*.json"))
+                     for path in [json.loads(f.read_text(encoding="utf-8"))["metadata"]["career_path"]]}
+    real_scenarios = {json.loads(f.read_text(encoding="utf-8"))["path"]: json.loads(f.read_text(encoding="utf-8"))
+                      for f in sorted(Path("data/scenarios").glob("*.json"))}
+    real = sr.tools_by_source(m, None, None, real_roadmaps, real_scenarios, sorted(real_roadmaps), lambda path: re.sub(r"[^a-z0-9]+", "-", path.lower()).strip("-"))
+    known_gaps = {"MySQL", "Java", "MongoDB", "C", "PowerShell", "Dart"}
+    check("known content gap (see the docs): MySQL, Java, MongoDB, C, PowerShell and Dart cannot be verified by any curated step, scenario "
+          "or code problem. If this check starts failing, content was added: update the docs", not (known_gaps & sr.all_tools(real)))
+    check("the readiness-reach report and the dashboard use the same reach code (scripts/readiness_reach_report.py imports skill_reach)",
+          "skill_reach" in Path("scripts/readiness_reach_report.py").read_text(encoding="utf-8")
+          and "skill_reach" in Path("app/routes/skills.py").read_text(encoding="utf-8"))
+
     # --- purity
     src = Path("app/pipeline/skill_evidence.py").read_text(encoding="utf-8")
     check("skill_evidence.py is pure: no Flask, database, spaCy or network imports",
@@ -385,6 +418,71 @@ def test_routes():
         finally:
             route.SKILL_MAP_PATH = real_path
         check("the route works again after the map is restored", alice.get("/skills/evidence").status_code == 200)
+
+        # --- where can a skill be proved (the resume page's "Verified / Not yet verified" labels)
+        route._vocab_cache["vocab"] = frozenset({"Python", "SQL", "Docker", "Rust", "Git"})        # stand-in vocabulary
+        wanted = [("skill", n) for n in ("SQL", "Python", "Docker", "Rust", "HTML/CSS")]
+        check("GET /skills/coverage logged out -> 401", anon.get("/skills/coverage?skill=SQL").status_code == 401)
+        check("GET /skills/coverage without a skill -> 400 with a fixed code",
+              alice.get("/skills/coverage").status_code == 400 and alice.get("/skills/coverage").get_json() == {"error": "no_skills"})
+        before_cov = snapshot()
+        cov_resp = alice.get("/skills/coverage", query_string=wanted)
+        cov = cov_resp.get_json()["skills"]
+        check("coverage: verified skills are marked verified (SQL by test-out, Python by a solved code problem)",
+              cov_resp.status_code == 200 and cov["SQL"]["verified"] is True and cov["Python"]["verified"] is True)
+        check("coverage: a skill only claimed is 'not yet verified' and names where to prove it: Docker -> a step of another path's "
+              "roadmap (named with the path) and no scenario",
+              cov["Docker"]["verified"] is False and cov["Docker"]["no_content"] is False
+              and any(w["type"] == "step" and w["in"] for w in cov["Docker"]["where"]))
+        check("coverage: the step named for a skill covered only elsewhere is one whose title names it (Docker -> a Docker step, "
+              "not an unrelated step that merely mentions it)",
+              all("docker" in w["title"].lower() for w in cov["Docker"]["where"] if w["type"] == "step" and w["in"]))
+        check("coverage: a skill the student's own roadmap teaches links to that step (Python Fundamentals, no 'in' path)",
+              any(w["type"] == "step" and w["title"] == "Python Fundamentals" and w["in"] is None for w in cov["Python"]["where"]))
+        check("coverage: scenarios that cover a skill are listed (SQL) with the scenarios page as the link",
+              any(w["type"] == "scenario" and w["url"] == "/scenarios" for w in cov["SQL"]["where"]))
+        check("coverage: nothing on the platform covers Rust -> no_content true and no places listed",
+              cov["Rust"]["no_content"] is True and cov["Rust"]["where"] == [] and cov["Rust"]["verified"] is False)
+        check("coverage: a composite is covered by its parts (HTML/CSS -> HTML and CSS steps), not verified without both parts",
+              cov["HTML/CSS"]["verified"] is False and cov["HTML/CSS"]["no_content"] is False and cov["HTML/CSS"]["where"])
+        bob_cov = bob.get("/skills/coverage", query_string=[("skill", "SQL"), ("skill", "Python")]).get_json()["skills"]
+        check("coverage is per student: Bob has verified nothing", not bob_cov["SQL"]["verified"] and not bob_cov["Python"]["verified"])
+        check("coverage writes nothing", snapshot() == before_cov)
+        real_ev = route.evidence_for
+        try:
+            route.evidence_for = boom_ev = lambda _uid: (_ for _ in ()).throw(RuntimeError("SECRET-detail"))
+            er = alice.get("/skills/coverage", query_string=[("skill", "SQL")])
+            check("coverage: a failure -> 500 with a fixed code and no exception text",
+                  er.status_code == 500 and er.get_json() == {"error": "skills_unavailable"} and "SECRET" not in er.get_data(as_text=True))
+        finally:
+            route.evidence_for = real_ev
+
+        # --- job search: the top verified TOOL skills (at most two) go into the search
+        from unittest.mock import patch
+        from app.routes import resume as resume_route
+        asked = []
+
+        def fake_listings(career_path, skills=()):
+            asked.append(list(skills))
+            return {"listings": [], "unavailable": False, "sources": ["Adzuna"], "matched_on": list(skills), "search_links": []}
+        with patch.object(resume_route, "get_live_job_listings", fake_listings):
+            la = alice.get("/resume/listings", query_string={"career_path": "Backend Engineering"})
+            lb = bob.get("/resume/listings", query_string={"career_path": "Backend Engineering"})
+            route.evidence_for = lambda _uid: (_ for _ in ()).throw(RuntimeError("SECRET-detail"))
+            try:
+                lf = alice.get("/resume/listings", query_string={"career_path": "Backend Engineering"})
+            finally:
+                route.evidence_for = real_ev
+        check("listings: Alice's top verified TOOL skills are passed to the search (Python, SQL; the verified concept Caching is not)",
+              asked[0] == ["Python", "SQL"] and la.get_json()["matched_on"] == ["Python", "SQL"])
+        check("listings: a student with nothing verified searches without skills", asked[1] == [] and lb.get_json()["matched_on"] == [])
+        check("listings: if the verified skills cannot be gathered the search is plain and the page still answers 200",
+              asked[2] == [] and lf.status_code == 200 and "SECRET" not in lf.get_data(as_text=True))
+        js_results = Path("app/static/js/results.js").read_text(encoding="utf-8")
+        check("resume page script: matched skills show 'Verified' / 'Not yet verified' with 'Prove it' links, the jobs box shows 'Matched on:'; no innerHTML",
+              "matchedSkillsWithProof" in js_results and "/skills/coverage" in js_results and '"Not yet verified"' in js_results
+              and "Prove it" in js_results and "No LevelUp step or scenario covers this yet." in js_results
+              and "Matched on:" in js_results and not re.search(r"\.(innerHTML|outerHTML)\s*=|insertAdjacentHTML|document\.write", js_results))
 
         # the dashboard card
         html = alice.get("/dashboard").get_data(as_text=True)

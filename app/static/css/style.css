@@ -1475,3 +1475,9 @@ a.job-link:hover .job-title { text-decoration: underline; }
 .skill-note { margin: 0; font-size: var(--fs-xs); }
 .skill-why { list-style: none; padding: 0; display: grid; gap: var(--sp-1); font-size: var(--fs-xs); color: var(--pencil); }
 .skill-sub { font-size: var(--fs-sm); font-weight: 700; color: var(--pencil); }
+
+/* ---------- Readiness card: required skills detail ---------- */
+.gap-note { margin: 0; font-size: var(--fs-xs); }
+.gap-list { list-style: none; padding: 0; display: grid; gap: var(--sp-2); margin-top: var(--sp-3); }
+.gap-item { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--sp-2) var(--sp-3); }
+.gap-name { font-weight: 600; }

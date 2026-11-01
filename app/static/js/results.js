@@ -494,6 +494,36 @@ function skillChips(skills, kind) {
     ));
 }
 
+// The resume's matched skills, each marked "Verified" or "Not yet verified", with links to where it can be proved (a step of the
+// student's roadmap or a scenario that covers it). Starts as the plain chips, then GETs /skills/coverage and fills itself in; if
+// that fails the chips stay as they were. Verification: a verified tool skill (a passed step check, scenario or coding problem).
+function matchedSkillsWithProof(matched) {
+    const holder = el("div", { className: "stack-sm" }, skillChips(matched, "have"));
+    const query = matched.map((name) => `skill=${encodeURIComponent(name)}`).join("&");
+    getJson(`/skills/coverage?${query}`).then((result) => {
+        if (!result.ok || !result.data || !result.data.skills) return;
+        const rows = matched.map((name) => {
+            const info = result.data.skills[name];
+            if (!info) return null;
+            const kids = [
+                el("span", { className: "gap-name", text: name }),
+                el("span", { className: `chip ${info.verified ? "chip-ink" : "chip-line"}`, text: info.verified ? "Verified" : "Not yet verified" }),
+            ];
+            if (!info.verified) {
+                if (info.where.length) {
+                    const links = info.where.map((spot) => el("a", { href: spot.url, text: `${spot.type === "step" ? "Step" : "Scenario"}: ${spot.title}${spot.in ? ` (in the ${spot.in} roadmap)` : ""}` }));
+                    kids.push(el("span", { className: "muted" }, "Prove it: ", ...links.flatMap((link, i) => (i ? [" · ", link] : [link]))));
+                } else {
+                    kids.push(el("span", { className: "muted", text: "No LevelUp step or scenario covers this yet." }));
+                }
+            }
+            return el("li", { className: "gap-item" }, ...kids);
+        }).filter(Boolean);
+        if (rows.length) holder.replaceChildren(el("ul", { className: "gap-list" }, ...rows));
+    });
+    return holder;
+}
+
 // ATS score -> a word. The thresholds (80 / 60) are the ones the page has always used.
 function atsBand(score) {
     return score >= 80 ? { label: "Easy to read", low: false } : score >= 60 ? { label: "Readable", low: false } : { label: "Hard to read", low: true };
@@ -550,7 +580,8 @@ function skillsPanel(data) {
                 el("p", { className: "muted", text: `${skill}: partly covered. Found ${p.found.join(", ")}; still missing ${p.missing.join(", ")}.` }))),
         el("div", { className: "stack-sm" },
             el("h3", { className: "h3", text: "On your resume" }),
-            matched.length ? skillChips(matched, "have") : el("p", { className: "muted", text: "None of the common skills were found." })),
+            matched.length ? matchedSkillsWithProof(matched) : el("p", { className: "muted", text: "None of the common skills were found." }),
+            matched.length ? el("p", { className: "muted gap-note", text: "Verified means you passed a step check, a scenario or a coding problem that covers the skill. A skill only on your resume is a claim until you do." }) : ""),
     ];
     if (others.length) {
         out.push(el("details", { className: "disclosure" }, el("summary", { text: `Other skills found (${others.length})` }), skillChips(others, "extra")));
@@ -589,6 +620,7 @@ function liveListingsPanel(targetCareerPath) {
     const body = el("div", {}, skeleton("Finding live listings", 2));
     const credit = el("p", { className: "muted credit" }, "Jobs by ",
         el("a", { href: JOB_SOURCE_SITES.Adzuna, target: "_blank", rel: "noopener noreferrer", text: "Adzuna" }));
+    const matchedOn = el("p", { className: "muted credit", hidden: "" });
     const moreLinks = el("div", {});
 
     function renderListings(listings) {
@@ -647,6 +679,10 @@ function liveListingsPanel(targetCareerPath) {
             return;
         }
         renderCredit(result.data.sources);
+        if (result.data.matched_on && result.data.matched_on.length) {
+            matchedOn.textContent = `Matched on: ${result.data.matched_on.join(", ")}`;
+            matchedOn.hidden = false;
+        }
         if (!result.data.listings.length) {
             body.replaceChildren(el("p", { className: "muted", text: "No live listings found for this role." }));
             return;
@@ -654,7 +690,7 @@ function liveListingsPanel(targetCareerPath) {
         renderListings(result.data.listings);
     });
 
-    return el("div", { className: "stack-sm" }, body, credit, moreLinks);
+    return el("div", { className: "stack-sm" }, body, matchedOn, credit, moreLinks);
 }
 
 const FEEDBACK_HEADERS = ["Resume Suggestions", "30-Day Action Plan", "Keyword Suggestions"];

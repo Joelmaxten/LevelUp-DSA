@@ -283,6 +283,113 @@ def main():
         check("combined: without a Jooble key only Adzuna is asked (no Jooble request), exactly as before",
               post.call_count == 0 and g.call_count == 1 and r["sources"] == ["Adzuna"] and len(r["listings"]) == 1)
 
+    # ------------------------------------------------------------ verified skills in the search
+    check("search skill terms: at most two, a '(AWS)'-style note dropped, case-insensitive duplicates removed, junk skipped",
+          al.search_skill_terms(["Python", "SQL", "Docker"]) == ["Python", "SQL"]
+          and al.search_skill_terms(["Amazon Web Services (AWS)", "amazon web services"]) == ["Amazon Web Services"]
+          and al.search_skill_terms(["", None, "x" * 40, "Git"]) == ["Git"] and al.search_skill_terms(None) == [])
+
+    with app.app_context():
+        fresh()
+        what = []
+
+        def with_skills(url, params=None, timeout=None):
+            what.append(params["what"])
+            return Resp(200, adz_payload(("Backend Developer", "Skill Co")))
+        with patch("app.pipeline.adzuna_listings.requests.get", side_effect=with_skills):
+            r = al.get_live_listings("Backend Engineering", skills=["Python", "SQL", "Docker"])
+        check("adzuna: with skills the search phrase gets the first two added ('backend developer Python SQL') and matched_on says so",
+              what == ["backend developer Python SQL"] and r["matched_on"] == ["Python", "SQL"] and len(r["listings"]) == 1)
+
+        fresh()
+        what.clear()
+
+        def only_plain(url, params=None, timeout=None):
+            what.append(params["what"])
+            return Resp(200, {"results": []}) if params["what"].endswith("Python SQL") else Resp(200, adz_payload(("Backend Developer", "Plain Co")))
+        with patch("app.pipeline.adzuna_listings.requests.get", side_effect=only_plain):
+            r = al.get_live_listings("Backend Engineering", skills=["Python", "SQL"])
+        check("adzuna: if the skills search returns nothing it falls back to today's plain search, and matched_on is absent",
+              what[-1] == "backend developer" and [x["company"] for x in r["listings"]] == ["Plain Co"] and "matched_on" not in r)
+
+        fresh()
+        what.clear()
+        with patch("app.pipeline.adzuna_listings.requests.get", side_effect=with_skills):
+            r = al.get_live_listings("Backend Engineering")
+            r2 = al.get_live_listings("Backend Engineering", skills=[])
+        check("adzuna: without skills nothing changes (phrase 'backend developer', no matched_on), and the plain result is cached",
+              what == ["backend developer"] and "matched_on" not in r and r2 == r)
+
+        fresh()
+        what.clear()
+        with patch("app.pipeline.adzuna_listings.requests.get", side_effect=with_skills):
+            al.get_live_listings("Backend Engineering", skills=["Python"])
+            al.get_live_listings("Backend Engineering", skills=["Go"])
+            al.get_live_listings("Backend Engineering", skills=["Python"])
+        check("adzuna: the cache key includes the skills (Python and Go searches are separate; the repeat is served from the cache)",
+              what == ["backend developer Python", "backend developer Go"])
+
+    with app.app_context():
+        fresh()
+        seen = []
+
+        def jwith(url, json=None, timeout=None):
+            seen.append(json["keywords"])
+            return Resp(200, {"jobs": [joo("DevOps Engineer", "Skill Co")]})
+        with patch("app.pipeline.jooble_listings.requests.post", side_effect=jwith):
+            r = jl.get_jooble_listings("DevOps", skills=["Docker", "Kubernetes", "Git"])
+        check("jooble: with skills the first keywords are '<role> <skill> <skill> fresher' and matched_on lists them",
+              seen[0] == "devops engineer Docker Kubernetes fresher" and r["matched_on"] == ["Docker", "Kubernetes"])
+        fresh()
+        seen.clear()
+
+        def jnone(url, json=None, timeout=None):
+            seen.append(json["keywords"])
+            return Resp(200, {"jobs": []}) if "Docker" in json["keywords"] else Resp(200, {"jobs": [joo("DevOps Engineer", "Plain Co")]})
+        with patch("app.pipeline.jooble_listings.requests.post", side_effect=jnone):
+            r = jl.get_jooble_listings("DevOps", skills=["Docker"])
+        check("jooble: skills that find nothing fall back to the plain search ('devops engineer fresher'), no matched_on",
+              seen[-1] == "devops engineer fresher" and [x["company"] for x in r["listings"]] == ["Plain Co"] and "matched_on" not in r)
+
+    with app.app_context():
+        fresh()
+        asked = []
+
+        def a_stub(career_path, skills=()):
+            asked.append(("adzuna", list(skills)))
+            return {"listings": [{"title": "Backend Developer", "company": "A", "location": "X", "url": "https://adz.test/1"}], "unavailable": False, "matched_on": ["Python"]}
+
+        def j_stub(career_path, skills=()):
+            asked.append(("jooble", list(skills)))
+            return {"listings": [{"title": "Python Developer", "company": "B", "location": "Y", "url": "https://jooble.test/2"}], "unavailable": False, "matched_on": ["Python", "SQL"]}
+        with patch("app.pipeline.adzuna_listings.get_live_listings", a_stub), patch("app.pipeline.jooble_listings.get_jooble_listings", j_stub):
+            r = lj.get_live_job_listings("Backend Engineering", skills=["Python", "SQL"])
+            plain = lj.get_live_job_listings("Backend Engineering")
+        check("combined: both sources receive the skills (first call) and none when there are none (second call)",
+              sorted(asked[:2]) == [("adzuna", ["Python", "SQL"]), ("jooble", ["Python", "SQL"])]
+              and sorted(asked[2:]) == [("adzuna", []), ("jooble", [])])
+        check("combined: matched_on is the skills any source searched with, without repeats (Python, SQL)",
+              r["matched_on"] == ["Python", "SQL"])
+        check("combined: the answer has the same keys with and without skills, plus matched_on",
+              set(r) == set(plain) and "matched_on" in r and isinstance(plain["matched_on"], list))
+
+    with app.app_context():
+        fresh()
+        hosts = []
+
+        def record_get(url, params=None, timeout=None):
+            hosts.append(url.split("/")[2])
+            return Resp(200, adz_payload(("Backend Developer", "Acme")))
+
+        def record_post(url, json=None, timeout=None):
+            hosts.append(url.split("/")[2])
+            return Resp(200, {"jobs": [joo("Python Developer", "Delta")]})
+        with patch("app.pipeline.adzuna_listings.requests.get", side_effect=record_get), \
+             patch("app.pipeline.jooble_listings.requests.post", side_effect=record_post):
+            lj.get_live_job_listings("Backend Engineering", skills=["Python", "SQL"])
+        check("no site is scraped: with skills the only hosts contacted are the Adzuna and Jooble APIs (never LinkedIn, Naukri or Indeed)",
+              hosts and set(hosts) <= {"api.adzuna.com", "jooble.org"})
+
     # ------------------------------------------------------------ search links
     all_ok = True
     for path in CAREER_PATHS:

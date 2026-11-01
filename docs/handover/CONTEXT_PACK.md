@@ -562,7 +562,7 @@ with `db.create_all()` and one-off scripts in `scripts/` add columns to older da
 | `completed_at` | DATETIME |  |
 
 
-## 3. HTTP routes (60 routes)
+## 3. HTTP routes (61 routes)
 
 "Login needed" is read from the route's decorator (`@login_required` returns JSON 401; `@page_login_required` redirects
 a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token header.
@@ -623,6 +623,7 @@ a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token 
 | scenarios | `/scenarios/<scenario_id>/start` | POST | yes | Start or resume an attempt (403 scenario_locked if the previous scenario is not passed). |
 | scenarios | `/scenarios/<scenario_id>/submit` | POST | yes | Grade the whole attempt on the server; returns the result and the rewards. |
 | scenarios | `/scenarios/paths` | GET | yes | The paths that have scenarios. |
+| skills | `/skills/coverage` | GET | yes | GET /skills/coverage?skill=Python&skill=SQL (up to 30): for the resume page's matched skills. |
 | skills | `/skills/evidence` | GET | yes |  |
 | step_checks | `/roadmap/<int:roadmap_id>/steps/<int:step_index>/check/start` | POST | yes |  |
 | step_checks | `/roadmap/<int:roadmap_id>/steps/<int:step_index>/check/submit` | POST | yes |  |
@@ -637,7 +638,7 @@ a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token 
 | File | Lines | Purpose (first sentence of its docstring) |
 |---|---|---|
 | `app/__init__.py` | 216 | The application factory (create_app): registers every route, the login gate, error pages and the restart-logout hook. |
-| `app/config.py` | 200 | Settings read from environment variables, with development and production modes. |
+| `app/config.py` | 215 | Settings read from environment variables, with development and production modes. |
 | `app/mailer.py` | 58 | Minimal email sending for the password-reset link, standard library only (smtplib), so no extra package. |
 | `app/models.py` | 369 | The database tables (SQLAlchemy models). |
 | `app/security.py` | 88 | Request-level security: CSRF protection and small in-process rate limits. |
@@ -656,18 +657,18 @@ a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token 
 | `app/routes/gamification.py` | 58 | GET /gamification: the student's XP, level, streak and badges (rules in app/pipeline/gamification.py). |
 | `app/routes/profile.py` | 278 | The student's own profile: personal details, username, profile picture and password change. |
 | `app/routes/quiz.py` | 100 | The career quiz: start and answer. |
-| `app/routes/readiness.py` | 78 | GET /readiness: the student's Placement Readiness Score (see app/pipeline/readiness.py for the rules). |
-| `app/routes/resume.py` | 382 | Resume upload, analysis and the latest saved result. |
+| `app/routes/readiness.py` | 114 | GET /readiness: the student's Placement Readiness Score (see app/pipeline/readiness.py for the rules). |
+| `app/routes/resume.py` | 390 | Resume upload, analysis and the latest saved result. |
 | `app/routes/roadmap.py` | 496 | Roadmap generation, listing, progress and resources. |
 | `app/routes/scenarios.py` | 426 | Scenario-based practice: a map of scenarios per career path, each a short work situation with questions. |
-| `app/routes/skills.py` | 155 | GET /skills/evidence: the student's skill evidence (rules in app/pipeline/skill_evidence.py, data in data/skill_map.json). |
+| `app/routes/skills.py` | 271 | GET /skills/evidence: the student's skill evidence (rules in app/pipeline/skill_evidence.py, data in data/skill_map.json). |
 | `app/routes/step_checks.py` | 324 | Verified progression routes (see app/pipeline/step_checks.py for how questions are made and checked). |
 
 ### app/pipeline/ (logic: quiz, roadmaps, resume, scenarios, gamification, LLM)
 
 | File | Lines | Purpose (first sentence of its docstring) |
 |---|---|---|
-| `app/pipeline/adzuna_listings.py` | 197 | Live job listings from the Adzuna API for a career path - a runtime call, never stored (this was the master doc's original design intent for "Live Jobs"; no Adzuna-calling code existed anywhere before this module - see the read-on |
+| `app/pipeline/adzuna_listings.py` | 223 | Live job listings from the Adzuna API for a career path - a runtime call, never stored (this was the master doc's original design intent for "Live Jobs"; no Adzuna-calling code existed anywhere before this module - see the read-on |
 | `app/pipeline/ats_score.py` | 239 | Lightweight ATS (Applicant Tracking System) friendliness score - NOT a deep PDF layout/structure analysis (multi-column detection, table linearization, etc. |
 | `app/pipeline/base_roadmaps.py` | 150 | Reviewed base roadmaps: one JSON file per career path in data/base_roadmaps/<slug>.json, built offline by scripts/build_base_roadmaps.py and served by POST /roadmap/generate-async in "cached" mode (see app/pipeline/generation_jobs |
 | `app/pipeline/career_path_registry.py` | 145 | Single source of truth for the 15 career paths: which roadmap.sh knowledge-base folders ground each one, and which SO Survey 2025 DevType values (survey_respondents.dev_type - a controlled-vocabulary field, kept raw in that column |
@@ -683,14 +684,14 @@ a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token 
 | `app/pipeline/generation_jobs.py` | 194 | Background roadmap generation. |
 | `app/pipeline/goal_tailoring.py` | 85 | What the Goals answers change, in plain words, for the "Here's what we'll tailor" card on the Goals page. |
 | `app/pipeline/india_jobs_processor.py` | 111 | Processes the India Job Market & Salary dataset (Kaggle) into clean, structured rows ready for PostgreSQL. |
-| `app/pipeline/jooble_listings.py` | 104 | Live job listings from the Jooble API for a career path: an optional second source next to Adzuna. |
-| `app/pipeline/live_jobs.py` | 81 | All live job listings for a career path in one answer: Adzuna and (when JOOBLE_API_KEY is set) Jooble, asked at the same time, interleaved, with duplicates removed across both, each listing tagged with its source. |
+| `app/pipeline/jooble_listings.py` | 115 | Live job listings from the Jooble API for a career path: an optional second source next to Adzuna. |
+| `app/pipeline/live_jobs.py` | 87 | All live job listings for a career path in one answer: Adzuna and (when JOOBLE_API_KEY is set) Jooble, asked at the same time, interleaved, with duplicates removed across both, each listing tagged with its source. |
 | `app/pipeline/llm_client.py` | 684 | One entry point for every LLM call the app makes: generate(task, prompt, ...). |
 | `app/pipeline/path_fit.py` | 255 | "Which career path fits my resume?" - ranks the 15 career paths for a set of resume skills. |
 | `app/pipeline/path_matches.py` | 41 | Pure functions over a CareerProfile's ranking - no Flask, no DB. |
 | `app/pipeline/profile_builder.py` | 83 | Combines the adaptive quiz's career-path scores with the post-quiz conversation's signals into one final student profile. |
 | `app/pipeline/rag.py` | 141 | FAISS-backed retrieval for the RAG pipeline. |
-| `app/pipeline/readiness.py` | 107 | Placement Readiness Score. |
+| `app/pipeline/readiness.py` | 160 | Placement Readiness Score. |
 | `app/pipeline/resume_analyzer.py` | 131 | Phase 2 core pipeline: extracts text from an uploaded resume PDF, extracts known skills from that text (via resume_skill_extractor.py's PhraseMatcher, seeded with the real SO Survey skill vocabulary), and computes a skill gap agai |
 | `app/pipeline/resume_feedback.py` | 125 | Generates LLM-based resume feedback: line-by-line improvement suggestions, a 30-day action plan, and keyword suggestions - per the master doc's Phase 2 report spec. |
 | `app/pipeline/resume_skill_extractor.py` | 81 | Extracts known technical skills from resume text using spaCy's PhraseMatcher seeded with real skills from the SO Survey 2025 (India) dataset - not spaCy's generic statistical NER, which was tested and found unreliable for this tas |
@@ -705,6 +706,7 @@ a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token 
 | `app/pipeline/skill_aliases.py` | 47 | Common abbreviations/aliases for skills in the SO Survey vocabulary that students' resumes are likely to use instead of the full name. |
 | `app/pipeline/skill_evidence.py` | 224 | Skill evidence: one record per student that says, for every skill, how sure we are that they have it and WHY. |
 | `app/pipeline/skill_matching.py` | 71 | Rules for comparing a resume's skills with a career path's required skills, kept in this one file so they are not scattered across the extractor, the analyzer and the routes. |
+| `app/pipeline/skill_reach.py` | 68 | Which required skills can be verified on the platform AT ALL. |
 | `app/pipeline/skill_vocabulary.py` | 38 | Extra skill names for resume skill extraction in "which path fits my resume" mode, on top of the four survey categories the existing vocabulary is built from (languages, databases, platforms, web frameworks - see resume_analyzer.g |
 | `app/pipeline/so_survey_chunks.py` | 63 | Generates FAISS-ready text chunks from SO Survey 2025 (India) respondent data - one chunk per career path, summarizing the most common languages, databases, platforms, and frameworks among respondents in that path. |
 | `app/pipeline/so_survey_processor.py` | 93 | Processes the Stack Overflow Developer Survey 2025 into clean, structured rows for PostgreSQL, filtered to India respondents only - this project's target audience is explicitly tier-2/tier-3 Indian engineering colleges (per the ma |
@@ -718,7 +720,7 @@ a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token 
 | File | Lines |
 |---|---|
 | `app/templates/conversation.html` | 292 |
-| `app/templates/dashboard.html` | 209 |
+| `app/templates/dashboard.html` | 262 |
 | `app/templates/error.html` | 31 |
 | `app/templates/forgot_password.html` | 55 |
 | `app/templates/index.html` | 95 |
@@ -733,13 +735,13 @@ a browser to /login). Every POST, PUT, PATCH and DELETE also needs a CSRF token 
 | `app/templates/signup.html` | 186 |
 | `app/static/js/celebrate.js` | 111 |
 | `app/static/js/gamification.js` | 111 |
-| `app/static/js/results.js` | 836 |
+| `app/static/js/results.js` | 872 |
 | `app/static/js/scenario_map.js` | 342 |
 | `app/static/js/scenarios.js` | 736 |
 | `app/static/js/skills.js` | 94 |
 | `app/static/js/step_checks.js` | 190 |
 | `app/static/js/ui.js` | 540 |
-| `app/static/css/style.css` | 1477 |
+| `app/static/css/style.css` | 1483 |
 
 ## 5. Test scripts
 

@@ -12,16 +12,46 @@ from flask_login import current_user, login_required
 from app.models import CareerProfile, GeneratedRoadmap, Resume, RoadmapProgress, ScenarioAttempt, SkillGap
 from app.pipeline import readiness
 from app.pipeline import scenario_engine as engine
+from app.pipeline import skill_reach
 from app.pipeline import scenario_store as store
 from app.pipeline.resume_analyzer import get_required_skills
 from app.pipeline.skill_matching import resolve_required
+from app.routes import skills as skills_route
 from app.routes.roadmap import roadmap_progress
 
 readiness_bp = Blueprint("readiness", __name__)
 
 
-def gather_inputs(user_id, today):
-    """The keyword arguments for readiness.compute_readiness, from this one user's rows only."""
+def skill_gap_for(user_id, resume, gap):
+    """
+    The skill_gap component's (value, required) and the per-skill breakdown the dashboard card shows, per READINESS_SKILL_MODE
+    (see app/pipeline/readiness.py). Returns (None, None) when there is nothing to compare. If the evidence cannot be
+    gathered, the score falls back to the resume-only rule and the breakdown says so (detail["fallback"]).
+    """
+    required = sorted(get_required_skills(gap.target_role))
+    if not required:
+        return None, None
+    on_resume = resolve_required(required, set(resume.extracted_skills or []))[0]
+    mode = readiness.normalise_skill_mode(current_app.config.get("READINESS_SKILL_MODE", readiness.DEFAULT_SKILL_MODE))
+    verified, unreachable, fallback, evidence_failed = set(), set(), False, False
+    try:
+        summary = skills_route.evidence_for(user_id)
+        verified = skill_reach.reachable(required, set(skills_route.verified_tool_names(summary)))
+        unreachable = skill_reach.unreachable_everywhere(required, skills_route.content_reach()["all_tools"])
+    except Exception:
+        current_app.logger.exception("verified skills unavailable; readiness uses the resume only")
+        evidence_failed = True
+        fallback = mode != "resume"     # the resume-only rule needs no evidence, so nothing falls back there
+    breakdown = readiness.skill_gap_breakdown(required, on_resume, verified, unreachable, "resume" if fallback else mode)
+    detail = {**breakdown, "configured_mode": mode, "fallback": fallback,
+              "resume_claim_credit": readiness.RESUME_CLAIM_CREDIT, "claim_only_credit": readiness.CLAIM_ONLY_CREDIT}
+    if evidence_failed:
+        detail["verified"] = None
+    return (breakdown["value"], breakdown["required"]), detail
+
+
+def gather(user_id, today):
+    """(the keyword arguments for readiness.compute_readiness, the skill-gap detail for the card), from this one user's rows."""
     latest_roadmap = (GeneratedRoadmap.query.filter_by(user_id=user_id)
                       .order_by(GeneratedRoadmap.id.desc()).first())
     roadmap = None
@@ -29,14 +59,12 @@ def gather_inputs(user_id, today):
         _, completed, total = roadmap_progress(user_id, latest_roadmap.id, latest_roadmap.steps)
         roadmap = (completed, total)
 
-    skill_gap = None
+    skill_gap, skill_gap_detail = None, None
     resume = (Resume.query.filter_by(user_id=user_id).filter(Resume.analysis_pending.isnot(True))
               .order_by(Resume.id.desc()).first())
     gap = SkillGap.query.filter_by(user_id=user_id).order_by(SkillGap.id.desc()).first()
     if resume is not None and gap is not None and gap.target_role:
-        required = get_required_skills(gap.target_role)
-        if required:
-            skill_gap = (len(resolve_required(required, set(resume.extracted_skills or []))[0]), len(required))
+        skill_gap, skill_gap_detail = skill_gap_for(user_id, resume, gap)
 
     profile = (CareerProfile.query.filter_by(user_id=user_id).order_by(CareerProfile.id.desc()).first())
     path = None
@@ -63,15 +91,23 @@ def gather_inputs(user_id, today):
         RoadmapProgress.user_id == user_id, RoadmapProgress.completed_at.isnot(None),
         RoadmapProgress.completed_at >= since).all()]
 
-    return {"roadmap": roadmap, "skill_gap": skill_gap, "scenarios": scenarios, "scenario_progress": progress,
-            "activity_dates": dates, "today": today}
+    inputs = {"roadmap": roadmap, "skill_gap": skill_gap, "scenarios": scenarios, "scenario_progress": progress,
+              "activity_dates": dates, "today": today}
+    return inputs, skill_gap_detail
+
+
+def gather_inputs(user_id, today):
+    """The keyword arguments for readiness.compute_readiness (what the callers before the skill-gap detail existed use)."""
+    return gather(user_id, today)[0]
 
 
 @readiness_bp.route("/readiness", methods=["GET"])
 @login_required
 def get_readiness():
     try:
-        result = readiness.compute_readiness(**gather_inputs(current_user.id, datetime.utcnow().date()))
+        inputs, skill_gap_detail = gather(current_user.id, datetime.utcnow().date())
+        result = readiness.compute_readiness(**inputs)
+        result["skill_gap_detail"] = skill_gap_detail
     except Exception:
         current_app.logger.exception("readiness score failed")
         return jsonify({"error": "readiness_unavailable"}), 500
