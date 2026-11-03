@@ -281,7 +281,7 @@ Current check counts (run on 2026-10-11 unless marked): `smoke_test_scenarios.py
 `smoke_test_readiness.py` 112 (113 on a database with the survey table; 2026-11-02), `smoke_test_resume_rules.py` 59, `smoke_test_cached_roadmaps.py` 95,
 `smoke_test_code_questions.py` 198 (2026-10-21, `main`), `smoke_test_code_pools.py` 118 (2026-10-16), `smoke_test_profile.py` 79 (2026-10-21), `smoke_test_gamification.py` 49, `smoke_test_skill_evidence.py` 90, `smoke_test_jobs.py` 56 (2026-11-01; the last three were run in a cloud copy with an empty
 survey table, where readiness shows 69 and resume_rules 58; on the laptop's database they should show 70 and 59)
-(the 95 is from the earlier biography entry and was not re-run for this update). All of these
+`smoke_test_progress.py` 31 and `smoke_test_cached_roadmaps.py` 95: the two suites the cloud copy cannot run (a scratch file and a model download are missing there) were run on the owner's own laptop and reported as passing (reported 2026-11-03; not run by the assistant). All of these
 call no external service, but they use the development database, so PostgreSQL must be running.
 
 If you change generator behavior ON PURPOSE, recapture the golden files with
@@ -970,3 +970,47 @@ dashboard), `data/skill_map.json` (curated additions and guards), `scripts/vocab
     then the latest roadmap's path. That count is NOT in the score: counting a skill-gap value for them would have lowered
     their score (a typical student: 40.8 without it, 26.5 with 0 of 10 verified, 30.0 with 1 of 10, so verifying a skill still left them
     lower), which would change existing scores. Not shown in `resume` mode, which is unchanged.
+
+### Status after the merge (PR #1, merge commit `c1f4e74`)
+Pull request #1 (`verified-progression` into `main`) was merged as `c1f4e74`. It brought five pieces:
+1. **Step checks (verified progression):** a roadmap step is completed by passing a short check built from the step's own knowledge-base passages.
+2. **Skill evidence:** every skill gets a confidence from passed step checks, test-outs, scenarios and solved code problems; the resume is only a claim.
+3. **Verified readiness:** the skill-gap part of the Placement Readiness score counts verified skills (three modes).
+4. **Resume page and job matching:** matched skills are marked Verified / Not yet verified with a link to where to prove them, and the live-listings search adds the top two verified tool skills.
+5. **Read-only measuring scripts:** `scripts/vocab_report.py` and `scripts/readiness_reach_report.py`.
+
+Final settings and their defaults (all read from `.env` or the environment; details in the settings table above):
+
+| Setting | Default | Meaning |
+|---|---|---|
+| `VERIFIED_PROGRESS` | `true` | steps are completed by a check; `false` restores the tick boxes everywhere |
+| `STEP_CHECK_LLM` | `false` | `true` also asks the `fast` model for questions (each is kept only if its quoted evidence is in the passage) |
+| `READINESS_SKILL_MODE` | `blend` | `blend`, `verified` or `resume`; `resume` restores the old readiness numbers |
+
+**After merging, every teammate runs:**
+```bash
+git pull
+PYTHONPATH=. python scripts/setup_dev.py
+```
+The second command creates the new tables (`step_check_items`, `step_check_attempts`, `step_reviews`); it is safe to run again.
+
+**What was checked on the owner's own laptop (reported by the owner, stated no further than that):**
+- `smoke_test_progress.py` 31/31 and `smoke_test_cached_roadmaps.py` 95/95 passed there.
+- He ran `vocab_report.py` (including `--roadmaps-only`) and `readiness_reach_report.py` against his real database (numbers below).
+- He clicked through the roadmap, dashboard and resume pages himself and reported that they work.
+
+**Real-database numbers (from those runs; the assistant did not see the database):**
+- *Vocabulary:* 213 distinct skill names over all survey categories; 202 in the extended resume vocabulary. Every tool name used in `data/skill_map.json` was already spelled as in the vocabulary.
+- *Saved roadmaps:* 21 in total. 10 carry the base marker (236 steps, 221 of them with a curated entry in the skill map = 93%) and 11 were generated from scratch (351 steps, 4 with a curated entry = 1%). The `--roadmaps-only` run also prints section 4 (topic-id overlap with the base roadmaps and roadmap ages); those figures were not passed on to the assistant, so they are not recorded here; they are in the owner's local report file.
+- *Reach (how much of each path's required skill list can be verified at all):* about 28% with each path's own content and about 72% with the content of all paths (as reported by the owner).
+- *Unreachable skills:* MySQL cannot be verified on 11 of the 15 paths. MySQL, Java, MongoDB, C, PowerShell and Dart cannot be verified by any step, scenario or code problem (a content gap, not a bug). The per-path lists are in the owner's local `readiness_reach_report.py` output, which is not committed.
+
+**Not verified on real data:** the live job search with the real Adzuna and Jooble services (whether adding two skills returns listings, how often it falls back); the optional model questions (`STEP_CHECK_LLM=true`) with a real model; the other smoke suites against the owner's database; how many real students' readiness scores change and by how much (with the default `blend`, a skill only on the resume counts half of what it did). Everything else was tested on a throwaway local database with stand-in survey data.
+
+### Troubleshooting
+- **A virtual environment stops working after the project folder is moved or renamed.** `venv/Scripts/activate` (and `activate.bat`) keep the OLD absolute path, so after activating, plain `python` is not the venv's Python: it falls back to the system Python, and imports such as `dotenv` fail ("No module named dotenv"). Fix: run the venv's own Python directly (`venv/Scripts/python.exe scripts/...`, as the commands in this guide do), or delete `venv/` and rebuild it (`python -m venv venv`, then `pip install -r requirements.txt`). See also the "Stale venv path warning" in the setup steps above.
+- **After `git pull` something about the database is missing** (a "relation ... does not exist" error): run `PYTHONPATH=. python scripts/setup_dev.py`; it creates any missing tables (and the resume upload folder), fills the survey and job tables only if they are empty, and never deletes anything.
+
+### Housekeeping todo
+- Add the local report files (for example `vocab_report.txt`, `reach.txt`, `roadmaps_report.txt`) and any `*.dump` files to `.gitignore`, so a stray `git add` cannot commit them. Not done yet: they exist only on the owner's laptop, and this note was a docs-only change. Until then, stage files by name rather than with `git add .` or `git add -A`.
+

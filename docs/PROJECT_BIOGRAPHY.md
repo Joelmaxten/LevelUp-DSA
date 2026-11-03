@@ -2911,3 +2911,80 @@ and the list of required skills with their status; no console errors and no side
 
 **NOT verified.** The survey table and real required lists (stand-ins were used); any real user data; how many real students are in this
 state (no analysed resume but a quiz result or roadmap). Students with an analysed resume were not changed by this piece.
+
+---
+## Merged to Main: Verified Progression, Skill Evidence, Verified Readiness and Job Matching (PR #1, merge commit `c1f4e74`)
+
+**The merge.** Pull request #1 ("Verified progression: step checks, skill evidence, verified readiness and job matching", branch
+`verified-progression` into `main`) was merged as `c1f4e74`. The merge commit's parents are the previous `main` tip (`4c00a24`) and the
+branch's last commit (`b327a3c`). It brought 9 commits and 37 files (about 6,500 added lines, mostly tests, docs and one new pipeline module
+per piece). The branch had been up to date with `main`, so there were no conflicts.
+
+**The five pieces, one line each.**
+1. **Step checks (verified progression).** A roadmap step is completed by passing a short check built from the step's own knowledge-base
+   passages (free, offline); steps unlock in order, a locked step can be tested out of, a failure starts a cooldown, two failures require a review.
+2. **Skill evidence.** Every skill gets a confidence from passed step checks (0.5), test-outs (0.6), passed scenarios (0.5) and solved code
+   problems (0.6); the resume is only a claim; tool skills are verified at 0.5 and concept skills at 0.7 (two pieces of evidence).
+3. **Verified readiness.** The skill-gap part of the Placement Readiness score counts verified skills in three modes (`blend`, `verified`,
+   `resume`); a student with no analysed resume sees their verified count on the card, but their score is not changed.
+4. **Resume page and job matching.** Matched skills are marked Verified / Not yet verified with a link to where to prove them; the live-listings
+   search adds the top two verified tool skills (falling back to the old search) and shows "Matched on".
+5. **Read-only measuring scripts.** `scripts/vocab_report.py` and `scripts/readiness_reach_report.py` print counts and names only, in one
+   read-only transaction.
+
+**Final settings and defaults.** `VERIFIED_PROGRESS` = `true` (steps are completed by a check; `false` restores the tick boxes),
+`STEP_CHECK_LLM` = `false` (`true` also asks the model for questions, each verified against the passage), `READINESS_SKILL_MODE` = `blend`
+(`blend`, `verified` or `resume`; `resume` restores the old readiness numbers).
+
+**What every teammate does after merging.** `git pull`, then `PYTHONPATH=. python scripts/setup_dev.py` (it creates the three new tables).
+
+**Verified on the owner's own laptop (reported by the owner, stated no further than that).** `smoke_test_progress.py` 31/31 and
+`smoke_test_cached_roadmaps.py` 95/95 passed there; these are the two suites the cloud copy cannot run (a scratch file is missing, and the
+embedding model cannot be downloaded). He ran `vocab_report.py` (including `--roadmaps-only`) and `readiness_reach_report.py` against his real
+database, and clicked through the roadmap, dashboard and resume pages himself and reported that they work. Nothing more than that was
+tested on real data, and the assistant did not see the real database.
+
+**Real-database numbers recorded from those runs.**
+- Vocabulary: 213 distinct skill names, 202 in the extended resume vocabulary; every tool name in the skill map was already spelled as in it.
+- Saved roadmaps: 21, of which 10 carry the base marker (236 steps, 221 with a curated entry = 93%) and 11 were generated from scratch (351
+  steps, 4 with a curated entry = 1%). The section 4 figures of the `--roadmaps-only` run (topic-id overlap and roadmap ages) were not
+  passed on to the assistant, so they are not recorded.
+- Reach (how much of each path's required skill list can be verified at all): about 28% with each path's own content, about 72% with the
+  content of all paths.
+- Unreachable skills: MySQL on 11 of 15 paths; MySQL, Java, MongoDB, C, PowerShell and Dart by any step, scenario or code problem (a content
+  gap). The per-path lists stay in the owner's local report output, which is not committed.
+
+**Known limits, unchanged by the merge.** The content gaps above; concept skills show on the skills card only and never change the readiness
+score; in `blend` mode a skill only on the resume counts half of what it counted before, so some students' readiness drops; students on
+roadmaps generated from scratch get little concept evidence from step checks (accepted, nothing regenerated).
+
+**NOT verified.** The live job search against the real Adzuna and Jooble services (whether adding two skills returns listings, and how
+often it falls back); the optional model questions (`STEP_CHECK_LLM=true`) with a real model; the other smoke suites against the owner's
+database; how many real students' readiness scores change and by how much; the section 4 roadmap figures.
+
+**Housekeeping todo.** Add the local report files (`vocab_report.txt`, `reach.txt`, `roadmaps_report.txt` and similar) and any `*.dump`
+files to `.gitignore`. Not done yet (this entry is docs only); until then stage files by name, never with `git add .` or `-A`.
+
+---
+## Ideas Not Built Yet: Milestone Projects After Each Roadmap Phase
+
+**Status: a design idea only. Nothing described here is implemented.**
+
+**The idea.** After each roadmap phase the student submits a GitHub repository for a small milestone project, an admin approves it, and
+only then does the next phase unlock. It would add proof of real work to the proof of recall that step checks give.
+
+**Notes from looking at the code.**
+- **An admin role.** None exists today: the `User` model has no role or admin flag, and "admin" appears only as a reserved username. It would
+  need a new column (and, since `db.create_all` only adds missing tables, a one-off script in the style of `scripts/add_usernames.py`)
+  plus a protected review page.
+- **Hard or soft gate.** A hard gate (the next phase stays locked until approval) is the strongest but makes the admin a bottleneck and can
+  leave students stuck; a soft gate (the next phase stays open and the milestone shows as "pending review" or earns a badge) never blocks
+  anyone. This needs a decision before building.
+- **Optional automatic pre-checks with the GitHub API.** Before a human looks: the repository is public, is not a fork, has a README, has at
+  least a minimum number of commits, and was created after the phase started. Student code must never be cloned or run. The unauthenticated
+  API is limited to about 60 requests an hour, so a server token would be needed, kept in `.env` and never committed.
+- **Content to write.** One brief per phase (what to build, how it is judged). Counting the 15 base roadmaps gives 55 phases (an earlier
+  rough estimate said about 75), each brief to be drafted and reviewed.
+- **Rough size.** About one working day for a minimal version (submit a URL, admin approve or reject, unlock the next phase, no automatic
+  checks), more with the GitHub pre-checks and the briefs. This is the owner's rough estimate, not measured.
+
