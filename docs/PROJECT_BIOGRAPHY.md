@@ -2947,8 +2947,15 @@ tested on real data, and the assistant did not see the real database.
 **Real-database numbers recorded from those runs.**
 - Vocabulary: 213 distinct skill names, 202 in the extended resume vocabulary; every tool name in the skill map was already spelled as in it.
 - Saved roadmaps: 21, of which 10 carry the base marker (236 steps, 221 with a curated entry = 93%) and 11 were generated from scratch (351
-  steps, 4 with a curated entry = 1%). The section 4 figures of the `--roadmaps-only` run (topic-id overlap and roadmap ages) were not
-  passed on to the assistant, so they are not recorded.
+  steps, 4 with a curated entry = 1%).
+- The `--roadmaps-only` run (section 4; the owner's real database, report run on 2 Nov 2026): of the 351 from-scratch steps, 272 (77%) have
+  half or more of their knowledge-base topic ids inside ONE base step of the same career path, 78 (22%) have some (under half) and 1 has
+  none in any base step; 2400 of the 2679 topic ids (89%) appear in some base step of the same career path. The 11 from-scratch roadmaps are
+  by path: ai-engineering 2, cybersecurity 2, data-science 1, frontend-development 1, full-stack-development 1, qa-test-automation 1,
+  ui-ux-design 3. They were made between 30 Sep and 6 Oct 2026, the base-marker roadmaps between 9 Oct and 1 Nov 2026, so the from-scratch ones
+  look like leftovers from before cached mode (the owner's reading of the dates; the cause was not checked in the code or the data).
+  **Decision recorded: the gap is accepted (option 4)**; nothing is regenerated and no topic-id mapping is built. If it is ever
+  revisited, 350 of the 351 from-scratch steps share at least one topic id with a base step of their path.
 - Reach (how much of each path's required skill list can be verified at all): about 28% with each path's own content, about 72% with the
   content of all paths.
 - Unreachable skills: MySQL on 11 of 15 paths; MySQL, Java, MongoDB, C, PowerShell and Dart by any step, scenario or code problem (a content
@@ -2960,7 +2967,7 @@ roadmaps generated from scratch get little concept evidence from step checks (ac
 
 **NOT verified.** The live job search against the real Adzuna and Jooble services (whether adding two skills returns listings, and how
 often it falls back); the optional model questions (`STEP_CHECK_LLM=true`) with a real model; the other smoke suites against the owner's
-database; how many real students' readiness scores change and by how much; the section 4 roadmap figures.
+database; how many real students' readiness scores change and by how much; why exactly the 11 roadmaps were generated from scratch (the dates suggest they predate cached mode, but this was not checked).
 
 **Housekeeping todo.** Add the local report files (`vocab_report.txt`, `reach.txt`, `roadmaps_report.txt` and similar) and any `*.dump`
 files to `.gitignore`. Not done yet (this entry is docs only); until then stage files by name, never with `git add .` or `-A`.

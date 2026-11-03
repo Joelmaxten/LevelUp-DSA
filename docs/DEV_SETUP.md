@@ -1001,7 +1001,13 @@ The second command creates the new tables (`step_check_items`, `step_check_attem
 
 **Real-database numbers (from those runs; the assistant did not see the database):**
 - *Vocabulary:* 213 distinct skill names over all survey categories; 202 in the extended resume vocabulary. Every tool name used in `data/skill_map.json` was already spelled as in the vocabulary.
-- *Saved roadmaps:* 21 in total. 10 carry the base marker (236 steps, 221 of them with a curated entry in the skill map = 93%) and 11 were generated from scratch (351 steps, 4 with a curated entry = 1%). The `--roadmaps-only` run also prints section 4 (topic-id overlap with the base roadmaps and roadmap ages); those figures were not passed on to the assistant, so they are not recorded here; they are in the owner's local report file.
+- *Saved roadmaps:* 21 in total. 10 carry the base marker (236 steps, 221 of them with a curated entry in the skill map = 93%) and 11 were generated from scratch (351 steps, 4 with a curated entry = 1%).
+- *How the from-scratch roadmaps relate to the base roadmaps (the `--roadmaps-only` run, section 4; owner's real database, report run on 2 Nov 2026):*
+  - Of the 351 from-scratch steps: 272 (77%) have half or more of their knowledge-base topic ids inside ONE base step of the same career path; 78 (22%) have some (under half); 1 has none in any base step (272 + 78 + 1 = 351).
+  - Topic ids: 2400 of 2679 (89%) appear in some base step of the same career path.
+  - From-scratch roadmaps by career path (11 in all): ai-engineering 2, cybersecurity 2, data-science 1, frontend-development 1, full-stack-development 1, qa-test-automation 1, ui-ux-design 3.
+  - When they were made: the from-scratch roadmaps date from 30 Sep to 6 Oct 2026; the roadmaps with the base marker from 9 Oct to 1 Nov 2026. So the from-scratch ones look like leftovers from before cached mode (the owner's reading of the dates; the reason was not checked in the code or the data).
+  - Decision recorded: the gap is accepted (option 4); nothing is regenerated and no topic-id mapping is built. If that is ever revisited, the figures above are the starting point: 350 of the 351 from-scratch steps share at least one topic id with a base step of their path.
 - *Reach (how much of each path's required skill list can be verified at all):* about 28% with each path's own content and about 72% with the content of all paths (as reported by the owner).
 - *Unreachable skills:* MySQL cannot be verified on 11 of the 15 paths. MySQL, Java, MongoDB, C, PowerShell and Dart cannot be verified by any step, scenario or code problem (a content gap, not a bug). The per-path lists are in the owner's local `readiness_reach_report.py` output, which is not committed.
 
