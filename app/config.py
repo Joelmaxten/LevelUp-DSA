@@ -8,6 +8,16 @@ def _env_flag(name, default):
     return value.strip().lower() in ("1", "true", "yes", "on")
 
 
+def _readiness_skill_mode(raw):
+    """blend | verified | resume; anything else falls back to blend (with a warning), never to an error at start-up."""
+    from app.pipeline import readiness
+    mode = readiness.normalise_skill_mode(raw)
+    if raw and str(raw).strip().lower() != mode:
+        import logging
+        logging.getLogger(__name__).warning("READINESS_SKILL_MODE has an unknown value; using %r", mode)
+    return mode
+
+
 def _env_number(name, default, cast):
     """cast(os.environ[name]), or default when the variable is unset or empty (as in .env.example)."""
     value = os.environ.get(name)
@@ -50,6 +60,22 @@ class Config:
     # Usage limits (per user). The roadmap cap is a rolling window over
     # GeneratedRoadmap.created_at; the other two are in-process counters.
     ROADMAP_DAILY_LIMIT = int(os.environ.get("ROADMAP_DAILY_LIMIT", "5"))
+
+    # Which skills the Placement Readiness score's skill-gap part counts: "blend" (verified skills count fully, skills only on the
+    # resume count half, a required skill nothing here can verify counts fully when it is on the resume), "verified" (only
+    # verified tool skills) or "resume" (the old behaviour: the resume alone). See app/pipeline/readiness.py.
+    READINESS_SKILL_MODE = _readiness_skill_mode(os.environ.get("READINESS_SKILL_MODE"))
+
+    # Verified progression: a roadmap step is completed by passing a short check built from the knowledge-base passages
+    # the step came from, not by ticking a box (see app/pipeline/step_checks.py). False = the old tick-box behaviour.
+    VERIFIED_PROGRESS = _env_flag("VERIFIED_PROGRESS", True)
+    STEP_CHECK_QUESTIONS = int(os.environ.get("STEP_CHECK_QUESTIONS", "4") or 4)
+    STEP_CHECK_PASS = int(os.environ.get("STEP_CHECK_PASS", "3") or 3)
+    TEST_OUT_QUESTIONS = int(os.environ.get("TEST_OUT_QUESTIONS", "6") or 6)
+    TEST_OUT_PASS = int(os.environ.get("TEST_OUT_PASS", "5") or 5)
+    STEP_CHECK_COOLDOWN_S = int(os.environ.get("STEP_CHECK_COOLDOWN_S", "120") or 120)
+    STEP_CHECK_REVIEW_AFTER = int(os.environ.get("STEP_CHECK_REVIEW_AFTER", "2") or 2)
+    STEP_CHECK_LLM = _env_flag("STEP_CHECK_LLM", False)   # also ask the model for questions (each one is verified)
     RESUME_UPLOAD_LIMIT_PER_HOUR = int(os.environ.get("RESUME_UPLOAD_LIMIT_PER_HOUR", "10"))
     RESUME_LISTINGS_LIMIT_PER_HOUR = int(os.environ.get("RESUME_LISTINGS_LIMIT_PER_HOUR", "30"))
 

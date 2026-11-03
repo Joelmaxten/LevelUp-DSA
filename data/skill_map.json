@@ -1,0 +1,2283 @@
+{
+ "schema_version": 1,
+ "about": "Curated additions and guards for app/pipeline/skill_evidence.py. The resume skill matcher stays the default; this file only (a) adds skills it cannot see, (b) removes wrong matches, (c) fixes spelling. Alternatives rule: a tool not named in the step title that appears only inside a list of options is excluded; a tool the step teaches (its own topic or the project stack) is kept. Draft - not yet used by any route.",
+ "concepts": [
+  "API design",
+  "Accessibility",
+  "Application security",
+  "Authentication and access control",
+  "CI/CD",
+  "Caching",
+  "Cloud fundamentals",
+  "Concurrency",
+  "Data pipelines",
+  "Data quality",
+  "Data structures and algorithms",
+  "Data visualization",
+  "Databases",
+  "Game programming",
+  "Generative AI",
+  "Incident response",
+  "Infrastructure as code",
+  "Machine learning",
+  "Mobile app development",
+  "Model evaluation",
+  "Networking",
+  "Observability",
+  "Performance engineering",
+  "Security fundamentals",
+  "Software testing",
+  "Statistics",
+  "System design",
+  "UI design",
+  "UX research",
+  "Web performance"
+ ],
+ "canonical": {
+  "amazon web services (aws)": "Amazon Web Services (AWS)",
+  "bash/shell (all shells)": "Bash/Shell (all shells)",
+  "c++": "C++",
+  "css": "CSS",
+  "figma": "Figma",
+  "git": "Git",
+  "html": "HTML",
+  "javascript": "JavaScript",
+  "kubernetes": "Kubernetes",
+  "linux": "Linux",
+  "matplotlib": "Matplotlib",
+  "microsoft azure": "Microsoft Azure",
+  "next.js": "Next.js",
+  "node.js": "Node.js",
+  "numpy": "NumPy",
+  "pandas": "pandas",
+  "power bi": "Power BI",
+  "python": "Python",
+  "react": "React",
+  "sql": "SQL",
+  "tableau": "Tableau",
+  "typescript": "TypeScript"
+ },
+ "scenarios": {
+  "aie-1": [
+   "Generative AI"
+  ],
+  "aie-2": [
+   "Generative AI"
+  ],
+  "aie-3": [
+   "Generative AI",
+   "Application security"
+  ],
+  "aie-4": [
+   "Generative AI",
+   "Model evaluation"
+  ],
+  "aie-5": [
+   "Generative AI",
+   "Observability",
+   "System design"
+  ],
+  "bke-1": [
+   "Databases"
+  ],
+  "bke-2": [
+   "Caching",
+   "API design",
+   "System design"
+  ],
+  "bke-3": [
+   "Databases",
+   "Concurrency",
+   "Performance engineering"
+  ],
+  "bke-4": [
+   "Databases",
+   "System design"
+  ],
+  "bke-5": [
+   "System design",
+   "Observability",
+   "Application security",
+   "API design"
+  ],
+  "cle-1": [
+   "Cloud fundamentals"
+  ],
+  "cle-2": [
+   "Networking",
+   "Authentication and access control",
+   "Cloud fundamentals"
+  ],
+  "cle-3": [
+   "Cloud fundamentals",
+   "Security fundamentals"
+  ],
+  "cle-4": [
+   "Cloud fundamentals"
+  ],
+  "cle-5": [
+   "Infrastructure as code",
+   "Cloud fundamentals",
+   "Observability"
+  ],
+  "cyb-1": [
+   "Security fundamentals",
+   "Authentication and access control"
+  ],
+  "cyb-2": [
+   "Application security",
+   "Authentication and access control"
+  ],
+  "cyb-3": [
+   "Incident response"
+  ],
+  "cyb-4": [
+   "Security fundamentals",
+   "Authentication and access control",
+   "Networking"
+  ],
+  "cyb-5": [
+   "Security fundamentals"
+  ],
+  "dan-1": [
+   "Statistics",
+   "Data visualization",
+   "Data quality"
+  ],
+  "dan-2": [
+   "SQL",
+   "Databases"
+  ],
+  "dan-3": [
+   "Data quality",
+   "Statistics",
+   "SQL"
+  ],
+  "dan-4": [
+   "Data visualization"
+  ],
+  "dan-5": [
+   "Statistics",
+   "Data visualization"
+  ],
+  "den-1": [
+   "Data pipelines",
+   "Data quality"
+  ],
+  "den-2": [
+   "Data pipelines"
+  ],
+  "den-3": [
+   "Data pipelines",
+   "Data quality"
+  ],
+  "den-4": [
+   "Data pipelines"
+  ],
+  "den-5": [
+   "Data pipelines",
+   "System design"
+  ],
+  "dop-1": [
+   "CI/CD"
+  ],
+  "dop-2": [
+   "CI/CD"
+  ],
+  "dop-3": [
+   "CI/CD",
+   "Software testing",
+   "Kubernetes"
+  ],
+  "dop-4": [
+   "Observability",
+   "Incident response"
+  ],
+  "dop-5": [
+   "Incident response",
+   "CI/CD",
+   "Security fundamentals"
+  ],
+  "dsc-1": [
+   "Statistics",
+   "SQL"
+  ],
+  "dsc-2": [
+   "Statistics"
+  ],
+  "dsc-3": [
+   "Statistics",
+   "Data quality"
+  ],
+  "dsc-4": [
+   "Statistics",
+   "Model evaluation"
+  ],
+  "dsc-5": [
+   "Machine learning",
+   "Model evaluation"
+  ],
+  "fed-1": [
+   "HTML",
+   "CSS",
+   "Accessibility",
+   "Web performance"
+  ],
+  "fed-2": [
+   "JavaScript",
+   "React"
+  ],
+  "fed-3": [
+   "Web performance"
+  ],
+  "fed-4": [
+   "Web performance",
+   "Software testing"
+  ],
+  "fed-5": [
+   "Web performance",
+   "Caching",
+   "Observability",
+   "Accessibility"
+  ],
+  "fsd-1": [
+   "API design"
+  ],
+  "fsd-2": [
+   "Databases",
+   "Authentication and access control",
+   "Application security"
+  ],
+  "fsd-3": [
+   "API design",
+   "Databases",
+   "Performance engineering",
+   "React"
+  ],
+  "fsd-4": [
+   "System design",
+   "Caching",
+   "Concurrency",
+   "API design"
+  ],
+  "fsd-5": [
+   "Databases",
+   "Application security",
+   "CI/CD"
+  ],
+  "gam-1": [
+   "Game programming"
+  ],
+  "gam-2": [
+   "Game programming"
+  ],
+  "gam-3": [
+   "Game programming",
+   "Performance engineering"
+  ],
+  "gam-4": [
+   "Game programming"
+  ],
+  "gam-5": [
+   "Game programming"
+  ],
+  "mle-1": [
+   "Machine learning",
+   "Model evaluation"
+  ],
+  "mle-2": [
+   "Machine learning",
+   "Model evaluation"
+  ],
+  "mle-3": [
+   "Machine learning",
+   "Model evaluation",
+   "Data quality"
+  ],
+  "mle-4": [
+   "Machine learning"
+  ],
+  "mle-5": [
+   "Machine learning",
+   "Model evaluation",
+   "Observability"
+  ],
+  "mob-1": [
+   "Mobile app development"
+  ],
+  "mob-2": [
+   "Mobile app development",
+   "Accessibility"
+  ],
+  "mob-3": [
+   "Mobile app development",
+   "Performance engineering"
+  ],
+  "mob-4": [
+   "Mobile app development",
+   "Authentication and access control"
+  ],
+  "mob-5": [
+   "Mobile app development",
+   "Observability"
+  ],
+  "qat-1": [
+   "Software testing"
+  ],
+  "qat-2": [
+   "Software testing"
+  ],
+  "qat-3": [
+   "Software testing"
+  ],
+  "qat-4": [
+   "Software testing"
+  ],
+  "qat-5": [
+   "Software testing",
+   "Performance engineering",
+   "Accessibility"
+  ],
+  "uxd-1": [
+   "UI design",
+   "Accessibility"
+  ],
+  "uxd-2": [
+   "UX research"
+  ],
+  "uxd-3": [
+   "UI design",
+   "UX research"
+  ],
+  "uxd-4": [
+   "UI design"
+  ],
+  "uxd-5": [
+   "UX research",
+   "UI design"
+  ]
+ },
+ "steps": {
+  "ai-engineering|agent architectures and planning patterns": [
+   "Generative AI"
+  ],
+  "ai-engineering|agent frameworks": [
+   "Generative AI"
+  ],
+  "ai-engineering|agent integrations: mcp servers and backend apis": [
+   "Generative AI",
+   "API design"
+  ],
+  "ai-engineering|agent memory: short-term, long-term and retrieval": [
+   "Generative AI"
+  ],
+  "ai-engineering|agent use cases and guardrails": [
+   "Generative AI",
+   "Application security"
+  ],
+  "ai-engineering|ai coding assistants and developer tools": [
+   "Generative AI"
+  ],
+  "ai-engineering|async python, apis and project tooling": [
+   "Concurrency",
+   "API design"
+  ],
+  "ai-engineering|building rag pipelines": [
+   "Generative AI",
+   "Databases"
+  ],
+  "ai-engineering|calling model apis and sdks": [
+   "Generative AI",
+   "API design"
+  ],
+  "ai-engineering|constraining model inputs and outputs": [
+   "Generative AI"
+  ],
+  "ai-engineering|context engineering": [
+   "Generative AI"
+  ],
+  "ai-engineering|core prompting techniques": [
+   "Generative AI"
+  ],
+  "ai-engineering|designing agent tools and permissions": [
+   "Generative AI",
+   "API design"
+  ],
+  "ai-engineering|embeddings and semantic search": [
+   "Generative AI",
+   "Machine learning"
+  ],
+  "ai-engineering|evaluating llm applications": [
+   "Generative AI",
+   "Model evaluation",
+   "Software testing"
+  ],
+  "ai-engineering|how llms work: tokens, context and model providers": [
+   "Generative AI"
+  ],
+  "ai-engineering|model context protocol (mcp)": [
+   "Generative AI",
+   "API design"
+  ],
+  "ai-engineering|model-level attacks and defences": [
+   "Application security",
+   "Machine learning"
+  ],
+  "ai-engineering|multimodal ai: vision, images and audio": [
+   "Generative AI"
+  ],
+  "ai-engineering|observability, safety and security in production": [
+   "Generative AI",
+   "Observability",
+   "Application security"
+  ],
+  "ai-engineering|open models, self-hosting and fine-tuning": [
+   "Generative AI",
+   "Machine learning"
+  ],
+  "ai-engineering|prompt injection and jailbreak attacks": [
+   "Application security",
+   "Generative AI"
+  ],
+  "ai-engineering|red team testing methods and reporting": [
+   "Security fundamentals",
+   "Software testing"
+  ],
+  "ai-engineering|red teaming foundations and threat modelling": [
+   "Security fundamentals"
+  ],
+  "ai-engineering|reliable prompts: hallucination, evaluation and injection": [
+   "Generative AI",
+   "Application security"
+  ],
+  "ai-engineering|sampling parameters and structured output": [
+   "Generative AI"
+  ],
+  "ai-engineering|securing ai infrastructure and apis": [
+   "Application security",
+   "Authentication and access control",
+   "API design"
+  ],
+  "ai-engineering|testing and tracing agents": [
+   "Generative AI",
+   "Software testing"
+  ],
+  "ai-engineering|the agent loop: perceive, reason, act, observe": [
+   "Generative AI"
+  ],
+  "ai-engineering|the ai engineer role and choosing a model": [
+   "Generative AI"
+  ],
+  "ai-engineering|tool use and ai agents": [
+   "Generative AI"
+  ],
+  "ai-engineering|vector databases": [
+   "Generative AI",
+   "Databases"
+  ],
+  "ai-engineering|writing instructions for agents": [
+   "Generative AI"
+  ],
+  "backend-engineering|advanced queries and query tuning": [
+   "SQL",
+   "Databases",
+   "Performance engineering"
+  ],
+  "backend-engineering|approaching system design and core trade-offs": [
+   "System design"
+  ],
+  "backend-engineering|asynchronism, queues and background jobs": [
+   "Concurrency",
+   "System design"
+  ],
+  "backend-engineering|authentication and password storage": [
+   "Authentication and access control",
+   "Application security"
+  ],
+  "backend-engineering|backend testing and ci/cd": [
+   "Software testing",
+   "CI/CD"
+  ],
+  "backend-engineering|cache strategies at every layer": [
+   "Caching"
+  ],
+  "backend-engineering|caching and search engines": [
+   "Caching"
+  ],
+  "backend-engineering|choosing a backend language and using git": [
+   "Git"
+  ],
+  "backend-engineering|choosing and partitioning data stores": [
+   "Databases",
+   "System design"
+  ],
+  "backend-engineering|cloud reliability and security patterns": [
+   "System design",
+   "Security fundamentals"
+  ],
+  "backend-engineering|consistency and availability patterns": [
+   "System design",
+   "Databases"
+  ],
+  "backend-engineering|data management patterns: cqrs and event sourcing": [
+   "System design",
+   "Databases"
+  ],
+  "backend-engineering|designing apis: rest, graphql and grpc": [
+   "API design"
+  ],
+  "backend-engineering|dns, cdns and load balancers": [
+   "Networking",
+   "Caching",
+   "System design"
+  ],
+  "backend-engineering|gateways, sidecars and migration patterns": [
+   "System design",
+   "API design"
+  ],
+  "backend-engineering|how the web works": [
+   "Networking"
+  ],
+  "backend-engineering|monitoring distributed systems": [
+   "Observability"
+  ],
+  "backend-engineering|monoliths, microservices and messaging": [
+   "System design"
+  ],
+  "backend-engineering|network protocols: tcp, udp, http and rpc": [
+   "Networking"
+  ],
+  "backend-engineering|nosql databases": [
+   "Databases"
+  ],
+  "backend-engineering|performance antipatterns": [
+   "Performance engineering"
+  ],
+  "backend-engineering|relational databases, orms and migrations": [
+   "Databases"
+  ],
+  "backend-engineering|resilience and observability": [
+   "System design",
+   "Observability"
+  ],
+  "backend-engineering|sql queries: selecting, joining and grouping": [
+   "SQL",
+   "Databases"
+  ],
+  "backend-engineering|sql transaction control, procedures and permissions": [
+   "SQL",
+   "Databases",
+   "Concurrency"
+  ],
+  "backend-engineering|transactions, indexes and scaling databases": [
+   "Databases",
+   "System design"
+  ],
+  "backend-engineering|web security essentials": [
+   "Application security"
+  ],
+  "backend-engineering|web servers, containers and serverless deployment": [
+   "Cloud fundamentals",
+   "Networking"
+  ],
+  "backend-engineering|writing data safely: ddl, dml and constraints": [
+   "SQL",
+   "Databases"
+  ],
+  "cloud-engineering|auto scaling, route 53 and cloudfront": [
+   "Cloud fundamentals",
+   "Networking",
+   "Amazon Web Services (AWS)"
+  ],
+  "cloud-engineering|cloud computing and aws fundamentals": [
+   "Cloud fundamentals",
+   "Amazon Web Services (AWS)"
+  ],
+  "cloud-engineering|cluster networking, rbac and pod security": [
+   "Kubernetes",
+   "Networking",
+   "Authentication and access control",
+   "Security fundamentals"
+  ],
+  "cloud-engineering|cluster observability and extending kubernetes": [
+   "Kubernetes",
+   "Observability"
+  ],
+  "cloud-engineering|container security and deployment options": [
+   "Security fundamentals"
+  ],
+  "cloud-engineering|ec2 compute: instances, amis and volumes": [
+   "Cloud fundamentals",
+   "Amazon Web Services (AWS)"
+  ],
+  "cloud-engineering|hcp terraform and policy as code": [
+   "Infrastructure as code"
+  ],
+  "cloud-engineering|iam: users, roles and policies": [
+   "Authentication and access control",
+   "Cloud fundamentals",
+   "Amazon Web Services (AWS)"
+  ],
+  "cloud-engineering|infrastructure as code and terraform basics": [
+   "Infrastructure as code"
+  ],
+  "cloud-engineering|kubernetes concepts and your first cluster": [
+   "Kubernetes"
+  ],
+  "cloud-engineering|managed databases: rds, dynamodb and elasticache": [
+   "Databases",
+   "Cloud fundamentals",
+   "Amazon Web Services (AWS)"
+  ],
+  "cloud-engineering|managing terraform state": [
+   "Infrastructure as code"
+  ],
+  "cloud-engineering|monitoring with cloudwatch and email with ses": [
+   "Observability",
+   "Amazon Web Services (AWS)"
+  ],
+  "cloud-engineering|networking with vpc and load balancers": [
+   "Networking",
+   "Cloud fundamentals",
+   "Amazon Web Services (AWS)"
+  ],
+  "cloud-engineering|providers, resources and meta-arguments": [
+   "Infrastructure as code"
+  ],
+  "cloud-engineering|provisioners and their limits": [
+   "Infrastructure as code"
+  ],
+  "cloud-engineering|rollout strategies and gitops": [
+   "Kubernetes",
+   "CI/CD"
+  ],
+  "cloud-engineering|s3 storage classes and block storage": [
+   "Cloud fundamentals",
+   "Amazon Web Services (AWS)"
+  ],
+  "cloud-engineering|scheduling, resource limits and autoscaling": [
+   "Kubernetes",
+   "Performance engineering"
+  ],
+  "cloud-engineering|serverless and containers on aws": [
+   "Cloud fundamentals",
+   "Amazon Web Services (AWS)"
+  ],
+  "cloud-engineering|terraform in ci/cd and at scale": [
+   "Infrastructure as code",
+   "CI/CD"
+  ],
+  "cloud-engineering|testing and scanning terraform code": [
+   "Infrastructure as code",
+   "Software testing"
+  ],
+  "cloud-engineering|the plan and apply workflow": [
+   "Infrastructure as code"
+  ],
+  "cloud-engineering|variables, outputs and local values": [
+   "Infrastructure as code"
+  ],
+  "cloud-engineering|workloads: pods, deployments, statefulsets and helm": [
+   "Kubernetes"
+  ],
+  "cloud-engineering|writing and reusing terraform modules": [
+   "Infrastructure as code"
+  ],
+  "cybersecurity|capstone & continuous improvement": [
+   "Security fundamentals"
+  ],
+  "cybersecurity|ci/cd pipeline hardening": [
+   "CI/CD",
+   "Security fundamentals"
+  ],
+  "cybersecurity|cloud security & architecture": [
+   "Cloud fundamentals",
+   "Security fundamentals"
+  ],
+  "cybersecurity|container & orchestration security": [
+   "Security fundamentals"
+  ],
+  "cybersecurity|devsecops foundations & secure coding": [
+   "CI/CD",
+   "Application security"
+  ],
+  "cybersecurity|identity, access & credential management": [
+   "Authentication and access control"
+  ],
+  "cybersecurity|incident response & forensics": [
+   "Incident response"
+  ],
+  "cybersecurity|incident response & soar automation": [
+   "Incident response"
+  ],
+  "cybersecurity|network security enforcement": [
+   "Security fundamentals",
+   "Networking"
+  ],
+  "cybersecurity|networking fundamentals": [
+   "Networking"
+  ],
+  "cybersecurity|operating system hardening": [
+   "Security fundamentals"
+  ],
+  "cybersecurity|persistent threats & defense": [
+   "Authentication and access control",
+   "Security fundamentals"
+  ],
+  "cybersecurity|secure application development": [
+   "Application security",
+   "Authentication and access control"
+  ],
+  "cybersecurity|security automation & soar": [
+   "Incident response"
+  ],
+  "cybersecurity|security fundamentals & governance": [
+   "Security fundamentals"
+  ],
+  "cybersecurity|social engineering & phishing defense": [
+   "Security fundamentals"
+  ],
+  "cybersecurity|threat hunting & intelligence": [
+   "Security fundamentals"
+  ],
+  "cybersecurity|threat modeling & vulnerability assessment": [
+   "Security fundamentals"
+  ],
+  "cybersecurity|vulnerability management & testing": [
+   "Security fundamentals"
+  ],
+  "cybersecurity|web & application security": [
+   "Application security"
+  ],
+  "cybersecurity|zero trust cloud & network hardening": [
+   "Cloud fundamentals",
+   "Networking",
+   "Security fundamentals"
+  ],
+  "data-analytics|aggregations, case and joins": [
+   "SQL",
+   "Databases"
+  ],
+  "data-analytics|ai visuals, custom visuals and paginated reports": [
+   "Data visualization",
+   "Power BI"
+  ],
+  "data-analytics|bi platforms: tableau, looker and qlik": [
+   "Data visualization"
+  ],
+  "data-analytics|big data concepts": [
+   "Data pipelines"
+  ],
+  "data-analytics|building report visuals": [
+   "Data visualization",
+   "Power BI"
+  ],
+  "data-analytics|cleaning and transforming data with python or r": [
+   "Data quality"
+  ],
+  "data-analytics|collecting and storing data": [
+   "Data pipelines"
+  ],
+  "data-analytics|combining tables and the m language": [
+   "Power BI"
+  ],
+  "data-analytics|connecting to data and choosing storage modes": [
+   "Power BI",
+   "Data pipelines"
+  ],
+  "data-analytics|core business analyses: cohorts, clv and forecasting": [
+   "Statistics"
+  ],
+  "data-analytics|dashboard design and honest visuals": [
+   "Data visualization"
+  ],
+  "data-analytics|data modelling: star schemas and relationships": [
+   "Databases",
+   "Power BI"
+  ],
+  "data-analytics|data quality dimensions and preparation": [
+   "Data quality"
+  ],
+  "data-analytics|data visualisation and chart selection": [
+   "Data visualization"
+  ],
+  "data-analytics|dax fundamentals: columns, measures and functions": [
+   "Power BI"
+  ],
+  "data-analytics|descriptive statistics": [
+   "Statistics"
+  ],
+  "data-analytics|etl, dbt and pipeline scheduling": [
+   "Data pipelines"
+  ],
+  "data-analytics|exploration, hypothesis testing and correlation": [
+   "Statistics"
+  ],
+  "data-analytics|exploratory analysis with sql, excel, python and r": [
+   "Statistics"
+  ],
+  "data-analytics|filter context, calculate and time intelligence": [
+   "Power BI"
+  ],
+  "data-analytics|interactive report design": [
+   "Data visualization",
+   "Power BI"
+  ],
+  "data-analytics|machine learning basics for analysts": [
+   "Machine learning"
+  ],
+  "data-analytics|model performance and data refresh": [
+   "Performance engineering",
+   "Power BI"
+  ],
+  "data-analytics|power bi fundamentals and the ecosystem": [
+   "Power BI",
+   "Data visualization"
+  ],
+  "data-analytics|publishing, sharing and collaboration": [
+   "Power BI"
+  ],
+  "data-analytics|security and governance": [
+   "Authentication and access control",
+   "Power BI"
+  ],
+  "data-analytics|shaping data in power query": [
+   "Power BI",
+   "Data quality"
+  ],
+  "data-analytics|sql basics: relational databases and select": [
+   "Databases",
+   "SQL"
+  ],
+  "data-analytics|statistics for business decisions: inference and a/b tests": [
+   "Statistics"
+  ],
+  "data-analytics|subqueries, ctes and window functions": [
+   "SQL",
+   "Databases"
+  ],
+  "data-analytics|tables, views and query performance": [
+   "SQL",
+   "Databases",
+   "Performance engineering"
+  ],
+  "data-analytics|warehouses, data marts and lakes": [
+   "Databases",
+   "Data pipelines"
+  ],
+  "data-engineering|big data processing with spark and hadoop": [
+   "Data pipelines"
+  ],
+  "data-engineering|cloud data services on aws, azure and gcp": [
+   "Cloud fundamentals",
+   "Microsoft Azure"
+  ],
+  "data-engineering|containers, ci/cd and iac for data platforms": [
+   "CI/CD",
+   "Infrastructure as code"
+  ],
+  "data-engineering|data lakes, lakehouses and data mesh": [
+   "Data pipelines",
+   "System design"
+  ],
+  "data-engineering|data quality, pipeline testing and monitoring": [
+   "Data quality",
+   "Software testing",
+   "Observability",
+   "Data pipelines"
+  ],
+  "data-engineering|data security, privacy and regulation": [
+   "Security fundamentals"
+  ],
+  "data-engineering|data sources and collection": [
+   "Data pipelines"
+  ],
+  "data-engineering|data warehousing and dimensional modelling": [
+   "Databases",
+   "Data pipelines"
+  ],
+  "data-engineering|idiomatic python: classes, modules and iteration": [
+   "Python"
+  ],
+  "data-engineering|ingestion, etl and transformation with dbt": [
+   "Data pipelines"
+  ],
+  "data-engineering|oltp versus olap, data models and scaling": [
+   "Databases",
+   "System design"
+  ],
+  "data-engineering|pipeline orchestration and scheduling": [
+   "Data pipelines"
+  ],
+  "data-engineering|python fundamentals": [
+   "Python"
+  ],
+  "data-engineering|python tooling, testing and concurrency for pipelines": [
+   "Python",
+   "Concurrency",
+   "Software testing"
+  ],
+  "data-engineering|relational and nosql databases": [
+   "Databases"
+  ],
+  "data-engineering|serving data: bi tools, reverse etl and ml": [
+   "Data pipelines"
+  ],
+  "data-engineering|sql querying: selecting, joining and aggregating": [
+   "SQL",
+   "Databases"
+  ],
+  "data-engineering|streaming and messaging systems": [
+   "Data pipelines",
+   "System design"
+  ],
+  "data-engineering|table design, loading and constraints": [
+   "SQL",
+   "Databases"
+  ],
+  "data-engineering|transactions, procedures and database permissions": [
+   "SQL",
+   "Databases",
+   "Authentication and access control"
+  ],
+  "data-engineering|what data engineers do and the data lifecycle": [
+   "Data pipelines"
+  ],
+  "data-engineering|window functions, ctes and query tuning": [
+   "SQL",
+   "Databases",
+   "Performance engineering"
+  ],
+  "data-science|aggregation, grouping and conditional logic": [
+   "SQL",
+   "Databases"
+  ],
+  "data-science|cnns, recurrent networks and transformers": [
+   "Machine learning"
+  ],
+  "data-science|collecting data from the web and databases": [
+   "Databases"
+  ],
+  "data-science|creating and changing tables": [
+   "SQL",
+   "Databases"
+  ],
+  "data-science|data cleaning and preparation": [
+   "Data quality"
+  ],
+  "data-science|exploratory data analysis and descriptive statistics": [
+   "Statistics"
+  ],
+  "data-science|feature engineering and leak-free splits": [
+   "Machine learning",
+   "Data quality"
+  ],
+  "data-science|interactive charts, dashboards and maps": [
+   "Data visualization"
+  ],
+  "data-science|joining tables": [
+   "SQL",
+   "Databases"
+  ],
+  "data-science|linear algebra and calculus for ml": [
+   "Machine learning"
+  ],
+  "data-science|machine learning foundations and learning types": [
+   "Machine learning"
+  ],
+  "data-science|model evaluation, validation and tuning": [
+   "Model evaluation",
+   "Machine learning"
+  ],
+  "data-science|neural networks and deep learning frameworks": [
+   "Machine learning"
+  ],
+  "data-science|nlp, generative models and explainability": [
+   "Machine learning"
+  ],
+  "data-science|numpy and numerical computing": [
+   "NumPy"
+  ],
+  "data-science|pandas: loading, filtering, grouping and joining": [
+   "pandas"
+  ],
+  "data-science|probability and statistics for ml": [
+   "Statistics",
+   "Machine learning"
+  ],
+  "data-science|python data types, collections and functions": [
+   "Python"
+  ],
+  "data-science|python setup for data work": [
+   "Python"
+  ],
+  "data-science|reinforcement learning": [
+   "Machine learning"
+  ],
+  "data-science|scaling analysis: big data tools and pipelines": [
+   "Data pipelines"
+  ],
+  "data-science|sql basics: tables, select and filtering": [
+   "SQL",
+   "Databases"
+  ],
+  "data-science|sql functions for text, numbers and dates": [
+   "SQL"
+  ],
+  "data-science|subqueries, ctes and window functions": [
+   "SQL",
+   "Databases"
+  ],
+  "data-science|supervised learning algorithms": [
+   "Machine learning"
+  ],
+  "data-science|unsupervised learning and clustering": [
+   "Machine learning"
+  ],
+  "data-science|views, transactions and query performance": [
+   "SQL",
+   "Databases",
+   "Performance engineering"
+  ],
+  "data-science|visualisation with matplotlib and seaborn": [
+   "Data visualization",
+   "Matplotlib"
+  ],
+  "devops|centralised log management": [
+   "Observability"
+  ],
+  "devops|ci/cd pipelines and artifact management": [
+   "CI/CD"
+  ],
+  "devops|cloud providers and serverless functions": [
+   "Cloud fundamentals"
+  ],
+  "devops|cluster networking, rbac and pod security": [
+   "Kubernetes",
+   "Networking",
+   "Authentication and access control",
+   "Application security"
+  ],
+  "devops|cluster observability and extending kubernetes": [
+   "Kubernetes",
+   "Observability"
+  ],
+  "devops|container security and deployment options": [
+   "Security fundamentals"
+  ],
+  "devops|disks, networking and server troubleshooting": [
+   "Linux",
+   "Networking"
+  ],
+  "devops|gitops tooling, secrets and service mesh": [
+   "CI/CD",
+   "Security fundamentals"
+  ],
+  "devops|infrastructure as code and configuration management": [
+   "Infrastructure as code"
+  ],
+  "devops|kubernetes concepts and your first cluster": [
+   "Kubernetes"
+  ],
+  "devops|linux shell, files and text processing": [
+   "Linux",
+   "Bash/Shell (all shells)"
+  ],
+  "devops|managed platforms and container hosting": [
+   "Cloud fundamentals"
+  ],
+  "devops|monitoring, metrics and tracing tools": [
+   "Observability"
+  ],
+  "devops|networking, protocols and mail services": [
+   "Networking"
+  ],
+  "devops|processes, services, users and packages": [
+   "Linux"
+  ],
+  "devops|rollout strategies and gitops": [
+   "Kubernetes",
+   "CI/CD"
+  ],
+  "devops|scheduling, resource limits and autoscaling": [
+   "Kubernetes",
+   "Performance engineering"
+  ],
+  "devops|server operating systems and monitoring basics": [
+   "Observability"
+  ],
+  "devops|version control and code hosting": [
+   "Git"
+  ],
+  "devops|web servers, proxies and load balancers": [
+   "Networking",
+   "System design"
+  ],
+  "devops|workloads: pods, deployments, statefulsets and helm": [
+   "Kubernetes"
+  ],
+  "frontend-development|advanced component patterns": [
+   "React"
+  ],
+  "frontend-development|advanced types and typescript modules": [
+   "TypeScript"
+  ],
+  "frontend-development|ai for frontend developers": [
+   "Generative AI"
+  ],
+  "frontend-development|api endpoints and middleware": [
+   "Next.js",
+   "API design"
+  ],
+  "frontend-development|arrays, collections and json": [
+   "JavaScript"
+  ],
+  "frontend-development|asynchronous javascript and the event loop": [
+   "JavaScript",
+   "Concurrency"
+  ],
+  "frontend-development|attributes, styling hooks and scripts": [
+   "HTML"
+  ],
+  "frontend-development|classes in typescript": [
+   "TypeScript"
+  ],
+  "frontend-development|client-side routing and global state": [
+   "React"
+  ],
+  "frontend-development|colours and backgrounds": [
+   "CSS"
+  ],
+  "frontend-development|combinators, attribute selectors and pseudo-classes": [
+   "CSS"
+  ],
+  "frontend-development|control flow and loops": [
+   "JavaScript"
+  ],
+  "frontend-development|css syntax, selectors and the cascade": [
+   "CSS"
+  ],
+  "frontend-development|debugging and memory management in javascript": [
+   "JavaScript",
+   "Performance engineering"
+  ],
+  "frontend-development|deploying next.js apps": [
+   "Next.js"
+  ],
+  "frontend-development|desktop and mobile apps with web technologies": [
+   "Mobile app development"
+  ],
+  "frontend-development|display, positioning and stacking": [
+   "CSS"
+  ],
+  "frontend-development|document structure and text content": [
+   "HTML"
+  ],
+  "frontend-development|errors, modules and strict mode": [
+   "JavaScript"
+  ],
+  "frontend-development|fetching and caching server data": [
+   "React",
+   "Caching",
+   "API design"
+  ],
+  "frontend-development|flexbox and grid layouts": [
+   "CSS"
+  ],
+  "frontend-development|forms and schema validation in react": [
+   "React"
+  ],
+  "frontend-development|frontend security": [
+   "Application security"
+  ],
+  "frontend-development|functions, scope and closures": [
+   "JavaScript"
+  ],
+  "frontend-development|generics and utility types": [
+   "TypeScript"
+  ],
+  "frontend-development|how the web works and html basics": [
+   "Networking",
+   "HTML"
+  ],
+  "frontend-development|html forms and validation": [
+   "HTML"
+  ],
+  "frontend-development|inline text semantics": [
+   "HTML"
+  ],
+  "frontend-development|interfaces, type aliases and typed functions": [
+   "TypeScript"
+  ],
+  "frontend-development|javascript basics: running code and declaring variables": [
+   "JavaScript"
+  ],
+  "frontend-development|links, lists, tables and media": [
+   "HTML"
+  ],
+  "frontend-development|next.js server data, revalidation and server functions": [
+   "Next.js",
+   "Caching"
+  ],
+  "frontend-development|operators and equality comparisons": [
+   "JavaScript"
+  ],
+  "frontend-development|organising css at scale: bem, sass and css modules": [
+   "CSS"
+  ],
+  "frontend-development|primitive types, objects and type coercion": [
+   "JavaScript"
+  ],
+  "frontend-development|production readiness: tests, tooling and monitoring": [
+   "Next.js",
+   "Software testing",
+   "Observability"
+  ],
+  "frontend-development|react components, jsx and props": [
+   "React"
+  ],
+  "frontend-development|react hooks and local state": [
+   "React"
+  ],
+  "frontend-development|rendering strategies: csr, ssr, ssg and streaming": [
+   "Next.js",
+   "Web performance"
+  ],
+  "frontend-development|responsive design and visual effects": [
+   "CSS",
+   "UI design"
+  ],
+  "frontend-development|routing with the app router": [
+   "Next.js"
+  ],
+  "frontend-development|semantic markup and accessibility": [
+   "HTML",
+   "Accessibility"
+  ],
+  "frontend-development|seo, resource hints and page security": [
+   "HTML",
+   "Web performance",
+   "Application security"
+  ],
+  "frontend-development|styling and asset optimisation in next.js": [
+   "Next.js",
+   "Web performance"
+  ],
+  "frontend-development|styling and component libraries": [
+   "React"
+  ],
+  "frontend-development|testing react apps and ssr frameworks": [
+   "React",
+   "Software testing"
+  ],
+  "frontend-development|the box model, units and sizing": [
+   "CSS"
+  ],
+  "frontend-development|this, prototypes and classes": [
+   "JavaScript"
+  ],
+  "frontend-development|transitions, transforms and animations": [
+   "CSS"
+  ],
+  "frontend-development|typescript setup and type inference": [
+   "TypeScript"
+  ],
+  "frontend-development|typescript's built-in and special types": [
+   "TypeScript"
+  ],
+  "frontend-development|typography and text styling": [
+   "CSS"
+  ],
+  "frontend-development|unions, narrowing and type guards": [
+   "TypeScript"
+  ],
+  "frontend-development|web performance and http caching": [
+   "Web performance",
+   "Caching"
+  ],
+  "frontend-development|why next.js and project setup": [
+   "Next.js"
+  ],
+  "full-stack-development|advanced component patterns": [
+   "React"
+  ],
+  "full-stack-development|arrays, collections and json": [
+   "JavaScript"
+  ],
+  "full-stack-development|asynchronous javascript and the event loop": [
+   "JavaScript",
+   "Concurrency"
+  ],
+  "full-stack-development|automating infrastructure, deployments and monitoring": [
+   "Infrastructure as code",
+   "CI/CD",
+   "Observability"
+  ],
+  "full-stack-development|branching, merging and conflicts": [
+   "Git"
+  ],
+  "full-stack-development|building web servers and apis in node.js": [
+   "Node.js",
+   "API design"
+  ],
+  "full-stack-development|checkpoint projects: cli, crud and a secured full-stack app": [
+   "Node.js",
+   "Authentication and access control",
+   "Application security",
+   "Databases"
+  ],
+  "full-stack-development|client-side routing and global state": [
+   "React"
+  ],
+  "full-stack-development|command-line tools with node.js": [
+   "Node.js"
+  ],
+  "full-stack-development|control flow and loops": [
+   "JavaScript"
+  ],
+  "full-stack-development|databases, orms and authentication in node.js": [
+   "Node.js",
+   "Databases",
+   "Authentication and access control"
+  ],
+  "full-stack-development|debugging and memory management in javascript": [
+   "JavaScript",
+   "Performance engineering"
+  ],
+  "full-stack-development|deploying a full-stack app to aws": [
+   "Cloud fundamentals",
+   "Amazon Web Services (AWS)"
+  ],
+  "full-stack-development|error handling and debugging in node.js": [
+   "Node.js"
+  ],
+  "full-stack-development|errors, modules and strict mode": [
+   "JavaScript"
+  ],
+  "full-stack-development|fetching and caching server data": [
+   "React",
+   "Caching",
+   "API design"
+  ],
+  "full-stack-development|files, paths and environment variables": [
+   "Node.js"
+  ],
+  "full-stack-development|forms, validation and typescript": [
+   "React"
+  ],
+  "full-stack-development|functions, scope and closures": [
+   "JavaScript"
+  ],
+  "full-stack-development|git fundamentals: commits and the staging area": [
+   "Git"
+  ],
+  "full-stack-development|github actions, pages and git hooks": [
+   "Git",
+   "CI/CD"
+  ],
+  "full-stack-development|javascript basics: running code and declaring variables": [
+   "JavaScript"
+  ],
+  "full-stack-development|node.js async internals: nexttick, emitters and streams": [
+   "Node.js"
+  ],
+  "full-stack-development|node.js basics and running scripts": [
+   "Node.js"
+  ],
+  "full-stack-development|node.js modules and npm": [
+   "Node.js"
+  ],
+  "full-stack-development|operators and equality comparisons": [
+   "JavaScript"
+  ],
+  "full-stack-development|primitive types, objects and type coercion": [
+   "JavaScript"
+  ],
+  "full-stack-development|react components, jsx and props": [
+   "React"
+  ],
+  "full-stack-development|react hooks and local state": [
+   "React"
+  ],
+  "full-stack-development|remotes, github and pull requests": [
+   "Git"
+  ],
+  "full-stack-development|running node.js in production": [
+   "Node.js",
+   "Observability"
+  ],
+  "full-stack-development|styling and component libraries": [
+   "React"
+  ],
+  "full-stack-development|testing node.js applications": [
+   "Node.js",
+   "Software testing"
+  ],
+  "full-stack-development|testing react apps and ssr frameworks": [
+   "React",
+   "Software testing"
+  ],
+  "full-stack-development|this, prototypes and classes": [
+   "JavaScript"
+  ],
+  "full-stack-development|undoing changes and rewriting history": [
+   "Git"
+  ],
+  "game-development|building, debugging and profiling c++ projects": [
+   "C++",
+   "Game programming",
+   "Performance engineering"
+  ],
+  "game-development|c++ setup and core syntax": [
+   "C++",
+   "Game programming"
+  ],
+  "game-development|classes, polymorphism and the stl": [
+   "C++",
+   "Game programming"
+  ],
+  "game-development|collision detection: broad and narrow phase": [
+   "Game programming"
+  ],
+  "game-development|convex shapes and collision algorithms": [
+   "Game programming"
+  ],
+  "game-development|game ai: decision making and search": [
+   "Game programming",
+   "Data structures and algorithms"
+  ],
+  "game-development|game engines and their scripting languages": [
+   "Game programming"
+  ],
+  "game-development|learning-based game ai": [
+   "Game programming",
+   "Machine learning"
+  ],
+  "game-development|lighting and shadows": [
+   "Game programming"
+  ],
+  "game-development|memory, ownership and smart pointers": [
+   "C++",
+   "Game programming"
+  ],
+  "game-development|physics: motion, forces and rigid bodies": [
+   "Game programming"
+  ],
+  "game-development|rotations, orientation and curves": [
+   "Game programming"
+  ],
+  "game-development|shaders, textures and materials": [
+   "Game programming"
+  ],
+  "game-development|the graphics pipeline and graphics apis": [
+   "Game programming"
+  ],
+  "game-development|vectors, matrices and transformations": [
+   "Game programming"
+  ],
+  "game-development|visibility, culling and advanced rendering": [
+   "Game programming",
+   "Performance engineering"
+  ],
+  "machine-learning-engineering|cnns, recurrent networks and transformers": [
+   "Machine learning"
+  ],
+  "machine-learning-engineering|containers, kubernetes and cloud infrastructure for ml": [
+   "Cloud fundamentals",
+   "Kubernetes"
+  ],
+  "machine-learning-engineering|data analysis with numpy, pandas and plots": [
+   "NumPy",
+   "pandas",
+   "Data visualization"
+  ],
+  "machine-learning-engineering|data pipelines and workflow orchestration": [
+   "Data pipelines"
+  ],
+  "machine-learning-engineering|data sources and data formats": [
+   "Data pipelines"
+  ],
+  "machine-learning-engineering|experiment tracking and ml ci/cd": [
+   "CI/CD",
+   "Model evaluation"
+  ],
+  "machine-learning-engineering|feature engineering and data preparation": [
+   "Machine learning",
+   "Data quality"
+  ],
+  "machine-learning-engineering|idiomatic python: classes, modules and iteration": [
+   "Python"
+  ],
+  "machine-learning-engineering|linear algebra and calculus for ml": [
+   "Machine learning"
+  ],
+  "machine-learning-engineering|mlops principles and versioning code and data": [
+   "Machine learning",
+   "CI/CD"
+  ],
+  "machine-learning-engineering|model evaluation, validation and tuning": [
+   "Model evaluation",
+   "Machine learning"
+  ],
+  "machine-learning-engineering|model monitoring, explanations and edge deployment": [
+   "Observability",
+   "Machine learning"
+  ],
+  "machine-learning-engineering|neural networks and deep learning frameworks": [
+   "Machine learning"
+  ],
+  "machine-learning-engineering|nlp, generative models and explainability": [
+   "Machine learning",
+   "Generative AI"
+  ],
+  "machine-learning-engineering|probability and statistics for ml": [
+   "Statistics",
+   "Machine learning"
+  ],
+  "machine-learning-engineering|python fundamentals": [
+   "Python"
+  ],
+  "machine-learning-engineering|python tooling, typing, testing and parallelism": [
+   "Python",
+   "Software testing",
+   "Concurrency"
+  ],
+  "machine-learning-engineering|reinforcement learning": [
+   "Machine learning"
+  ],
+  "machine-learning-engineering|supervised learning algorithms": [
+   "Machine learning"
+  ],
+  "machine-learning-engineering|unsupervised learning and clustering": [
+   "Machine learning"
+  ],
+  "machine-learning-engineering|what ml engineers do and the types of learning": [
+   "Machine learning"
+  ],
+  "mobile-app-development|app architecture and design patterns": [
+   "Mobile app development"
+  ],
+  "mobile-app-development|app components, activities and intents": [
+   "Mobile app development"
+  ],
+  "mobile-app-development|apple frameworks: core ml, arkit, mapkit and media": [
+   "Mobile app development"
+  ],
+  "mobile-app-development|authentication, security and native modules": [
+   "Mobile app development",
+   "Authentication and access control",
+   "Application security"
+  ],
+  "mobile-app-development|building apps with swiftui": [
+   "Mobile app development"
+  ],
+  "mobile-app-development|building uis with jetpack compose": [
+   "Mobile app development"
+  ],
+  "mobile-app-development|ci/cd, testflight and app store release": [
+   "Mobile app development",
+   "CI/CD"
+  ],
+  "mobile-app-development|concurrency in swift: gcd and async/await": [
+   "Mobile app development",
+   "Concurrency"
+  ],
+  "mobile-app-development|coroutines, flow and background work": [
+   "Mobile app development",
+   "Concurrency"
+  ],
+  "mobile-app-development|debugging, profiling and testing ios apps": [
+   "Mobile app development",
+   "Performance engineering",
+   "Software testing"
+  ],
+  "mobile-app-development|dependencies, frameworks and code quality": [
+   "Mobile app development"
+  ],
+  "mobile-app-development|dependency injection and code quality": [
+   "Mobile app development"
+  ],
+  "mobile-app-development|expo and the react native dev workflow": [
+   "Mobile app development"
+  ],
+  "mobile-app-development|google services, firebase and play store release": [
+   "Mobile app development"
+  ],
+  "mobile-app-development|human interface guidelines, accessibility and animation": [
+   "Mobile app development",
+   "Accessibility",
+   "UI design"
+  ],
+  "mobile-app-development|ios architecture patterns: mvvm, viper and tca": [
+   "Mobile app development"
+  ],
+  "mobile-app-development|kotlin and android tooling": [
+   "Mobile app development"
+  ],
+  "mobile-app-development|lists, gestures and screen navigation": [
+   "Mobile app development"
+  ],
+  "mobile-app-development|networking and apis": [
+   "Mobile app development",
+   "API design"
+  ],
+  "mobile-app-development|networking with urlsession and alamofire": [
+   "Mobile app development",
+   "API design"
+  ],
+  "mobile-app-development|networking, storage and device features": [
+   "Mobile app development",
+   "API design"
+  ],
+  "mobile-app-development|persisting data with core data and keychain": [
+   "Mobile app development",
+   "Databases",
+   "Application security"
+  ],
+  "mobile-app-development|react native core components, props and state": [
+   "Mobile app development"
+  ],
+  "mobile-app-development|react native performance and store publishing": [
+   "Mobile app development",
+   "Performance engineering"
+  ],
+  "mobile-app-development|react native prerequisites and setup": [
+   "Mobile app development"
+  ],
+  "mobile-app-development|reactive programming with combine and rxswift": [
+   "Mobile app development"
+  ],
+  "mobile-app-development|storage and data persistence": [
+   "Mobile app development",
+   "Databases"
+  ],
+  "mobile-app-development|styling, layout and platform-specific code": [
+   "Mobile app development"
+  ],
+  "mobile-app-development|swift language basics": [
+   "Mobile app development"
+  ],
+  "mobile-app-development|swift memory management and objective-c interop": [
+   "Mobile app development"
+  ],
+  "mobile-app-development|testing react native apps": [
+   "Mobile app development",
+   "Software testing"
+  ],
+  "mobile-app-development|testing, security and crash reporting": [
+   "Mobile app development",
+   "Software testing",
+   "Application security"
+  ],
+  "mobile-app-development|uikit and interface builder": [
+   "Mobile app development"
+  ],
+  "mobile-app-development|uikit navigation, modals and transitions": [
+   "Mobile app development"
+  ],
+  "mobile-app-development|views, layouts, fragments and navigation": [
+   "Mobile app development"
+  ],
+  "mobile-app-development|xcode and the ios platform": [
+   "Mobile app development"
+  ],
+  "qa-test-automation|advanced queries and query tuning": [
+   "SQL",
+   "Databases",
+   "Performance engineering"
+  ],
+  "qa-test-automation|api authentication and authorisation": [
+   "Authentication and access control",
+   "API design"
+  ],
+  "qa-test-automation|api performance, caching and gateways": [
+   "API design",
+   "Caching",
+   "Performance engineering"
+  ],
+  "qa-test-automation|api security, rate limits and compliance": [
+   "Application security",
+   "API design"
+  ],
+  "qa-test-automation|api, backend and mobile test automation": [
+   "Software testing",
+   "API design"
+  ],
+  "qa-test-automation|branching, merging and conflicts": [
+   "Git"
+  ],
+  "qa-test-automation|errors, idempotency, versioning and api docs": [
+   "API design"
+  ],
+  "qa-test-automation|git fundamentals: commits and the staging area": [
+   "Git"
+  ],
+  "qa-test-automation|github actions, hooks and test automation in ci": [
+   "Git",
+   "CI/CD",
+   "Software testing"
+  ],
+  "qa-test-automation|graphql, grpc, real-time and event-driven apis": [
+   "API design"
+  ],
+  "qa-test-automation|idiomatic python: classes, modules and iteration": [
+   "Python"
+  ],
+  "qa-test-automation|manual testing: plans, cases and bug reports": [
+   "Software testing"
+  ],
+  "qa-test-automation|performance and load testing": [
+   "Software testing",
+   "Performance engineering"
+  ],
+  "qa-test-automation|python fundamentals": [
+   "Python"
+  ],
+  "qa-test-automation|python testing tools and project setup": [
+   "Python",
+   "Software testing"
+  ],
+  "qa-test-automation|qa fundamentals, mindset and development models": [
+   "Software testing"
+  ],
+  "qa-test-automation|remotes, github and pull requests": [
+   "Git"
+  ],
+  "qa-test-automation|restful api design and resource modelling": [
+   "API design"
+  ],
+  "qa-test-automation|security and accessibility testing": [
+   "Software testing",
+   "Application security",
+   "Accessibility"
+  ],
+  "qa-test-automation|sql queries: selecting, joining and grouping": [
+   "SQL",
+   "Databases"
+  ],
+  "qa-test-automation|sql transaction control, procedures and permissions": [
+   "SQL",
+   "Databases"
+  ],
+  "qa-test-automation|tdd, bdd and unit test frameworks": [
+   "Software testing"
+  ],
+  "qa-test-automation|test management tools and agile practices": [
+   "Software testing"
+  ],
+  "qa-test-automation|test pipelines and production monitoring": [
+   "CI/CD",
+   "Software testing",
+   "Observability"
+  ],
+  "qa-test-automation|test reporting, email testing and no-code tools": [
+   "Software testing"
+  ],
+  "qa-test-automation|testing apis: contract, integration and load": [
+   "Software testing",
+   "API design"
+  ],
+  "qa-test-automation|testing approaches, techniques and levels": [
+   "Software testing"
+  ],
+  "qa-test-automation|ui automation with selenium, playwright and cypress": [
+   "Software testing"
+  ],
+  "qa-test-automation|undoing changes and rewriting history": [
+   "Git"
+  ],
+  "qa-test-automation|what apis are and how http works": [
+   "API design",
+   "Networking"
+  ],
+  "qa-test-automation|writing data safely: ddl, dml and constraints": [
+   "SQL",
+   "Databases"
+  ],
+  "ui-ux-design|core components: buttons and form controls": [
+   "UI design"
+  ],
+  "ui-ux-design|defining the target action and mapping flows": [
+   "UX research"
+  ],
+  "ui-ux-design|design language, principles and writing guidelines": [
+   "UI design"
+  ],
+  "ui-ux-design|design system basics and atomic design": [
+   "UI design"
+  ],
+  "ui-ux-design|design system tooling, accessibility and quality": [
+   "Accessibility",
+   "UI design"
+  ],
+  "ui-ux-design|design tokens: colour, typography, spacing and grids": [
+   "UI design"
+  ],
+  "ui-ux-design|designing for action: clarity and low friction": [
+   "UI design"
+  ],
+  "ui-ux-design|documentation and team adoption": [
+   "UI design"
+  ],
+  "ui-ux-design|ethical, inclusive design and design at scale": [
+   "Accessibility",
+   "UI design"
+  ],
+  "ui-ux-design|feedback, navigation and content components": [
+   "UI design"
+  ],
+  "ui-ux-design|feedback, progress and gamification": [
+   "UI design"
+  ],
+  "ui-ux-design|framing problems and prioritising opportunities": [
+   "UX research"
+  ],
+  "ui-ux-design|governance, releases and adoption metrics": [
+   "UI design"
+  ],
+  "ui-ux-design|habits, reminders and commitments": [
+   "UI design"
+  ],
+  "ui-ux-design|human decision making and behavioural science": [
+   "UX research"
+  ],
+  "ui-ux-design|ideation and design workshops": [
+   "UX research"
+  ],
+  "ui-ux-design|information architecture, user flows and wireframes": [
+   "UI design",
+   "UX research"
+  ],
+  "ui-ux-design|measuring product success": [
+   "UX research"
+  ],
+  "ui-ux-design|motion, micro-interactions and ux writing": [
+   "UI design"
+  ],
+  "ui-ux-design|motivation: social proof, framing and rewards": [
+   "UI design"
+  ],
+  "ui-ux-design|planning a design system: audit, vision and pilot": [
+   "UI design"
+  ],
+  "ui-ux-design|prototyping tools and measuring impact": [
+   "UX research"
+  ],
+  "ui-ux-design|responsive layout, icons and brand assets": [
+   "UI design"
+  ],
+  "ui-ux-design|understanding the product, business and users": [
+   "UX research"
+  ],
+  "ui-ux-design|usability testing and experimentation": [
+   "UX research"
+  ],
+  "ui-ux-design|user research methods": [
+   "UX research"
+  ],
+  "ui-ux-design|visual design foundations": [
+   "UI design"
+  ],
+  "ui-ux-design|working with engineers: handoff and constraints": [
+   "UI design",
+   "Figma"
+  ]
+ },
+ "code_topics": {
+  "array": [
+   "Data structures and algorithms"
+  ],
+  "graph": [
+   "Data structures and algorithms"
+  ],
+  "hash_map": [
+   "Data structures and algorithms"
+  ],
+  "heap": [
+   "Data structures and algorithms"
+  ],
+  "linked_list": [
+   "Data structures and algorithms"
+  ],
+  "queue": [
+   "Data structures and algorithms"
+  ],
+  "sorting": [
+   "Data structures and algorithms"
+  ],
+  "stack": [
+   "Data structures and algorithms"
+  ],
+  "string": [
+   "Data structures and algorithms"
+  ],
+  "tree": [
+   "Data structures and algorithms"
+  ]
+ },
+ "exclude": [
+  {
+   "skill": "React",
+   "when": "ReAct",
+   "unless": "\\bReact\\b",
+   "reason": "'ReAct' is an AI-agent pattern, not the React library (kept if the text also names React itself)"
+  },
+  {
+   "skill": "React",
+   "when": "(?i)react native",
+   "unless": "\\bReact\\b(?! Native)",
+   "reason": "React Native steps teach React Native, not React for the web (kept if the text also names React itself)"
+  },
+  {
+   "skill": "SQL",
+   "when": "(?i)sql injection",
+   "unless": "(?i)\\bsql\\b(?!\\s+injection)",
+   "reason": "'SQL injection' is a security topic, not SQL skill"
+  },
+  {
+   "skill": "C",
+   "when": "Objective-C|MVVM-C",
+   "unless": "(?<![\\w-])C(?![\\w+#-])",
+   "reason": "'Objective-C' and 'MVVM-C' are not the C language (kept if the text names C itself)"
+  },
+  {
+   "skill": "Make",
+   "when": "(?i)\\bmake\\b",
+   "unless": "(?i)makefile|gnu make|cmake",
+   "reason": "the everyday word 'make' is not the Make build tool"
+  },
+  {
+   "skill": "Snowflake",
+   "when": "(?i)snowflake schema",
+   "unless": "(?i)snowflake(?! schema)",
+   "reason": "'Snowflake schema' is a data-model shape, not the Snowflake product"
+  },
+  {
+   "step": "ai-engineering|ai coding assistants and developer tools",
+   "skills": [
+    "Claude Code"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "ai-engineering|agent frameworks",
+   "skills": [
+    "LangGraph"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "backend-engineering|choosing a backend language and using git",
+   "skills": [
+    "Python",
+    "JavaScript",
+    "Go",
+    "Java"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "backend-engineering|relational databases, orms and migrations",
+   "skills": [
+    "PostgreSQL",
+    "MySQL",
+    "MariaDB"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "backend-engineering|nosql databases",
+   "skills": [
+    "MongoDB",
+    "Redis",
+    "Dynamodb",
+    "Cassandra"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "backend-engineering|choosing and partitioning data stores",
+   "skills": [
+    "SQL"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "cloud-engineering|terraform in ci/cd and at scale",
+   "skills": [
+    "Jenkins",
+    "GitHub",
+    "GitLab"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "cybersecurity|security automation & soar",
+   "skills": [
+    "Python",
+    "PowerShell"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "data-analytics|bi platforms: tableau, looker and qlik",
+   "skills": [
+    "Power BI"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "data-engineering|python tooling, testing and concurrency for pipelines",
+   "skills": [
+    "Pip"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "data-engineering|relational and nosql databases",
+   "skills": [
+    "PostgreSQL",
+    "MySQL",
+    "MariaDB"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "data-engineering|serving data: bi tools, reverse etl and ml",
+   "skills": [
+    "Power BI",
+    "Tableau"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "data-science|python setup for data work",
+   "skills": [
+    "Visual Studio Code",
+    "Google Colab"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "data-science|scaling analysis: big data tools and pipelines",
+   "skills": [
+    "Polars"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "devops|programming and scripting for devops",
+   "skills": [
+    "Python",
+    "Go",
+    "PowerShell"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "devops|server operating systems and monitoring basics",
+   "skills": [
+    "Linux"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "devops|version control and code hosting",
+   "skills": [
+    "GitHub",
+    "GitLab"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "devops|cloud providers and serverless functions",
+   "skills": [
+    "Amazon Web Services (AWS)",
+    "Google Cloud"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "devops|managed platforms and container hosting",
+   "skills": [
+    "Heroku",
+    "Netlify",
+    "Vercel",
+    "Railway"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "devops|infrastructure as code and configuration management",
+   "skills": [
+    "Amazon Web Services (AWS)",
+    "Terraform"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "devops|ci/cd pipelines and artifact management",
+   "skills": [
+    "Jenkins",
+    "GitHub",
+    "GitLab"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "devops|monitoring, metrics and tracing tools",
+   "skills": [
+    "Prometheus"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "devops|centralised log management",
+   "skills": [
+    "Splunk"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "frontend-development|styling and component libraries",
+   "skills": [
+    "CSS",
+    "Tailwind CSS 4"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "frontend-development|styling and asset optimisation in next.js",
+   "skills": [
+    "CSS",
+    "Tailwind CSS 4",
+    "JavaScript"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "frontend-development|deploying next.js apps",
+   "skills": [
+    "Node.js",
+    "Docker"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "frontend-development|package managers and module bundlers",
+   "skills": [
+    "npm",
+    "pnpm",
+    "Yarn",
+    "Bun"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "frontend-development|other frameworks and meta-frameworks",
+   "skills": [
+    "Vue.js",
+    "Angular",
+    "Svelte"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "frontend-development|desktop and mobile apps with web technologies",
+   "skills": [
+    "JavaScript",
+    "React"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "full-stack-development|styling and component libraries",
+   "skills": [
+    "CSS",
+    "Tailwind CSS 4"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "full-stack-development|building web servers and apis in node.js",
+   "skills": [
+    "Express",
+    "Fastify",
+    "NestJS"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "game-development|game engines and their scripting languages",
+   "skills": [
+    "GDScript"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "machine-learning-engineering|python tooling, typing, testing and parallelism",
+   "skills": [
+    "Pip"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "machine-learning-engineering|data sources and data formats",
+   "skills": [
+    "SQL"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "machine-learning-engineering|model monitoring, explanations and edge deployment",
+   "skills": [
+    "Prometheus"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "mobile-app-development|kotlin and android tooling",
+   "skills": [
+    "Java"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "mobile-app-development|dependencies, frameworks and code quality",
+   "skills": [
+    "Swift"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "mobile-app-development|persisting data with core data and keychain",
+   "skills": [
+    "SQLite"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "mobile-app-development|ci/cd, testflight and app store release",
+   "skills": [
+    "Jenkins",
+    "GitHub"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "qa-test-automation|test pipelines and production monitoring",
+   "skills": [
+    "Jenkins",
+    "GitLab"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  },
+  {
+   "step": "ui-ux-design|prototyping tools and measuring impact",
+   "skills": [
+    "Figma"
+   ],
+   "reason": "alternatives list: not in the title, appears only as one option among several"
+  }
+ ]
+}

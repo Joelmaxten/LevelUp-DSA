@@ -20,7 +20,7 @@ import time
 import requests
 from flask import current_app
 
-from app.pipeline.adzuna_listings import SEARCH_TERMS, dedupe_listings, entry_level_only
+from app.pipeline.adzuna_listings import SEARCH_TERMS, dedupe_listings, entry_level_only, search_skill_terms
 
 JOOBLE_URL = "https://jooble.org/api/"
 REQUEST_TIMEOUT_SECONDS = 5
@@ -76,9 +76,8 @@ def _normalize_listing(raw):
     }
 
 
-def get_jooble_listings(career_path, limit=5):
+def _listings_for_term(term, limit=5):
     """{"listings": [...], "unavailable": bool}; never raises. Call only when is_configured()."""
-    term = SEARCH_TERMS[career_path]
     cached = _cache_get(term)
     if cached is not None:
         return cached
@@ -102,3 +101,15 @@ def get_jooble_listings(career_path, limit=5):
     except Exception:
         return _cache_set(term, _unavailable(), FAILURE_CACHE_TTL_SECONDS)
     return _cache_set(term, {"listings": dedupe_listings(normalized)[:limit], "unavailable": False}, CACHE_TTL_SECONDS)
+
+
+def get_jooble_listings(career_path, limit=5, skills=()):
+    """Same contract as before; with `skills` the search first adds up to two verified skills and falls back to the plain search
+    if that finds nothing (see adzuna_listings.get_live_listings). "matched_on" is present only when the skills were used."""
+    base = SEARCH_TERMS[career_path]
+    used = search_skill_terms(skills)
+    if used:
+        result = _listings_for_term(f"{base} {' '.join(used)}", limit)
+        if not result["unavailable"] and result["listings"]:
+            return {**result, "matched_on": used}
+    return _listings_for_term(base, limit)

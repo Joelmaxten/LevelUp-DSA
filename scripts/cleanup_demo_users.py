@@ -25,16 +25,16 @@ from sqlalchemy import text
 
 from app import create_app, db
 from app.models import (
-    CareerProfile, GeneratedRoadmap, Resume, RoadmapProgress, ScenarioAttempt, SkillGap, User, UserAvatar,
-    UserProfile, UserProgress,
+    CareerProfile, GeneratedRoadmap, PasswordResetToken, Resume, RoadmapProgress, ScenarioAttempt, SkillGap,
+    StepCheckAttempt, StepReview, User, UserAvatar, UserProfile, UserProgress,
 )
 
 EMAIL_SUFFIX = "@example.com"
 
-# Child-first order. roadmap_progress references generated_roadmaps, so it goes before it;
+# Child-first order. roadmap_progress, step_check_attempts and step_reviews reference generated_roadmaps, so they go before it;
 # every other table here references only users (and shared reference data we never touch).
 DEPENDENT_MODELS = [
-    RoadmapProgress, GeneratedRoadmap, UserProgress, SkillGap, Resume, CareerProfile, ScenarioAttempt,
+    StepCheckAttempt, StepReview, RoadmapProgress, GeneratedRoadmap, PasswordResetToken, UserProgress, SkillGap, Resume, CareerProfile, ScenarioAttempt,
     UserProfile, UserAvatar,
 ]
 # Tables of the removed skill map that reference users. They have no model any more, but an older database may still

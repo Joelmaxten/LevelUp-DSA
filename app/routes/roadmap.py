@@ -459,6 +459,17 @@ def update_progress(roadmap_id):
     if step_index not in valid_indexes:
         return jsonify({"error": "That step doesn't exist on this roadmap."}), 400
 
+    if done and current_app.config.get("VERIFIED_PROGRESS"):
+        # Verified progression: a step that has a check is completed by passing it (routes/step_checks.py). Ticking
+        # is still allowed for a step with no check, and for re-ticking a step this student already passed.
+        from app.models import StepCheckAttempt
+        from app.routes.step_checks import checkable_indexes, roadmap_steps
+        flat, sources = roadmap_steps(roadmap)
+        passed_before = StepCheckAttempt.query.filter_by(user_id=current_user.id, roadmap_id=roadmap_id,
+                                                         step_index=step_index, passed=True).first()
+        if step_index in checkable_indexes(roadmap, flat, sources) and passed_before is None:
+            return jsonify({"error": "check_required", "message": "Pass this step's check to complete it."}), 409
+
     if done:
         existing = RoadmapProgress.query.filter_by(
             user_id=current_user.id, roadmap_id=roadmap_id, step_index=step_index

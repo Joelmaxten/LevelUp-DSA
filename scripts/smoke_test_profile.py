@@ -57,6 +57,7 @@ def test_routes():
     from scripts._csrf import enable_csrf_client
 
     app = create_app()
+    app.config["VERIFIED_PROGRESS"] = False   # these checks tick steps directly (smoke_test_step_checks.py covers checks)
     enable_csrf_client(app)
     suffix = random.randint(100000, 999999)
     emails = []

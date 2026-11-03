@@ -158,6 +158,7 @@ def test_route():
 
     app = create_app()
     enable_csrf_client(app)
+    app.config["READINESS_SKILL_MODE"] = "resume"     # this section checks the old rule (the resume alone); the modes have their own section
     suffix = random.randint(100000, 999999)
     password = "SmokeTest#123"
     user_ids = []
@@ -236,7 +237,7 @@ def test_route():
         if required:
             check("route: skill_gap = required skills the resume has / required skills", close(a["components"]["skill_gap"], max(1, len(required) // 2) / len(required)))
         check("route: the response has only score data (no question text, no user fields)",
-              set(a) == {"score", "ready", "threshold", "components", "weights", "unavailable"})
+              set(a) == {"score", "ready", "threshold", "components", "weights", "unavailable", "skill_gap_detail"})
 
         # student B with perfect data must not change A's score
         bob, bob_id = login("b")
@@ -290,6 +291,7 @@ def test_dashboard_states():
 
     app = create_app()
     enable_csrf_client(app)
+    app.config["READINESS_SKILL_MODE"] = "resume"     # these states check the old response (no skill-gap detail); the new behaviour has its own section
     suffix = random.randint(100000, 999999)
     user_ids = []
     unsafe = re.compile(r"\.innerHTML|innerHTML\s*=|outerHTML\s*=|insertAdjacentHTML|document\.write")
@@ -330,7 +332,8 @@ def test_dashboard_states():
             body = resp.get_json()
             check(f"{label}: GET /readiness is valid JSON with the full shape",
                   resp.status_code == 200 and resp.mimetype == "application/json"
-                  and set(body) == {"score", "ready", "threshold", "components", "weights", "unavailable"})
+                  and set(body) == {"score", "ready", "threshold", "components", "weights", "unavailable", "skill_gap_detail"}
+                  and body["skill_gap_detail"] is None)
             check(f"{label}: score 0.0 / 100, not ready, roadmap and skill_gap not available",
                   body["score"] == 0.0 and body["ready"] is False and {"roadmap", "skill_gap"} <= set(body["unavailable"])
                   and body["components"]["streak"] == 0.0)
@@ -346,9 +349,381 @@ def test_dashboard_states():
             db.session.commit()
 
 
+# ---------------------------------------------------------------- the three skill modes (pure)
+def test_skill_modes_pure():
+    req = ["Python", "SQL", "Docker", "Rust", "MySQL"]
+    on_resume = {"SQL", "Rust", "Python"}
+    verified = {"Python"}
+    unreachable = {"Rust", "MySQL"}                      # nothing on the platform can verify these
+
+    def run(mode, **kw):
+        args = dict(required=req, on_resume=on_resume, verified=verified, unreachable=unreachable)
+        args.update(kw)
+        return r.skill_gap_breakdown(args["required"], args["on_resume"], args["verified"], args["unreachable"], mode)
+
+    check("constants: resume-only credit 0.5, claim-only credit 1.0, default mode blend, three modes",
+          r.RESUME_CLAIM_CREDIT == 0.5 and r.CLAIM_ONLY_CREDIT == 1.0 and r.DEFAULT_SKILL_MODE == "blend"
+          and r.SKILL_MODES == ("blend", "verified", "resume"))
+    b = run("blend")
+    status = {i["skill"]: (i["status"], i["counts_for"]) for i in b["items"]}
+    check("blend: verified counts 1, resume-only 0.5, unverifiable-and-claimed 1, unverifiable-not-claimed 0, nothing 0",
+          status == {"Python": ("verified", 1), "SQL": ("resume_only", 0.5), "Docker": ("missing", 0),
+                     "Rust": ("claim_only", 1.0), "MySQL": ("no_content", 0)} and b["value"] == 2.5 and b["required"] == 5)
+    check("blend: the counts shown on the card (on your resume 3 of 5, verified 1 of 5)", b["on_resume"] == 3 and b["verified"] == 1)
+    v = run("verified")
+    check("verified: only the verified skill counts; an unverifiable skill on the resume counts 0 (strict)",
+          v["value"] == 1 and {i["skill"]: i["counts_for"] for i in v["items"]}["Rust"] == 0)
+    old = run("resume")
+    check("resume: the old calculation, a whole number (resume matches / required), verification ignored",
+          old["value"] == 3 and isinstance(old["value"], int) and old["mode"] == "resume")
+    check("a skill that is both verified and on the resume counts once (1, not 1.5)",
+          run("blend", on_resume={"Python"}, unreachable=set())["value"] == 1)
+    check("an unverifiable skill that is not on the resume counts 0 in every mode (MySQL)",
+          all({i["skill"]: i["counts_for"] for i in run(m)["items"]}["MySQL"] == 0 for m in ("blend", "verified", "resume")))
+    check("a reachable skill that is only on the resume counts 0.5 in blend, 0 in verified, 1 in resume (SQL)",
+          [{i["skill"]: i["counts_for"] for i in run(m)["items"]}["SQL"] for m in ("blend", "verified", "resume")] == [0.5, 0, 1])
+    check("an unverifiable skill on the resume counts 1 in blend, 0 in verified, 1 in resume (Rust)",
+          [{i["skill"]: i["counts_for"] for i in run(m)["items"]}["Rust"] for m in ("blend", "verified", "resume")] == [1.0, 0, 1])
+    check("mode names are normalised; anything unknown means blend",
+          [r.normalise_skill_mode(x) for x in (" Verified ", "RESUME", "blend", "", None, "nonsense")]
+          == ["verified", "resume", "blend", "blend", "blend", "blend"])
+    check("the weights, the 70 threshold and the re-normalisation are unchanged by the modes",
+          r.BASE_WEIGHTS == {"roadmap": 0.25, "skill_gap": 0.35, "dsa": 0.30, "streak": 0.10} and r.READY_THRESHOLD == 70.0)
+    half = r.combine({"roadmap": None, "skill_gap": 0.5, "dsa": None, "streak": 0.0})
+    check("a fractional skill-gap value feeds the same score maths (0.5 with the others unavailable)",
+          close(r.compute_readiness(skill_gap=(2.5, 5))["components"]["skill_gap"], 0.5) and close(half["weights"]["skill_gap"], 35 / 45))
+
+
+# ---------------------------------------------------------------- the three skill modes (route, stand-in vocabulary)
+def test_skill_modes_route():
+    """GET /readiness in each mode. The survey table is not needed: the required list and the vocabulary are stand-ins."""
+    from unittest.mock import patch
+
+    from app import create_app, db
+    from app.models import (GeneratedRoadmap, Resume, RoadmapProgress, ScenarioAttempt, SkillGap, StepCheckAttempt, User)
+    from app.routes import readiness as readiness_route
+    from app.routes import skills as skills_route
+    from scripts._csrf import enable_csrf_client
+
+    app = create_app()
+    enable_csrf_client(app)
+    suffix = random.randint(100000, 999999)
+    user_ids = []
+    import os
+    check("the configured default (READINESS_SKILL_MODE unset in the environment) is blend; an unknown value also gives blend",
+          r.normalise_skill_mode(os.environ.get("READINESS_SKILL_MODE")) == app.config["READINESS_SKILL_MODE"]
+          and (os.environ.get("READINESS_SKILL_MODE") or "blend") != "" and r.normalise_skill_mode("x") == "blend")
+    required = {"Python", "SQL", "Docker", "Rust", "MySQL", "Caching"}     # Caching is a CONCEPT: it must never count even if listed
+    real_vocab = dict(skills_route._vocab_cache)
+
+    def login(tag):
+        client = app.test_client()
+        email = f"mode{tag}{suffix}@example.com"
+        resp = client.post("/signup", json={"name": "Mode Test", "email": email, "password": "SmokeTest#123"})
+        user_ids.append(resp.get_json()["user_id"])
+        client.post("/login", json={"email": email, "password": "SmokeTest#123"})
+        return client, user_ids[-1]
+
+    def get(client, mode):
+        app.config["READINESS_SKILL_MODE"] = mode
+        return client.get("/readiness").get_json()
+
+    def items(body):
+        return {i["skill"]: (i["status"], i["counts_for"]) for i in body["skill_gap_detail"]["items"]}
+
+    def snapshot():
+        with app.app_context():
+            return {m.__tablename__: (m.query.count(), db.session.query(db.func.max(m.id)).scalar())
+                    for m in (User, GeneratedRoadmap, StepCheckAttempt, ScenarioAttempt, Resume, SkillGap, RoadmapProgress)}
+
+    try:
+        skills_route._vocab_cache["vocab"] = frozenset({"Python", "SQL", "Docker", "Rust", "MySQL", "PostgreSQL"})   # stand-in vocabulary
+        with patch.object(readiness_route, "get_required_skills", lambda path: set(required)):
+            alice, aid = login("a")
+            bob, bid = login("b")
+            backend = json.loads(Path("data/base_roadmaps/backend-engineering.json").read_text(encoding="utf-8"))["roadmap"]
+            backend["base"] = {"source": "base_roadmap"}
+            caching = next(s["global_step_index"] for ph in backend["phases"] for s in ph["steps"] if s["title"] == "Caching and Search Engines")
+            with app.app_context():
+                rm = GeneratedRoadmap(user_id=aid, career_path="Backend Engineering", steps=backend)
+                db.session.add(rm)
+                db.session.flush()
+                now = datetime.utcnow()
+                db.session.add_all([
+                    # resume claims Python, SQL and Rust; Docker and MySQL are not claimed
+                    Resume(user_id=aid, file_path="x.pdf", extracted_skills=["Python", "SQL", "Rust"], analysis_pending=False),
+                    SkillGap(user_id=aid, missing_skills=[], target_role="Backend Engineering"),
+                    # a passed scenario with a solved code problem verifies Python; with the step check it verifies the concept Caching
+                    ScenarioAttempt(user_id=aid, path="Backend Engineering", scenario_id="bke-2", answers={"bke-2-c1": {"passed": True}},
+                                    score=40, max_score=50, passed=True, shuffle_seed=1, started_at=now, submitted_at=now),
+                    StepCheckAttempt(user_id=aid, roadmap_id=rm.id, step_index=caching, mode="check", questions=[], total=4, pass_mark=3,
+                                     score=4, passed=True, started_at=now, submitted_at=now),
+                    # Bob has a resume claiming everything and nothing verified
+                    Resume(user_id=bid, file_path="y.pdf", extracted_skills=sorted(required - {"Caching"}), analysis_pending=False),
+                    SkillGap(user_id=bid, missing_skills=[], target_role="Backend Engineering")])
+                db.session.commit()
+
+            evidence = alice.get("/skills/evidence").get_json()
+            by = {s["skill"]: s for s in evidence["skills"]}
+            check("setup: Python is a verified tool, Caching a verified CONCEPT (it is not in the required list)",
+                  by["Python"]["status"] == "verified" and by["Python"]["kind"] == "tool"
+                  and by["Caching"]["status"] == "verified" and by["Caching"]["kind"] == "concept")
+
+            before = snapshot()
+            blend = get(alice, "blend")
+            d = blend["skill_gap_detail"]
+            check("blend: Python verified (1), SQL resume-only (0.5), Rust claim only (1), Docker, MySQL and the concept Caching 0",
+                  items(blend)["Python"] == ("verified", 1) and items(blend)["SQL"] == ("resume_only", 0.5)
+                  and items(blend)["Docker"] == ("missing", 0) and items(blend)["Rust"] == ("claim_only", 1.0)
+                  and items(blend)["MySQL"] == ("no_content", 0))
+            check("blend: value 2.5 of 6 -> skill_gap component 0.4167, the counts for the card are on resume 3, verified 1",
+                  d["mode"] == "blend" and d["value"] == 2.5 and d["required"] == 6 and close(blend["components"]["skill_gap"], 2.5 / 6)
+                  and d["on_resume"] == 3 and d["verified"] == 1 and d["fallback"] is False and d["in_score"] is True)
+            check("the unreachable label rule: Rust and MySQL (nothing can verify them) and the concept Caching (only tools count here) are "
+                  "'no content'; SQL and Docker (the content can verify them) are not",
+                  {i["skill"] for i in d["items"] if i["no_content"]} == {"Rust", "MySQL", "Caching"})
+            check("a verified CONCEPT adds nothing: Caching is verified as a skill, but listed as required it still counts 0 "
+                  "(its name is never treated as a verified tool)",
+                  items(blend)["Caching"] == ("no_content", 0) and d["value"] == 2.5 and d["verified"] == 1)
+            verified_mode = get(alice, "verified")
+            check("verified: only Python counts (1 of 6); Rust, claimed but unverifiable, counts 0 -> component 1/6",
+                  verified_mode["skill_gap_detail"]["value"] == 1 and close(verified_mode["components"]["skill_gap"], 1 / 6)
+                  and items(verified_mode)["Rust"] == ("claim_only", 0))
+            resume_mode = get(alice, "resume")
+            check("resume: the old rule (Python, SQL, Rust are on the resume = 3 of 6 -> 0.5), verified ignored",
+                  resume_mode["skill_gap_detail"]["value"] == 3 and close(resume_mode["components"]["skill_gap"], 0.5))
+            check("the score differs by mode only through the skill-gap part (verified 1/6 < blend 2.5/6 < resume 3/6)",
+                  verified_mode["score"] < blend["score"] < resume_mode["score"] and blend["weights"] == resume_mode["weights"])
+            check("verified evidence is shown in every mode (Verified: 1 of 5 in resume mode too)",
+                  resume_mode["skill_gap_detail"]["verified"] == 1)
+            default_body = alice.get("/readiness").get_json()          # the configured mode is still 'resume' from the last get()
+            app.config["READINESS_SKILL_MODE"] = "nonsense"
+            check("an unknown configured mode behaves as blend", alice.get("/readiness").get_json()["skill_gap_detail"]["mode"] == "blend")
+            check("GET /readiness writes nothing in any mode", snapshot() == before)
+
+            b = get(bob, "blend")
+            check("another student's claims and evidence are never mixed in: Bob (resume claims all, nothing verified) gets "
+                  "0.5 each for the 3 verifiable skills and 1 for the 2 unverifiable ones = 3.5 of 6 (the concept Caching counts 0)",
+                  b["skill_gap_detail"]["value"] == 3.5 and b["skill_gap_detail"]["verified"] == 0)
+            check("Alice's numbers did not change after Bob was read", get(alice, "blend")["skill_gap_detail"]["value"] == 2.5)
+
+            # evidence cannot be gathered -> the resume-only rule, said so
+            real_evidence = skills_route.evidence_for
+            try:
+                def boom(_uid):
+                    raise RuntimeError("SECRET-detail")
+                skills_route.evidence_for = boom
+                fb = get(alice, "blend")
+                check("if the evidence cannot be gathered: blend falls back to the resume-only rule and says so, without exception text",
+                      fb["skill_gap_detail"]["fallback"] is True and fb["skill_gap_detail"]["mode"] == "resume"
+                      and fb["skill_gap_detail"]["configured_mode"] == "blend" and fb["skill_gap_detail"]["verified"] is None
+                      and fb["skill_gap_detail"]["value"] == 3 and "SECRET" not in json.dumps(fb))
+                check("in resume mode a failure to gather the evidence is not a fallback (nothing needed it)",
+                      get(alice, "resume")["skill_gap_detail"]["fallback"] is False)
+            finally:
+                skills_route.evidence_for = real_evidence
+
+        # the dashboard card: the words the owner asked for, built with el()/textContent only
+        html = alice.get("/dashboard").get_data(as_text=True)
+        check("dashboard card: 'On your resume: X of N', 'Verified: Y of N', what each counts for, the labels, and the help text",
+              "On your resume: ${d.on_resume} of ${d.required}" in html and "Verified: ${d.verified} of ${d.required}" in html
+              and "How each counts" in html and "Claim only: can't be verified here yet" in html
+              and "No LevelUp content for this yet" in html and "Concept skills such as Caching or Databases show on your Skills card" in html
+              and "innerHTML" not in html)
+    finally:
+        skills_route._vocab_cache.clear()
+        skills_route._vocab_cache.update(real_vocab)
+        with app.app_context():
+            for uid in user_ids:
+                StepCheckAttempt.query.filter_by(user_id=uid).delete()
+                ScenarioAttempt.query.filter_by(user_id=uid).delete()
+                Resume.query.filter_by(user_id=uid).delete()
+                SkillGap.query.filter_by(user_id=uid).delete()
+                GeneratedRoadmap.query.filter_by(user_id=uid).delete()
+                User.query.filter_by(id=uid).delete()
+            db.session.commit()
+
+
+# ---------------------------------------------------------------- no analysed resume: the verified count is shown, the score is not touched
+def test_no_resume():
+    """Option B: a student without an analysed resume keeps exactly the old score; the card learns the verified count."""
+    from unittest.mock import patch
+
+    from app import create_app, db
+    from app.models import (CareerProfile, GeneratedRoadmap, Resume, RoadmapProgress, ScenarioAttempt, SkillGap, StepCheckAttempt, User)
+    from app.routes import readiness as readiness_route
+    from app.routes import skills as skills_route
+    from scripts._csrf import enable_csrf_client
+
+    app = create_app()
+    enable_csrf_client(app)
+    suffix = random.randint(100000, 999999)
+    user_ids = []
+    today = datetime.utcnow().date()
+    real_vocab = dict(skills_route._vocab_cache)
+    asked = []
+    lists = {"Machine Learning Engineering": {"Python", "SQL", "Rust"}, "DevOps": {"Docker", "Kubernetes"}, "Backend Engineering": {"Python", "SQL"}}
+
+    def required_for(path):
+        asked.append(path)
+        return set(lists.get(path, set()))
+
+    def login(tag):
+        client = app.test_client()
+        email = f"nores{tag}{suffix}@example.com"
+        resp = client.post("/signup", json={"name": "No Resume", "email": email, "password": "SmokeTest#123"})
+        user_ids.append(resp.get_json()["user_id"])
+        client.post("/login", json={"email": email, "password": "SmokeTest#123"})
+        return client, user_ids[-1]
+
+    def roadmap(uid, path, done=0, total=4):
+        steps = {"phases": [{"phase_number": 1, "title": "p", "steps": [{"global_step_index": i + 1} for i in range(total)]}]}
+        rm = GeneratedRoadmap(user_id=uid, career_path=path, steps=steps)
+        db.session.add(rm)
+        db.session.flush()
+        for i in range(done):
+            db.session.add(RoadmapProgress(user_id=uid, roadmap_id=rm.id, step_index=i + 1, completed_at=datetime.utcnow()))
+        db.session.commit()
+        return rm
+
+    def snapshot():
+        with app.app_context():
+            return {m.__tablename__: (m.query.count(), db.session.query(db.func.max(m.id)).scalar())
+                    for m in (User, GeneratedRoadmap, StepCheckAttempt, ScenarioAttempt, Resume, SkillGap, RoadmapProgress, CareerProfile)}
+
+    def score_parts(body):
+        return {k: body[k] for k in ("score", "ready", "components", "weights", "unavailable")}
+
+    try:
+        skills_route._vocab_cache["vocab"] = frozenset({"Python", "SQL", "Docker", "Rust", "Kubernetes"})     # stand-in vocabulary
+        with patch.object(readiness_route, "get_required_skills", required_for):
+            eli, eid = login("e")
+            dana, did = login("d")
+            gina, gid = login("g")
+            backend = json.loads(Path("data/base_roadmaps/backend-engineering.json").read_text(encoding="utf-8"))["roadmap"]
+            backend["base"] = {"source": "base_roadmap"}
+            sql_step = next(s["global_step_index"] for ph in backend["phases"] for s in ph["steps"]
+                            if s["title"] == "SQL Queries: Selecting, Joining and Grouping")
+            now = datetime.utcnow()
+            with app.app_context():
+                # Eli: a roadmap on the ML path (1 of 4 steps), one ML scenario, no resume. Python is verified by a solved code
+                # problem (a backend scenario, which is not part of his ML scenario score).
+                old_rm = GeneratedRoadmap(user_id=eid, career_path="Backend Engineering", steps=backend)
+                db.session.add(old_rm)
+                db.session.commit()
+                old_rm_id = old_rm.id
+                roadmap(eid, "Machine Learning Engineering", done=1)
+                db.session.add_all([
+                    ScenarioAttempt(user_id=eid, path="Machine Learning Engineering", scenario_id="mle-1", answers={}, score=40, max_score=40,
+                                    passed=True, shuffle_seed=1, started_at=now, submitted_at=now),
+                    ScenarioAttempt(user_id=eid, path="Backend Engineering", scenario_id="bke-2", answers={"bke-2-c1": {"passed": True}},
+                                    score=40, max_score=50, passed=True, shuffle_seed=1, started_at=now, submitted_at=now)])
+                # Dana: a quiz result for DevOps AND a Backend roadmap -> the quiz path wins
+                roadmap(did, "Backend Engineering", done=2)
+                db.session.add(CareerProfile(user_id=did, career_ranking=[{"career_path": "DevOps", "score": 9}], conversation_signals={}))
+                # Gina: a discover-only upload (analysis pending) is not an analysed resume
+                roadmap(gid, "Backend Engineering", done=1)
+                db.session.add(Resume(user_id=gid, file_path="d.pdf", extracted_skills=["Python", "Rust"], analysis_pending=True))
+                db.session.commit()
+
+            want = r.compute_readiness(roadmap=(1, 4), skill_gap=None, scenarios=SCENARIOS,
+                                       scenario_progress=progress(("mle-1", 40)), activity_dates=[today], today=today)
+            before = snapshot()
+            app.config["READINESS_SKILL_MODE"] = "blend"
+            e1 = eli.get("/readiness").get_json()
+            check("no resume: the score, components, weights and 'unavailable' are EXACTLY the old calculation "
+                  "(skill-gap not available, the other parts re-normalised)",
+                  score_parts(e1) == score_parts(want) and e1["unavailable"] == ["skill_gap"] and e1["components"]["skill_gap"] is None)
+            d1 = e1["skill_gap_detail"]
+            check("no resume: the path is the latest roadmap's (Machine Learning Engineering) and the card gets the verified count (Python = 1 of 3)",
+                  d1["path"] == "Machine Learning Engineering" and d1["verified"] == 1 and d1["required"] == 3
+                  and {i["skill"]: i["status"] for i in d1["items"]} == {"Python": "verified", "SQL": "missing", "Rust": "no_content"})
+            check("no resume: the detail says it is not in the score, nothing counts for it, and the mode is 'none'",
+                  d1["in_score"] is False and d1["reason"] == "no_resume" and d1["value"] is None and d1["mode"] == "none"
+                  and d1["on_resume"] == 0 and all(i["counts_for"] is None for i in d1["items"]))
+
+            # the old rule in resume mode: same score, and no detail (that mode is unchanged)
+            app.config["READINESS_SKILL_MODE"] = "resume"
+            e_resume = eli.get("/readiness").get_json()
+            check("resume mode is unchanged: the same score and NO skill-gap detail for a student without a resume",
+                  score_parts(e_resume) == score_parts(want) and e_resume["skill_gap_detail"] is None)
+            app.config["READINESS_SKILL_MODE"] = "verified"
+            e_verified = eli.get("/readiness").get_json()
+            check("verified mode: the same score as well, and the same count shown",
+                  score_parts(e_verified) == score_parts(want) and e_verified["skill_gap_detail"]["verified"] == 1)
+
+            # more verified evidence raises the shown count but never the score
+            app.config["READINESS_SKILL_MODE"] = "blend"
+            with app.app_context():
+                db.session.add(StepCheckAttempt(user_id=eid, roadmap_id=old_rm_id, step_index=sql_step, mode="test_out", questions=[],
+                                                total=6, pass_mark=5, score=6, passed=True, started_at=now, submitted_at=now))
+                db.session.commit()
+            e2 = eli.get("/readiness").get_json()
+            check("no resume: verifying another required skill (SQL) raises the count to 2 of 3 but the score does not move at all",
+                  e2["skill_gap_detail"]["verified"] == 2 and score_parts(e2) == score_parts(want))
+            check("no resume: a verified skill can never LOWER the score (the trap that made us choose this: 40.8 -> 26.5 if counted)",
+                  e2["score"] == want["score"] and e1["score"] == want["score"])
+
+            # which path: the quiz result first, then the latest roadmap
+            asked.clear()
+            dd = dana.get("/readiness").get_json()
+            check("the quiz path comes first: Dana (quiz DevOps, roadmap Backend) gets the DevOps required list",
+                  dd["skill_gap_detail"]["path"] == "DevOps" and "DevOps" in asked and "Backend Engineering" not in asked
+                  and {i["skill"] for i in dd["skill_gap_detail"]["items"]} == {"Docker", "Kubernetes"} and dd["skill_gap_detail"]["verified"] == 0)
+            gg = gina.get("/readiness").get_json()
+            check("a discover-only upload is not an analysed resume: Gina gets the count (0 of 2), not a score part, and her pending resume's skills are ignored",
+                  gg["skill_gap_detail"]["in_score"] is False and gg["skill_gap_detail"]["verified"] == 0 and gg["skill_gap_detail"]["on_resume"] == 0
+                  and gg["components"]["skill_gap"] is None and gg["skill_gap_detail"]["path"] == "Backend Engineering")
+            check("another student's evidence never shows up here: Dana and Gina have verified 0 while Eli has 2",
+                  dd["skill_gap_detail"]["verified"] == 0 and gg["skill_gap_detail"]["verified"] == 0 and e2["skill_gap_detail"]["verified"] == 2)
+
+            # nothing to show -> nothing shown
+            fresh, _ = login("f")
+            ff = fresh.get("/readiness").get_json()
+            check("a student with no quiz result and no roadmap has no path, so no detail (as before)", ff["skill_gap_detail"] is None)
+
+            # if the evidence cannot be gathered the score is untouched and the card simply has no count
+            real_ev = skills_route.evidence_for
+            try:
+                skills_route.evidence_for = lambda _uid: (_ for _ in ()).throw(RuntimeError("SECRET-detail"))
+                ef = eli.get("/readiness")
+                check("if the evidence cannot be gathered the score is unchanged and the detail is simply absent (no exception text)",
+                      score_parts(ef.get_json()) == score_parts(want) and ef.get_json()["skill_gap_detail"] is None
+                      and "SECRET" not in ef.get_data(as_text=True))
+            finally:
+                skills_route.evidence_for = real_ev
+
+            after_reads = snapshot()
+            eli.get("/readiness"); dana.get("/readiness"); gina.get("/readiness")
+            check("GET /readiness writes nothing for students without a resume", snapshot() == after_reads)
+
+        html = eli.get("/dashboard").get_data(as_text=True)
+        check("dashboard card for a student without a resume: 'Verified: Y of N required skills' and the line pointing to the resume page; "
+              "no counts shown; no innerHTML",
+              "Verified: ${d.verified} of ${d.required} required skills" in html and "Analyse your resume" in html
+              and "to include skills in your score." in html and 'href: "/resume"' in html and "skillGapDetailNoResume" in html
+              and "innerHTML" not in html)
+    finally:
+        skills_route._vocab_cache.clear()
+        skills_route._vocab_cache.update(real_vocab)
+        with app.app_context():
+            for uid in user_ids:
+                StepCheckAttempt.query.filter_by(user_id=uid).delete()
+                ScenarioAttempt.query.filter_by(user_id=uid).delete()
+                RoadmapProgress.query.filter_by(user_id=uid).delete()
+                Resume.query.filter_by(user_id=uid).delete()
+                CareerProfile.query.filter_by(user_id=uid).delete()
+                GeneratedRoadmap.query.filter_by(user_id=uid).delete()
+                User.query.filter_by(id=uid).delete()
+            db.session.commit()
+
+
 def main():
     test_pure()
+    test_skill_modes_pure()
     test_route()
+    test_skill_modes_route()
+    test_no_resume()
     test_dashboard_states()
     failed = [d for d, ok in checks if not ok]
     print(f"\n{len(checks) - len(failed)}/{len(checks)} checks passed")

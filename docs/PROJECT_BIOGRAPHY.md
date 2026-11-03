@@ -2747,3 +2747,167 @@ flow worked in the app: request a link, receive the email, set a new password. *
 not see the email or the pages. The diagnostics added earlier (stage and server reply in the log, `scripts/test_mail.py`) are what made the cause
 findable and stay in the code. A project-specific sender address would need a mail service or an older account.
 
+---
+## Verified Progression: Steps Completed by a Grounded Check (branch `verified-progression`)
+
+**Why.** The guide wanted the project to be more distinctive: students could tick every roadmap step without learning anything.
+
+**What was built.** A step is completed by passing a short check made from the knowledge-base passages the step itself was built from. The
+questions are generated from the passage text (no model, so free, offline and grounded by construction); an optional model mode adds
+questions that are kept only if their quoted evidence is in the passage and supports the answer. Steps unlock in order, a locked step can be
+tested out of with a harder check, failed attempts start a cooldown, unseen questions are preferred, an open attempt cannot be re-rolled,
+and two fails in a row require reviewing the passages. A pass writes the normal progress row, so XP, badges, readiness and the completion
+banner are unchanged. Old roadmaps without `topic_refs` keep the tick box.
+
+**Problems found on the way.** (1) The first question builder gave answers away (the right option kept the topic's name, or opened
+differently from the others); measured over all 15 roadmaps and fixed: question titles are reduced to their term, every name form including
+the singular is blanked, the pronoun follows the verb ("They are"), wrong options open the same way, and giveaway questions are dropped.
+(2) The step state took about 3 s per request (questions were rebuilt for every step on every request); now cached, about 15 ms. In the
+browser this showed as a passed step still looking open. (3) The status button overlapped the step title; actions moved into the step body.
+
+**Verified.** `smoke_test_step_checks.py` 83/83; security, profile, gamification, readiness, quiz, scenarios, password reset and seed suites
+unchanged; a browser run in the cloud (log in, open a real AI Engineering roadmap, take the check, pass, see "Verified" and step 2 open, no
+console errors, no sideways scrolling at 390 px). **Not verified:** the optional model questions with a real model (only a stub), the
+roadmap page with videos still loading, and Joel's own database. `smoke_test_progress.py` and `smoke_test_cached_roadmaps.py` could not run
+in the cloud copy (a missing scratch file, and no access to download the embedding model); both are environmental. Still to build: the
+skill evidence record and switching readiness and job matching to verified skills.
+
+---
+## Skill Evidence: One Record per Student, with a Confidence and the Reasons Behind It (branch `verified-progression`)
+
+**Why.** Verified progression proves a student passed a check, but nothing said WHICH skills that proves, and the resume's skills were
+taken at face value. The goal: every skill gets a confidence from all the evidence, and a skill that is only on the resume is shown as
+unverified.
+
+**What was built.** A pure module (`skill_evidence.py`) that turns four kinds of passing evidence (step check 0.5, test-out 0.6, scenario
+0.5, solved code problem 0.6; the resume is a claim with no weight) into a confidence per skill, 1 - product(1 - w) in exact fractions. A
+tool skill is verified at 0.5, a concept skill at 0.7, so a concept needs two separate pieces of evidence and shows as "in progress" with one.
+`GET /skills/evidence` gathers the rows (read-only, own data only) and the dashboard shows a "Your skills" card: verified skills with what
+proved each one, then in-progress concepts, then "On your resume, not yet verified". Nothing is stored. A curated `data/skill_map.json`
+adds the skills the resume matcher cannot see (30 concept skills, steps keyed by career path and title, scenarios by id, code problems by
+data-structure topic) and lists exclusions; the matcher itself and the resume feature were not touched.
+
+**Decisions made with the owner on the way.** Concept skills are allowed but only from a fixed list of at most 30 that the owner approved;
+"Application security" was split from "Security fundamentals" after the first draft used it for 51 entries; one rule for lists of options
+(a tool not in the step title that appears only inside a list of alternatives is excluded, one the step teaches is kept); scenario weight 0.4
+became 0.5; concept threshold 0.7 instead of one threshold for all.
+
+**Problems found on the way.** (1) The matcher returns a skill as it was written ("react", "Javascript", "Pandas"), so spelling had to be
+normalised. (2) Wrong matches: "ReAct" (an AI-agent pattern) gave React, React Native steps gave React, "SQL injection" gave SQL, and tools
+that were only one option in a list (Jenkins among CI tools, MySQL among databases) gave skills the step does not teach; these became
+exclusions in the map instead of changes to the matcher. (3) Coverage: with the repo-only vocabulary the matcher alone mapped 29% of the 466
+base steps and 8% of the 75 scenarios; with the curated map 94% and 100% (coverage, not correctness: the assignments are mine and were
+reviewed by the owner only as structure and one full path). (4) With a scenario weight of 0.4 a step check plus a scenario came to 0.70
+exactly, which a float cannot compare safely; exact fractions removed the problem. (5) The first card layout had the sections jammed together
+and the percentage wrapping under long skill names at 390 px; both were found by looking at the page and fixed.
+
+**Verified.** `smoke_test_skill_evidence.py` 67/67 (the three defining cases: two scenarios verify a concept, a step check plus a scenario
+verify a concept, no single piece of evidence ever verifies a concept), and deliberately breaking the rules (concept threshold 0.5, scenario
+weight 0.4, no de-duplication) makes it fail on 8, 6 and 2 checks. Unchanged suites on the same code: security 30/30, profile 79/79,
+gamification 49/49, readiness 69/69 (70 on a machine with the survey table), scenarios 218/218, step_checks 83/83. A browser run on a local
+throwaway database (a seeded student: card renders with 5 verified skills, in-progress concepts and unverified resume skills; no console
+errors; no sideways scrolling at 390 px). `vocab_report.py` was tested on a throwaway database: the database itself refuses a write in its
+transaction, and the row counts were unchanged after it ran.
+
+**Second round: the real vocabulary.** The owner ran `vocab_report.py` on the real database: every tool name in the map was already spelled
+exactly as in the vocabulary. I rebuilt the vocabulary from the report (213 names and 202 in the extended vocabulary, both matching the
+report) and ran the real matcher over all 466 steps and 75 scenarios. It found many more tools than the repo-only vocabulary (216 steps with
+a tool, up from 190), and 36 steps needed changes: matches that were one option in a list (package managers, CI tools, hosting platforms,
+frameworks, monitoring tools) were excluded per step under the same rule, and three real-name false positives were added as rules
+("Objective-C" is not C, the word "make" is not Make, "Snowflake schema" is not Snowflake). Only two curated tool additions were needed
+(Bash/Shell and Microsoft Azure) because the matcher now sees Docker, Terraform, Kotlin and Swift itself. Excel, Spark, Airflow, dbt,
+Kafka, GraphQL, Flutter, React Native, Playwright and Cypress are not in the vocabulary, so they stay unmapped. The report also showed that
+11 of the owner's 21 saved roadmaps (351 of 587 steps) were generated from scratch and match the curated map in 1% of their steps, against
+93% for the 10 copied from a base roadmap: concept skills can only come from the map, so those students get concept evidence only from
+scenarios and code problems.
+
+**NOT verified.** (a) The matcher against the real database: I used a vocabulary rebuilt from the report, not the table itself. (b) Why 11
+roadmaps were generated from scratch (old roadmaps from before cached mode, or something else) and whether new ones all use the base
+roadmaps. (c) The correctness of the 435 step and 75 scenario assignments beyond the owner's review; broad concepts such as "Generative AI"
+(35 entries) can be verified by two short recall checks, which is a product decision to revisit with real data. (d) Real user data:
+nothing here ran against it. Readiness and job matching still use only the resume's skills; connecting them to verified skills is the next step.
+
+---
+## Readiness and Job Matching Count Verified Skills (branch `verified-progression`)
+
+**Why.** Skill evidence said which skills a student can prove, but the Placement Readiness score and the job search still believed the resume.
+The owner asked that both use verified skills.
+
+**What was built.** (1) The skill-gap part of the readiness score now has three modes (`READINESS_SKILL_MODE`): `blend` (default), `verified`
+and `resume`. In `blend` a verified tool skill counts 1, a required skill only on the resume counts 0.5 (`RESUME_CLAIM_CREDIT`), and a
+required skill that nothing on the platform can verify counts 1 when it is on the resume (`CLAIM_ONLY_CREDIT`, labelled "claim only: can't
+be verified here yet"). `verified` is strict (unverifiable skills count 0) and `resume` is the old calculation. Weights, the 70 threshold and
+the re-normalisation are unchanged and `readiness.py` stays pure. The dashboard card shows "On your resume: X of N" and "Verified: Y of N",
+what each counts for, a label per required skill ("no LevelUp content for this yet" for those nothing can verify) and a new "How this
+works". (2) The resume page marks each matched skill "Verified" or "Not yet verified" and links to a step or scenario that covers it
+(`GET /skills/coverage`). (3) The live-listings search adds the student's top two verified tool skills and uses them only if that search
+returns listings, otherwise the old search; the box shows "Matched on". Nothing is scraped. (4) The "what can be verified at all" logic moved
+into one pure module (`skill_reach.py`) used by both the dashboard and `scripts/readiness_reach_report.py`.
+
+**Decisions made with the owner.** The plan first used a boolean switch; a measurement changed it. The new read-only report showed that only
+about 28% of the required skills across the 15 paths can be verified with each path's own content, and that MySQL is unverifiable on 11 of 15
+paths, so a strict mode would make most of the list impossible to earn. Hence the blend, and the ceiling rule (an unverifiable required skill
+on the resume counts fully, since a claim is all there can be). SQL transfer, a verified SQL counting toward one SQL-database requirement, was
+considered (it would have lifted own-path reach by at most about 4 points) and NOT adopted: a skill is verified only when that skill itself is
+verified. The roadmap gap (steps of roadmaps generated from scratch rarely match the curated map) was accepted; nothing was regenerated.
+
+**Problems found on the way.** (1) My first "verified concept does not count" test could not fail, because no concept was in the stand-in
+required list; a concept name was added so it can. (2) The old Adzuna test asserted the exact call of the job search and a response without
+`matched_on`; the route was made tolerant and the test updated to the new call. (3) A skill covered only by another path's steps (Docker, for a
+backend student) would have been shown as "no step covers this yet"; such a skill now names a step of another path (with its path), preferring
+a step whose title names the skill. (4) Existing readiness checks asserted the exact response keys and the resume-only rule; they now run in
+`resume` mode and expect `skill_gap_detail`.
+
+**Verified.** On the throwaway database with a stand-in survey vocabulary and required list (the survey table is empty there): readiness
+98/98 (was 69), skill evidence 90/90 (was 67), jobs 56/56 (was 45), adzuna 34/34, security 30/30, profile 79/79, gamification 49/49,
+step_checks 83/83, scenarios 218/218. Sixteen rules were broken on purpose (each credit, the claim-only rule, the concept exclusion, the mode
+switch, the default, the unreachable label, case-insensitive names, SQL credit for databases, the search fallback, the two-skill limit, the
+skills passed to the sources and by the route, composites) and every break made 1 to 9 checks fail. A browser run with a seeded student: the
+readiness card (22.6/100, 50% required skills, per-skill labels), the resume page labels and links, no console errors and no sideways
+scrolling at 390 px. The refactored reach report gives the same numbers as before.
+
+**NOT verified.** (a) The real survey table and the owner's real required lists: every number above uses stand-ins; the owner's reach figures
+(28%, MySQL on 11 of 15 paths) come from the owner's run, not mine. (b) The job search against the real Adzuna and Jooble services (HTTP is
+stubbed): whether adding two skills actually returns listings, and how often it falls back, is unmeasured. (c) How many students' scores change
+and by how much: with the default blend a resume-only skill counts half of what it did. (d) The page with roadmaps generated from scratch
+(concept evidence is rare there). (e) Real user data: none was read.
+
+**Known limits (recorded, not hidden).** MySQL, Java, MongoDB, C, PowerShell and Dart cannot be verified by any step, scenario or code
+problem (a content gap). Readiness counts only tool skills that are in the survey list, so concept skills (Caching, Databases ...) show on
+the skills card only and never change the score. In blend mode the unverifiable slots are claims, not proof. The skill-gap part still needs an
+analysed resume and a target role.
+
+---
+## Readiness Card for Students Without a Resume: Show the Verified Count, Leave the Score Alone (branch `verified-progression`)
+
+**Why.** The last known limit was that a student with no analysed resume got no skill-gap number at all. The target role comes from a
+`skill_gaps` row that only the resume analysis writes, so a student with a quiz result or a roadmap (a career path is known) but no resume
+saw nothing about their verified skills.
+
+**The decision, and the example behind it.** Giving them a skill-gap number from verified skills alone looked simple (the resume part counting
+0), but it changes scores: today "not available" drops the part and the others are re-normalised. A typical student (roadmap 50%, 2 of 5
+scenarios, 6 active days) scores **40.8** that way. With a skill-gap number they would score **26.5** at 0 of 10 verified, **30.0** at 1 of 10
+and 37.0 at 3 of 10; they would only pass their old score at about 5 of 10. So the first verified skill would still have left them lower than
+before, which is the opposite of what verifying should do, and every existing student without a resume would have dropped by up to about 14
+points. The owner chose option B: keep the part "not available" in the score, exactly as today, and only show the count.
+
+**What was built.** For a student with no analysed resume (a discover-only upload does not count) the readiness route works out the career path
+(the quiz result first, then the latest roadmap's path), asks how many of that path's required skills are verified and returns it in
+`skill_gap_detail` with `in_score: false`. The dashboard card shows "Verified: Y of N required skills", the list of those skills with their
+status, and a line "Analyse your resume to include skills in your score." linking to the resume page. The score inputs are untouched. Nothing
+is shown in `resume` mode, which is unchanged; if the evidence cannot be gathered the detail is simply absent.
+
+**Verified.** `smoke_test_readiness.py` 112/112 here (113 expected on a database with the survey table, where one more old check runs; was 98): for a student without a resume the
+score, components, weights and "unavailable" list equal the old calculation (computed independently with the pure function), also in resume
+and verified mode; verifying another required skill raises the shown count and moves the score not at all; the quiz path wins over the
+roadmap path; a discover-only upload counts as no resume; nothing is written; failures leave the score alone. A one-off comparison ran the
+previous commit's route code and the new code on six kinds of student (roadmap only, quiz only, quiz and roadmap, discover-only upload,
+nothing, analysed resume) in all three modes: all identical. Five deliberate breaks (the count feeding the score, the path order, the detail in
+resume mode, a wrong in-score flag, credits left on the items) each made 1 to 5 checks fail. Other suites unchanged and green.
+
+**Also verified in a browser** (a seeded student with a roadmap, a verified SQL and Python, and no resume, on a throwaway database): the
+"Required skills" bar reads "not available yet", the card shows "Verified: 2 of 9 required skills", the line with the link to the resume page
+and the list of required skills with their status; no console errors and no sideways scrolling at 390 px.
+
+**NOT verified.** The survey table and real required lists (stand-ins were used); any real user data; how many real students are in this
+state (no analysed resume but a quiz result or roadmap). Students with an analysed resume were not changed by this piece.

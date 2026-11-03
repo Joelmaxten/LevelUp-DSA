@@ -13,6 +13,7 @@
 
 <script src="{{ url_for('static', filename='js/results.js') }}"></script>
 <script src="{{ url_for('static', filename='js/gamification.js') }}"></script>
+<script src="{{ url_for('static', filename='js/skills.js') }}"></script>
 <script>
 const box = document.getElementById("dashboard-box");
 
@@ -150,7 +151,72 @@ function careerDetails(profile) {
     return details;
 }
 
-const READINESS_LABELS = { roadmap: "Roadmap steps", skill_gap: "Resume skills", dsa: "Scenarios", streak: "Last 30 days" };
+const READINESS_LABELS = { roadmap: "Roadmap steps", skill_gap: "Required skills", dsa: "Scenarios", streak: "Last 30 days" };
+
+// What each required skill is called on the card and what it counts for (the rules are in app/pipeline/readiness.py).
+const GAP_STATUS_LABELS = {
+    verified: "Verified",
+    claim_only: "Claim only: can't be verified here yet",
+    resume_only: "On your resume, not yet verified",
+    no_content: "No LevelUp content for this yet",
+    missing: "Not yet",
+};
+
+function gapModeText(d) {
+    const half = d.resume_claim_credit;
+    if (d.mode === "blend") {
+        return `How each counts: a verified skill counts 1. A skill only on your resume counts ${half}. A skill that can't be verified here yet counts ${d.claim_only_credit} when it is on your resume. Anything else counts 0.`;
+    }
+    if (d.mode === "verified") {
+        return "Only verified skills count (1 each). A skill that is only on your resume counts 0, including skills that can't be verified here yet.";
+    }
+    return "Only your resume is counted for this part. Verified skills are shown but not required.";
+}
+
+// "On your resume: X of N" and "Verified: Y of N", what each counts for, and the list of the required skills.
+// A student with no analysed resume: their verified count is shown, but nothing here counts for the score.
+function skillGapDetailNoResume(d) {
+    const rows = d.items.map((item) => el("li", { className: "gap-item" },
+        el("span", { className: "gap-name", text: item.skill }),
+        el("span", { className: `chip ${item.status === "verified" ? "chip-ink" : "chip-line"}`, text: GAP_STATUS_LABELS[item.status] })));
+    return el("div", { className: "stack-sm gap-detail" },
+        el("div", { className: "cluster" },
+            el("span", { className: "chip chip-ink", text: `Verified: ${d.verified} of ${d.required} required skills` })),
+        el("p", { className: "muted gap-note" },
+            el("a", { href: "/resume", text: "Analyse your resume" }), " to include skills in your score."),
+        el("details", { className: "disclosure" },
+            el("summary", { text: `Required skills for ${d.path} (${d.required})` }),
+            el("ul", { className: "gap-list" }, ...rows)));
+}
+
+function skillGapDetail(d) {
+    if (d.in_score === false) return skillGapDetailNoResume(d);
+    const verifiedText = d.verified === null ? "Verified: not available right now" : `Verified: ${d.verified} of ${d.required}`;
+    const rows = d.items.map((item) => el("li", { className: "gap-item" },
+        el("span", { className: "gap-name", text: item.skill }),
+        el("span", { className: `chip ${item.status === "verified" ? "chip-ink" : "chip-line"}`, text: GAP_STATUS_LABELS[item.status] }),
+        el("span", { className: "muted num", text: `counts ${item.counts_for}` })));
+    const kids = [
+        el("div", { className: "cluster" },
+            el("span", { className: "chip chip-line", text: `On your resume: ${d.on_resume} of ${d.required}` }),
+            el("span", { className: "chip chip-ink", text: verifiedText })),
+        el("p", { className: "muted gap-note", text: gapModeText(d) }),
+    ];
+    if (d.fallback) {
+        kids.push(el("p", { className: "muted gap-note", text: "Your verified skills could not be loaded just now, so only your resume is counted until they can." }));
+    }
+    kids.push(el("details", { className: "disclosure" },
+        el("summary", { text: `Your required skills (${d.required})` }),
+        el("ul", { className: "gap-list" }, ...rows)));
+    return el("div", { className: "stack-sm gap-detail" }, ...kids);
+}
+
+function readinessHowItWorks() {
+    return disclosure("How this works",
+        el("p", { className: "muted", text: "Placement readiness is out of 100: roadmap steps, required skills, scenarios and your last 30 days of activity. You are placement ready at 70." }),
+        el("p", { className: "muted", text: "For required skills, only tool skills from your path's required list count, and they count fully only when you have verified them: passed a step check, a scenario or a coding problem that covers them. A skill only on your resume counts half. Concept skills such as Caching or Databases show on your Skills card and never change this score." }),
+        el("p", { className: "muted", text: "Some required skills have no LevelUp step, scenario or problem yet. If one is on your resume it counts fully, labelled claim only." }));
+}
 
 // Placement readiness: one score, a bar per part, "not available yet" for a part with no data.
 function readinessCard(r) {
@@ -159,31 +225,36 @@ function readinessCard(r) {
             el("h2", { className: "h3", id: "ready-title", text: "Placement readiness" }),
             el("p", { className: "muted", text: "Not available yet. Build a roadmap, analyze your resume or try a scenario to see your score." }));
     }
+    const detail = r.skill_gap_detail || null;
     const rows = Object.keys(READINESS_LABELS).map((name) => {
         const value = r.components[name];
+        const label = name === "skill_gap" && detail && detail.mode === "resume" ? "Resume skills" : READINESS_LABELS[name];
         if (value === null || value === undefined) {
             return el("li", { className: "roadmap-list-item" },
-                el("span", { text: READINESS_LABELS[name] }), el("span", { className: "muted", text: "not available yet" }));
+                el("span", { text: label }), el("span", { className: "muted", text: "not available yet" }));
         }
         const pct = Math.round(value * 100);
         return el("li", { className: "roadmap-list-item" },
-            el("span", { text: READINESS_LABELS[name] }), el("span", { className: "num roadmap-list-pct", text: `${pct}%` }),
-            pbar(pct, `${READINESS_LABELS[name]}: ${pct}%`));
+            el("span", { text: label }), el("span", { className: "num roadmap-list-pct", text: `${pct}%` }),
+            pbar(pct, `${label}: ${pct}%`));
     });
     return el("section", { className: "card card-pad stack-sm", "aria-labelledby": "ready-title" },
         el("div", { className: "cluster between" },
             el("h2", { className: "h3", id: "ready-title", text: "Placement readiness" }),
             el("span", { className: `chip ${r.ready ? "chip-ink" : "chip-line"}`, text: r.ready ? "Placement ready" : `Not ready yet (${r.threshold} needed)` })),
         el("p", { className: "num", text: `${r.score.toFixed(1)} / 100` }),
-        el("ul", { className: "roadmap-list" }, ...rows));
+        el("ul", { className: "roadmap-list" }, ...rows),
+        detail ? skillGapDetail(detail) : "",
+        readinessHowItWorks());
 }
 
-function render(data, readiness, gam) {
+function render(data, readiness, gam, skills) {
     box.replaceChildren(
         nextCard(data),
         gam ? gamLevelCard(gam) : "",
         progressCard(data),
         readinessCard(readiness),
+        skills ? skillsCard(skills) : "",
         gam ? gamBadgesSection(gam) : "",
         roadmapsCard(data.roadmaps),
         resumeCard(data.resume),
@@ -193,13 +264,13 @@ function render(data, readiness, gam) {
 
 async function load() {
     box.replaceChildren(el("div", { className: "card card-pad" }, skeleton("Loading your results", 2)));
-    const [result, ready, gam] = await Promise.all([getJson("/dashboard/data"), getJson("/readiness"), getJson("/gamification")]);
+    const [result, ready, gam, skills] = await Promise.all([getJson("/dashboard/data"), getJson("/readiness"), getJson("/gamification"), getJson("/skills/evidence")]);
     if (!result.ok) {
         renderError(result);
         return;
     }
-    // The score and the XP/badges are extras: if either fails the dashboard still loads.
-    render(result.data, ready.ok ? ready.data : null, gam.ok ? gam.data : null);
+    // The score, the XP/badges and the skills are extras: if any fails the dashboard still loads.
+    render(result.data, ready.ok ? ready.data : null, gam.ok ? gam.data : null, skills.ok ? skills.data : null);
 }
 
 load();

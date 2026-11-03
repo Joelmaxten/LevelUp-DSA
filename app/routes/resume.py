@@ -372,11 +372,19 @@ def get_listings():
             "options": list(CAREER_PATHS),
         }), 400
 
-    result = get_live_job_listings(career_path)
+    # The student's top verified TOOL skills (at most two are used by the search); any failure just means a plain search.
+    verified = []
+    try:
+        from app.routes import skills as skills_route
+        verified = skills_route.verified_tool_names(skills_route.evidence_for(current_user.id))[:2]
+    except Exception:
+        current_app.logger.exception("verified skills unavailable for the job search; searching without them")
+    result = get_live_job_listings(career_path, skills=verified)
     return jsonify({
         "career_path": career_path,
         "listings": result["listings"],
         "unavailable": result["unavailable"],
         "sources": result["sources"],
+        "matched_on": result.get("matched_on") or [],
         "search_links": result["search_links"],
     }), 200

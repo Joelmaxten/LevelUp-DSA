@@ -80,8 +80,14 @@ def create_app(config_name=None):
     from app.routes.readiness import readiness_bp
     app.register_blueprint(readiness_bp)
 
+    from app.routes.step_checks import step_checks_bp
+    app.register_blueprint(step_checks_bp)
+
     from app.routes.gamification import gamification_bp
     app.register_blueprint(gamification_bp)
+
+    from app.routes.skills import skills_bp
+    app.register_blueprint(skills_bp)
 
     from app.routes.profile import profile_bp
     app.register_blueprint(profile_bp)

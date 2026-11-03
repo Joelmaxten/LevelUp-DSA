@@ -153,7 +153,7 @@ def entry_level_only_raw(results):
     return [r for r in results if isinstance(r, dict) and not _SENIOR_TITLE.search(str(r.get("title") or ""))]
 
 
-def get_live_listings(career_path, limit=5):
+def _listings_for_term(term, limit=5):
     """
     {"listings": [...], "unavailable": bool} for this career path - never
     raises. "unavailable" (listings always []) covers any failure: a
@@ -168,7 +168,6 @@ def get_live_listings(career_path, limit=5):
     or an exception message, so they can't leak via this function's
     output under any failure path.
     """
-    term = SEARCH_TERMS[career_path]
 
     cached = _cache_get(term)
     if cached is not None:
@@ -195,3 +194,30 @@ def get_live_listings(career_path, limit=5):
     except Exception:
         return _cache_set(term, _unavailable(), FAILURE_CACHE_TTL_SECONDS)
     return _cache_set(term, {"listings": listings, "unavailable": False}, CACHE_TTL_SECONDS)
+
+
+def search_skill_terms(skills, limit=2):
+    """The student's skill names as search words: at most `limit`, a trailing "(AWS)"-style note dropped, duplicates removed."""
+    out, seen = [], set()
+    for skill in skills or ():
+        word = re.sub(r"\s*\(.*?\)", "", str(skill or "")).strip()
+        if word and len(word) <= 30 and word.lower() not in seen:
+            seen.add(word.lower())
+            out.append(word)
+    return out[:limit]
+
+
+def get_live_listings(career_path, limit=5, skills=()):
+    """
+    {"listings": [...], "unavailable": bool} for this career path, same contract as before. With `skills` (the student's top
+    verified tool skills) the search first adds up to two of them to the phrase ("backend developer Python SQL"); only if that
+    returns listings are they used and "matched_on" lists them. Otherwise it falls back to the plain search for the path, which is
+    exactly the search without skills. Nothing is scraped; the skills are plain skill names, never personal data.
+    """
+    base = SEARCH_TERMS[career_path]
+    used = search_skill_terms(skills)
+    if used:
+        result = _listings_for_term(f"{base} {' '.join(used)}", limit)
+        if not result["unavailable"] and result["listings"]:
+            return {**result, "matched_on": used}
+    return _listings_for_term(base, limit)

@@ -224,8 +224,8 @@ def main():
                 resp = client.get("/resume/listings?career_path=Backend Engineering")
                 body = resp.get_json()
                 check("/resume/listings: 200 for a valid path", resp.status_code == 200)
-                check("/resume/listings: response shape", set(body) == {"career_path", "listings", "unavailable", "sources", "search_links"})
-                mock_route.assert_called_once_with("Backend Engineering")
+                check("/resume/listings: response shape", set(body) == {"career_path", "listings", "unavailable", "sources", "matched_on", "search_links"} and body["matched_on"] == [])
+                mock_route.assert_called_once_with("Backend Engineering", skills=[])    # a student with nothing verified searches without skills
 
             # ------------------------------------------------------------
             # /resume/upload and /resume/latest: still valid, and never

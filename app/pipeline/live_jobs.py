@@ -5,6 +5,8 @@ plain "search on LinkedIn / Naukri / Indeed" links (entry-level and internship):
 nothing is scraped or fetched from those sites.
 
 Never raises. "unavailable" is True only when listings is empty because every source that was asked failed.
+With `skills` (the student's top verified tool skills, at most two are used) each source first searches with them and falls back to
+the plain search if that finds nothing; "matched_on" lists the skills a source actually searched with.
 """
 from concurrent.futures import ThreadPoolExecutor
 from urllib.parse import quote, quote_plus
@@ -49,7 +51,7 @@ def _interleave(lists):
     return merged
 
 
-def get_live_job_listings(career_path):
+def get_live_job_listings(career_path, skills=()):
     app = current_app._get_current_object()
     sources = [("Adzuna", adzuna_listings.get_live_listings)]
     if jooble_listings.is_configured():
@@ -59,17 +61,20 @@ def get_live_job_listings(career_path):
         name, fetch = source
         try:
             with app.app_context():
-                return name, fetch(career_path)
+                return name, fetch(career_path, skills=skills)
         except Exception:
             return name, {"listings": [], "unavailable": True}
 
     with ThreadPoolExecutor(max_workers=len(sources)) as pool:
         answers = list(pool.map(ask, sources))
 
-    per_source, working = [], []
+    per_source, working, matched_on = [], [], []
     for name, result in answers:
         if not result["unavailable"]:
             working.append(name)
+        for skill in result.get("matched_on") or []:      # the skills a source actually searched with (it found listings)
+            if skill not in matched_on:
+                matched_on.append(skill)
         per_source.append([{**listing, "source": name} for listing in result["listings"]])
 
     listings = dedupe_listings(_interleave(per_source))[:MAX_SHOWN]
@@ -77,5 +82,6 @@ def get_live_job_listings(career_path):
         "listings": listings,
         "unavailable": not working,
         "sources": working,
+        "matched_on": matched_on,
         "search_links": search_links(career_path),
     }
