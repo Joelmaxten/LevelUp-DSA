@@ -221,6 +221,13 @@ def forgot_password():
         return jsonify({"error": "Enter the email address you signed up with."}), 400
     email = email.strip().lower()
 
+    # No mail set up (and not the development console mode): say so honestly instead of promising a link that will never
+    # come. Same answer for every email, so it still reveals nothing about which accounts exist. No token is created.
+    if not (mailer.is_configured(current_app.config) or current_app.debug):
+        return jsonify({"error": "Password reset by email is not available on this server, so no link was sent. "
+                                 "Please ask the administrator to reset your password.",
+                        "mail_configured": False}), 503
+
     ok, retry = rate_limit_hit("forgot_ip", _client_key(), 10, 3600)
     if ok:
         ok, retry = rate_limit_hit("forgot_email", email, 3, 3600)

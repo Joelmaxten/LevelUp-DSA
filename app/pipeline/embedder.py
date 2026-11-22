@@ -5,8 +5,8 @@ sentence-transformers (all-MiniLM-L6-v2, 384 dimensions).
 
 import threading
 
-from sentence_transformers import SentenceTransformer
-
+# sentence_transformers (and torch under it) is imported inside get_model(), not here. Importing it at module level
+# cost about 400 MB of memory at server start, even for requests that never embed anything.
 _model = None
 _model_lock = threading.Lock()
 
@@ -17,6 +17,7 @@ def get_model():
     if _model is None:
         with _model_lock:   # the startup warm-up thread and a first request can arrive together
             if _model is None:
+                from sentence_transformers import SentenceTransformer
                 _model = SentenceTransformer("all-MiniLM-L6-v2")
     return _model
 
