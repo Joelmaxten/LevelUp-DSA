@@ -22,6 +22,10 @@ def create_app(config_name=None):
         config_class.validate()
     app.config.from_object(config_class)
 
+    if app.config.get("TRUST_PROXY_HEADERS"):
+        from werkzeug.middleware.proxy_fix import ProxyFix
+        app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
+
     # The resume upload folder is git-ignored, so a fresh clone does not have it.
     try:
         os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
@@ -202,6 +206,11 @@ def create_app(config_name=None):
             return render_template("error.html", code=500, title="Something went wrong",
                                    message="That's on us, not you. Please try again in a moment."), 500
         return {"error": "server_error"}, 500
+
+    @app.route("/health")
+    def health():
+        # For the host's health check: no database, no model, no login, so it answers fast and cannot wake anything heavy.
+        return {"status": "ok"}, 200
 
     @app.route("/db-check")
     def db_check():

@@ -240,16 +240,20 @@ def load_path_totals(chunks):
     return _totals_cache
 
 
-def fit_for_skills(resume_skills, index, chunks, stats=None, search=None):
+def fit_for_skills(resume_skills, index, chunks, stats=None, search=None, semantic=True):
     """
     Orchestrates one ranking: loads (cached) survey stats, retrieves the top RETRIEVE_K chunks
     for the skills summary with no path filter, and calls rank_paths. `search` is injectable for
-    tests; it defaults to rag.search.
+    tests; it defaults to rag.search. semantic=False skips the search (so the embedding model is never loaded): the
+    knowledge-base signal is then empty and the ranking rests on the survey signal alone (less precise).
     """
     skills = set(resume_skills)
     if len(skills) < MIN_SKILLS:
         return rank_paths(skills, {"n_overall": 1, "overall": Counter(), "paths": {}}, [], {})
-    if search is None:
-        from app.pipeline.rag import search
-    hits = search(skills_summary(skills), index, chunks, top_k=RETRIEVE_K, career_path=None)
+    if not semantic:
+        hits = []
+    else:
+        if search is None:
+            from app.pipeline.rag import search
+        hits = search(skills_summary(skills), index, chunks, top_k=RETRIEVE_K, career_path=None)
     return rank_paths(skills, stats or load_survey_stats(), hits, load_path_totals(chunks))

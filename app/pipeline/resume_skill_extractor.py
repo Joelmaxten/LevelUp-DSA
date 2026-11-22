@@ -13,9 +13,7 @@ under its full name - PhraseMatcher alone would otherwise miss these.
 """
 
 import re
-
-import spacy
-from spacy.matcher import PhraseMatcher
+import sys
 
 from app.pipeline.skill_aliases import EXTENDED_SKILL_ALIASES, SKILL_ALIASES
 from app.pipeline.skill_matching import find_composite_parts
@@ -24,8 +22,27 @@ _nlp = None
 _matchers = {}   # frozenset(vocabulary) -> PhraseMatcher: the original and the extended vocabulary each get one
 
 
+def _import_spacy():
+    """
+    Import spaCy on first use, not when the server starts, and without dragging torch in with it: spaCy's backend (thinc)
+    imports torch whenever it is installed, which costs about 200 MB, and the English model used here (PhraseMatcher on
+    plain tokens) does not use it. torch is hidden for the length of this import only and is left importable afterwards.
+    """
+    hide_torch = "torch" not in sys.modules
+    if hide_torch:
+        sys.modules["torch"] = None   # `import torch` now raises ImportError, which thinc treats as "no torch"
+    try:
+        import spacy
+        from spacy.matcher import PhraseMatcher
+    finally:
+        if hide_torch and sys.modules.get("torch", 0) is None:
+            del sys.modules["torch"]
+    return spacy, PhraseMatcher
+
+
 def _get_matcher(skill_vocabulary):
     global _nlp
+    spacy, PhraseMatcher = _import_spacy()
     if _nlp is None:
         _nlp = spacy.load("en_core_web_sm")
     key = frozenset(skill_vocabulary)

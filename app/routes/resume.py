@@ -248,7 +248,8 @@ def discover_resume():
         found = extract_skills(text, vocabulary, extended_aliases=True)
         skills = sorted({by_lower.get(name.lower(), name) for name in found})
         ats = compute_ats_structure_score(text, get_pdf_page_count(file_path))
-        fit = path_fit.fit_for_skills(set(skills), index, chunks)
+        fit = path_fit.fit_for_skills(set(skills), index, chunks,
+                                      semantic=current_app.config.get("SEMANTIC_PATH_FIT", True))
     except Exception:
         current_app.logger.exception("%s failed", request.path)
         return jsonify({"error": "Failed to analyze resume. The PDF may be unreadable or corrupted."}), 422

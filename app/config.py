@@ -24,6 +24,13 @@ def _env_number(name, default, cast):
     return default if value is None or value.strip() == "" else cast(value)
 
 
+def _database_url(default):
+    """DATABASE_URL, with the old "postgres://" spelling (still given by some hosts) changed to "postgresql://",
+    the only one SQLAlchemy 2 accepts."""
+    url = os.environ.get("DATABASE_URL", "").strip() or default
+    return "postgresql://" + url[len("postgres://"):] if url.startswith("postgres://") else url
+
+
 # SECRET_KEY values that must never reach production (the dev default, and the
 # placeholder shipped in .env.example).
 INSECURE_SECRET_KEYS = {"", "dev-secret-key-change-me", "change-me-to-a-random-string", "changeme", "secret"}
@@ -38,10 +45,7 @@ class Config:
     SECRET_KEY = os.environ.get("SECRET_KEY", "dev-secret-key-change-me")
 
     # Database
-    SQLALCHEMY_DATABASE_URI = os.environ.get(
-        "DATABASE_URL",
-        "postgresql://localhost/levelup_dsa_dev",
-    )
+    SQLALCHEMY_DATABASE_URI = _database_url("postgresql://localhost/levelup_dsa_dev")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # Session cookie. Secure is off in development (plain http://localhost) and
@@ -65,6 +69,16 @@ class Config:
     # resume count half, a required skill nothing here can verify counts fully when it is on the resume), "verified" (only
     # verified tool skills) or "resume" (the old behaviour: the resume alone). See app/pipeline/readiness.py.
     READINESS_SKILL_MODE = _readiness_skill_mode(os.environ.get("READINESS_SKILL_MODE"))
+
+    # Behind a reverse proxy (Render, Heroku, nginx) the app sees the proxy's address and "http". With this on, the
+    # X-Forwarded-For / -Proto / -Host headers of ONE proxy are trusted, so per-user rate limits see the real visitor.
+    # Off by default: only turn it on when the app really is behind such a proxy, otherwise a visitor could fake them.
+    TRUST_PROXY_HEADERS = _env_flag("TRUST_PROXY_HEADERS", False)
+
+    # Resume upload: rank career paths with the search over the knowledge base (needs the embedding model, torch and
+    # about 350 MB more memory). False = skip that step: the ranking then uses the survey signal only, which is less
+    # precise. Meant for small servers (see docs/DEPLOY_RENDER.md). Everything else in the resume analysis is unchanged.
+    SEMANTIC_PATH_FIT = _env_flag("SEMANTIC_PATH_FIT", True)
 
     # Verified progression: a roadmap step is completed by passing a short check built from the knowledge-base passages
     # the step came from, not by ticking a box (see app/pipeline/step_checks.py). False = the old tick-box behaviour.
